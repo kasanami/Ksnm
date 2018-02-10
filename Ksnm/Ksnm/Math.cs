@@ -30,68 +30,6 @@ namespace Ksnm
     /// </summary>
     public static class Math
     {
-        #region Sign
-        /// <summary>
-        /// 符号関数
-        /// </summary>
-        public static int Sign(int x)
-        {
-            if (x < 0)
-            {
-                return -1;
-            }
-            else if (x > 0)
-            {
-                return +1;
-            }
-            return 0;
-        }
-        /// <summary>
-        /// 符号関数
-        /// </summary>
-        public static int Sign(long x)
-        {
-            if (x < 0)
-            {
-                return -1;
-            }
-            else if (x > 0)
-            {
-                return +1;
-            }
-            return 0;
-        }
-        /// <summary>
-        /// 符号関数
-        /// </summary>
-        public static int Sign(float x)
-        {
-            if (x < 0)
-            {
-                return -1;
-            }
-            else if (x > 0)
-            {
-                return +1;
-            }
-            return 0;
-        }
-        /// <summary>
-        /// 符号関数
-        /// </summary>
-        public static int Sign(double x)
-        {
-            if (x < 0)
-            {
-                return -1;
-            }
-            else if (x > 0)
-            {
-                return +1;
-            }
-            return 0;
-        }
-        #endregion Sign
 
         #region IsEven
 
@@ -173,29 +111,73 @@ namespace Ksnm
 
         #endregion IsOdd
 
-        #region GreatestCommonDivisor
+        #region Sign
+
         /// <summary>
-        /// 最大公約数
+        /// 符号関数
         /// </summary>
-        public static int GreatestCommonDivisor(int a, int b)
+        public static int Sign(int x)
         {
-            if (a < b)
+            if (x < 0)
             {
-                // 引数を入替えて自分を呼び出す
-                return GreatestCommonDivisor(b, a);
+                return -1;
             }
-            while (b != 0)
+            else if (x > 0)
             {
-                var remainder = a % b;
-                a = b;
-                b = remainder;
+                return +1;
             }
-            return a;
+            return 0;
+        }
+        /// <summary>
+        /// 符号関数
+        /// </summary>
+        public static int Sign(long x)
+        {
+            if (x < 0)
+            {
+                return -1;
+            }
+            else if (x > 0)
+            {
+                return +1;
+            }
+            return 0;
+        }
+        /// <summary>
+        /// 符号関数
+        /// </summary>
+        public static int Sign(float x)
+        {
+            if (x < 0)
+            {
+                return -1;
+            }
+            else if (x > 0)
+            {
+                return +1;
+            }
+            return 0;
+        }
+        /// <summary>
+        /// 符号関数
+        /// </summary>
+        public static int Sign(double x)
+        {
+            if (x < 0)
+            {
+                return -1;
+            }
+            else if (x > 0)
+            {
+                return +1;
+            }
+            return 0;
         }
 
-        #endregion GreatestCommonDivisor
+        #endregion Sign
 
         #region Ramp
+
         /// <summary>
         /// ランプ関数
         /// </summary>
@@ -243,35 +225,6 @@ namespace Ksnm
 
         #endregion Ramp
 
-        #region Sigmoid
-
-        /// <summary>
-        /// シグモイド関数
-        /// </summary>
-        /// <param name="x"></param>
-        /// <param name="gain">ゲイン
-        /// 1.0(標準)の場合、xに6.0を与えると約1.0になる。
-        /// 5.0の場合、xに1.0を与えると約1.0になる。</param>
-        /// <returns></returns>
-        public static float Sigmoid(float x, float gain)
-        {
-            return (float)Sigmoid((double)x, (double)gain);
-        }
-        /// <summary>
-        /// シグモイド関数
-        /// </summary>
-        /// <param name="x"></param>
-        /// <param name="gain">ゲイン
-        /// 1.0(標準)の場合、xに6.0を与えると約1.0になる。
-        /// 5.0の場合、xに1.0を与えると約1.0になる。</param>
-        /// <returns></returns>
-        public static double Sigmoid(double x, double gain)
-        {
-            return 1.0 / (1.0 + System.Math.Exp(-gain * x));
-        }
-
-        #endregion Sigmoid
-
         #region HeavisideStep
 
         /// <summary>
@@ -282,7 +235,15 @@ namespace Ksnm
         /// <returns>0か1かcの値</returns>
         public static float HeavisideStep(float x, float c = 0.5f)
         {
-            return (float)HeavisideStep((double)x, (double)c);
+            if (x < 0)
+            {
+                return 0;
+            }
+            else if (x > 0)
+            {
+                return 1;
+            }
+            return c;
         }
         /// <summary>
         /// ヘヴィサイドの階段関数
@@ -305,6 +266,35 @@ namespace Ksnm
 
         #endregion HeavisideStep
 
+        #region Sigmoid
+
+        /// <summary>
+        /// シグモイド関数
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="gain">ゲイン
+        /// 1.0(標準)の場合、xに6.0を与えると約1.0になる。
+        /// 5.0の場合、xに1.0を与えると約1.0になる。</param>
+        /// <returns></returns>
+        public static float Sigmoid(float x, float gain)
+        {
+            return 1.0f / (1.0f + (float)System.Math.Exp(-gain * x));
+        }
+        /// <summary>
+        /// シグモイド関数
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="gain">ゲイン
+        /// 1.0(標準)の場合、xに6.0を与えると約1.0になる。
+        /// 5.0の場合、xに1.0を与えると約1.0になる。</param>
+        /// <returns></returns>
+        public static double Sigmoid(double x, double gain)
+        {
+            return 1.0 / (1.0 + System.Math.Exp(-gain * x));
+        }
+
+        #endregion Sigmoid
+
         #region Lerp
 
         /// <summary>
@@ -312,7 +302,7 @@ namespace Ksnm
         /// </summary>
         /// <param name="from">tが0のときの値</param>
         /// <param name="to">tが1のときの値</param>
-        /// <param name="t"></param>
+        /// <param name="t">補間係数</param>
         public static float Lerp(float from, float to, float t)
         {
             return from + ((to - from) * t);
@@ -322,7 +312,7 @@ namespace Ksnm
         /// </summary>
         /// <param name="from">tが0のときの値</param>
         /// <param name="to">tが1のときの値</param>
-        /// <param name="t"></param>
+        /// <param name="t">補間係数</param>
         public static double Lerp(double from, double to, double t)
         {
             return from + ((to - from) * t);
@@ -332,7 +322,7 @@ namespace Ksnm
         /// </summary>
         /// <param name="from">tが0のときの値</param>
         /// <param name="to">tが1のときの値</param>
-        /// <param name="t"></param>
+        /// <param name="t">補間係数</param>
         public static decimal Lerp(decimal from, decimal to, decimal t)
         {
             return from + ((to - from) * t);
@@ -343,31 +333,31 @@ namespace Ksnm
         #region InverseLerp
 
         /// <summary>
-        /// 線形補間
+        /// 補間係数
         /// </summary>
         /// <param name="from">valueがこの値とき、0を返す。</param>
         /// <param name="to">valueがこの値とき、1を返す。</param>
-        /// <param name="value"></param>
+        /// <param name="value">任意の値</param>
         public static float InverseLerp(float from, float to, float value)
         {
             return (value - from) / (to - from);
         }
         /// <summary>
-        /// 線形補間
+        /// 補間係数
         /// </summary>
         /// <param name="from">valueがこの値とき、0を返す。</param>
         /// <param name="to">valueがこの値とき、1を返す。</param>
-        /// <param name="value"></param>
+        /// <param name="value">任意の値</param>
         public static double InverseLerp(double from, double to, double value)
         {
             return (value - from) / (to - from);
         }
         /// <summary>
-        /// 線形補間
+        /// 補間係数
         /// </summary>
         /// <param name="from">valueがこの値とき、0を返す。</param>
         /// <param name="to">valueがこの値とき、1を返す。</param>
-        /// <param name="value"></param>
+        /// <param name="value">任意の値</param>
         public static decimal InverseLerp(decimal from, decimal to, decimal value)
         {
             return (value - from) / (to - from);
@@ -429,7 +419,7 @@ namespace Ksnm
             System.Array.Sort(values);
             if (IsEven(values.Length))
             {
-                return Average(values[values.Length / 2], values[values.Length / 2 + 1]);
+                return Average(values[values.Length / 2], values[values.Length / 2 - 1]);
             }
             return values[values.Length / 2];
         }
@@ -445,7 +435,7 @@ namespace Ksnm
             System.Array.Sort(values);
             if (IsEven(values.Length))
             {
-                return Average(values[values.Length / 2], values[values.Length / 2 + 1]);
+                return Average(values[values.Length / 2], values[values.Length / 2 - 1]);
             }
             return values[values.Length / 2];
         }
@@ -461,7 +451,7 @@ namespace Ksnm
             System.Array.Sort(values);
             if (IsEven(values.Length))
             {
-                return Average(values[values.Length / 2], values[values.Length / 2 + 1]);
+                return Average(values[values.Length / 2], values[values.Length / 2 - 1]);
             }
             return values[values.Length / 2];
         }
@@ -477,11 +467,38 @@ namespace Ksnm
             System.Array.Sort(values);
             if (IsEven(values.Length))
             {
-                return Average(values[values.Length / 2], values[values.Length / 2 + 1]);
+                return Average(values[values.Length / 2], values[values.Length / 2 - 1]);
             }
             return values[values.Length / 2];
         }
 
         #endregion Median
+
+        #region GreatestCommonDivisor
+
+        /// <summary>
+        /// 最大公約数
+        /// 負数は正数にする。
+        /// </summary>
+        public static int GreatestCommonDivisor(int a, int b)
+        {
+            a = System.Math.Abs(a);
+            b = System.Math.Abs(b);
+            if (a < b)
+            {
+                // 引数を入替えて自分を呼び出す
+                return GreatestCommonDivisor(b, a);
+            }
+            while (b != 0)
+            {
+                var remainder = a % b;
+                a = b;
+                b = remainder;
+            }
+            return a;
+        }
+
+        #endregion GreatestCommonDivisor
+
     }
 }
