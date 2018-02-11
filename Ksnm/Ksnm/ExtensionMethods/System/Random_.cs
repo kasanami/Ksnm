@@ -53,9 +53,9 @@ namespace Ksnm.ExtensionMethods.System
         }
 
         /// <summary>
-        /// 0.0 以上 1.0 未満のランダムな浮動小数点数を返します。
+        /// 0.0 以上 1.0 以下のランダムな浮動小数点数を返します。
         /// </summary>
-        /// <returns>0.0 以上 1.0 未満の倍精度浮動小数点数。</returns>
+        /// <returns>0.0 以上 1.0 以下の倍精度浮動小数点数。</returns>
         public static double UnitInterval(this Original.Random random)
         {
             return random.NextLong() / (double)long.MaxValue;
