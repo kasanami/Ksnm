@@ -43,6 +43,8 @@
     <Compile Include="Binary.cs" />
     <Compile Include="Math.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Randoms\IncrementRandom.cs" />
+    <Compile Include="Randoms\Xorshift128.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
