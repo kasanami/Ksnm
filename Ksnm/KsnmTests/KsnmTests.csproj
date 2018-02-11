@@ -57,6 +57,8 @@
   </Choose>
   <ItemGroup>
     <Compile Include="BinaryTests.cs" />
+    <Compile Include="ExtensionMethods\System\Double_Tests.cs" />
+    <Compile Include="ExtensionMethods\System\String_Tests.cs" />
     <Compile Include="MathTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

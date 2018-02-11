@@ -32,6 +32,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -41,10 +42,21 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Binary.cs" />
+    <Compile Include="ExtensionMethods\System\Array_.cs" />
+    <Compile Include="ExtensionMethods\System\Collections\Dictionary_.cs" />
+    <Compile Include="ExtensionMethods\System\Collections\IList_.cs" />
+    <Compile Include="ExtensionMethods\System\Collections\List_.cs" />
+    <Compile Include="ExtensionMethods\System\Double_.cs" />
+    <Compile Include="ExtensionMethods\System\Drawing\Point_.cs" />
+    <Compile Include="ExtensionMethods\System\Random_.cs" />
+    <Compile Include="ExtensionMethods\System\String_.cs" />
     <Compile Include="Math.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Randoms\IncrementRandom.cs" />
     <Compile Include="Randoms\Xorshift128.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="ExtensionMethods\System\Windows\Forms\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
