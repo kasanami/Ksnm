@@ -50,6 +50,9 @@
     <Compile Include="ExtensionMethods\System\Drawing\Point_.cs" />
     <Compile Include="ExtensionMethods\System\Random_.cs" />
     <Compile Include="ExtensionMethods\System\String_.cs" />
+    <Compile Include="IO\Directory.cs" />
+    <Compile Include="IO\File.cs" />
+    <Compile Include="IO\Path.cs" />
     <Compile Include="LitJson\IJsonWrapper.cs" />
     <Compile Include="LitJson\JsonData.cs" />
     <Compile Include="LitJson\JsonException.cs" />
