@@ -95,6 +95,15 @@ namespace Ksnm.ExtensionMethods.System
             #endregion ToWideDictionary
         }
         /// <summary>
+        /// 最後の文字を取得
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="list"></param>
+        public static char GetLast(this string self)
+        {
+            return self[self.Length - 1];
+        }
+        /// <summary>
         /// ひらがなをカタカナに変換します。
         /// </summary>
         public static string HiraganaToKatakana(this string self)

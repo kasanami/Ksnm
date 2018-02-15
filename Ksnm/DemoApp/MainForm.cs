@@ -112,5 +112,16 @@ namespace DemoApp
         }
 
         #endregion Randomタブ
+
+        #region IOタブ
+
+        private void IO_Directory_CopyButton_Click(object sender, EventArgs e)
+        {
+            var sourceDirName = IO_Directory_CopySourceTextBox.Text;
+            var destDirName = IO_Directory_CopyDestTextBox.Text;
+            Ksnm.IO.Directory.Copy(sourceDirName, destDirName, true);
+        }
+
+        #endregion IOタブ
     }
 }
