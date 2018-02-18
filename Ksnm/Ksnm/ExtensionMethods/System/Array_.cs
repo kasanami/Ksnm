@@ -36,29 +36,36 @@ namespace Ksnm.ExtensionMethods.System
         /// <para>配列の要素が同じか判定するだけであれば、System.LinqのSequenceEqual関数を使用する方法もあります。</para>
         /// </summary>
         /// <returns>
-        /// <para>0 より小さい値 : A が B より小さい。</para>
-        /// <para>0 : A と B が等しい。</para>
-        /// <para>0 を超える値 : A が B より大きい。</para>
+        /// <para>other より小さい場合、0未満の値を返す。</para>
+        /// <para>other と等しい場合、0を返す。</para>
+        /// <para>other より大きい場合、0 を超える値を返す。</para>
         /// </returns>
-        public static int Compare<T>(this T[] arrayA, T[] arrayB) where T : Original.IComparable<T>
+        public static int Compare<T>(this T[] array, T[] other) where T : Original.IComparable<T>
         {
             // 短い方の長さ
-            int length = Original.Math.Min(arrayA.Length, arrayB.Length);
+            int length = Original.Math.Min(array.Length, other.Length);
             for (int i = 0; i < length; i++)
             {
-                var valueA = arrayA[i];
-                var valueB = arrayB[i];
+                var valueA = array[i];
+                var valueB = other[i];
                 var valueCompare = valueA.CompareTo(valueB);
                 if (valueCompare != 0)
                     return valueCompare;
             }
             // 長い方が大きいとする
-            if (arrayA.Length > arrayB.Length)
+            if (array.Length > other.Length)
                 return +1;
-            else if (arrayA.Length < arrayB.Length)
+            else if (array.Length < other.Length)
                 return -1;
             // 等しい
             return 0;
+        }
+        /// <summary>
+        /// 最後の要素を取得
+        /// </summary>
+        public static T GetLast<T>(this T[] self)
+        {
+            return self[self.Length - 1];
         }
 
         /// <summary>

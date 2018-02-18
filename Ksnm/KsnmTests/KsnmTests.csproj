@@ -57,6 +57,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="BinaryTests.cs" />
+    <Compile Include="ExtensionMethods\System\Array_Tests.cs" />
     <Compile Include="ExtensionMethods\System\Double_Tests.cs" />
     <Compile Include="ExtensionMethods\System\String_Tests.cs" />
     <Compile Include="LitJson\JsonMapperTests.cs" />

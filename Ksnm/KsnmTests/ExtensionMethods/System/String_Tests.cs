@@ -12,6 +12,13 @@ namespace Ksnm.ExtensionMethods.System.Tests
     public class String_Tests
     {
         [TestMethod()]
+        public void GetLastTest()
+        {
+            var str = "abc";
+            Assert.AreEqual(str.GetLast(), 'c');
+        }
+ 
+        [TestMethod()]
         public void HiraganaToKatakanaTest()
         {
         }
