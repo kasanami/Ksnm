@@ -132,5 +132,46 @@ namespace Ksnm.Tests
             Assert.AreEqual(Math.GreatestCommonDivisor(-30, 42), 6);
             Assert.AreEqual(Math.GreatestCommonDivisor(-1071, 1029), 21);
         }
+
+        [TestMethod()]
+        public void TriangularNumberTest()
+        {
+            Assert.AreEqual(Math.TriangularNumber(0), 0);
+            Assert.AreEqual(Math.TriangularNumber(1), 1);
+            Assert.AreEqual(Math.TriangularNumber(2), 3);
+            Assert.AreEqual(Math.TriangularNumber(3), 6);
+            Assert.AreEqual(Math.TriangularNumber(4), 10);
+            Assert.AreEqual(Math.TriangularNumber(5), 15);
+            Assert.AreEqual(Math.TriangularNumber(6), 21);
+            Assert.AreEqual(Math.TriangularNumber(7), 28);
+            Assert.AreEqual(Math.TriangularNumber(8), 36);
+            Assert.AreEqual(Math.TriangularNumber(9), 45);
+        }
+
+        [TestMethod()]
+        public void FibonacciNumberTest()
+        {
+            Assert.AreEqual(Math.FibonacciNumber(0), 0);
+            Assert.AreEqual(Math.FibonacciNumber(1), 1);
+            Assert.AreEqual(Math.FibonacciNumber(2), 1);
+            Assert.AreEqual(Math.FibonacciNumber(3), 2);
+            Assert.AreEqual(Math.FibonacciNumber(4), 3);
+            Assert.AreEqual(Math.FibonacciNumber(5), 5);
+            Assert.AreEqual(Math.FibonacciNumber(6), 8);
+            Assert.AreEqual(Math.FibonacciNumber(7), 13);
+            Assert.AreEqual(Math.FibonacciNumber(8), 21);
+            Assert.AreEqual(Math.FibonacciNumber(9), 34);
+        }
+
+        [TestMethod()]
+        public void MosersCircleRegionsTest()
+        {
+            Assert.AreEqual(Math.MosersCircleRegions(1), 1);
+            Assert.AreEqual(Math.MosersCircleRegions(2), 2);
+            Assert.AreEqual(Math.MosersCircleRegions(3), 4);
+            Assert.AreEqual(Math.MosersCircleRegions(4), 8);
+            Assert.AreEqual(Math.MosersCircleRegions(5), 16);
+            Assert.AreEqual(Math.MosersCircleRegions(6), 31);
+        }
     }
 }

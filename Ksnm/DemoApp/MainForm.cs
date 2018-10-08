@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Forms.DataVisualization.Charting;
 
 namespace DemoApp
 {
@@ -25,6 +26,23 @@ namespace DemoApp
             WindowState = Properties.Settings.Default.WindowState;
 
             OnLoad_RandomTabPage();
+
+            {
+                var text = new StringBuilder();
+                for (int i = 0; i < 20; i++)
+                {
+                    text.Append(Ksnm.Math.FibonacciNumber(i) + " ");
+                }
+                FibonacciSequenceLabel.Text = text.ToString();
+            }
+            {
+                var text = new StringBuilder();
+                for (int i = 0; i < 20; i++)
+                {
+                    text.Append(Ksnm.Math.MosersCircleRegions(i) + " ");
+                }
+                MosersCircleRegionsLabel.Text = text.ToString();
+            }
         }
 
         /// <summary>
@@ -55,9 +73,7 @@ namespace DemoApp
 
         #region Randomタブ
 
-        Random random = new Random();
-        Xorshift128 xorshift128 = new Xorshift128();
-        IncrementRandom incrementRandom = new IncrementRandom();
+        Dictionary<string, Random> randoms = new Dictionary<string, Random>();
 
         private void OnLoad_RandomTabPage()
         {
@@ -68,33 +84,31 @@ namespace DemoApp
             {
                 graphics.Clear(Color.White);
             }
-
-            Random_TypeComboBox.Items.Add("Random");
-            Random_TypeComboBox.Items.Add("Xorshift128");
-            Random_TypeComboBox.Items.Add("IncrementRandom");
+            //
+            randoms.Add("System.Random", new Random());
+            randoms.Add("Xorshift128", new Xorshift128());
+            randoms.Add("IncrementRandom", new IncrementRandom());
+            randoms.Add("Prototype", new Prototype(1));
+            foreach (var item in randoms)
+            {
+                Random_TypeComboBox.Items.Add(item.Key);
+            }
             Random_TypeComboBox.SelectedIndex = 0;
         }
 
         private void Random_GenerateButton1_Click(object sender, EventArgs e)
         {
             Random random = null;
-            if (Random_TypeComboBox.Text == "Random")
+            var selected = Random_TypeComboBox.Text;
+            if (randoms.ContainsKey(selected))
             {
-                random = this.random;
-            }
-            else if (Random_TypeComboBox.Text == "Xorshift128")
-            {
-                random = xorshift128;
-            }
-            else if (Random_TypeComboBox.Text == "IncrementRandom")
-            {
-                random = incrementRandom;
+                random = randoms[selected];
             }
             else
             {
                 return;
             }
-
+            // 点描画
             var pen = new Pen(Color.Black, 1);
             var canvas = Random_PictureBox.Image;
             int x, y;
@@ -109,6 +123,40 @@ namespace DemoApp
                 }
             }
             Random_PictureBox.Refresh();
+            // グラフ
+            const int SampleCount = 100;
+            var samples = new List<int>();
+            var sampleCounts = new Dictionary<int, int>();
+            for (int i = 0; i < SampleCount; i++)
+            {
+                samples.Add(random.Next(100));
+                sampleCounts.Add(i, 0);
+            }
+            for (int i = 0; i < samples.Count; i++)
+            {
+                var sample = samples[i];
+                sampleCounts[sample] += 1;
+            }
+            Random_Chart.Series.Clear();
+            {
+                var series = new Series("生成値");
+                series.ChartType = SeriesChartType.Line;
+                for (int i = 0; i < samples.Count; i++)
+                {
+                    var sample = samples[i];
+                    series.Points.AddXY(i, sample);
+                }
+                Random_Chart.Series.Add(series);
+            }
+            {
+                var series = new Series("回数");
+                series.ChartType = SeriesChartType.Column;
+                foreach (var item in sampleCounts)
+                {
+                    series.Points.AddXY(item.Key, item.Value);
+                }
+                Random_Chart.Series.Add(series);
+            }
         }
 
         #endregion Randomタブ

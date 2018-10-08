@@ -30,6 +30,14 @@ namespace Ksnm
     /// </summary>
     public static class Math
     {
+        #region 定数
+
+        /// <summary>
+        /// 黄金数
+        /// </summary>
+        public readonly static double GoldenNumber = (1 + System.Math.Sqrt(5)) / 2;
+
+        #endregion 定数
 
         #region IsEven
 
@@ -500,5 +508,46 @@ namespace Ksnm
 
         #endregion GreatestCommonDivisor
 
+        #region 数列
+
+        /// <summary>
+        /// 三角数
+        /// </summary>
+        /// <param name="n"></param>
+        /// <returns></returns>
+        public static int TriangularNumber(int n)
+        {
+            return (n * n + n) / 2;
+        }
+
+        /// <summary>
+        /// フィボナッチ数
+        /// </summary>
+        /// <param name="n"></param>
+        /// <returns></returns>
+        public static int FibonacciNumber(int n)
+        {
+            var phi = GoldenNumber;
+            var phiN = System.Math.Pow(phi, n);
+            var _phi_N = System.Math.Pow(-phi, -n);
+            var root5 = System.Math.Sqrt(5);
+            return (int)((phiN - _phi_N) / root5);
+        }
+
+        /// <summary>
+        /// モーザー数列
+        /// 円周上に n 個の頂点を置き、その全ての2頂点間を線分で結で出来た領域の数。
+        /// </summary>
+        /// <param name="n">円周上の頂点の数</param>
+        /// <returns></returns>
+        public static int MosersCircleRegions(int n)
+        {
+            var n2 = n * n;
+            var n3 = n2 * n;
+            var n4 = n3 * n;
+            return (n4 - 6 * n3 + 23 * n2 - 18 * n + 24) / 24;
+        }
+
+        #endregion 数列
     }
 }
