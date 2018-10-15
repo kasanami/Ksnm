@@ -149,6 +149,54 @@ namespace Ksnm.Tests
         }
 
         [TestMethod()]
+        public void PolygonalNumberTest()
+        {
+            Assert.AreEqual(Math.PolygonalNumber(3, 0), 0);
+            Assert.AreEqual(Math.PolygonalNumber(3, 1), 1);
+            Assert.AreEqual(Math.PolygonalNumber(3, 2), 3);
+            Assert.AreEqual(Math.PolygonalNumber(3, 3), 6);
+            Assert.AreEqual(Math.PolygonalNumber(3, 4), 10);
+            Assert.AreEqual(Math.PolygonalNumber(3, 5), 15);
+            Assert.AreEqual(Math.PolygonalNumber(3, 6), 21);
+            Assert.AreEqual(Math.PolygonalNumber(3, 7), 28);
+            Assert.AreEqual(Math.PolygonalNumber(3, 8), 36);
+            Assert.AreEqual(Math.PolygonalNumber(3, 9), 45);
+
+            Assert.AreEqual(Math.PolygonalNumber(4, 0), 0);
+            Assert.AreEqual(Math.PolygonalNumber(4, 1), 1);
+            Assert.AreEqual(Math.PolygonalNumber(4, 2), 4);
+            Assert.AreEqual(Math.PolygonalNumber(4, 3), 9);
+            Assert.AreEqual(Math.PolygonalNumber(4, 4), 16);
+            Assert.AreEqual(Math.PolygonalNumber(4, 5), 25);
+            Assert.AreEqual(Math.PolygonalNumber(4, 6), 36);
+            Assert.AreEqual(Math.PolygonalNumber(4, 7), 49);
+            Assert.AreEqual(Math.PolygonalNumber(4, 8), 64);
+            Assert.AreEqual(Math.PolygonalNumber(4, 9), 81);
+
+            Assert.AreEqual(Math.PolygonalNumber(5, 0), 0);
+            Assert.AreEqual(Math.PolygonalNumber(5, 1), 1);
+            Assert.AreEqual(Math.PolygonalNumber(5, 2), 5);
+            Assert.AreEqual(Math.PolygonalNumber(5, 3), 12);
+            Assert.AreEqual(Math.PolygonalNumber(5, 4), 22);
+            Assert.AreEqual(Math.PolygonalNumber(5, 5), 35);
+            Assert.AreEqual(Math.PolygonalNumber(5, 6), 51);
+            Assert.AreEqual(Math.PolygonalNumber(5, 7), 70);
+            Assert.AreEqual(Math.PolygonalNumber(5, 8), 92);
+            Assert.AreEqual(Math.PolygonalNumber(5, 9), 117);
+
+            Assert.AreEqual(Math.PolygonalNumber(6, 0), 0);
+            Assert.AreEqual(Math.PolygonalNumber(6, 1), 1);
+            Assert.AreEqual(Math.PolygonalNumber(6, 2), 6);
+            Assert.AreEqual(Math.PolygonalNumber(6, 3), 15);
+            Assert.AreEqual(Math.PolygonalNumber(6, 4), 28);
+            Assert.AreEqual(Math.PolygonalNumber(6, 5), 45);
+            Assert.AreEqual(Math.PolygonalNumber(6, 6), 66);
+            Assert.AreEqual(Math.PolygonalNumber(6, 7), 91);
+            Assert.AreEqual(Math.PolygonalNumber(6, 8), 120);
+            Assert.AreEqual(Math.PolygonalNumber(6, 9), 153);
+        }
+
+        [TestMethod()]
         public void FibonacciNumberTest()
         {
             Assert.AreEqual(Math.FibonacciNumber(0), 0);

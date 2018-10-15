@@ -519,6 +519,24 @@ namespace Ksnm
         {
             return (n * n + n) / 2;
         }
+        /// <summary>
+        /// 多角数
+        /// </summary>
+        /// <param name="vectors">頂点数</param>
+        /// <param name="n"></param>
+        /// <returns></returns>
+        public static int PolygonalNumber(int vectors, int n)
+        {
+            var n2 = n * n;
+            if (IsEven(vectors))
+            {
+                return (vectors / 2 - 1) * n2 - (vectors / 2 - 2) * n;
+            }
+            else
+            {
+                return ((vectors - 2) * n2 - (vectors - 4) * n) / 2;
+            }
+        }
 
         /// <summary>
         /// フィボナッチ数
