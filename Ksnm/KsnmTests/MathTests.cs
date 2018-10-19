@@ -198,6 +198,42 @@ namespace Ksnm.Tests
         }
 
         [TestMethod()]
+        public void PrimeFactorizationTest()
+        {
+            var primes = Math.PrimeFactorization(0).ToArray();
+            var expected = new int[] { };
+            CollectionAssert.AreEqual(expected, primes);
+
+            primes = Math.PrimeFactorization(1).ToArray();
+            expected = new int[] { };
+            CollectionAssert.AreEqual(expected, primes);
+
+            primes = Math.PrimeFactorization(2).ToArray();
+            expected = new[] { 2 };
+            CollectionAssert.AreEqual(expected, primes);
+
+            primes = Math.PrimeFactorization(3).ToArray();
+            expected = new[] { 3 };
+            CollectionAssert.AreEqual(expected, primes);
+
+            primes = Math.PrimeFactorization(4).ToArray();
+            expected = new[] { 2, 2 };
+            CollectionAssert.AreEqual(expected, primes);
+
+            primes = Math.PrimeFactorization(6).ToArray();
+            expected = new[] { 2, 3 };
+            CollectionAssert.AreEqual(expected, primes);
+
+            // 素因数分解したあと、乗算して比較する
+            for (int i = 2; i < 100; i++)
+            {
+                primes = Math.PrimeFactorization(i).ToArray();
+                var product = primes.Aggregate((now, next) => now * next);
+                Assert.AreEqual(i, product);
+            }
+        }
+
+        [TestMethod()]
         public void TriangularNumberTest()
         {
             Assert.AreEqual(Math.TriangularNumber(0), 0);

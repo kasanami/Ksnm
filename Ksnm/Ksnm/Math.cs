@@ -21,6 +21,7 @@ freely, subject to the following restrictions:
 
 3. This notice may not be removed or altered from any source distribution.
 */
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Ksnm
@@ -655,6 +656,37 @@ namespace Ksnm
         }
 
         #endregion GreatestCommonDivisor
+
+        #region 素因数分解
+
+        /// <summary>
+        /// 素因数分解
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static IEnumerable<int> PrimeFactorization(int value)
+        {
+            int tmp = value;
+
+            for (int i = 2; i * i <= value;)
+            {
+                if (tmp % i == 0)
+                {
+                    tmp /= i;
+                    yield return i;
+                }
+                else
+                {
+                    i++;
+                }
+            }
+            if (tmp > 1)
+            {
+                yield return tmp;
+            }
+        }
+
+        #endregion 素因数分解
 
         #region 数列
 
