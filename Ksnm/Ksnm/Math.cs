@@ -119,6 +119,154 @@ namespace Ksnm
 
         #endregion IsOdd
 
+        #region IsPrime
+
+        /// <summary>
+        /// 素数ならtrueを返す。
+        /// </summary>
+        public static bool IsPrime(int value)
+        {
+            if (value < 2)
+            {
+                return false;
+            }
+            else if (value == 2)
+            {
+                return true;
+            }
+
+            if (value % 2 == 0)
+            {
+                return false;
+            }
+
+            for (int i = 3; i <= value / i; i += 2)
+            {
+                if (value % i == 0)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// 素数ならtrueを返す。
+        /// </summary>
+        public static bool IsPrime(uint value)
+        {
+            if (value < 2)
+            {
+                return false;
+            }
+            else if (value == 2)
+            {
+                return true;
+            }
+
+            if (value % 2 == 0)
+            {
+                return false;
+            }
+
+            for (uint i = 3; i <= value / i; i += 2)
+            {
+                if (value % i == 0)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// 素数ならtrueを返す。
+        /// </summary>
+        public static bool IsPrime(long value)
+        {
+            if (value < 2)
+            {
+                return false;
+            }
+            else if (value == 2)
+            {
+                return true;
+            }
+
+            if (value % 2 == 0)
+            {
+                return false;
+            }
+
+            for (long i = 3; i <= value / i; i += 2)
+            {
+                if (value % i == 0)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// 素数ならtrueを返す。
+        /// </summary>
+        public static bool IsPrime(ulong value)
+        {
+            if (value < 2)
+            {
+                return false;
+            }
+            else if (value == 2)
+            {
+                return true;
+            }
+
+            if (value % 2 == 0)
+            {
+                return false;
+            }
+
+            for (ulong i = 3; i <= value / i; i += 2)
+            {
+                if (value % i == 0)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// 素数ならtrueを返す。
+        /// </summary>
+        public static bool IsPrime(decimal value)
+        {
+            if (value < 2)
+            {
+                return false;
+            }
+            else if (value == 2)
+            {
+                return true;
+            }
+
+            if (value % 2 == 0)
+            {
+                return false;
+            }
+
+            for (decimal i = 3; i <= value / i; i += 2)
+            {
+                if (value % i == 0)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+        #endregion IsPrime
+
         #region Sign
 
         /// <summary>

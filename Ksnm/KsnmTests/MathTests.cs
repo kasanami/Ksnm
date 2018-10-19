@@ -58,6 +58,70 @@ namespace Ksnm.Tests
         }
 
         [TestMethod()]
+        public void IsPrimeTest()
+        {
+            int[] numbers = new[]
+            {
+                -2,
+                -1,
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11,
+            };
+            bool[] expectes = new[]
+            {
+                false,//-2,
+                false,//-1,
+                false,//0,
+                false,//1,
+                true,//2,
+                true,//3,
+                false,//4,
+                true,//5,
+                false,//6,
+                true,//7,
+                false,//8,
+                false,//9,
+                false,//10,
+                true,//11,
+            };
+            // int
+            for (int i = 0; i < numbers.Length; i++)
+            {
+                Assert.AreEqual(expectes[i], Math.IsPrime(numbers[i]));
+            }
+            // uint
+            for (int i = 2; i < numbers.Length; i++)
+            {
+                Assert.AreEqual(expectes[i], Math.IsPrime((uint)numbers[i]));
+            }
+            // long
+            for (int i = 2; i < numbers.Length; i++)
+            {
+                Assert.AreEqual(expectes[i], Math.IsPrime((long)numbers[i]));
+            }
+            // ulong
+            for (int i = 2; i < numbers.Length; i++)
+            {
+                Assert.AreEqual(expectes[i], Math.IsPrime((ulong)numbers[i]));
+            }
+            // decimal
+            for (int i = 2; i < numbers.Length; i++)
+            {
+                Assert.AreEqual(expectes[i], Math.IsPrime((decimal)numbers[i]));
+            }
+        }
+
+        [TestMethod()]
         public void SignTest()
         {
             Assert.AreEqual(Math.Sign(+2), +1);
