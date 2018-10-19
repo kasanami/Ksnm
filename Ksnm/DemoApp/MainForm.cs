@@ -26,7 +26,12 @@ namespace DemoApp
             WindowState = Properties.Settings.Default.WindowState;
 
             OnLoad_RandomTabPage();
-
+            // 定数
+            {
+                goldenNumberLabel.Text = Ksnm.Math.GoldenNumber.ToString("R");
+                silverNumberLabel.Text = Ksnm.Math.SilverNumber.ToString("R");
+            }
+            // 数列
             {
                 var text = new StringBuilder();
                 for (int i = 0; i < 20; i++)

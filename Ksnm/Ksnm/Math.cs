@@ -36,7 +36,12 @@ namespace Ksnm
         /// <summary>
         /// 黄金数
         /// </summary>
-        public readonly static double GoldenNumber = (1 + System.Math.Sqrt(5)) / 2;
+        public const double GoldenNumber = 1.61803398874989484820;
+
+        /// <summary>
+        /// 白銀数
+        /// </summary>
+        public const double SilverNumber = 2.41421356237309504880;
 
         #endregion 定数
 
