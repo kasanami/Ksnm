@@ -671,13 +671,19 @@ namespace Ksnm
         /// <returns></returns>
         public static IEnumerable<int> PrimeFactorization(int value)
         {
-            int tmp = value;
-
-            for (int i = 2; i * i <= value;)
+            if (value < 1)
             {
-                if (tmp % i == 0)
+                yield break;
+            }
+
+            var temp = value;
+            var sqrt = System.Math.Sqrt(value);
+
+            for (int i = 2; i <= sqrt;)
+            {
+                if (temp % i == 0)
                 {
-                    tmp /= i;
+                    temp /= i;
                     yield return i;
                 }
                 else
@@ -685,9 +691,42 @@ namespace Ksnm
                     i++;
                 }
             }
-            if (tmp > 1)
+            if (temp > 1)
             {
-                yield return tmp;
+                yield return temp;
+            }
+        }
+
+        /// <summary>
+        /// 素因数分解
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static IEnumerable<long> PrimeFactorization(long value)
+        {
+            if (value < 1)
+            {
+                yield break;
+            }
+
+            var temp = value;
+            var sqrt = System.Math.Sqrt(value);
+
+            for (long i = 2; i <= sqrt;)
+            {
+                if (temp % i == 0)
+                {
+                    temp /= i;
+                    yield return i;
+                }
+                else
+                {
+                    i++;
+                }
+            }
+            if (temp > 1)
+            {
+                yield return temp;
             }
         }
 

@@ -204,6 +204,10 @@ namespace Ksnm.Tests
             var expected = new int[] { };
             CollectionAssert.AreEqual(expected, primes);
 
+            primes = Math.PrimeFactorization(-1).ToArray();
+            expected = new int[] { };
+            CollectionAssert.AreEqual(expected, primes);
+
             primes = Math.PrimeFactorization(1).ToArray();
             expected = new int[] { };
             CollectionAssert.AreEqual(expected, primes);
@@ -222,6 +226,10 @@ namespace Ksnm.Tests
 
             primes = Math.PrimeFactorization(6).ToArray();
             expected = new[] { 2, 3 };
+            CollectionAssert.AreEqual(expected, primes);
+
+            primes = Math.PrimeFactorization(int.MaxValue).ToArray();
+            expected = new[] { int.MaxValue };
             CollectionAssert.AreEqual(expected, primes);
 
             // 素因数分解したあと、乗算して比較する

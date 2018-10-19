@@ -75,6 +75,30 @@ namespace DemoApp
                 Properties.Settings.Default.Save();
             }
         }
+        #region Mathタブ
+
+        /// <summary>
+        /// 素因数分解を実行
+        /// </summary>
+        private void PrimeFactorizationButton_Click(object sender, EventArgs e)
+        {
+            primeFactorizationLabel.Text = "";
+            try
+            {
+                var value = long.Parse(primeFactorization_ParameterTextBox.Text);
+                primeFactorizationLabel.Text = string.Join("*", Ksnm.Math.PrimeFactorization(value));
+            }
+            catch (FormatException)
+            {
+                primeFactorizationLabel.Text = "形式が無効";
+            }
+            catch (OverflowException)
+            {
+                primeFactorizationLabel.Text = "オーバーフロー";
+            }
+        }
+
+        #endregion Mathタブ
 
         #region Randomタブ
 
