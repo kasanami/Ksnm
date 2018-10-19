@@ -45,6 +45,7 @@
     <Compile Include="Binary.cs" />
     <Compile Include="ExtensionMethods\System\Array_.cs" />
     <Compile Include="ExtensionMethods\System\Collections\Dictionary_.cs" />
+    <Compile Include="ExtensionMethods\System\Collections\Enumerable.cs" />
     <Compile Include="ExtensionMethods\System\Collections\IList_.cs" />
     <Compile Include="ExtensionMethods\System\Collections\List_.cs" />
     <Compile Include="ExtensionMethods\System\Double_.cs" />
