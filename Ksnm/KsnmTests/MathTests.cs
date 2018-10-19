@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Ksnm.ExtensionMethods.System.Collections;
 
 namespace Ksnm.Tests
 {
@@ -236,7 +237,7 @@ namespace Ksnm.Tests
             for (int i = 2; i < 100; i++)
             {
                 primes = Math.PrimeFactorization(i).ToArray();
-                var product = primes.Aggregate((now, next) => now * next);
+                var product = primes.Product();
                 Assert.AreEqual(i, product);
             }
         }
