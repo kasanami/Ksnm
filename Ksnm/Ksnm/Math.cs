@@ -636,12 +636,15 @@ namespace Ksnm
 
         #endregion Median
 
-        #region GreatestCommonDivisor
+        #region 最大公約数 GreatestCommonDivisor
 
         /// <summary>
-        /// 最大公約数
-        /// 負数は正数にする。
+        /// 最大公約数を求める
+        /// 負数は正数にされる。
         /// </summary>
+        /// <param name="a">整数</param>
+        /// <param name="b">整数</param>
+        /// <returns>最大公約数</returns>
         public static int GreatestCommonDivisor(int a, int b)
         {
             a = System.Math.Abs(a);
@@ -660,15 +663,15 @@ namespace Ksnm
             return a;
         }
 
-        #endregion GreatestCommonDivisor
+        #endregion 最大公約数 GreatestCommonDivisor
 
         #region 素因数分解
 
         /// <summary>
         /// 素因数分解
         /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
+        /// <param name="value">素因数分解する値</param>
+        /// <returns>一連の素数</returns>
         public static IEnumerable<int> PrimeFactorization(int value)
         {
             if (value < 1)
@@ -700,8 +703,8 @@ namespace Ksnm
         /// <summary>
         /// 素因数分解
         /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
+        /// <param name="value">素因数分解する値</param>
+        /// <returns>一連の素数</returns>
         public static IEnumerable<long> PrimeFactorization(long value)
         {
             if (value < 1)
@@ -737,8 +740,8 @@ namespace Ksnm
         /// <summary>
         /// 三角数
         /// </summary>
-        /// <param name="n"></param>
-        /// <returns></returns>
+        /// <param name="n">番号</param>
+        /// <returns>n番目の点の数</returns>
         public static int TriangularNumber(int n)
         {
             return (n * n + n) / 2;
@@ -747,8 +750,8 @@ namespace Ksnm
         /// 多角数
         /// </summary>
         /// <param name="vectors">頂点数</param>
-        /// <param name="n"></param>
-        /// <returns></returns>
+        /// <param name="n">番号</param>
+        /// <returns>n番目の点の数</returns>
         public static int PolygonalNumber(int vectors, int n)
         {
             var n2 = n * n;
@@ -765,8 +768,8 @@ namespace Ksnm
         /// <summary>
         /// フィボナッチ数
         /// </summary>
-        /// <param name="n"></param>
-        /// <returns></returns>
+        /// <param name="n">番号</param>
+        /// <returns>n番目のフィボナッチ数</returns>
         public static int FibonacciNumber(int n)
         {
             var phi = GoldenNumber;
@@ -781,7 +784,7 @@ namespace Ksnm
         /// 円周上に n 個の頂点を置き、その全ての2頂点間を線分で結で出来た領域の数。
         /// </summary>
         /// <param name="n">円周上の頂点の数</param>
-        /// <returns></returns>
+        /// <returns>領域の数</returns>
         public static int MosersCircleRegions(int n)
         {
             var n2 = n * n;
