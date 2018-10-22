@@ -14,11 +14,11 @@ namespace Ksnm.Randoms
         /// <summary>
         /// 加数
         /// </summary>
-        public uint addend = 12345;
+        public uint addend = 12356789;
         /// <summary>
         /// 乗数
         /// </summary>
-        public uint multiplier = 1234;
+        public uint multiplier = 12356789;
 
         /// <summary>
         /// 時間に応じて決定される既定のシード値を使用し、新しいインスタンスを初期化します。
