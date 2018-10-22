@@ -28,9 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.RandomTabControl = new System.Windows.Forms.TabControl();
             this.MathTabPage = new System.Windows.Forms.TabPage();
             this.tabControl1 = new System.Windows.Forms.TabControl();
@@ -445,6 +445,7 @@
             // Random_TypeComboBox
             // 
             this.Random_TypeComboBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Random_TypeComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.Random_TypeComboBox.FormattingEnabled = true;
             this.Random_TypeComboBox.Location = new System.Drawing.Point(3, 23);
             this.Random_TypeComboBox.Name = "Random_TypeComboBox";
@@ -515,17 +516,17 @@
             // 
             // Random_Chart
             // 
-            chartArea1.Name = "ChartArea1";
-            this.Random_Chart.ChartAreas.Add(chartArea1);
+            chartArea2.Name = "ChartArea1";
+            this.Random_Chart.ChartAreas.Add(chartArea2);
             this.Random_Chart.Dock = System.Windows.Forms.DockStyle.Fill;
-            legend1.Name = "Legend1";
-            this.Random_Chart.Legends.Add(legend1);
+            legend2.Name = "Legend1";
+            this.Random_Chart.Legends.Add(legend2);
             this.Random_Chart.Location = new System.Drawing.Point(3, 15);
             this.Random_Chart.Name = "Random_Chart";
-            series1.ChartArea = "ChartArea1";
-            series1.Legend = "Legend1";
-            series1.Name = "Series1";
-            this.Random_Chart.Series.Add(series1);
+            series2.ChartArea = "ChartArea1";
+            series2.Legend = "Legend1";
+            series2.Name = "Series1";
+            this.Random_Chart.Series.Add(series2);
             this.Random_Chart.Size = new System.Drawing.Size(332, 262);
             this.Random_Chart.TabIndex = 0;
             this.Random_Chart.Text = "chart1";
