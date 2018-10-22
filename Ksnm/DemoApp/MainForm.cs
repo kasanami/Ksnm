@@ -103,6 +103,10 @@ namespace DemoApp
         #region Randomタブ
 
         Dictionary<string, Random> randoms = new Dictionary<string, Random>();
+        Random systemRandom = new Random();
+        Xorshift128 xorshift128 = new Xorshift128();
+        IncrementRandom incrementRandom = new IncrementRandom();
+        Prototype prototypeRandom = new Prototype();
 
         private void OnLoad_RandomTabPage()
         {
@@ -114,10 +118,10 @@ namespace DemoApp
                 graphics.Clear(Color.White);
             }
             //
-            randoms.Add("System.Random", new Random());
-            randoms.Add("Xorshift128", new Xorshift128());
-            randoms.Add("IncrementRandom", new IncrementRandom());
-            randoms.Add("Prototype", new Prototype(1));
+            randoms.Add("System.Random", systemRandom);
+            randoms.Add("Xorshift128", xorshift128);
+            randoms.Add("IncrementRandom", incrementRandom);
+            randoms.Add("Prototype", prototypeRandom);
             foreach (var item in randoms)
             {
                 Random_TypeComboBox.Items.Add(item.Key);
@@ -126,6 +130,32 @@ namespace DemoApp
         }
 
         private void Random_GenerateButton1_Click(object sender, EventArgs e)
+        {
+            Random_UpdateView();
+        }
+
+        private void Random_SeedNumericUpDown_ValueChanged(object sender, EventArgs e)
+        {
+            prototypeRandom.seed = unchecked((uint)Random_SeedNumericUpDown.Value);
+            Console.WriteLine("prototypeRandom.seed=" + prototypeRandom.seed);
+            Random_UpdateView();
+        }
+
+        private void Random_Param1NumericUpDown_ValueChanged(object sender, EventArgs e)
+        {
+            prototypeRandom.addend = unchecked((uint)Random_Param1NumericUpDown.Value);
+            Console.WriteLine("prototypeRandom.addend=" + prototypeRandom.addend);
+            Random_UpdateView();
+        }
+
+        private void Random_Param2NumericUpDown_ValueChanged(object sender, EventArgs e)
+        {
+            prototypeRandom.multiplier = unchecked((uint)Random_Param2NumericUpDown.Value);
+            Console.WriteLine("prototypeRandom.multiplier=" + prototypeRandom.multiplier);
+            Random_UpdateView();
+        }
+
+        void Random_UpdateView()
         {
             Random random = null;
             var selected = Random_TypeComboBox.Text;
