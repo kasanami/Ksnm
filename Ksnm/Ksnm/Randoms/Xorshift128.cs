@@ -122,14 +122,8 @@ namespace Ksnm.Randoms
         /// <returns>0.0 以上 1.0 未満の倍精度浮動小数点数。</returns>
         protected override double Sample()
         {
-#if true
-            ulong sample = Binary.ToUInt64(SampleUInt(), SampleUInt());
-            return sample / (double)ulong.MaxValue;
-#else
-            // ビットレベルで変換だが処理が遅い
             var sample = SampleUInt();
-            return Binary.ToRateDouble(sample);
-#endif
+            return sample / ((double)uint.MaxValue + 1);
         }
     }
 }
