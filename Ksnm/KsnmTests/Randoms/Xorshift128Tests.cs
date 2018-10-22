@@ -28,6 +28,20 @@ namespace Ksnm.Randoms.Tests
                 Assert.IsTrue(sample >= 0);
                 Assert.IsTrue(sample < int.MaxValue);
             }
+            // 0以上、2未満か？
+            for (int i = 0; i < TestCount; i++)
+            {
+                var sample = random.Next(2);
+                Assert.IsTrue(sample >= 0);
+                Assert.IsTrue(sample < 2);
+            }
+            // 1以上、3未満か？
+            for (int i = 0; i < TestCount; i++)
+            {
+                var sample = random.Next(1, 3);
+                Assert.IsTrue(sample >= 1);
+                Assert.IsTrue(sample < 3);
+            }
         }
 
         [TestMethod()]
