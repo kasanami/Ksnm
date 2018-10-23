@@ -123,6 +123,14 @@ namespace Ksnm.ExtensionMethods.System
             return new string(self.Select(c => ToWideDictionary.ContainsKey(c) ? ToWideDictionary[c] : c).ToArray());
         }
         /// <summary>
+        /// 制御文字を削除する
+        /// </summary>
+        /// <returns>削除</returns>
+        public static string RemoveControlChar(this string self)
+        {
+            return new string(self.Where(c => !char.IsControl(c)).ToArray());
+        }
+        /// <summary>
         /// 部分文字列を取得します。
         /// この部分文字列は、startString～endStringの文字列です。
         /// </summary>

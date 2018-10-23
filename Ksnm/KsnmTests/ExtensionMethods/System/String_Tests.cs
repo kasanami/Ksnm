@@ -17,7 +17,7 @@ namespace Ksnm.ExtensionMethods.System.Tests
             var str = "abc";
             Assert.AreEqual(str.GetLast(), 'c');
         }
- 
+
         [TestMethod()]
         public void HiraganaToKatakanaTest()
         {
@@ -31,6 +31,13 @@ namespace Ksnm.ExtensionMethods.System.Tests
         [TestMethod()]
         public void ToWideTest()
         {
+        }
+
+        [TestMethod()]
+        public void RemoveControlCharTest()
+        {
+            var sample = " 123abc\a\b\f\r\n\t\v";
+            Assert.AreEqual(" 123abc", sample.RemoveControlChar());
         }
 
         [TestMethod()]
