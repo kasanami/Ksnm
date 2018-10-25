@@ -55,14 +55,20 @@
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            this.Random_GenerateButton1 = new System.Windows.Forms.Button();
+            this.Random_Param2NumericUpDown = new System.Windows.Forms.NumericUpDown();
+            this.label11 = new System.Windows.Forms.Label();
+            this.Random_Param1NumericUpDown = new System.Windows.Forms.NumericUpDown();
+            this.label10 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
             this.Random_TypeComboBox = new System.Windows.Forms.ComboBox();
             this.Random_SeedNumericUpDown = new System.Windows.Forms.NumericUpDown();
+            this.label8 = new System.Windows.Forms.Label();
             this.tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.Random_PictureBox = new System.Windows.Forms.PictureBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.Random_Chart = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.Random_GenerateButton1 = new System.Windows.Forms.Button();
             this.IOTabPage = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -72,12 +78,17 @@
             this.label1 = new System.Windows.Forms.Label();
             this.IO_Directory_CopySourceTextBox = new System.Windows.Forms.TextBox();
             this.IO_Directory_CopyButton = new System.Windows.Forms.Button();
-            this.label8 = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
-            this.label10 = new System.Windows.Forms.Label();
-            this.Random_Param1NumericUpDown = new System.Windows.Forms.NumericUpDown();
-            this.label11 = new System.Windows.Forms.Label();
-            this.Random_Param2NumericUpDown = new System.Windows.Forms.NumericUpDown();
+            this.tabControl2 = new System.Windows.Forms.TabControl();
+            this.tabPage5 = new System.Windows.Forms.TabPage();
+            this.tabPage6 = new System.Windows.Forms.TabPage();
+            this.tableLayoutPanel9 = new System.Windows.Forms.TableLayoutPanel();
+            this.label12 = new System.Windows.Forms.Label();
+            this.IO_DeflateFile_PathTextBox = new System.Windows.Forms.TextBox();
+            this.label13 = new System.Windows.Forms.Label();
+            this.IO_DeflateFile_SourceTextBox = new System.Windows.Forms.TextBox();
+            this.label14 = new System.Windows.Forms.Label();
+            this.IO_DeflateFile_DecodeTextBox = new System.Windows.Forms.TextBox();
+            this.IO_DeflateFile_RunButton = new System.Windows.Forms.Button();
             this.RandomTabControl.SuspendLayout();
             this.MathTabPage.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -90,6 +101,8 @@
             this.tabPage2.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.Random_Param2NumericUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Random_Param1NumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Random_SeedNumericUpDown)).BeginInit();
             this.tableLayoutPanel5.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -100,8 +113,10 @@
             this.tableLayoutPanel3.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.tableLayoutPanel4.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.Random_Param1NumericUpDown)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Random_Param2NumericUpDown)).BeginInit();
+            this.tabControl2.SuspendLayout();
+            this.tabPage5.SuspendLayout();
+            this.tabPage6.SuspendLayout();
+            this.tableLayoutPanel9.SuspendLayout();
             this.SuspendLayout();
             // 
             // RandomTabControl
@@ -430,17 +445,66 @@
             this.tableLayoutPanel2.Size = new System.Drawing.Size(687, 74);
             this.tableLayoutPanel2.TabIndex = 2;
             // 
-            // Random_GenerateButton1
+            // Random_Param2NumericUpDown
             // 
-            this.Random_GenerateButton1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Random_GenerateButton1.Font = new System.Drawing.Font("メイリオ", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.Random_GenerateButton1.Location = new System.Drawing.Point(23, 103);
-            this.Random_GenerateButton1.Name = "Random_GenerateButton1";
-            this.Random_GenerateButton1.Size = new System.Drawing.Size(687, 39);
-            this.Random_GenerateButton1.TabIndex = 1;
-            this.Random_GenerateButton1.Text = "乱数生成";
-            this.Random_GenerateButton1.UseVisualStyleBackColor = true;
-            this.Random_GenerateButton1.Click += new System.EventHandler(this.Random_GenerateButton1_Click);
+            this.Random_Param2NumericUpDown.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Random_Param2NumericUpDown.Location = new System.Drawing.Point(527, 23);
+            this.Random_Param2NumericUpDown.Maximum = new decimal(new int[] {
+            -1,
+            -1,
+            0,
+            0});
+            this.Random_Param2NumericUpDown.Name = "Random_Param2NumericUpDown";
+            this.Random_Param2NumericUpDown.Size = new System.Drawing.Size(157, 19);
+            this.Random_Param2NumericUpDown.TabIndex = 9;
+            this.Random_Param2NumericUpDown.ValueChanged += new System.EventHandler(this.Random_Param2NumericUpDown_ValueChanged);
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label11.Location = new System.Drawing.Point(527, 0);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(157, 20);
+            this.label11.TabIndex = 8;
+            this.label11.Text = "パラメータ2";
+            this.label11.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
+            // 
+            // Random_Param1NumericUpDown
+            // 
+            this.Random_Param1NumericUpDown.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Random_Param1NumericUpDown.Location = new System.Drawing.Point(365, 23);
+            this.Random_Param1NumericUpDown.Maximum = new decimal(new int[] {
+            -1,
+            -1,
+            0,
+            0});
+            this.Random_Param1NumericUpDown.Name = "Random_Param1NumericUpDown";
+            this.Random_Param1NumericUpDown.Size = new System.Drawing.Size(156, 19);
+            this.Random_Param1NumericUpDown.TabIndex = 7;
+            this.Random_Param1NumericUpDown.ValueChanged += new System.EventHandler(this.Random_Param1NumericUpDown_ValueChanged);
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label10.Location = new System.Drawing.Point(365, 0);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(156, 20);
+            this.label10.TabIndex = 6;
+            this.label10.Text = "パラメータ1";
+            this.label10.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label9.Location = new System.Drawing.Point(203, 0);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(156, 20);
+            this.label9.TabIndex = 5;
+            this.label9.Text = "シード値";
+            this.label9.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
             // 
             // Random_TypeComboBox
             // 
@@ -466,6 +530,17 @@
             this.Random_SeedNumericUpDown.TabIndex = 3;
             this.Random_SeedNumericUpDown.ValueChanged += new System.EventHandler(this.Random_SeedNumericUpDown_ValueChanged);
             // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label8.Location = new System.Drawing.Point(3, 0);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(194, 20);
+            this.label8.TabIndex = 4;
+            this.label8.Text = "乱数の種類";
+            this.label8.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
+            // 
             // tableLayoutPanel5
             // 
             this.tableLayoutPanel5.ColumnCount = 2;
@@ -478,7 +553,7 @@
             this.tableLayoutPanel5.Name = "tableLayoutPanel5";
             this.tableLayoutPanel5.RowCount = 1;
             this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 331F));
+            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 286F));
             this.tableLayoutPanel5.Size = new System.Drawing.Size(687, 286);
             this.tableLayoutPanel5.TabIndex = 3;
             // 
@@ -531,9 +606,21 @@
             this.Random_Chart.TabIndex = 0;
             this.Random_Chart.Text = "chart1";
             // 
+            // Random_GenerateButton1
+            // 
+            this.Random_GenerateButton1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Random_GenerateButton1.Font = new System.Drawing.Font("メイリオ", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.Random_GenerateButton1.Location = new System.Drawing.Point(23, 103);
+            this.Random_GenerateButton1.Name = "Random_GenerateButton1";
+            this.Random_GenerateButton1.Size = new System.Drawing.Size(687, 39);
+            this.Random_GenerateButton1.TabIndex = 1;
+            this.Random_GenerateButton1.Text = "乱数生成";
+            this.Random_GenerateButton1.UseVisualStyleBackColor = true;
+            this.Random_GenerateButton1.Click += new System.EventHandler(this.Random_GenerateButton1_Click);
+            // 
             // IOTabPage
             // 
-            this.IOTabPage.Controls.Add(this.tableLayoutPanel3);
+            this.IOTabPage.Controls.Add(this.tabControl2);
             this.IOTabPage.Location = new System.Drawing.Point(4, 22);
             this.IOTabPage.Name = "IOTabPage";
             this.IOTabPage.Padding = new System.Windows.Forms.Padding(3);
@@ -554,7 +641,7 @@
             this.tableLayoutPanel3.RowCount = 2;
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(733, 457);
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(719, 425);
             this.tableLayoutPanel3.TabIndex = 0;
             // 
             // groupBox1
@@ -563,7 +650,7 @@
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox1.Location = new System.Drawing.Point(3, 3);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(360, 222);
+            this.groupBox1.Size = new System.Drawing.Size(353, 206);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Directory.Copy";
@@ -586,7 +673,7 @@
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel4.Size = new System.Drawing.Size(354, 204);
+            this.tableLayoutPanel4.Size = new System.Drawing.Size(347, 188);
             this.tableLayoutPanel4.TabIndex = 0;
             // 
             // IO_Directory_CopyDestTextBox
@@ -594,7 +681,7 @@
             this.IO_Directory_CopyDestTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.IO_Directory_CopyDestTextBox.Location = new System.Drawing.Point(103, 28);
             this.IO_Directory_CopyDestTextBox.Name = "IO_Directory_CopyDestTextBox";
-            this.IO_Directory_CopyDestTextBox.Size = new System.Drawing.Size(248, 19);
+            this.IO_Directory_CopyDestTextBox.Size = new System.Drawing.Size(241, 19);
             this.IO_Directory_CopyDestTextBox.TabIndex = 4;
             // 
             // label2
@@ -624,7 +711,7 @@
             this.IO_Directory_CopySourceTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.IO_Directory_CopySourceTextBox.Location = new System.Drawing.Point(103, 3);
             this.IO_Directory_CopySourceTextBox.Name = "IO_Directory_CopySourceTextBox";
-            this.IO_Directory_CopySourceTextBox.Size = new System.Drawing.Size(248, 19);
+            this.IO_Directory_CopySourceTextBox.Size = new System.Drawing.Size(241, 19);
             this.IO_Directory_CopySourceTextBox.TabIndex = 1;
             // 
             // IO_Directory_CopyButton
@@ -632,83 +719,140 @@
             this.IO_Directory_CopyButton.Dock = System.Windows.Forms.DockStyle.Fill;
             this.IO_Directory_CopyButton.Location = new System.Drawing.Point(103, 53);
             this.IO_Directory_CopyButton.Name = "IO_Directory_CopyButton";
-            this.IO_Directory_CopyButton.Size = new System.Drawing.Size(248, 19);
+            this.IO_Directory_CopyButton.Size = new System.Drawing.Size(241, 19);
             this.IO_Directory_CopyButton.TabIndex = 3;
             this.IO_Directory_CopyButton.Text = "コピー実行";
             this.IO_Directory_CopyButton.UseVisualStyleBackColor = true;
             this.IO_Directory_CopyButton.Click += new System.EventHandler(this.IO_Directory_CopyButton_Click);
             // 
-            // label8
+            // tabControl2
             // 
-            this.label8.AutoSize = true;
-            this.label8.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label8.Location = new System.Drawing.Point(3, 0);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(194, 20);
-            this.label8.TabIndex = 4;
-            this.label8.Text = "乱数の種類";
-            this.label8.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
+            this.tabControl2.Controls.Add(this.tabPage5);
+            this.tabControl2.Controls.Add(this.tabPage6);
+            this.tabControl2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControl2.Location = new System.Drawing.Point(3, 3);
+            this.tabControl2.Name = "tabControl2";
+            this.tabControl2.SelectedIndex = 0;
+            this.tabControl2.Size = new System.Drawing.Size(733, 457);
+            this.tabControl2.TabIndex = 1;
             // 
-            // label9
+            // tabPage5
             // 
-            this.label9.AutoSize = true;
-            this.label9.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label9.Location = new System.Drawing.Point(203, 0);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(156, 20);
-            this.label9.TabIndex = 5;
-            this.label9.Text = "シード値";
-            this.label9.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
+            this.tabPage5.Controls.Add(this.tableLayoutPanel3);
+            this.tabPage5.Location = new System.Drawing.Point(4, 22);
+            this.tabPage5.Name = "tabPage5";
+            this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage5.Size = new System.Drawing.Size(725, 431);
+            this.tabPage5.TabIndex = 0;
+            this.tabPage5.Text = "Directory";
+            this.tabPage5.UseVisualStyleBackColor = true;
             // 
-            // label10
+            // tabPage6
             // 
-            this.label10.AutoSize = true;
-            this.label10.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label10.Location = new System.Drawing.Point(365, 0);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(156, 20);
-            this.label10.TabIndex = 6;
-            this.label10.Text = "パラメータ1";
-            this.label10.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
+            this.tabPage6.Controls.Add(this.tableLayoutPanel9);
+            this.tabPage6.Location = new System.Drawing.Point(4, 22);
+            this.tabPage6.Name = "tabPage6";
+            this.tabPage6.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage6.Size = new System.Drawing.Size(725, 431);
+            this.tabPage6.TabIndex = 1;
+            this.tabPage6.Text = "DeflateFile";
+            this.tabPage6.UseVisualStyleBackColor = true;
             // 
-            // Random_Param1NumericUpDown
+            // tableLayoutPanel9
             // 
-            this.Random_Param1NumericUpDown.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Random_Param1NumericUpDown.Location = new System.Drawing.Point(365, 23);
-            this.Random_Param1NumericUpDown.Maximum = new decimal(new int[] {
-            -1,
-            -1,
-            0,
-            0});
-            this.Random_Param1NumericUpDown.Name = "Random_Param1NumericUpDown";
-            this.Random_Param1NumericUpDown.Size = new System.Drawing.Size(156, 19);
-            this.Random_Param1NumericUpDown.TabIndex = 7;
-            this.Random_Param1NumericUpDown.ValueChanged += new System.EventHandler(this.Random_Param1NumericUpDown_ValueChanged);
+            this.tableLayoutPanel9.ColumnCount = 2;
+            this.tableLayoutPanel9.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
+            this.tableLayoutPanel9.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel9.Controls.Add(this.IO_DeflateFile_DecodeTextBox, 1, 3);
+            this.tableLayoutPanel9.Controls.Add(this.label14, 0, 3);
+            this.tableLayoutPanel9.Controls.Add(this.IO_DeflateFile_SourceTextBox, 1, 1);
+            this.tableLayoutPanel9.Controls.Add(this.label13, 0, 1);
+            this.tableLayoutPanel9.Controls.Add(this.label12, 0, 0);
+            this.tableLayoutPanel9.Controls.Add(this.IO_DeflateFile_PathTextBox, 1, 0);
+            this.tableLayoutPanel9.Controls.Add(this.IO_DeflateFile_RunButton, 1, 2);
+            this.tableLayoutPanel9.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel9.Location = new System.Drawing.Point(3, 3);
+            this.tableLayoutPanel9.Name = "tableLayoutPanel9";
+            this.tableLayoutPanel9.RowCount = 5;
+            this.tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+            this.tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 100F));
+            this.tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
+            this.tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 100F));
+            this.tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel9.Size = new System.Drawing.Size(719, 425);
+            this.tableLayoutPanel9.TabIndex = 0;
             // 
-            // label11
+            // label12
             // 
-            this.label11.AutoSize = true;
-            this.label11.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label11.Location = new System.Drawing.Point(527, 0);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(157, 20);
-            this.label11.TabIndex = 8;
-            this.label11.Text = "パラメータ2";
-            this.label11.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
+            this.label12.AutoSize = true;
+            this.label12.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label12.Location = new System.Drawing.Point(3, 0);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(94, 25);
+            this.label12.TabIndex = 0;
+            this.label12.Text = "保存先";
+            this.label12.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // Random_Param2NumericUpDown
+            // IO_DeflateFile_PathTextBox
             // 
-            this.Random_Param2NumericUpDown.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Random_Param2NumericUpDown.Location = new System.Drawing.Point(527, 23);
-            this.Random_Param2NumericUpDown.Maximum = new decimal(new int[] {
-            -1,
-            -1,
-            0,
-            0});
-            this.Random_Param2NumericUpDown.Name = "Random_Param2NumericUpDown";
-            this.Random_Param2NumericUpDown.Size = new System.Drawing.Size(157, 19);
-            this.Random_Param2NumericUpDown.TabIndex = 9;
-            this.Random_Param2NumericUpDown.ValueChanged += new System.EventHandler(this.Random_Param2NumericUpDown_ValueChanged);
+            this.IO_DeflateFile_PathTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.IO_DeflateFile_PathTextBox.Location = new System.Drawing.Point(103, 3);
+            this.IO_DeflateFile_PathTextBox.Name = "IO_DeflateFile_PathTextBox";
+            this.IO_DeflateFile_PathTextBox.Size = new System.Drawing.Size(613, 19);
+            this.IO_DeflateFile_PathTextBox.TabIndex = 1;
+            this.IO_DeflateFile_PathTextBox.Text = "Test/DeflateFile.bin";
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label13.Location = new System.Drawing.Point(3, 25);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(94, 100);
+            this.label13.TabIndex = 2;
+            this.label13.Text = "元テキスト";
+            this.label13.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // IO_DeflateFile_SourceTextBox
+            // 
+            this.IO_DeflateFile_SourceTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.IO_DeflateFile_SourceTextBox.Location = new System.Drawing.Point(103, 28);
+            this.IO_DeflateFile_SourceTextBox.Multiline = true;
+            this.IO_DeflateFile_SourceTextBox.Name = "IO_DeflateFile_SourceTextBox";
+            this.IO_DeflateFile_SourceTextBox.Size = new System.Drawing.Size(613, 94);
+            this.IO_DeflateFile_SourceTextBox.TabIndex = 3;
+            this.IO_DeflateFile_SourceTextBox.Text = "A\r\nBB\r\nCCC\r\nDDDD";
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label14.Location = new System.Drawing.Point(3, 165);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(94, 100);
+            this.label14.TabIndex = 4;
+            this.label14.Text = "復元テキスト";
+            this.label14.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // IO_DeflateFile_DecodeTextBox
+            // 
+            this.IO_DeflateFile_DecodeTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.IO_DeflateFile_DecodeTextBox.Location = new System.Drawing.Point(103, 168);
+            this.IO_DeflateFile_DecodeTextBox.Multiline = true;
+            this.IO_DeflateFile_DecodeTextBox.Name = "IO_DeflateFile_DecodeTextBox";
+            this.IO_DeflateFile_DecodeTextBox.Size = new System.Drawing.Size(613, 94);
+            this.IO_DeflateFile_DecodeTextBox.TabIndex = 5;
+            // 
+            // IO_DeflateFile_RunButton
+            // 
+            this.IO_DeflateFile_RunButton.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.IO_DeflateFile_RunButton.Location = new System.Drawing.Point(103, 128);
+            this.IO_DeflateFile_RunButton.Name = "IO_DeflateFile_RunButton";
+            this.IO_DeflateFile_RunButton.Size = new System.Drawing.Size(613, 34);
+            this.IO_DeflateFile_RunButton.TabIndex = 6;
+            this.IO_DeflateFile_RunButton.Text = "テスト（圧縮保存→読込解凍）";
+            this.IO_DeflateFile_RunButton.UseVisualStyleBackColor = true;
+            this.IO_DeflateFile_RunButton.Click += new System.EventHandler(this.IO_DeflateFile_RunButton_Click);
             // 
             // MainForm
             // 
@@ -736,6 +880,8 @@
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.Random_Param2NumericUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Random_Param1NumericUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Random_SeedNumericUpDown)).EndInit();
             this.tableLayoutPanel5.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
@@ -747,8 +893,11 @@
             this.groupBox1.ResumeLayout(false);
             this.tableLayoutPanel4.ResumeLayout(false);
             this.tableLayoutPanel4.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.Random_Param1NumericUpDown)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Random_Param2NumericUpDown)).EndInit();
+            this.tabControl2.ResumeLayout(false);
+            this.tabPage5.ResumeLayout(false);
+            this.tabPage6.ResumeLayout(false);
+            this.tableLayoutPanel9.ResumeLayout(false);
+            this.tableLayoutPanel9.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -802,6 +951,17 @@
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.NumericUpDown Random_Param2NumericUpDown;
         private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.TabControl tabControl2;
+        private System.Windows.Forms.TabPage tabPage5;
+        private System.Windows.Forms.TabPage tabPage6;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel9;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.TextBox IO_DeflateFile_PathTextBox;
+        private System.Windows.Forms.TextBox IO_DeflateFile_DecodeTextBox;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.TextBox IO_DeflateFile_SourceTextBox;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.Button IO_DeflateFile_RunButton;
     }
 }
 

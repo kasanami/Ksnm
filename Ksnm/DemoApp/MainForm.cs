@@ -229,6 +229,15 @@ namespace DemoApp
             Ksnm.IO.Directory.Copy(sourceDirName, destDirName, true);
         }
 
+        private void IO_DeflateFile_RunButton_Click(object sender, EventArgs e)
+        {
+            var path = IO_DeflateFile_PathTextBox.Text;
+            var sourceText = IO_DeflateFile_SourceTextBox.Text;
+            Ksnm.IO.DeflateFile.WriteAllText(path, sourceText, Encoding.UTF8);
+            var text = Ksnm.IO.DeflateFile.ReadAllText(path, Encoding.UTF8);
+            IO_DeflateFile_DecodeTextBox.Text = text;
+        }
+
         #endregion IOタブ
     }
 }

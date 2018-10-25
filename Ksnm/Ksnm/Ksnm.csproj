@@ -52,6 +52,7 @@
     <Compile Include="ExtensionMethods\System\Drawing\Point_.cs" />
     <Compile Include="ExtensionMethods\System\Random_.cs" />
     <Compile Include="ExtensionMethods\System\String_.cs" />
+    <Compile Include="IO\DeflateFile.cs" />
     <Compile Include="IO\Directory.cs" />
     <Compile Include="IO\File.cs" />
     <Compile Include="IO\Path.cs" />
