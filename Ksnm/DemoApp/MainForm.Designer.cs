@@ -28,9 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend3 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea5 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend5 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series5 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.RandomTabControl = new System.Windows.Forms.TabControl();
             this.MathTabPage = new System.Windows.Forms.TabPage();
             this.tabControl1 = new System.Windows.Forms.TabControl();
@@ -564,7 +564,7 @@
             this.groupBox2.Size = new System.Drawing.Size(337, 137);
             this.groupBox2.TabIndex = 1;
             this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "点描画";
+            this.groupBox2.Text = "座標を乱数移動して点描画";
             // 
             // groupBox3
             // 
@@ -579,17 +579,17 @@
             // 
             // Random_Chart
             // 
-            chartArea3.Name = "ChartArea1";
-            this.Random_Chart.ChartAreas.Add(chartArea3);
+            chartArea5.Name = "ChartArea1";
+            this.Random_Chart.ChartAreas.Add(chartArea5);
             this.Random_Chart.Dock = System.Windows.Forms.DockStyle.Fill;
-            legend3.Name = "Legend1";
-            this.Random_Chart.Legends.Add(legend3);
+            legend5.Name = "Legend1";
+            this.Random_Chart.Legends.Add(legend5);
             this.Random_Chart.Location = new System.Drawing.Point(3, 15);
             this.Random_Chart.Name = "Random_Chart";
-            series3.ChartArea = "ChartArea1";
-            series3.Legend = "Legend1";
-            series3.Name = "Series1";
-            this.Random_Chart.Series.Add(series3);
+            series5.ChartArea = "ChartArea1";
+            series5.Legend = "Legend1";
+            series5.Name = "Series1";
+            this.Random_Chart.Series.Add(series5);
             this.Random_Chart.Size = new System.Drawing.Size(332, 119);
             this.Random_Chart.TabIndex = 0;
             this.Random_Chart.Text = "chart1";
@@ -602,7 +602,7 @@
             this.groupBox4.Size = new System.Drawing.Size(337, 137);
             this.groupBox4.TabIndex = 3;
             this.groupBox4.TabStop = false;
-            this.groupBox4.Text = "座標ごとに黒と白描画";
+            this.groupBox4.Text = "各座標、1/2の確率で点描画";
             // 
             // Random_GenerateButton1
             // 
