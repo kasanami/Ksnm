@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,6 +18,7 @@ namespace DemoApp
         public MainForm()
         {
             InitializeComponent();
+            Random_InitializeComponent();
         }
 
         private void MainForm_Load(object sender, EventArgs e)
@@ -108,11 +110,56 @@ namespace DemoApp
         IncrementRandom incrementRandom = new IncrementRandom();
         Prototype prototypeRandom = new Prototype();
 
+        Ksnm.Windows.Forms.InterpolatedPictureBox Random_PointPictureBox;
+        Ksnm.Windows.Forms.InterpolatedPictureBox Random_PixelPictureBox;
+
+        void Random_InitializeComponent()
+        {
+            {
+                Random_PointPictureBox = new Ksnm.Windows.Forms.InterpolatedPictureBox();
+                ((System.ComponentModel.ISupportInitialize)(Random_PointPictureBox)).BeginInit();
+
+                groupBox2.Controls.Add(Random_PointPictureBox);
+                Random_PointPictureBox.Dock = System.Windows.Forms.DockStyle.Fill;
+                Random_PointPictureBox.Location = new System.Drawing.Point(3, 15);
+                Random_PointPictureBox.Name = "Random_PointsPictureBox";
+                Random_PointPictureBox.Size = new System.Drawing.Size(331, 119);
+                Random_PointPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+                Random_PointPictureBox.TabIndex = 0;
+                Random_PointPictureBox.TabStop = false;
+                Random_PointPictureBox.Interpolation = InterpolationMode.NearestNeighbor;
+
+                ((System.ComponentModel.ISupportInitialize)(Random_PointPictureBox)).EndInit();
+            }
+            {
+                Random_PixelPictureBox = new Ksnm.Windows.Forms.InterpolatedPictureBox();
+                ((System.ComponentModel.ISupportInitialize)(Random_PixelPictureBox)).BeginInit();
+
+                groupBox4.Controls.Add(Random_PixelPictureBox);
+                Random_PixelPictureBox.Dock = System.Windows.Forms.DockStyle.Fill;
+                Random_PixelPictureBox.Location = new System.Drawing.Point(3, 15);
+                Random_PixelPictureBox.Name = "Random_PixelPictureBox";
+                Random_PixelPictureBox.Size = new System.Drawing.Size(331, 119);
+                Random_PixelPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+                Random_PixelPictureBox.TabIndex = 0;
+                Random_PixelPictureBox.TabStop = false;
+                Random_PixelPictureBox.Interpolation = InterpolationMode.NearestNeighbor;
+
+                ((System.ComponentModel.ISupportInitialize)(Random_PixelPictureBox)).EndInit();
+            }
+        }
+
         private void OnLoad_RandomTabPage()
         {
             // 描画先とするImageオブジェクトを作成
-            var canvas = new Bitmap(500, 500);
-            Random_PictureBox.Image = canvas;
+            var canvas = new Bitmap(100, 100);
+            Random_PointPictureBox.Image = canvas;
+            using (var graphics = Graphics.FromImage(canvas))
+            {
+                graphics.Clear(Color.White);
+            }
+            canvas = new Bitmap(100, 100);
+            Random_PixelPictureBox.Image = canvas;
             using (var graphics = Graphics.FromImage(canvas))
             {
                 graphics.Clear(Color.White);
@@ -168,20 +215,41 @@ namespace DemoApp
                 return;
             }
             // 点描画
-            var pen = new Pen(Color.Black, 1);
-            var canvas = Random_PictureBox.Image;
-            int x, y;
-            using (var graphics = Graphics.FromImage(canvas))
             {
-                graphics.Clear(Color.White);
-                for (int i = 0; i < 5000; i++)
+                var canvas = Random_PointPictureBox.Image as Bitmap;
+                int x, y;
+                using (var graphics = Graphics.FromImage(canvas))
                 {
-                    x = random.Next(canvas.Width);
-                    y = random.Next(canvas.Height);
-                    graphics.DrawRectangle(pen, x, y, 1, 1);
+                    graphics.SmoothingMode = SmoothingMode.None;
+                    graphics.PixelOffsetMode = PixelOffsetMode.None;
+                    graphics.Clear(Color.White);
+                    int count = canvas.Width * canvas.Height / 2;
+                    for (int i = 0; i < count; i++)
+                    {
+                        x = random.Next(canvas.Width);
+                        y = random.Next(canvas.Height);
+                        canvas.SetPixel(x, y, Color.Black);
+                    }
                 }
             }
-            Random_PictureBox.Refresh();
+            // Pixelの色
+            {
+                var canvas = Random_PixelPictureBox.Image as Bitmap;
+                using (var graphics = Graphics.FromImage(canvas))
+                {
+                    graphics.Clear(Color.White);
+                    for (int y = 0; y < canvas.Height; y++)
+                    {
+                        for (int x = 0; x < canvas.Width; x++)
+                        {
+                            if (random.NextDouble() <0.5)
+                            {
+                                canvas.SetPixel(x, y, Color.Black);
+                            }
+                        }
+                    }
+                }
+            }
             // グラフ
             const int SampleCount = 100;
             var samples = new List<int>();
@@ -216,6 +284,8 @@ namespace DemoApp
                 }
                 Random_Chart.Series.Add(series);
             }
+            Random_PointPictureBox.Refresh();
+            Random_PixelPictureBox.Refresh();
         }
 
         #endregion Randomタブ
