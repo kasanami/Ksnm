@@ -308,6 +308,13 @@ namespace DemoApp
             IO_DeflateFile_DecodeTextBox.Text = text;
         }
 
+        private void IO_Directory_MoveButton_Click(object sender, EventArgs e)
+        {
+            var sourceDirName = IO_Directory_MoveSourceTextBox.Text;
+            var destDirName = IO_Directory_MoveDestTextBox.Text;
+            Ksnm.IO.Directory.Move(sourceDirName, destDirName);
+        }
+
         #endregion IOタブ
     }
 }

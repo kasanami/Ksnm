@@ -80,5 +80,19 @@ namespace Ksnm.IO
                 Copy(directory, destDirName + Original.Path.GetFileName(directory), overwrite);
             }
         }
+        /// <summary>
+        /// ファイルまたはディレクトリ、およびその内容を新しい場所に移動します。
+        /// </summary>
+        /// <param name="sourceDirName">移動するファイルまたはディレクトリのパス。</param>
+        /// <param name="destDirName">sourceDirName の新しい位置へのパス。sourceDirName がファイルの場合は、destDirName もファイル名にする必要があります。</param>
+        public static void Move(string sourceDirName, string destDirName)
+        {
+            // sourceDirName がフォルダなら、destDirName の親フォルダを作成
+            if (Original.Directory.Exists(sourceDirName))
+            {
+                CreateParentDirectory(destDirName);
+            }
+            Original.Directory.Move(sourceDirName, destDirName);
+        }
     }
 }
