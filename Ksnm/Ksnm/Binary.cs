@@ -559,5 +559,47 @@ namespace Ksnm
             return ToRateDouble(uint64Bits);
         }
 #endif
+        #region Rotate
+        /// <summary>
+        /// 左ローテート
+        /// </summary>
+        /// <param name="bits">操作する値</param>
+        /// <param name="r">シフトするビット数</param>
+        /// <returns>ローテートした値</returns>
+        public static uint RotateLeft(uint bits, int shift)
+        {
+            return ((bits >> (~shift)) >> 1) | (bits << shift);
+        }
+        /// <summary>
+        /// 左ローテート
+        /// </summary>
+        /// <param name="bits">操作する値</param>
+        /// <param name="r">シフトするビット数</param>
+        /// <returns>ローテートした値</returns>
+        public static ulong RotateLeft(ulong bits, int shift)
+        {
+            return ((bits >> (~shift)) >> 1) | (bits << shift);
+        }
+        /// <summary>
+        /// 右ローテート
+        /// </summary>
+        /// <param name="bits">操作する値</param>
+        /// <param name="r">シフトするビット数</param>
+        /// <returns>ローテートした値</returns>
+        public static uint RotateRight(uint bits, int shift)
+        {
+            return ((bits << (~shift)) << 1) | (bits >> shift);
+        }
+        /// <summary>
+        /// 右ローテート
+        /// </summary>
+        /// <param name="bits">操作する値</param>
+        /// <param name="r">シフトするビット数</param>
+        /// <returns>ローテートした値</returns>
+        public static ulong RotateRight(ulong bits, int shift)
+        {
+            return ((bits << (~shift)) << 1) | (bits >> shift);
+        }
+        #endregion Rotate
     }
 }

@@ -180,5 +180,81 @@ namespace Ksnm.Tests
             result = Binary.Scale(0b101, 3, 8);
             Assert.AreEqual(result, 0b10110110UL);
         }
+
+        [TestMethod()]
+        public void RotateLeftTest()
+        {
+            ulong result;
+            for (int i = 0; i < 32; i++)
+            {
+                result = Binary.RotateLeft(0, i);
+                Assert.AreEqual(0ul, result);
+            }
+            for (int i = 0; i < 32; i++)
+            {
+                result = Binary.RotateLeft(0xFFFFFFFF, i);
+                Assert.AreEqual(0xFFFFFFFFul, result);
+            }
+            for (int i = 0; i < 64; i++)
+            {
+                result = Binary.RotateLeft(0, i);
+                Assert.AreEqual(0ul, result);
+            }
+            for (int i = 0; i < 64; i++)
+            {
+                result = Binary.RotateLeft(0xFFFFFFFFFFFFFFFF, i);
+                Assert.AreEqual(0xFFFFFFFFFFFFFFFF, result);
+            }
+
+            Assert.AreEqual(0b10000000000000000000000000000001u, Binary.RotateLeft(0b10000000000000000000000000000001, 0));
+            Assert.AreEqual(0b00000000000000000000000000000011u, Binary.RotateLeft(0b10000000000000000000000000000001, 1));
+            Assert.AreEqual(0b00000000000000000000000000000110u, Binary.RotateLeft(0b10000000000000000000000000000001, 2));
+            Assert.AreEqual(0b01100000000000000000000000000000u, Binary.RotateLeft(0b10000000000000000000000000000001, 30));
+            Assert.AreEqual(0b11000000000000000000000000000000u, Binary.RotateLeft(0b10000000000000000000000000000001, 31));
+
+            Assert.AreEqual(0b1000000000000000000000000000000000000000000000000000000000000001u, Binary.RotateLeft(0b1000000000000000000000000000000000000000000000000000000000000001, 0));
+            Assert.AreEqual(0b0000000000000000000000000000000000000000000000000000000000000011u, Binary.RotateLeft(0b1000000000000000000000000000000000000000000000000000000000000001, 1));
+            Assert.AreEqual(0b0000000000000000000000000000000000000000000000000000000000000110u, Binary.RotateLeft(0b1000000000000000000000000000000000000000000000000000000000000001, 2));
+            Assert.AreEqual(0b0110000000000000000000000000000000000000000000000000000000000000u, Binary.RotateLeft(0b1000000000000000000000000000000000000000000000000000000000000001, 62));
+            Assert.AreEqual(0b1100000000000000000000000000000000000000000000000000000000000000u, Binary.RotateLeft(0b1000000000000000000000000000000000000000000000000000000000000001, 63));
+        }
+
+        [TestMethod()]
+        public void RotateRightTest()
+        {
+            ulong result;
+            for (int i = 0; i < 32; i++)
+            {
+                result = Binary.RotateRight(0, i);
+                Assert.AreEqual(0ul, result);
+            }
+            for (int i = 0; i < 32; i++)
+            {
+                result = Binary.RotateRight(0xFFFFFFFF, i);
+                Assert.AreEqual(0xFFFFFFFFul, result);
+            }
+            for (int i = 0; i < 64; i++)
+            {
+                result = Binary.RotateRight(0ul, i);
+                Assert.AreEqual(0ul, result);
+            }
+            for (int i = 0; i < 64; i++)
+            {
+                result = Binary.RotateRight(0xFFFFFFFFFFFFFFFF, i);
+                Assert.AreEqual(0xFFFFFFFFFFFFFFFF, result);
+            }
+
+            Assert.AreEqual(0b10000000000000000000000000000001u, Binary.RotateRight(0b10000000000000000000000000000001, 0));
+            Assert.AreEqual(0b11000000000000000000000000000000u, Binary.RotateRight(0b10000000000000000000000000000001, 1));
+            Assert.AreEqual(0b01100000000000000000000000000000u, Binary.RotateRight(0b10000000000000000000000000000001, 2));
+            Assert.AreEqual(0b00000000000000000000000000000110u, Binary.RotateRight(0b10000000000000000000000000000001, 30));
+            Assert.AreEqual(0b00000000000000000000000000000011u, Binary.RotateRight(0b10000000000000000000000000000001, 31));
+
+            Assert.AreEqual(0b1000000000000000000000000000000000000000000000000000000000000001u, Binary.RotateRight(0b1000000000000000000000000000000000000000000000000000000000000001, 0));
+            Assert.AreEqual(0b1100000000000000000000000000000000000000000000000000000000000000u, Binary.RotateRight(0b1000000000000000000000000000000000000000000000000000000000000001, 1));
+            Assert.AreEqual(0b0110000000000000000000000000000000000000000000000000000000000000u, Binary.RotateRight(0b1000000000000000000000000000000000000000000000000000000000000001, 2));
+            Assert.AreEqual(0b0000000000000000000000000000000000000000000000000000000000000110u, Binary.RotateRight(0b1000000000000000000000000000000000000000000000000000000000000001, 62));
+            Assert.AreEqual(0b0000000000000000000000000000000000000000000000000000000000000011u, Binary.RotateRight(0b1000000000000000000000000000000000000000000000000000000000000001, 63));
+        }
     }
 }
