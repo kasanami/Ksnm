@@ -1,7 +1,7 @@
 ﻿/*
 The zlib License
 
-Copyright (c) 2014-2017 Takahiro Kasanami
+Copyright (c) 2014-2018 Takahiro Kasanami
 
 This software is provided 'as-is', without any express or implied
 warranty. In no event will the authors be held liable for any damages
@@ -33,7 +33,7 @@ namespace Ksnm.Randoms
     /// <summary>
     /// Xorshift RNGsをSystem.Randomを継承して実装したクラス
     /// </summary>
-    public class Xorshift128 : System.Random
+    public class Xorshift128 : RandomBase
     {
         uint w, x, y, z;
 
@@ -106,7 +106,7 @@ namespace Ksnm.Randoms
         /// 0 以上で 0xFFFFFFFF 以下の乱数を返します。
         /// </summary>
         /// <returns>0 以上で 0xFFFFFFFF 以下の32 ビット符号無し整数。</returns>
-        public uint SampleUInt()
+        public override uint SampleUInt()
         {
             uint t = (x ^ (x << 11));
             x = y;
@@ -114,16 +114,6 @@ namespace Ksnm.Randoms
             z = w;
             w = (w ^ (w >> 19)) ^ (t ^ (t >> 8));
             return w;
-        }
-
-        /// <summary>
-        /// 0.0 と 1.0 の間の乱数を返します。
-        /// </summary>
-        /// <returns>0.0 以上 1.0 未満の倍精度浮動小数点数。</returns>
-        protected override double Sample()
-        {
-            var sample = SampleUInt();
-            return sample / ((double)uint.MaxValue + 1);
         }
     }
 }

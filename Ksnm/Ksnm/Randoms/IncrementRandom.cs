@@ -1,7 +1,7 @@
 ﻿/*
 The zlib License
 
-Copyright (c) 2017 Takahiro Kasanami
+Copyright (c) 2017-2018 Takahiro Kasanami
 
 This software is provided 'as-is', without any express or implied
 warranty. In no event will the authors be held liable for any damages
@@ -33,7 +33,7 @@ namespace Ksnm.Randoms
     /// 数値を単純にインクリメントし出力する。
     /// 乱数としては使えないが、テストに使用する事を想定している。
     /// </summary>
-    public class IncrementRandom : System.Random
+    public class IncrementRandom : RandomBase
     {
         /// <summary>
         /// 現在の内部数値
@@ -117,12 +117,12 @@ namespace Ksnm.Randoms
         }
 
         /// <summary>
-        /// 0.0 と 1.0 の間の乱数を返します。
+        /// 0 以上で 0xFFFFFFFF 以下の乱数を返します。
         /// </summary>
-        /// <returns>0.0 以上 1.0 未満の倍精度浮動小数点数。</returns>
-        protected override double Sample()
+        /// <returns>0 以上で 0xFFFFFFFF 以下の32 ビット符号無し整数。</returns>
+        public override uint SampleUInt()
         {
-            return Next() / (double)int.MaxValue;
+            return ++current;
         }
     }
 }

@@ -28,9 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.RandomTabControl = new System.Windows.Forms.TabControl();
             this.MathTabPage = new System.Windows.Forms.TabPage();
             this.tabControl1 = new System.Windows.Forms.TabControl();
@@ -73,6 +73,13 @@
             this.tabControl2 = new System.Windows.Forms.TabControl();
             this.tabPage5 = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
+            this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.tableLayoutPanel10 = new System.Windows.Forms.TableLayoutPanel();
+            this.IO_Directory_MoveDestTextBox = new System.Windows.Forms.TextBox();
+            this.label15 = new System.Windows.Forms.Label();
+            this.label16 = new System.Windows.Forms.Label();
+            this.IO_Directory_MoveSourceTextBox = new System.Windows.Forms.TextBox();
+            this.IO_Directory_MoveButton = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
             this.IO_Directory_CopyDestTextBox = new System.Windows.Forms.TextBox();
@@ -89,13 +96,8 @@
             this.label12 = new System.Windows.Forms.Label();
             this.IO_DeflateFile_PathTextBox = new System.Windows.Forms.TextBox();
             this.IO_DeflateFile_RunButton = new System.Windows.Forms.Button();
-            this.groupBox5 = new System.Windows.Forms.GroupBox();
-            this.tableLayoutPanel10 = new System.Windows.Forms.TableLayoutPanel();
-            this.IO_Directory_MoveDestTextBox = new System.Windows.Forms.TextBox();
-            this.label15 = new System.Windows.Forms.Label();
-            this.label16 = new System.Windows.Forms.Label();
-            this.IO_Directory_MoveSourceTextBox = new System.Windows.Forms.TextBox();
-            this.IO_Directory_MoveButton = new System.Windows.Forms.Button();
+            this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.Random_TextBox = new System.Windows.Forms.TextBox();
             this.RandomTabControl.SuspendLayout();
             this.MathTabPage.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -118,12 +120,13 @@
             this.tabControl2.SuspendLayout();
             this.tabPage5.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
+            this.groupBox5.SuspendLayout();
+            this.tableLayoutPanel10.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.tableLayoutPanel4.SuspendLayout();
             this.tabPage6.SuspendLayout();
             this.tableLayoutPanel9.SuspendLayout();
-            this.groupBox5.SuspendLayout();
-            this.tableLayoutPanel10.SuspendLayout();
+            this.groupBox6.SuspendLayout();
             this.SuspendLayout();
             // 
             // RandomTabControl
@@ -556,6 +559,7 @@
             this.tableLayoutPanel5.Controls.Add(this.groupBox2, 0, 0);
             this.tableLayoutPanel5.Controls.Add(this.groupBox3, 1, 0);
             this.tableLayoutPanel5.Controls.Add(this.groupBox4, 0, 1);
+            this.tableLayoutPanel5.Controls.Add(this.groupBox6, 1, 1);
             this.tableLayoutPanel5.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel5.Location = new System.Drawing.Point(23, 148);
             this.tableLayoutPanel5.Name = "tableLayoutPanel5";
@@ -588,17 +592,17 @@
             // 
             // Random_Chart
             // 
-            chartArea1.Name = "ChartArea1";
-            this.Random_Chart.ChartAreas.Add(chartArea1);
+            chartArea2.Name = "ChartArea1";
+            this.Random_Chart.ChartAreas.Add(chartArea2);
             this.Random_Chart.Dock = System.Windows.Forms.DockStyle.Fill;
-            legend1.Name = "Legend1";
-            this.Random_Chart.Legends.Add(legend1);
+            legend2.Name = "Legend1";
+            this.Random_Chart.Legends.Add(legend2);
             this.Random_Chart.Location = new System.Drawing.Point(3, 15);
             this.Random_Chart.Name = "Random_Chart";
-            series1.ChartArea = "ChartArea1";
-            series1.Legend = "Legend1";
-            series1.Name = "Series1";
-            this.Random_Chart.Series.Add(series1);
+            series2.ChartArea = "ChartArea1";
+            series2.Legend = "Legend1";
+            series2.Name = "Series1";
+            this.Random_Chart.Series.Add(series2);
             this.Random_Chart.Size = new System.Drawing.Size(332, 119);
             this.Random_Chart.TabIndex = 0;
             this.Random_Chart.Text = "chart1";
@@ -673,6 +677,87 @@
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel3.Size = new System.Drawing.Size(719, 425);
             this.tableLayoutPanel3.TabIndex = 0;
+            // 
+            // groupBox5
+            // 
+            this.groupBox5.Controls.Add(this.tableLayoutPanel10);
+            this.groupBox5.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox5.Location = new System.Drawing.Point(3, 215);
+            this.groupBox5.Name = "groupBox5";
+            this.groupBox5.Size = new System.Drawing.Size(353, 207);
+            this.groupBox5.TabIndex = 1;
+            this.groupBox5.TabStop = false;
+            this.groupBox5.Text = "Directory.Move";
+            // 
+            // tableLayoutPanel10
+            // 
+            this.tableLayoutPanel10.ColumnCount = 2;
+            this.tableLayoutPanel10.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
+            this.tableLayoutPanel10.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel10.Controls.Add(this.IO_Directory_MoveDestTextBox, 1, 1);
+            this.tableLayoutPanel10.Controls.Add(this.label15, 0, 1);
+            this.tableLayoutPanel10.Controls.Add(this.label16, 0, 0);
+            this.tableLayoutPanel10.Controls.Add(this.IO_Directory_MoveSourceTextBox, 1, 0);
+            this.tableLayoutPanel10.Controls.Add(this.IO_Directory_MoveButton, 1, 2);
+            this.tableLayoutPanel10.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel10.Location = new System.Drawing.Point(3, 15);
+            this.tableLayoutPanel10.Name = "tableLayoutPanel10";
+            this.tableLayoutPanel10.RowCount = 4;
+            this.tableLayoutPanel10.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
+            this.tableLayoutPanel10.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
+            this.tableLayoutPanel10.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
+            this.tableLayoutPanel10.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel10.Size = new System.Drawing.Size(347, 189);
+            this.tableLayoutPanel10.TabIndex = 0;
+            // 
+            // IO_Directory_MoveDestTextBox
+            // 
+            this.IO_Directory_MoveDestTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.IO_Directory_MoveDestTextBox.Location = new System.Drawing.Point(103, 50);
+            this.IO_Directory_MoveDestTextBox.Name = "IO_Directory_MoveDestTextBox";
+            this.IO_Directory_MoveDestTextBox.Size = new System.Drawing.Size(241, 19);
+            this.IO_Directory_MoveDestTextBox.TabIndex = 4;
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label15.Location = new System.Drawing.Point(3, 40);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(94, 40);
+            this.label15.TabIndex = 2;
+            this.label15.Text = "移動先";
+            this.label15.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label16.Location = new System.Drawing.Point(3, 0);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(94, 40);
+            this.label16.TabIndex = 0;
+            this.label16.Text = "移動元";
+            this.label16.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // IO_Directory_MoveSourceTextBox
+            // 
+            this.IO_Directory_MoveSourceTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.IO_Directory_MoveSourceTextBox.Location = new System.Drawing.Point(103, 10);
+            this.IO_Directory_MoveSourceTextBox.Name = "IO_Directory_MoveSourceTextBox";
+            this.IO_Directory_MoveSourceTextBox.Size = new System.Drawing.Size(241, 19);
+            this.IO_Directory_MoveSourceTextBox.TabIndex = 1;
+            // 
+            // IO_Directory_MoveButton
+            // 
+            this.IO_Directory_MoveButton.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.IO_Directory_MoveButton.Location = new System.Drawing.Point(103, 83);
+            this.IO_Directory_MoveButton.Name = "IO_Directory_MoveButton";
+            this.IO_Directory_MoveButton.Size = new System.Drawing.Size(241, 34);
+            this.IO_Directory_MoveButton.TabIndex = 3;
+            this.IO_Directory_MoveButton.Text = "移動実行";
+            this.IO_Directory_MoveButton.UseVisualStyleBackColor = true;
+            this.IO_Directory_MoveButton.Click += new System.EventHandler(this.IO_Directory_MoveButton_Click);
             // 
             // groupBox1
             // 
@@ -862,86 +947,27 @@
             this.IO_DeflateFile_RunButton.UseVisualStyleBackColor = true;
             this.IO_DeflateFile_RunButton.Click += new System.EventHandler(this.IO_DeflateFile_RunButton_Click);
             // 
-            // groupBox5
+            // groupBox6
             // 
-            this.groupBox5.Controls.Add(this.tableLayoutPanel10);
-            this.groupBox5.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox5.Location = new System.Drawing.Point(3, 215);
-            this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(353, 207);
-            this.groupBox5.TabIndex = 1;
-            this.groupBox5.TabStop = false;
-            this.groupBox5.Text = "Directory.Move";
+            this.groupBox6.Controls.Add(this.Random_TextBox);
+            this.groupBox6.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox6.Location = new System.Drawing.Point(346, 146);
+            this.groupBox6.Name = "groupBox6";
+            this.groupBox6.Size = new System.Drawing.Size(338, 137);
+            this.groupBox6.TabIndex = 4;
+            this.groupBox6.TabStop = false;
+            this.groupBox6.Text = "数値を単純表示";
             // 
-            // tableLayoutPanel10
+            // Random_TextBox
             // 
-            this.tableLayoutPanel10.ColumnCount = 2;
-            this.tableLayoutPanel10.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
-            this.tableLayoutPanel10.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel10.Controls.Add(this.IO_Directory_MoveDestTextBox, 1, 1);
-            this.tableLayoutPanel10.Controls.Add(this.label15, 0, 1);
-            this.tableLayoutPanel10.Controls.Add(this.label16, 0, 0);
-            this.tableLayoutPanel10.Controls.Add(this.IO_Directory_MoveSourceTextBox, 1, 0);
-            this.tableLayoutPanel10.Controls.Add(this.IO_Directory_MoveButton, 1, 2);
-            this.tableLayoutPanel10.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel10.Location = new System.Drawing.Point(3, 15);
-            this.tableLayoutPanel10.Name = "tableLayoutPanel10";
-            this.tableLayoutPanel10.RowCount = 4;
-            this.tableLayoutPanel10.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
-            this.tableLayoutPanel10.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
-            this.tableLayoutPanel10.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
-            this.tableLayoutPanel10.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel10.Size = new System.Drawing.Size(347, 189);
-            this.tableLayoutPanel10.TabIndex = 0;
-            // 
-            // IO_Directory_MoveDestTextBox
-            // 
-            this.IO_Directory_MoveDestTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.IO_Directory_MoveDestTextBox.Location = new System.Drawing.Point(103, 50);
-            this.IO_Directory_MoveDestTextBox.Name = "IO_Directory_MoveDestTextBox";
-            this.IO_Directory_MoveDestTextBox.Size = new System.Drawing.Size(241, 19);
-            this.IO_Directory_MoveDestTextBox.TabIndex = 4;
-            // 
-            // label15
-            // 
-            this.label15.AutoSize = true;
-            this.label15.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label15.Location = new System.Drawing.Point(3, 40);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(94, 40);
-            this.label15.TabIndex = 2;
-            this.label15.Text = "移動先";
-            this.label15.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // label16
-            // 
-            this.label16.AutoSize = true;
-            this.label16.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label16.Location = new System.Drawing.Point(3, 0);
-            this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(94, 40);
-            this.label16.TabIndex = 0;
-            this.label16.Text = "移動元";
-            this.label16.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // IO_Directory_MoveSourceTextBox
-            // 
-            this.IO_Directory_MoveSourceTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.IO_Directory_MoveSourceTextBox.Location = new System.Drawing.Point(103, 10);
-            this.IO_Directory_MoveSourceTextBox.Name = "IO_Directory_MoveSourceTextBox";
-            this.IO_Directory_MoveSourceTextBox.Size = new System.Drawing.Size(241, 19);
-            this.IO_Directory_MoveSourceTextBox.TabIndex = 1;
-            // 
-            // IO_Directory_MoveButton
-            // 
-            this.IO_Directory_MoveButton.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.IO_Directory_MoveButton.Location = new System.Drawing.Point(103, 83);
-            this.IO_Directory_MoveButton.Name = "IO_Directory_MoveButton";
-            this.IO_Directory_MoveButton.Size = new System.Drawing.Size(241, 34);
-            this.IO_Directory_MoveButton.TabIndex = 3;
-            this.IO_Directory_MoveButton.Text = "移動実行";
-            this.IO_Directory_MoveButton.UseVisualStyleBackColor = true;
-            this.IO_Directory_MoveButton.Click += new System.EventHandler(this.IO_Directory_MoveButton_Click);
+            this.Random_TextBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Random_TextBox.Location = new System.Drawing.Point(3, 15);
+            this.Random_TextBox.Multiline = true;
+            this.Random_TextBox.Name = "Random_TextBox";
+            this.Random_TextBox.ReadOnly = true;
+            this.Random_TextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.Random_TextBox.Size = new System.Drawing.Size(332, 119);
+            this.Random_TextBox.TabIndex = 0;
             // 
             // MainForm
             // 
@@ -979,15 +1005,17 @@
             this.tabControl2.ResumeLayout(false);
             this.tabPage5.ResumeLayout(false);
             this.tableLayoutPanel3.ResumeLayout(false);
+            this.groupBox5.ResumeLayout(false);
+            this.tableLayoutPanel10.ResumeLayout(false);
+            this.tableLayoutPanel10.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.tableLayoutPanel4.ResumeLayout(false);
             this.tableLayoutPanel4.PerformLayout();
             this.tabPage6.ResumeLayout(false);
             this.tableLayoutPanel9.ResumeLayout(false);
             this.tableLayoutPanel9.PerformLayout();
-            this.groupBox5.ResumeLayout(false);
-            this.tableLayoutPanel10.ResumeLayout(false);
-            this.tableLayoutPanel10.PerformLayout();
+            this.groupBox6.ResumeLayout(false);
+            this.groupBox6.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -1059,6 +1087,8 @@
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.TextBox IO_Directory_MoveSourceTextBox;
         private System.Windows.Forms.Button IO_Directory_MoveButton;
+        private System.Windows.Forms.GroupBox groupBox6;
+        private System.Windows.Forms.TextBox Random_TextBox;
     }
 }
 

@@ -1,4 +1,5 @@
 ﻿using Ksnm.Randoms;
+using Ksnm.ExtensionMethods.System;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -184,6 +185,7 @@ namespace DemoApp
         private void Random_SeedNumericUpDown_ValueChanged(object sender, EventArgs e)
         {
             prototypeRandom.seed = unchecked((uint)Random_SeedNumericUpDown.Value);
+            incrementRandom.current = unchecked((uint)Random_SeedNumericUpDown.Value);
             Console.WriteLine("prototypeRandom.seed=" + prototypeRandom.seed);
             Random_UpdateView();
         }
@@ -213,6 +215,17 @@ namespace DemoApp
             else
             {
                 return;
+            }
+            //
+            {
+                Random_TextBox.Clear();
+                var stringBuilder = new StringBuilder();
+                for (int i = 0; i < 100; i++)
+                {
+                    var value = random.NextDouble();
+                    stringBuilder.AppendLine(value.ToString("0.####################################"));
+                }
+                Random_TextBox.Text = stringBuilder.ToString();
             }
             // 点描画
             {

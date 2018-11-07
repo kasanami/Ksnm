@@ -70,6 +70,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Randoms\IncrementRandom.cs" />
     <Compile Include="Randoms\Prototype.cs" />
+    <Compile Include="Randoms\RandomBase.cs" />
     <Compile Include="Randoms\Xorshift128.cs" />
     <Compile Include="Windows\Forms\InterpolatedPictureBox.cs">
       <SubType>Component</SubType>
