@@ -28,9 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.RandomTabControl = new System.Windows.Forms.TabControl();
             this.MathTabPage = new System.Windows.Forms.TabPage();
             this.tabControl1 = new System.Windows.Forms.TabControl();
@@ -68,6 +68,8 @@
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.Random_Chart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.Random_TextBox = new System.Windows.Forms.TextBox();
             this.Random_GenerateButton1 = new System.Windows.Forms.Button();
             this.IOTabPage = new System.Windows.Forms.TabPage();
             this.tabControl2 = new System.Windows.Forms.TabControl();
@@ -96,8 +98,6 @@
             this.label12 = new System.Windows.Forms.Label();
             this.IO_DeflateFile_PathTextBox = new System.Windows.Forms.TextBox();
             this.IO_DeflateFile_RunButton = new System.Windows.Forms.Button();
-            this.groupBox6 = new System.Windows.Forms.GroupBox();
-            this.Random_TextBox = new System.Windows.Forms.TextBox();
             this.RandomTabControl.SuspendLayout();
             this.MathTabPage.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -116,6 +116,7 @@
             this.tableLayoutPanel5.SuspendLayout();
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Random_Chart)).BeginInit();
+            this.groupBox6.SuspendLayout();
             this.IOTabPage.SuspendLayout();
             this.tabControl2.SuspendLayout();
             this.tabPage5.SuspendLayout();
@@ -126,7 +127,6 @@
             this.tableLayoutPanel4.SuspendLayout();
             this.tabPage6.SuspendLayout();
             this.tableLayoutPanel9.SuspendLayout();
-            this.groupBox6.SuspendLayout();
             this.SuspendLayout();
             // 
             // RandomTabControl
@@ -138,7 +138,7 @@
             this.RandomTabControl.Location = new System.Drawing.Point(0, 0);
             this.RandomTabControl.Name = "RandomTabControl";
             this.RandomTabControl.SelectedIndex = 0;
-            this.RandomTabControl.Size = new System.Drawing.Size(747, 489);
+            this.RandomTabControl.Size = new System.Drawing.Size(747, 488);
             this.RandomTabControl.TabIndex = 0;
             // 
             // MathTabPage
@@ -147,7 +147,7 @@
             this.MathTabPage.Location = new System.Drawing.Point(4, 22);
             this.MathTabPage.Name = "MathTabPage";
             this.MathTabPage.Padding = new System.Windows.Forms.Padding(3);
-            this.MathTabPage.Size = new System.Drawing.Size(739, 463);
+            this.MathTabPage.Size = new System.Drawing.Size(739, 462);
             this.MathTabPage.TabIndex = 0;
             this.MathTabPage.Text = "Math";
             this.MathTabPage.UseVisualStyleBackColor = true;
@@ -161,7 +161,7 @@
             this.tabControl1.Location = new System.Drawing.Point(3, 3);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(733, 457);
+            this.tabControl1.Size = new System.Drawing.Size(733, 456);
             this.tabControl1.TabIndex = 0;
             // 
             // tabPage1
@@ -170,7 +170,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(725, 431);
+            this.tabPage1.Size = new System.Drawing.Size(725, 430);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "定数";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -191,7 +191,7 @@
             this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel7.Size = new System.Drawing.Size(719, 425);
+            this.tableLayoutPanel7.Size = new System.Drawing.Size(719, 424);
             this.tableLayoutPanel7.TabIndex = 0;
             // 
             // silverNumberLabel
@@ -553,9 +553,10 @@
             // 
             // tableLayoutPanel5
             // 
-            this.tableLayoutPanel5.ColumnCount = 2;
-            this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel5.ColumnCount = 3;
+            this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
             this.tableLayoutPanel5.Controls.Add(this.groupBox2, 0, 0);
             this.tableLayoutPanel5.Controls.Add(this.groupBox3, 1, 0);
             this.tableLayoutPanel5.Controls.Add(this.groupBox4, 0, 1);
@@ -574,7 +575,7 @@
             this.groupBox2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox2.Location = new System.Drawing.Point(3, 3);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(337, 137);
+            this.groupBox2.Size = new System.Drawing.Size(223, 137);
             this.groupBox2.TabIndex = 1;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "座標を乱数移動して点描画";
@@ -583,27 +584,27 @@
             // 
             this.groupBox3.Controls.Add(this.Random_Chart);
             this.groupBox3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox3.Location = new System.Drawing.Point(346, 3);
+            this.groupBox3.Location = new System.Drawing.Point(232, 3);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(338, 137);
+            this.groupBox3.Size = new System.Drawing.Size(223, 137);
             this.groupBox3.TabIndex = 2;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "グラフ";
             // 
             // Random_Chart
             // 
-            chartArea2.Name = "ChartArea1";
-            this.Random_Chart.ChartAreas.Add(chartArea2);
+            chartArea1.Name = "ChartArea1";
+            this.Random_Chart.ChartAreas.Add(chartArea1);
             this.Random_Chart.Dock = System.Windows.Forms.DockStyle.Fill;
-            legend2.Name = "Legend1";
-            this.Random_Chart.Legends.Add(legend2);
+            legend1.Name = "Legend1";
+            this.Random_Chart.Legends.Add(legend1);
             this.Random_Chart.Location = new System.Drawing.Point(3, 15);
             this.Random_Chart.Name = "Random_Chart";
-            series2.ChartArea = "ChartArea1";
-            series2.Legend = "Legend1";
-            series2.Name = "Series1";
-            this.Random_Chart.Series.Add(series2);
-            this.Random_Chart.Size = new System.Drawing.Size(332, 119);
+            series1.ChartArea = "ChartArea1";
+            series1.Legend = "Legend1";
+            series1.Name = "Series1";
+            this.Random_Chart.Series.Add(series1);
+            this.Random_Chart.Size = new System.Drawing.Size(217, 119);
             this.Random_Chart.TabIndex = 0;
             this.Random_Chart.Text = "chart1";
             // 
@@ -612,10 +613,32 @@
             this.groupBox4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox4.Location = new System.Drawing.Point(3, 146);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(337, 137);
+            this.groupBox4.Size = new System.Drawing.Size(223, 137);
             this.groupBox4.TabIndex = 3;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "各座標、1/2の確率で点描画";
+            // 
+            // groupBox6
+            // 
+            this.groupBox6.Controls.Add(this.Random_TextBox);
+            this.groupBox6.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox6.Location = new System.Drawing.Point(232, 146);
+            this.groupBox6.Name = "groupBox6";
+            this.groupBox6.Size = new System.Drawing.Size(223, 137);
+            this.groupBox6.TabIndex = 4;
+            this.groupBox6.TabStop = false;
+            this.groupBox6.Text = "数値を単純表示";
+            // 
+            // Random_TextBox
+            // 
+            this.Random_TextBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Random_TextBox.Location = new System.Drawing.Point(3, 15);
+            this.Random_TextBox.Multiline = true;
+            this.Random_TextBox.Name = "Random_TextBox";
+            this.Random_TextBox.ReadOnly = true;
+            this.Random_TextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.Random_TextBox.Size = new System.Drawing.Size(217, 119);
+            this.Random_TextBox.TabIndex = 0;
             // 
             // Random_GenerateButton1
             // 
@@ -947,33 +970,11 @@
             this.IO_DeflateFile_RunButton.UseVisualStyleBackColor = true;
             this.IO_DeflateFile_RunButton.Click += new System.EventHandler(this.IO_DeflateFile_RunButton_Click);
             // 
-            // groupBox6
-            // 
-            this.groupBox6.Controls.Add(this.Random_TextBox);
-            this.groupBox6.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox6.Location = new System.Drawing.Point(346, 146);
-            this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(338, 137);
-            this.groupBox6.TabIndex = 4;
-            this.groupBox6.TabStop = false;
-            this.groupBox6.Text = "数値を単純表示";
-            // 
-            // Random_TextBox
-            // 
-            this.Random_TextBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Random_TextBox.Location = new System.Drawing.Point(3, 15);
-            this.Random_TextBox.Multiline = true;
-            this.Random_TextBox.Name = "Random_TextBox";
-            this.Random_TextBox.ReadOnly = true;
-            this.Random_TextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.Random_TextBox.Size = new System.Drawing.Size(332, 119);
-            this.Random_TextBox.TabIndex = 0;
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(747, 489);
+            this.ClientSize = new System.Drawing.Size(747, 488);
             this.Controls.Add(this.RandomTabControl);
             this.Name = "MainForm";
             this.Text = "Ksnm Demo";
@@ -1001,6 +1002,8 @@
             this.tableLayoutPanel5.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.Random_Chart)).EndInit();
+            this.groupBox6.ResumeLayout(false);
+            this.groupBox6.PerformLayout();
             this.IOTabPage.ResumeLayout(false);
             this.tabControl2.ResumeLayout(false);
             this.tabPage5.ResumeLayout(false);
@@ -1014,8 +1017,6 @@
             this.tabPage6.ResumeLayout(false);
             this.tableLayoutPanel9.ResumeLayout(false);
             this.tableLayoutPanel9.PerformLayout();
-            this.groupBox6.ResumeLayout(false);
-            this.groupBox6.PerformLayout();
             this.ResumeLayout(false);
 
         }

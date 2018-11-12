@@ -184,24 +184,43 @@ namespace DemoApp
 
         private void Random_SeedNumericUpDown_ValueChanged(object sender, EventArgs e)
         {
-            prototypeRandom.seed = unchecked((uint)Random_SeedNumericUpDown.Value);
-            incrementRandom.current = unchecked((uint)Random_SeedNumericUpDown.Value);
-            Console.WriteLine("prototypeRandom.seed=" + prototypeRandom.seed);
             Random_UpdateView();
         }
 
         private void Random_Param1NumericUpDown_ValueChanged(object sender, EventArgs e)
         {
-            prototypeRandom.addend = unchecked((uint)Random_Param1NumericUpDown.Value);
-            Console.WriteLine("prototypeRandom.addend=" + prototypeRandom.addend);
             Random_UpdateView();
         }
 
         private void Random_Param2NumericUpDown_ValueChanged(object sender, EventArgs e)
         {
-            prototypeRandom.multiplier = unchecked((uint)Random_Param2NumericUpDown.Value);
-            Console.WriteLine("prototypeRandom.multiplier=" + prototypeRandom.multiplier);
             Random_UpdateView();
+        }
+
+        /// <summary>
+        /// 現在選択している乱数生成器を初期化
+        /// </summary>
+        void Random_InitGenerator(Random selected)
+        {
+            if(ReferenceEquals(selected ,systemRandom))
+            {
+
+            }
+            else if (ReferenceEquals(selected, xorshift128))
+            {
+
+            }
+            else if (ReferenceEquals(selected, incrementRandom))
+            {
+                incrementRandom.current = unchecked((uint)Random_SeedNumericUpDown.Value);
+                incrementRandom.Cycle = unchecked((uint)Random_Param1NumericUpDown.Value);
+            }
+            else if (ReferenceEquals(selected, prototypeRandom))
+            {
+                prototypeRandom.seed = unchecked((uint)Random_SeedNumericUpDown.Value);
+                prototypeRandom.addend = unchecked((uint)Random_Param1NumericUpDown.Value);
+                prototypeRandom.multiplier = unchecked((uint)Random_Param2NumericUpDown.Value);
+            }
         }
 
         void Random_UpdateView()
@@ -217,6 +236,7 @@ namespace DemoApp
                 return;
             }
             //
+            Random_InitGenerator(random);
             {
                 Random_TextBox.Clear();
                 var stringBuilder = new StringBuilder();
@@ -228,6 +248,7 @@ namespace DemoApp
                 Random_TextBox.Text = stringBuilder.ToString();
             }
             // 点描画
+            Random_InitGenerator(random);
             {
                 var canvas = Random_PointPictureBox.Image as Bitmap;
                 int x, y;
@@ -246,6 +267,7 @@ namespace DemoApp
                 }
             }
             // Pixelの色
+            Random_InitGenerator(random);
             {
                 var canvas = Random_PixelPictureBox.Image as Bitmap;
                 using (var graphics = Graphics.FromImage(canvas))
@@ -264,6 +286,7 @@ namespace DemoApp
                 }
             }
             // グラフ
+            Random_InitGenerator(random);
             const int SampleCount = 100;
             var samples = new List<int>();
             var sampleCounts = new Dictionary<int, int>();
