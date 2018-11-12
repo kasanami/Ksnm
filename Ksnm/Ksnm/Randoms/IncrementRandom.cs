@@ -105,14 +105,14 @@ namespace Ksnm.Randoms
             }
             return current;
         }
-#if false// cycle導入により、内部数値の最大値が0xFFFFFFFFではなくなったので、Sample()のみ実装する。
+
         /// <summary>
         /// 0 以上で System.Int32.MaxValue より小さい乱数を返します。
         /// </summary>
         /// <returns>0 以上で System.Int32.MaxValue より小さい 32 ビット符号付整数。</returns>
         public override int Next()
         {
-            return Next(int.MaxValue);
+            return (int)(Sample() * int.MaxValue);
         }
 
         /// <summary>
@@ -130,47 +130,9 @@ namespace Ksnm.Randoms
                 throw new System.ArgumentOutOfRangeException();
             if (maxValue == 0)
                 return 0;
-            return (int)(Update() % maxValue);
+            return (int)(Sample() * maxValue);
         }
 
-        /// <summary>
-        /// 指定した範囲内のランダムな整数を返します。
-        /// </summary>
-        /// <param name="minValue">返される乱数の包括的下限値。</param>
-        /// <param name="maxValue">返される乱数の排他的上限値。maxValue は minValue 以上である必要があります。</param>
-        /// <returns>minValue 以上で maxValue 未満の 32 ビット符号付整数。つまり、戻り値の範囲に minValue は含まれますが maxValue は含まれません。minValueが maxValue と等しい場合は、minValue が返されます。</returns>
-        /// <exception cref="System.ArgumentOutOfRangeException">minValue が maxValue より大きくなっています。</exception>
-        public override int Next(int minValue, int maxValue)
-        {
-            if (maxValue < minValue)
-                throw new System.ArgumentOutOfRangeException();
-            return minValue + Next(maxValue - minValue);
-        }
-
-        /// <summary>
-        /// 指定したバイト配列の要素に乱数を格納します。
-        /// </summary>
-        /// <param name="buffer">乱数を格納するバイト配列。</param>
-        /// /// <exception cref="System.ArgumentNullException">buffer が null</exception>
-        public override void NextBytes(byte[] buffer)
-        {
-            if (buffer == null)
-                throw new System.ArgumentNullException();
-            for (int i = 0; i < buffer.Length; i++)
-            {
-                buffer[i] = (byte)Next();
-            }
-        }
-
-        /// <summary>
-        /// 0 以上で 0xFFFFFFFF 以下の乱数を返します。
-        /// </summary>
-        /// <returns>0 以上で 0xFFFFFFFF 以下の32 ビット符号無し整数。</returns>
-        public override uint SampleUInt()
-        {
-            return ++current;
-        }
-#else
         /// <summary>
         /// 0 以上で 0xFFFFFFFF 以下の乱数を返します。
         /// </summary>
@@ -179,6 +141,7 @@ namespace Ksnm.Randoms
         {
             throw new System.NotImplementedException();
         }
+
         /// <summary>
         /// 0.0 と 1.0 の間の乱数を返します。
         /// </summary>
@@ -188,6 +151,5 @@ namespace Ksnm.Randoms
             Update();
             return (double)current / (double)cycle;
         }
-#endif
     }
 }

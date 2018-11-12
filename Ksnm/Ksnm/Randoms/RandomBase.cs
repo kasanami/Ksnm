@@ -33,6 +33,73 @@ namespace Ksnm.Randoms
         /// </summary>
         /// <returns>0 以上で 0xFFFFFFFF 以下の32 ビット符号無し整数。</returns>
         public abstract uint SampleUInt();
+
+        /// <summary>
+        /// 0 以上で System.Int32.MaxValue より小さい乱数を返します。
+        /// </summary>
+        /// <returns>0 以上で System.Int32.MaxValue より小さい 32 ビット符号付整数。</returns>
+        public override int Next()
+        {
+            uint temp = SampleUInt();
+            return (int)(temp % int.MaxValue);
+        }
+
+        /// <summary>
+        /// 指定した最大値より小さい 0 以上の乱数を返します。
+        /// </summary>
+        /// <param name="maxValue">生成される乱数の排他的上限値。maxValue は 0 以上にする必要があります。</param>
+        /// <returns>0 以上で maxValue 未満の 32 ビット符号付き整数。
+        /// つまり、通常は戻り値の範囲に 0 は含まれますが、maxValue は含まれません。
+        /// ただし、maxValue が 0 の場合は、0 が返されます。
+        /// </returns>
+        /// <exception cref="System.ArgumentOutOfRangeException">maxValue が 0 未満です。</exception>
+        public override int Next(int maxValue)
+        {
+            if (maxValue < 0)
+            {
+                throw new System.ArgumentOutOfRangeException();
+            }
+            if (maxValue == 0)
+            {
+                return 0;
+            }
+            uint temp = SampleUInt();
+            return (int)(temp % maxValue);
+        }
+
+        /// <summary>
+        /// 指定した範囲内のランダムな整数を返します。
+        /// </summary>
+        /// <param name="minValue">返される乱数の包括的下限値。</param>
+        /// <param name="maxValue">返される乱数の排他的上限値。maxValue は minValue 以上である必要があります。</param>
+        /// <returns>minValue 以上で maxValue 未満の 32 ビット符号付整数。つまり、戻り値の範囲に minValue は含まれますが maxValue は含まれません。minValueが maxValue と等しい場合は、minValue が返されます。</returns>
+        /// <exception cref="System.ArgumentOutOfRangeException">minValue が maxValue より大きくなっています。</exception>
+        public override int Next(int minValue, int maxValue)
+        {
+            if (maxValue < minValue)
+            {
+                throw new System.ArgumentOutOfRangeException();
+            }
+            return minValue + Next(maxValue - minValue);
+        }
+
+        /// <summary>
+        /// 指定したバイト配列の要素に乱数を格納します。
+        /// </summary>
+        /// <param name="buffer">乱数を格納するバイト配列。</param>
+        /// /// <exception cref="System.ArgumentNullException">buffer が null</exception>
+        public override void NextBytes(byte[] buffer)
+        {
+            if (buffer == null)
+            {
+                throw new System.ArgumentNullException();
+            }
+            for (int i = 0; i < buffer.Length; i++)
+            {
+                buffer[i] = (byte)Next();
+            }
+        }
+
         /// <summary>
         /// 0.0 と 1.0 の間の乱数を返します。
         /// </summary>

@@ -236,18 +236,37 @@ namespace DemoApp
                 return;
             }
             //
-            Random_InitGenerator(random);
             {
                 Random_TextBox.Clear();
                 var stringBuilder = new StringBuilder();
+                //
+                stringBuilder.AppendLine("Next()");
+                Random_InitGenerator(random);
+                for (int i = 0; i < 100; i++)
+                {
+                    var value = random.Next();
+                    stringBuilder.AppendLine(value.ToString());
+                }
+                //
+                stringBuilder.AppendLine("NextDouble()");
+                Random_InitGenerator(random);
                 for (int i = 0; i < 100; i++)
                 {
                     var value = random.NextDouble();
                     stringBuilder.AppendLine(value.ToString("0.####################################"));
                 }
+                //
+                stringBuilder.AppendLine("NextLong()");
+                Random_InitGenerator(random);
+                for (int i = 0; i < 100; i++)
+                {
+                    var value = random.NextLong();
+                    stringBuilder.AppendLine(value.ToString());
+                }
+                // 
                 Random_TextBox.Text = stringBuilder.ToString();
             }
-            // 点描画
+            // 点の座標がランダム
             Random_InitGenerator(random);
             {
                 var canvas = Random_PointPictureBox.Image as Bitmap;
@@ -266,7 +285,7 @@ namespace DemoApp
                     }
                 }
             }
-            // Pixelの色
+            // Pixelの色(白/黒)がランダム
             Random_InitGenerator(random);
             {
                 var canvas = Random_PixelPictureBox.Image as Bitmap;
@@ -286,42 +305,44 @@ namespace DemoApp
                 }
             }
             // グラフ
-            Random_InitGenerator(random);
-            const int SampleCount = 100;
-            var samples = new List<int>();
-            var sampleCounts = new Dictionary<int, int>();
-            for (int i = 0; i < SampleCount; i++)
             {
-                samples.Add(random.Next(100));
-                sampleCounts.Add(i, 0);
-            }
-            for (int i = 0; i < samples.Count; i++)
-            {
-                var sample = samples[i];
-                sampleCounts[sample] += 1;
-            }
-            Random_Chart.Series.Clear();
-            {
-                var series = new Series("生成値");
-                series.ChartType = SeriesChartType.Line;
+                Random_InitGenerator(random);
+                const int SampleCount = 100;
+                var samples = new List<int>();
+                var sampleCounts = new Dictionary<int, int>();
+                for (int i = 0; i < SampleCount; i++)
+                {
+                    samples.Add(random.Next(100));
+                    sampleCounts.Add(i, 0);
+                }
                 for (int i = 0; i < samples.Count; i++)
                 {
                     var sample = samples[i];
-                    series.Points.AddXY(i, sample);
+                    sampleCounts[sample] += 1;
                 }
-                Random_Chart.Series.Add(series);
-            }
-            {
-                var series = new Series("回数");
-                series.ChartType = SeriesChartType.Column;
-                foreach (var item in sampleCounts)
+                Random_Chart.Series.Clear();
                 {
-                    series.Points.AddXY(item.Key, item.Value);
+                    var series = new Series("生成値");
+                    series.ChartType = SeriesChartType.Line;
+                    for (int i = 0; i < samples.Count; i++)
+                    {
+                        var sample = samples[i];
+                        series.Points.AddXY(i, sample);
+                    }
+                    Random_Chart.Series.Add(series);
                 }
-                Random_Chart.Series.Add(series);
+                {
+                    var series = new Series("回数");
+                    series.ChartType = SeriesChartType.Column;
+                    foreach (var item in sampleCounts)
+                    {
+                        series.Points.AddXY(item.Key, item.Value);
+                    }
+                    Random_Chart.Series.Add(series);
+                }
+                Random_PointPictureBox.Refresh();
+                Random_PixelPictureBox.Refresh();
             }
-            Random_PointPictureBox.Refresh();
-            Random_PixelPictureBox.Refresh();
         }
 
         #endregion Randomタブ

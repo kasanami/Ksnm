@@ -75,34 +75,6 @@ namespace Ksnm.Randoms
         }
 
         /// <summary>
-        /// 0 以上で System.Int32.MaxValue より小さい乱数を返します。
-        /// </summary>
-        /// <returns>0 以上で System.Int32.MaxValue より小さい 32 ビット符号付整数。</returns>
-        public override int Next()
-        {
-            return Next(int.MaxValue);
-        }
-
-        /// <summary>
-        /// 指定した最大値より小さい 0 以上の乱数を返します。
-        /// </summary>
-        /// <param name="maxValue">生成される乱数の排他的上限値。maxValue は 0 以上にする必要があります。</param>
-        /// <returns>0 以上で maxValue 未満の 32 ビット符号付き整数。
-        /// つまり、通常は戻り値の範囲に 0 は含まれますが、maxValue は含まれません。
-        /// ただし、maxValue が 0 の場合は、0 が返されます。
-        /// </returns>
-        /// <exception cref="System.ArgumentOutOfRangeException">maxValue が 0 未満です。</exception>
-        public override int Next(int maxValue)
-        {
-            if (maxValue < 0)
-                throw new System.ArgumentOutOfRangeException();
-            if (maxValue == 0)
-                return 0;
-            uint temp = SampleUInt();
-            return (int)(temp % maxValue);
-        }
-
-        /// <summary>
         /// 0 以上で 0xFFFFFFFF 以下の乱数を返します。
         /// </summary>
         /// <returns>0 以上で 0xFFFFFFFF 以下の32 ビット符号無し整数。</returns>
