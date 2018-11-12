@@ -212,7 +212,7 @@ namespace DemoApp
             }
             else if (ReferenceEquals(selected, incrementRandom))
             {
-                incrementRandom.current = unchecked((uint)Random_SeedNumericUpDown.Value);
+                incrementRandom.Current = unchecked((uint)Random_SeedNumericUpDown.Value);
                 incrementRandom.Cycle = unchecked((uint)Random_Param1NumericUpDown.Value);
             }
             else if (ReferenceEquals(selected, prototypeRandom))

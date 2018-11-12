@@ -32,7 +32,18 @@ namespace Ksnm.Randoms
         /// <summary>
         /// 現在の内部数値
         /// </summary>
-        public uint current;
+        uint current;
+        /// <summary>
+        /// 現在の内部数値
+        /// </summary>
+        public uint Current
+        {
+            get { return current; }
+            set
+            {
+                current = value % Cycle;
+            }
+        }
         /// <summary>
         /// 周期（内部数値の最大値+1）
         /// </summary>
@@ -46,7 +57,6 @@ namespace Ksnm.Randoms
             set
             {
                 cycle = System.Math.Max(value, 1);
-                Update();
             }
         }
 
