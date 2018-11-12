@@ -33,6 +33,23 @@ namespace Ksnm.Randoms
         /// 現在の内部数値
         /// </summary>
         public uint current;
+        /// <summary>
+        /// 周期（内部数値の最大値+1）
+        /// </summary>
+        uint cycle = uint.MaxValue;
+        /// <summary>
+        /// 周期（内部数値の最大値+1）
+        /// </summary>
+        public uint Cycle
+        {
+            get { return cycle; }
+            set
+            {
+                cycle = System.Math.Max(value, 1);
+                Update();
+            }
+        }
+
 
         /// <summary>
         /// 時間に応じて決定される既定のシード値を使用し、新しいインスタンスを初期化します。
@@ -54,6 +71,31 @@ namespace Ksnm.Randoms
             current = seed;
         }
 
+        /// <summary>
+        /// 指定したシード値を使用して 新しいインスタンスを初期化します。
+        /// </summary>
+        /// <param name="seed">擬似乱数系列の開始値。</param>
+        /// <param name="cycle">周期</param>
+        public IncrementRandom(uint seed, uint cycle)
+        {
+            current = seed;
+            Cycle = cycle;
+        }
+
+        /// <summary>
+        /// 内部数値を更新
+        /// </summary>
+        /// <returns>更新後の内部数値</returns>
+        protected uint Update()
+        {
+            current++;
+            if (current >= cycle)
+            {
+                current = 0;
+            }
+            return current;
+        }
+#if false// cycle導入により、内部数値の最大値が0xFFFFFFFFではなくなったので、Sample()のみ実装する。
         /// <summary>
         /// 0 以上で System.Int32.MaxValue より小さい乱数を返します。
         /// </summary>
@@ -78,7 +120,7 @@ namespace Ksnm.Randoms
                 throw new System.ArgumentOutOfRangeException();
             if (maxValue == 0)
                 return 0;
-            return (int)(current++ % maxValue);
+            return (int)(Update() % maxValue);
         }
 
         /// <summary>
@@ -118,5 +160,24 @@ namespace Ksnm.Randoms
         {
             return ++current;
         }
+#else
+        /// <summary>
+        /// 0 以上で 0xFFFFFFFF 以下の乱数を返します。
+        /// </summary>
+        /// <returns>0 以上で 0xFFFFFFFF 以下の32 ビット符号無し整数。</returns>
+        public override uint SampleUInt()
+        {
+            throw new System.NotImplementedException();
+        }
+        /// <summary>
+        /// 0.0 と 1.0 の間の乱数を返します。
+        /// </summary>
+        /// <returns>0.0 以上 1.0 未満の倍精度浮動小数点数。</returns>
+        protected override double Sample()
+        {
+            Update();
+            return (double)current / (double)cycle;
+        }
+#endif
     }
 }
