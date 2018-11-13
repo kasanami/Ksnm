@@ -256,5 +256,41 @@ namespace Ksnm.Tests
             Assert.AreEqual(0b0000000000000000000000000000000000000000000000000000000000000110u, Binary.RotateRight(0b1000000000000000000000000000000000000000000000000000000000000001, 62));
             Assert.AreEqual(0b0000000000000000000000000000000000000000000000000000000000000011u, Binary.RotateRight(0b1000000000000000000000000000000000000000000000000000000000000001, 63));
         }
+
+        [TestMethod()]
+        public void ToInt16Test()
+        {
+            Assert.AreEqual((Int16)0x1234, Binary.ToInt16(0x12, 0x34));
+        }
+
+        [TestMethod()]
+        public void ToUInt16Test()
+        {
+            Assert.AreEqual((UInt16)0x1234, Binary.ToUInt16(0x12, 0x34));
+        }
+
+        [TestMethod()]
+        public void ToInt32Test()
+        {
+            Assert.AreEqual((Int32)0x12345678, Binary.ToInt32(0x1234, 0x5678));
+        }
+
+        [TestMethod()]
+        public void ToUInt32Test()
+        {
+            Assert.AreEqual((UInt32)0x12345678, Binary.ToUInt32(0x1234, 0x5678));
+        }
+
+        [TestMethod()]
+        public void ToInt64Test()
+        {
+            Assert.AreEqual((Int64)0x123456789ABCDEF0, Binary.ToInt64(0x12345678, 0x9ABCDEF0));
+        }
+
+        [TestMethod()]
+        public void ToUInt64Test()
+        {
+            Assert.AreEqual((UInt64)0x123456789ABCDEF0, Binary.ToUInt64(0x12345678, 0x9ABCDEF0));
+        }
     }
 }

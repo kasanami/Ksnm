@@ -371,6 +371,30 @@ namespace Ksnm
 
         #endregion CeilingPowerOf2
 
+        #region ToInt16
+
+        /// <summary>
+        /// 指定された値から変換された 16 ビット符号付整数を返します。
+        /// </summary>
+        /// <param name="left">上位8ビットを指定する値</param>
+        /// <param name="right">下位8ビットを指定する値</param>
+        public static short ToInt16(byte left, byte right)
+        {
+            return (short)((left << 8) | right);
+        }
+
+        /// <summary>
+        /// 指定された値から変換された 16 ビット符号付整数を返します。
+        /// </summary>
+        /// <param name="left">上位8ビットを指定する値</param>
+        /// <param name="right">下位8ビットを指定する値</param>
+        public static short ToInt16(sbyte left, sbyte right)
+        {
+            return ToInt16((byte)left, (byte)right);
+        }
+
+        #endregion ToInt16
+
         #region ToUInt16
 
         /// <summary>
@@ -395,6 +419,30 @@ namespace Ksnm
 
         #endregion ToUInt16
 
+        #region ToInt32
+
+        /// <summary>
+        /// 指定された値から変換された 32 ビット符号付整数を返します。
+        /// </summary>
+        /// <param name="left">上位16ビットを指定する値</param>
+        /// <param name="right">下位16ビットを指定する値</param>
+        public static int ToInt32(ushort left, ushort right)
+        {
+            return ((int)left << 16) | right;
+        }
+
+        /// <summary>
+        /// 指定された値から変換された 32 ビット符号付整数を返します。
+        /// </summary>
+        /// <param name="left">上位16ビットを指定する値</param>
+        /// <param name="right">下位16ビットを指定する値</param>
+        public static int ToInt32(short left, short right)
+        {
+            return ToInt32((ushort)left, (ushort)right);
+        }
+
+        #endregion ToInt32
+
         #region ToUInt32
 
         /// <summary>
@@ -418,6 +466,30 @@ namespace Ksnm
         }
 
         #endregion ToUInt32
+
+        #region ToInt64
+
+        /// <summary>
+        /// 指定された値から変換された 64 ビット符号付整数を返します。
+        /// </summary>
+        /// <param name="left">上位32ビットを指定する値</param>
+        /// <param name="right">下位32ビットを指定する値</param>
+        public static long ToInt64(uint left, uint right)
+        {
+            return ((long)left << 32) | right;
+        }
+
+        /// <summary>
+        /// 指定された値から変換された 64 ビット符号付整数を返します。
+        /// </summary>
+        /// <param name="left">上位32ビットを指定する値</param>
+        /// <param name="right">下位32ビットを指定する値</param>
+        public static long ToInt64(int left, int right)
+        {
+            return ToInt64((uint)left, (uint)right);
+        }
+
+        #endregion ToInt64
 
         #region ToUInt64
 
