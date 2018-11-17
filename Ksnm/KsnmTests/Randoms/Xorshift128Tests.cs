@@ -9,14 +9,14 @@ namespace Ksnm.Randoms.Tests
         [TestMethod()]
         public void NextTest()
         {
-            Random random = new Xorshift128();
+            var random = new Xorshift128();
             NextTest(random);
         }
 
         [TestMethod()]
         public void NextDoubleTest()
         {
-            Random random = new Xorshift128();
+            var random = new Xorshift128();
             NextDoubleTest(random);
         }
     }
