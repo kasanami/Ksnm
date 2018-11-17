@@ -32,7 +32,114 @@ namespace Ksnm.Randoms
         /// 0 以上で 0xFFFFFFFF 以下の乱数を返します。
         /// </summary>
         /// <returns>0 以上で 0xFFFFFFFF 以下の32 ビット符号無し整数。</returns>
-        public abstract uint SampleUInt();
+        public abstract uint GenerateUInt32();
+
+        /// <summary>
+        /// 0 以上で 0xFFFFFFFFFFFFFFFF 以下の乱数を返します。
+        /// </summary>
+        /// <returns>0 以上で 0xFFFFFFFFFFFFFFFF 以下の64 ビット符号無し整数。</returns>
+        public abstract ulong GenerateUInt64();
+
+        /// <summary>
+        /// 0 以上で System.UInt32.MaxValue より小さい乱数を返します。
+        /// </summary>
+        /// <returns>0 以上で System.UInt32.MaxValue より小さい 64 ビット符号なし整数。</returns>
+        public virtual uint NextUInt32()
+        {
+            var temp = GenerateUInt32();
+            return temp % uint.MaxValue;
+        }
+
+        /// <summary>
+        /// 指定した最大値より小さい 0 以上の乱数を返します。
+        /// </summary>
+        /// <param name="maxValue">生成される乱数の排他的上限値。maxValue は 0 以上にする必要があります。</param>
+        /// <returns>0 以上で maxValue 未満の 32 ビット符号なし整数。
+        /// つまり、通常は戻り値の範囲に 0 は含まれますが、maxValue は含まれません。
+        /// ただし、maxValue が 0 の場合は、0 が返されます。
+        /// </returns>
+        /// <exception cref="System.ArgumentOutOfRangeException">maxValue が 0 未満です。</exception>
+        public virtual uint NextUInt32(uint maxValue)
+        {
+            if (maxValue < 0)
+            {
+                throw new System.ArgumentOutOfRangeException();
+            }
+            if (maxValue == 0)
+            {
+                return 0;
+            }
+            var temp = NextUInt32();
+            return (temp % maxValue);
+        }
+
+        /// <summary>
+        /// 0 以上で System.Int64.MaxValue より小さい乱数を返します。
+        /// </summary>
+        /// <returns>0 以上で System.Int64.MaxValue より小さい 64 ビット符号付整数。</returns>
+        public virtual long NextInt64()
+        {
+            var temp = GenerateUInt64();
+            return (long)(temp & long.MaxValue);
+        }
+
+        /// <summary>
+        /// 指定した最大値より小さい 0 以上の乱数を返します。
+        /// </summary>
+        /// <param name="maxValue">生成される乱数の排他的上限値。maxValue は 0 以上にする必要があります。</param>
+        /// <returns>0 以上で maxValue 未満の 64 ビット符号付き整数。
+        /// つまり、通常は戻り値の範囲に 0 は含まれますが、maxValue は含まれません。
+        /// ただし、maxValue が 0 の場合は、0 が返されます。
+        /// </returns>
+        /// <exception cref="System.ArgumentOutOfRangeException">maxValue が 0 未満です。</exception>
+        public virtual long NextInt64(long maxValue)
+        {
+            if (maxValue < 0)
+            {
+                throw new System.ArgumentOutOfRangeException();
+            }
+            if (maxValue == 0)
+            {
+                return 0;
+            }
+            var temp = NextInt64();
+            return (temp % maxValue);
+        }
+
+        /// <summary>
+        /// 0 以上で System.UInt64.MaxValue より小さい乱数を返します。
+        /// </summary>
+        /// <returns>0 以上で System.UInt64.MaxValue より小さい 64 ビット符号なし整数。</returns>
+        public virtual ulong NextUInt64()
+        {
+            var temp = GenerateUInt64();
+            return temp & ulong.MaxValue;
+        }
+
+        /// <summary>
+        /// 指定した最大値より小さい 0 以上の乱数を返します。
+        /// </summary>
+        /// <param name="maxValue">生成される乱数の排他的上限値。maxValue は 0 以上にする必要があります。</param>
+        /// <returns>0 以上で maxValue 未満の 64 ビット符号なし整数。
+        /// つまり、通常は戻り値の範囲に 0 は含まれますが、maxValue は含まれません。
+        /// ただし、maxValue が 0 の場合は、0 が返されます。
+        /// </returns>
+        /// <exception cref="System.ArgumentOutOfRangeException">maxValue が 0 未満です。</exception>
+        public virtual ulong NextUInt64(ulong maxValue)
+        {
+            if (maxValue < 0)
+            {
+                throw new System.ArgumentOutOfRangeException();
+            }
+            if (maxValue == 0)
+            {
+                return 0;
+            }
+            var temp = GenerateUInt64();
+            return (temp % maxValue);
+        }
+
+        #region override for System.Random
 
         /// <summary>
         /// 0 以上で System.Int32.MaxValue より小さい乱数を返します。
@@ -40,7 +147,7 @@ namespace Ksnm.Randoms
         /// <returns>0 以上で System.Int32.MaxValue より小さい 32 ビット符号付整数。</returns>
         public override int Next()
         {
-            uint temp = SampleUInt();
+            uint temp = GenerateUInt32();
             return (int)(temp % int.MaxValue);
         }
 
@@ -63,7 +170,7 @@ namespace Ksnm.Randoms
             {
                 return 0;
             }
-            uint temp = SampleUInt();
+            uint temp = GenerateUInt32();
             return (int)(temp % maxValue);
         }
 
@@ -109,18 +216,16 @@ namespace Ksnm.Randoms
 #if true
             // TODO:約 0.00000000023283064365387 刻みでしか値が変化しない問題を抱えている。
             // 実用上は問題ないと思われる。
-            var sample = SampleUInt();
+            var sample = GenerateUInt32();
             return sample / ((double)uint.MaxValue + 1);
 #elif true
             // ulong.MaxValueをdoubleにキャストすると、失われるビットがある
             // そのため、計算結果が、1.0以上になる場合があるのでボツ
-            ulong sample = Binary.ToUInt64(SampleUInt(), SampleUInt());
+            ulong sample = SourceUInt64();
             return sample / ((double)ulong.MaxValue + 1);
-#else
-            // ビットレベルで変換　処理が重いのでボツ
-            var sample = SampleUInt();
-            return Binary.ToRateDouble(sample);
 #endif
         }
+
+        #endregion override for System.Random
     }
 }

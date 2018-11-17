@@ -78,7 +78,7 @@ namespace Ksnm.Randoms
         /// 0 以上で 0xFFFFFFFF 以下の乱数を返します。
         /// </summary>
         /// <returns>0 以上で 0xFFFFFFFF 以下の32 ビット符号無し整数。</returns>
-        public override uint SampleUInt()
+        public override uint GenerateUInt32()
         {
             uint t = (x ^ (x << 11));
             x = y;
@@ -86,6 +86,15 @@ namespace Ksnm.Randoms
             z = w;
             w = (w ^ (w >> 19)) ^ (t ^ (t >> 8));
             return w;
+        }
+
+        /// <summary>
+        /// 0 以上で 0xFFFFFFFFFFFFFFFF 以下の乱数を返します。
+        /// </summary>
+        /// <returns>0 以上で 0xFFFFFFFFFFFFFFFF 以下の64 ビット符号無し整数。</returns>
+        public override ulong GenerateUInt64()
+        {
+            return Binary.ToUInt64(GenerateUInt32(), GenerateUInt32());
         }
     }
 }
