@@ -67,6 +67,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Randoms\Base.cs" />
     <Compile Include="Randoms\PrototypeTests.cs" />
+    <Compile Include="Randoms\Sample.cs" />
+    <Compile Include="Randoms\SampleTests.cs" />
     <Compile Include="Randoms\Xorshift128Tests.cs" />
   </ItemGroup>
   <ItemGroup>
