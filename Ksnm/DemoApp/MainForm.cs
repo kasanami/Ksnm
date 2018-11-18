@@ -240,6 +240,7 @@ namespace DemoApp
                 Random_TextBox.Clear();
                 var stringBuilder = new StringBuilder();
                 //
+                stringBuilder.AppendLine("----------------------------------------");
                 stringBuilder.AppendLine("Next()");
                 Random_InitGenerator(random);
                 for (int i = 0; i < 100; i++)
@@ -248,6 +249,7 @@ namespace DemoApp
                     stringBuilder.AppendLine(value.ToString());
                 }
                 //
+                stringBuilder.AppendLine("----------------------------------------");
                 stringBuilder.AppendLine("NextDouble()");
                 Random_InitGenerator(random);
                 for (int i = 0; i < 100; i++)
@@ -256,12 +258,36 @@ namespace DemoApp
                     stringBuilder.AppendLine(value.ToString("0.####################################"));
                 }
                 //
+                stringBuilder.AppendLine("----------------------------------------");
                 stringBuilder.AppendLine("NextLong()");
                 Random_InitGenerator(random);
                 for (int i = 0; i < 100; i++)
                 {
                     var value = random.NextLong();
                     stringBuilder.AppendLine(value.ToString());
+                }
+                if (random is Ksnm.Randoms.RandomBase)
+                {
+                    var ksnmRandom = random as Ksnm.Randoms.RandomBase;
+
+                    //
+                    stringBuilder.AppendLine("----------------------------------------");
+                    stringBuilder.AppendLine("GenerateUInt32()");
+                    Random_InitGenerator(random);
+                    for (int i = 0; i < 100; i++)
+                    {
+                        var value = ksnmRandom.GenerateUInt32();
+                        stringBuilder.AppendLine(value.ToString());
+                    }
+                    //
+                    stringBuilder.AppendLine("----------------------------------------");
+                    stringBuilder.AppendLine("GenerateUInt64()");
+                    Random_InitGenerator(random);
+                    for (int i = 0; i < 100; i++)
+                    {
+                        var value = ksnmRandom.GenerateUInt64();
+                        stringBuilder.AppendLine(value.ToString());
+                    }
                 }
                 // 
                 Random_TextBox.Text = stringBuilder.ToString();
