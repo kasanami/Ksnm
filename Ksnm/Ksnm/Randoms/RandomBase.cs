@@ -79,8 +79,8 @@ namespace Ksnm.Randoms
         /// <returns>0 以上で System.Int64.MaxValue より小さい 64 ビット符号付整数。</returns>
         public virtual long NextInt64()
         {
-            var temp = GenerateUInt64();
-            return (long)(temp & long.MaxValue);
+            var temp = GenerateUInt64() & long.MaxValue;
+            return (long)(temp % long.MaxValue);
         }
 
         /// <summary>
@@ -112,8 +112,8 @@ namespace Ksnm.Randoms
         /// <returns>0 以上で System.UInt64.MaxValue より小さい 64 ビット符号なし整数。</returns>
         public virtual ulong NextUInt64()
         {
-            var temp = GenerateUInt64();
-            return temp & ulong.MaxValue;
+            var temp = GenerateUInt64() & ulong.MaxValue;
+            return temp % ulong.MaxValue;
         }
 
         /// <summary>
