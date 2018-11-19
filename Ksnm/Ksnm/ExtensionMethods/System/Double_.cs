@@ -38,25 +38,41 @@ namespace Ksnm.ExtensionMethods.System
             return Original.IsInfinity(value);
         }
         /// <summary>
+        /// 64 ビット符号付き整数に変換します。
+        /// </summary>
+        /// <returns>value と等価の値を持つ 64 ビット符号付き整数。</returns>
+        public static long ToInt64Bits(this Original value)
+        {
+            return BitConverter.DoubleToInt64Bits(value);
+        }
+        /// <summary>
+        /// 64 ビット符号なし整数に変換します。
+        /// </summary>
+        /// <returns>value と等価の値を持つ 64 ビット符号なし整数。</returns>
+        public static ulong ToUInt64Bits(this Original value)
+        {
+            return (ulong)BitConverter.DoubleToInt64Bits(value);
+        }
+        /// <summary>
         /// 符号ビットを取得
         /// </summary>
         public static byte GetSignBits(this Original value)
         {
-            return (byte)((ulong)BitConverter.DoubleToInt64Bits(value) >> 63);
+            return (byte)(value.ToUInt64Bits() >> 63);
         }
         /// <summary>
         /// 指数部を取得
         /// </summary>
         public static ushort GetExponentBits(this Original value)
         {
-            return (ushort)(((ulong)BitConverter.DoubleToInt64Bits(value) >> 52) & 0x7FF);
+            return (ushort)((value.ToUInt64Bits() >> 52) & 0x7FF);
         }
         /// <summary>
         /// 仮数部を取得
         /// </summary>
         public static ulong GetFractionBits(this Original value)
         {
-            return (ulong)BitConverter.DoubleToInt64Bits(value) & 0x000F_FFFF_FFFF_FFFF;
+            return value.ToUInt64Bits() & 0x000F_FFFF_FFFF_FFFF;
         }
 #if false// セットできるわけではないので、一時的に非公開
         /// <summary>
