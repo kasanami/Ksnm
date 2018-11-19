@@ -197,6 +197,11 @@ namespace DemoApp
             Random_UpdateView();
         }
 
+        private void Random_Param3NumericUpDown_ValueChanged(object sender, EventArgs e)
+        {
+            Random_UpdateView();
+        }
+
         /// <summary>
         /// 現在選択している乱数生成器を初期化
         /// </summary>
@@ -208,7 +213,10 @@ namespace DemoApp
             }
             else if (ReferenceEquals(selected, xorshift128))
             {
-
+                xorshift128.w = unchecked((uint)Random_SeedNumericUpDown.Value);
+                xorshift128.x = unchecked((uint)Random_Param1NumericUpDown.Value);
+                xorshift128.y = unchecked((uint)Random_Param2NumericUpDown.Value);
+                xorshift128.z = unchecked((uint)Random_Param2NumericUpDown.Value);
             }
             else if (ReferenceEquals(selected, incrementRandom))
             {
@@ -246,7 +254,7 @@ namespace DemoApp
                 for (int i = 0; i < 100; i++)
                 {
                     var value = random.Next();
-                    stringBuilder.AppendLine(value.ToString());
+                    stringBuilder.AppendLine("0x" + value.ToString("X8") + " " + value.ToString());
                 }
                 //
                 stringBuilder.AppendLine("----------------------------------------");
@@ -255,7 +263,7 @@ namespace DemoApp
                 for (int i = 0; i < 100; i++)
                 {
                     var value = random.NextDouble();
-                    stringBuilder.AppendLine(value.ToString("0.####################################"));
+                    stringBuilder.AppendLine("0x" + value.ToInt64Bits().ToString("X16") + " " + value.ToString("0.####################################"));
                 }
                 //
                 stringBuilder.AppendLine("----------------------------------------");
@@ -264,7 +272,7 @@ namespace DemoApp
                 for (int i = 0; i < 100; i++)
                 {
                     var value = random.NextLong();
-                    stringBuilder.AppendLine(value.ToString());
+                    stringBuilder.AppendLine("0x" + value.ToString("X16") + " " + value.ToString());
                 }
                 if (random is Ksnm.Randoms.RandomBase)
                 {
@@ -277,7 +285,7 @@ namespace DemoApp
                     for (int i = 0; i < 100; i++)
                     {
                         var value = ksnmRandom.GenerateUInt32();
-                        stringBuilder.AppendLine(value.ToString());
+                        stringBuilder.AppendLine("0x" + value.ToString("X8") + " " + value.ToString());
                     }
                     //
                     stringBuilder.AppendLine("----------------------------------------");
@@ -286,7 +294,7 @@ namespace DemoApp
                     for (int i = 0; i < 100; i++)
                     {
                         var value = ksnmRandom.GenerateUInt64();
-                        stringBuilder.AppendLine(value.ToString());
+                        stringBuilder.AppendLine("0x" + value.ToString("X16") + " " + value.ToString());
                     }
                 }
                 // 

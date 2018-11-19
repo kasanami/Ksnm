@@ -28,9 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.RandomTabControl = new System.Windows.Forms.TabControl();
             this.MathTabPage = new System.Windows.Forms.TabPage();
             this.tabControl1 = new System.Windows.Forms.TabControl();
@@ -98,6 +98,8 @@
             this.label12 = new System.Windows.Forms.Label();
             this.IO_DeflateFile_PathTextBox = new System.Windows.Forms.TextBox();
             this.IO_DeflateFile_RunButton = new System.Windows.Forms.Button();
+            this.label17 = new System.Windows.Forms.Label();
+            this.Random_Param3NumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.RandomTabControl.SuspendLayout();
             this.MathTabPage.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -127,6 +129,7 @@
             this.tableLayoutPanel4.SuspendLayout();
             this.tabPage6.SuspendLayout();
             this.tableLayoutPanel9.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.Random_Param3NumericUpDown)).BeginInit();
             this.SuspendLayout();
             // 
             // RandomTabControl
@@ -247,7 +250,7 @@
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(725, 431);
+            this.tabPage3.Size = new System.Drawing.Size(725, 430);
             this.tabPage3.TabIndex = 1;
             this.tabPage3.Text = "数列";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -268,7 +271,7 @@
             this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel6.Size = new System.Drawing.Size(719, 425);
+            this.tableLayoutPanel6.Size = new System.Drawing.Size(719, 424);
             this.tableLayoutPanel6.TabIndex = 0;
             // 
             // MosersCircleRegionsLabel
@@ -325,7 +328,7 @@
             this.tabPage4.Location = new System.Drawing.Point(4, 22);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage4.Size = new System.Drawing.Size(725, 431);
+            this.tabPage4.Size = new System.Drawing.Size(725, 430);
             this.tabPage4.TabIndex = 2;
             this.tabPage4.Text = "計算";
             this.tabPage4.UseVisualStyleBackColor = true;
@@ -348,7 +351,7 @@
             this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel8.Size = new System.Drawing.Size(719, 425);
+            this.tableLayoutPanel8.Size = new System.Drawing.Size(719, 424);
             this.tableLayoutPanel8.TabIndex = 0;
             // 
             // label7
@@ -401,7 +404,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(739, 463);
+            this.tabPage2.Size = new System.Drawing.Size(739, 462);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Random";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -425,16 +428,19 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(733, 457);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(733, 456);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
             // tableLayoutPanel2
             // 
-            this.tableLayoutPanel2.ColumnCount = 4;
+            this.tableLayoutPanel2.ColumnCount = 5;
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 200F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanel2.Controls.Add(this.Random_Param3NumericUpDown, 4, 1);
+            this.tableLayoutPanel2.Controls.Add(this.label17, 4, 0);
             this.tableLayoutPanel2.Controls.Add(this.Random_Param2NumericUpDown, 3, 1);
             this.tableLayoutPanel2.Controls.Add(this.label11, 3, 0);
             this.tableLayoutPanel2.Controls.Add(this.Random_Param1NumericUpDown, 2, 1);
@@ -458,14 +464,14 @@
             // Random_Param2NumericUpDown
             // 
             this.Random_Param2NumericUpDown.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Random_Param2NumericUpDown.Location = new System.Drawing.Point(527, 23);
+            this.Random_Param2NumericUpDown.Location = new System.Drawing.Point(445, 23);
             this.Random_Param2NumericUpDown.Maximum = new decimal(new int[] {
             -1,
             -1,
             0,
             0});
             this.Random_Param2NumericUpDown.Name = "Random_Param2NumericUpDown";
-            this.Random_Param2NumericUpDown.Size = new System.Drawing.Size(157, 19);
+            this.Random_Param2NumericUpDown.Size = new System.Drawing.Size(115, 19);
             this.Random_Param2NumericUpDown.TabIndex = 9;
             this.Random_Param2NumericUpDown.ValueChanged += new System.EventHandler(this.Random_Param2NumericUpDown_ValueChanged);
             // 
@@ -473,9 +479,9 @@
             // 
             this.label11.AutoSize = true;
             this.label11.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label11.Location = new System.Drawing.Point(527, 0);
+            this.label11.Location = new System.Drawing.Point(445, 0);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(157, 20);
+            this.label11.Size = new System.Drawing.Size(115, 20);
             this.label11.TabIndex = 8;
             this.label11.Text = "パラメータ2";
             this.label11.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -483,14 +489,14 @@
             // Random_Param1NumericUpDown
             // 
             this.Random_Param1NumericUpDown.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Random_Param1NumericUpDown.Location = new System.Drawing.Point(365, 23);
+            this.Random_Param1NumericUpDown.Location = new System.Drawing.Point(324, 23);
             this.Random_Param1NumericUpDown.Maximum = new decimal(new int[] {
             -1,
             -1,
             0,
             0});
             this.Random_Param1NumericUpDown.Name = "Random_Param1NumericUpDown";
-            this.Random_Param1NumericUpDown.Size = new System.Drawing.Size(156, 19);
+            this.Random_Param1NumericUpDown.Size = new System.Drawing.Size(115, 19);
             this.Random_Param1NumericUpDown.TabIndex = 7;
             this.Random_Param1NumericUpDown.ValueChanged += new System.EventHandler(this.Random_Param1NumericUpDown_ValueChanged);
             // 
@@ -498,9 +504,9 @@
             // 
             this.label10.AutoSize = true;
             this.label10.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label10.Location = new System.Drawing.Point(365, 0);
+            this.label10.Location = new System.Drawing.Point(324, 0);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(156, 20);
+            this.label10.Size = new System.Drawing.Size(115, 20);
             this.label10.TabIndex = 6;
             this.label10.Text = "パラメータ1";
             this.label10.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -511,7 +517,7 @@
             this.label9.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label9.Location = new System.Drawing.Point(203, 0);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(156, 20);
+            this.label9.Size = new System.Drawing.Size(115, 20);
             this.label9.TabIndex = 5;
             this.label9.Text = "シード値";
             this.label9.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -536,7 +542,7 @@
             0,
             0});
             this.Random_SeedNumericUpDown.Name = "Random_SeedNumericUpDown";
-            this.Random_SeedNumericUpDown.Size = new System.Drawing.Size(156, 19);
+            this.Random_SeedNumericUpDown.Size = new System.Drawing.Size(115, 19);
             this.Random_SeedNumericUpDown.TabIndex = 3;
             this.Random_SeedNumericUpDown.ValueChanged += new System.EventHandler(this.Random_SeedNumericUpDown_ValueChanged);
             // 
@@ -567,7 +573,7 @@
             this.tableLayoutPanel5.RowCount = 2;
             this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel5.Size = new System.Drawing.Size(687, 286);
+            this.tableLayoutPanel5.Size = new System.Drawing.Size(687, 285);
             this.tableLayoutPanel5.TabIndex = 3;
             // 
             // groupBox2
@@ -575,7 +581,7 @@
             this.groupBox2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox2.Location = new System.Drawing.Point(3, 3);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(223, 137);
+            this.groupBox2.Size = new System.Drawing.Size(223, 136);
             this.groupBox2.TabIndex = 1;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "座標を乱数移動して点描画";
@@ -586,32 +592,32 @@
             this.groupBox3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox3.Location = new System.Drawing.Point(232, 3);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(223, 137);
+            this.groupBox3.Size = new System.Drawing.Size(223, 136);
             this.groupBox3.TabIndex = 2;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "グラフ";
             // 
             // Random_Chart
             // 
-            chartArea1.Name = "ChartArea1";
-            this.Random_Chart.ChartAreas.Add(chartArea1);
+            chartArea2.Name = "ChartArea1";
+            this.Random_Chart.ChartAreas.Add(chartArea2);
             this.Random_Chart.Dock = System.Windows.Forms.DockStyle.Fill;
-            legend1.Name = "Legend1";
-            this.Random_Chart.Legends.Add(legend1);
+            legend2.Name = "Legend1";
+            this.Random_Chart.Legends.Add(legend2);
             this.Random_Chart.Location = new System.Drawing.Point(3, 15);
             this.Random_Chart.Name = "Random_Chart";
-            series1.ChartArea = "ChartArea1";
-            series1.Legend = "Legend1";
-            series1.Name = "Series1";
-            this.Random_Chart.Series.Add(series1);
-            this.Random_Chart.Size = new System.Drawing.Size(217, 119);
+            series2.ChartArea = "ChartArea1";
+            series2.Legend = "Legend1";
+            series2.Name = "Series1";
+            this.Random_Chart.Series.Add(series2);
+            this.Random_Chart.Size = new System.Drawing.Size(217, 118);
             this.Random_Chart.TabIndex = 0;
             this.Random_Chart.Text = "chart1";
             // 
             // groupBox4
             // 
             this.groupBox4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox4.Location = new System.Drawing.Point(3, 146);
+            this.groupBox4.Location = new System.Drawing.Point(3, 145);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(223, 137);
             this.groupBox4.TabIndex = 3;
@@ -622,7 +628,7 @@
             // 
             this.groupBox6.Controls.Add(this.Random_TextBox);
             this.groupBox6.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox6.Location = new System.Drawing.Point(232, 146);
+            this.groupBox6.Location = new System.Drawing.Point(232, 145);
             this.groupBox6.Name = "groupBox6";
             this.groupBox6.Size = new System.Drawing.Size(223, 137);
             this.groupBox6.TabIndex = 4;
@@ -658,7 +664,7 @@
             this.IOTabPage.Location = new System.Drawing.Point(4, 22);
             this.IOTabPage.Name = "IOTabPage";
             this.IOTabPage.Padding = new System.Windows.Forms.Padding(3);
-            this.IOTabPage.Size = new System.Drawing.Size(739, 463);
+            this.IOTabPage.Size = new System.Drawing.Size(739, 462);
             this.IOTabPage.TabIndex = 2;
             this.IOTabPage.Text = "IO";
             this.IOTabPage.UseVisualStyleBackColor = true;
@@ -671,7 +677,7 @@
             this.tabControl2.Location = new System.Drawing.Point(3, 3);
             this.tabControl2.Name = "tabControl2";
             this.tabControl2.SelectedIndex = 0;
-            this.tabControl2.Size = new System.Drawing.Size(733, 457);
+            this.tabControl2.Size = new System.Drawing.Size(733, 456);
             this.tabControl2.TabIndex = 1;
             // 
             // tabPage5
@@ -680,7 +686,7 @@
             this.tabPage5.Location = new System.Drawing.Point(4, 22);
             this.tabPage5.Name = "tabPage5";
             this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage5.Size = new System.Drawing.Size(725, 431);
+            this.tabPage5.Size = new System.Drawing.Size(725, 430);
             this.tabPage5.TabIndex = 0;
             this.tabPage5.Text = "Directory";
             this.tabPage5.UseVisualStyleBackColor = true;
@@ -698,7 +704,7 @@
             this.tableLayoutPanel3.RowCount = 2;
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(719, 425);
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(719, 424);
             this.tableLayoutPanel3.TabIndex = 0;
             // 
             // groupBox5
@@ -707,7 +713,7 @@
             this.groupBox5.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox5.Location = new System.Drawing.Point(3, 215);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(353, 207);
+            this.groupBox5.Size = new System.Drawing.Size(353, 206);
             this.groupBox5.TabIndex = 1;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Directory.Move";
@@ -730,7 +736,7 @@
             this.tableLayoutPanel10.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.tableLayoutPanel10.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.tableLayoutPanel10.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel10.Size = new System.Drawing.Size(347, 189);
+            this.tableLayoutPanel10.Size = new System.Drawing.Size(347, 188);
             this.tableLayoutPanel10.TabIndex = 0;
             // 
             // IO_Directory_MoveDestTextBox
@@ -970,6 +976,31 @@
             this.IO_DeflateFile_RunButton.UseVisualStyleBackColor = true;
             this.IO_DeflateFile_RunButton.Click += new System.EventHandler(this.IO_DeflateFile_RunButton_Click);
             // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label17.Location = new System.Drawing.Point(566, 0);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(118, 20);
+            this.label17.TabIndex = 10;
+            this.label17.Text = "パラメータ3";
+            this.label17.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
+            // 
+            // Random_Param3NumericUpDown
+            // 
+            this.Random_Param3NumericUpDown.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Random_Param3NumericUpDown.Location = new System.Drawing.Point(566, 23);
+            this.Random_Param3NumericUpDown.Maximum = new decimal(new int[] {
+            -1,
+            -1,
+            0,
+            0});
+            this.Random_Param3NumericUpDown.Name = "Random_Param3NumericUpDown";
+            this.Random_Param3NumericUpDown.Size = new System.Drawing.Size(118, 19);
+            this.Random_Param3NumericUpDown.TabIndex = 11;
+            this.Random_Param3NumericUpDown.ValueChanged += new System.EventHandler(this.Random_Param3NumericUpDown_ValueChanged);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -1017,6 +1048,7 @@
             this.tabPage6.ResumeLayout(false);
             this.tableLayoutPanel9.ResumeLayout(false);
             this.tableLayoutPanel9.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.Random_Param3NumericUpDown)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1090,6 +1122,8 @@
         private System.Windows.Forms.Button IO_Directory_MoveButton;
         private System.Windows.Forms.GroupBox groupBox6;
         private System.Windows.Forms.TextBox Random_TextBox;
+        private System.Windows.Forms.NumericUpDown Random_Param3NumericUpDown;
+        private System.Windows.Forms.Label label17;
     }
 }
 

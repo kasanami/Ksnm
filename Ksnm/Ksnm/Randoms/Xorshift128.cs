@@ -35,7 +35,7 @@ namespace Ksnm.Randoms
     /// </summary>
     public class Xorshift128 : RandomBase
     {
-        uint w, x, y, z;
+        public uint w, x, y, z;
 
         /// <summary>
         /// 時間に応じて決定される既定のシード値を使用し、新しいインスタンスを初期化します。
