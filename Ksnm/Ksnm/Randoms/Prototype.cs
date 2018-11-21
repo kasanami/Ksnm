@@ -28,33 +28,33 @@ namespace Ksnm.Randoms
     /// </summary>
     public class Prototype : RandomBase
     {
-        public uint seed;
-        /// <summary>
-        /// 加数
-        /// </summary>
-        public uint addend = 12356789;
+        public ulong seed;
         /// <summary>
         /// 乗数
         /// </summary>
-        public uint multiplier = 12356789;
+        public ulong multiplier = 12356789;
+        /// <summary>
+        /// 加数
+        /// </summary>
+        public ulong addend = 12356789;
 
         /// <summary>
         /// 時間に応じて決定される既定のシード値を使用し、新しいインスタンスを初期化します。
         /// </summary>
-        public Prototype() : this((uint)System.DateTime.Now.Ticks) { }
+        public Prototype() : this((ulong)System.DateTime.Now.Ticks) { }
 
         /// <summary>
         /// 指定したシード値を使用して 新しいインスタンスを初期化します。
         /// </summary>
         /// <param name="seed">擬似乱数系列の開始値を計算するために使用する数値。負数を指定した場合、その数値の絶対値が使用されます。</param>
         /// <exception cref="System.OverflowException">seed が System.Int32.MinValue です。これは、絶対値が計算されるときにオーバーフローの原因となります。</exception>
-        public Prototype(int seed) : this((uint)System.Math.Abs(seed)) { }
+        public Prototype(int seed) : this((ulong)System.Math.Abs(seed)) { }
 
         /// <summary>
         /// 指定したシード値を使用して 新しいインスタンスを初期化します。
         /// </summary>
         /// <param name="seed">擬似乱数系列の開始値を計算するために使用する数値。</param>
-        public Prototype(uint seed)
+        public Prototype(ulong seed)
         {
             this.seed = seed;
         }
@@ -63,11 +63,11 @@ namespace Ksnm.Randoms
         /// 指定したシード値を使用して 新しいインスタンスを初期化します。
         /// </summary>
         /// <param name="seed">擬似乱数系列の開始値を計算するために使用する数値。</param>
-        public Prototype(uint seed, uint addend, uint multiplier)
+        public Prototype(ulong seed, ulong multiplier, ulong addend)
         {
             this.seed = seed;
-            this.addend = addend;
             this.multiplier = multiplier;
+            this.addend = addend;
         }
 
         /// <summary>
@@ -76,8 +76,7 @@ namespace Ksnm.Randoms
         /// <returns>0 以上で 0xFFFFFFFF 以下の32 ビット符号無し整数。</returns>
         public override uint GenerateUInt32()
         {
-            seed = seed * multiplier + addend;
-            return seed;
+            return (uint)GenerateUInt64();
         }
 
         /// <summary>
@@ -86,7 +85,8 @@ namespace Ksnm.Randoms
         /// <returns>0 以上で 0xFFFFFFFFFFFFFFFF 以下の64 ビット符号無し整数。</returns>
         public override ulong GenerateUInt64()
         {
-            return Binary.ToUInt64(GenerateUInt32(), GenerateUInt32());
+            seed = seed * multiplier + addend;
+            return seed;
         }
     }
 }
