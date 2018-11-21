@@ -10,7 +10,7 @@ using Ksnm.Randoms;
 namespace Ksnm.ExtensionMethods.System.Tests
 {
     [TestClass()]
-    public class Random_Tests
+    public class RandomTests
     {
         /// <summary>
         /// テスト回数

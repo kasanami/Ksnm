@@ -28,7 +28,7 @@ namespace Ksnm.ExtensionMethods.System
     /// <summary>
     /// Arrayの拡張メソッド
     /// </summary>
-    public static class Array_
+    public static class Array
     {
         /// <summary>
         /// <para>２つの配列の要素の大きさを比較します。</para>

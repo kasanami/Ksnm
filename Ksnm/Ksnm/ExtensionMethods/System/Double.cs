@@ -21,27 +21,27 @@ freely, subject to the following restrictions:
 
 3. This notice may not be removed or altered from any source distribution.
 */
+using System;
+
 namespace Ksnm.ExtensionMethods.System
 {
-    using global::System;
-    using Original = global::System.Double;
     /// <summary>
     /// Doubleの拡張メソッド
     /// </summary>
-    public static class Double_
+    public static class Double
     {
         /// <summary>
         /// 指定した数値が負または正の無限大と評価されるかどうかを示す値を返します。
         /// </summary>
-        public static bool IsInfinity(this Original value)
+        public static bool IsInfinity(this double value)
         {
-            return Original.IsInfinity(value);
+            return double.IsInfinity(value);
         }
         /// <summary>
         /// 64 ビット符号付き整数に変換します。
         /// </summary>
         /// <returns>value と等価の値を持つ 64 ビット符号付き整数。</returns>
-        public static long ToInt64Bits(this Original value)
+        public static long ToInt64Bits(this double value)
         {
             return BitConverter.DoubleToInt64Bits(value);
         }
@@ -49,28 +49,28 @@ namespace Ksnm.ExtensionMethods.System
         /// 64 ビット符号なし整数に変換します。
         /// </summary>
         /// <returns>value と等価の値を持つ 64 ビット符号なし整数。</returns>
-        public static ulong ToUInt64Bits(this Original value)
+        public static ulong ToUInt64Bits(this double value)
         {
             return (ulong)BitConverter.DoubleToInt64Bits(value);
         }
         /// <summary>
         /// 符号ビットを取得
         /// </summary>
-        public static byte GetSignBits(this Original value)
+        public static byte GetSignBits(this double value)
         {
             return (byte)(value.ToUInt64Bits() >> 63);
         }
         /// <summary>
         /// 指数部を取得
         /// </summary>
-        public static ushort GetExponentBits(this Original value)
+        public static ushort GetExponentBits(this double value)
         {
             return (ushort)((value.ToUInt64Bits() >> 52) & 0x7FF);
         }
         /// <summary>
         /// 仮数部を取得
         /// </summary>
-        public static ulong GetFractionBits(this Original value)
+        public static ulong GetFractionBits(this double value)
         {
             return value.ToUInt64Bits() & 0x000F_FFFF_FFFF_FFFF;
         }
@@ -78,7 +78,7 @@ namespace Ksnm.ExtensionMethods.System
         /// <summary>
         /// 符号ビットを設定
         /// </summary>
-        public static Original SetSignBits(this Original value, int sign)
+        public static double SetSignBits(this double value, int sign)
         {
             var bits = (ulong)BitConverter.DoubleToInt64Bits(value);
             bits &= 0x7FFF_FFFF_FFFF_FFFF;
@@ -88,7 +88,7 @@ namespace Ksnm.ExtensionMethods.System
         /// <summary>
         /// 指数部を設定
         /// </summary>
-        public static Original SetExponentBits(this Original value, int exponent)
+        public static double SetExponentBits(this double value, int exponent)
         {
             var bits = (ulong)BitConverter.DoubleToInt64Bits(value);
             bits &= 0x800F_FFFF_FFFF_FFFF;
@@ -98,7 +98,7 @@ namespace Ksnm.ExtensionMethods.System
         /// <summary>
         /// 仮数部を設定
         /// </summary>
-        public static Original SetFractionBits(this Original value, ulong fraction)
+        public static double SetFractionBits(this double value, ulong fraction)
         {
             var bits = (ulong)BitConverter.DoubleToInt64Bits(value);
             bits &= 0xFFF0_0000_0000_0000;

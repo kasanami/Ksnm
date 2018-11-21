@@ -57,11 +57,13 @@
   </Choose>
   <ItemGroup>
     <Compile Include="BinaryTests.cs" />
-    <Compile Include="ExtensionMethods\System\Array_Tests.cs" />
+    <Compile Include="ExtensionMethods\System\ArrayTests.cs" />
+    <Compile Include="ExtensionMethods\System\Collections\DictionaryTests.cs" />
     <Compile Include="ExtensionMethods\System\Collections\EnumerableTests.cs" />
-    <Compile Include="ExtensionMethods\System\Double_Tests.cs" />
-    <Compile Include="ExtensionMethods\System\Random_Tests.cs" />
-    <Compile Include="ExtensionMethods\System\String_Tests.cs" />
+    <Compile Include="ExtensionMethods\System\Collections\ListTests.cs" />
+    <Compile Include="ExtensionMethods\System\DoubleTests.cs" />
+    <Compile Include="ExtensionMethods\System\RandomTests.cs" />
+    <Compile Include="ExtensionMethods\System\StringTests.cs" />
     <Compile Include="LitJson\JsonMapperTests.cs" />
     <Compile Include="MathTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

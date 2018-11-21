@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace Ksnm.ExtensionMethods.System.Tests
 {
     [TestClass()]
-    public class Double_Tests
+    public class DoubleTests
     {
         [TestMethod()]
         public void IsInfinityTest()

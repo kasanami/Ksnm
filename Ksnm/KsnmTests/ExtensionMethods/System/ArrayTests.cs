@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace Ksnm.ExtensionMethods.System.Tests
 {
     [TestClass()]
-    public class Array_Tests
+    public class ArrayTests
     {
         [TestMethod()]
         public void CompareTest()

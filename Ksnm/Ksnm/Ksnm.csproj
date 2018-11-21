@@ -44,15 +44,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Binary.cs" />
-    <Compile Include="ExtensionMethods\System\Array_.cs" />
-    <Compile Include="ExtensionMethods\System\Collections\Dictionary_.cs" />
+    <Compile Include="ExtensionMethods\System\Array.cs" />
+    <Compile Include="ExtensionMethods\System\Collections\Dictionary.cs" />
     <Compile Include="ExtensionMethods\System\Collections\Enumerable.cs" />
-    <Compile Include="ExtensionMethods\System\Collections\IList_.cs" />
-    <Compile Include="ExtensionMethods\System\Collections\List_.cs" />
-    <Compile Include="ExtensionMethods\System\Double_.cs" />
-    <Compile Include="ExtensionMethods\System\Drawing\Point_.cs" />
-    <Compile Include="ExtensionMethods\System\Random_.cs" />
-    <Compile Include="ExtensionMethods\System\String_.cs" />
+    <Compile Include="ExtensionMethods\System\Collections\List.cs" />
+    <Compile Include="ExtensionMethods\System\Double.cs" />
+    <Compile Include="ExtensionMethods\System\Drawing\Point.cs" />
+    <Compile Include="ExtensionMethods\System\Random.cs" />
+    <Compile Include="ExtensionMethods\System\String.cs" />
     <Compile Include="IO\DeflateFile.cs" />
     <Compile Include="IO\Directory.cs" />
     <Compile Include="IO\File.cs" />

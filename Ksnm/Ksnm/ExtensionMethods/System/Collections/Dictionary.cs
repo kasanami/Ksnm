@@ -1,7 +1,7 @@
 ﻿/*
 The zlib License
 
-Copyright (c) 2017 Takahiro Kasanami
+Copyright (c) 2017-2018 Takahiro Kasanami
 
 This software is provided 'as-is', without any express or implied
 warranty. In no event will the authors be held liable for any damages
@@ -21,21 +21,21 @@ freely, subject to the following restrictions:
 
 3. This notice may not be removed or altered from any source distribution.
 */
-using Original = System.Collections.Generic;
+using System.Collections.Generic;
 
 namespace Ksnm.ExtensionMethods.System.Collections
 {
     /// <summary>
     /// Dictionaryの拡張メソッド
     /// </summary>
-    public static class Dictionary_
+    public static class Dictionary
     {
         /// <summary>
         /// 指定したキーが存在しなければ、指定したキーと値を追加
         /// </summary>
         /// <param name="key"></param>
         /// <param name="value"></param>
-        public static void AddIfKeyNotExists<TKey, TValue>(this Original.Dictionary<TKey, TValue> dictionary, TKey key, TValue value)
+        public static void AddIfKeyNotExists<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, TValue value)
         {
             if (dictionary.ContainsKey(key) == false)
             {
@@ -47,7 +47,7 @@ namespace Ksnm.ExtensionMethods.System.Collections
         /// </summary>
         /// <param name="key">取得する値のキー。</param>
         /// <param name="defaultValue">キーが見つからない場合の value パラメーターの型に対する既定の値。</param>
-        public static TValue GetValueOrDefault<TKey, TValue>(this Original.Dictionary<TKey, TValue> dictionary, TKey key, TValue defaultValue)
+        public static TValue GetValueOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, TValue defaultValue)
         {
             if (dictionary.ContainsKey(key))
             {
@@ -59,7 +59,7 @@ namespace Ksnm.ExtensionMethods.System.Collections
         /// 指定したキーに関連付けられている値を取得します。
         /// </summary>
         /// <param name="key">取得する値のキー。</param>
-        public static TValue GetValueOrDefault<TKey, TValue>(this Original.Dictionary<TKey, TValue> dictionary, TKey key)
+        public static TValue GetValueOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key)
         {
             return dictionary.GetValueOrDefault(key, default(TValue));
         }

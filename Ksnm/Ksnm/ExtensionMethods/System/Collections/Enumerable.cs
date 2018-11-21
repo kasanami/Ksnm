@@ -26,6 +26,9 @@ using System.Linq;
 
 namespace Ksnm.ExtensionMethods.System.Collections
 {
+    /// <summary>
+    /// Enumerableの拡張メソッド
+    /// </summary>
     public static class Enumerable
     {
         /// <summary>

@@ -28,7 +28,7 @@ namespace Ksnm.ExtensionMethods.System
     /// <summary>
     /// Randomの拡張メソッド
     /// </summary>
-    public static class Random_
+    public static class Random
     {
 
         /// <summary>

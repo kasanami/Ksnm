@@ -1,7 +1,7 @@
 ﻿/*
 The zlib License
 
-Copyright (c) 2014 Takahiro Kasanami
+Copyright (c) 2017 Takahiro Kasanami
 
 This software is provided 'as-is', without any express or implied
 warranty. In no event will the authors be held liable for any damages
@@ -21,21 +21,24 @@ freely, subject to the following restrictions:
 
 3. This notice may not be removed or altered from any source distribution.
 */
-using Original = System.Collections.Generic;
+using Original = global::System.Drawing;
 
-namespace Ksnm.ExtensionMethods.System.Collections.Generic
+namespace Ksnm.ExtensionMethods.System.Drawing
 {
     /// <summary>
-    /// Listの拡張メソッド
+    /// Pointの拡張メソッド
     /// </summary>
-    public static class List_
+    public static class Point
     {
         /// <summary>
-        /// 指定位置から最後までを削除
+        /// 加算
         /// </summary>
-        public static void RemoveRange<T>(this Original.List<T> list, int index)
+        /// <returns>加算後のPoint</returns>
+        public static Original.Point Add(this Original.Point self, Original.Point other)
         {
-            list.RemoveRange(index, list.Count - index);
+            return new Original.Point(
+                self.X + other.X,
+                self.Y + other.Y);
         }
     }
 }

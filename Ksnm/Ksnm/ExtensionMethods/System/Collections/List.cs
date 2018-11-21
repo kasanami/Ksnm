@@ -21,23 +21,21 @@ freely, subject to the following restrictions:
 
 3. This notice may not be removed or altered from any source distribution.
 */
-using Original = System.Collections.Generic;
-using Ksnm.ExtensionMethods.System;
-using Random = global::System.Random;
+using System.Collections.Generic;
 
-namespace Ksnm.ExtensionMethods.System.Collections.Generic
+namespace Ksnm.ExtensionMethods.System.Collections
 {
     /// <summary>
-    /// IListの拡張メソッド
+    /// Listの拡張メソッド
     /// </summary>
-    public static class IList_
+    public static class List
     {
         /// <summary>
         /// 最後の要素を取得
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="list"></param>
-        public static T GetLast<T>(this Original.IList<T> list)
+        public static T GetLast<T>(this IList<T> list)
         {
             return list[list.Count - 1];
         }
@@ -46,7 +44,7 @@ namespace Ksnm.ExtensionMethods.System.Collections.Generic
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="list"></param>
-        public static void RemoveLast<T>(this Original.IList<T> list)
+        public static void RemoveLast<T>(this IList<T> list)
         {
             list.RemoveAt(list.Count - 1);
         }
@@ -55,14 +53,14 @@ namespace Ksnm.ExtensionMethods.System.Collections.Generic
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="list"></param>
-        public static bool EqualsLast<T>(this Original.IList<T> list, T item)
+        public static bool EqualsLast<T>(this IList<T> list, T item)
         {
             return list.GetLast().Equals(item);
         }
         /// <summary>
         /// リストの全要素を設定します。
         /// </summary>
-        public static void SetAll<T>(this Original.IList<T> list, T value)
+        public static void SetAll<T>(this IList<T> list, T value)
         {
             for (int i = 0; i < list.Count; ++i)
             {
@@ -72,7 +70,7 @@ namespace Ksnm.ExtensionMethods.System.Collections.Generic
         /// <summary>
         /// リストの指定要素を交換します
         /// </summary>
-        public static void Swap<T>(this Original.IList<T> list, int indexA, int indexB)
+        public static void Swap<T>(this IList<T> list, int indexA, int indexB)
         {
             T tmp = list[indexA];
             list[indexA] = list[indexB];
@@ -81,7 +79,7 @@ namespace Ksnm.ExtensionMethods.System.Collections.Generic
         /// <summary>
         /// リストの要素をランダムに並び替える
         /// </summary>
-        public static void Shuffle<T>(this Original.IList<T> list, Random random = null)
+        public static void Shuffle<T>(this IList<T> list, global::System.Random random = null)
         {
             for (int indexA = 0; indexA < list.Count; ++indexA)
             {
@@ -92,7 +90,7 @@ namespace Ksnm.ExtensionMethods.System.Collections.Generic
         /// <summary>
         /// 指定したインデックス位置の項目を削除し、削除された項目を返します。
         /// </summary>
-        public static T Pop<T>(this Original.IList<T> list, int index)
+        public static T Pop<T>(this IList<T> list, int index)
         {
             var item = list[index];
             list.RemoveAt(index);
@@ -101,7 +99,7 @@ namespace Ksnm.ExtensionMethods.System.Collections.Generic
         /// <summary>
         /// ランダムな位置の項目を削除し、削除された項目を返します。
         /// </summary>
-        public static T PopRandom<T>(this Original.IList<T> list, Random random = null)
+        public static T PopRandom<T>(this IList<T> list, global::System.Random random = null)
         {
             var index = list.RandomIndex(random);
             return list.Pop(index);
@@ -109,16 +107,23 @@ namespace Ksnm.ExtensionMethods.System.Collections.Generic
         /// <summary>
         /// ランダムなindexを返します。
         /// </summary>
-        public static int RandomIndex<T>(this Original.IList<T> list, Random random)
+        public static int RandomIndex<T>(this IList<T> list, global::System.Random random)
         {
             return random.Next(list.Count);
         }
         /// <summary>
         /// ランダムなindexを返します。
         /// </summary>
-        public static int RandomIndex<T>(this Original.IList<T> list)
+        public static int RandomIndex<T>(this IList<T> list)
         {
-            return list.RandomIndex(new Random());
+            return list.RandomIndex(new global::System.Random());
+        }
+        /// <summary>
+        /// 指定位置から最後までを削除
+        /// </summary>
+        public static void RemoveRange<T>(this List<T> list, int index)
+        {
+            list.RemoveRange(index, list.Count - index);
         }
     }
 }
