@@ -105,8 +105,8 @@ namespace DemoApp
 
         #region Randomタブ
 
-        Dictionary<string, Random> randoms = new Dictionary<string, Random>();
-        Random systemRandom = new Random();
+        Dictionary<string, System.Random> randoms = new Dictionary<string, System.Random>();
+        System.Random systemRandom = new System.Random();
         Xorshift128 xorshift128 = new Xorshift128();
         IncrementRandom incrementRandom = new IncrementRandom();
         Prototype prototypeRandom = new Prototype();
@@ -205,35 +205,35 @@ namespace DemoApp
         /// <summary>
         /// 現在選択している乱数生成器を初期化
         /// </summary>
-        void Random_InitGenerator(Random selected)
+        void Random_InitGenerator(System.Random selected)
         {
-            if(ReferenceEquals(selected ,systemRandom))
+            if (ReferenceEquals(selected, systemRandom))
             {
 
             }
             else if (ReferenceEquals(selected, xorshift128))
             {
-                xorshift128.w = unchecked((uint)Random_SeedNumericUpDown.Value);
-                xorshift128.x = unchecked((uint)Random_Param1NumericUpDown.Value);
-                xorshift128.y = unchecked((uint)Random_Param2NumericUpDown.Value);
-                xorshift128.z = unchecked((uint)Random_Param2NumericUpDown.Value);
+                xorshift128.w = decimal.ToUInt32(Random_SeedNumericUpDown.Value);
+                xorshift128.x = decimal.ToUInt32(Random_Param1NumericUpDown.Value);
+                xorshift128.y = decimal.ToUInt32(Random_Param2NumericUpDown.Value);
+                xorshift128.z = decimal.ToUInt32(Random_Param2NumericUpDown.Value);
             }
             else if (ReferenceEquals(selected, incrementRandom))
             {
-                incrementRandom.Current = unchecked((uint)Random_SeedNumericUpDown.Value);
-                incrementRandom.Cycle = unchecked((uint)Random_Param1NumericUpDown.Value);
+                incrementRandom.Current = decimal.ToUInt32(Random_SeedNumericUpDown.Value);
+                incrementRandom.Cycle = decimal.ToUInt32(Random_Param1NumericUpDown.Value);
             }
             else if (ReferenceEquals(selected, prototypeRandom))
             {
-                prototypeRandom.seed = unchecked((uint)Random_SeedNumericUpDown.Value);
-                prototypeRandom.addend = unchecked((uint)Random_Param1NumericUpDown.Value);
-                prototypeRandom.multiplier = unchecked((uint)Random_Param2NumericUpDown.Value);
+                prototypeRandom.seed = decimal.ToUInt64(Random_SeedNumericUpDown.Value);
+                prototypeRandom.addend = decimal.ToUInt64(Random_Param1NumericUpDown.Value);
+                prototypeRandom.multiplier = decimal.ToUInt64(Random_Param2NumericUpDown.Value);
             }
         }
 
         void Random_UpdateView()
         {
-            Random random = null;
+            System.Random random = null;
             var selected = Random_TypeComboBox.Text;
             if (randoms.ContainsKey(selected))
             {
@@ -263,7 +263,7 @@ namespace DemoApp
                 for (int i = 0; i < 100; i++)
                 {
                     var value = random.NextDouble();
-                    stringBuilder.AppendLine("0x" + value.ToInt64Bits().ToString("X16") + " " + value.ToString("0.####################################"));
+                    stringBuilder.AppendLine("0x" + value.ToInt64Bits().ToString("X16") + " " + value.ToString("0.################################################################"));
                 }
                 //
                 stringBuilder.AppendLine("----------------------------------------");
