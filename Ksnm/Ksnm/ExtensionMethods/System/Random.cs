@@ -49,7 +49,7 @@ namespace Ksnm.ExtensionMethods.System
             var buffer = new byte[sizeof(long)];
             random.NextBytes(buffer);
             long result = Original.BitConverter.ToInt64(buffer, 0);
-            return result & long.MaxValue;
+            return (result & long.MaxValue) % long.MaxValue;
         }
 
         /// <summary>
@@ -58,7 +58,10 @@ namespace Ksnm.ExtensionMethods.System
         /// <returns>0.0 以上 1.0 以下の倍精度浮動小数点数。</returns>
         public static double UnitInterval(this Original.Random random)
         {
-            return random.NextLong() / (double)long.MaxValue;
+            var buffer = new byte[sizeof(ulong)];
+            random.NextBytes(buffer);
+            double value = Original.BitConverter.ToUInt64(buffer, 0);
+            return value / ulong.MaxValue;
         }
 
         /// <summary>
