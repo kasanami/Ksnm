@@ -119,6 +119,25 @@ namespace DemoApp
         Ksnm.Windows.Forms.InterpolatedPictureBox Random_PointPictureBox;
         Ksnm.Windows.Forms.InterpolatedPictureBox Random_PixelPictureBox;
 
+        /// <summary>
+        /// 選択中の乱数生成器
+        /// </summary>
+        System.Random Random_SelectedRandom
+        {
+            get
+            {
+                var selected = Random_TypeComboBox.Text;
+                if (randoms.ContainsKey(selected))
+                {
+                    return randoms[selected];
+                }
+                else
+                {
+                    return null;
+                }
+            }
+        }
+
         void Random_InitializeComponent()
         {
             {
@@ -182,6 +201,11 @@ namespace DemoApp
             Random_TypeComboBox.SelectedIndex = 0;
         }
 
+        private void Random_TypeComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Random_UpdateUI(Random_SelectedRandom);
+        }
+
         private void Random_GenerateButton1_Click(object sender, EventArgs e)
         {
             Random_UpdateView();
@@ -214,37 +238,105 @@ namespace DemoApp
         {
             if (ReferenceEquals(selected, systemRandom))
             {
-
+                systemRandom = new System.Random(decimal.ToInt32(Random_Param0NumericUpDown.Value));
+                randoms["System.Random"] = systemRandom;
             }
             else if (ReferenceEquals(selected, xorshift128))
             {
-                xorshift128.w = decimal.ToUInt32(Random_SeedNumericUpDown.Value);
+                xorshift128.w = decimal.ToUInt32(Random_Param0NumericUpDown.Value);
                 xorshift128.x = decimal.ToUInt32(Random_Param1NumericUpDown.Value);
                 xorshift128.y = decimal.ToUInt32(Random_Param2NumericUpDown.Value);
-                xorshift128.z = decimal.ToUInt32(Random_Param2NumericUpDown.Value);
+                xorshift128.z = decimal.ToUInt32(Random_Param3NumericUpDown.Value);
             }
             else if (ReferenceEquals(selected, incrementRandom))
             {
-                incrementRandom.Current = decimal.ToUInt32(Random_SeedNumericUpDown.Value);
+                incrementRandom.Current = decimal.ToUInt32(Random_Param0NumericUpDown.Value);
                 incrementRandom.Cycle = decimal.ToUInt32(Random_Param1NumericUpDown.Value);
             }
             else if (ReferenceEquals(selected, prototypeRandom))
             {
-                prototypeRandom.seed = decimal.ToUInt64(Random_SeedNumericUpDown.Value);
-                prototypeRandom.addend = decimal.ToUInt64(Random_Param1NumericUpDown.Value);
-                prototypeRandom.multiplier = decimal.ToUInt64(Random_Param2NumericUpDown.Value);
+                prototypeRandom.seed = decimal.ToUInt64(Random_Param0NumericUpDown.Value);
+                prototypeRandom.multiplier = decimal.ToUInt64(Random_Param1NumericUpDown.Value);
+                prototypeRandom.addend = decimal.ToUInt64(Random_Param2NumericUpDown.Value);
             }
+        }
+
+        /// <summary>
+        /// UI更新中ならtrue
+        /// </summary>
+        bool Random_IsUpdatingUI = false;
+
+        /// <summary>
+        /// 現在選択している乱数生成器に合わせてUI更新
+        /// </summary>
+        void Random_UpdateUI(System.Random selected)
+        {
+            Random_IsUpdatingUI = true;
+            if (ReferenceEquals(selected, systemRandom))
+            {
+                Random_Param0Label.Text = "seed";
+                Random_Param1Label.Text = "-";
+                Random_Param2Label.Text = "-";
+                Random_Param3Label.Text = "-";
+                Random_Param0NumericUpDown.Enabled = true;
+                Random_Param1NumericUpDown.Enabled = false;
+                Random_Param2NumericUpDown.Enabled = false;
+                Random_Param3NumericUpDown.Enabled = false;
+            }
+            else if (ReferenceEquals(selected, xorshift128))
+            {
+                Random_Param0Label.Text = "x";
+                Random_Param1Label.Text = "x";
+                Random_Param2Label.Text = "y";
+                Random_Param3Label.Text = "z";
+                Random_Param0NumericUpDown.Enabled = true;
+                Random_Param1NumericUpDown.Enabled = true;
+                Random_Param2NumericUpDown.Enabled = true;
+                Random_Param3NumericUpDown.Enabled = true;
+                Random_Param0NumericUpDown.Value = xorshift128.w;
+                Random_Param1NumericUpDown.Value = xorshift128.x;
+                Random_Param2NumericUpDown.Value = xorshift128.y;
+                Random_Param3NumericUpDown.Value = xorshift128.z;
+            }
+            else if (ReferenceEquals(selected, incrementRandom))
+            {
+                Random_Param0Label.Text = "Current";
+                Random_Param1Label.Text = "Cycle";
+                Random_Param2Label.Text = "-";
+                Random_Param3Label.Text = "-";
+                Random_Param0NumericUpDown.Enabled = true;
+                Random_Param1NumericUpDown.Enabled = true;
+                Random_Param2NumericUpDown.Enabled = false;
+                Random_Param3NumericUpDown.Enabled = false;
+                Random_Param0NumericUpDown.Value = incrementRandom.Current;
+                Random_Param1NumericUpDown.Value = incrementRandom.Cycle;
+            }
+            else if (ReferenceEquals(selected, prototypeRandom))
+            {
+                Random_Param0Label.Text = "seed";
+                Random_Param1Label.Text = "multiplier";
+                Random_Param2Label.Text = "addend";
+                Random_Param3Label.Text = "-";
+                Random_Param0NumericUpDown.Enabled = true;
+                Random_Param1NumericUpDown.Enabled = true;
+                Random_Param2NumericUpDown.Enabled = true;
+                Random_Param3NumericUpDown.Enabled = false;
+                Random_Param0NumericUpDown.Value = prototypeRandom.seed;
+                Random_Param1NumericUpDown.Value = prototypeRandom.multiplier;
+                Random_Param2NumericUpDown.Value = prototypeRandom.addend;
+            }
+            Random_IsUpdatingUI = false;
         }
 
         void Random_UpdateView()
         {
-            System.Random random = null;
-            var selected = Random_TypeComboBox.Text;
-            if (randoms.ContainsKey(selected))
+            // UI更新中なら処理しない
+            if (Random_IsUpdatingUI)
             {
-                random = randoms[selected];
+                return;
             }
-            else
+            System.Random random = Random_SelectedRandom;
+            if (random == null)
             {
                 return;
             }
@@ -373,7 +465,7 @@ namespace DemoApp
                     {
                         for (int x = 0; x < canvas.Width; x++)
                         {
-                            if (random.NextDouble() <0.5)
+                            if (random.NextDouble() < 0.5)
                             {
                                 canvas.SetPixel(x, y, Color.Black);
                             }
