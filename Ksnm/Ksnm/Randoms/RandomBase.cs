@@ -194,7 +194,7 @@ namespace Ksnm.Randoms
         /// 指定したバイト配列の要素に乱数を格納します。
         /// </summary>
         /// <param name="buffer">乱数を格納するバイト配列。</param>
-        /// /// <exception cref="System.ArgumentNullException">buffer が null</exception>
+        /// <exception cref="System.ArgumentNullException">buffer が null</exception>
         public override void NextBytes(byte[] buffer)
         {
             if (buffer == null)
@@ -203,7 +203,7 @@ namespace Ksnm.Randoms
             }
             for (int i = 0; i < buffer.Length; i++)
             {
-                buffer[i] = (byte)Next();
+                buffer[i] = (byte)GenerateUInt32();
             }
         }
 
