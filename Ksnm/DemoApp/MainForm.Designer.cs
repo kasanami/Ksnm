@@ -28,9 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend3 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.RandomTabControl = new System.Windows.Forms.TabControl();
             this.MathTabPage = new System.Windows.Forms.TabPage();
             this.tabControl1 = new System.Windows.Forms.TabControl();
@@ -380,10 +380,11 @@
             // 
             // primeFactorization_ParameterTextBox
             // 
-            this.primeFactorization_ParameterTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.primeFactorization_ParameterTextBox.Location = new System.Drawing.Point(123, 3);
+            this.primeFactorization_ParameterTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.primeFactorization_ParameterTextBox.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.primeFactorization_ParameterTextBox.Location = new System.Drawing.Point(123, 8);
             this.primeFactorization_ParameterTextBox.Name = "primeFactorization_ParameterTextBox";
-            this.primeFactorization_ParameterTextBox.Size = new System.Drawing.Size(94, 19);
+            this.primeFactorization_ParameterTextBox.Size = new System.Drawing.Size(94, 23);
             this.primeFactorization_ParameterTextBox.TabIndex = 3;
             this.primeFactorization_ParameterTextBox.Text = "2310";
             // 
@@ -625,17 +626,17 @@
             // 
             // Random_Chart
             // 
-            chartArea2.Name = "ChartArea1";
-            this.Random_Chart.ChartAreas.Add(chartArea2);
+            chartArea3.Name = "ChartArea1";
+            this.Random_Chart.ChartAreas.Add(chartArea3);
             this.Random_Chart.Dock = System.Windows.Forms.DockStyle.Fill;
-            legend2.Name = "Legend1";
-            this.Random_Chart.Legends.Add(legend2);
+            legend3.Name = "Legend1";
+            this.Random_Chart.Legends.Add(legend3);
             this.Random_Chart.Location = new System.Drawing.Point(3, 15);
             this.Random_Chart.Name = "Random_Chart";
-            series2.ChartArea = "ChartArea1";
-            series2.Legend = "Legend1";
-            series2.Name = "Series1";
-            this.Random_Chart.Series.Add(series2);
+            series3.ChartArea = "ChartArea1";
+            series3.Legend = "Legend1";
+            series3.Name = "Series1";
+            this.Random_Chart.Series.Add(series3);
             this.Random_Chart.Size = new System.Drawing.Size(217, 118);
             this.Random_Chart.TabIndex = 0;
             this.Random_Chart.Text = "chart1";
@@ -664,6 +665,7 @@
             // Random_TextBox
             // 
             this.Random_TextBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Random_TextBox.Font = new System.Drawing.Font("ＭＳ ゴシック", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.Random_TextBox.Location = new System.Drawing.Point(3, 15);
             this.Random_TextBox.Multiline = true;
             this.Random_TextBox.Name = "Random_TextBox";
