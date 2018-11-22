@@ -16,6 +16,11 @@ namespace DemoApp
 {
     public partial class MainForm : Form
     {
+        /// <summary>
+        /// Double型を指数形式ではなく普通に表示するためのフォーマット
+        /// </summary>
+        static string DoubleFormat = "0." + new string('#', 338);
+
         public MainForm()
         {
             InitializeComponent();
@@ -31,8 +36,8 @@ namespace DemoApp
             OnLoad_RandomTabPage();
             // 定数
             {
-                goldenNumberLabel.Text = Ksnm.Math.GoldenNumber.ToString("R");
-                silverNumberLabel.Text = Ksnm.Math.SilverNumber.ToString("R");
+                goldenNumberLabel.Text = Ksnm.Math.GoldenNumber.ToString(DoubleFormat);
+                silverNumberLabel.Text = Ksnm.Math.SilverNumber.ToString(DoubleFormat);
             }
             // 数列
             {
@@ -263,7 +268,7 @@ namespace DemoApp
                 for (int i = 0; i < 100; i++)
                 {
                     var value = random.NextDouble();
-                    stringBuilder.AppendLine("0x" + value.ToInt64Bits().ToString("X16") + " " + value.ToString("0.################################################################"));
+                    stringBuilder.AppendLine("0x" + value.ToInt64Bits().ToString("X16") + " " + value.ToString(DoubleFormat));
                 }
                 //
                 stringBuilder.AppendLine("----------------------------------------");
@@ -273,6 +278,17 @@ namespace DemoApp
                 {
                     var value = random.NextLong();
                     stringBuilder.AppendLine("0x" + value.ToString("X16") + " " + value.ToString());
+                }
+                //
+                stringBuilder.AppendLine("----------------------------------------");
+                stringBuilder.AppendLine("NextBytes()");
+                Random_InitGenerator(random);
+                var buffer = new byte[8];
+                for (int i = 0; i < 100; i++)
+                {
+                    random.NextBytes(buffer);
+                    var text = string.Join(",", buffer.Select(item => item.ToString()));
+                    stringBuilder.AppendLine(text);
                 }
                 if (random is Ksnm.Randoms.RandomBase)
                 {
@@ -296,6 +312,33 @@ namespace DemoApp
                         var value = ksnmRandom.GenerateUInt64();
                         stringBuilder.AppendLine("0x" + value.ToString("X16") + " " + value.ToString());
                     }
+                }
+                //
+                stringBuilder.AppendLine("----------------------------------------");
+                stringBuilder.AppendLine("NextBool()");
+                Random_InitGenerator(random);
+                for (int i = 0; i < 100; i++)
+                {
+                    var value = random.NextBool();
+                    stringBuilder.AppendLine(value.ToString());
+                }
+                //
+                stringBuilder.AppendLine("----------------------------------------");
+                stringBuilder.AppendLine("NextLong()");
+                Random_InitGenerator(random);
+                for (int i = 0; i < 100; i++)
+                {
+                    var value = random.NextLong();
+                    stringBuilder.AppendLine(value.ToString());
+                }
+                //
+                stringBuilder.AppendLine("----------------------------------------");
+                stringBuilder.AppendLine("UnitInterval()");
+                Random_InitGenerator(random);
+                for (int i = 0; i < 100; i++)
+                {
+                    var value = random.UnitInterval();
+                    stringBuilder.AppendLine(value.ToString(DoubleFormat));
                 }
                 // 
                 Random_TextBox.Text = stringBuilder.ToString();
