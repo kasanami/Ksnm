@@ -32,7 +32,7 @@ namespace Ksnm
     public static class Binary
     {
         /// <summary>
-        /// 各ビット数で表現可能な値の数
+        /// 各ビット数で表現可能な最大値
         /// </summary>
         public static readonly ReadOnlyCollection<ulong> MaxValues = Array.AsReadOnly(new ulong[]
         {
