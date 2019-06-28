@@ -13,6 +13,16 @@ namespace Ksnm.Tests
     {
 
         [TestMethod()]
+        public void MaxValuesTest()
+        {
+            for (int i = 0; i < Binary.MaxValues.Count; i++)
+            {
+                var maxValue = System.Math.Pow(2, i) - 1;
+                Assert.IsTrue(Binary.MaxValues[i] == maxValue);
+            }
+        }
+
+        [TestMethod()]
         public void FillOneFromLeadingOneToLSBTest()
         {
             Assert.AreEqual(Binary.FillOneFromLeadingOneToLSB(0b0001), 0b0001u);
