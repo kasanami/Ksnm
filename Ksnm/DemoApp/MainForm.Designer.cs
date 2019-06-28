@@ -28,9 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend3 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.RandomTabControl = new System.Windows.Forms.TabControl();
             this.MathTabPage = new System.Windows.Forms.TabPage();
             this.tabControl1 = new System.Windows.Forms.TabControl();
@@ -100,6 +100,15 @@
             this.label12 = new System.Windows.Forms.Label();
             this.IO_DeflateFile_PathTextBox = new System.Windows.Forms.TextBox();
             this.IO_DeflateFile_RunButton = new System.Windows.Forms.Button();
+            this.tabPage7 = new System.Windows.Forms.TabPage();
+            this.tabControl3 = new System.Windows.Forms.TabControl();
+            this.tabPage8 = new System.Windows.Forms.TabPage();
+            this.tabPage9 = new System.Windows.Forms.TabPage();
+            this.tableLayoutPanel11 = new System.Windows.Forms.TableLayoutPanel();
+            this.Binary_MaxValueLabel = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
+            this.label17 = new System.Windows.Forms.Label();
+            this.Binary_MaxValueNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.RandomTabControl.SuspendLayout();
             this.MathTabPage.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -130,6 +139,11 @@
             this.tableLayoutPanel4.SuspendLayout();
             this.tabPage6.SuspendLayout();
             this.tableLayoutPanel9.SuspendLayout();
+            this.tabPage7.SuspendLayout();
+            this.tabControl3.SuspendLayout();
+            this.tabPage8.SuspendLayout();
+            this.tableLayoutPanel11.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.Binary_MaxValueNumericUpDown)).BeginInit();
             this.SuspendLayout();
             // 
             // RandomTabControl
@@ -137,6 +151,7 @@
             this.RandomTabControl.Controls.Add(this.MathTabPage);
             this.RandomTabControl.Controls.Add(this.tabPage2);
             this.RandomTabControl.Controls.Add(this.IOTabPage);
+            this.RandomTabControl.Controls.Add(this.tabPage7);
             this.RandomTabControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.RandomTabControl.Location = new System.Drawing.Point(0, 0);
             this.RandomTabControl.Name = "RandomTabControl";
@@ -626,17 +641,17 @@
             // 
             // Random_Chart
             // 
-            chartArea3.Name = "ChartArea1";
-            this.Random_Chart.ChartAreas.Add(chartArea3);
+            chartArea1.Name = "ChartArea1";
+            this.Random_Chart.ChartAreas.Add(chartArea1);
             this.Random_Chart.Dock = System.Windows.Forms.DockStyle.Fill;
-            legend3.Name = "Legend1";
-            this.Random_Chart.Legends.Add(legend3);
+            legend1.Name = "Legend1";
+            this.Random_Chart.Legends.Add(legend1);
             this.Random_Chart.Location = new System.Drawing.Point(3, 15);
             this.Random_Chart.Name = "Random_Chart";
-            series3.ChartArea = "ChartArea1";
-            series3.Legend = "Legend1";
-            series3.Name = "Series1";
-            this.Random_Chart.Series.Add(series3);
+            series1.ChartArea = "ChartArea1";
+            series1.Legend = "Legend1";
+            series1.Name = "Series1";
+            this.Random_Chart.Series.Add(series1);
             this.Random_Chart.Size = new System.Drawing.Size(217, 118);
             this.Random_Chart.TabIndex = 0;
             this.Random_Chart.Text = "chart1";
@@ -1004,6 +1019,118 @@
             this.IO_DeflateFile_RunButton.UseVisualStyleBackColor = true;
             this.IO_DeflateFile_RunButton.Click += new System.EventHandler(this.IO_DeflateFile_RunButton_Click);
             // 
+            // tabPage7
+            // 
+            this.tabPage7.Controls.Add(this.tabControl3);
+            this.tabPage7.Location = new System.Drawing.Point(4, 22);
+            this.tabPage7.Name = "tabPage7";
+            this.tabPage7.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage7.Size = new System.Drawing.Size(739, 462);
+            this.tabPage7.TabIndex = 3;
+            this.tabPage7.Text = "Binary";
+            this.tabPage7.UseVisualStyleBackColor = true;
+            // 
+            // tabControl3
+            // 
+            this.tabControl3.Controls.Add(this.tabPage8);
+            this.tabControl3.Controls.Add(this.tabPage9);
+            this.tabControl3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControl3.Location = new System.Drawing.Point(3, 3);
+            this.tabControl3.Name = "tabControl3";
+            this.tabControl3.SelectedIndex = 0;
+            this.tabControl3.Size = new System.Drawing.Size(733, 456);
+            this.tabControl3.TabIndex = 0;
+            // 
+            // tabPage8
+            // 
+            this.tabPage8.Controls.Add(this.tableLayoutPanel11);
+            this.tabPage8.Location = new System.Drawing.Point(4, 22);
+            this.tabPage8.Name = "tabPage8";
+            this.tabPage8.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage8.Size = new System.Drawing.Size(725, 430);
+            this.tabPage8.TabIndex = 0;
+            this.tabPage8.Text = "定数";
+            this.tabPage8.UseVisualStyleBackColor = true;
+            // 
+            // tabPage9
+            // 
+            this.tabPage9.Location = new System.Drawing.Point(4, 22);
+            this.tabPage9.Name = "tabPage9";
+            this.tabPage9.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage9.Size = new System.Drawing.Size(192, 74);
+            this.tabPage9.TabIndex = 1;
+            this.tabPage9.Text = "tabPage9";
+            this.tabPage9.UseVisualStyleBackColor = true;
+            // 
+            // tableLayoutPanel11
+            // 
+            this.tableLayoutPanel11.ColumnCount = 2;
+            this.tableLayoutPanel11.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 120F));
+            this.tableLayoutPanel11.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel11.Controls.Add(this.Binary_MaxValueLabel, 1, 1);
+            this.tableLayoutPanel11.Controls.Add(this.label10, 0, 1);
+            this.tableLayoutPanel11.Controls.Add(this.label17, 0, 0);
+            this.tableLayoutPanel11.Controls.Add(this.Binary_MaxValueNumericUpDown, 1, 0);
+            this.tableLayoutPanel11.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel11.Location = new System.Drawing.Point(3, 3);
+            this.tableLayoutPanel11.Name = "tableLayoutPanel11";
+            this.tableLayoutPanel11.RowCount = 3;
+            this.tableLayoutPanel11.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
+            this.tableLayoutPanel11.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
+            this.tableLayoutPanel11.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel11.Size = new System.Drawing.Size(719, 424);
+            this.tableLayoutPanel11.TabIndex = 1;
+            // 
+            // Binary_MaxValueLabel
+            // 
+            this.Binary_MaxValueLabel.AutoSize = true;
+            this.Binary_MaxValueLabel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Binary_MaxValueLabel.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.Binary_MaxValueLabel.Location = new System.Drawing.Point(123, 40);
+            this.Binary_MaxValueLabel.Name = "Binary_MaxValueLabel";
+            this.Binary_MaxValueLabel.Size = new System.Drawing.Size(593, 40);
+            this.Binary_MaxValueLabel.TabIndex = 5;
+            this.Binary_MaxValueLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label10.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.label10.Location = new System.Drawing.Point(3, 40);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(114, 40);
+            this.label10.TabIndex = 4;
+            this.label10.Text = "最大値";
+            this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label17.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.label17.Location = new System.Drawing.Point(3, 0);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(114, 40);
+            this.label17.TabIndex = 1;
+            this.label17.Text = "ビット数";
+            this.label17.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // Binary_MaxValueNumericUpDown
+            // 
+            this.Binary_MaxValueNumericUpDown.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.Binary_MaxValueNumericUpDown.Font = new System.Drawing.Font("MS UI Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.Binary_MaxValueNumericUpDown.Location = new System.Drawing.Point(123, 7);
+            this.Binary_MaxValueNumericUpDown.Maximum = new decimal(new int[] {
+            64,
+            0,
+            0,
+            0});
+            this.Binary_MaxValueNumericUpDown.Name = "Binary_MaxValueNumericUpDown";
+            this.Binary_MaxValueNumericUpDown.Size = new System.Drawing.Size(120, 26);
+            this.Binary_MaxValueNumericUpDown.TabIndex = 6;
+            this.Binary_MaxValueNumericUpDown.ValueChanged += new System.EventHandler(this.Binary_MaxValueNumericUpDown_ValueChanged);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -1052,6 +1179,12 @@
             this.tabPage6.ResumeLayout(false);
             this.tableLayoutPanel9.ResumeLayout(false);
             this.tableLayoutPanel9.PerformLayout();
+            this.tabPage7.ResumeLayout(false);
+            this.tabControl3.ResumeLayout(false);
+            this.tabPage8.ResumeLayout(false);
+            this.tableLayoutPanel11.ResumeLayout(false);
+            this.tableLayoutPanel11.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.Binary_MaxValueNumericUpDown)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1127,6 +1260,15 @@
         private System.Windows.Forms.TextBox Random_TextBox;
         private System.Windows.Forms.NumericUpDown Random_Param3NumericUpDown;
         private System.Windows.Forms.Label Random_Param3Label;
+        private System.Windows.Forms.TabPage tabPage7;
+        private System.Windows.Forms.TabControl tabControl3;
+        private System.Windows.Forms.TabPage tabPage8;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel11;
+        private System.Windows.Forms.Label Binary_MaxValueLabel;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.NumericUpDown Binary_MaxValueNumericUpDown;
+        private System.Windows.Forms.TabPage tabPage9;
     }
 }
 

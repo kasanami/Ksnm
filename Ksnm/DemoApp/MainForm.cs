@@ -542,5 +542,13 @@ namespace DemoApp
         }
 
         #endregion IOタブ
+
+        #region Binaryタブ
+        private void Binary_MaxValueNumericUpDown_ValueChanged(object sender, EventArgs e)
+        {
+            var bitNum = (int)Binary_MaxValueNumericUpDown.Value;
+            Binary_MaxValueLabel.Text = Ksnm.Binary.MaxValues[bitNum].ToString();
+        }
+        #endregion Binaryタブ
     }
 }
