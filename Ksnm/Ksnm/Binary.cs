@@ -1,7 +1,7 @@
 ﻿/*
 The zlib License
 
-Copyright (c) 2017-2018 Takahiro Kasanami
+Copyright (c) 2017-2019 Takahiro Kasanami
 
 This software is provided 'as-is', without any express or implied
 warranty. In no event will the authors be held liable for any damages
@@ -21,6 +21,8 @@ freely, subject to the following restrictions:
 
 3. This notice may not be removed or altered from any source distribution.
 */
+using System;
+using System.Collections.ObjectModel;
 
 namespace Ksnm
 {
@@ -32,7 +34,7 @@ namespace Ksnm
         /// <summary>
         /// 各ビット数で表現可能な値の数
         /// </summary>
-        public static ulong[] MaxValues = new ulong[]
+        public static readonly ReadOnlyCollection<ulong> MaxValues = Array.AsReadOnly(new ulong[]
         {
             0,
             (1UL<<1 )-1,(1UL<<2 )-1,(1UL<<3 )-1,(1UL<<4 )-1,(1UL<<5 )-1,(1UL<<6 )-1,(1UL<<7 )-1,(1UL<<8 )-1,
@@ -43,7 +45,7 @@ namespace Ksnm
             (1UL<<41)-1,(1UL<<42)-1,(1UL<<43)-1,(1UL<<44)-1,(1UL<<45)-1,(1UL<<46)-1,(1UL<<47)-1,(1UL<<48)-1,
             (1UL<<49)-1,(1UL<<50)-1,(1UL<<51)-1,(1UL<<52)-1,(1UL<<53)-1,(1UL<<54)-1,(1UL<<55)-1,(1UL<<56)-1,
             (1UL<<57)-1,(1UL<<58)-1,(1UL<<59)-1,(1UL<<60)-1,(1UL<<61)-1,(1UL<<62)-1,(1UL<<63)-1,0xFFFFFFFFFFFFFFFF,
-        };
+        });
 
         #region FillOne
 
