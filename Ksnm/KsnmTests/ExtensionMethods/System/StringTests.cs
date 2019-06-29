@@ -21,16 +21,22 @@ namespace Ksnm.ExtensionMethods.System.Tests
         [TestMethod()]
         public void HiraganaToKatakanaTest()
         {
+            var sample = "あいうえおアイウエオ";
+            Assert.AreEqual("アイウエオアイウエオ", sample.HiraganaToKatakana());
         }
 
         [TestMethod()]
         public void KatakanaToHiraganaTest()
         {
+            var sample = "あいうえおアイウエオ";
+            Assert.AreEqual("あいうえおあいうえお", sample.KatakanaToHiragana());
         }
 
         [TestMethod()]
         public void ToWideTest()
         {
+            var sample = "123abcABC";
+            Assert.AreEqual("１２３ａｂｃＡＢＣ", sample.ToWide());
         }
 
         [TestMethod()]
