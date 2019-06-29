@@ -61,6 +61,7 @@
     <Compile Include="ExtensionMethods\System\Collections\DictionaryTests.cs" />
     <Compile Include="ExtensionMethods\System\Collections\EnumerableTests.cs" />
     <Compile Include="ExtensionMethods\System\Collections\ListTests.cs" />
+    <Compile Include="ExtensionMethods\System\Collections\ReadOnlyCollectionTests.cs" />
     <Compile Include="ExtensionMethods\System\DoubleTests.cs" />
     <Compile Include="ExtensionMethods\System\RandomTests.cs" />
     <Compile Include="ExtensionMethods\System\StringTests.cs" />

@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="Binary.cs" />
     <Compile Include="ExtensionMethods\System\Array.cs" />
+    <Compile Include="ExtensionMethods\System\Collections\ReadOnlyCollection.cs" />
     <Compile Include="ExtensionMethods\System\Collections\Dictionary.cs" />
     <Compile Include="ExtensionMethods\System\Collections\Enumerable.cs" />
     <Compile Include="ExtensionMethods\System\Collections\List.cs" />
