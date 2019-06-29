@@ -1,7 +1,7 @@
 ﻿/*
 The zlib License
 
-Copyright (c) 2014-2018 Takahiro Kasanami
+Copyright (c) 2014-2019 Takahiro Kasanami
 
 This software is provided 'as-is', without any express or implied
 warranty. In no event will the authors be held liable for any damages
@@ -38,8 +38,10 @@ namespace Ksnm.ExtensionMethods.System
     {
         /// <summary>
         /// 半角を全角に変換する辞書
+        /// ※IReadOnlyDictionary ではないので、publicにしてはだめ。
+        /// 　IReadOnlyDictionary にしないのは、for文で初期化したいからだけど、自動生成にしたほうがいいかな。
         /// </summary>
-        static Dictionary<char, char> ToWideDictionary = new Dictionary<char, char>();
+        static readonly Dictionary<char, char> ToWideDictionary = new Dictionary<char, char>();
         /// <summary>
         /// 静的コンストラクタ
         /// </summary>
