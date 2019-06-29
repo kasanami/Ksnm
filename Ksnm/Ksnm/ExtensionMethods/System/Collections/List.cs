@@ -1,7 +1,7 @@
 ﻿/*
 The zlib License
 
-Copyright (c) 2014-2018 Takahiro Kasanami
+Copyright (c) 2014-2019 Takahiro Kasanami
 
 This software is provided 'as-is', without any express or implied
 warranty. In no event will the authors be held liable for any damages
@@ -22,6 +22,7 @@ freely, subject to the following restrictions:
 3. This notice may not be removed or altered from any source distribution.
 */
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Ksnm.ExtensionMethods.System.Collections
 {
@@ -31,13 +32,25 @@ namespace Ksnm.ExtensionMethods.System.Collections
     public static class List
     {
         /// <summary>
-        /// 最後の要素を取得
+        /// ランダムなindexを返します。
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="list"></param>
-        public static T GetLast<T>(this IList<T> list)
+        public static int IndexOfRandom<T>(this IList<T> list, global::System.Random random)
         {
-            return list[list.Count - 1];
+            return random.Next(list.Count);
+        }
+        /// <summary>
+        /// ランダムなindexを返します。
+        /// </summary>
+        public static int IndexOfRandom<T>(this IList<T> list)
+        {
+            return list.IndexOfRandom(new global::System.Random());
+        }
+        /// <summary>
+        /// 指定位置から最後までを削除
+        /// </summary>
+        public static void RemoveRange<T>(this List<T> list, int index)
+        {
+            list.RemoveRange(index, list.Count - index);
         }
         /// <summary>
         /// 最後の要素を削除
@@ -47,15 +60,6 @@ namespace Ksnm.ExtensionMethods.System.Collections
         public static void RemoveLast<T>(this IList<T> list)
         {
             list.RemoveAt(list.Count - 1);
-        }
-        /// <summary>
-        /// 指定した要素が最後の要素と同じか判定します。
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="list"></param>
-        public static bool EqualsLast<T>(this IList<T> list, T item)
-        {
-            return list.GetLast().Equals(item);
         }
         /// <summary>
         /// リストの全要素を設定します。
@@ -79,11 +83,11 @@ namespace Ksnm.ExtensionMethods.System.Collections
         /// <summary>
         /// リストの要素をランダムに並び替える
         /// </summary>
-        public static void Shuffle<T>(this IList<T> list, global::System.Random random = null)
+        public static void Shuffle<T>(this IList<T> list, global::System.Random random)
         {
             for (int indexA = 0; indexA < list.Count; ++indexA)
             {
-                int indexB = list.RandomIndex(random);
+                int indexB = list.IndexOfRandom(random);
                 list.Swap(indexA, indexB);
             }
         }
@@ -99,31 +103,18 @@ namespace Ksnm.ExtensionMethods.System.Collections
         /// <summary>
         /// ランダムな位置の項目を削除し、削除された項目を返します。
         /// </summary>
-        public static T PopRandom<T>(this IList<T> list, global::System.Random random = null)
+        public static T PopRandom<T>(this IList<T> list, global::System.Random random)
         {
-            var index = list.RandomIndex(random);
+            var index = list.IndexOfRandom(random);
             return list.Pop(index);
         }
         /// <summary>
-        /// ランダムなindexを返します。
+        /// ランダムな位置の項目を削除し、削除された項目を返します。
         /// </summary>
-        public static int RandomIndex<T>(this IList<T> list, global::System.Random random)
+        public static T PopRandom<T>(this IList<T> list)
         {
-            return random.Next(list.Count);
-        }
-        /// <summary>
-        /// ランダムなindexを返します。
-        /// </summary>
-        public static int RandomIndex<T>(this IList<T> list)
-        {
-            return list.RandomIndex(new global::System.Random());
-        }
-        /// <summary>
-        /// 指定位置から最後までを削除
-        /// </summary>
-        public static void RemoveRange<T>(this List<T> list, int index)
-        {
-            list.RemoveRange(index, list.Count - index);
+            var index = list.IndexOfRandom();
+            return list.Pop(index);
         }
     }
 }
