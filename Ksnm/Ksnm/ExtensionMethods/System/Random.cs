@@ -1,7 +1,7 @@
 ﻿/*
 The zlib License
 
-Copyright (c) 2014-2018 Takahiro Kasanami
+Copyright (c) 2014-2019 Takahiro Kasanami
 
 This software is provided 'as-is', without any express or implied
 warranty. In no event will the authors be held liable for any damages
@@ -45,11 +45,43 @@ namespace Ksnm.ExtensionMethods.System
         /// <returns>0 以上で System.Int64.MaxValue より小さい 64 ビット符号付整数。</returns>
         public static long NextLong(this Original.Random random)
         {
+            return random.NextLong(long.MaxValue);
+        }
+
+        /// <summary>
+        /// 0 以上のランダムな整数を返します。
+        /// </summary>
+        /// <returns>0 以上で System.Int64.MaxValue より小さい 64 ビット符号付整数。</returns>
+        /// <exception cref="System.ArgumentOutOfRangeException">maxValue が 0 未満です。</exception>
+        public static long NextLong(this Original.Random random, long minValue, long maxValue)
+        {
+            return minValue + random.NextLong(maxValue - minValue);
+        }
+
+        /// <summary>
+        /// 指定した最大値より小さい 0 以上のランダムな整数を返します。
+        /// </summary>
+        /// <param name="maxValue">生成される乱数の排他的上限値。maxValue は 0 以上にする必要があります。</param>
+        /// <returns>0 以上で maxValue 未満の 64 ビット符号付整数。
+        /// つまり、通常は戻り値の範囲に 0 は含まれますが、maxValue は含まれません。
+        /// ただし、maxValue が 0 の場合は、0 が返されます。
+        /// </returns>
+        /// <exception cref="System.ArgumentOutOfRangeException">maxValue が 0 未満です。</exception>
+        public static long NextLong(this Original.Random random, long maxValue)
+        {
+            if (maxValue < 0)
+            {
+                throw new global::System.ArgumentOutOfRangeException();
+            }
+            if (maxValue == 0)
+            {
+                return 0;
+            }
             // メモ:random.Next()の32ビット整数は最上位ビットが常に0なので使用できない。
             var buffer = new byte[sizeof(long)];
             random.NextBytes(buffer);
             long result = Original.BitConverter.ToInt64(buffer, 0);
-            return (result & long.MaxValue) % long.MaxValue;
+            return (result & long.MaxValue) % maxValue;
         }
 
         /// <summary>
