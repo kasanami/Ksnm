@@ -43,39 +43,75 @@ namespace Ksnm.ExtensionMethods.System.Tests
         }
 
         [TestMethod()]
-        public void RangeTest_Int()
+        [DataRow(0, 1)]
+        [DataRow(1, 2)]
+        [DataRow(1, 3)]
+        [DataRow(-1, 1)]
+        [DataRow(-2, 2)]
+        [DataRow(-3, 3)]
+        public void RangeTest_Int(int min, int max)
         {
             var random = new IncrementRandom(0, TestCount);
+            var isMinAppeared = false;
+            var isMaxAppeared = false;
             for (int i = 0; i < TestCount; i++)
             {
-                var value = random.Range(1, 2);
-                Assert.IsTrue(value >= 1);
-                Assert.IsTrue(value <= 2);
+                var value = random.Range(min, max);
+                Assert.IsTrue(value >= min);
+                Assert.IsTrue(value <= max);
+                if (value == min) { isMinAppeared = true; }
+                if (value == max) { isMaxAppeared = true; }
             }
+            Assert.IsTrue(isMinAppeared);
+            Assert.IsTrue(isMaxAppeared);
         }
 
         [TestMethod()]
-        public void RangeTest_Float()
+        [DataRow(0, 1)]
+        [DataRow(1, 2)]
+        [DataRow(1, 3)]
+        [DataRow(-1, 1)]
+        [DataRow(-2, 2)]
+        [DataRow(-3, 3)]
+        public void RangeTest_Float(float min, float max)
         {
             var random = new IncrementRandom(0, TestCount);
+            var isMinAppeared = false;
+            var isMaxAppeared = false;
             for (int i = 0; i < TestCount; i++)
             {
-                var value = random.Range(1.0f, 2.0f);
-                Assert.IsTrue(value >= 1);
-                Assert.IsTrue(value <= 2);
+                var value = random.Range(min, max);
+                Assert.IsTrue(value >= min);
+                Assert.IsTrue(value <= max);
+                if (value == min) { isMinAppeared = true; }
+                if (value == max) { isMaxAppeared = true; }
             }
+            Assert.IsTrue(isMinAppeared);
+            Assert.IsTrue(isMaxAppeared);
         }
 
         [TestMethod()]
-        public void RangeTest_Double()
+        [DataRow(0, 1)]
+        [DataRow(1, 2)]
+        [DataRow(1, 3)]
+        [DataRow(-1, 1)]
+        [DataRow(-2, 2)]
+        [DataRow(-3, 3)]
+        public void RangeTest_Double(double min, double max)
         {
             var random = new IncrementRandom(0, TestCount);
+            var isMinAppeared = false;
+            var isMaxAppeared = false;
             for (int i = 0; i < TestCount; i++)
             {
-                var value = random.Range(1.0, 2.0);
-                Assert.IsTrue(value >= 1);
-                Assert.IsTrue(value <= 2);
+                var value = random.Range(min, max);
+                Assert.IsTrue(value >= min);
+                Assert.IsTrue(value <= max);
+                if (value == min) { isMinAppeared = true; }
+                if (value == max) { isMaxAppeared = true; }
             }
+            Assert.IsTrue(isMinAppeared);
+            Assert.IsTrue(isMaxAppeared);
         }
     }
 }
