@@ -213,29 +213,7 @@ namespace Ksnm.Randoms
         /// <returns>0.0 以上 1.0 未満の倍精度浮動小数点数。</returns>
         protected override double Sample()
         {
-#if true
-            // doubleにキャストしてもビットが失われない値の最大は 0x20000000000000
-            // 0x20000000000000 は分母に使うので 1 つ小さい値でマスクする。
-            ulong max = 0x1FFFFFFFFFFFFF;
-            double sample = GenerateUInt64() & max;
-            // 出力されるdoubleの最大値は、0x3FEFFFFFFFFFFFFFなので 1.0 未満
-            return sample / (max + 1);
-            // NOTE
-            // long→double→longにキャストしたときの、値の変化前と変化後
-            // 0x001FFFFFFFFFFFFF → 0x001FFFFFFFFFFFFF
-            // 0x0020000000000000 → 0x0020000000000000
-            // 0x0020000000000001 → 0x0020000000000000
-#elif true
-            // TODO:約 0.00000000023283064365387 刻みでしか値が変化しない問題を抱えている。
-            // 実用上は問題ないと思われる。
-            var sample = GenerateUInt32();
-            return sample / ((double)uint.MaxValue + 1);
-#elif true
-            // ulong.MaxValueをdoubleにキャストすると、失われるビットがある
-            // そのため、計算結果が、1.0以上になる場合があるのでボツ
-            ulong sample = GenerateUInt64();
-            return sample / ((double)ulong.MaxValue + 1);
-#endif
+            return Binary.ToScaledDouble(GenerateUInt64());
         }
 
         #endregion override for System.Random
