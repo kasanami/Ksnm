@@ -70,7 +70,9 @@
     <Compile Include="LitJson\ParserToken.cs" />
     <Compile Include="Math.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Randoms\FixedRandom.cs" />
     <Compile Include="Randoms\IncrementRandom.cs" />
+    <Compile Include="Randoms\LinearCongruentialGenerator.cs" />
     <Compile Include="Randoms\Prototype.cs" />
     <Compile Include="Randoms\RandomBase.cs" />
     <Compile Include="Randoms\Xorshift128.cs" />
