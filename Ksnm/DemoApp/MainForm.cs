@@ -1,4 +1,4 @@
-﻿using Ksnm.Randoms;
+﻿﻿using Ksnm.Randoms;
 using Ksnm.ExtensionMethods.System;
 using System;
 using System.Collections.Generic;
@@ -236,26 +236,27 @@ namespace DemoApp
         {
             if (ReferenceEquals(selected, systemRandom))
             {
-                systemRandom = new System.Random(decimal.ToInt32(Random_Param0NumericUpDown.Value));
+                var value = decimal.ToInt32(Random_Param0NumericUpDown.Value % int.MaxValue);
+                systemRandom = new System.Random(value);
                 randoms["System.Random"] = systemRandom;
             }
             else if (ReferenceEquals(selected, xorshift128))
             {
-                xorshift128.w = decimal.ToUInt32(Random_Param0NumericUpDown.Value);
-                xorshift128.x = decimal.ToUInt32(Random_Param1NumericUpDown.Value);
-                xorshift128.y = decimal.ToUInt32(Random_Param2NumericUpDown.Value);
-                xorshift128.z = decimal.ToUInt32(Random_Param3NumericUpDown.Value);
+                xorshift128.w = decimal.ToUInt32(Random_Param0NumericUpDown.Value % int.MaxValue);
+                xorshift128.x = decimal.ToUInt32(Random_Param1NumericUpDown.Value % int.MaxValue);
+                xorshift128.y = decimal.ToUInt32(Random_Param2NumericUpDown.Value % int.MaxValue);
+                xorshift128.z = decimal.ToUInt32(Random_Param3NumericUpDown.Value % int.MaxValue);
             }
             else if (ReferenceEquals(selected, incrementRandom))
             {
-                incrementRandom.Current = decimal.ToUInt32(Random_Param0NumericUpDown.Value);
-                incrementRandom.Cycle = decimal.ToUInt32(Random_Param1NumericUpDown.Value);
+                incrementRandom.Current = decimal.ToUInt32(Random_Param0NumericUpDown.Value % int.MaxValue);
+                incrementRandom.Cycle = decimal.ToUInt32(Random_Param1NumericUpDown.Value % int.MaxValue);
             }
             else if (ReferenceEquals(selected, prototypeRandom))
             {
-                prototypeRandom.seed = decimal.ToUInt64(Random_Param0NumericUpDown.Value);
-                prototypeRandom.multiplier = decimal.ToUInt64(Random_Param1NumericUpDown.Value);
-                prototypeRandom.addend = decimal.ToUInt64(Random_Param2NumericUpDown.Value);
+                prototypeRandom.seed = decimal.ToUInt64(Random_Param0NumericUpDown.Value % UInt64.MaxValue);
+                prototypeRandom.multiplier = decimal.ToUInt64(Random_Param1NumericUpDown.Value % UInt64.MaxValue);
+                prototypeRandom.addend = decimal.ToUInt64(Random_Param2NumericUpDown.Value % UInt64.MaxValue);
             }
         }
 

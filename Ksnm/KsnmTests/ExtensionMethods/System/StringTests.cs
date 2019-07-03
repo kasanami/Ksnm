@@ -95,5 +95,17 @@ namespace Ksnm.ExtensionMethods.System.Tests
             subStr = str.Substring(null, null);
             Assert.AreEqual(subStr, "abcdefg");
         }
+
+        [TestMethod()]
+        public void ReplaceTest()
+        {
+            var str = "abcdefg";
+            var str2 = str.Replace("aceg", '-');
+            Assert.AreEqual(str2, "-b-d-f-");
+
+            str = "あいうえお";
+            str2 = str.Replace("あうお", '★');
+            Assert.AreEqual(str2, "★い★え★");
+        }
     }
 }

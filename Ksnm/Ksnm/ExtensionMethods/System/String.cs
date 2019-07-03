@@ -191,5 +191,21 @@ namespace Ksnm.ExtensionMethods.System
         {
             return string.IsNullOrWhiteSpace(self);
         }
+        /// <summary>
+        /// このインスタンスに出現する指定文字をすべて、指定した別の文字に置換します。
+        /// </summary>
+        /// <param name="self">インスタンス</param>
+        /// <param name="oldChars">置換する文字。</param>
+        /// <param name="newChar">oldChar を置換する文字。</param>
+        /// <returns></returns>
+        public static string Replace(this string self, IEnumerable<char> oldChars, char newChar)
+        {
+            var temp = new global::System.Text.StringBuilder(self);
+            foreach (var oldChar in oldChars)
+            {
+                temp.Replace(oldChar, newChar);
+            }
+            return temp.ToString();
+        }
     }
 }
