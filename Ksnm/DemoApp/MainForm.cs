@@ -236,27 +236,27 @@ namespace DemoApp
         {
             if (ReferenceEquals(selected, systemRandom))
             {
-                var value = decimal.ToInt32(Random_Param0NumericUpDown.Value % int.MaxValue);
+                var value = Random_Param0NumericUpDown.Value.ToClampedInt32();
                 systemRandom = new System.Random(value);
                 randoms["System.Random"] = systemRandom;
             }
             else if (ReferenceEquals(selected, xorshift128))
             {
-                xorshift128.w = decimal.ToUInt32(Random_Param0NumericUpDown.Value % int.MaxValue);
-                xorshift128.x = decimal.ToUInt32(Random_Param1NumericUpDown.Value % int.MaxValue);
-                xorshift128.y = decimal.ToUInt32(Random_Param2NumericUpDown.Value % int.MaxValue);
-                xorshift128.z = decimal.ToUInt32(Random_Param3NumericUpDown.Value % int.MaxValue);
+                xorshift128.w = Random_Param0NumericUpDown.Value.ToClampedUInt32();
+                xorshift128.x = Random_Param1NumericUpDown.Value.ToClampedUInt32();
+                xorshift128.y = Random_Param2NumericUpDown.Value.ToClampedUInt32();
+                xorshift128.z = Random_Param3NumericUpDown.Value.ToClampedUInt32();
             }
             else if (ReferenceEquals(selected, incrementRandom))
             {
-                incrementRandom.Current = decimal.ToUInt32(Random_Param0NumericUpDown.Value % int.MaxValue);
-                incrementRandom.Cycle = decimal.ToUInt32(Random_Param1NumericUpDown.Value % int.MaxValue);
+                incrementRandom.Current = Random_Param0NumericUpDown.Value.ToClampedUInt32();
+                incrementRandom.Cycle = Random_Param1NumericUpDown.Value.ToClampedUInt32();
             }
             else if (ReferenceEquals(selected, prototypeRandom))
             {
-                prototypeRandom.seed = decimal.ToUInt64(Random_Param0NumericUpDown.Value % UInt64.MaxValue);
-                prototypeRandom.multiplier = decimal.ToUInt64(Random_Param1NumericUpDown.Value % UInt64.MaxValue);
-                prototypeRandom.addend = decimal.ToUInt64(Random_Param2NumericUpDown.Value % UInt64.MaxValue);
+                prototypeRandom.seed = Random_Param0NumericUpDown.Value.ToClampedUInt64();
+                prototypeRandom.multiplier = Random_Param1NumericUpDown.Value.ToClampedUInt64();
+                prototypeRandom.addend = Random_Param2NumericUpDown.Value.ToClampedUInt64();
             }
         }
 
@@ -284,7 +284,7 @@ namespace DemoApp
             }
             else if (ReferenceEquals(selected, xorshift128))
             {
-                Random_Param0Label.Text = "x";
+                Random_Param0Label.Text = "w";
                 Random_Param1Label.Text = "x";
                 Random_Param2Label.Text = "y";
                 Random_Param3Label.Text = "z";
