@@ -1,5 +1,6 @@
 ﻿﻿using Ksnm.Randoms;
 using Ksnm.ExtensionMethods.System;
+using Ksnm.ExtensionMethods.System.Collections;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -475,17 +476,18 @@ namespace DemoApp
             // グラフ
             {
                 Random_InitGenerator(random);
-                const int SampleCount = 100;
+                const int SampleCount = 300;
+                const int minValue = 0;
+                const int maxValue = 100;
                 var samples = new List<int>();
                 var sampleCounts = new Dictionary<int, int>();
                 for (int i = 0; i < SampleCount; i++)
                 {
-                    samples.Add(random.Next(100));
-                    sampleCounts.Add(i, 0);
+                    samples.Add(random.Next(minValue, maxValue));
                 }
-                for (int i = 0; i < samples.Count; i++)
+                foreach (var sample in samples)
                 {
-                    var sample = samples[i];
+                    sampleCounts.AddIfKeyNotExists(sample, 0);
                     sampleCounts[sample] += 1;
                 }
                 Random_Chart.Series.Clear();
@@ -499,6 +501,7 @@ namespace DemoApp
                     }
                     Random_Chart.Series.Add(series);
                 }
+                Random_CountChart.Series.Clear();
                 {
                     var series = new Series("回数");
                     series.ChartType = SeriesChartType.Column;
@@ -506,11 +509,11 @@ namespace DemoApp
                     {
                         series.Points.AddXY(item.Key, item.Value);
                     }
-                    Random_Chart.Series.Add(series);
+                    Random_CountChart.Series.Add(series);
                 }
-                Random_PointPictureBox.Refresh();
-                Random_PixelPictureBox.Refresh();
             }
+            Random_PointPictureBox.Refresh();
+            Random_PixelPictureBox.Refresh();
         }
 
         #endregion Randomタブ
