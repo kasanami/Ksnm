@@ -49,6 +49,8 @@
     <Compile Include="ExtensionMethods\System\Collections\Dictionary.cs" />
     <Compile Include="ExtensionMethods\System\Collections\Enumerable.cs" />
     <Compile Include="ExtensionMethods\System\Collections\List.cs" />
+    <Compile Include="ExtensionMethods\System\Comparable.cs" />
+    <Compile Include="ExtensionMethods\System\Decimal.cs" />
     <Compile Include="ExtensionMethods\System\Double.cs" />
     <Compile Include="ExtensionMethods\System\Drawing\Point.cs" />
     <Compile Include="ExtensionMethods\System\Random.cs" />
