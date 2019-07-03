@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Ksnm;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 
 namespace Ksnm.Tests
@@ -296,6 +297,16 @@ namespace Ksnm.Tests
         public void ToUInt64Test()
         {
             Assert.AreEqual((UInt64)0x123456789ABCDEF0, Binary.ToUInt64(0x12345678, 0x9ABCDEF0));
+        }
+
+        [TestMethod()]
+        public void ToScaledDoubleTest()
+        {
+            var sample = Binary.ToScaledDouble(0);
+            Assert.AreEqual(0.0, sample);
+            sample = Binary.ToScaledDouble(ulong.MaxValue);
+            Assert.IsTrue(sample > 0.9999999999);
+            Assert.IsTrue(sample < 1.0);
         }
     }
 }

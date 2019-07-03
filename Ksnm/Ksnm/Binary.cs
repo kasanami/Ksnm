@@ -600,14 +600,39 @@ namespace Ksnm
             return originalBits;
         }
 
-        // doubleにキャストしてから割り算したほうが速いので無効化
-#if false
         /// <summary>
         /// 指定した 64 ビット符号無し整数を、0 以上 1 未満の倍精度浮動小数点数に変換します。
-        /// <para>精度の都合上、下位のビットは無視されます。</para>
+        /// <para>例：0→0.0</para>
+        /// <para>例：ulong.MaxValue→0.9999999…</para>
+        /// <para>※精度の都合上、下位のビットは無視されます。</para>
         /// </summary>
-        public static double ToRateDouble(ulong bits)
+        public static double ToScaledDouble(ulong bits)
         {
+#if true
+            // doubleにキャストしてもビットが失われない値の最大は 0x20_0000_0000_0000
+            // bits の最大値を 0x1F_FFFF_FFFF_FFFF にするため 11 ビットシフトする
+            const double Max = 0x0020_0000_0000_0000;
+            const int RBitShift = 11;
+            bits >>= RBitShift;
+            // 出力されるdoubleの最大値は、0x3FEFFFFFFFFFFFFFなので 1.0 未満
+            return bits / Max;
+            // NOTE
+            // long→double→longにキャストしたときの、値の変化前と変化後
+            // 0x001FFFFFFFFFFFFF → 0x001FFFFFFFFFFFFF
+            // 0x0020000000000000 → 0x0020000000000000
+            // 0x0020000000000001 → 0x0020000000000000
+#elif true
+            // TODO:約 0.00000000023283064365387 刻みでしか値が変化しない問題を抱えている。
+            // 実用上は問題ないと思われる。
+            var sample = GenerateUInt32();
+            return sample / ((double)uint.MaxValue + 1);
+#elif true
+            // ulong.MaxValueをdoubleにキャストすると、失われるビットがある
+            // そのため、計算結果が、1.0以上になる場合があるのでボツ
+            ulong sample = GenerateUInt64();
+            return sample / ((double)ulong.MaxValue + 1);
+#elif false
+            // doubleにキャストしてから割り算したほうが速いので無効化
             if (bits == 0)
             {
                 return 0;
@@ -621,18 +646,19 @@ namespace Ksnm
             // 合成
             ulong uint64Bits = (exponent << 52) | fraction;
             return BitConverter.Int64BitsToDouble((long)uint64Bits);
+#endif
         }
 
         /// <summary>
         /// 指定した 32 ビット符号無し整数を、0 以上 1 未満の倍精度浮動小数点数に変換します。
         /// <para>精度の都合上の不足のビットは、bits をシフトし補います。</para>
         /// </summary>
-        public static double ToRateDouble(uint bits)
+        public static double ToScaledDouble(uint bits)
         {
             ulong uint64Bits = ToUInt64(bits, bits);
-            return ToRateDouble(uint64Bits);
+            return ToScaledDouble(uint64Bits);
         }
-#endif
+
         #region Rotate
         /// <summary>
         /// 左ローテート
