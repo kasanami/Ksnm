@@ -1,7 +1,7 @@
 ﻿/*
 The zlib License
 
-Copyright (c) 2017 Takahiro Kasanami
+Copyright (c) 2017-2019 Takahiro Kasanami
 
 This software is provided 'as-is', without any express or implied
 warranty. In no event will the authors be held liable for any damages
@@ -31,6 +31,10 @@ namespace Ksnm.ExtensionMethods.System
     public static class Double
     {
         /// <summary>
+        /// 指数形式ではなく小数形式に変換するためのフォーマット
+        /// </summary>
+        static readonly string DecimalFormat = "0.0" + new string('#', 338);
+        /// <summary>
         /// 指定した数値が負または正の無限大と評価されるかどうかを示す値を返します。
         /// </summary>
         public static bool IsInfinity(this double value)
@@ -52,6 +56,13 @@ namespace Ksnm.ExtensionMethods.System
         public static ulong ToUInt64Bits(this double value)
         {
             return (ulong)BitConverter.DoubleToInt64Bits(value);
+        }
+        /// <summary>
+        /// 指数形式ではなく小数形式の文字列に変換する。
+        /// </summary>
+        public static string ToDecimalString(this double value)
+        {
+            return value.ToString(DecimalFormat);
         }
         /// <summary>
         /// 符号ビットを取得
