@@ -621,14 +621,14 @@ namespace Ksnm
             // 0x001FFFFFFFFFFFFF → 0x001FFFFFFFFFFFFF
             // 0x0020000000000000 → 0x0020000000000000
             // 0x0020000000000001 → 0x0020000000000000
-#elif true
+#elif false
             // TODO:約 0.00000000023283064365387 刻みでしか値が変化しない問題を抱えている。
             // 実用上は問題ないと思われる。
             var sample = GenerateUInt32();
             return sample / ((double)uint.MaxValue + 1);
-#elif true
-            // ulong.MaxValueをdoubleにキャストすると、失われるビットがある
-            // そのため、計算結果が、1.0以上になる場合があるのでボツ
+#elif false
+            // ulongの最大値はdoubleでは下位の桁が無視され、+1しても変化がない。
+            // そのため、計算結果が、1.0になる場合がある。
             ulong sample = GenerateUInt64();
             return sample / ((double)ulong.MaxValue + 1);
 #elif false
