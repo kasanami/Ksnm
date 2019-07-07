@@ -29,7 +29,7 @@ namespace Ksnm.ExtensionMethods.System.Collections
     /// <summary>
     /// Listの拡張メソッド
     /// </summary>
-    public static class List
+    public static class ListExtensions
     {
         /// <summary>
         /// ランダムなindexを返します。

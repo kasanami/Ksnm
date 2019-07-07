@@ -28,7 +28,7 @@ namespace Ksnm.ExtensionMethods.System.Collections
     /// <summary>
     /// ReadOnlyCollectionの拡張メソッド
     /// </summary>
-    public static class ReadOnlyCollection
+    public static class ReadOnlyCollectionExtensions
     {
         /// <summary>
         /// ランダムな位置にある要素を返します。

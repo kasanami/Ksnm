@@ -28,7 +28,7 @@ namespace Ksnm.ExtensionMethods.System
     /// <summary>
     /// Doubleの拡張メソッド
     /// </summary>
-    public static class Double
+    public static class DoubleExtensions
     {
         /// <summary>
         /// 指数形式ではなく小数形式に変換するためのフォーマット

@@ -1,7 +1,7 @@
 ﻿/*
 The zlib License
 
-Copyright (c) 2014-2018 Takahiro Kasanami
+Copyright (c) 2014-2019 Takahiro Kasanami
 
 This software is provided 'as-is', without any express or implied
 warranty. In no event will the authors be held liable for any damages
@@ -28,7 +28,7 @@ namespace Ksnm.ExtensionMethods.System
     /// <summary>
     /// Arrayの拡張メソッド
     /// </summary>
-    public static class Array
+    public static class ArrayExtensions
     {
         /// <summary>
         /// <para>２つの配列の要素の大きさを比較します。</para>

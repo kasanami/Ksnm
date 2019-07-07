@@ -28,7 +28,7 @@ namespace Ksnm.ExtensionMethods.System
     /// <summary>
     /// IComparableの拡張メソッド
     /// </summary>
-    public static class Comparable
+    public static class ComparableExtensions
     {
         /// <summary>
         /// 指定した値を最小値と最大値の範囲に制限します。

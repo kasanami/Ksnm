@@ -1,7 +1,7 @@
 ﻿/*
 The zlib License
 
-Copyright (c) 2017-2018 Takahiro Kasanami
+Copyright (c) 2017-2019 Takahiro Kasanami
 
 This software is provided 'as-is', without any express or implied
 warranty. In no event will the authors be held liable for any damages
@@ -28,7 +28,7 @@ namespace Ksnm.ExtensionMethods.System.Collections
     /// <summary>
     /// Dictionaryの拡張メソッド
     /// </summary>
-    public static class Dictionary
+    public static class DictionaryExtensions
     {
         /// <summary>
         /// 指定したキーが存在しなければ、指定したキーと値を追加

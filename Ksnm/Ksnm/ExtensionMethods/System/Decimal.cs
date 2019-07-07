@@ -27,7 +27,7 @@ namespace Ksnm.ExtensionMethods.System
     /// <summary>
     /// Decimalの拡張メソッド
     /// </summary>
-    public static class Decimal
+    public static class DecimalExtensions
     {
         #region ToClamped*
         /// <summary>

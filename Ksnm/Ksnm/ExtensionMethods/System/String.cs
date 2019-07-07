@@ -34,7 +34,7 @@ namespace Ksnm.ExtensionMethods.System
     /// <summary>
     /// Stringの拡張メソッド
     /// </summary>
-    public static class String
+    public static class StringExtensions
     {
         /// <summary>
         /// 半角を全角に変換する辞書
@@ -45,7 +45,7 @@ namespace Ksnm.ExtensionMethods.System
         /// <summary>
         /// 静的コンストラクタ
         /// </summary>
-        static String()
+        static StringExtensions()
         {
             // 半角を全角に変換する辞書
             #region ToWideDictionary

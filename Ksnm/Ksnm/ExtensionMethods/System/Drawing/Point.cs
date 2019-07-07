@@ -1,7 +1,7 @@
 ﻿/*
 The zlib License
 
-Copyright (c) 2017 Takahiro Kasanami
+Copyright (c) 2017-2019 Takahiro Kasanami
 
 This software is provided 'as-is', without any express or implied
 warranty. In no event will the authors be held liable for any damages
@@ -28,7 +28,7 @@ namespace Ksnm.ExtensionMethods.System.Drawing
     /// <summary>
     /// Pointの拡張メソッド
     /// </summary>
-    public static class Point
+    public static class PointExtensions
     {
         /// <summary>
         /// 加算
