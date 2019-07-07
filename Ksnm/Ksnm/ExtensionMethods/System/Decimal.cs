@@ -31,14 +31,14 @@ namespace Ksnm.ExtensionMethods.System
     {
         #region ToClamped*
         /// <summary>
-        /// 指定した System.Decimal の値を、16 ビット符号付き整数の範囲に制限して変換します。
+        /// 指定した System.Decimal の値を、8 ビット符号付き整数の範囲に制限して変換します。
         /// </summary>
         public static sbyte ToClampedSByte(this decimal self)
         {
             return decimal.ToSByte(self.Clamp(sbyte.MinValue, sbyte.MaxValue));
         }
         /// <summary>
-        /// 指定した System.Decimal の値を、16 ビット符号なし整数の範囲に制限して変換します。
+        /// 指定した System.Decimal の値を、8 ビット符号なし整数の範囲に制限して変換します。
         /// </summary>
         public static byte ToClampedByte(this decimal self)
         {
