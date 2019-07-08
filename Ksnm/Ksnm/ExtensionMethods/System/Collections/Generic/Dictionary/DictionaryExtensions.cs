@@ -23,7 +23,7 @@ freely, subject to the following restrictions:
 */
 using System.Collections.Generic;
 
-namespace Ksnm.ExtensionMethods.System.Collections
+namespace Ksnm.ExtensionMethods.System.Collections.Generic.Dictionary
 {
     /// <summary>
     /// Dictionaryの拡張メソッド

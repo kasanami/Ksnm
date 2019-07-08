@@ -23,7 +23,7 @@ freely, subject to the following restrictions:
 */
 using System;
 
-namespace Ksnm.ExtensionMethods.System
+namespace Ksnm.ExtensionMethods.System.Double
 {
     /// <summary>
     /// Doubleの拡張メソッド

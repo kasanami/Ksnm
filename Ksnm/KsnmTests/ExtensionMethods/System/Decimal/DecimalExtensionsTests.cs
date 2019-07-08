@@ -1,10 +1,10 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 
-namespace Ksnm.ExtensionMethods.System.Tests
+namespace Ksnm.ExtensionMethods.System.Decimal.Tests
 {
     [TestClass()]
-    public class DecimalTests
+    public class DecimalExtensionsTests
     {
         [TestMethod()]
         public void ToClampedSByteTest()

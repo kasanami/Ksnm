@@ -1,10 +1,10 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Ksnm.Randoms;
 
-namespace Ksnm.ExtensionMethods.System.Tests
+namespace Ksnm.ExtensionMethods.System.Random.Tests
 {
     [TestClass()]
-    public class RandomTests
+    public class RandomExtensionsTests
     {
         /// <summary>
         /// テスト回数

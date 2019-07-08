@@ -23,7 +23,7 @@ freely, subject to the following restrictions:
 */
 using System.Collections.ObjectModel;
 
-namespace Ksnm.ExtensionMethods.System.Collections
+namespace Ksnm.ExtensionMethods.System.Collections.ObjectModel.ReadOnlyCollection
 {
     /// <summary>
     /// ReadOnlyCollectionの拡張メソッド

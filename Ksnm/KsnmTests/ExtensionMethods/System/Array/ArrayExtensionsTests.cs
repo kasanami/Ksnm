@@ -1,9 +1,9 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Ksnm.ExtensionMethods.System.Tests
+namespace Ksnm.ExtensionMethods.System.Array.Tests
 {
     [TestClass()]
-    public class ArrayTests
+    public class ArrayExtensionsTests
     {
         [TestMethod()]
         public void CompareTest()

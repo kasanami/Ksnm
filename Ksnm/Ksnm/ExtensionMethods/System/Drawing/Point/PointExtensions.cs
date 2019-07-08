@@ -21,9 +21,9 @@ freely, subject to the following restrictions:
 
 3. This notice may not be removed or altered from any source distribution.
 */
-using Original = global::System.Drawing;
+using Original = System.Drawing;
 
-namespace Ksnm.ExtensionMethods.System.Drawing
+namespace Ksnm.ExtensionMethods.System.Drawing.Point
 {
     /// <summary>
     /// Pointの拡張メソッド

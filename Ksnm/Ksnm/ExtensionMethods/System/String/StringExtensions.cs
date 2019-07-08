@@ -29,7 +29,7 @@ using UniLinq;
 using System.Linq;
 #endif
 
-namespace Ksnm.ExtensionMethods.System
+namespace Ksnm.ExtensionMethods.System.String
 {
     /// <summary>
     /// Stringの拡張メソッド

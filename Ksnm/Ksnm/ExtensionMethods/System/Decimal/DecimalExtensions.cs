@@ -22,7 +22,9 @@ freely, subject to the following restrictions:
 3. This notice may not be removed or altered from any source distribution.
 */
 
-namespace Ksnm.ExtensionMethods.System
+using Ksnm.ExtensionMethods.System.Comparable;
+
+namespace Ksnm.ExtensionMethods.System.Decimal
 {
     /// <summary>
     /// Decimalの拡張メソッド

@@ -23,7 +23,7 @@ freely, subject to the following restrictions:
 */
 using Original = System;
 
-namespace Ksnm.ExtensionMethods.System
+namespace Ksnm.ExtensionMethods.System.Array
 {
     /// <summary>
     /// Arrayの拡張メソッド

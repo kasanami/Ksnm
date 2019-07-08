@@ -22,7 +22,7 @@ freely, subject to the following restrictions:
 3. This notice may not be removed or altered from any source distribution.
 */
 using Original = System.IO;
-using Ksnm.ExtensionMethods.System;
+using Ksnm.ExtensionMethods.System.String;
 
 namespace Ksnm.IO
 {

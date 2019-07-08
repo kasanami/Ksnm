@@ -24,7 +24,7 @@ freely, subject to the following restrictions:
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Ksnm.ExtensionMethods.System.Collections
+namespace Ksnm.ExtensionMethods.System.Collections.Generic.Enumerable
 {
     /// <summary>
     /// Enumerableの拡張メソッド

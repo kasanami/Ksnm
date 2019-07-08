@@ -1,9 +1,9 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Ksnm.ExtensionMethods.System.Tests
+namespace Ksnm.ExtensionMethods.System.Comparable.Tests
 {
     [TestClass()]
-    public class ComparableTests
+    public class ComparableExtensionsTests
     {
         [TestMethod()]
         public void ClampTest()

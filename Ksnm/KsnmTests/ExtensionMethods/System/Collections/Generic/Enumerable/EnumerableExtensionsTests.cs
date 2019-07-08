@@ -1,9 +1,9 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Ksnm.ExtensionMethods.System.Collections.Tests
+namespace Ksnm.ExtensionMethods.System.Collections.Generic.Enumerable.Tests
 {
     [TestClass()]
-    public class EnumerableTests
+    public class EnumerableExtensionsTests
     {
         [TestMethod()]
         public void ProductTest()

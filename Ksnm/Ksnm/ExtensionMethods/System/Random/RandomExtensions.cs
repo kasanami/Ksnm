@@ -23,7 +23,7 @@ freely, subject to the following restrictions:
 */
 using Original = System;
 
-namespace Ksnm.ExtensionMethods.System
+namespace Ksnm.ExtensionMethods.System.Random
 {
     /// <summary>
     /// Randomの拡張メソッド

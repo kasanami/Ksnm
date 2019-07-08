@@ -1,10 +1,10 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 
-namespace Ksnm.ExtensionMethods.System.Collections.Tests
+namespace Ksnm.ExtensionMethods.System.Collections.ObjectModel.ReadOnlyCollection.Tests
 {
     [TestClass()]
-    public class ReadOnlyCollectionTests
+    public class ReadOnlyCollectionExtensionsTests
     {
         [TestMethod()]
         public void ElementAtRandomTest()

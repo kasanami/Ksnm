@@ -57,16 +57,16 @@
   </Choose>
   <ItemGroup>
     <Compile Include="BinaryTests.cs" />
-    <Compile Include="ExtensionMethods\System\ArrayTests.cs" />
-    <Compile Include="ExtensionMethods\System\Collections\DictionaryTests.cs" />
-    <Compile Include="ExtensionMethods\System\Collections\EnumerableTests.cs" />
-    <Compile Include="ExtensionMethods\System\Collections\ListTests.cs" />
-    <Compile Include="ExtensionMethods\System\Collections\ReadOnlyCollectionTests.cs" />
-    <Compile Include="ExtensionMethods\System\ComparableTests.cs" />
-    <Compile Include="ExtensionMethods\System\DecimalTests.cs" />
-    <Compile Include="ExtensionMethods\System\DoubleTests.cs" />
-    <Compile Include="ExtensionMethods\System\RandomTests.cs" />
-    <Compile Include="ExtensionMethods\System\StringTests.cs" />
+    <Compile Include="ExtensionMethods\System\Array\ArrayExtensionsTests.cs" />
+    <Compile Include="ExtensionMethods\System\Collections\Generic\Dictionary\DictionaryExtensionsTests.cs" />
+    <Compile Include="ExtensionMethods\System\Collections\Generic\Enumerable\EnumerableExtensionsTests.cs" />
+    <Compile Include="ExtensionMethods\System\Collections\Generic\List\ListExtensionsTests.cs" />
+    <Compile Include="ExtensionMethods\System\Collections\ObjectModel\ReadOnlyCollection\ReadOnlyCollectionExtensionsTests.cs" />
+    <Compile Include="ExtensionMethods\System\Comparable\ComparableExtensionsTests.cs" />
+    <Compile Include="ExtensionMethods\System\Decimal\DecimalExtensionsTests.cs" />
+    <Compile Include="ExtensionMethods\System\Double\DoubleExtensionsTests.cs" />
+    <Compile Include="ExtensionMethods\System\Random\RandomExtensionsTests.cs" />
+    <Compile Include="ExtensionMethods\System\String\StringExtensionsTests.cs" />
     <Compile Include="LitJson\JsonMapperTests.cs" />
     <Compile Include="MathTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

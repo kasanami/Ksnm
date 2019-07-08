@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Ksnm.ExtensionMethods.System.Collections.Tests
+namespace Ksnm.ExtensionMethods.System.Collections.Generic.List.Tests
 {
     [TestClass()]
-    public class ListTests
+    public class ListExtensionsTests
     {
         [TestMethod()]
         public void IndexOfRandomTest()

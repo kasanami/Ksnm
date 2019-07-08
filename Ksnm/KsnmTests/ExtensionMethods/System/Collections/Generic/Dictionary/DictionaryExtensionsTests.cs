@@ -1,10 +1,10 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 
-namespace Ksnm.ExtensionMethods.System.Collections.Tests
+namespace Ksnm.ExtensionMethods.System.Collections.Generic.Dictionary.Tests
 {
     [TestClass()]
-    public class DictionaryTests
+    public class DictionaryExtensionsTests
     {
         [TestMethod()]
         public void AddIfKeyNotExistsTest()

@@ -10,6 +10,10 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
+using Ksnm.ExtensionMethods.System.Collections.Generic.Dictionary;
+using Ksnm.ExtensionMethods.System.Random;
+using Ksnm.ExtensionMethods.System.Decimal;
+using Ksnm.ExtensionMethods.System.Double;
 
 namespace DemoApp
 {

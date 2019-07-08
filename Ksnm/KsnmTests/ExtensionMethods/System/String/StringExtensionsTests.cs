@@ -1,9 +1,9 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Ksnm.ExtensionMethods.System.Tests
+namespace Ksnm.ExtensionMethods.System.String.Tests
 {
     [TestClass()]
-    public class StringTests
+    public class StringExtensionsTests
     {
         [TestMethod()]
         public void GetLastTest()

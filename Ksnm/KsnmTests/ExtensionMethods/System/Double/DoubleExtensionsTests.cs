@@ -1,9 +1,9 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Ksnm.ExtensionMethods.System.Tests
+namespace Ksnm.ExtensionMethods.System.Double.Tests
 {
     [TestClass()]
-    public class DoubleTests
+    public class DoubleExtensionsTests
     {
         [TestMethod()]
         public void IsInfinityTest()
