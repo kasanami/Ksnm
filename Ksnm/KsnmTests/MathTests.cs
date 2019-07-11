@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Linq;
 using Ksnm.ExtensionMethods.System.Collections;
+using Ksnm.ExtensionMethods.System.Collections.Generic.Enumerable;
 
 namespace Ksnm.Tests
 {
