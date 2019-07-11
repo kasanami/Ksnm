@@ -541,6 +541,15 @@ namespace DemoApp
             var path = IO_DeflateFile_PathTextBox.Text;
             var sourceText = IO_DeflateFile_SourceTextBox.Text;
             Ksnm.IO.DeflateFile.WriteAllText(path, sourceText, Encoding.UTF8);
+            // 情報表示
+            {
+                var bytes = Encoding.UTF8.GetBytes(sourceText);
+                var info = new System.IO.FileInfo(path);
+                IO_DeflateFile_InfoTextBox.Text =
+                    "Encoding:UTF8 " +
+                    "圧縮前のサイズ:" + bytes.Length.ToString() + "バイト " +
+                    "圧縮後のサイズ:" + info.Length.ToString() + "バイト";
+            }
         }
 
         private void IO_DeflateFile_ReadButton_Click(object sender, EventArgs e)
