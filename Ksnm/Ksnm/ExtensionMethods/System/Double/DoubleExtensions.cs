@@ -33,7 +33,7 @@ namespace Ksnm.ExtensionMethods.System.Double
         /// <summary>
         /// 指数形式ではなく小数形式に変換するためのフォーマット
         /// </summary>
-        static readonly string DecimalFormat = "0.0" + new string('#', 338);
+        static readonly string DecimalFormat = "0." + new string('#', 338);
         /// <summary>
         /// 指定した数値が負または正の無限大と評価されるかどうかを示す値を返します。
         /// </summary>

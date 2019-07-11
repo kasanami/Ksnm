@@ -64,9 +64,9 @@ namespace Ksnm.ExtensionMethods.System.Double.Tests
         public void ToDecimalStringTest()
         {
             double sample = 0;
-            Assert.AreEqual("0.0", sample.ToDecimalString(), Debug.GetFilePathAndLineNumber());
+            Assert.AreEqual("0", sample.ToDecimalString(), Debug.GetFilePathAndLineNumber());
             sample = 1;
-            Assert.AreEqual("1.0", sample.ToDecimalString(), Debug.GetFilePathAndLineNumber());
+            Assert.AreEqual("1", sample.ToDecimalString(), Debug.GetFilePathAndLineNumber());
             sample = 0.00001;
             Assert.AreEqual("0.00001", sample.ToDecimalString(), Debug.GetFilePathAndLineNumber());
             sample = double.Epsilon;
