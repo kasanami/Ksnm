@@ -28,12 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea5 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend5 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series5 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea6 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend6 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series6 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.RandomTabControl = new System.Windows.Forms.TabControl();
             this.MathTabPage = new System.Windows.Forms.TabPage();
             this.tabControl1 = new System.Windows.Forms.TabControl();
@@ -660,19 +660,19 @@
             // 
             // Random_Chart
             // 
-            chartArea1.AxisX.Title = "回目";
-            chartArea1.AxisY.Title = "生成値";
-            chartArea1.Name = "ChartArea1";
-            this.Random_Chart.ChartAreas.Add(chartArea1);
+            chartArea5.AxisX.Title = "回目";
+            chartArea5.AxisY.Title = "生成値";
+            chartArea5.Name = "ChartArea1";
+            this.Random_Chart.ChartAreas.Add(chartArea5);
             this.Random_Chart.Dock = System.Windows.Forms.DockStyle.Fill;
-            legend1.Name = "Legend1";
-            this.Random_Chart.Legends.Add(legend1);
+            legend5.Name = "Legend1";
+            this.Random_Chart.Legends.Add(legend5);
             this.Random_Chart.Location = new System.Drawing.Point(3, 15);
             this.Random_Chart.Name = "Random_Chart";
-            series1.ChartArea = "ChartArea1";
-            series1.Legend = "Legend1";
-            series1.Name = "Series1";
-            this.Random_Chart.Series.Add(series1);
+            series5.ChartArea = "ChartArea1";
+            series5.Legend = "Legend1";
+            series5.Name = "Series1";
+            this.Random_Chart.Series.Add(series5);
             this.Random_Chart.Size = new System.Drawing.Size(217, 118);
             this.Random_Chart.TabIndex = 0;
             this.Random_Chart.Text = "chart1";
@@ -723,21 +723,21 @@
             // 
             // Random_CountChart
             // 
-            chartArea2.AxisX.Title = "生成値";
-            chartArea2.AxisY.IntervalOffsetType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Number;
-            chartArea2.AxisY.IntervalType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Number;
-            chartArea2.AxisY.Title = "回数";
-            chartArea2.Name = "ChartArea1";
-            this.Random_CountChart.ChartAreas.Add(chartArea2);
+            chartArea6.AxisX.Title = "生成値";
+            chartArea6.AxisY.IntervalOffsetType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Number;
+            chartArea6.AxisY.IntervalType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Number;
+            chartArea6.AxisY.Title = "回数";
+            chartArea6.Name = "ChartArea1";
+            this.Random_CountChart.ChartAreas.Add(chartArea6);
             this.Random_CountChart.Dock = System.Windows.Forms.DockStyle.Fill;
-            legend2.Name = "Legend1";
-            this.Random_CountChart.Legends.Add(legend2);
+            legend6.Name = "Legend1";
+            this.Random_CountChart.Legends.Add(legend6);
             this.Random_CountChart.Location = new System.Drawing.Point(3, 15);
             this.Random_CountChart.Name = "Random_CountChart";
-            series2.ChartArea = "ChartArea1";
-            series2.Legend = "Legend1";
-            series2.Name = "Series1";
-            this.Random_CountChart.Series.Add(series2);
+            series6.ChartArea = "ChartArea1";
+            series6.Legend = "Legend1";
+            series6.Name = "Series1";
+            this.Random_CountChart.Series.Add(series6);
             this.Random_CountChart.Size = new System.Drawing.Size(217, 118);
             this.Random_CountChart.TabIndex = 1;
             this.Random_CountChart.Text = "chart1";
@@ -1031,7 +1031,7 @@
             this.IO_DeflateFile_SourceTextBox.Name = "IO_DeflateFile_SourceTextBox";
             this.IO_DeflateFile_SourceTextBox.Size = new System.Drawing.Size(513, 181);
             this.IO_DeflateFile_SourceTextBox.TabIndex = 3;
-            this.IO_DeflateFile_SourceTextBox.Text = "A\r\nBB\r\nCCC\r\nDDDD";
+            this.IO_DeflateFile_SourceTextBox.Text = "AAAAAAAA\r\nBBBBBBBB\r\nCCCCCCCC\r\nDDDDDDDD";
             // 
             // label13
             // 
