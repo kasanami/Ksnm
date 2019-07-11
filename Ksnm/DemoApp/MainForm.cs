@@ -1,6 +1,4 @@
-﻿﻿using Ksnm.Randoms;
-using Ksnm.ExtensionMethods.System;
-using Ksnm.ExtensionMethods.System.Collections;
+﻿using Ksnm.Randoms;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -39,8 +37,8 @@ namespace DemoApp
             OnLoad_RandomTabPage();
             // 定数
             {
-                goldenNumberLabel.Text = Ksnm.Math.GoldenNumber.ToString(DoubleFormat);
-                silverNumberLabel.Text = Ksnm.Math.SilverNumber.ToString(DoubleFormat);
+                goldenNumberLabel.Text = Ksnm.Math.GoldenNumber.ToDecimalString();
+                silverNumberLabel.Text = Ksnm.Math.SilverNumber.ToDecimalString();
             }
             // 数列
             {

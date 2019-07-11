@@ -1,7 +1,5 @@
-﻿using System;
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
 using System.Drawing.Drawing2D;
-using System.ComponentModel;
 
 namespace Ksnm.Windows.Forms
 {
