@@ -23,6 +23,7 @@ freely, subject to the following restrictions:
 */
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace Ksnm.ExtensionMethods.System.Collections.Generic.Enumerable
 {
@@ -79,6 +80,32 @@ namespace Ksnm.ExtensionMethods.System.Collections.Generic.Enumerable
         public static decimal Product(this IEnumerable<decimal> source)
         {
             return source.Aggregate((product, item) => product * item);
+        }
+        /// <summary>
+        /// デバッグ用文字列に変換します。
+        /// </summary>
+        public static string ToDebugString<T>(this IEnumerable<T> self, bool isMultiLine = false)
+        {
+            var str = new StringBuilder();
+            str.Append("[" + self.Count() + "]={");
+            for (int i = 0; i < self.Count(); ++i)
+            {
+                if (i != 0)
+                {
+                    str.Append(",");
+                }
+                if (isMultiLine)
+                {
+                    str.AppendLine();
+                }
+                str.Append(self.ElementAt(i).ToString());
+            }
+            if (isMultiLine)
+            {
+                str.AppendLine();
+            }
+            str.Append("}");
+            return str.ToString();
         }
     }
 }

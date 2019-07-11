@@ -92,7 +92,7 @@ namespace Ksnm.ExtensionMethods.System.Array
             }
             array.SetValue(value, indices);
         }
-
+#if false// EnumerableExtensionsに移動
         /// <summary>
         /// 配列をデバッグ用文字列に変換します。
         /// </summary>
@@ -126,5 +126,6 @@ namespace Ksnm.ExtensionMethods.System.Array
             str.Append("}");
             return str.ToString();
         }
+#endif
     }
 }
