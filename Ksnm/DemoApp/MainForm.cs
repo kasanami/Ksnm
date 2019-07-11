@@ -529,20 +529,25 @@ namespace DemoApp
             Ksnm.IO.Directory.Copy(sourceDirName, destDirName, true);
         }
 
-        private void IO_DeflateFile_RunButton_Click(object sender, EventArgs e)
-        {
-            var path = IO_DeflateFile_PathTextBox.Text;
-            var sourceText = IO_DeflateFile_SourceTextBox.Text;
-            Ksnm.IO.DeflateFile.WriteAllText(path, sourceText, Encoding.UTF8);
-            var text = Ksnm.IO.DeflateFile.ReadAllText(path, Encoding.UTF8);
-            IO_DeflateFile_DecodeTextBox.Text = text;
-        }
-
         private void IO_Directory_MoveButton_Click(object sender, EventArgs e)
         {
             var sourceDirName = IO_Directory_MoveSourceTextBox.Text;
             var destDirName = IO_Directory_MoveDestTextBox.Text;
             Ksnm.IO.Directory.Move(sourceDirName, destDirName);
+        }
+
+        private void IO_DeflateFile_WriteButton_Click(object sender, EventArgs e)
+        {
+            var path = IO_DeflateFile_PathTextBox.Text;
+            var sourceText = IO_DeflateFile_SourceTextBox.Text;
+            Ksnm.IO.DeflateFile.WriteAllText(path, sourceText, Encoding.UTF8);
+        }
+
+        private void IO_DeflateFile_ReadButton_Click(object sender, EventArgs e)
+        {
+            var path = IO_DeflateFile_PathTextBox.Text;
+            var text = Ksnm.IO.DeflateFile.ReadAllText(path, Encoding.UTF8);
+            IO_DeflateFile_DecodeTextBox.Text = text;
         }
 
         #endregion IOタブ
@@ -554,5 +559,6 @@ namespace DemoApp
             Binary_MaxValueLabel.Text = Ksnm.Binary.MaxValues[bitNum].ToString();
         }
         #endregion Binaryタブ
+
     }
 }

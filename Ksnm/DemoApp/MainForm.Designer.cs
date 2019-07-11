@@ -28,12 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend3 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea4 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend4 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.RandomTabControl = new System.Windows.Forms.TabControl();
             this.MathTabPage = new System.Windows.Forms.TabPage();
             this.tabControl1 = new System.Windows.Forms.TabControl();
@@ -104,7 +104,8 @@
             this.label13 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
             this.IO_DeflateFile_PathTextBox = new System.Windows.Forms.TextBox();
-            this.IO_DeflateFile_RunButton = new System.Windows.Forms.Button();
+            this.IO_DeflateFile_WriteButton = new System.Windows.Forms.Button();
+            this.IO_DeflateFile_ReadButton = new System.Windows.Forms.Button();
             this.tabPage7 = new System.Windows.Forms.TabPage();
             this.tabControl3 = new System.Windows.Forms.TabControl();
             this.tabPage8 = new System.Windows.Forms.TabPage();
@@ -116,8 +117,8 @@
             this.tabPage9 = new System.Windows.Forms.TabPage();
             this.tabPage10 = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel12 = new System.Windows.Forms.TableLayoutPanel();
-            this.textBox1 = new System.Windows.Forms.TextBox();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             this.RandomTabControl.SuspendLayout();
             this.MathTabPage.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -657,19 +658,19 @@
             // 
             // Random_Chart
             // 
-            chartArea1.AxisX.Title = "回目";
-            chartArea1.AxisY.Title = "生成値";
-            chartArea1.Name = "ChartArea1";
-            this.Random_Chart.ChartAreas.Add(chartArea1);
+            chartArea3.AxisX.Title = "回目";
+            chartArea3.AxisY.Title = "生成値";
+            chartArea3.Name = "ChartArea1";
+            this.Random_Chart.ChartAreas.Add(chartArea3);
             this.Random_Chart.Dock = System.Windows.Forms.DockStyle.Fill;
-            legend1.Name = "Legend1";
-            this.Random_Chart.Legends.Add(legend1);
+            legend3.Name = "Legend1";
+            this.Random_Chart.Legends.Add(legend3);
             this.Random_Chart.Location = new System.Drawing.Point(3, 15);
             this.Random_Chart.Name = "Random_Chart";
-            series1.ChartArea = "ChartArea1";
-            series1.Legend = "Legend1";
-            series1.Name = "Series1";
-            this.Random_Chart.Series.Add(series1);
+            series3.ChartArea = "ChartArea1";
+            series3.Legend = "Legend1";
+            series3.Name = "Series1";
+            this.Random_Chart.Series.Add(series3);
             this.Random_Chart.Size = new System.Drawing.Size(217, 118);
             this.Random_Chart.TabIndex = 0;
             this.Random_Chart.Text = "chart1";
@@ -720,21 +721,21 @@
             // 
             // Random_CountChart
             // 
-            chartArea2.AxisX.Title = "生成値";
-            chartArea2.AxisY.IntervalOffsetType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Number;
-            chartArea2.AxisY.IntervalType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Number;
-            chartArea2.AxisY.Title = "回数";
-            chartArea2.Name = "ChartArea1";
-            this.Random_CountChart.ChartAreas.Add(chartArea2);
+            chartArea4.AxisX.Title = "生成値";
+            chartArea4.AxisY.IntervalOffsetType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Number;
+            chartArea4.AxisY.IntervalType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Number;
+            chartArea4.AxisY.Title = "回数";
+            chartArea4.Name = "ChartArea1";
+            this.Random_CountChart.ChartAreas.Add(chartArea4);
             this.Random_CountChart.Dock = System.Windows.Forms.DockStyle.Fill;
-            legend2.Name = "Legend1";
-            this.Random_CountChart.Legends.Add(legend2);
+            legend4.Name = "Legend1";
+            this.Random_CountChart.Legends.Add(legend4);
             this.Random_CountChart.Location = new System.Drawing.Point(3, 15);
             this.Random_CountChart.Name = "Random_CountChart";
-            series2.ChartArea = "ChartArea1";
-            series2.Legend = "Legend1";
-            series2.Name = "Series1";
-            this.Random_CountChart.Series.Add(series2);
+            series4.ChartArea = "ChartArea1";
+            series4.Legend = "Legend1";
+            series4.Name = "Series1";
+            this.Random_CountChart.Series.Add(series4);
             this.Random_CountChart.Size = new System.Drawing.Size(217, 118);
             this.Random_CountChart.TabIndex = 1;
             this.Random_CountChart.Text = "chart1";
@@ -975,44 +976,46 @@
             // 
             // tableLayoutPanel9
             // 
-            this.tableLayoutPanel9.ColumnCount = 2;
+            this.tableLayoutPanel9.ColumnCount = 3;
             this.tableLayoutPanel9.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
             this.tableLayoutPanel9.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel9.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
             this.tableLayoutPanel9.Controls.Add(this.IO_DeflateFile_DecodeTextBox, 1, 3);
             this.tableLayoutPanel9.Controls.Add(this.label14, 0, 3);
             this.tableLayoutPanel9.Controls.Add(this.IO_DeflateFile_SourceTextBox, 1, 1);
             this.tableLayoutPanel9.Controls.Add(this.label13, 0, 1);
             this.tableLayoutPanel9.Controls.Add(this.label12, 0, 0);
             this.tableLayoutPanel9.Controls.Add(this.IO_DeflateFile_PathTextBox, 1, 0);
-            this.tableLayoutPanel9.Controls.Add(this.IO_DeflateFile_RunButton, 1, 2);
+            this.tableLayoutPanel9.Controls.Add(this.IO_DeflateFile_WriteButton, 2, 1);
+            this.tableLayoutPanel9.Controls.Add(this.IO_DeflateFile_ReadButton, 2, 3);
             this.tableLayoutPanel9.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel9.Location = new System.Drawing.Point(3, 3);
             this.tableLayoutPanel9.Name = "tableLayoutPanel9";
-            this.tableLayoutPanel9.RowCount = 5;
+            this.tableLayoutPanel9.RowCount = 4;
             this.tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
-            this.tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 100F));
-            this.tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
-            this.tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 100F));
-            this.tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel9.Size = new System.Drawing.Size(719, 424);
             this.tableLayoutPanel9.TabIndex = 0;
             // 
             // IO_DeflateFile_DecodeTextBox
             // 
             this.IO_DeflateFile_DecodeTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.IO_DeflateFile_DecodeTextBox.Location = new System.Drawing.Point(103, 168);
+            this.IO_DeflateFile_DecodeTextBox.Location = new System.Drawing.Point(103, 237);
             this.IO_DeflateFile_DecodeTextBox.Multiline = true;
             this.IO_DeflateFile_DecodeTextBox.Name = "IO_DeflateFile_DecodeTextBox";
-            this.IO_DeflateFile_DecodeTextBox.Size = new System.Drawing.Size(613, 94);
+            this.IO_DeflateFile_DecodeTextBox.Size = new System.Drawing.Size(513, 184);
             this.IO_DeflateFile_DecodeTextBox.TabIndex = 5;
             // 
             // label14
             // 
             this.label14.AutoSize = true;
             this.label14.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label14.Location = new System.Drawing.Point(3, 165);
+            this.label14.Location = new System.Drawing.Point(3, 234);
             this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(94, 100);
+            this.label14.Size = new System.Drawing.Size(94, 190);
             this.label14.TabIndex = 4;
             this.label14.Text = "復元テキスト";
             this.label14.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -1023,7 +1026,7 @@
             this.IO_DeflateFile_SourceTextBox.Location = new System.Drawing.Point(103, 28);
             this.IO_DeflateFile_SourceTextBox.Multiline = true;
             this.IO_DeflateFile_SourceTextBox.Name = "IO_DeflateFile_SourceTextBox";
-            this.IO_DeflateFile_SourceTextBox.Size = new System.Drawing.Size(613, 94);
+            this.IO_DeflateFile_SourceTextBox.Size = new System.Drawing.Size(513, 183);
             this.IO_DeflateFile_SourceTextBox.TabIndex = 3;
             this.IO_DeflateFile_SourceTextBox.Text = "A\r\nBB\r\nCCC\r\nDDDD";
             // 
@@ -1033,7 +1036,7 @@
             this.label13.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label13.Location = new System.Drawing.Point(3, 25);
             this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(94, 100);
+            this.label13.Size = new System.Drawing.Size(94, 189);
             this.label13.TabIndex = 2;
             this.label13.Text = "元テキスト";
             this.label13.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -1054,20 +1057,31 @@
             this.IO_DeflateFile_PathTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.IO_DeflateFile_PathTextBox.Location = new System.Drawing.Point(103, 3);
             this.IO_DeflateFile_PathTextBox.Name = "IO_DeflateFile_PathTextBox";
-            this.IO_DeflateFile_PathTextBox.Size = new System.Drawing.Size(613, 19);
+            this.IO_DeflateFile_PathTextBox.Size = new System.Drawing.Size(513, 19);
             this.IO_DeflateFile_PathTextBox.TabIndex = 1;
             this.IO_DeflateFile_PathTextBox.Text = "Test/DeflateFile.bin";
             // 
-            // IO_DeflateFile_RunButton
+            // IO_DeflateFile_WriteButton
             // 
-            this.IO_DeflateFile_RunButton.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.IO_DeflateFile_RunButton.Location = new System.Drawing.Point(103, 128);
-            this.IO_DeflateFile_RunButton.Name = "IO_DeflateFile_RunButton";
-            this.IO_DeflateFile_RunButton.Size = new System.Drawing.Size(613, 34);
-            this.IO_DeflateFile_RunButton.TabIndex = 6;
-            this.IO_DeflateFile_RunButton.Text = "テスト（圧縮保存→読込解凍）";
-            this.IO_DeflateFile_RunButton.UseVisualStyleBackColor = true;
-            this.IO_DeflateFile_RunButton.Click += new System.EventHandler(this.IO_DeflateFile_RunButton_Click);
+            this.IO_DeflateFile_WriteButton.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.IO_DeflateFile_WriteButton.Location = new System.Drawing.Point(622, 28);
+            this.IO_DeflateFile_WriteButton.Name = "IO_DeflateFile_WriteButton";
+            this.IO_DeflateFile_WriteButton.Size = new System.Drawing.Size(94, 183);
+            this.IO_DeflateFile_WriteButton.TabIndex = 6;
+            this.IO_DeflateFile_WriteButton.Text = "圧縮＆保存";
+            this.IO_DeflateFile_WriteButton.UseVisualStyleBackColor = true;
+            this.IO_DeflateFile_WriteButton.Click += new System.EventHandler(this.IO_DeflateFile_WriteButton_Click);
+            // 
+            // IO_DeflateFile_ReadButton
+            // 
+            this.IO_DeflateFile_ReadButton.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.IO_DeflateFile_ReadButton.Location = new System.Drawing.Point(622, 237);
+            this.IO_DeflateFile_ReadButton.Name = "IO_DeflateFile_ReadButton";
+            this.IO_DeflateFile_ReadButton.Size = new System.Drawing.Size(94, 184);
+            this.IO_DeflateFile_ReadButton.TabIndex = 7;
+            this.IO_DeflateFile_ReadButton.Text = "読込＆解凍";
+            this.IO_DeflateFile_ReadButton.UseVisualStyleBackColor = true;
+            this.IO_DeflateFile_ReadButton.Click += new System.EventHandler(this.IO_DeflateFile_ReadButton_Click);
             // 
             // tabPage7
             // 
@@ -1207,15 +1221,6 @@
             this.tableLayoutPanel12.Size = new System.Drawing.Size(733, 456);
             this.tableLayoutPanel12.TabIndex = 0;
             // 
-            // textBox1
-            // 
-            this.textBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBox1.Location = new System.Drawing.Point(3, 15);
-            this.textBox1.Multiline = true;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(355, 204);
-            this.textBox1.TabIndex = 0;
-            // 
             // groupBox8
             // 
             this.groupBox8.Controls.Add(this.textBox1);
@@ -1226,6 +1231,15 @@
             this.groupBox8.TabIndex = 1;
             this.groupBox8.TabStop = false;
             this.groupBox8.Text = "groupBox8";
+            // 
+            // textBox1
+            // 
+            this.textBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.textBox1.Location = new System.Drawing.Point(3, 15);
+            this.textBox1.Multiline = true;
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(355, 204);
+            this.textBox1.TabIndex = 0;
             // 
             // MainForm
             // 
@@ -1349,7 +1363,7 @@
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.TextBox IO_DeflateFile_SourceTextBox;
         private System.Windows.Forms.Label label13;
-        private System.Windows.Forms.Button IO_DeflateFile_RunButton;
+        private System.Windows.Forms.Button IO_DeflateFile_WriteButton;
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.GroupBox groupBox5;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel10;
@@ -1377,6 +1391,7 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel12;
         private System.Windows.Forms.GroupBox groupBox8;
         private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.Button IO_DeflateFile_ReadButton;
     }
 }
 
