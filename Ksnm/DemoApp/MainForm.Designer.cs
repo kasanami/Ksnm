@@ -75,6 +75,8 @@
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.Random_TextBox = new System.Windows.Forms.TextBox();
+            this.groupBox7 = new System.Windows.Forms.GroupBox();
+            this.Random_CountChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.Random_GenerateButton1 = new System.Windows.Forms.Button();
             this.IOTabPage = new System.Windows.Forms.TabPage();
             this.tabControl2 = new System.Windows.Forms.TabControl();
@@ -112,8 +114,10 @@
             this.label17 = new System.Windows.Forms.Label();
             this.Binary_MaxValueNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.tabPage9 = new System.Windows.Forms.TabPage();
-            this.groupBox7 = new System.Windows.Forms.GroupBox();
-            this.Random_CountChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.tabPage10 = new System.Windows.Forms.TabPage();
+            this.tableLayoutPanel12 = new System.Windows.Forms.TableLayoutPanel();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.groupBox8 = new System.Windows.Forms.GroupBox();
             this.RandomTabControl.SuspendLayout();
             this.MathTabPage.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -134,6 +138,8 @@
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Random_Chart)).BeginInit();
             this.groupBox6.SuspendLayout();
+            this.groupBox7.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.Random_CountChart)).BeginInit();
             this.IOTabPage.SuspendLayout();
             this.tabControl2.SuspendLayout();
             this.tabPage5.SuspendLayout();
@@ -149,8 +155,9 @@
             this.tabPage8.SuspendLayout();
             this.tableLayoutPanel11.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Binary_MaxValueNumericUpDown)).BeginInit();
-            this.groupBox7.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.Random_CountChart)).BeginInit();
+            this.tabPage10.SuspendLayout();
+            this.tableLayoutPanel12.SuspendLayout();
+            this.groupBox8.SuspendLayout();
             this.SuspendLayout();
             // 
             // RandomTabControl
@@ -159,6 +166,7 @@
             this.RandomTabControl.Controls.Add(this.tabPage2);
             this.RandomTabControl.Controls.Add(this.IOTabPage);
             this.RandomTabControl.Controls.Add(this.tabPage7);
+            this.RandomTabControl.Controls.Add(this.tabPage10);
             this.RandomTabControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.RandomTabControl.Location = new System.Drawing.Point(0, 0);
             this.RandomTabControl.Name = "RandomTabControl";
@@ -699,6 +707,38 @@
             this.Random_TextBox.Size = new System.Drawing.Size(217, 119);
             this.Random_TextBox.TabIndex = 0;
             // 
+            // groupBox7
+            // 
+            this.groupBox7.Controls.Add(this.Random_CountChart);
+            this.groupBox7.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox7.Location = new System.Drawing.Point(461, 3);
+            this.groupBox7.Name = "groupBox7";
+            this.groupBox7.Size = new System.Drawing.Size(223, 136);
+            this.groupBox7.TabIndex = 5;
+            this.groupBox7.TabStop = false;
+            this.groupBox7.Text = "各値の発生回数";
+            // 
+            // Random_CountChart
+            // 
+            chartArea2.AxisX.Title = "生成値";
+            chartArea2.AxisY.IntervalOffsetType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Number;
+            chartArea2.AxisY.IntervalType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Number;
+            chartArea2.AxisY.Title = "回数";
+            chartArea2.Name = "ChartArea1";
+            this.Random_CountChart.ChartAreas.Add(chartArea2);
+            this.Random_CountChart.Dock = System.Windows.Forms.DockStyle.Fill;
+            legend2.Name = "Legend1";
+            this.Random_CountChart.Legends.Add(legend2);
+            this.Random_CountChart.Location = new System.Drawing.Point(3, 15);
+            this.Random_CountChart.Name = "Random_CountChart";
+            series2.ChartArea = "ChartArea1";
+            series2.Legend = "Legend1";
+            series2.Name = "Series1";
+            this.Random_CountChart.Series.Add(series2);
+            this.Random_CountChart.Size = new System.Drawing.Size(217, 118);
+            this.Random_CountChart.TabIndex = 1;
+            this.Random_CountChart.Text = "chart1";
+            // 
             // Random_GenerateButton1
             // 
             this.Random_GenerateButton1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -1141,37 +1181,51 @@
             this.tabPage9.Text = "tabPage9";
             this.tabPage9.UseVisualStyleBackColor = true;
             // 
-            // groupBox7
+            // tabPage10
             // 
-            this.groupBox7.Controls.Add(this.Random_CountChart);
-            this.groupBox7.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox7.Location = new System.Drawing.Point(461, 3);
-            this.groupBox7.Name = "groupBox7";
-            this.groupBox7.Size = new System.Drawing.Size(223, 136);
-            this.groupBox7.TabIndex = 5;
-            this.groupBox7.TabStop = false;
-            this.groupBox7.Text = "各値の発生回数";
+            this.tabPage10.Controls.Add(this.tableLayoutPanel12);
+            this.tabPage10.Location = new System.Drawing.Point(4, 22);
+            this.tabPage10.Name = "tabPage10";
+            this.tabPage10.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage10.Size = new System.Drawing.Size(739, 462);
+            this.tabPage10.TabIndex = 4;
+            this.tabPage10.Text = "LitJson";
+            this.tabPage10.UseVisualStyleBackColor = true;
             // 
-            // Random_CountChart
+            // tableLayoutPanel12
             // 
-            chartArea2.AxisX.Title = "生成値";
-            chartArea2.AxisY.IntervalOffsetType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Number;
-            chartArea2.AxisY.IntervalType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Number;
-            chartArea2.AxisY.Title = "回数";
-            chartArea2.Name = "ChartArea1";
-            this.Random_CountChart.ChartAreas.Add(chartArea2);
-            this.Random_CountChart.Dock = System.Windows.Forms.DockStyle.Fill;
-            legend2.Name = "Legend1";
-            this.Random_CountChart.Legends.Add(legend2);
-            this.Random_CountChart.Location = new System.Drawing.Point(3, 15);
-            this.Random_CountChart.Name = "Random_CountChart";
-            series2.ChartArea = "ChartArea1";
-            series2.Legend = "Legend1";
-            series2.Name = "Series1";
-            this.Random_CountChart.Series.Add(series2);
-            this.Random_CountChart.Size = new System.Drawing.Size(217, 118);
-            this.Random_CountChart.TabIndex = 1;
-            this.Random_CountChart.Text = "chart1";
+            this.tableLayoutPanel12.ColumnCount = 2;
+            this.tableLayoutPanel12.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel12.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel12.Controls.Add(this.groupBox8, 1, 1);
+            this.tableLayoutPanel12.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel12.Location = new System.Drawing.Point(3, 3);
+            this.tableLayoutPanel12.Name = "tableLayoutPanel12";
+            this.tableLayoutPanel12.RowCount = 2;
+            this.tableLayoutPanel12.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel12.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel12.Size = new System.Drawing.Size(733, 456);
+            this.tableLayoutPanel12.TabIndex = 0;
+            // 
+            // textBox1
+            // 
+            this.textBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.textBox1.Location = new System.Drawing.Point(3, 15);
+            this.textBox1.Multiline = true;
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(355, 204);
+            this.textBox1.TabIndex = 0;
+            // 
+            // groupBox8
+            // 
+            this.groupBox8.Controls.Add(this.textBox1);
+            this.groupBox8.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox8.Location = new System.Drawing.Point(369, 231);
+            this.groupBox8.Name = "groupBox8";
+            this.groupBox8.Size = new System.Drawing.Size(361, 222);
+            this.groupBox8.TabIndex = 1;
+            this.groupBox8.TabStop = false;
+            this.groupBox8.Text = "groupBox8";
             // 
             // MainForm
             // 
@@ -1208,6 +1262,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.Random_Chart)).EndInit();
             this.groupBox6.ResumeLayout(false);
             this.groupBox6.PerformLayout();
+            this.groupBox7.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.Random_CountChart)).EndInit();
             this.IOTabPage.ResumeLayout(false);
             this.tabControl2.ResumeLayout(false);
             this.tabPage5.ResumeLayout(false);
@@ -1227,8 +1283,10 @@
             this.tableLayoutPanel11.ResumeLayout(false);
             this.tableLayoutPanel11.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Binary_MaxValueNumericUpDown)).EndInit();
-            this.groupBox7.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.Random_CountChart)).EndInit();
+            this.tabPage10.ResumeLayout(false);
+            this.tableLayoutPanel12.ResumeLayout(false);
+            this.groupBox8.ResumeLayout(false);
+            this.groupBox8.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -1315,6 +1373,10 @@
         private System.Windows.Forms.TabPage tabPage9;
         private System.Windows.Forms.GroupBox groupBox7;
         private System.Windows.Forms.DataVisualization.Charting.Chart Random_CountChart;
+        private System.Windows.Forms.TabPage tabPage10;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel12;
+        private System.Windows.Forms.GroupBox groupBox8;
+        private System.Windows.Forms.TextBox textBox1;
     }
 }
 
