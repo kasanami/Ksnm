@@ -196,14 +196,30 @@ namespace Ksnm.ExtensionMethods.System.String
         /// </summary>
         /// <param name="self">インスタンス</param>
         /// <param name="oldChars">置換する文字。</param>
-        /// <param name="newChar">oldChar を置換する文字。</param>
-        /// <returns></returns>
+        /// <param name="newChar">置換後の文字。</param>
+        /// <returns>変更後の新しいインスタンス</returns>
         public static string Replace(this string self, IEnumerable<char> oldChars, char newChar)
         {
             var temp = new global::System.Text.StringBuilder(self);
             foreach (var oldChar in oldChars)
             {
                 temp.Replace(oldChar, newChar);
+            }
+            return temp.ToString();
+        }
+        /// <summary>
+        /// このインスタンスに出現する指定文字列をすべて、指定した別の文字列に置換します。
+        /// </summary>
+        /// <param name="self">インスタンス</param>
+        /// <param name="oldValues">置換する文字列。</param>
+        /// <param name="newValue">置換後の文字列。</param>
+        /// <returns>変更後の新しいインスタンス</returns>
+        public static string Replace(this string self, IEnumerable<string> oldValues, string newValue)
+        {
+            var temp = new global::System.Text.StringBuilder(self);
+            foreach (var oldValue in oldValues)
+            {
+                temp.Replace(oldValue, newValue);
             }
             return temp.ToString();
         }

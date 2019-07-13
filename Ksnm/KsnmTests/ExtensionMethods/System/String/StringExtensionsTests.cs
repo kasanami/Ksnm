@@ -103,8 +103,14 @@ namespace Ksnm.ExtensionMethods.System.String.Tests
             var str2 = str.Replace("aceg", '-');
             Assert.AreEqual(str2, "-b-d-f-");
 
+            str2 = str.Replace(new[] { "a", "c", "e", "g" }, "-");
+            Assert.AreEqual(str2, "-b-d-f-");
+
             str = "あいうえお";
             str2 = str.Replace("あうお", '★');
+            Assert.AreEqual(str2, "★い★え★");
+
+            str2 = str.Replace(new[] { "あ", "う", "お" }, "★");
             Assert.AreEqual(str2, "★い★え★");
         }
     }
