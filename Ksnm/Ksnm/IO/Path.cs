@@ -1,7 +1,7 @@
 ﻿/*
 The zlib License
 
-Copyright (c) 2017 Takahiro Kasanami
+Copyright (c) 2017-2019 Takahiro Kasanami
 
 This software is provided 'as-is', without any express or implied
 warranty. In no event will the authors be held liable for any damages
@@ -21,6 +21,7 @@ freely, subject to the following restrictions:
 
 3. This notice may not be removed or altered from any source distribution.
 */
+using Ksnm.ExtensionMethods.System.String;
 using System.Collections.Generic;
 
 namespace Ksnm.IO
@@ -50,11 +51,26 @@ namespace Ksnm.IO
         /// </summary>
         public static string ToSafeFileName(string fileName)
         {
+            // 良くある制御文字削除
+            fileName = fileName.Replace("\n", "");
+            fileName = fileName.Replace("\r", "");
+            fileName = fileName.Replace("\t", "");
             foreach (var item in InvalidFileNameWideChars)
             {
                 fileName = fileName.Replace(item.Key, item.Value);
             }
             return fileName;
+#if false
+            // この方法は遅かった
+            var temp = new global::System.Text.StringBuilder(fileName);
+            temp.Replace("\t", "");
+            temp.Replace("\n", "");
+            foreach (var item in InvalidFileNameWideChars)
+            {
+                temp.Replace(item.Key, item.Value);
+            }
+            return temp.ToString();
+#endif
         }
     }
 }
