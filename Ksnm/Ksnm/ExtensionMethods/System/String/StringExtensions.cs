@@ -21,6 +21,7 @@ freely, subject to the following restrictions:
 
 3. This notice may not be removed or altered from any source distribution.
 */
+using System;
 using System.Collections.Generic;
 
 #if Ksnm_Using_UniLinq
@@ -206,6 +207,10 @@ namespace Ksnm.ExtensionMethods.System.String
                 temp.Replace(oldChar, newChar);
             }
             return temp.ToString();
+#if false
+            // この方法は遅かった
+            return new string(self.Select(c => oldChars.Contains(c) ? newChar : c).ToArray());
+#endif
         }
         /// <summary>
         /// このインスタンスに出現する指定文字列をすべて、指定した別の文字列に置換します。
