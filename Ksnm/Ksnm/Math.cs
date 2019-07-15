@@ -29,7 +29,7 @@ namespace Ksnm
     /// <summary>
     /// System.Mathに無い関数を定義
     /// </summary>
-    public static class Math
+    public static partial class Math
     {
         #region 定数
 

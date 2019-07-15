@@ -12,6 +12,8 @@ using Ksnm.ExtensionMethods.System.Collections.Generic.Dictionary;
 using Ksnm.ExtensionMethods.System.Random;
 using Ksnm.ExtensionMethods.System.Decimal;
 using Ksnm.ExtensionMethods.System.Double;
+using System.Diagnostics;
+using Ksnm.ExtensionMethods.System.String;
 
 namespace DemoApp
 {
@@ -105,6 +107,12 @@ namespace DemoApp
             {
                 primeFactorizationLabel.Text = "オーバーフロー";
             }
+        }
+
+        private void Math_LeibnizFormulaButton_Click(object sender, EventArgs e)
+        {
+            var count = Math_LeibnizFormulaNumericUpDown1.Value.ToClampedInt32();
+            Math_LeibnizFormulaLabel1.Text = (Ksnm.Math.Formula.Leibniz(count) * 4).ToDecimalString();
         }
 
         #endregion Mathタブ
@@ -568,6 +576,5 @@ namespace DemoApp
             Binary_MaxValueLabel.Text = Ksnm.Binary.MaxValues[bitNum].ToString();
         }
         #endregion Binaryタブ
-
     }
 }

@@ -106,6 +106,8 @@
             this.IO_DeflateFile_PathTextBox = new System.Windows.Forms.TextBox();
             this.IO_DeflateFile_WriteButton = new System.Windows.Forms.Button();
             this.IO_DeflateFile_ReadButton = new System.Windows.Forms.Button();
+            this.label9 = new System.Windows.Forms.Label();
+            this.IO_DeflateFile_InfoTextBox = new System.Windows.Forms.TextBox();
             this.tabPage7 = new System.Windows.Forms.TabPage();
             this.tabControl3 = new System.Windows.Forms.TabControl();
             this.tabPage8 = new System.Windows.Forms.TabPage();
@@ -119,8 +121,10 @@
             this.tableLayoutPanel12 = new System.Windows.Forms.TableLayoutPanel();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
             this.textBox1 = new System.Windows.Forms.TextBox();
-            this.label9 = new System.Windows.Forms.Label();
-            this.IO_DeflateFile_InfoTextBox = new System.Windows.Forms.TextBox();
+            this.label11 = new System.Windows.Forms.Label();
+            this.Math_LeibnizFormulaButton = new System.Windows.Forms.Button();
+            this.Math_LeibnizFormulaLabel1 = new System.Windows.Forms.Label();
+            this.Math_LeibnizFormulaNumericUpDown1 = new System.Windows.Forms.NumericUpDown();
             this.RandomTabControl.SuspendLayout();
             this.MathTabPage.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -161,6 +165,7 @@
             this.tabPage10.SuspendLayout();
             this.tableLayoutPanel12.SuspendLayout();
             this.groupBox8.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.Math_LeibnizFormulaNumericUpDown1)).BeginInit();
             this.SuspendLayout();
             // 
             // RandomTabControl
@@ -369,14 +374,18 @@
             // tableLayoutPanel8
             // 
             this.tableLayoutPanel8.ColumnCount = 4;
-            this.tableLayoutPanel8.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 120F));
-            this.tableLayoutPanel8.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
+            this.tableLayoutPanel8.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 200F));
+            this.tableLayoutPanel8.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 200F));
             this.tableLayoutPanel8.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.tableLayoutPanel8.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel8.Controls.Add(this.label7, 0, 0);
             this.tableLayoutPanel8.Controls.Add(this.primeFactorizationLabel, 3, 0);
             this.tableLayoutPanel8.Controls.Add(this.primeFactorization_ParameterTextBox, 1, 0);
             this.tableLayoutPanel8.Controls.Add(this.primeFactorizationButton, 2, 0);
+            this.tableLayoutPanel8.Controls.Add(this.label11, 0, 1);
+            this.tableLayoutPanel8.Controls.Add(this.Math_LeibnizFormulaButton, 2, 1);
+            this.tableLayoutPanel8.Controls.Add(this.Math_LeibnizFormulaLabel1, 3, 1);
+            this.tableLayoutPanel8.Controls.Add(this.Math_LeibnizFormulaNumericUpDown1, 1, 1);
             this.tableLayoutPanel8.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel8.Location = new System.Drawing.Point(3, 3);
             this.tableLayoutPanel8.Name = "tableLayoutPanel8";
@@ -394,7 +403,7 @@
             this.label7.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.label7.Location = new System.Drawing.Point(3, 0);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(114, 40);
+            this.label7.Size = new System.Drawing.Size(194, 40);
             this.label7.TabIndex = 1;
             this.label7.Text = "素因数分解";
             this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -404,9 +413,9 @@
             this.primeFactorizationLabel.AutoSize = true;
             this.primeFactorizationLabel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.primeFactorizationLabel.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.primeFactorizationLabel.Location = new System.Drawing.Point(263, 0);
+            this.primeFactorizationLabel.Location = new System.Drawing.Point(443, 0);
             this.primeFactorizationLabel.Name = "primeFactorizationLabel";
-            this.primeFactorizationLabel.Size = new System.Drawing.Size(453, 40);
+            this.primeFactorizationLabel.Size = new System.Drawing.Size(273, 40);
             this.primeFactorizationLabel.TabIndex = 2;
             this.primeFactorizationLabel.Text = "label4";
             this.primeFactorizationLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -415,16 +424,16 @@
             // 
             this.primeFactorization_ParameterTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.primeFactorization_ParameterTextBox.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.primeFactorization_ParameterTextBox.Location = new System.Drawing.Point(123, 8);
+            this.primeFactorization_ParameterTextBox.Location = new System.Drawing.Point(203, 8);
             this.primeFactorization_ParameterTextBox.Name = "primeFactorization_ParameterTextBox";
-            this.primeFactorization_ParameterTextBox.Size = new System.Drawing.Size(94, 23);
+            this.primeFactorization_ParameterTextBox.Size = new System.Drawing.Size(194, 23);
             this.primeFactorization_ParameterTextBox.TabIndex = 3;
             this.primeFactorization_ParameterTextBox.Text = "2310";
             // 
             // primeFactorizationButton
             // 
             this.primeFactorizationButton.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.primeFactorizationButton.Location = new System.Drawing.Point(223, 3);
+            this.primeFactorizationButton.Location = new System.Drawing.Point(403, 3);
             this.primeFactorizationButton.Name = "primeFactorizationButton";
             this.primeFactorizationButton.Size = new System.Drawing.Size(34, 34);
             this.primeFactorizationButton.TabIndex = 4;
@@ -1086,6 +1095,26 @@
             this.IO_DeflateFile_ReadButton.UseVisualStyleBackColor = true;
             this.IO_DeflateFile_ReadButton.Click += new System.EventHandler(this.IO_DeflateFile_ReadButton_Click);
             // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label9.Location = new System.Drawing.Point(3, 212);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(94, 25);
+            this.label9.TabIndex = 8;
+            this.label9.Text = "情報";
+            this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // IO_DeflateFile_InfoTextBox
+            // 
+            this.IO_DeflateFile_InfoTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.IO_DeflateFile_InfoTextBox.Location = new System.Drawing.Point(103, 215);
+            this.IO_DeflateFile_InfoTextBox.Name = "IO_DeflateFile_InfoTextBox";
+            this.IO_DeflateFile_InfoTextBox.ReadOnly = true;
+            this.IO_DeflateFile_InfoTextBox.Size = new System.Drawing.Size(513, 19);
+            this.IO_DeflateFile_InfoTextBox.TabIndex = 9;
+            // 
             // tabPage7
             // 
             this.tabPage7.Controls.Add(this.tabControl3);
@@ -1244,25 +1273,59 @@
             this.textBox1.Size = new System.Drawing.Size(355, 204);
             this.textBox1.TabIndex = 0;
             // 
-            // label9
+            // label11
             // 
-            this.label9.AutoSize = true;
-            this.label9.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label9.Location = new System.Drawing.Point(3, 212);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(94, 25);
-            this.label9.TabIndex = 8;
-            this.label9.Text = "情報";
-            this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.label11.AutoSize = true;
+            this.label11.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label11.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.label11.Location = new System.Drawing.Point(3, 40);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(194, 40);
+            this.label11.TabIndex = 5;
+            this.label11.Text = "ライプニッツの公式";
+            this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // IO_DeflateFile_InfoTextBox
+            // Math_LeibnizFormulaButton
             // 
-            this.IO_DeflateFile_InfoTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.IO_DeflateFile_InfoTextBox.Location = new System.Drawing.Point(103, 215);
-            this.IO_DeflateFile_InfoTextBox.Name = "IO_DeflateFile_InfoTextBox";
-            this.IO_DeflateFile_InfoTextBox.ReadOnly = true;
-            this.IO_DeflateFile_InfoTextBox.Size = new System.Drawing.Size(513, 19);
-            this.IO_DeflateFile_InfoTextBox.TabIndex = 9;
+            this.Math_LeibnizFormulaButton.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Math_LeibnizFormulaButton.Location = new System.Drawing.Point(403, 43);
+            this.Math_LeibnizFormulaButton.Name = "Math_LeibnizFormulaButton";
+            this.Math_LeibnizFormulaButton.Size = new System.Drawing.Size(34, 34);
+            this.Math_LeibnizFormulaButton.TabIndex = 7;
+            this.Math_LeibnizFormulaButton.Text = "＝";
+            this.Math_LeibnizFormulaButton.UseVisualStyleBackColor = true;
+            this.Math_LeibnizFormulaButton.Click += new System.EventHandler(this.Math_LeibnizFormulaButton_Click);
+            // 
+            // Math_LeibnizFormulaLabel1
+            // 
+            this.Math_LeibnizFormulaLabel1.AutoSize = true;
+            this.Math_LeibnizFormulaLabel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Math_LeibnizFormulaLabel1.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.Math_LeibnizFormulaLabel1.Location = new System.Drawing.Point(443, 40);
+            this.Math_LeibnizFormulaLabel1.Name = "Math_LeibnizFormulaLabel1";
+            this.Math_LeibnizFormulaLabel1.Size = new System.Drawing.Size(273, 40);
+            this.Math_LeibnizFormulaLabel1.TabIndex = 8;
+            this.Math_LeibnizFormulaLabel1.Text = "label4";
+            this.Math_LeibnizFormulaLabel1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // Math_LeibnizFormulaNumericUpDown1
+            // 
+            this.Math_LeibnizFormulaNumericUpDown1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.Math_LeibnizFormulaNumericUpDown1.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.Math_LeibnizFormulaNumericUpDown1.Location = new System.Drawing.Point(203, 48);
+            this.Math_LeibnizFormulaNumericUpDown1.Maximum = new decimal(new int[] {
+            2147483647,
+            0,
+            0,
+            0});
+            this.Math_LeibnizFormulaNumericUpDown1.Name = "Math_LeibnizFormulaNumericUpDown1";
+            this.Math_LeibnizFormulaNumericUpDown1.Size = new System.Drawing.Size(194, 23);
+            this.Math_LeibnizFormulaNumericUpDown1.TabIndex = 9;
+            this.Math_LeibnizFormulaNumericUpDown1.Value = new decimal(new int[] {
+            1000000,
+            0,
+            0,
+            0});
             // 
             // MainForm
             // 
@@ -1324,6 +1387,7 @@
             this.tableLayoutPanel12.ResumeLayout(false);
             this.groupBox8.ResumeLayout(false);
             this.groupBox8.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.Math_LeibnizFormulaNumericUpDown1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1417,6 +1481,10 @@
         private System.Windows.Forms.Button IO_DeflateFile_ReadButton;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.TextBox IO_DeflateFile_InfoTextBox;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Button Math_LeibnizFormulaButton;
+        private System.Windows.Forms.Label Math_LeibnizFormulaLabel1;
+        private System.Windows.Forms.NumericUpDown Math_LeibnizFormulaNumericUpDown1;
     }
 }
 
