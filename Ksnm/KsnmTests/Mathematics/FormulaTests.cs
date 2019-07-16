@@ -1,12 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Ksnm.Math;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Ksnm.Math.Tests
+namespace Ksnm.Mathematics.Tests
 {
     [TestClass()]
     public class FormulaTests
@@ -14,7 +8,8 @@ namespace Ksnm.Math.Tests
         [TestMethod()]
         public void LeibnizTest()
         {
-            Assert.Fail();
+            var pi = Formula.Leibniz(10000000) * 4;
+            Assert.AreEqual(System.Math.PI, pi, 0.000001);
         }
     }
 }

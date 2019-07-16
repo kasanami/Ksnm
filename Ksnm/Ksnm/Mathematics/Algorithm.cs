@@ -23,36 +23,33 @@ freely, subject to the following restrictions:
 */
 using static System.Math;
 
-namespace Ksnm
+namespace Ksnm.Mathematics
 {
-    public static partial class Math
+    /// <summary>
+    /// 数学のアルゴリズム
+    /// </summary>
+    public static class Algorithm
     {
         /// <summary>
-        /// アルゴリズム
+        /// ガウス＝ルジャンドルのアルゴリズム
         /// </summary>
-        public static class Algorithm
+        /// <param name="count">計算回数(3以降は同じ結果になる。)</param>
+        /// <returns>円周率</returns>
+        public static double GaussLegendre(int count)
         {
-            /// <summary>
-            /// ガウス＝ルジャンドルのアルゴリズム
-            /// </summary>
-            /// <param name="count">計算回数</param>
-            /// <returns>円周率</returns>
-            public static double GaussLegendre(int count)
+            double a = 1.0;
+            double b = 1.0 / Sqrt(2.0);
+            double t = 1.0 / 4;
+            double p = 1.0;
+            for (var i = 0; i < count; i++)
             {
-                double a = 1.0;
-                double b = 1.0 / Sqrt(2.0);
-                double t = 1.0 / 4;
-                double p = 1.0;
-                for (var i = 0; i < count; i++)
-                {
-                    var beforeA = a;
-                    a = (a + b) / 2;
-                    b = Sqrt(beforeA * b);
-                    t -= (p * (a - beforeA) * (a - beforeA));
-                    p = 2 * p;
-                }
-                return (a + b) * (a + b) / (4 * t);
+                var beforeA = a;
+                a = (a + b) / 2;
+                b = Sqrt(beforeA * b);
+                t -= (p * (a - beforeA) * (a - beforeA));
+                p = 2 * p;
             }
+            return (a + b) * (a + b) / (4 * t);
         }
     }
 }

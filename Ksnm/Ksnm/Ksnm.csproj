@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Mathematics\Algorithm.cs" />
     <Compile Include="Binary.cs" />
     <Compile Include="Debug.cs" />
     <Compile Include="ExtensionMethods\System\Array\ArrayExtensions.cs" />
@@ -72,8 +73,7 @@
     <Compile Include="LitJson\Lexer.cs" />
     <Compile Include="LitJson\ParserToken.cs" />
     <Compile Include="Math.cs" />
-    <Compile Include="Math\Algorithm.cs" />
-    <Compile Include="Math\Formula.cs" />
+    <Compile Include="Mathematics\Formula.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Randoms\FixedRandom.cs" />
     <Compile Include="Randoms\IncrementRandom.cs" />

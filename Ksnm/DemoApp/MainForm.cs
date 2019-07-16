@@ -12,8 +12,7 @@ using Ksnm.ExtensionMethods.System.Collections.Generic.Dictionary;
 using Ksnm.ExtensionMethods.System.Random;
 using Ksnm.ExtensionMethods.System.Decimal;
 using Ksnm.ExtensionMethods.System.Double;
-using System.Diagnostics;
-using Ksnm.ExtensionMethods.System.String;
+using Ksnm.Mathematics;
 
 namespace DemoApp
 {
@@ -112,13 +111,13 @@ namespace DemoApp
         private void Math_LeibnizFormulaButton_Click(object sender, EventArgs e)
         {
             var count = Math_LeibnizFormula_CountNumericUpDown1.Value.ToClampedInt32();
-            Math_LeibnizFormulaLabel1.Text = (Ksnm.Math.Formula.Leibniz(count) * 4).ToDecimalString();
+            Math_LeibnizFormulaLabel1.Text = (Formula.Leibniz(count) * 4).ToDecimalString();
         }
 
         private void Math_GaussLegendreButton_Click(object sender, EventArgs e)
         {
             var count = Math_GaussLegendre_CountNumericUpDown.Value.ToClampedInt32();
-            Math_GaussLegendreLabel1.Text = (Ksnm.Math.Algorithm.GaussLegendre(count)).ToDecimalString();
+            Math_GaussLegendreLabel1.Text = (Algorithm.GaussLegendre(count)).ToDecimalString();
         }
 
         #endregion Mathタブ

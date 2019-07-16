@@ -21,36 +21,35 @@ freely, subject to the following restrictions:
 
 3. This notice may not be removed or altered from any source distribution.
 */
-namespace Ksnm
+using static Ksnm.Math;
+
+namespace Ksnm.Mathematics
 {
-    public static partial class Math
+    /// <summary>
+    /// 公式
+    /// </summary>
+    public static class Formula
     {
         /// <summary>
-        /// 公式
+        /// ライプニッツの公式
         /// </summary>
-        public static class Formula
+        /// <param name="count">計算回数</param>
+        /// <returns>PI/4(円周率の4分の1)</returns>
+        public static double Leibniz(int cout)
         {
-            /// <summary>
-            /// ライプニッツの公式
-            /// </summary>
-            /// <param name="count">計算回数</param>
-            /// <returns>PI/4(円周率の4分の1)</returns>
-            public static double Leibniz(int cout)
+            double sum = 0.0;
+            for (var i = 0; i < cout; i++)
             {
-                double sum = 0.0;
-                for (var i = 0; i < cout; i++)
+                if (IsEven(i))
                 {
-                    if (IsEven(i))
-                    {
-                        sum += 1.0 / (2.0 * i + 1);
-                    }
-                    else
-                    {
-                        sum -= 1.0 / (2.0 * i + 1);
-                    }
+                    sum += 1.0 / (2.0 * i + 1);
                 }
-                return sum;
+                else
+                {
+                    sum -= 1.0 / (2.0 * i + 1);
+                }
             }
+            return sum;
         }
     }
 }
