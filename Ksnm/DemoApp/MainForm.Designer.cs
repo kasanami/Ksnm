@@ -28,12 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea5 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend5 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series5 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea6 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend6 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series6 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.RandomTabControl = new System.Windows.Forms.TabControl();
             this.MathTabPage = new System.Windows.Forms.TabPage();
             this.tabControl1 = new System.Windows.Forms.TabControl();
@@ -124,7 +124,11 @@
             this.label11 = new System.Windows.Forms.Label();
             this.Math_LeibnizFormulaButton = new System.Windows.Forms.Button();
             this.Math_LeibnizFormulaLabel1 = new System.Windows.Forms.Label();
-            this.Math_LeibnizFormulaNumericUpDown1 = new System.Windows.Forms.NumericUpDown();
+            this.Math_LeibnizFormula_CountNumericUpDown1 = new System.Windows.Forms.NumericUpDown();
+            this.label18 = new System.Windows.Forms.Label();
+            this.Math_GaussLegendre_CountNumericUpDown = new System.Windows.Forms.NumericUpDown();
+            this.Math_GaussLegendreButton = new System.Windows.Forms.Button();
+            this.Math_GaussLegendreLabel1 = new System.Windows.Forms.Label();
             this.RandomTabControl.SuspendLayout();
             this.MathTabPage.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -165,7 +169,8 @@
             this.tabPage10.SuspendLayout();
             this.tableLayoutPanel12.SuspendLayout();
             this.groupBox8.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.Math_LeibnizFormulaNumericUpDown1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Math_LeibnizFormula_CountNumericUpDown1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Math_GaussLegendre_CountNumericUpDown)).BeginInit();
             this.SuspendLayout();
             // 
             // RandomTabControl
@@ -373,11 +378,12 @@
             // 
             // tableLayoutPanel8
             // 
-            this.tableLayoutPanel8.ColumnCount = 4;
+            this.tableLayoutPanel8.ColumnCount = 5;
             this.tableLayoutPanel8.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 200F));
-            this.tableLayoutPanel8.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 200F));
+            this.tableLayoutPanel8.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 150F));
             this.tableLayoutPanel8.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.tableLayoutPanel8.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel8.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
             this.tableLayoutPanel8.Controls.Add(this.label7, 0, 0);
             this.tableLayoutPanel8.Controls.Add(this.primeFactorizationLabel, 3, 0);
             this.tableLayoutPanel8.Controls.Add(this.primeFactorization_ParameterTextBox, 1, 0);
@@ -385,11 +391,18 @@
             this.tableLayoutPanel8.Controls.Add(this.label11, 0, 1);
             this.tableLayoutPanel8.Controls.Add(this.Math_LeibnizFormulaButton, 2, 1);
             this.tableLayoutPanel8.Controls.Add(this.Math_LeibnizFormulaLabel1, 3, 1);
-            this.tableLayoutPanel8.Controls.Add(this.Math_LeibnizFormulaNumericUpDown1, 1, 1);
+            this.tableLayoutPanel8.Controls.Add(this.Math_LeibnizFormula_CountNumericUpDown1, 1, 1);
+            this.tableLayoutPanel8.Controls.Add(this.label18, 0, 2);
+            this.tableLayoutPanel8.Controls.Add(this.Math_GaussLegendre_CountNumericUpDown, 1, 2);
+            this.tableLayoutPanel8.Controls.Add(this.Math_GaussLegendreButton, 2, 2);
+            this.tableLayoutPanel8.Controls.Add(this.Math_GaussLegendreLabel1, 3, 2);
             this.tableLayoutPanel8.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel8.Location = new System.Drawing.Point(3, 3);
             this.tableLayoutPanel8.Name = "tableLayoutPanel8";
-            this.tableLayoutPanel8.RowCount = 3;
+            this.tableLayoutPanel8.RowCount = 6;
+            this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
+            this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
+            this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
@@ -398,24 +411,24 @@
             // 
             // label7
             // 
+            this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.label7.AutoSize = true;
-            this.label7.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label7.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label7.Location = new System.Drawing.Point(3, 0);
+            this.label7.Location = new System.Drawing.Point(3, 12);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(194, 40);
+            this.label7.Size = new System.Drawing.Size(194, 16);
             this.label7.TabIndex = 1;
             this.label7.Text = "素因数分解";
             this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // primeFactorizationLabel
             // 
+            this.primeFactorizationLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.primeFactorizationLabel.AutoSize = true;
-            this.primeFactorizationLabel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.primeFactorizationLabel.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.primeFactorizationLabel.Location = new System.Drawing.Point(443, 0);
+            this.primeFactorizationLabel.Location = new System.Drawing.Point(393, 12);
             this.primeFactorizationLabel.Name = "primeFactorizationLabel";
-            this.primeFactorizationLabel.Size = new System.Drawing.Size(273, 40);
+            this.primeFactorizationLabel.Size = new System.Drawing.Size(223, 16);
             this.primeFactorizationLabel.TabIndex = 2;
             this.primeFactorizationLabel.Text = "label4";
             this.primeFactorizationLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -426,14 +439,14 @@
             this.primeFactorization_ParameterTextBox.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.primeFactorization_ParameterTextBox.Location = new System.Drawing.Point(203, 8);
             this.primeFactorization_ParameterTextBox.Name = "primeFactorization_ParameterTextBox";
-            this.primeFactorization_ParameterTextBox.Size = new System.Drawing.Size(194, 23);
+            this.primeFactorization_ParameterTextBox.Size = new System.Drawing.Size(144, 23);
             this.primeFactorization_ParameterTextBox.TabIndex = 3;
             this.primeFactorization_ParameterTextBox.Text = "2310";
             // 
             // primeFactorizationButton
             // 
             this.primeFactorizationButton.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.primeFactorizationButton.Location = new System.Drawing.Point(403, 3);
+            this.primeFactorizationButton.Location = new System.Drawing.Point(353, 3);
             this.primeFactorizationButton.Name = "primeFactorizationButton";
             this.primeFactorizationButton.Size = new System.Drawing.Size(34, 34);
             this.primeFactorizationButton.TabIndex = 4;
@@ -669,19 +682,19 @@
             // 
             // Random_Chart
             // 
-            chartArea5.AxisX.Title = "回目";
-            chartArea5.AxisY.Title = "生成値";
-            chartArea5.Name = "ChartArea1";
-            this.Random_Chart.ChartAreas.Add(chartArea5);
+            chartArea1.AxisX.Title = "回目";
+            chartArea1.AxisY.Title = "生成値";
+            chartArea1.Name = "ChartArea1";
+            this.Random_Chart.ChartAreas.Add(chartArea1);
             this.Random_Chart.Dock = System.Windows.Forms.DockStyle.Fill;
-            legend5.Name = "Legend1";
-            this.Random_Chart.Legends.Add(legend5);
+            legend1.Name = "Legend1";
+            this.Random_Chart.Legends.Add(legend1);
             this.Random_Chart.Location = new System.Drawing.Point(3, 15);
             this.Random_Chart.Name = "Random_Chart";
-            series5.ChartArea = "ChartArea1";
-            series5.Legend = "Legend1";
-            series5.Name = "Series1";
-            this.Random_Chart.Series.Add(series5);
+            series1.ChartArea = "ChartArea1";
+            series1.Legend = "Legend1";
+            series1.Name = "Series1";
+            this.Random_Chart.Series.Add(series1);
             this.Random_Chart.Size = new System.Drawing.Size(217, 118);
             this.Random_Chart.TabIndex = 0;
             this.Random_Chart.Text = "chart1";
@@ -732,21 +745,21 @@
             // 
             // Random_CountChart
             // 
-            chartArea6.AxisX.Title = "生成値";
-            chartArea6.AxisY.IntervalOffsetType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Number;
-            chartArea6.AxisY.IntervalType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Number;
-            chartArea6.AxisY.Title = "回数";
-            chartArea6.Name = "ChartArea1";
-            this.Random_CountChart.ChartAreas.Add(chartArea6);
+            chartArea2.AxisX.Title = "生成値";
+            chartArea2.AxisY.IntervalOffsetType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Number;
+            chartArea2.AxisY.IntervalType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Number;
+            chartArea2.AxisY.Title = "回数";
+            chartArea2.Name = "ChartArea1";
+            this.Random_CountChart.ChartAreas.Add(chartArea2);
             this.Random_CountChart.Dock = System.Windows.Forms.DockStyle.Fill;
-            legend6.Name = "Legend1";
-            this.Random_CountChart.Legends.Add(legend6);
+            legend2.Name = "Legend1";
+            this.Random_CountChart.Legends.Add(legend2);
             this.Random_CountChart.Location = new System.Drawing.Point(3, 15);
             this.Random_CountChart.Name = "Random_CountChart";
-            series6.ChartArea = "ChartArea1";
-            series6.Legend = "Legend1";
-            series6.Name = "Series1";
-            this.Random_CountChart.Series.Add(series6);
+            series2.ChartArea = "ChartArea1";
+            series2.Legend = "Legend1";
+            series2.Name = "Series1";
+            this.Random_CountChart.Series.Add(series2);
             this.Random_CountChart.Size = new System.Drawing.Size(217, 118);
             this.Random_CountChart.TabIndex = 1;
             this.Random_CountChart.Text = "chart1";
@@ -1275,12 +1288,12 @@
             // 
             // label11
             // 
+            this.label11.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.label11.AutoSize = true;
-            this.label11.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label11.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label11.Location = new System.Drawing.Point(3, 40);
+            this.label11.Location = new System.Drawing.Point(3, 52);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(194, 40);
+            this.label11.Size = new System.Drawing.Size(194, 16);
             this.label11.TabIndex = 5;
             this.label11.Text = "ライプニッツの公式";
             this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -1288,7 +1301,7 @@
             // Math_LeibnizFormulaButton
             // 
             this.Math_LeibnizFormulaButton.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Math_LeibnizFormulaButton.Location = new System.Drawing.Point(403, 43);
+            this.Math_LeibnizFormulaButton.Location = new System.Drawing.Point(353, 43);
             this.Math_LeibnizFormulaButton.Name = "Math_LeibnizFormulaButton";
             this.Math_LeibnizFormulaButton.Size = new System.Drawing.Size(34, 34);
             this.Math_LeibnizFormulaButton.TabIndex = 7;
@@ -1298,34 +1311,88 @@
             // 
             // Math_LeibnizFormulaLabel1
             // 
+            this.Math_LeibnizFormulaLabel1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.Math_LeibnizFormulaLabel1.AutoSize = true;
-            this.Math_LeibnizFormulaLabel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Math_LeibnizFormulaLabel1.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.Math_LeibnizFormulaLabel1.Location = new System.Drawing.Point(443, 40);
+            this.Math_LeibnizFormulaLabel1.Location = new System.Drawing.Point(393, 52);
             this.Math_LeibnizFormulaLabel1.Name = "Math_LeibnizFormulaLabel1";
-            this.Math_LeibnizFormulaLabel1.Size = new System.Drawing.Size(273, 40);
+            this.Math_LeibnizFormulaLabel1.Size = new System.Drawing.Size(223, 16);
             this.Math_LeibnizFormulaLabel1.TabIndex = 8;
             this.Math_LeibnizFormulaLabel1.Text = "label4";
             this.Math_LeibnizFormulaLabel1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // Math_LeibnizFormulaNumericUpDown1
+            // Math_LeibnizFormula_CountNumericUpDown1
             // 
-            this.Math_LeibnizFormulaNumericUpDown1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.Math_LeibnizFormulaNumericUpDown1.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.Math_LeibnizFormulaNumericUpDown1.Location = new System.Drawing.Point(203, 48);
-            this.Math_LeibnizFormulaNumericUpDown1.Maximum = new decimal(new int[] {
+            this.Math_LeibnizFormula_CountNumericUpDown1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.Math_LeibnizFormula_CountNumericUpDown1.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.Math_LeibnizFormula_CountNumericUpDown1.Location = new System.Drawing.Point(203, 48);
+            this.Math_LeibnizFormula_CountNumericUpDown1.Maximum = new decimal(new int[] {
             2147483647,
             0,
             0,
             0});
-            this.Math_LeibnizFormulaNumericUpDown1.Name = "Math_LeibnizFormulaNumericUpDown1";
-            this.Math_LeibnizFormulaNumericUpDown1.Size = new System.Drawing.Size(194, 23);
-            this.Math_LeibnizFormulaNumericUpDown1.TabIndex = 9;
-            this.Math_LeibnizFormulaNumericUpDown1.Value = new decimal(new int[] {
+            this.Math_LeibnizFormula_CountNumericUpDown1.Name = "Math_LeibnizFormula_CountNumericUpDown1";
+            this.Math_LeibnizFormula_CountNumericUpDown1.Size = new System.Drawing.Size(144, 23);
+            this.Math_LeibnizFormula_CountNumericUpDown1.TabIndex = 9;
+            this.Math_LeibnizFormula_CountNumericUpDown1.Value = new decimal(new int[] {
             1000000,
             0,
             0,
             0});
+            // 
+            // label18
+            // 
+            this.label18.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.label18.AutoSize = true;
+            this.label18.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.label18.Location = new System.Drawing.Point(3, 84);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(194, 32);
+            this.label18.TabIndex = 10;
+            this.label18.Text = "ガウス＝ルジャンドルの\r\nアルゴリズム";
+            this.label18.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // Math_GaussLegendre_CountNumericUpDown
+            // 
+            this.Math_GaussLegendre_CountNumericUpDown.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.Math_GaussLegendre_CountNumericUpDown.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.Math_GaussLegendre_CountNumericUpDown.Location = new System.Drawing.Point(203, 88);
+            this.Math_GaussLegendre_CountNumericUpDown.Maximum = new decimal(new int[] {
+            2147483647,
+            0,
+            0,
+            0});
+            this.Math_GaussLegendre_CountNumericUpDown.Name = "Math_GaussLegendre_CountNumericUpDown";
+            this.Math_GaussLegendre_CountNumericUpDown.Size = new System.Drawing.Size(144, 23);
+            this.Math_GaussLegendre_CountNumericUpDown.TabIndex = 11;
+            this.Math_GaussLegendre_CountNumericUpDown.Value = new decimal(new int[] {
+            3,
+            0,
+            0,
+            0});
+            // 
+            // Math_GaussLegendreButton
+            // 
+            this.Math_GaussLegendreButton.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Math_GaussLegendreButton.Location = new System.Drawing.Point(353, 83);
+            this.Math_GaussLegendreButton.Name = "Math_GaussLegendreButton";
+            this.Math_GaussLegendreButton.Size = new System.Drawing.Size(34, 34);
+            this.Math_GaussLegendreButton.TabIndex = 12;
+            this.Math_GaussLegendreButton.Text = "＝";
+            this.Math_GaussLegendreButton.UseVisualStyleBackColor = true;
+            this.Math_GaussLegendreButton.Click += new System.EventHandler(this.Math_GaussLegendreButton_Click);
+            // 
+            // Math_GaussLegendreLabel1
+            // 
+            this.Math_GaussLegendreLabel1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.Math_GaussLegendreLabel1.AutoSize = true;
+            this.Math_GaussLegendreLabel1.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.Math_GaussLegendreLabel1.Location = new System.Drawing.Point(393, 92);
+            this.Math_GaussLegendreLabel1.Name = "Math_GaussLegendreLabel1";
+            this.Math_GaussLegendreLabel1.Size = new System.Drawing.Size(223, 16);
+            this.Math_GaussLegendreLabel1.TabIndex = 13;
+            this.Math_GaussLegendreLabel1.Text = "label4";
+            this.Math_GaussLegendreLabel1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // MainForm
             // 
@@ -1387,7 +1454,8 @@
             this.tableLayoutPanel12.ResumeLayout(false);
             this.groupBox8.ResumeLayout(false);
             this.groupBox8.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.Math_LeibnizFormulaNumericUpDown1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Math_LeibnizFormula_CountNumericUpDown1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Math_GaussLegendre_CountNumericUpDown)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1484,7 +1552,11 @@
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Button Math_LeibnizFormulaButton;
         private System.Windows.Forms.Label Math_LeibnizFormulaLabel1;
-        private System.Windows.Forms.NumericUpDown Math_LeibnizFormulaNumericUpDown1;
+        private System.Windows.Forms.NumericUpDown Math_LeibnizFormula_CountNumericUpDown1;
+        private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.NumericUpDown Math_GaussLegendre_CountNumericUpDown;
+        private System.Windows.Forms.Button Math_GaussLegendreButton;
+        private System.Windows.Forms.Label Math_GaussLegendreLabel1;
     }
 }
 

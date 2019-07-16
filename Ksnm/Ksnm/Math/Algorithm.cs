@@ -21,35 +21,37 @@ freely, subject to the following restrictions:
 
 3. This notice may not be removed or altered from any source distribution.
 */
+using static System.Math;
+
 namespace Ksnm
 {
     public static partial class Math
     {
         /// <summary>
-        /// 公式
+        /// アルゴリズム
         /// </summary>
-        public static class Formula
+        public static class Algorithm
         {
             /// <summary>
-            /// ライプニッツの公式
+            /// ガウス＝ルジャンドルのアルゴリズム
             /// </summary>
             /// <param name="count">計算回数</param>
-            /// <returns>PI/4(円周率の4分の1)</returns>
-            public static double Leibniz(int cout)
+            /// <returns>円周率</returns>
+            public static double GaussLegendre(int count)
             {
-                double sum = 0.0;
-                for (var i = 0; i < cout; i++)
+                double a = 1.0;
+                double b = 1.0 / Sqrt(2.0);
+                double t = 1.0 / 4;
+                double p = 1.0;
+                for (var i = 0; i < count; i++)
                 {
-                    if (IsEven(i))
-                    {
-                        sum += 1.0 / (2.0 * i + 1);
-                    }
-                    else
-                    {
-                        sum -= 1.0 / (2.0 * i + 1);
-                    }
+                    var beforeA = a;
+                    a = (a + b) / 2;
+                    b = Sqrt(beforeA * b);
+                    t -= (p * (a - beforeA) * (a - beforeA));
+                    p = 2 * p;
                 }
-                return sum;
+                return (a + b) * (a + b) / (4 * t);
             }
         }
     }

@@ -111,8 +111,14 @@ namespace DemoApp
 
         private void Math_LeibnizFormulaButton_Click(object sender, EventArgs e)
         {
-            var count = Math_LeibnizFormulaNumericUpDown1.Value.ToClampedInt32();
+            var count = Math_LeibnizFormula_CountNumericUpDown1.Value.ToClampedInt32();
             Math_LeibnizFormulaLabel1.Text = (Ksnm.Math.Formula.Leibniz(count) * 4).ToDecimalString();
+        }
+
+        private void Math_GaussLegendreButton_Click(object sender, EventArgs e)
+        {
+            var count = Math_GaussLegendre_CountNumericUpDown.Value.ToClampedInt32();
+            Math_GaussLegendreLabel1.Text = (Ksnm.Math.Algorithm.GaussLegendre(count)).ToDecimalString();
         }
 
         #endregion Mathタブ
