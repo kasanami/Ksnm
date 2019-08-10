@@ -158,16 +158,33 @@ namespace Ksnm.Tests
         public void LerpTest()
         {
             Assert.AreEqual(Math.Lerp(0, 1, 0.5f), 0.5f);
-            Assert.AreEqual(Math.Lerp(0, 1, 0.5), 0.5);
+            Assert.AreEqual(Math.Lerp(0, 1, 0.5d), 0.5d);
             Assert.AreEqual(Math.Lerp(0, 1, 0.5m), 0.5m);
+            Assert.AreEqual(Math.Lerp(0, 10, 0.5f), 5f);
+            Assert.AreEqual(Math.Lerp(0, 10, 0.5d), 5d);
+            Assert.AreEqual(Math.Lerp(0, 10, 0.5m), 5m);
+        }
+
+        [TestMethod()]
+        public void LerpIntegerTest()
+        {
+            Assert.AreEqual(Math.LerpInteger(0, 10, 0.0f), 0);
+            Assert.AreEqual(Math.LerpInteger(0, 10, 0.1f), 1);
+            Assert.AreEqual(Math.LerpInteger(0, 10, 0.2f), 2);
+            Assert.AreEqual(Math.LerpInteger(0, 10, 0.3f), 3);
+            Assert.AreEqual(Math.LerpInteger(0, 10, 0.4f), 4);
+            Assert.AreEqual(Math.LerpInteger(0, 10, 0.5f), 5);
         }
 
         [TestMethod()]
         public void InverseLerpTest()
         {
             Assert.AreEqual(Math.InverseLerp(0, 1, 0.5f), 0.5f);
-            Assert.AreEqual(Math.InverseLerp(0, 1, 0.5), 0.5);
+            Assert.AreEqual(Math.InverseLerp(0, 1, 0.5d), 0.5d);
             Assert.AreEqual(Math.InverseLerp(0, 1, 0.5m), 0.5m);
+            Assert.AreEqual(Math.InverseLerp(0, 10, 5f), 0.5f);
+            Assert.AreEqual(Math.InverseLerp(0, 10, 5d), 0.5d);
+            Assert.AreEqual(Math.InverseLerp(0, 10, 5m), 0.5m);
         }
 
         [TestMethod()]

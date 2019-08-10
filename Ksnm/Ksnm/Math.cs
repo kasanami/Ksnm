@@ -490,6 +490,28 @@ namespace Ksnm
             return from + ((to - from) * t);
         }
 
+        /// <summary>
+        /// 線形補間(整数出力版)
+        /// </summary>
+        /// <param name="from">tが0のときの値</param>
+        /// <param name="to">tが1のときの値</param>
+        /// <param name="t">補間係数</param>
+        public static int LerpInteger(int from, int to, float t)
+        {
+            return (int)Lerp(from, to, (double)t);
+        }
+
+        /// <summary>
+        /// 線形補間(整数出力版)
+        /// </summary>
+        /// <param name="from">tが0のときの値</param>
+        /// <param name="to">tが1のときの値</param>
+        /// <param name="t">補間係数</param>
+        public static int LerpInteger(int from, int to, double t)
+        {
+            return (int)Lerp(from, to, t);
+        }
+
         #endregion Lerp
 
         #region InverseLerp
