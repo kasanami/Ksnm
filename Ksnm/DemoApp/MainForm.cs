@@ -58,6 +58,8 @@ namespace DemoApp
                 }
                 MosersCircleRegionsLabel.Text = text.ToString();
             }
+            // 関数
+            Math_ChartUpdate();
         }
 
         /// <summary>
@@ -118,6 +120,59 @@ namespace DemoApp
         {
             var count = Math_GaussLegendre_CountNumericUpDown.Value.ToClampedInt32();
             Math_GaussLegendreLabel1.Text = (Algorithm.GaussLegendre(count)).ToDecimalString();
+        }
+
+        private void Math_ChartUpdate()
+        {
+            var xMin = Math_ChartXMinNumericUpDown.Value.ToClampedInt32();
+            var xMax = Math_ChartXMaxNumericUpDown.Value.ToClampedInt32();
+            var xDelta = 1.0 / 1000;
+            Math_Chart.Series.Clear();
+            if (true)
+            {
+                var series = new Series("Lerp(0, 10, x)");
+                Math_Chart.Series.Add(series);
+                series.ChartType = SeriesChartType.Line;
+                for (double x = xMin; x <= xMax; x += xDelta)
+                {
+                    series.Points.AddXY(x, Ksnm.Math.Lerp(0, 10, x));
+                }
+            }
+            if (true)
+            {
+                var series = new Series("LerpInteger(0, 10, x)");
+                Math_Chart.Series.Add(series);
+                series.ChartType = SeriesChartType.Line;
+                for (double x = xMin; x <= xMax; x += xDelta)
+                {
+                    series.Points.AddXY(x, Ksnm.Math.LerpInteger(0, 10, x));
+                }
+            }
+            if (false)
+            {
+                var series = new Series("Sigmoid(x, 1)");
+                Math_Chart.Series.Add(series);
+                series.ChartType = SeriesChartType.Line;
+                for (double x = xMin; x <= xMax; x += xDelta)
+                {
+                    series.Points.AddXY(x, Ksnm.Math.Sigmoid(x, 1));
+                }
+            }
+            if(false)
+            {
+                var series = new Series("Ramp(x)");
+                Math_Chart.Series.Add(series);
+                series.ChartType = SeriesChartType.Line;
+                for (double x = xMin; x <= xMax; x += xDelta)
+                {
+                    series.Points.AddXY(x, Ksnm.Math.Ramp(x));
+                }
+            }
+        }
+
+        private void Math_ChartUpdateButton_Click(object sender, EventArgs e)
+        {
+            Math_ChartUpdate();
         }
 
         #endregion Mathタブ
@@ -581,5 +636,6 @@ namespace DemoApp
             Binary_MaxValueLabel.Text = Ksnm.Binary.MaxValues[bitNum].ToString();
         }
         #endregion Binaryタブ
+
     }
 }
