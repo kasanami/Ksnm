@@ -67,6 +67,7 @@
     <Compile Include="ExtensionMethods\System\Double\DoubleExtensionsTests.cs" />
     <Compile Include="ExtensionMethods\System\Random\RandomExtensionsTests.cs" />
     <Compile Include="ExtensionMethods\System\String\StringExtensionsTests.cs" />
+    <Compile Include="FixedPointNumber32Q16Tests.cs" />
     <Compile Include="IO\PathTests.cs" />
     <Compile Include="LitJson\JsonMapperTests.cs" />
     <Compile Include="Mathematics\AlgorithmTests.cs" />
