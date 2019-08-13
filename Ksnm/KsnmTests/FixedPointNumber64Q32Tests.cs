@@ -8,6 +8,19 @@ namespace Ksnm.Tests
     public class FixedPointNumber64Q32Tests
     {
         [TestMethod()]
+        public void ConstructorTest()
+        {
+            var value = new Fixed();
+            Assert.AreEqual(0, value.Integer);
+            Assert.AreEqual(0u, value.Fractional);
+            value = new Fixed(123);
+            Assert.AreEqual(123, value.Integer);
+            Assert.AreEqual(0u, value.Fractional);
+            value = new Fixed(123, 456);
+            Assert.AreEqual(123, value.Integer);
+            Assert.AreEqual(456u, value.Fractional);
+        }
+        [TestMethod()]
         public void CastTest()
         {
             var expected = new Fixed(123);
