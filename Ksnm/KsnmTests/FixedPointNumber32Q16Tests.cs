@@ -10,12 +10,12 @@ namespace Ksnm.Tests
         [TestMethod()]
         public void CastTest()
         {
-            var expected = new Fixed() { Integer = 123 };
+            var expected = new Fixed(123);
             Assert.AreEqual(expected, (byte)123);
             Assert.AreEqual(expected, (sbyte)123);
             Assert.AreEqual(expected, (short)123);
             Assert.AreEqual(expected, (Fixed)(ushort)123);
-            expected = new Fixed() { Integer = 32767 };
+            expected = new Fixed(32767);
             Assert.AreEqual(expected, (Fixed)32767);
             Assert.AreEqual(expected, (Fixed)32767u);
             Assert.AreEqual(expected, (Fixed)32767L);
@@ -23,13 +23,13 @@ namespace Ksnm.Tests
             Assert.AreEqual(expected, (Fixed)32767f);
             Assert.AreEqual(expected, (Fixed)32767d);
             Assert.AreEqual(expected, (Fixed)32767m);
-            expected = new Fixed() { Integer = -32768 };
+            expected = new Fixed(-32768);
             Assert.AreEqual(expected, (Fixed)(-32768));
             Assert.AreEqual(expected, (Fixed)(-32768L));
             Assert.AreEqual(expected, (Fixed)(-32768f));
             Assert.AreEqual(expected, (Fixed)(-32768d));
             Assert.AreEqual(expected, (Fixed)(-32768m));
-            expected = new Fixed() { Integer = 123, Fractional = 1 << (Fixed.QBits - 1) };
+            expected = new Fixed(123, 1 << (Fixed.QBits - 1));
             Assert.AreEqual(expected, (Fixed)(123.5f));
             Assert.AreEqual(expected, (Fixed)(123.5d));
             Assert.AreEqual(expected, (Fixed)(123.5m));
@@ -38,9 +38,9 @@ namespace Ksnm.Tests
         public void OperationsTest1()
         {
             var value = (Fixed)123;
-            var expected1 = new Fixed() { Integer = +123 };
-            var expected2 = new Fixed() { Integer = -123 };
-            var expected3 = new Fixed() { Bits = ~expected1.Bits };
+            var expected1 = new Fixed(+123);
+            var expected2 = new Fixed(-123);
+            var expected3 = new Fixed(); expected3.SetBits(~expected1.Bits);
             Assert.AreEqual(expected1, +value, Debug.GetFilePathAndLineNumber());
             Assert.AreEqual(expected2, -value, Debug.GetFilePathAndLineNumber());
             Assert.AreEqual(expected3, ~value, Debug.GetFilePathAndLineNumber());

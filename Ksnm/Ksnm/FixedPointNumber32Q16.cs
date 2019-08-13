@@ -34,31 +34,78 @@ namespace Ksnm
     {
         #region 定数
         public const int QBits = 16;
-        public readonly static FixedPointNumber32Q16 Zero = new FixedPointNumber32Q16() { Integer = 0 };
-        public readonly static FixedPointNumber32Q16 One = new FixedPointNumber32Q16() { Integer = 1 };
-        public readonly static FixedPointNumber32Q16 MinValue = new FixedPointNumber32Q16() { Bits = int.MinValue };
-        public readonly static FixedPointNumber32Q16 MaxValue = new FixedPointNumber32Q16() { Bits = int.MaxValue };
-        public readonly static FixedPointNumber32Q16 Epsilon = new FixedPointNumber32Q16() { Fractional = 1 };
+        public readonly static FixedPointNumber32Q16 Zero = new FixedPointNumber32Q16() { integer = 0 };
+        public readonly static FixedPointNumber32Q16 One = new FixedPointNumber32Q16() { integer = 1 };
+        public readonly static FixedPointNumber32Q16 MinValue = new FixedPointNumber32Q16() { bits = int.MinValue };
+        public readonly static FixedPointNumber32Q16 MaxValue = new FixedPointNumber32Q16() { bits = int.MaxValue };
+        public readonly static FixedPointNumber32Q16 Epsilon = new FixedPointNumber32Q16() { fractional = 1 };
         const int OneBits = 1 << QBits;
         #endregion 定数
 
         #region フィールド
         /// <summary>
-        /// 全体
+        /// 全体のビット
         /// </summary>
         [FieldOffset(0)]
-        public int Bits;
+        int bits;
         /// <summary>
         /// 整数部
         /// </summary>
         [FieldOffset(2)]
-        public short Integer;
+        short integer;
         /// <summary>
         /// 小数部
         /// </summary>
         [FieldOffset(0)]
-        public ushort Fractional;
+        ushort fractional;
         #endregion フィールド
+
+        #region プロパティ
+        /// <summary>
+        /// 全体のビット
+        /// </summary>
+        public int Bits { get { return bits; } }
+        /// <summary>
+        /// 整数部
+        /// </summary>
+        public short Integer { get { return integer; } }
+        /// <summary>
+        /// 小数部
+        /// </summary>
+        public ushort Fractional { get { return fractional; } }
+        #endregion プロパティ
+
+        /// <summary>
+        /// 指定した整数で初期化
+        /// </summary>
+        /// <param name="integer">整数部</param>
+        public FixedPointNumber32Q16(short integer = 0)
+        {
+            bits = 0;
+            this.integer = integer;
+            fractional = 0;
+        }
+
+        /// <summary>
+        /// 指定した整数と小数で初期化
+        /// </summary>
+        /// <param name="integer">整数部</param>
+        /// <param name="fractional">小数部</param>
+        public FixedPointNumber32Q16(short integer, ushort fractional)
+        {
+            bits = 0;
+            this.integer = integer;
+            this.fractional = fractional;
+        }
+
+        /// <summary>
+        /// 全体のビットを設定
+        /// </summary>
+        /// <param name="bits">設定するビット</param>
+        public void SetBits(int bits)
+        {
+            this.bits = bits;
+        }
 
         #region 単項演算子
         public static FixedPointNumber32Q16 operator +(FixedPointNumber32Q16 value)
@@ -67,12 +114,12 @@ namespace Ksnm
         }
         public static FixedPointNumber32Q16 operator -(FixedPointNumber32Q16 value)
         {
-            value.Bits = -value.Bits;
+            value.bits = -value.bits;
             return value;
         }
         public static FixedPointNumber32Q16 operator ~(FixedPointNumber32Q16 value)
         {
-            value.Bits = ~value.Bits;
+            value.bits = ~value.bits;
             return value;
         }
         #endregion 単項演算子
@@ -81,126 +128,126 @@ namespace Ksnm
         public static FixedPointNumber32Q16 operator +(FixedPointNumber32Q16 valueL, FixedPointNumber32Q16 valueR)
         {
             var temp = new FixedPointNumber32Q16();
-            temp.Bits = valueL.Bits + valueR.Bits;
+            temp.bits = valueL.bits + valueR.bits;
             return temp;
         }
         public static FixedPointNumber32Q16 operator -(FixedPointNumber32Q16 valueL, FixedPointNumber32Q16 valueR)
         {
             var temp = new FixedPointNumber32Q16();
-            temp.Bits = valueL.Bits - valueR.Bits;
+            temp.bits = valueL.bits - valueR.bits;
             return temp;
         }
         public static FixedPointNumber32Q16 operator *(FixedPointNumber32Q16 valueL, FixedPointNumber32Q16 valueR)
         {
-            long temp = valueL.Bits;
-            temp *= valueR.Bits;
+            long temp = valueL.bits;
+            temp *= valueR.bits;
             temp >>= QBits;
-            return new FixedPointNumber32Q16() { Bits = (int)temp };
+            return new FixedPointNumber32Q16() { bits = (int)temp };
         }
         public static FixedPointNumber32Q16 operator /(FixedPointNumber32Q16 valueL, FixedPointNumber32Q16 valueR)
         {
-            long temp = valueL.Bits;
+            long temp = valueL.bits;
             temp <<= QBits;
-            temp /= valueR.Bits;
-            return new FixedPointNumber32Q16() { Bits = (int)temp };
+            temp /= valueR.bits;
+            return new FixedPointNumber32Q16() { bits = (int)temp };
         }
         public static FixedPointNumber32Q16 operator %(FixedPointNumber32Q16 valueL, FixedPointNumber32Q16 valueR)
         {
-            return new FixedPointNumber32Q16() { Bits = valueL.Bits % valueR.Bits };
+            return new FixedPointNumber32Q16() { bits = valueL.bits % valueR.bits };
         }
         public static FixedPointNumber32Q16 operator &(FixedPointNumber32Q16 valueL, FixedPointNumber32Q16 valueR)
         {
-            return new FixedPointNumber32Q16() { Bits = valueL.Bits & valueR.Bits };
+            return new FixedPointNumber32Q16() { bits = valueL.bits & valueR.bits };
         }
         public static FixedPointNumber32Q16 operator &(FixedPointNumber32Q16 valueL, int valueR)
         {
-            return new FixedPointNumber32Q16() { Bits = valueL.Bits & valueR };
+            return new FixedPointNumber32Q16() { bits = valueL.bits & valueR };
         }
         public static FixedPointNumber32Q16 operator |(FixedPointNumber32Q16 valueL, FixedPointNumber32Q16 valueR)
         {
-            return new FixedPointNumber32Q16() { Bits = valueL.Bits | valueR.Bits };
+            return new FixedPointNumber32Q16() { bits = valueL.bits | valueR.bits };
         }
         public static FixedPointNumber32Q16 operator |(FixedPointNumber32Q16 valueL, int valueR)
         {
-            return new FixedPointNumber32Q16() { Bits = valueL.Bits | valueR };
+            return new FixedPointNumber32Q16() { bits = valueL.bits | valueR };
         }
         public static FixedPointNumber32Q16 operator ^(FixedPointNumber32Q16 valueL, FixedPointNumber32Q16 valueR)
         {
-            return new FixedPointNumber32Q16() { Bits = valueL.Bits ^ valueR.Bits };
+            return new FixedPointNumber32Q16() { bits = valueL.bits ^ valueR.bits };
         }
         public static FixedPointNumber32Q16 operator ^(FixedPointNumber32Q16 valueL, int valueR)
         {
-            return new FixedPointNumber32Q16() { Bits = valueL.Bits ^ valueR };
+            return new FixedPointNumber32Q16() { bits = valueL.bits ^ valueR };
         }
         public static FixedPointNumber32Q16 operator <<(FixedPointNumber32Q16 value, int shift)
         {
-            return new FixedPointNumber32Q16() { Bits = value.Bits << shift };
+            return new FixedPointNumber32Q16() { bits = value.bits << shift };
         }
         public static FixedPointNumber32Q16 operator >>(FixedPointNumber32Q16 value, int shift)
         {
-            return new FixedPointNumber32Q16() { Bits = value.Bits >> shift };
+            return new FixedPointNumber32Q16() { bits = value.bits >> shift };
         }
         #endregion 2項演算子
 
         #region 比較演算子
         public static bool operator ==(FixedPointNumber32Q16 valueL, FixedPointNumber32Q16 valueR)
         {
-            return valueL.Bits == valueR.Bits;
+            return valueL.bits == valueR.bits;
         }
         public static bool operator !=(FixedPointNumber32Q16 valueL, FixedPointNumber32Q16 valueR)
         {
-            return valueL.Bits != valueR.Bits;
+            return valueL.bits != valueR.bits;
         }
         public static bool operator >(FixedPointNumber32Q16 valueL, FixedPointNumber32Q16 valueR)
         {
-            return valueL.Bits > valueR.Bits;
+            return valueL.bits > valueR.bits;
         }
         public static bool operator <(FixedPointNumber32Q16 valueL, FixedPointNumber32Q16 valueR)
         {
-            return valueL.Bits < valueR.Bits;
+            return valueL.bits < valueR.bits;
         }
         public static bool operator >=(FixedPointNumber32Q16 valueL, FixedPointNumber32Q16 valueR)
         {
-            return valueL.Bits >= valueR.Bits;
+            return valueL.bits >= valueR.bits;
         }
         public static bool operator <=(FixedPointNumber32Q16 valueL, FixedPointNumber32Q16 valueR)
         {
-            return valueL.Bits <= valueR.Bits;
+            return valueL.bits <= valueR.bits;
         }
         #endregion 比較演算子
 
         #region 型変換
         public static implicit operator FixedPointNumber32Q16(byte value)
         {
-            return new FixedPointNumber32Q16() { Integer = value };
+            return new FixedPointNumber32Q16() { integer = value };
         }
         public static implicit operator FixedPointNumber32Q16(sbyte value)
         {
-            return new FixedPointNumber32Q16() { Integer = value };
+            return new FixedPointNumber32Q16() { integer = value };
         }
         public static implicit operator FixedPointNumber32Q16(short value)
         {
-            return new FixedPointNumber32Q16() { Integer = value };
+            return new FixedPointNumber32Q16() { integer = value };
         }
         public static explicit operator FixedPointNumber32Q16(ushort value)
         {
-            return new FixedPointNumber32Q16() { Integer = (short)value };
+            return new FixedPointNumber32Q16() { integer = (short)value };
         }
         public static explicit operator FixedPointNumber32Q16(int value)
         {
-            return new FixedPointNumber32Q16() { Integer = (short)value };
+            return new FixedPointNumber32Q16() { integer = (short)value };
         }
         public static explicit operator FixedPointNumber32Q16(uint value)
         {
-            return new FixedPointNumber32Q16() { Integer = (short)value };
+            return new FixedPointNumber32Q16() { integer = (short)value };
         }
         public static explicit operator FixedPointNumber32Q16(long value)
         {
-            return new FixedPointNumber32Q16() { Integer = (short)value };
+            return new FixedPointNumber32Q16() { integer = (short)value };
         }
         public static explicit operator FixedPointNumber32Q16(ulong value)
         {
-            return new FixedPointNumber32Q16() { Integer = (short)value };
+            return new FixedPointNumber32Q16() { integer = (short)value };
         }
         public static explicit operator FixedPointNumber32Q16(float value)
         {
@@ -209,15 +256,14 @@ namespace Ksnm
         public static explicit operator FixedPointNumber32Q16(double value)
         {
             value *= OneBits;
-            return new FixedPointNumber32Q16() { Bits = (int)value };
+            return new FixedPointNumber32Q16() { bits = (int)value };
         }
         public static explicit operator FixedPointNumber32Q16(decimal value)
         {
             value *= OneBits;
-            return new FixedPointNumber32Q16() { Bits = (int)value };
+            return new FixedPointNumber32Q16() { bits = (int)value };
         }
         #endregion 型変換
-
 
         #region IComparable
         public int CompareTo(object obj)
@@ -227,14 +273,14 @@ namespace Ksnm
 
         public int CompareTo(FixedPointNumber32Q16 other)
         {
-            return this.Bits.CompareTo(other.Bits);
+            return this.bits.CompareTo(other.bits);
         }
         #endregion IComparable
 
         #region IEquatable
         public bool Equals(FixedPointNumber32Q16 other)
         {
-            return Bits == other.Bits;
+            return bits == other.bits;
         }
         #endregion IEquatable
 
@@ -253,11 +299,11 @@ namespace Ksnm
         }
         public override int GetHashCode()
         {
-            return Bits.GetHashCode();
+            return bits.GetHashCode();
         }
         public override string ToString()
         {
-            decimal temp = Bits;
+            decimal temp = bits;
             temp /= OneBits;
             return temp.ToString();
         }
