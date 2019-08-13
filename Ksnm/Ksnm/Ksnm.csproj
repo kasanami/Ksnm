@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FixedPointNumber32Q16.cs" />
+    <Compile Include="FixedPointNumber64Q32.cs" />
     <Compile Include="Mathematics\Algorithm.cs" />
     <Compile Include="Binary.cs" />
     <Compile Include="Debug.cs" />
