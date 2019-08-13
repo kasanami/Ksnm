@@ -79,7 +79,7 @@ namespace Ksnm
         /// 指定した整数で初期化
         /// </summary>
         /// <param name="integer">整数部</param>
-        public FixedPointNumber64Q32(int integer = 0)
+        public FixedPointNumber64Q32(int integer)
         {
             bits = 0;
             this.integer = integer;
