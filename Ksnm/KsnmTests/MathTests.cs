@@ -22,11 +22,35 @@ namespace Ksnm.Tests
             Assert.AreEqual(Math.IsEven(0L), true);
             Assert.AreEqual(Math.IsEven(-1L), false);
             Assert.AreEqual(Math.IsEven(-2L), true);
+            // float
+            Assert.AreEqual(Math.IsEven(+2f), true);
+            Assert.AreEqual(Math.IsEven(+1.5f), false);
+            Assert.AreEqual(Math.IsEven(+1f), false);
+            Assert.AreEqual(Math.IsEven(+0.5f), false);
+            Assert.AreEqual(Math.IsEven(0f), true);
+            Assert.AreEqual(Math.IsEven(-0.5f), false);
+            Assert.AreEqual(Math.IsEven(-1f), false);
+            Assert.AreEqual(Math.IsEven(-1.5f), false);
+            Assert.AreEqual(Math.IsEven(-2f), true);
+            // double
+            Assert.AreEqual(Math.IsEven(+2d), true);
+            Assert.AreEqual(Math.IsEven(+1.5d), false);
+            Assert.AreEqual(Math.IsEven(+1d), false);
+            Assert.AreEqual(Math.IsEven(+0.5d), false);
+            Assert.AreEqual(Math.IsEven(0d), true);
+            Assert.AreEqual(Math.IsEven(-0.5d), false);
+            Assert.AreEqual(Math.IsEven(-1d), false);
+            Assert.AreEqual(Math.IsEven(-1.5d), false);
+            Assert.AreEqual(Math.IsEven(-2d), true);
             // decimal
             Assert.AreEqual(Math.IsEven(+2m), true);
+            Assert.AreEqual(Math.IsEven(+1.5m), false);
             Assert.AreEqual(Math.IsEven(+1m), false);
+            Assert.AreEqual(Math.IsEven(+0.5m), false);
             Assert.AreEqual(Math.IsEven(0m), true);
+            Assert.AreEqual(Math.IsEven(-0.5m), false);
             Assert.AreEqual(Math.IsEven(-1m), false);
+            Assert.AreEqual(Math.IsEven(-1.5m), false);
             Assert.AreEqual(Math.IsEven(-2m), true);
         }
 
@@ -45,11 +69,35 @@ namespace Ksnm.Tests
             Assert.AreEqual(Math.IsOdd(0L), false);
             Assert.AreEqual(Math.IsOdd(-1L), true);
             Assert.AreEqual(Math.IsOdd(-2L), false);
+            // float
+            Assert.AreEqual(Math.IsOdd(+2f), false);
+            Assert.AreEqual(Math.IsOdd(+1.5f), false);
+            Assert.AreEqual(Math.IsOdd(+1f), true);
+            Assert.AreEqual(Math.IsOdd(+0.5f), false);
+            Assert.AreEqual(Math.IsOdd(0f), false);
+            Assert.AreEqual(Math.IsOdd(-0.5f), false);
+            Assert.AreEqual(Math.IsOdd(-1f), true);
+            Assert.AreEqual(Math.IsOdd(-1.5f), false);
+            Assert.AreEqual(Math.IsOdd(-2f), false);
+            // double
+            Assert.AreEqual(Math.IsOdd(+2d), false);
+            Assert.AreEqual(Math.IsOdd(+1.5d), false);
+            Assert.AreEqual(Math.IsOdd(+1d), true);
+            Assert.AreEqual(Math.IsOdd(+0.5d), false);
+            Assert.AreEqual(Math.IsOdd(0d), false);
+            Assert.AreEqual(Math.IsOdd(-0.5d), false);
+            Assert.AreEqual(Math.IsOdd(-1d), true);
+            Assert.AreEqual(Math.IsOdd(-1.5d), false);
+            Assert.AreEqual(Math.IsOdd(-2d), false);
             // decimal
             Assert.AreEqual(Math.IsOdd(+2m), false);
+            Assert.AreEqual(Math.IsOdd(+1.5m), false);
             Assert.AreEqual(Math.IsOdd(+1m), true);
+            Assert.AreEqual(Math.IsOdd(+0.5m), false);
             Assert.AreEqual(Math.IsOdd(0m), false);
+            Assert.AreEqual(Math.IsOdd(-0.5m), false);
             Assert.AreEqual(Math.IsOdd(-1m), true);
+            Assert.AreEqual(Math.IsOdd(-1.5m), false);
             Assert.AreEqual(Math.IsOdd(-2m), false);
         }
 

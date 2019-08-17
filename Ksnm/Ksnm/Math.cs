@@ -78,6 +78,20 @@ namespace Ksnm
         /// <summary>
         /// 偶数ならtrueを返す。
         /// </summary>
+        public static bool IsEven(float value)
+        {
+            return (value % 2) == 0;
+        }
+        /// <summary>
+        /// 偶数ならtrueを返す。
+        /// </summary>
+        public static bool IsEven(double value)
+        {
+            return (value % 2) == 0;
+        }
+        /// <summary>
+        /// 偶数ならtrueを返す。
+        /// </summary>
         public static bool IsEven(decimal value)
         {
             return (value % 2) == 0;
@@ -118,9 +132,23 @@ namespace Ksnm
         /// <summary>
         /// 奇数ならtrueを返す。
         /// </summary>
+        public static bool IsOdd(float value)
+        {
+            return System.Math.Abs(value % 2) == 1;
+        }
+        /// <summary>
+        /// 奇数ならtrueを返す。
+        /// </summary>
+        public static bool IsOdd(double value)
+        {
+            return System.Math.Abs(value % 2) == 1;
+        }
+        /// <summary>
+        /// 奇数ならtrueを返す。
+        /// </summary>
         public static bool IsOdd(decimal value)
         {
-            return (value % 2) != 0;
+            return System.Math.Abs(value % 2) == 1;
         }
 
         #endregion IsOdd
