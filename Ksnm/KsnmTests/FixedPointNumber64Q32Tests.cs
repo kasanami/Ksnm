@@ -24,41 +24,72 @@ namespace Ksnm.Tests
         [TestMethod()]
         public void CastTest()
         {
-            var expected = new Fixed(123);
-            Assert.AreEqual(expected, (byte)123);
-            Assert.AreEqual(expected, (sbyte)123);
-            Assert.AreEqual(expected, (short)123);
-            Assert.AreEqual(expected, (Fixed)(ushort)123);
-            expected = new Fixed(32767);
-            Assert.AreEqual(expected, (Fixed)32767);
-            Assert.AreEqual(expected, (Fixed)32767u);
-            Assert.AreEqual(expected, (Fixed)32767L);
-            Assert.AreEqual(expected, (Fixed)32767uL);
-            Assert.AreEqual(expected, (Fixed)32767f);
-            Assert.AreEqual(expected, (Fixed)32767d);
-            Assert.AreEqual(expected, (Fixed)32767m);
-            expected = new Fixed(-32768);
-            Assert.AreEqual(expected, (Fixed)(-32768));
-            Assert.AreEqual(expected, (Fixed)(-32768L));
-            Assert.AreEqual(expected, (Fixed)(-32768f));
-            Assert.AreEqual(expected, (Fixed)(-32768d));
-            Assert.AreEqual(expected, (Fixed)(-32768m));
-            expected = new Fixed(123, 1u << (Fixed.QBits - 1));
-            Assert.AreEqual(expected, (Fixed)(123.5f));
-            Assert.AreEqual(expected, (Fixed)(123.5d));
-            Assert.AreEqual(expected, (Fixed)(123.5m));
-
-            Assert.AreEqual((byte)123, (byte)expected);
-            Assert.AreEqual((sbyte)123, (sbyte)expected);
-            Assert.AreEqual((short)123, (short)expected);
-            Assert.AreEqual((ushort)123, (ushort)expected);
-            Assert.AreEqual((int)123, (int)expected);
-            Assert.AreEqual((uint)123, (uint)expected);
-            Assert.AreEqual(123L, (long)expected);
-            Assert.AreEqual(123uL, (ulong)expected);
-            Assert.AreEqual(123.5f, (float)expected);
-            Assert.AreEqual(123.5d, (double)expected);
-            Assert.AreEqual(123.5m, (decimal)expected);
+            // byte
+            for (byte i = 0; i <= 10; i++)
+            {
+                var fx = (Fixed)i;
+                Assert.AreEqual(i, (byte)fx, $"byte i={i} fx={fx}");
+            }
+            // sbyte
+            for (sbyte i = -10; i <= 10; i++)
+            {
+                var fx = (Fixed)i;
+                Assert.AreEqual(i, (sbyte)fx, $"sbyte i={i} fx={fx}");
+            }
+            // short
+            for (short i = -10; i <= 10; i++)
+            {
+                var fx = (Fixed)i;
+                Assert.AreEqual(i, (short)fx, $"short i={i} fx={fx}");
+            }
+            // ushort
+            for (ushort i = 0; i <= 10; i++)
+            {
+                var fx = (Fixed)i;
+                Assert.AreEqual(i, (ushort)fx, $"ushort i={i} fx={fx}");
+            }
+            // int
+            for (int i = -10; i <= 10; i++)
+            {
+                var fx = (Fixed)i;
+                Assert.AreEqual(i, (int)fx, $"int i={i} fx={fx}");
+            }
+            // uint
+            for (uint i = 0; i <= 10; i++)
+            {
+                var fx = (Fixed)i;
+                Assert.AreEqual(i, (uint)fx, $"uint i={i} fx={fx}");
+            }
+            // long
+            for (long i = -10; i <= 10; i++)
+            {
+                var fx = (Fixed)i;
+                Assert.AreEqual(i, (long)fx, $"long i={i} fx={fx}");
+            }
+            // ulong
+            for (ulong i = 0; i <= 10; i++)
+            {
+                var fx = (Fixed)i;
+                Assert.AreEqual(i, (ulong)fx, $"ulong i={i} fx={fx}");
+            }
+            // float
+            for (float i = -10; i <= 10; i += LoopIncrement)
+            {
+                var fx = (Fixed)i;
+                Assert.AreEqual(i, (float)fx, $"float i={i} fx={fx}");
+            }
+            // double
+            for (double i = -10; i <= 10; i += LoopIncrement)
+            {
+                var fx = (Fixed)i;
+                Assert.AreEqual(i, (double)fx, $"double i={i} fx={fx}");
+            }
+            // decimal
+            for (decimal i = -10; i <= 10; i += 0.125M)
+            {
+                var fx = (Fixed)i;
+                Assert.AreEqual(i, (decimal)fx, $"decimal i={i} fx={fx}");
+            }
         }
         [TestMethod()]
         public void OperationsTest1()
