@@ -38,7 +38,7 @@ namespace Ksnm
         public readonly static FixedPointNumber32Q16 One = new FixedPointNumber32Q16() { integer = 1 };
         public readonly static FixedPointNumber32Q16 MinValue = new FixedPointNumber32Q16() { bits = int.MinValue };
         public readonly static FixedPointNumber32Q16 MaxValue = new FixedPointNumber32Q16() { bits = int.MaxValue };
-        public readonly static FixedPointNumber32Q16 Epsilon = new FixedPointNumber32Q16() { fractional = 1 };
+        public readonly static FixedPointNumber32Q16 Epsilon = new FixedPointNumber32Q16() { bits = 1 };
         /// <summary>
         /// 1を表すビット
         /// </summary>
@@ -116,6 +116,20 @@ namespace Ksnm
         }
 
         #region 数学系関数
+        /// <summary>
+        /// 偶数ならtrueを返す。
+        /// </summary>
+        public bool IsEven()
+        {
+            return (integer & 1) == 0 && fractional == 0;
+        }
+        /// <summary>
+        /// 奇数ならtrueを返す。
+        /// </summary>
+        public bool IsOdd()
+        {
+            return (integer & 1) == 1 && fractional == 0;
+        }
         /// <summary>
         /// 絶対値を取得します。
         /// </summary>

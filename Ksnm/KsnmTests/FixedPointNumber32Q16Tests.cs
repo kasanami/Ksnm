@@ -176,6 +176,24 @@ namespace Ksnm.Tests
             Assert.IsTrue(value1.Equals(value3));
         }
         [TestMethod()]
+        public void IsEvenTest()
+        {
+            for (float f = -3; f <= +3; f += LoopIncrement)
+            {
+                var fx = (Fixed)f;
+                Assert.AreEqual(Math.IsEven(f), fx.IsEven(), $"f={f} fx={fx}");
+            }
+        }
+        [TestMethod()]
+        public void IsOddTest()
+        {
+            for (float f = -3; f <= +3; f += LoopIncrement)
+            {
+                var fx = (Fixed)f;
+                Assert.AreEqual(Math.IsOdd(f), fx.IsOdd(), $"f={f} fx={fx}");
+            }
+        }
+        [TestMethod()]
         public void AbsTest()
         {
             for (float f = -3; f <= +3; f += LoopIncrement)

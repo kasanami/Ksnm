@@ -38,7 +38,7 @@ namespace Ksnm
         public readonly static FixedPointNumber64Q32 One = new FixedPointNumber64Q32() { integer = 1 };
         public readonly static FixedPointNumber64Q32 MinValue = new FixedPointNumber64Q32() { bits = long.MinValue };
         public readonly static FixedPointNumber64Q32 MaxValue = new FixedPointNumber64Q32() { bits = long.MaxValue };
-        public readonly static FixedPointNumber64Q32 Epsilon = new FixedPointNumber64Q32() { fractional = 1 };
+        public readonly static FixedPointNumber64Q32 Epsilon = new FixedPointNumber64Q32() { bits = 1 };
         /// <summary>
         /// 1を表すビット
         /// </summary>
@@ -116,6 +116,20 @@ namespace Ksnm
         }
 
         #region 数学系関数
+        /// <summary>
+        /// 偶数ならtrueを返す。
+        /// </summary>
+        public bool IsEven()
+        {
+            return (integer & 1) == 0 && fractional == 0;
+        }
+        /// <summary>
+        /// 奇数ならtrueを返す。
+        /// </summary>
+        public bool IsOdd()
+        {
+            return (integer & 1) == 1 && fractional == 0;
+        }
         /// <summary>
         /// 絶対値を取得します。
         /// </summary>
