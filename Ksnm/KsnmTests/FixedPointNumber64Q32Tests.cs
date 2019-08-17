@@ -7,6 +7,7 @@ namespace Ksnm.Tests
     [TestClass()]
     public class FixedPointNumber64Q32Tests
     {
+        const float LoopIncrement = 1.0f / 8;
         [TestMethod()]
         public void ConstructorTest()
         {
@@ -46,6 +47,18 @@ namespace Ksnm.Tests
             Assert.AreEqual(expected, (Fixed)(123.5f));
             Assert.AreEqual(expected, (Fixed)(123.5d));
             Assert.AreEqual(expected, (Fixed)(123.5m));
+
+            Assert.AreEqual((byte)123, (byte)expected);
+            Assert.AreEqual((sbyte)123, (sbyte)expected);
+            Assert.AreEqual((short)123, (short)expected);
+            Assert.AreEqual((ushort)123, (ushort)expected);
+            Assert.AreEqual((int)123, (int)expected);
+            Assert.AreEqual((uint)123, (uint)expected);
+            Assert.AreEqual(123L, (long)expected);
+            Assert.AreEqual(123uL, (ulong)expected);
+            Assert.AreEqual(123.5f, (float)expected);
+            Assert.AreEqual(123.5d, (double)expected);
+            Assert.AreEqual(123.5m, (decimal)expected);
         }
         [TestMethod()]
         public void OperationsTest1()
@@ -130,6 +143,51 @@ namespace Ksnm.Tests
 
             Assert.IsFalse(value1.Equals(value2));
             Assert.IsTrue(value1.Equals(value3));
+        }
+        [TestMethod()]
+        public void AbsTest()
+        {
+            for (float f = -3; f <= +3; f += LoopIncrement)
+            {
+                var fx = (Fixed)f;
+                Assert.AreEqual((int)System.Math.Abs(f), (int)Fixed.Abs(fx), $"f={f} fx={fx}");
+            }
+        }
+        [TestMethod()]
+        public void CeilingTest()
+        {
+            for (float f = -3; f <= +3; f += LoopIncrement)
+            {
+                var fx = (Fixed)f;
+                Assert.AreEqual((int)System.Math.Ceiling(f), (int)Fixed.Ceiling(fx), $"f={f} fx={fx}");
+            }
+        }
+        [TestMethod()]
+        public void FloorTest()
+        {
+            for (float f = -3; f <= +3; f += LoopIncrement)
+            {
+                var fx = (Fixed)f;
+                Assert.AreEqual((int)System.Math.Floor(f), (int)Fixed.Floor(fx), $"f={f} fx={fx}");
+            }
+        }
+        [TestMethod()]
+        public void RoundTest()
+        {
+            for (float f = -3; f <= +3; f += LoopIncrement)
+            {
+                var fx = (Fixed)f;
+                Assert.AreEqual((int)System.Math.Round(f), (int)Fixed.Round(fx), $"f={f} fx={fx}");
+            }
+        }
+        [TestMethod()]
+        public void TruncateTest()
+        {
+            for (float f = -3; f <= +3; f += LoopIncrement)
+            {
+                var fx = (Fixed)f;
+                Assert.AreEqual((int)System.Math.Truncate(f), (int)Fixed.Truncate(fx), $"f={f} fx={fx}");
+            }
         }
     }
 }

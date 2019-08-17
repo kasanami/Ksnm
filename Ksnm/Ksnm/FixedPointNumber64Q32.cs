@@ -39,7 +39,14 @@ namespace Ksnm
         public readonly static FixedPointNumber64Q32 MinValue = new FixedPointNumber64Q32() { bits = long.MinValue };
         public readonly static FixedPointNumber64Q32 MaxValue = new FixedPointNumber64Q32() { bits = long.MaxValue };
         public readonly static FixedPointNumber64Q32 Epsilon = new FixedPointNumber64Q32() { fractional = 1 };
+        /// <summary>
+        /// 1を表すビット
+        /// </summary>
         const long OneBits = 1L << QBits;
+        /// <summary>
+        /// 0.5を表すビット
+        /// </summary>
+        const long HalfBits = 1L << (QBits - 1);
         #endregion 定数
 
         #region フィールド
@@ -67,6 +74,7 @@ namespace Ksnm
         public long Bits { get { return bits; } }
         /// <summary>
         /// 整数部
+        /// 注意点：負数のとき、-0.1は-1。-1.1は-2になる。Floor関数を使用して整数にした値と同じ。
         /// </summary>
         public int Integer { get { return integer; } }
         /// <summary>
@@ -106,6 +114,95 @@ namespace Ksnm
         {
             this.bits = bits;
         }
+
+        #region 数学系関数
+        /// <summary>
+        /// 絶対値を取得します。
+        /// </summary>
+        /// <param name="value">元の値</param>
+        /// <returns>絶対値</returns>
+        public static FixedPointNumber64Q32 Abs(FixedPointNumber64Q32 value)
+        {
+            return new FixedPointNumber64Q32() { bits = System.Math.Abs(value.bits) };
+        }
+        /// <summary>
+        /// 指定した値以上の、最小の整数値を返します。
+        /// </summary>
+        /// <param name="value">丸める値</param>
+        /// <returns>value 以上の最小の整数値</returns>
+        public static FixedPointNumber64Q32 Ceiling(FixedPointNumber64Q32 value)
+        {
+            if (value.fractional != 0)
+            {
+                value.integer++;
+                value.fractional = 0;
+                return value;
+            }
+            // すでに整数ならそのまま
+            return value;
+        }
+        /// <summary>
+        /// 指定した値以下の、最大の整数値を返します。
+        /// </summary>
+        /// <param name="value">丸める値</param>
+        /// <returns>value 以下の最大の整数値</returns>
+        public static FixedPointNumber64Q32 Floor(FixedPointNumber64Q32 value)
+        {
+            value.fractional = 0;
+            return value;
+        }
+        /// <summary>
+        /// 指定した値を最も近い整数に丸めます。
+        /// </summary>
+        /// <param name="value">丸める値</param>
+        /// <returns>値に最も近い整数。2 つの整数の中間にある場合は偶数が返されます。</returns>
+        /// <exception cref="System.OverflowException">結果が範囲外</exception>
+        public static FixedPointNumber64Q32 Round(FixedPointNumber64Q32 value)
+        {
+            // 整数ではないときに処理
+            if (value.fractional != 0)
+            {
+                // ちょうど中間のとき
+                if (value.fractional == HalfBits)
+                {
+                    // 奇数のとき
+                    if ((value.integer & 1) == 1)
+                    {
+                        value.bits += HalfBits;
+                    }
+                    else
+                    {
+                        value.bits -= HalfBits;
+                    }
+                    value.fractional = 0;
+                }
+                else
+                {
+                    value.bits += HalfBits;
+                }
+                value.fractional = 0;
+            }
+            return value;
+        }
+        /// <summary>
+        /// 指定した値の整数の桁を返します。小数の桁は破棄されます。
+        /// </summary>
+        /// <param name="value">切り捨てる値</param>
+        /// <returns>value を 0 方向の近似整数に丸めた結果</returns>
+        public static FixedPointNumber64Q32 Truncate(FixedPointNumber64Q32 value)
+        {
+            // 負数のときは、integerが単純な整数ではないので補正
+            if (value.integer < 0)
+            {
+                if (value.fractional != 0)
+                {
+                    value.integer++;
+                }
+            }
+            value.fractional = 0;
+            return value;
+        }
+        #endregion 数学系関数
 
         #region 単項演算子
         public static FixedPointNumber64Q32 operator +(FixedPointNumber64Q32 value)
@@ -217,6 +314,7 @@ namespace Ksnm
         #endregion 比較演算子
 
         #region 型変換
+        #region 他の型→固定小数点数型
         public static implicit operator FixedPointNumber64Q32(byte value)
         {
             return new FixedPointNumber64Q32() { integer = value };
@@ -255,17 +353,67 @@ namespace Ksnm
         }
         public static explicit operator FixedPointNumber64Q32(double value)
         {
-            return new FixedPointNumber64Q32()
-            {
-                integer = (int)value,
-                fractional = (uint)((value % 1) * OneBits)
-            };
+            value *= OneBits;
+            return new FixedPointNumber64Q32() { bits = (long)value };
         }
         public static explicit operator FixedPointNumber64Q32(decimal value)
         {
             value *= OneBits;
             return new FixedPointNumber64Q32() { bits = (long)value };
         }
+        #endregion 他の型→固定小数点数型
+        #region 固定小数点数型→他の型
+        public static explicit operator byte(FixedPointNumber64Q32 value)
+        {
+            return (byte)value.integer;
+        }
+        public static explicit operator sbyte(FixedPointNumber64Q32 value)
+        {
+            return (sbyte)value.integer;
+        }
+        public static explicit operator short(FixedPointNumber64Q32 value)
+        {
+            return (short)value.integer;
+        }
+        public static explicit operator ushort(FixedPointNumber64Q32 value)
+        {
+            return (ushort)value.integer;
+        }
+        public static explicit operator int(FixedPointNumber64Q32 value)
+        {
+            return value.integer;
+        }
+        public static explicit operator uint(FixedPointNumber64Q32 value)
+        {
+            return (uint)value.integer;
+        }
+        public static explicit operator long(FixedPointNumber64Q32 value)
+        {
+            return value.integer;
+        }
+        public static explicit operator ulong(FixedPointNumber64Q32 value)
+        {
+            return (ulong)value.integer;
+        }
+        public static explicit operator float(FixedPointNumber64Q32 value)
+        {
+            double temp = value.bits;
+            temp /= OneBits;
+            return (float)temp;
+        }
+        public static explicit operator double(FixedPointNumber64Q32 value)
+        {
+            double temp = value.bits;
+            temp /= OneBits;
+            return temp;
+        }
+        public static implicit operator decimal(FixedPointNumber64Q32 value)
+        {
+            decimal temp = value.bits;
+            temp /= OneBits;
+            return temp;
+        }
+        #endregion 固定小数点数型→他の型
         #endregion 型変換
 
         #region IComparable
