@@ -343,25 +343,25 @@ namespace Ksnm
         }
         public static implicit operator FixedPointNumber64Q32(ushort value)
         {
-            return new FixedPointNumber64Q32() { integer = (short)value };
+            return new FixedPointNumber64Q32() { integer = value };
         }
         public static implicit operator FixedPointNumber64Q32(int value)
         {
-            return new FixedPointNumber64Q32() { integer = (short)value };
+            return new FixedPointNumber64Q32() { integer = value };
         }
         public static explicit operator FixedPointNumber64Q32(uint value)
         {
-            return new FixedPointNumber64Q32() { integer = (short)value };
+            return new FixedPointNumber64Q32() { integer = (int)value };
         }
         public static explicit operator FixedPointNumber64Q32(long value)
         {
-            return new FixedPointNumber64Q32() { integer = (short)value };
+            return new FixedPointNumber64Q32() { integer = (int)value };
         }
         public static explicit operator FixedPointNumber64Q32(ulong value)
         {
-            return new FixedPointNumber64Q32() { integer = (short)value };
+            return new FixedPointNumber64Q32() { integer = (int)value };
         }
-        public static implicit operator FixedPointNumber64Q32(float value)
+        public static explicit operator FixedPointNumber64Q32(float value)
         {
             return (FixedPointNumber64Q32)((double)value);
         }
