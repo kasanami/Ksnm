@@ -385,35 +385,35 @@ namespace Ksnm
         #region 固定小数点数型→他の型
         public static explicit operator byte(FixedPointNumber64Q32 value)
         {
-            return (byte)value.integer;
+            return (byte)Truncate(value).integer;
         }
         public static explicit operator sbyte(FixedPointNumber64Q32 value)
         {
-            return (sbyte)value.integer;
+            return (sbyte)Truncate(value).integer;
         }
         public static explicit operator short(FixedPointNumber64Q32 value)
         {
-            return (short)value.integer;
+            return (short)Truncate(value).integer;
         }
         public static explicit operator ushort(FixedPointNumber64Q32 value)
         {
-            return (ushort)value.integer;
+            return (ushort)Truncate(value).integer;
         }
         public static explicit operator int(FixedPointNumber64Q32 value)
         {
-            return value.integer;
+            return Truncate(value).integer;
         }
         public static explicit operator uint(FixedPointNumber64Q32 value)
         {
-            return (uint)value.integer;
+            return (uint)Truncate(value).integer;
         }
         public static explicit operator long(FixedPointNumber64Q32 value)
         {
-            return value.integer;
+            return Truncate(value).integer;
         }
         public static explicit operator ulong(FixedPointNumber64Q32 value)
         {
-            return (ulong)value.integer;
+            return (ulong)Truncate(value).integer;
         }
         public static explicit operator float(FixedPointNumber64Q32 value)
         {

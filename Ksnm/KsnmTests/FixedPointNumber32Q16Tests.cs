@@ -58,10 +58,22 @@ namespace Ksnm.Tests
                 var fx = (Fixed)i;
                 Assert.AreEqual(i, (byte)fx, $"byte i={i} fx={fx}");
             }
+            for (double d = 0; d <= 10; d += LoopIncrement)
+            {
+                var i = (byte)d;
+                var fx = (Fixed)d;
+                Assert.AreEqual(i, (byte)fx, $"byte i={i} fx={fx}");
+            }
             // sbyte
             for (sbyte i = -10; i <= 10; i++)
             {
                 var fx = (Fixed)i;
+                Assert.AreEqual(i, (sbyte)fx, $"sbyte i={i} fx={fx}");
+            }
+            for (double d = -10; d <= 10; d += LoopIncrement)
+            {
+                var i = (sbyte)d;
+                var fx = (Fixed)d;
                 Assert.AreEqual(i, (sbyte)fx, $"sbyte i={i} fx={fx}");
             }
             // short
@@ -70,10 +82,22 @@ namespace Ksnm.Tests
                 var fx = (Fixed)i;
                 Assert.AreEqual(i, (short)fx, $"short i={i} fx={fx}");
             }
+            for (double d = -10; d <= 10; d += LoopIncrement)
+            {
+                var i = (short)d;
+                var fx = (Fixed)d;
+                Assert.AreEqual(i, (short)fx, $"short i={i} fx={fx}");
+            }
             // ushort
             for (ushort i = 0; i <= 10; i++)
             {
                 var fx = (Fixed)i;
+                Assert.AreEqual(i, (ushort)fx, $"ushort i={i} fx={fx}");
+            }
+            for (double d = 0; d <= 10; d += LoopIncrement)
+            {
+                var i = (ushort)d;
+                var fx = (Fixed)d;
                 Assert.AreEqual(i, (ushort)fx, $"ushort i={i} fx={fx}");
             }
             // int
@@ -82,10 +106,22 @@ namespace Ksnm.Tests
                 var fx = (Fixed)i;
                 Assert.AreEqual(i, (int)fx, $"int i={i} fx={fx}");
             }
+            for (double d = -10; d <= 10; d += LoopIncrement)
+            {
+                var i = (int)d;
+                var fx = (Fixed)d;
+                Assert.AreEqual(i, (int)fx, $"int i={i} fx={fx}");
+            }
             // uint
             for (uint i = 0; i <= 10; i++)
             {
                 var fx = (Fixed)i;
+                Assert.AreEqual(i, (uint)fx, $"uint i={i} fx={fx}");
+            }
+            for (double d = 0; d <= 10; d += LoopIncrement)
+            {
+                var i = (uint)d;
+                var fx = (Fixed)d;
                 Assert.AreEqual(i, (uint)fx, $"uint i={i} fx={fx}");
             }
             // long
@@ -94,10 +130,22 @@ namespace Ksnm.Tests
                 var fx = (Fixed)i;
                 Assert.AreEqual(i, (long)fx, $"long i={i} fx={fx}");
             }
+            for (double d = -10; d <= 10; d += LoopIncrement)
+            {
+                var i = (long)d;
+                var fx = (Fixed)d;
+                Assert.AreEqual(i, (long)fx, $"long i={i} fx={fx}");
+            }
             // ulong
             for (ulong i = 0; i <= 10; i++)
             {
                 var fx = (Fixed)i;
+                Assert.AreEqual(i, (ulong)fx, $"ulong i={i} fx={fx}");
+            }
+            for (double d = 0; d <= 10; d += LoopIncrement)
+            {
+                var i = (ulong)d;
+                var fx = (Fixed)d;
                 Assert.AreEqual(i, (ulong)fx, $"ulong i={i} fx={fx}");
             }
             // float
