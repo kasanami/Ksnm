@@ -23,6 +23,7 @@ freely, subject to the following restrictions:
 */
 using System;
 using System.Runtime.InteropServices;
+using Ksnm.ExtensionMethods.System.Double;
 
 namespace Ksnm
 {
@@ -114,6 +115,71 @@ namespace Ksnm
         {
             this.bits = bits;
         }
+
+        #region ユーティリティ
+        /// <summary>
+        /// 浮動小数点数値を設定する。
+        /// キャストしたほうが高速なので非公開
+        /// </summary>
+        /// <param name="value">浮動小数点数値</param>
+        /// <returns>非数・無限大の場合false それ以外はtrue</returns>
+        public bool SetDouble(double value)
+        {
+            var exponentBits = value.GetExponentBits();
+            var fractionBits = value.GetFractionBits();
+            if (exponentBits == 0)
+            {
+                // ゼロか非正規化数
+                bits = 0;
+            }
+            else if (exponentBits == 0x7ff)
+            {
+                if (fractionBits != 0)
+                {
+                    // 非数
+                    bits = 0;
+                }
+                else if (value.GetSignBits() == 0)
+                {
+                    // 正の無限大
+                    bits = int.MaxValue;
+                }
+                else
+                {
+                    // 負の無限大
+                    bits = int.MinValue;
+                }
+                return false;
+            }
+            else
+            {
+                fractionBits |= 0x10_0000_0000_0000;
+                var shift = -52 + (exponentBits - 1023);
+                shift += QBits;
+
+                if (shift < 0)
+                {
+                    shift = -shift;
+                    bits = (int)(fractionBits >> shift);
+                }
+                else if (shift > 0)
+                {
+                    bits = (int)(fractionBits << shift);
+                }
+                else
+                {
+                    bits = (int)(fractionBits);
+                }
+                // 負数に変換
+                if (value.GetSignBits() == 1)
+                {
+                    bits = ~bits + 1;
+                }
+            }
+            return true;
+        }
+
+        #endregion ユーティリティ
 
         #region 数学系関数
         /// <summary>

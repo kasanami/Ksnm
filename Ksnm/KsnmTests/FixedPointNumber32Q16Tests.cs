@@ -22,6 +22,32 @@ namespace Ksnm.Tests
             Assert.AreEqual(456, value.Fractional);
         }
         [TestMethod()]
+        public void SetDoubleTest()
+        {
+            var fx = new Fixed();
+            // double
+            for (double i = -10; i <= 10; i += LoopIncrement)
+            {
+                fx.SetDouble(i);
+                Assert.AreEqual(i, (double)fx, $"double i={i} fx={fx}");
+            }
+            {
+                var i = double.PositiveInfinity;
+                fx.SetDouble(i);
+                Assert.AreEqual(Fixed.MaxValue, fx, $"double i={i} fx={fx}");
+            }
+            {
+                var i = double.NegativeInfinity;
+                fx.SetDouble(i);
+                Assert.AreEqual(Fixed.MinValue, fx, $"double i={i} fx={fx}");
+            }
+            {
+                var i = double.NaN;
+                fx.SetDouble(i);
+                Assert.AreEqual(Fixed.Zero, fx, $"double i={i} fx={fx}");
+            }
+        }
+        [TestMethod()]
         public void CastTest()
         {
             // byte
