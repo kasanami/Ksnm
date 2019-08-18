@@ -24,11 +24,12 @@ freely, subject to the following restrictions:
 using System;
 using System.Runtime.InteropServices;
 using Ksnm.ExtensionMethods.System.Double;
+using BitsType = System.Int32;// 固定小数点数 全体のビットを表す型
+using IntegerType = System.Int16;// 固定小数点数 整数部分のビットを表す型
+using FractionalType = System.UInt16;// 固定小数点数 小数部分のビットを表す型
 
 namespace Ksnm
 {
-    using BitsType = System.Int32;// 固定小数点数 全体のビットを表す型
-    using IntType = System.Int16;// 固定小数点数 整数のビットを表す型
     /// <summary>
     /// 固定小数点数(全体のビット数32、小数部分のビット数16)
     /// </summary>
@@ -65,12 +66,12 @@ namespace Ksnm
         /// 整数部
         /// </summary>
         [FieldOffset(2)]
-        IntType integer;
+        IntegerType integer;
         /// <summary>
         /// 小数部
         /// </summary>
         [FieldOffset(0)]
-        ushort fractional;
+        FractionalType fractional;
         #endregion フィールド
 
         #region プロパティ
@@ -82,18 +83,18 @@ namespace Ksnm
         /// 整数部
         /// 注意点：負数のとき、-0.1は-1。-1.1は-2になる。Floor関数を使用して整数にした値と同じ。
         /// </summary>
-        public IntType Integer { get { return integer; } }
+        public IntegerType Integer { get { return integer; } }
         /// <summary>
         /// 小数部
         /// </summary>
-        public ushort Fractional { get { return fractional; } }
+        public FractionalType Fractional { get { return fractional; } }
         #endregion プロパティ
 
         /// <summary>
         /// 指定した整数で初期化
         /// </summary>
         /// <param name="integer">整数部</param>
-        public FixedPointNumber32Q16(IntType integer)
+        public FixedPointNumber32Q16(IntegerType integer)
         {
             bits = 0;
             this.integer = integer;
@@ -105,7 +106,7 @@ namespace Ksnm
         /// </summary>
         /// <param name="integer">整数部</param>
         /// <param name="fractional">小数部</param>
-        public FixedPointNumber32Q16(IntType integer, ushort fractional)
+        public FixedPointNumber32Q16(IntegerType integer, FractionalType fractional)
         {
             bits = 0;
             this.integer = integer;
@@ -414,23 +415,23 @@ namespace Ksnm
         }
         public static explicit operator FixedPointNumber32Q16(ushort value)
         {
-            return new FixedPointNumber32Q16() { integer = (IntType)value };
+            return new FixedPointNumber32Q16() { integer = (IntegerType)value };
         }
         public static explicit operator FixedPointNumber32Q16(int value)
         {
-            return new FixedPointNumber32Q16() { integer = (IntType)value };
+            return new FixedPointNumber32Q16() { integer = (IntegerType)value };
         }
         public static explicit operator FixedPointNumber32Q16(uint value)
         {
-            return new FixedPointNumber32Q16() { integer = (IntType)value };
+            return new FixedPointNumber32Q16() { integer = (IntegerType)value };
         }
         public static explicit operator FixedPointNumber32Q16(long value)
         {
-            return new FixedPointNumber32Q16() { integer = (IntType)value };
+            return new FixedPointNumber32Q16() { integer = (IntegerType)value };
         }
         public static explicit operator FixedPointNumber32Q16(ulong value)
         {
-            return new FixedPointNumber32Q16() { integer = (IntType)value };
+            return new FixedPointNumber32Q16() { integer = (IntegerType)value };
         }
         public static explicit operator FixedPointNumber32Q16(float value)
         {

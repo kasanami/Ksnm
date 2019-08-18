@@ -23,11 +23,12 @@ freely, subject to the following restrictions:
 */
 using System;
 using System.Runtime.InteropServices;
+using BitsType = System.Int64;// 固定小数点数 全体のビットを表す型
+using IntegerType = System.Int32;// 固定小数点数 整数部分のビットを表す型
+using FractionalType = System.UInt16;// 固定小数点数 小数部分のビットを表す型
 
 namespace Ksnm
 {
-    using BitsType = System.Int64;// 固定小数点数 全体のビットを表す型
-    using IntType = System.Int32;// 固定小数点数 整数のビットを表す型
     /// <summary>
     /// 固定小数点数(全体のビット数64、小数部分のビット数32)
     /// </summary>
@@ -64,12 +65,12 @@ namespace Ksnm
         /// 整数部
         /// </summary>
         [FieldOffset(4)]
-        IntType integer;
+        IntegerType integer;
         /// <summary>
         /// 小数部
         /// </summary>
         [FieldOffset(0)]
-        uint fractional;
+        FractionalType fractional;
         #endregion フィールド
 
         #region プロパティ
@@ -81,18 +82,18 @@ namespace Ksnm
         /// 整数部
         /// 注意点：負数のとき、-0.1は-1。-1.1は-2になる。Floor関数を使用して整数にした値と同じ。
         /// </summary>
-        public IntType Integer { get { return integer; } }
+        public IntegerType Integer { get { return integer; } }
         /// <summary>
         /// 小数部
         /// </summary>
-        public uint Fractional { get { return fractional; } }
+        public FractionalType Fractional { get { return fractional; } }
         #endregion プロパティ
 
         /// <summary>
         /// 指定した整数で初期化
         /// </summary>
         /// <param name="integer">整数部</param>
-        public FixedPointNumber64Q32(IntType integer)
+        public FixedPointNumber64Q32(IntegerType integer)
         {
             bits = 0;
             this.integer = integer;
@@ -104,7 +105,7 @@ namespace Ksnm
         /// </summary>
         /// <param name="integer">整数部</param>
         /// <param name="fractional">小数部</param>
-        public FixedPointNumber64Q32(IntType integer, uint fractional)
+        public FixedPointNumber64Q32(IntegerType integer, FractionalType fractional)
         {
             bits = 0;
             this.integer = integer;
@@ -356,15 +357,15 @@ namespace Ksnm
         }
         public static explicit operator FixedPointNumber64Q32(uint value)
         {
-            return new FixedPointNumber64Q32() { integer = (IntType)value };
+            return new FixedPointNumber64Q32() { integer = (IntegerType)value };
         }
         public static explicit operator FixedPointNumber64Q32(long value)
         {
-            return new FixedPointNumber64Q32() { integer = (IntType)value };
+            return new FixedPointNumber64Q32() { integer = (IntegerType)value };
         }
         public static explicit operator FixedPointNumber64Q32(ulong value)
         {
-            return new FixedPointNumber64Q32() { integer = (IntType)value };
+            return new FixedPointNumber64Q32() { integer = (IntegerType)value };
         }
         public static explicit operator FixedPointNumber64Q32(float value)
         {
