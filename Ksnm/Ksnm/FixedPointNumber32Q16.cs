@@ -27,6 +27,8 @@ using Ksnm.ExtensionMethods.System.Double;
 
 namespace Ksnm
 {
+    using BitsType = System.Int32;// 固定小数点数 全体のビットを表す型
+    using IntType = System.Int16;// 固定小数点数 整数のビットを表す型
     /// <summary>
     /// 固定小数点数(全体のビット数32、小数部分のビット数16)
     /// </summary>
@@ -34,20 +36,23 @@ namespace Ksnm
     public struct FixedPointNumber32Q16 : IComparable, IComparable<FixedPointNumber32Q16>, IEquatable<FixedPointNumber32Q16>
     {
         #region 定数
+        /// <summary>
+        /// 小数部分のビット数
+        /// </summary>
         public const int QBits = 16;
         public readonly static FixedPointNumber32Q16 Zero = new FixedPointNumber32Q16() { integer = 0 };
         public readonly static FixedPointNumber32Q16 One = new FixedPointNumber32Q16() { integer = 1 };
-        public readonly static FixedPointNumber32Q16 MinValue = new FixedPointNumber32Q16() { bits = int.MinValue };
-        public readonly static FixedPointNumber32Q16 MaxValue = new FixedPointNumber32Q16() { bits = int.MaxValue };
+        public readonly static FixedPointNumber32Q16 MinValue = new FixedPointNumber32Q16() { bits = BitsType.MinValue };
+        public readonly static FixedPointNumber32Q16 MaxValue = new FixedPointNumber32Q16() { bits = BitsType.MaxValue };
         public readonly static FixedPointNumber32Q16 Epsilon = new FixedPointNumber32Q16() { bits = 1 };
         /// <summary>
         /// 1を表すビット
         /// </summary>
-        const int OneBits = 1 << QBits;
+        const BitsType OneBits = 1 << QBits;
         /// <summary>
         /// 0.5を表すビット
         /// </summary>
-        const int HalfBits = 1 << (QBits - 1);
+        const BitsType HalfBits = 1 << (QBits - 1);
         #endregion 定数
 
         #region フィールド
@@ -55,12 +60,12 @@ namespace Ksnm
         /// 全体のビット
         /// </summary>
         [FieldOffset(0)]
-        int bits;
+        BitsType bits;
         /// <summary>
         /// 整数部
         /// </summary>
         [FieldOffset(2)]
-        short integer;
+        IntType integer;
         /// <summary>
         /// 小数部
         /// </summary>
@@ -72,12 +77,12 @@ namespace Ksnm
         /// <summary>
         /// 全体のビット
         /// </summary>
-        public int Bits { get { return bits; } }
+        public BitsType Bits { get { return bits; } }
         /// <summary>
         /// 整数部
         /// 注意点：負数のとき、-0.1は-1。-1.1は-2になる。Floor関数を使用して整数にした値と同じ。
         /// </summary>
-        public short Integer { get { return integer; } }
+        public IntType Integer { get { return integer; } }
         /// <summary>
         /// 小数部
         /// </summary>
@@ -88,7 +93,7 @@ namespace Ksnm
         /// 指定した整数で初期化
         /// </summary>
         /// <param name="integer">整数部</param>
-        public FixedPointNumber32Q16(short integer)
+        public FixedPointNumber32Q16(IntType integer)
         {
             bits = 0;
             this.integer = integer;
@@ -100,7 +105,7 @@ namespace Ksnm
         /// </summary>
         /// <param name="integer">整数部</param>
         /// <param name="fractional">小数部</param>
-        public FixedPointNumber32Q16(short integer, ushort fractional)
+        public FixedPointNumber32Q16(IntType integer, ushort fractional)
         {
             bits = 0;
             this.integer = integer;
@@ -111,7 +116,7 @@ namespace Ksnm
         /// 全体のビットを設定
         /// </summary>
         /// <param name="bits">設定するビット</param>
-        public void SetBits(int bits)
+        public void SetBits(BitsType bits)
         {
             this.bits = bits;
         }
@@ -142,12 +147,12 @@ namespace Ksnm
                 else if (value.GetSignBits() == 0)
                 {
                     // 正の無限大
-                    bits = int.MaxValue;
+                    bits = BitsType.MaxValue;
                 }
                 else
                 {
                     // 負の無限大
-                    bits = int.MinValue;
+                    bits = BitsType.MinValue;
                 }
                 return false;
             }
@@ -160,15 +165,15 @@ namespace Ksnm
                 if (shift < 0)
                 {
                     shift = -shift;
-                    bits = (int)(fractionBits >> shift);
+                    bits = (BitsType)(fractionBits >> shift);
                 }
                 else if (shift > 0)
                 {
-                    bits = (int)(fractionBits << shift);
+                    bits = (BitsType)(fractionBits << shift);
                 }
                 else
                 {
-                    bits = (int)(fractionBits);
+                    bits = (BitsType)(fractionBits);
                 }
                 // 負数に変換
                 if (value.GetSignBits() == 1)
@@ -319,14 +324,14 @@ namespace Ksnm
             long temp = valueL.bits;
             temp *= valueR.bits;
             temp >>= QBits;
-            return new FixedPointNumber32Q16() { bits = (int)temp };
+            return new FixedPointNumber32Q16() { bits = (BitsType)temp };
         }
         public static FixedPointNumber32Q16 operator /(FixedPointNumber32Q16 valueL, FixedPointNumber32Q16 valueR)
         {
             long temp = valueL.bits;
             temp <<= QBits;
             temp /= valueR.bits;
-            return new FixedPointNumber32Q16() { bits = (int)temp };
+            return new FixedPointNumber32Q16() { bits = (BitsType)temp };
         }
         public static FixedPointNumber32Q16 operator %(FixedPointNumber32Q16 valueL, FixedPointNumber32Q16 valueR)
         {
@@ -336,7 +341,7 @@ namespace Ksnm
         {
             return new FixedPointNumber32Q16() { bits = valueL.bits & valueR.bits };
         }
-        public static FixedPointNumber32Q16 operator &(FixedPointNumber32Q16 valueL, int valueR)
+        public static FixedPointNumber32Q16 operator &(FixedPointNumber32Q16 valueL, BitsType valueR)
         {
             return new FixedPointNumber32Q16() { bits = valueL.bits & valueR };
         }
@@ -344,7 +349,7 @@ namespace Ksnm
         {
             return new FixedPointNumber32Q16() { bits = valueL.bits | valueR.bits };
         }
-        public static FixedPointNumber32Q16 operator |(FixedPointNumber32Q16 valueL, int valueR)
+        public static FixedPointNumber32Q16 operator |(FixedPointNumber32Q16 valueL, BitsType valueR)
         {
             return new FixedPointNumber32Q16() { bits = valueL.bits | valueR };
         }
@@ -352,7 +357,7 @@ namespace Ksnm
         {
             return new FixedPointNumber32Q16() { bits = valueL.bits ^ valueR.bits };
         }
-        public static FixedPointNumber32Q16 operator ^(FixedPointNumber32Q16 valueL, int valueR)
+        public static FixedPointNumber32Q16 operator ^(FixedPointNumber32Q16 valueL, BitsType valueR)
         {
             return new FixedPointNumber32Q16() { bits = valueL.bits ^ valueR };
         }
@@ -409,23 +414,23 @@ namespace Ksnm
         }
         public static explicit operator FixedPointNumber32Q16(ushort value)
         {
-            return new FixedPointNumber32Q16() { integer = (short)value };
+            return new FixedPointNumber32Q16() { integer = (IntType)value };
         }
         public static explicit operator FixedPointNumber32Q16(int value)
         {
-            return new FixedPointNumber32Q16() { integer = (short)value };
+            return new FixedPointNumber32Q16() { integer = (IntType)value };
         }
         public static explicit operator FixedPointNumber32Q16(uint value)
         {
-            return new FixedPointNumber32Q16() { integer = (short)value };
+            return new FixedPointNumber32Q16() { integer = (IntType)value };
         }
         public static explicit operator FixedPointNumber32Q16(long value)
         {
-            return new FixedPointNumber32Q16() { integer = (short)value };
+            return new FixedPointNumber32Q16() { integer = (IntType)value };
         }
         public static explicit operator FixedPointNumber32Q16(ulong value)
         {
-            return new FixedPointNumber32Q16() { integer = (short)value };
+            return new FixedPointNumber32Q16() { integer = (IntType)value };
         }
         public static explicit operator FixedPointNumber32Q16(float value)
         {
@@ -434,12 +439,12 @@ namespace Ksnm
         public static explicit operator FixedPointNumber32Q16(double value)
         {
             value *= OneBits;
-            return new FixedPointNumber32Q16() { bits = (int)value };
+            return new FixedPointNumber32Q16() { bits = (BitsType)value };
         }
         public static explicit operator FixedPointNumber32Q16(decimal value)
         {
             value *= OneBits;
-            return new FixedPointNumber32Q16() { bits = (int)value };
+            return new FixedPointNumber32Q16() { bits = (BitsType)value };
         }
         #endregion 他の型→固定小数点数型
         #region 固定小数点数型→他の型
