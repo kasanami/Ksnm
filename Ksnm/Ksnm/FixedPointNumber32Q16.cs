@@ -123,7 +123,7 @@ namespace Ksnm
         /// </summary>
         /// <param name="value">浮動小数点数値</param>
         /// <returns>非数・無限大の場合false それ以外はtrue</returns>
-        public bool SetDouble(double value)
+        private bool SetDouble(double value)
         {
             var exponentBits = value.GetExponentBits();
             var fractionBits = value.GetFractionBits();

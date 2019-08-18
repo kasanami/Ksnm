@@ -21,6 +21,7 @@ namespace Ksnm.Tests
             Assert.AreEqual(123, value.Integer);
             Assert.AreEqual(456, value.Fractional);
         }
+#if false
         [TestMethod()]
         public void SetDoubleTest()
         {
@@ -47,6 +48,7 @@ namespace Ksnm.Tests
                 Assert.AreEqual(Fixed.Zero, fx, $"double i={i} fx={fx}");
             }
         }
+#endif
         [TestMethod()]
         public void CastTest()
         {
