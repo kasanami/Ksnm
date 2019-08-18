@@ -25,7 +25,7 @@ using System;
 using System.Runtime.InteropServices;
 using BitsType = System.Int64;// 固定小数点数 全体のビットを表す型
 using IntegerType = System.Int32;// 固定小数点数 整数部分のビットを表す型
-using FractionalType = System.UInt16;// 固定小数点数 小数部分のビットを表す型
+using FractionalType = System.UInt32;// 固定小数点数 小数部分のビットを表す型
 
 namespace Ksnm
 {
