@@ -65,6 +65,7 @@
     <Compile Include="ExtensionMethods\System\Comparable\ComparableExtensionsTests.cs" />
     <Compile Include="ExtensionMethods\System\Decimal\DecimalExtensionsTests.cs" />
     <Compile Include="ExtensionMethods\System\Double\DoubleExtensionsTests.cs" />
+    <Compile Include="ExtensionMethods\System\IO\Stream\StreamExtensionsTests.cs" />
     <Compile Include="ExtensionMethods\System\Random\RandomExtensionsTests.cs" />
     <Compile Include="ExtensionMethods\System\String\StringExtensionsTests.cs" />
     <Compile Include="FixedPointNumber64Q32Tests.cs" />
