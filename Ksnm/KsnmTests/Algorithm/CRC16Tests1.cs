@@ -7,7 +7,7 @@ namespace Ksnm.Algorithm.Tests
     public class CRC16Tests
     {
         [TestMethod()]
-        public void ComputeChecksumBytesTest()
+        public void ComputeHashTest()
         {
             var data = Encoding.UTF8.GetBytes("1234");
             ushort polynomial = 0xA001;
