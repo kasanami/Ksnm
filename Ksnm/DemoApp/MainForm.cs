@@ -18,11 +18,6 @@ namespace DemoApp
 {
     public partial class MainForm : Form
     {
-        /// <summary>
-        /// Double型を指数形式ではなく普通に表示するためのフォーマット
-        /// </summary>
-        static string DoubleFormat = "0." + new string('#', 338);
-
         public MainForm()
         {
             InitializeComponent();
@@ -158,7 +153,7 @@ namespace DemoApp
                     series.Points.AddXY(x, Ksnm.Math.Sigmoid(x, 1));
                 }
             }
-            if(false)
+            if (false)
             {
                 var series = new Series("Ramp(x)");
                 Math_Chart.Series.Add(series);
@@ -430,7 +425,7 @@ namespace DemoApp
                 for (int i = 0; i < 100; i++)
                 {
                     var value = random.NextDouble();
-                    stringBuilder.AppendLine("0x" + value.ToInt64Bits().ToString("X16") + " " + value.ToString(DoubleFormat));
+                    stringBuilder.AppendLine("0x" + value.ToInt64Bits().ToString("X16") + " " + value.ToDecimalString());
                 }
                 //
                 stringBuilder.AppendLine("----------------------------------------");
@@ -500,7 +495,7 @@ namespace DemoApp
                 for (int i = 0; i < 100; i++)
                 {
                     var value = random.UnitInterval();
-                    stringBuilder.AppendLine(value.ToString(DoubleFormat));
+                    stringBuilder.AppendLine(value.ToDecimalString());
                 }
                 // 
                 Random_TextBox.Text = stringBuilder.ToString();
