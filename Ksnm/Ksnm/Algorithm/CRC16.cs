@@ -1,9 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
+﻿/*
+The zlib License
+
+Copyright (c) 2019 Takahiro Kasanami
+
+This software is provided 'as-is', without any express or implied
+warranty. In no event will the authors be held liable for any damages
+arising from the use of this software.
+
+Permission is granted to anyone to use this software for any purpose,
+including commercial applications, and to alter it and redistribute it
+freely, subject to the following restrictions:
+
+1. The origin of this software must not be misrepresented; you must not
+   claim that you wrote the original software. If you use this software
+   in a product, an acknowledgment in the product documentation would be
+   appreciated but is not required.
+
+2. Altered source versions must be plainly marked as such, and must not be
+   misrepresented as being the original software.
+
+3. This notice may not be removed or altered from any source distribution.
+*/
+using System;
 
 namespace Ksnm.Algorithm
 {
@@ -13,10 +31,11 @@ namespace Ksnm.Algorithm
     public class CRC16
     {
         ushort[] table = new ushort[256];
+        const CRC16Polynomial DefaultPolynomial = CRC16Polynomial.IBM_Reversed;
         /// <summary>
         /// 多項式
         /// </summary>
-        public ushort Polynomial { get; private set; } = 0xA001;
+        public CRC16Polynomial Polynomial { get; private set; } = DefaultPolynomial;
         /// <summary>
         /// 初期値
         /// </summary>
@@ -56,7 +75,7 @@ namespace Ksnm.Algorithm
         /// <param name="polynomial">多項式</param>
         /// <param name="initialValue">初期値</param>
         /// <param name="finalXor">最終XOR</param>
-        public CRC16(ushort polynomial = 0xA001, ushort initialValue = 0, ushort finalXor = 0)
+        public CRC16(CRC16Polynomial polynomial = DefaultPolynomial, ushort initialValue = 0, ushort finalXor = 0)
         {
             Polynomial = polynomial;
             InitialValue = initialValue;
@@ -72,7 +91,7 @@ namespace Ksnm.Algorithm
                 {
                     if (((value ^ temp) & 0x0001) != 0)
                     {
-                        value = (ushort)((value >> 1) ^ polynomial);
+                        value = (ushort)((value >> 1) ^ (ushort)polynomial);
                     }
                     else
                     {
