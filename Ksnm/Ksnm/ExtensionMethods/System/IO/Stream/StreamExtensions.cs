@@ -36,7 +36,7 @@ namespace Ksnm.ExtensionMethods.System.IO.Stream
         /// </summary>
         /// <returns>読み取った値</returns>
         /// <exception cref="System.IO.EndOfStreamException">Readの戻り値が読み込む型のサイズと異なる。</exception>
-        public static SByte ReadSByte(this Original.Stream self)
+        public static SByte ReadInt8(this Original.Stream self)
         {
             var buffer = new byte[sizeof(SByte)];
             var readSize = self.Read(buffer, 0, buffer.Length);
@@ -45,6 +45,21 @@ namespace Ksnm.ExtensionMethods.System.IO.Stream
                 throw new Original.EndOfStreamException($"readSize = {readSize}");
             }
             return (SByte)buffer[0];
+        }
+        /// <summary>
+        /// 現在のストリームから値を読み取る。
+        /// </summary>
+        /// <returns>読み取った値</returns>
+        /// <exception cref="System.IO.EndOfStreamException">Readの戻り値が読み込む型のサイズと異なる。</exception>
+        public static Byte ReadUInt8(this Original.Stream self)
+        {
+            var buffer = new byte[sizeof(Byte)];
+            var readSize = self.Read(buffer, 0, buffer.Length);
+            if (readSize != buffer.Length)
+            {
+                throw new Original.EndOfStreamException($"readSize = {readSize}");
+            }
+            return (Byte)buffer[0];
         }
         /// <summary>
         /// 現在のストリームから値を読み取る。

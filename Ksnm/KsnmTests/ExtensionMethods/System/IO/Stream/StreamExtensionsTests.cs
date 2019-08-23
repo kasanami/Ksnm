@@ -10,12 +10,22 @@ namespace Ksnm.ExtensionMethods.System.IO.Stream.Tests
         byte[] sampleBuffer = new byte[] { 1, 2, 3, 4, 5, 6, 7, 8 };
 
         [TestMethod()]
-        public void ReadSByteTest()
+        public void ReadInt8Test()
         {
             using (var memoryStream = new MemoryStream(sampleBuffer))
             {
-                Assert.AreEqual<SByte>(1, memoryStream.ReadSByte());
-                Assert.AreEqual<SByte>(2, memoryStream.ReadSByte());
+                Assert.AreEqual<sbyte>(1, memoryStream.ReadInt8());
+                Assert.AreEqual<sbyte>(2, memoryStream.ReadInt8());
+            }
+        }
+
+        [TestMethod()]
+        public void ReadUInt8Test()
+        {
+            using (var memoryStream = new MemoryStream(sampleBuffer))
+            {
+                Assert.AreEqual<byte>(1, memoryStream.ReadUInt8());
+                Assert.AreEqual<byte>(2, memoryStream.ReadUInt8());
             }
         }
 
