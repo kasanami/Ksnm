@@ -107,5 +107,31 @@ namespace Ksnm.ExtensionMethods.System.Collections.Generic.Enumerable
             str.Append("}");
             return str.ToString();
         }
+        /// <summary>
+        /// デバッグ用文字列に変換します。
+        /// </summary>
+        public static string ToDebugString<T>(this IEnumerable<T> self, string format, global::System.IFormatProvider formatProvider, bool isMultiLine = false) where T : global::System.IFormattable
+        {
+            var str = new StringBuilder();
+            str.Append("[" + self.Count() + "]={");
+            for (int i = 0; i < self.Count(); ++i)
+            {
+                if (i != 0)
+                {
+                    str.Append(",");
+                }
+                if (isMultiLine)
+                {
+                    str.AppendLine();
+                }
+                str.Append(self.ElementAt(i).ToString(format, formatProvider));
+            }
+            if (isMultiLine)
+            {
+                str.AppendLine();
+            }
+            str.Append("}");
+            return str.ToString();
+        }
     }
 }

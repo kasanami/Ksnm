@@ -25,5 +25,15 @@ namespace Ksnm.ExtensionMethods.System.Collections.Generic.Enumerable.Tests
             var list = new List<int>(ary);
             Assert.AreEqual("[3]={1,2,3}", list.ToDebugString());
         }
+
+        [TestMethod()]
+        public void ToDebugString2Test()
+        {
+            global::System.Globalization.CultureInfo cultureInfo = new global::System.Globalization.CultureInfo("ja-JP");
+            var ary = new[] { 1, 2, 3 };
+            Assert.AreEqual("[3]={0001,0002,0003}", ary.ToDebugString("X4", cultureInfo));
+            var list = new List<int>(ary);
+            Assert.AreEqual("[3]={0001,0002,0003}", list.ToDebugString("X4", cultureInfo));
+        }
     }
 }
