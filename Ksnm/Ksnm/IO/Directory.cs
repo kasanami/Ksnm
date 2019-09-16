@@ -1,7 +1,7 @@
 ﻿/*
 The zlib License
 
-Copyright (c) 2018 Takahiro Kasanami
+Copyright (c) 2018-2019 Takahiro Kasanami
 
 This software is provided 'as-is', without any express or implied
 warranty. In no event will the authors be held liable for any damages
@@ -36,11 +36,17 @@ namespace Ksnm.IO
         /// </summary>
         /// <param name="path">作成するディレクトリの子のパス。</param>
         /// <returns>指定したパスに存在するディレクトリを表すオブジェクト。
-        /// 指定したパスにおいてディレクトリが既に存在するかどうかにかかわりなく、
-        /// このオブジェクトが返されます。</returns>
+        /// 指定したファイル名にディレクトリが含まれるなら、
+        /// ディレクトリが既に存在するかどうかにかかわりなく、
+        /// このオブジェクトが返されます。
+        /// 指定したファイル名にディレクトリが含まれるないならnullが返されます。</returns>
         public static Original.DirectoryInfo CreateParentDirectory(string path)
         {
             var directory = Original.Path.GetDirectoryName(path);
+            if (directory.IsNullOrEmpty())
+            {
+                return null;
+            }
             return Original.Directory.CreateDirectory(directory);
         }
         /// <summary>
