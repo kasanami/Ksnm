@@ -33,6 +33,21 @@ namespace Ksnm.ExtensionMethods.System.Collections.Generic.Enumerable
     public static class EnumerableExtensions
     {
         /// <summary>
+        /// シーケンスが既定の等値比較子を使用して、指定した要素を含んでいるか判定します。
+        /// </summary>
+        /// <returns>指定した要素を含んでいる場合はtrueを返す。</returns>
+        public static bool Contains<T>(this IEnumerable<T> source, IEnumerable<T> values)
+        {
+            foreach (var value in values)
+            {
+                if (source.Contains(value))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+        /// <summary>
         /// 総乗
         /// </summary>
         public static int Product(this IEnumerable<int> source)
