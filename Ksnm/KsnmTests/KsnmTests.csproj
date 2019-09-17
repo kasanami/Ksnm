@@ -83,7 +83,7 @@
     <Compile Include="Randoms\Sample.cs" />
     <Compile Include="Randoms\SampleTests.cs" />
     <Compile Include="Randoms\Xorshift128Tests.cs" />
-    <Compile Include="Utilities\CSVLoggerTests.cs" />
+    <Compile Include="Utilities\CsvLoggerTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

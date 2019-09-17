@@ -9,13 +9,13 @@ using System.Threading.Tasks;
 namespace Ksnm.Utilities.Tests
 {
     [TestClass()]
-    public class CSVLoggerTests
+    public class CsvLoggerTests
     {
         [TestMethod()]
         public void AppendLineTest()
         {
             var filePath = "hoge.csv";
-            var csvLogger = new CSVLogger(filePath);
+            var csvLogger = new CsvLogger(filePath);
             csvLogger.AppendLine("A", "B", "C");
             csvLogger.AppendLine("1", "2", "3");
             csvLogger.AppendLine(",", "\"", "\n");

@@ -8,7 +8,7 @@ namespace Ksnm.Utilities
     /// <summary>
     /// CSV形式でログを作成するロガー
     /// </summary>
-    public class CSVLogger
+    public class CsvLogger
     {
         /// <summary>
         /// CSVファイルのパス
@@ -22,7 +22,7 @@ namespace Ksnm.Utilities
         /// CSVファイルのパスを指定して初期化
         /// </summary>
         /// <param name="filePath">CSVファイルのパス</param>
-        public CSVLogger(string filePath) : this(filePath, Encoding.UTF8)
+        public CsvLogger(string filePath) : this(filePath, Encoding.UTF8)
         {
         }
         /// <summary>
@@ -30,7 +30,7 @@ namespace Ksnm.Utilities
         /// </summary>
         /// <param name="filePath">CSVファイルのパス</param>
         /// <param name="encoding">エンコーディング</param>
-        public CSVLogger(string filePath, Encoding encoding)
+        public CsvLogger(string filePath, Encoding encoding)
         {
             this.filePath = filePath;
             this.encoding = encoding;
