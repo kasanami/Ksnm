@@ -36,11 +36,11 @@ namespace Ksnm.Utilities
         /// <summary>
         /// CSVファイルのパス
         /// </summary>
-        string filePath = null;
+        public string FilePath { get; private set; } = null;
         /// <summary>
         /// CSVファイルのエンコーディング
         /// </summary>
-        Encoding encoding = Encoding.UTF8;
+        public Encoding Encoding { get; private set; } = Encoding.UTF8;
         /// <summary>
         /// CSVファイルのパスを指定して初期化
         /// </summary>
@@ -55,8 +55,8 @@ namespace Ksnm.Utilities
         /// <param name="encoding">CSVファイルのエンコーディング</param>
         public CsvLogger(string filePath, Encoding encoding)
         {
-            this.filePath = filePath;
-            this.encoding = encoding;
+            FilePath = filePath;
+            Encoding = encoding;
             Directory.CreateParentDirectory(filePath);
         }
         /// <summary>
@@ -65,7 +65,7 @@ namespace Ksnm.Utilities
         /// <param name="values">追加する値</param>
         public void AppendLine(params string[] values)
         {
-            AppendLine(filePath, encoding, values);
+            AppendLine(FilePath, Encoding, values);
         }
         /// <summary>
         /// ファイルにCSV形式の一行を追加します。
