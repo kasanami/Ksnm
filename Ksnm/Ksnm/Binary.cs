@@ -664,7 +664,7 @@ namespace Ksnm
         /// 左ローテート
         /// </summary>
         /// <param name="bits">操作する値</param>
-        /// <param name="r">シフトするビット数</param>
+        /// <param name="shift">シフトするビット数</param>
         /// <returns>ローテートした値</returns>
         public static uint RotateLeft(uint bits, int shift)
         {
@@ -674,7 +674,7 @@ namespace Ksnm
         /// 左ローテート
         /// </summary>
         /// <param name="bits">操作する値</param>
-        /// <param name="r">シフトするビット数</param>
+        /// <param name="shift">シフトするビット数</param>
         /// <returns>ローテートした値</returns>
         public static ulong RotateLeft(ulong bits, int shift)
         {
@@ -684,7 +684,7 @@ namespace Ksnm
         /// 右ローテート
         /// </summary>
         /// <param name="bits">操作する値</param>
-        /// <param name="r">シフトするビット数</param>
+        /// <param name="shift">シフトするビット数</param>
         /// <returns>ローテートした値</returns>
         public static uint RotateRight(uint bits, int shift)
         {
@@ -694,7 +694,7 @@ namespace Ksnm
         /// 右ローテート
         /// </summary>
         /// <param name="bits">操作する値</param>
-        /// <param name="r">シフトするビット数</param>
+        /// <param name="shift">シフトするビット数</param>
         /// <returns>ローテートした値</returns>
         public static ulong RotateRight(ulong bits, int shift)
         {

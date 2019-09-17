@@ -35,6 +35,9 @@ namespace Ksnm.Randoms
     /// </summary>
     public class Xorshift128 : RandomBase
     {
+        /// <summary>
+        /// 内部パラメータ
+        /// </summary>
         public uint w, x, y, z;
 
         /// <summary>
