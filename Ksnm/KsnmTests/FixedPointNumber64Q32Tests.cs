@@ -9,6 +9,27 @@ namespace Ksnm.Tests
     {
         const float LoopIncrement = 1.0f / 8;
         [TestMethod()]
+        public void ConstantTest()
+        {
+            var zero = (Fixed)0;
+            var one = (Fixed)1;
+            var two = (Fixed)2;
+            var minusTwo = (Fixed)(-2);
+            Assert.AreEqual(one, one + Fixed.Zero);
+            Assert.AreEqual(two, one + Fixed.One);
+            Assert.AreEqual(zero, one + Fixed.MinusOne);
+            Assert.AreEqual(one, Fixed.MinusOne * Fixed.MinusOne);
+            Assert.AreEqual(minusTwo, Fixed.MinusOne + Fixed.MinusOne);
+            Assert.IsFalse(one == one + Fixed.Epsilon);
+            Assert.IsFalse(one == one - Fixed.Epsilon);
+
+            var value = Fixed.One;
+            value += Fixed.One;
+            Assert.AreEqual(two, value);
+            value *= Fixed.MinusOne;
+            Assert.AreEqual(minusTwo, value);
+        }
+        [TestMethod()]
         public void ConstructorTest()
         {
             var value = new Fixed();
