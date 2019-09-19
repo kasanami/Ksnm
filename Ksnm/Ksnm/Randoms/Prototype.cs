@@ -28,6 +28,9 @@ namespace Ksnm.Randoms
     /// </summary>
     public class Prototype : RandomBase
     {
+        /// <summary>
+        /// 次の乱数へのシード値
+        /// </summary>
         public ulong seed;
         /// <summary>
         /// 乗数

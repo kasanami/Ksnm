@@ -41,10 +41,29 @@ namespace Ksnm
         /// 小数部分のビット数
         /// </summary>
         public const int QBits = 16;
+        /// <summary>
+        /// 数値 0 を表します。
+        /// </summary>
         public readonly static FixedPointNumber32Q16 Zero = new FixedPointNumber32Q16() { integer = 0 };
+        /// <summary>
+        /// 数値 1 を表します。
+        /// </summary>
         public readonly static FixedPointNumber32Q16 One = new FixedPointNumber32Q16() { integer = 1 };
+        /// <summary>
+        /// 負の 1 (-1) を表します。
+        /// </summary>
+        public readonly static FixedPointNumber32Q16 MinusOne = new FixedPointNumber32Q16() { integer = -1 };
+        /// <summary>
+        /// 最小有効値を表します。
+        /// </summary>
         public readonly static FixedPointNumber32Q16 MinValue = new FixedPointNumber32Q16() { bits = BitsType.MinValue };
+        /// <summary>
+        /// 最大有効値を表します。
+        /// </summary>
         public readonly static FixedPointNumber32Q16 MaxValue = new FixedPointNumber32Q16() { bits = BitsType.MaxValue };
+        /// <summary>
+        /// ゼロより大きい最小の値を表します。
+        /// </summary>
         public readonly static FixedPointNumber32Q16 Epsilon = new FixedPointNumber32Q16() { bits = 1 };
         /// <summary>
         /// 1を表すビット
@@ -522,6 +541,10 @@ namespace Ksnm
         #endregion IEquatable
 
         #region object
+        /// <summary>
+        /// 指定したオブジェクトが、現在のオブジェクトと等しいかどうかを判断します。
+        /// </summary>
+        /// <returns>指定したオブジェクトが現在のオブジェクトと等しい場合は true。それ以外の場合は false。</returns>
         public override bool Equals(object obj)
         {
             if (obj == null)
@@ -534,10 +557,16 @@ namespace Ksnm
             }
             return false;
         }
+        /// <summary>
+        /// このインスタンスのハッシュ コードを返します。
+        /// </summary>
         public override int GetHashCode()
         {
             return bits.GetHashCode();
         }
+        /// <summary>
+        /// このインスタンスの数値を、それと等価な文字列形式に変換します。
+        /// </summary>
         public override string ToString()
         {
             decimal temp = bits;
