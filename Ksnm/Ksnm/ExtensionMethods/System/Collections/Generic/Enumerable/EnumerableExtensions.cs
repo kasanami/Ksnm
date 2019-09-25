@@ -97,6 +97,17 @@ namespace Ksnm.ExtensionMethods.System.Collections.Generic.Enumerable
             return source.Aggregate((product, item) => product * item);
         }
         /// <summary>
+        /// コレクションのメンバーを連結します。各メンバーの間には、指定した区切り記号が挿入されます。
+        /// </summary>
+        /// <typeparam name="T">values のメンバーの型。</typeparam>
+        /// <param name="values">連結するオブジェクトを格納しているコレクション。</param>
+        /// <param name="separator">区切り文字として使用する文字列。戻される文字列に separator が含まれるのは、values に複数の要素がある場合のみです。</param>
+        /// <returns>values のメンバーからなる、separator 文字列で区切られた文字列。 values にメンバーがない場合、メソッドは System.String.Emptyを返します。</returns>
+        public static string ToJoinString<T>(this IEnumerable<T> values, string separator)
+        {
+            return string.Join<T>(separator, values);
+        }
+        /// <summary>
         /// デバッグ用文字列に変換します。
         /// </summary>
         public static string ToDebugString<T>(this IEnumerable<T> self, bool isMultiLine = false)

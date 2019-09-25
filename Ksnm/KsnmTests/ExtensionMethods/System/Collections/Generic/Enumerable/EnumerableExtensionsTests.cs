@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Ksnm.ExtensionMethods.System.Collections.Generic.Enumerable;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 
 namespace Ksnm.ExtensionMethods.System.Collections.Generic.Enumerable.Tests
@@ -34,6 +35,15 @@ namespace Ksnm.ExtensionMethods.System.Collections.Generic.Enumerable.Tests
             Assert.AreEqual("[3]={0001,0002,0003}", ary.ToDebugString("X4", cultureInfo));
             var list = new List<int>(ary);
             Assert.AreEqual("[3]={0001,0002,0003}", list.ToDebugString("X4", cultureInfo));
+        }
+
+        [TestMethod()]
+        public void ToJoinStringTest()
+        {
+            var ary = new[] { 1, 2, 3 };
+            Assert.AreEqual("1,2,3", ary.ToJoinString(","));
+            var list = new List<int>(ary);
+            Assert.AreEqual("1,2,3", list.ToJoinString(","));
         }
     }
 }
