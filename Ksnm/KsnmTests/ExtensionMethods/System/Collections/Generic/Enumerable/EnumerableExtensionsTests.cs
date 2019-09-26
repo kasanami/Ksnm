@@ -38,12 +38,35 @@ namespace Ksnm.ExtensionMethods.System.Collections.Generic.Enumerable.Tests
         }
 
         [TestMethod()]
-        public void ToJoinStringTest()
+        public void ToJoinedStringTest()
         {
-            var ary = new[] { 1, 2, 3 };
-            Assert.AreEqual("1,2,3", ary.ToJoinString(","));
+            var ary = new int[] { };
+            Assert.AreEqual("", ary.ToJoinedString(","));
+            ary = new int[] { 1 };
+            Assert.AreEqual("1", ary.ToJoinedString(","));
+            ary = new[] { 1, 2 };
+            Assert.AreEqual("1,2", ary.ToJoinedString(","));
+            ary = new[] { 1, 2, 3 };
+            Assert.AreEqual("1,2,3", ary.ToJoinedString(","));
+
             var list = new List<int>(ary);
-            Assert.AreEqual("1,2,3", list.ToJoinString(","));
+            Assert.AreEqual("1,2,3", list.ToJoinedString(","));
+        }
+
+        [TestMethod()]
+        public void ToJoinedStringTest2()
+        {
+            var ary = new int[] { };
+            Assert.AreEqual("", ary.ToJoinedString(",", "X2"));
+            ary = new int[] { 0x12 };
+            Assert.AreEqual("12", ary.ToJoinedString(",", "X2"));
+            ary = new int[] { 0x12, 0x34 };
+            Assert.AreEqual("12,34", ary.ToJoinedString(",", "X2"));
+            ary = new[] { 1, 2, 3 };
+            Assert.AreEqual("01,02,03", ary.ToJoinedString(",", "X2"));
+
+            var list = new List<int>(ary);
+            Assert.AreEqual("01,02,03", list.ToJoinedString(",", "X2"));
         }
     }
 }

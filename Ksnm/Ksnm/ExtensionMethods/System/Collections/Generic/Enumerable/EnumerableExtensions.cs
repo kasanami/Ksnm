@@ -21,6 +21,7 @@ freely, subject to the following restrictions:
 
 3. This notice may not be removed or altered from any source distribution.
 */
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -103,9 +104,22 @@ namespace Ksnm.ExtensionMethods.System.Collections.Generic.Enumerable
         /// <param name="values">連結するオブジェクトを格納しているコレクション。</param>
         /// <param name="separator">区切り文字として使用する文字列。戻される文字列に separator が含まれるのは、values に複数の要素がある場合のみです。</param>
         /// <returns>values のメンバーからなる、separator 文字列で区切られた文字列。 values にメンバーがない場合、メソッドは System.String.Emptyを返します。</returns>
-        public static string ToJoinString<T>(this IEnumerable<T> values, string separator)
+        public static string ToJoinedString<T>(this IEnumerable<T> values, string separator)
         {
             return string.Join<T>(separator, values);
+        }
+        /// <summary>
+        /// コレクションのメンバーを連結します。各メンバーの間には、指定した区切り記号が挿入されます。
+        /// </summary>
+        /// <typeparam name="T">values のメンバーの型。</typeparam>
+        /// <param name="values">連結するオブジェクトを格納しているコレクション。</param>
+        /// <param name="separator">区切り文字として使用する文字列。戻される文字列に separator が含まれるのは、values に複数の要素がある場合のみです。</param>
+        /// <param name="format">使用する書式。</param>
+        /// <param name="formatProvider">値を書式設定するために使用するプロバイダー。</param>
+        /// <returns>values のメンバーからなる、separator 文字列で区切られた文字列。 values にメンバーがない場合、メソッドは System.String.Emptyを返します。</returns>
+        public static string ToJoinedString<T>(this IEnumerable<T> values, string separator, string format, IFormatProvider formatProvider = null) where T : IFormattable
+        {
+            return values.Select(item => item.ToString(format, formatProvider)).ToJoinedString(separator);
         }
         /// <summary>
         /// デバッグ用文字列に変換します。
