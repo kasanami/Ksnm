@@ -21,6 +21,7 @@ freely, subject to the following restrictions:
 
 3. This notice may not be removed or altered from any source distribution.
 */
+using System;
 using System.Runtime.CompilerServices;
 
 namespace Ksnm
@@ -31,11 +32,27 @@ namespace Ksnm
     public class Debug
     {
         /// <summary>
-        /// この関数んお呼び出し元の、ファイルパスと行番号を文字列形式で取得する。
+        /// この関数を呼び出し元の、ファイルパスと行番号とメンバー名を、Consoleに出力する。
+        /// </summary>
+        public static void WriteLineCallerInfo([CallerMemberName] string memberName = "", [CallerFilePath] string filePath = "", [CallerLineNumber] int lineNumber = -1)
+        {
+            Console.WriteLine($"{memberName} {filePath} {lineNumber}");
+        }
+        /// <summary>
+        /// この関数を呼び出し元の、ファイルパスと行番号を文字列形式で取得する。
         /// </summary>
         public static string GetFilePathAndLineNumber([CallerFilePath] string filePath = "", [CallerLineNumber] int lineNumber = -1)
         {
             return $"{filePath} {lineNumber}";
+        }
+        /// <summary>
+        /// この関数を呼び出し元の、メソッドなどのメンバー名を文字列形式で取得する。
+        /// </summary>
+        /// <param name="memberName"></param>
+        /// <returns></returns>
+        public static string GetMemberName([CallerMemberName] string memberName = "")
+        {
+            return memberName;
         }
     }
 }
