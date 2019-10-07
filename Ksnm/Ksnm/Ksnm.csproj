@@ -49,8 +49,8 @@
     <Compile Include="Algorithm\CRC16.cs" />
     <Compile Include="Algorithm\CRC16Polynomial.cs" />
     <Compile Include="ExtensionMethods\System\IO\Stream\StreamExtensions.cs" />
-    <Compile Include="FixedPointNumber32Q16.cs" />
-    <Compile Include="FixedPointNumber64Q32.cs" />
+    <Compile Include="Numerics\FixedPointNumber32Q16.cs" />
+    <Compile Include="Numerics\FixedPointNumber64Q32.cs" />
     <Compile Include="Utilities\CsvLogger.cs" />
     <Compile Include="Mathematics\Algorithm.cs" />
     <Compile Include="Binary.cs" />
@@ -94,7 +94,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="ExtensionMethods\System\Windows\Forms\" />
-    <Folder Include="Numerics\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="LitJson\COPYING" />

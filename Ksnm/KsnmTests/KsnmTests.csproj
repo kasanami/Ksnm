@@ -69,8 +69,8 @@
     <Compile Include="ExtensionMethods\System\IO\Stream\StreamExtensionsTests.cs" />
     <Compile Include="ExtensionMethods\System\Random\RandomExtensionsTests.cs" />
     <Compile Include="ExtensionMethods\System\String\StringExtensionsTests.cs" />
-    <Compile Include="FixedPointNumber64Q32Tests.cs" />
-    <Compile Include="FixedPointNumber32Q16Tests.cs" />
+    <Compile Include="Numerics\FixedPointNumber64Q32Tests.cs" />
+    <Compile Include="Numerics\FixedPointNumber32Q16Tests.cs" />
     <Compile Include="IO\PathTests.cs" />
     <Compile Include="LitJson\JsonMapperTests.cs" />
     <Compile Include="Mathematics\AlgorithmTests.cs" />
@@ -94,9 +94,7 @@
       <Name>Ksnm</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Numerics\" />
-  </ItemGroup>
+  <ItemGroup />
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>
