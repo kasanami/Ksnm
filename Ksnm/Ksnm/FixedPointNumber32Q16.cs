@@ -310,15 +310,24 @@ namespace Ksnm
         #endregion 数学系関数
 
         #region 単項演算子
+        /// <summary>
+        /// 符号維持
+        /// </summary>
         public static FixedPointNumber32Q16 operator +(FixedPointNumber32Q16 value)
         {
             return value;
         }
+        /// <summary>
+        /// 符号反転
+        /// </summary>
         public static FixedPointNumber32Q16 operator -(FixedPointNumber32Q16 value)
         {
             value.bits = -value.bits;
             return value;
         }
+        /// <summary>
+        /// valueの補数を返す
+        /// </summary>
         public static FixedPointNumber32Q16 operator ~(FixedPointNumber32Q16 value)
         {
             value.bits = ~value.bits;
@@ -327,18 +336,27 @@ namespace Ksnm
         #endregion 単項演算子
 
         #region 二項演算子
+        /// <summary>
+        /// 加算
+        /// </summary>
         public static FixedPointNumber32Q16 operator +(FixedPointNumber32Q16 valueL, FixedPointNumber32Q16 valueR)
         {
             var temp = new FixedPointNumber32Q16();
             temp.bits = valueL.bits + valueR.bits;
             return temp;
         }
+        /// <summary>
+        /// 減算
+        /// </summary>
         public static FixedPointNumber32Q16 operator -(FixedPointNumber32Q16 valueL, FixedPointNumber32Q16 valueR)
         {
             var temp = new FixedPointNumber32Q16();
             temp.bits = valueL.bits - valueR.bits;
             return temp;
         }
+        /// <summary>
+        /// 乗算
+        /// </summary>
         public static FixedPointNumber32Q16 operator *(FixedPointNumber32Q16 valueL, FixedPointNumber32Q16 valueR)
         {
             long temp = valueL.bits;
@@ -346,6 +364,9 @@ namespace Ksnm
             temp >>= QBits;
             return new FixedPointNumber32Q16() { bits = (BitsType)temp };
         }
+        /// <summary>
+        /// 除算
+        /// </summary>
         public static FixedPointNumber32Q16 operator /(FixedPointNumber32Q16 valueL, FixedPointNumber32Q16 valueR)
         {
             long temp = valueL.bits;
@@ -353,38 +374,65 @@ namespace Ksnm
             temp /= valueR.bits;
             return new FixedPointNumber32Q16() { bits = (BitsType)temp };
         }
+        /// <summary>
+        /// 剰余演算
+        /// </summary>
         public static FixedPointNumber32Q16 operator %(FixedPointNumber32Q16 valueL, FixedPointNumber32Q16 valueR)
         {
             return new FixedPointNumber32Q16() { bits = valueL.bits % valueR.bits };
         }
+        /// <summary>
+        /// 論理積
+        /// </summary>
         public static FixedPointNumber32Q16 operator &(FixedPointNumber32Q16 valueL, FixedPointNumber32Q16 valueR)
         {
             return new FixedPointNumber32Q16() { bits = valueL.bits & valueR.bits };
         }
+        /// <summary>
+        /// 論理積
+        /// </summary>
         public static FixedPointNumber32Q16 operator &(FixedPointNumber32Q16 valueL, BitsType valueR)
         {
             return new FixedPointNumber32Q16() { bits = valueL.bits & valueR };
         }
+        /// <summary>
+        /// 論理和
+        /// </summary>
         public static FixedPointNumber32Q16 operator |(FixedPointNumber32Q16 valueL, FixedPointNumber32Q16 valueR)
         {
             return new FixedPointNumber32Q16() { bits = valueL.bits | valueR.bits };
         }
+        /// <summary>
+        /// 論理和
+        /// </summary>
         public static FixedPointNumber32Q16 operator |(FixedPointNumber32Q16 valueL, BitsType valueR)
         {
             return new FixedPointNumber32Q16() { bits = valueL.bits | valueR };
         }
+        /// <summary>
+        /// 排他的論理和
+        /// </summary>
         public static FixedPointNumber32Q16 operator ^(FixedPointNumber32Q16 valueL, FixedPointNumber32Q16 valueR)
         {
             return new FixedPointNumber32Q16() { bits = valueL.bits ^ valueR.bits };
         }
+        /// <summary>
+        /// 排他的論理和
+        /// </summary>
         public static FixedPointNumber32Q16 operator ^(FixedPointNumber32Q16 valueL, BitsType valueR)
         {
             return new FixedPointNumber32Q16() { bits = valueL.bits ^ valueR };
         }
+        /// <summary>
+        /// 左シフト
+        /// </summary>
         public static FixedPointNumber32Q16 operator <<(FixedPointNumber32Q16 value, int shift)
         {
             return new FixedPointNumber32Q16() { bits = value.bits << shift };
         }
+        /// <summary>
+        /// 右シフト
+        /// </summary>
         public static FixedPointNumber32Q16 operator >>(FixedPointNumber32Q16 value, int shift)
         {
             return new FixedPointNumber32Q16() { bits = value.bits >> shift };
@@ -392,26 +440,44 @@ namespace Ksnm
         #endregion 2項演算子
 
         #region 比較演算子
+        /// <summary>
+        /// 等しい場合は true。それ以外の場合は false。
+        /// </summary>
         public static bool operator ==(FixedPointNumber32Q16 valueL, FixedPointNumber32Q16 valueR)
         {
             return valueL.bits == valueR.bits;
         }
+        /// <summary>
+        /// 等しくない場合は true。それ以外の場合は false。
+        /// </summary>
         public static bool operator !=(FixedPointNumber32Q16 valueL, FixedPointNumber32Q16 valueR)
         {
             return valueL.bits != valueR.bits;
         }
+        /// <summary>
+        /// 大なり演算子
+        /// </summary>
         public static bool operator >(FixedPointNumber32Q16 valueL, FixedPointNumber32Q16 valueR)
         {
             return valueL.bits > valueR.bits;
         }
+        /// <summary>
+        /// 小なり演算子
+        /// </summary>
         public static bool operator <(FixedPointNumber32Q16 valueL, FixedPointNumber32Q16 valueR)
         {
             return valueL.bits < valueR.bits;
         }
+        /// <summary>
+        /// 以上演算子
+        /// </summary>
         public static bool operator >=(FixedPointNumber32Q16 valueL, FixedPointNumber32Q16 valueR)
         {
             return valueL.bits >= valueR.bits;
         }
+        /// <summary>
+        /// 以下演算子
+        /// </summary>
         public static bool operator <=(FixedPointNumber32Q16 valueL, FixedPointNumber32Q16 valueR)
         {
             return valueL.bits <= valueR.bits;
@@ -420,47 +486,80 @@ namespace Ksnm
 
         #region 型変換
         #region 他の型→固定小数点数型
+        /// <summary>
+        /// byte から 固定小数点数型 への暗黙的な変換を定義します。
+        /// </summary>
         public static implicit operator FixedPointNumber32Q16(byte value)
         {
             return new FixedPointNumber32Q16() { integer = value };
         }
+        /// <summary>
+        /// sbyte から 固定小数点数型 への暗黙的な変換を定義します。
+        /// </summary>
         public static implicit operator FixedPointNumber32Q16(sbyte value)
         {
             return new FixedPointNumber32Q16() { integer = value };
         }
+        /// <summary>
+        /// short から 固定小数点数型 への暗黙的な変換を定義します。
+        /// </summary>
         public static implicit operator FixedPointNumber32Q16(short value)
         {
             return new FixedPointNumber32Q16() { integer = value };
         }
+        /// <summary>
+        /// ushort から 固定小数点数型 への明示的な変換を定義します。
+        /// </summary>
         public static explicit operator FixedPointNumber32Q16(ushort value)
         {
             return new FixedPointNumber32Q16() { integer = (IntegerType)value };
         }
+        /// <summary>
+        /// int から 固定小数点数型 への明示的な変換を定義します。
+        /// </summary>
         public static explicit operator FixedPointNumber32Q16(int value)
         {
             return new FixedPointNumber32Q16() { integer = (IntegerType)value };
         }
+        /// <summary>
+        /// uint から 固定小数点数型 への明示的な変換を定義します。
+        /// </summary>
         public static explicit operator FixedPointNumber32Q16(uint value)
         {
             return new FixedPointNumber32Q16() { integer = (IntegerType)value };
         }
+        /// <summary>
+        /// long から 固定小数点数型 への明示的な変換を定義します。
+        /// </summary>
         public static explicit operator FixedPointNumber32Q16(long value)
         {
             return new FixedPointNumber32Q16() { integer = (IntegerType)value };
         }
+        /// <summary>
+        /// ulong から 固定小数点数型 への明示的な変換を定義します。
+        /// </summary>
         public static explicit operator FixedPointNumber32Q16(ulong value)
         {
             return new FixedPointNumber32Q16() { integer = (IntegerType)value };
         }
+        /// <summary>
+        /// float から 固定小数点数型 への明示的な変換を定義します。
+        /// </summary>
         public static explicit operator FixedPointNumber32Q16(float value)
         {
             return (FixedPointNumber32Q16)((double)value);
         }
+        /// <summary>
+        /// double から 固定小数点数型 への明示的な変換を定義します。
+        /// </summary>
         public static explicit operator FixedPointNumber32Q16(double value)
         {
             value *= OneBits;
             return new FixedPointNumber32Q16() { bits = (BitsType)value };
         }
+        /// <summary>
+        /// decimal から 固定小数点数型 への明示的な変換を定義します。
+        /// </summary>
         public static explicit operator FixedPointNumber32Q16(decimal value)
         {
             value *= OneBits;
@@ -468,50 +567,83 @@ namespace Ksnm
         }
         #endregion 他の型→固定小数点数型
         #region 固定小数点数型→他の型
+        /// <summary>
+        /// 固定小数点数型 から byte への明示的な変換を定義します。
+        /// </summary>
         public static explicit operator byte(FixedPointNumber32Q16 value)
         {
             return (byte)Truncate(value).integer;
         }
+        /// <summary>
+        /// 固定小数点数型 から sbyte への明示的な変換を定義します。
+        /// </summary>
         public static explicit operator sbyte(FixedPointNumber32Q16 value)
         {
             return (sbyte)Truncate(value).integer;
         }
+        /// <summary>
+        /// 固定小数点数型 から short への明示的な変換を定義します。
+        /// </summary>
         public static explicit operator short(FixedPointNumber32Q16 value)
         {
             return Truncate(value).integer;
         }
+        /// <summary>
+        /// 固定小数点数型 から ushort への明示的な変換を定義します。
+        /// </summary>
         public static explicit operator ushort(FixedPointNumber32Q16 value)
         {
             return (ushort)Truncate(value).integer;
         }
+        /// <summary>
+        /// 固定小数点数型 から int への明示的な変換を定義します。
+        /// </summary>
         public static explicit operator int(FixedPointNumber32Q16 value)
         {
             return Truncate(value).integer;
         }
+        /// <summary>
+        /// 固定小数点数型 から uint への明示的な変換を定義します。
+        /// </summary>
         public static explicit operator uint(FixedPointNumber32Q16 value)
         {
             return (uint)Truncate(value).integer;
         }
+        /// <summary>
+        /// 固定小数点数型 から long への明示的な変換を定義します。
+        /// </summary>
         public static explicit operator long(FixedPointNumber32Q16 value)
         {
             return Truncate(value).integer;
         }
+        /// <summary>
+        /// 固定小数点数型 から ulong への明示的な変換を定義します。
+        /// </summary>
         public static explicit operator ulong(FixedPointNumber32Q16 value)
         {
             return (ulong)Truncate(value).integer;
         }
+        /// <summary>
+        /// 固定小数点数型 から float への明示的な変換を定義します。
+        /// </summary>
         public static explicit operator float(FixedPointNumber32Q16 value)
         {
             double temp = value.bits;
             temp /= OneBits;
             return (float)temp;
         }
+        /// <summary>
+        /// 固定小数点数型 から double への暗黙的な変換を定義します。
+        /// </summary>
         public static implicit operator double(FixedPointNumber32Q16 value)
         {
             double temp = value.bits;
             temp /= OneBits;
             return temp;
         }
+        /// <summary>
+        /// 固定小数点数型 から double への暗黙的な変換を定義します。
+        /// </summary>
         public static implicit operator decimal(FixedPointNumber32Q16 value)
         {
             decimal temp = value.bits;
@@ -522,11 +654,20 @@ namespace Ksnm
         #endregion 型変換
 
         #region IComparable
+        /// <summary>
+        /// 比較し、これらの相対値を示す値を返します。
+        /// </summary>
+        /// <param name="obj">比較するオブジェクト</param>
+        /// <returns>0の場合等価です。0 より大きい値の場合 obj よりも大きいです。0 より小さい値の場合 obj よりも小さいです。</returns>
         public int CompareTo(object obj)
         {
             return CompareTo((FixedPointNumber32Q16)obj);
         }
-
+        /// <summary>
+        /// 比較し、これらの相対値を示す値を返します。
+        /// </summary>
+        /// <param name="other">比較対象の固定小数点数</param>
+        /// <returns>0の場合等価です。0 より大きい値の場合 obj よりも大きいです。0 より小さい値の場合 obj よりも小さいです。</returns>
         public int CompareTo(FixedPointNumber32Q16 other)
         {
             return this.bits.CompareTo(other.bits);
@@ -534,6 +675,9 @@ namespace Ksnm
         #endregion IComparable
 
         #region IEquatable
+        /// <summary>
+        /// 指定したオブジェクトが、現在のオブジェクトと等しいかどうかを判断します。
+        /// </summary>
         public bool Equals(FixedPointNumber32Q16 other)
         {
             return bits == other.bits;
