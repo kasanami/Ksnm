@@ -66,6 +66,8 @@ namespace Ksnm.Randoms
         /// 指定したシード値を使用して 新しいインスタンスを初期化します。
         /// </summary>
         /// <param name="seed">擬似乱数系列の開始値を計算するために使用する数値。</param>
+        /// <param name="multiplier">乗数</param>
+        /// <param name="increment">増分</param>
         public LinearCongruentialGenerator(ulong seed, ulong multiplier, ulong increment)
         {
             this.current = seed;

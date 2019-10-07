@@ -35,10 +35,10 @@ namespace Ksnm.Mathematics
         /// </summary>
         /// <param name="count">計算回数</param>
         /// <returns>PI/4(円周率の4分の1)</returns>
-        public static double Leibniz(int cout)
+        public static double Leibniz(int count)
         {
             double sum = 0.0;
-            for (var i = 0; i < cout; i++)
+            for (var i = 0; i < count; i++)
             {
                 if (IsEven(i))
                 {

@@ -66,6 +66,8 @@ namespace Ksnm.Randoms
         /// 指定したシード値を使用して 新しいインスタンスを初期化します。
         /// </summary>
         /// <param name="seed">擬似乱数系列の開始値を計算するために使用する数値。</param>
+        /// <param name="multiplier">乗数</param>
+        /// <param name="addend">加数</param>
         public Prototype(ulong seed, ulong multiplier, ulong addend)
         {
             this.seed = seed;
