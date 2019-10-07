@@ -48,7 +48,7 @@ namespace Ksnm.Numerics
         /// <summary>
         /// 比較し、これらの相対値を示す値を返します。
         /// </summary>
-        /// <param name="other">比較対象の固定小数点数</param>
+        /// <param name="other">比較対象</param>
         /// <returns>0の場合等価です。0 より大きい値の場合 obj よりも大きいです。0 より小さい値の場合 obj よりも小さいです。</returns>
         public int CompareTo(Fraction32 other)
         {
