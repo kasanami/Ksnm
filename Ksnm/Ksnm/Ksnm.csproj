@@ -94,6 +94,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="ExtensionMethods\System\Windows\Forms\" />
+    <Folder Include="Numerics\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="LitJson\COPYING" />
