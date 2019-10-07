@@ -115,7 +115,7 @@ namespace Ksnm
         /// 指定した整数で初期化
         /// </summary>
         /// <param name="integer">整数部</param>
-        public FixedPointNumber(IntegerType integer)
+        public FixedPointNumber32Q16(IntegerType integer)
         {
             bits = 0;
             this.integer = integer;
@@ -127,7 +127,7 @@ namespace Ksnm
         /// </summary>
         /// <param name="integer">整数部</param>
         /// <param name="fractional">小数部</param>
-        public FixedPointNumber(IntegerType integer, FractionalType fractional)
+        public FixedPointNumber32Q16(IntegerType integer, FractionalType fractional)
         {
             bits = 0;
             this.integer = integer;
