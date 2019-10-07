@@ -1,6 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Ksnm.Tests
+namespace Ksnm.Numerics.Tests
 {
     using Fixed = FixedPointNumber64Q32;
 

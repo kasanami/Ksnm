@@ -27,7 +27,7 @@ using BitsType = System.Int64;// 固定小数点数 全体のビットを表す�
 using IntegerType = System.Int32;// 固定小数点数 整数部分のビットを表す型
 using FractionalType = System.UInt32;// 固定小数点数 小数部分のビットを表す型
 
-namespace Ksnm
+namespace Ksnm.Numerics
 {
     // 精度の異なる固定小数点数型でコードを再利用するためのエイリアスを定義
     using FixedPointNumber = FixedPointNumber64Q32;
@@ -73,7 +73,7 @@ namespace Ksnm
         /// <summary>
         /// 0.5を表すビット
         /// </summary>
-        const BitsType HalfBits = 1L << (QBits - 1);
+        const BitsType HalfBits = 1L << QBits - 1;
         #endregion 定数
 
         #region フィールド
@@ -197,7 +197,7 @@ namespace Ksnm
         /// </summary>
         /// <param name="value">丸める値</param>
         /// <returns>値に最も近い整数。2 つの整数の中間にある場合は偶数が返されます。</returns>
-        /// <exception cref="System.OverflowException">結果が範囲外</exception>
+        /// <exception cref="OverflowException">結果が範囲外</exception>
         public static FixedPointNumber Round(FixedPointNumber value)
         {
             // 整数ではないときに処理
@@ -483,7 +483,7 @@ namespace Ksnm
         /// </summary>
         public static explicit operator FixedPointNumber(float value)
         {
-            return (FixedPointNumber)((double)value);
+            return (FixedPointNumber)(double)value;
         }
         /// <summary>
         /// double から 固定小数点数型 への明示的な変換を定義します。
@@ -606,7 +606,7 @@ namespace Ksnm
         /// <returns>0の場合等価です。0 より大きい値の場合 obj よりも大きいです。0 より小さい値の場合 obj よりも小さいです。</returns>
         public int CompareTo(FixedPointNumber other)
         {
-            return this.bits.CompareTo(other.bits);
+            return bits.CompareTo(other.bits);
         }
         #endregion IComparable
 
