@@ -197,7 +197,7 @@ namespace Ksnm
         /// </summary>
         /// <param name="value">丸める値</param>
         /// <returns>値に最も近い整数。2 つの整数の中間にある場合は偶数が返されます。</returns>
-        /// <exception cref="OverflowException">結果が範囲外</exception>
+        /// <exception cref="System.OverflowException">結果が範囲外</exception>
         public static FixedPointNumber Round(FixedPointNumber value)
         {
             // 整数ではないときに処理
@@ -246,15 +246,24 @@ namespace Ksnm
         #endregion 数学系関数
 
         #region 単項演算子
+        /// <summary>
+        /// 符号維持
+        /// </summary>
         public static FixedPointNumber operator +(FixedPointNumber value)
         {
             return value;
         }
+        /// <summary>
+        /// 符号反転
+        /// </summary>
         public static FixedPointNumber operator -(FixedPointNumber value)
         {
             value.bits = -value.bits;
             return value;
         }
+        /// <summary>
+        /// valueの補数を返す
+        /// </summary>
         public static FixedPointNumber operator ~(FixedPointNumber value)
         {
             value.bits = ~value.bits;
@@ -263,18 +272,27 @@ namespace Ksnm
         #endregion 単項演算子
 
         #region 二項演算子
+        /// <summary>
+        /// 加算
+        /// </summary>
         public static FixedPointNumber operator +(FixedPointNumber valueL, FixedPointNumber valueR)
         {
             var temp = new FixedPointNumber();
             temp.bits = valueL.bits + valueR.bits;
             return temp;
         }
+        /// <summary>
+        /// 減算
+        /// </summary>
         public static FixedPointNumber operator -(FixedPointNumber valueL, FixedPointNumber valueR)
         {
             var temp = new FixedPointNumber();
             temp.bits = valueL.bits - valueR.bits;
             return temp;
         }
+        /// <summary>
+        /// 乗算
+        /// </summary>
         public static FixedPointNumber operator *(FixedPointNumber valueL, FixedPointNumber valueR)
         {
             decimal temp = valueL.bits;
@@ -282,6 +300,9 @@ namespace Ksnm
             temp /= OneBits;
             return new FixedPointNumber() { bits = (BitsType)temp };
         }
+        /// <summary>
+        /// 除算
+        /// </summary>
         public static FixedPointNumber operator /(FixedPointNumber valueL, FixedPointNumber valueR)
         {
             decimal temp = valueL.bits;
@@ -289,38 +310,65 @@ namespace Ksnm
             temp /= valueR.bits;
             return new FixedPointNumber() { bits = (BitsType)temp };
         }
+        /// <summary>
+        /// 剰余演算
+        /// </summary>
         public static FixedPointNumber operator %(FixedPointNumber valueL, FixedPointNumber valueR)
         {
             return new FixedPointNumber() { bits = valueL.bits % valueR.bits };
         }
+        /// <summary>
+        /// 論理積
+        /// </summary>
         public static FixedPointNumber operator &(FixedPointNumber valueL, FixedPointNumber valueR)
         {
             return new FixedPointNumber() { bits = valueL.bits & valueR.bits };
         }
+        /// <summary>
+        /// 論理積
+        /// </summary>
         public static FixedPointNumber operator &(FixedPointNumber valueL, BitsType valueR)
         {
             return new FixedPointNumber() { bits = valueL.bits & valueR };
         }
+        /// <summary>
+        /// 論理和
+        /// </summary>
         public static FixedPointNumber operator |(FixedPointNumber valueL, FixedPointNumber valueR)
         {
             return new FixedPointNumber() { bits = valueL.bits | valueR.bits };
         }
+        /// <summary>
+        /// 論理和
+        /// </summary>
         public static FixedPointNumber operator |(FixedPointNumber valueL, BitsType valueR)
         {
             return new FixedPointNumber() { bits = valueL.bits | valueR };
         }
+        /// <summary>
+        /// 排他的論理和
+        /// </summary>
         public static FixedPointNumber operator ^(FixedPointNumber valueL, FixedPointNumber valueR)
         {
             return new FixedPointNumber() { bits = valueL.bits ^ valueR.bits };
         }
+        /// <summary>
+        /// 排他的論理和
+        /// </summary>
         public static FixedPointNumber operator ^(FixedPointNumber valueL, BitsType valueR)
         {
             return new FixedPointNumber() { bits = valueL.bits ^ valueR };
         }
+        /// <summary>
+        /// 左シフト
+        /// </summary>
         public static FixedPointNumber operator <<(FixedPointNumber value, int shift)
         {
             return new FixedPointNumber() { bits = value.bits << shift };
         }
+        /// <summary>
+        /// 右シフト
+        /// </summary>
         public static FixedPointNumber operator >>(FixedPointNumber value, int shift)
         {
             return new FixedPointNumber() { bits = value.bits >> shift };
@@ -328,26 +376,44 @@ namespace Ksnm
         #endregion 2項演算子
 
         #region 比較演算子
+        /// <summary>
+        /// 等しい場合は true。それ以外の場合は false。
+        /// </summary>
         public static bool operator ==(FixedPointNumber valueL, FixedPointNumber valueR)
         {
             return valueL.bits == valueR.bits;
         }
+        /// <summary>
+        /// 等しくない場合は true。それ以外の場合は false。
+        /// </summary>
         public static bool operator !=(FixedPointNumber valueL, FixedPointNumber valueR)
         {
             return valueL.bits != valueR.bits;
         }
+        /// <summary>
+        /// 大なり演算子
+        /// </summary>
         public static bool operator >(FixedPointNumber valueL, FixedPointNumber valueR)
         {
             return valueL.bits > valueR.bits;
         }
+        /// <summary>
+        /// 小なり演算子
+        /// </summary>
         public static bool operator <(FixedPointNumber valueL, FixedPointNumber valueR)
         {
             return valueL.bits < valueR.bits;
         }
+        /// <summary>
+        /// 以上演算子
+        /// </summary>
         public static bool operator >=(FixedPointNumber valueL, FixedPointNumber valueR)
         {
             return valueL.bits >= valueR.bits;
         }
+        /// <summary>
+        /// 以下演算子
+        /// </summary>
         public static bool operator <=(FixedPointNumber valueL, FixedPointNumber valueR)
         {
             return valueL.bits <= valueR.bits;
@@ -356,47 +422,80 @@ namespace Ksnm
 
         #region 型変換
         #region 他の型→固定小数点数型
+        /// <summary>
+        /// byte から 固定小数点数型 への暗黙的な変換を定義します。
+        /// </summary>
         public static implicit operator FixedPointNumber(byte value)
         {
             return new FixedPointNumber() { integer = value };
         }
+        /// <summary>
+        /// sbyte から 固定小数点数型 への暗黙的な変換を定義します。
+        /// </summary>
         public static implicit operator FixedPointNumber(sbyte value)
         {
             return new FixedPointNumber() { integer = value };
         }
+        /// <summary>
+        /// short から 固定小数点数型 への暗黙的な変換を定義します。
+        /// </summary>
         public static implicit operator FixedPointNumber(short value)
         {
             return new FixedPointNumber() { integer = value };
         }
+        /// <summary>
+        /// ushort から 固定小数点数型 への暗黙的な変換を定義します。
+        /// </summary>
         public static implicit operator FixedPointNumber(ushort value)
         {
             return new FixedPointNumber() { integer = value };
         }
+        /// <summary>
+        /// int から 固定小数点数型 への暗黙的な変換を定義します。
+        /// </summary>
         public static implicit operator FixedPointNumber(int value)
         {
             return new FixedPointNumber() { integer = value };
         }
+        /// <summary>
+        /// uint から 固定小数点数型 への明示的な変換を定義します。
+        /// </summary>
         public static explicit operator FixedPointNumber(uint value)
         {
             return new FixedPointNumber() { integer = (IntegerType)value };
         }
+        /// <summary>
+        /// long から 固定小数点数型 への明示的な変換を定義します。
+        /// </summary>
         public static explicit operator FixedPointNumber(long value)
         {
             return new FixedPointNumber() { integer = (IntegerType)value };
         }
+        /// <summary>
+        /// ulong から 固定小数点数型 への明示的な変換を定義します。
+        /// </summary>
         public static explicit operator FixedPointNumber(ulong value)
         {
             return new FixedPointNumber() { integer = (IntegerType)value };
         }
+        /// <summary>
+        /// float から 固定小数点数型 への明示的な変換を定義します。
+        /// </summary>
         public static explicit operator FixedPointNumber(float value)
         {
             return (FixedPointNumber)((double)value);
         }
+        /// <summary>
+        /// double から 固定小数点数型 への明示的な変換を定義します。
+        /// </summary>
         public static explicit operator FixedPointNumber(double value)
         {
             value *= OneBits;
             return new FixedPointNumber() { bits = (BitsType)value };
         }
+        /// <summary>
+        /// decimal から 固定小数点数型 への明示的な変換を定義します。
+        /// </summary>
         public static explicit operator FixedPointNumber(decimal value)
         {
             value *= OneBits;
@@ -404,50 +503,83 @@ namespace Ksnm
         }
         #endregion 他の型→固定小数点数型
         #region 固定小数点数型→他の型
+        /// <summary>
+        /// 固定小数点数型 から byte への明示的な変換を定義します。
+        /// </summary>
         public static explicit operator byte(FixedPointNumber value)
         {
             return (byte)Truncate(value).integer;
         }
+        /// <summary>
+        /// 固定小数点数型 から sbyte への明示的な変換を定義します。
+        /// </summary>
         public static explicit operator sbyte(FixedPointNumber value)
         {
             return (sbyte)Truncate(value).integer;
         }
+        /// <summary>
+        /// 固定小数点数型 から short への明示的な変換を定義します。
+        /// </summary>
         public static explicit operator short(FixedPointNumber value)
         {
             return (short)Truncate(value).integer;
         }
+        /// <summary>
+        /// 固定小数点数型 から ushort への明示的な変換を定義します。
+        /// </summary>
         public static explicit operator ushort(FixedPointNumber value)
         {
             return (ushort)Truncate(value).integer;
         }
+        /// <summary>
+        /// 固定小数点数型 から int への明示的な変換を定義します。
+        /// </summary>
         public static explicit operator int(FixedPointNumber value)
         {
             return Truncate(value).integer;
         }
+        /// <summary>
+        /// 固定小数点数型 から uint への明示的な変換を定義します。
+        /// </summary>
         public static explicit operator uint(FixedPointNumber value)
         {
             return (uint)Truncate(value).integer;
         }
+        /// <summary>
+        /// 固定小数点数型 から long への明示的な変換を定義します。
+        /// </summary>
         public static explicit operator long(FixedPointNumber value)
         {
             return Truncate(value).integer;
         }
+        /// <summary>
+        /// 固定小数点数型 から ulong への明示的な変換を定義します。
+        /// </summary>
         public static explicit operator ulong(FixedPointNumber value)
         {
             return (ulong)Truncate(value).integer;
         }
+        /// <summary>
+        /// 固定小数点数型 から float への明示的な変換を定義します。
+        /// </summary>
         public static explicit operator float(FixedPointNumber value)
         {
             double temp = value.bits;
             temp /= OneBits;
             return (float)temp;
         }
+        /// <summary>
+        /// 固定小数点数型 から double への暗黙的な変換を定義します。
+        /// </summary>
         public static explicit operator double(FixedPointNumber value)
         {
             double temp = value.bits;
             temp /= OneBits;
             return temp;
         }
+        /// <summary>
+        /// 固定小数点数型 から double への暗黙的な変換を定義します。
+        /// </summary>
         public static implicit operator decimal(FixedPointNumber value)
         {
             decimal temp = value.bits;
@@ -458,11 +590,20 @@ namespace Ksnm
         #endregion 型変換
 
         #region IComparable
+        /// <summary>
+        /// 比較し、これらの相対値を示す値を返します。
+        /// </summary>
+        /// <param name="obj">比較するオブジェクト</param>
+        /// <returns>0の場合等価です。0 より大きい値の場合 obj よりも大きいです。0 より小さい値の場合 obj よりも小さいです。</returns>
         public int CompareTo(object obj)
         {
             return CompareTo((FixedPointNumber)obj);
         }
-
+        /// <summary>
+        /// 比較し、これらの相対値を示す値を返します。
+        /// </summary>
+        /// <param name="other">比較対象の固定小数点数</param>
+        /// <returns>0の場合等価です。0 より大きい値の場合 obj よりも大きいです。0 より小さい値の場合 obj よりも小さいです。</returns>
         public int CompareTo(FixedPointNumber other)
         {
             return this.bits.CompareTo(other.bits);
@@ -470,6 +611,9 @@ namespace Ksnm
         #endregion IComparable
 
         #region IEquatable
+        /// <summary>
+        /// 指定したオブジェクトが、現在のオブジェクトと等しいかどうかを判断します。
+        /// </summary>
         public bool Equals(FixedPointNumber other)
         {
             return bits == other.bits;
