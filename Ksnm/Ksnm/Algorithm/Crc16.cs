@@ -28,14 +28,14 @@ namespace Ksnm.Algorithm
     /// <summary>
     /// 巡回冗長検査 CRC-16
     /// </summary>
-    public class CRC16
+    public class Crc16
     {
         ushort[] table = new ushort[256];
-        const CRC16Polynomial DefaultPolynomial = CRC16Polynomial.IBM_Reversed;
+        const Crc16Polynomial DefaultPolynomial = Crc16Polynomial.IbmReversed;
         /// <summary>
         /// 多項式
         /// </summary>
-        public CRC16Polynomial Polynomial { get; private set; } = DefaultPolynomial;
+        public Crc16Polynomial Polynomial { get; private set; } = DefaultPolynomial;
         /// <summary>
         /// 初期値
         /// </summary>
@@ -75,7 +75,7 @@ namespace Ksnm.Algorithm
         /// <param name="polynomial">多項式</param>
         /// <param name="initialValue">初期値</param>
         /// <param name="finalXor">最終XOR</param>
-        public CRC16(CRC16Polynomial polynomial = DefaultPolynomial, ushort initialValue = 0, ushort finalXor = 0)
+        public Crc16(Crc16Polynomial polynomial = DefaultPolynomial, ushort initialValue = 0, ushort finalXor = 0)
         {
             Polynomial = polynomial;
             InitialValue = initialValue;
