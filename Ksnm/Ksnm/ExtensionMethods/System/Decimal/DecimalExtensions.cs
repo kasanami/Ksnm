@@ -23,6 +23,7 @@ freely, subject to the following restrictions:
 */
 
 using Ksnm.ExtensionMethods.System.Comparable;
+using System.Linq;
 
 namespace Ksnm.ExtensionMethods.System.Decimal
 {
@@ -31,6 +32,66 @@ namespace Ksnm.ExtensionMethods.System.Decimal
     /// </summary>
     public static class DecimalExtensions
     {
+        #region Get* Is*
+        /// <summary>
+        /// 符号ビットを取得
+        /// </summary>
+        public static byte GetSignBits(this decimal value)
+        {
+            int[] bits = decimal.GetBits(value);
+            return (byte)((bits[3] >> 31) & 1);
+        }
+        /// <summary>
+        /// 符号を取得
+        /// </summary>
+        public static int GetSign(this decimal value)
+        {
+            if (value.IsNegative())
+            {
+                return -1;
+            }
+            return +1;
+        }
+        /// <summary>
+        /// 符号を取得
+        /// </summary>
+        public static bool IsNegative(this decimal value)
+        {
+            return value.GetSignBits() != 0;
+        }
+        /// <summary>
+        /// 指数部を取得
+        /// </summary>
+        public static ushort GetExponentBits(this decimal value)
+        {
+            int[] bits = decimal.GetBits(value);
+            return (ushort)((bits[3] >> 16) & 0x7F);
+        }
+        /// <summary>
+        /// 指数を取得
+        /// </summary>
+        public static int GetExponent(this decimal value)
+        {
+            return value.GetExponentBits();
+        }
+        /// <summary>
+        /// 仮数部を取得
+        /// </summary>
+        public static int[] GetMantissaBits(this decimal value)
+        {
+            int[] bits = decimal.GetBits(value);
+            return bits.Take(3).ToArray();
+        }
+        /// <summary>
+        /// 仮数を取得
+        /// </summary>
+        public static decimal GetMantissa(this decimal value)
+        {
+            int[] bits = decimal.GetBits(value);
+            return new decimal(bits[0], bits[1], bits[2], false, 0);
+        }
+        #endregion Get* Is*
+
         #region ToClamped*
         /// <summary>
         /// 指定した System.Decimal の値を、8 ビット符号付き整数の範囲に制限して変換します。
