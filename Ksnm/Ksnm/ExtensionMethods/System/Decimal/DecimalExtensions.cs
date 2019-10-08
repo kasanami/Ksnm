@@ -36,14 +36,16 @@ namespace Ksnm.ExtensionMethods.System.Decimal
         /// <summary>
         /// 符号ビットを取得
         /// </summary>
+        /// <returns>正なら 0 を返す。負なら 1 を返す。</returns>
         public static byte GetSignBits(this decimal value)
         {
-            int[] bits = decimal.GetBits(value);
-            return (byte)((bits[3] >> 31) & 1);
+            uint bits = (uint)decimal.GetBits(value)[3];
+            return (byte)(bits >> 31);
         }
         /// <summary>
         /// 符号を取得
         /// </summary>
+        /// <returns>正なら +1 を返す。負なら -1 を返す。</returns>
         public static int GetSign(this decimal value)
         {
             if (value.IsNegative())
@@ -55,6 +57,7 @@ namespace Ksnm.ExtensionMethods.System.Decimal
         /// <summary>
         /// 符号を取得
         /// </summary>
+        /// <returns>正なら true を返す。負なら false を返す。</returns>
         public static bool IsNegative(this decimal value)
         {
             return value.GetSignBits() != 0;
@@ -62,6 +65,7 @@ namespace Ksnm.ExtensionMethods.System.Decimal
         /// <summary>
         /// 指数部を取得
         /// </summary>
+        /// <returns>指数部のビット</returns>
         public static ushort GetExponentBits(this decimal value)
         {
             int[] bits = decimal.GetBits(value);
@@ -70,13 +74,15 @@ namespace Ksnm.ExtensionMethods.System.Decimal
         /// <summary>
         /// 指数を取得
         /// </summary>
+        /// <returns>10の基数に累乗する際の指数</returns>
         public static int GetExponent(this decimal value)
         {
-            return value.GetExponentBits();
+            return -value.GetExponentBits();
         }
         /// <summary>
         /// 仮数部を取得
         /// </summary>
+        /// <returns>仮数部のビット</returns>
         public static int[] GetMantissaBits(this decimal value)
         {
             int[] bits = decimal.GetBits(value);
@@ -85,6 +91,7 @@ namespace Ksnm.ExtensionMethods.System.Decimal
         /// <summary>
         /// 仮数を取得
         /// </summary>
+        /// <returns>仮数のみの値</returns>
         public static decimal GetMantissa(this decimal value)
         {
             int[] bits = decimal.GetBits(value);

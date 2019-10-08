@@ -155,9 +155,14 @@ namespace Ksnm.ExtensionMethods.System.Decimal.Tests
             Assert.AreEqual(0, sample.GetExponent());
 
             sample = 0.5m;
-            Assert.AreEqual(1, sample.GetExponent());
+            Assert.AreEqual(-1, sample.GetExponent());
             sample = -0.5m;
-            Assert.AreEqual(1, sample.GetExponent());
+            Assert.AreEqual(-1, sample.GetExponent());
+
+            sample = 0.01m;
+            Assert.AreEqual(-2, sample.GetExponent());
+            sample = -0.01m;
+            Assert.AreEqual(-2, sample.GetExponent());
         }
 
         [TestMethod()]
