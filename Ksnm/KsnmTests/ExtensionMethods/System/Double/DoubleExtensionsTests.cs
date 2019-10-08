@@ -1,5 +1,4 @@
-﻿using Ksnm.ExtensionMethods.System.Double;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Ksnm.ExtensionMethods.System.Double.Tests
 {
