@@ -390,5 +390,30 @@ namespace Ksnm.Tests
             Assert.AreEqual(Math.MosersCircleRegions(5), 16);
             Assert.AreEqual(Math.MosersCircleRegions(6), 31);
         }
+
+        [TestMethod()]
+        public void PowTest()
+        {
+            Assert.AreEqual(1, Math.Pow(10, 0));
+            Assert.AreEqual(10, Math.Pow(10, 1));
+            Assert.AreEqual(100, Math.Pow(10, 2));
+            Assert.AreEqual(1000, Math.Pow(10, 3));
+            Assert.AreEqual(10000, Math.Pow(10, 4));
+            Assert.AreEqual(100000, Math.Pow(10, 5));
+
+            Assert.AreEqual(0b1, Math.Pow(2, 0));
+            Assert.AreEqual(0b10, Math.Pow(2, 1));
+            Assert.AreEqual(0b100, Math.Pow(2, 2));
+            Assert.AreEqual(0b1000, Math.Pow(2, 3));
+            Assert.AreEqual(0b10000, Math.Pow(2, 4));
+            Assert.AreEqual(0b100000, Math.Pow(2, 5));
+
+            Assert.AreEqual(0x1, Math.Pow(16, 0));
+            Assert.AreEqual(0x10, Math.Pow(16, 1));
+            Assert.AreEqual(0x100, Math.Pow(16, 2));
+            Assert.AreEqual(0x1000, Math.Pow(16, 3));
+            Assert.AreEqual(0x10000, Math.Pow(16, 4));
+            Assert.AreEqual(0x100000, Math.Pow(16, 5));
+        }
     }
 }

@@ -686,6 +686,28 @@ namespace Ksnm
 
         #endregion Median
 
+        #region Pow
+        /// <summary>
+        /// 指定の数値を指定した値で累乗した値を返します。
+        /// </summary>
+        /// <param name="baseValue">累乗対象の底</param>
+        /// <param name="exponent">冪指数</param>
+        /// <returns>累乗した値</returns>
+        public static int Pow(int baseValue, int exponent)
+        {
+            if (exponent < 0)
+            {
+                throw new System.ArgumentException($"{nameof(exponent)}(={exponent})は0以上の必要があります。");
+            }
+            int value = 1;
+            for (int i = 0; i < exponent; i++)
+            {
+                value *= baseValue;
+            }
+            return value;
+        }
+        #endregion Pow
+
         #region 最大公約数 GreatestCommonDivisor
 
         /// <summary>
