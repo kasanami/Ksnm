@@ -132,6 +132,82 @@ namespace Ksnm.Numerics.Tests
         }
 
         [TestMethod()]
+        public void ReduceTest()
+        {
+            var f1_2 = new Fraction32(1, 2);
+            var f1_3 = new Fraction32(1, 3);
+
+            var sample = new Fraction32(2, 4);
+            sample.Reduce();
+            Assert.AreEqual(f1_2, sample);
+
+            sample = new Fraction32(2, 6);
+            sample.Reduce();
+            Assert.AreEqual(f1_3, sample);
+        }
+
+        [TestMethod()]
+        public void OperationsTest1()
+        {
+            var value = new Fraction32(1, 2);
+            var expected1 = new Fraction32(1, 2);
+            var expected2 = new Fraction32(-1, 2);
+            var expected3 = new Fraction32(~1, ~2);
+            Assert.AreEqual(expected1, +value);
+            Assert.AreEqual(expected2, -value);
+            Assert.AreEqual(expected3, ~value);
+        }
+
+        [TestMethod()]
+        public void OperationsTest2()
+        {
+            var f1_2 = new Fraction32(1, 2);
+            var f2_2 = new Fraction32(2, 2);
+            var f1_4 = new Fraction32(1, 4);
+            var f2_4 = new Fraction32(2, 4);
+            var f3_4 = new Fraction32(3, 4);
+
+            // +
+            Assert.AreEqual(f2_2, f1_2 + f1_2, $"{f1_2} + {f1_2}");
+            Assert.AreEqual(f3_4, f1_2 + f1_4, $"{f1_2} + {f1_4}");
+            // -
+            Assert.AreEqual(f1_2, f2_2 - f1_2, $"{f2_2} - {f1_2}");
+            Assert.AreEqual(-f1_2, f1_2 - f2_2, $"{f1_2} - {f2_2}");
+            Assert.AreEqual(f2_4, f3_4 - f1_4, $"{f3_4} - {f1_4}");
+            // *
+            Assert.AreEqual(f1_4, f1_2 * f1_2, $"{f1_2} * {f1_2}");
+            Assert.AreEqual(f2_4, f1_2 * f2_2, $"{f1_2} * {f2_2}");
+            // /
+            Assert.AreEqual(f2_2, f1_2 / f1_2, $"{f1_2} / {f1_2}");
+            Assert.AreEqual(f2_4, f1_2 / f2_2, $"{f1_2} / {f2_2}");
+
+            // ==
+            Assert.IsTrue(f1_2 == f2_4, $"{f1_2} == {f2_4}");
+            Assert.IsTrue(f2_4 == f1_2, $"{f2_4} == {f1_2}");
+            Assert.IsFalse(f2_4 == f2_2, $"{f2_4} == {f2_2}");
+            Assert.IsFalse(f3_4 == f1_2, $"{f3_4} == {f1_2}");
+            // !=
+            Assert.IsFalse(f1_2 != f2_4, $"{f1_2} != {f2_4}");
+            Assert.IsFalse(f2_4 != f1_2, $"{f2_4} != {f1_2}");
+            Assert.IsTrue(f2_4 != f2_2, $"{f2_4} != {f2_2}");
+            Assert.IsTrue(f3_4 != f1_2, $"{f3_4} != {f1_2}");
+            // >
+            Assert.IsTrue(f2_2 > f2_4, $"{f2_2} > {f2_4}");
+            Assert.IsTrue(f3_4 > f2_4, $"{f3_4} > {f2_4}");
+            // <
+            Assert.IsTrue(f2_4 < f2_2, $"{f2_4} < {f2_2}");
+            Assert.IsTrue(f2_4 < f3_4, $"{f2_4} < {f3_4}");
+            // >=
+            Assert.IsTrue(f1_2 >= f2_4, $"{f1_2} >= {f2_4}");
+            Assert.IsTrue(f2_2 >= f2_4, $"{f2_2} >= {f2_4}");
+            Assert.IsTrue(f3_4 >= f2_4, $"{f3_4} >= {f2_4}");
+            // <=
+            Assert.IsTrue(f2_4 <= f1_2, $"{f2_4} <= {f1_2}");
+            Assert.IsTrue(f2_4 <= f2_2, $"{f2_4} <= {f2_2}");
+            Assert.IsTrue(f2_4 <= f3_4, $"{f2_4} <= {f3_4}");
+        }
+
+        [TestMethod()]
         public void CompareToTest()
         {
             var a = new Fraction32(1, 2);// 0.5

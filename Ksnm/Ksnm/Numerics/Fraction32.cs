@@ -9,6 +9,7 @@ namespace Ksnm.Numerics
     /// </summary>
     public struct Fraction32 : IComparable, IComparable<Fraction32>, IEquatable<Fraction32>
     {
+        #region プロパティ
         /// <summary>
         /// 分子
         /// </summary>
@@ -17,6 +18,9 @@ namespace Ksnm.Numerics
         /// 分母
         /// </summary>
         public int Denominator { get; private set; }
+        #endregion プロパティ
+
+        #region コンストラクタ
         /// <summary>
         /// 分子と分母を指定して初期化
         /// </summary>
@@ -71,6 +75,150 @@ namespace Ksnm.Numerics
                 Numerator = -Numerator;
             }
         }
+        #endregion コンストラクタ
+        /// <summary>
+        /// 約分する。
+        /// </summary>
+        public void Reduce()
+        {
+            var gcd = Math.GreatestCommonDivisor(Numerator, Denominator);
+            if (gcd > 1)
+            {
+                Numerator /= gcd;
+                Denominator /= gcd;
+            }
+        }
+        /// <summary>
+        /// 可約ならtrueを返す。
+        /// </summary>
+        public bool IsReducible()
+        {
+            var gcd = Math.GreatestCommonDivisor(Numerator, Denominator);
+            return gcd > 1;
+        }
+        /// <summary>
+        /// 逆数を返す。
+        /// </summary>
+        public Fraction32 GetReciprocal()
+        {
+            return new Fraction32(Denominator, Numerator);
+        }
+
+        #region 単項演算子
+        /// <summary>
+        /// 符号維持
+        /// </summary>
+        public static Fraction32 operator +(Fraction32 value)
+        {
+            return value;
+        }
+        /// <summary>
+        /// 符号反転
+        /// <para>変更されるのは Numerator<para>
+        /// </summary>
+        public static Fraction32 operator -(Fraction32 value)
+        {
+            value.Numerator = -value.Numerator;
+            return value;
+        }
+        /// <summary>
+        /// valueの補数を返す
+        /// </summary>
+        public static Fraction32 operator ~(Fraction32 value)
+        {
+            value.Numerator = ~value.Numerator;
+            value.Denominator = ~value.Denominator;
+            return value;
+        }
+        #endregion 単項演算子
+
+        #region 二項演算子
+        /// <summary>
+        /// 加算
+        /// </summary>
+        public static Fraction32 operator +(in Fraction32 valueL, in Fraction32 valueR)
+        {
+            var temp = new Fraction32();
+            temp.Numerator = valueL.Numerator * valueR.Denominator + valueR.Numerator * valueL.Denominator;
+            temp.Denominator = valueL.Denominator * valueR.Denominator;
+            return temp;
+        }
+        /// <summary>
+        /// 減算
+        /// </summary>
+        public static Fraction32 operator -(Fraction32 valueL, Fraction32 valueR)
+        {
+            var temp = new Fraction32();
+            temp.Numerator = valueL.Numerator * valueR.Denominator - valueR.Numerator * valueL.Denominator;
+            temp.Denominator = valueL.Denominator * valueR.Denominator;
+            return temp;
+        }
+        /// <summary>
+        /// 乗算
+        /// </summary>
+        public static Fraction32 operator *(Fraction32 valueL, Fraction32 valueR)
+        {
+            var temp = new Fraction32();
+            temp.Numerator = valueL.Numerator * valueR.Numerator ;
+            temp.Denominator = valueL.Denominator * valueR.Denominator;
+            return temp;
+        }
+        /// <summary>
+        /// 除算
+        /// </summary>
+        public static Fraction32 operator /(Fraction32 valueL, Fraction32 valueR)
+        {
+            var temp = new Fraction32();
+            temp.Numerator = valueL.Numerator * valueR.Denominator;
+            temp.Denominator = valueL.Denominator * valueR.Numerator;
+            return temp;
+        }
+        #endregion 2項演算子
+
+        #region 比較演算子
+        /// <summary>
+        /// 等しい場合は true。それ以外の場合は false。
+        /// </summary>
+        public static bool operator ==(Fraction32 valueL, Fraction32 valueR)
+        {
+            return valueL.Numerator * valueR.Denominator == valueR.Numerator * valueL.Denominator;
+        }
+        /// <summary>
+        /// 等しくない場合は true。それ以外の場合は false。
+        /// </summary>
+        public static bool operator !=(Fraction32 valueL, Fraction32 valueR)
+        {
+            return valueL.Numerator * valueR.Denominator != valueR.Numerator * valueL.Denominator;
+        }
+        /// <summary>
+        /// 大なり演算子
+        /// </summary>
+        public static bool operator >(Fraction32 valueL, Fraction32 valueR)
+        {
+            return valueL.Numerator * valueR.Denominator > valueR.Numerator * valueL.Denominator;
+        }
+        /// <summary>
+        /// 小なり演算子
+        /// </summary>
+        public static bool operator <(Fraction32 valueL, Fraction32 valueR)
+        {
+            return valueL.Numerator * valueR.Denominator < valueR.Numerator * valueL.Denominator;
+        }
+        /// <summary>
+        /// 以上演算子
+        /// </summary>
+        public static bool operator >=(Fraction32 valueL, Fraction32 valueR)
+        {
+            return valueL.Numerator * valueR.Denominator >= valueR.Numerator * valueL.Denominator;
+        }
+        /// <summary>
+        /// 以下演算子
+        /// </summary>
+        public static bool operator <=(Fraction32 valueL, Fraction32 valueR)
+        {
+            return valueL.Numerator * valueR.Denominator <= valueR.Numerator * valueL.Denominator;
+        }
+        #endregion 比較演算子
 
         #region 型変換
         #region 他の型→分数型
