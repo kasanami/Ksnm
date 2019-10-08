@@ -153,7 +153,7 @@ namespace Ksnm.Numerics
         private bool SetDouble(double value)
         {
             var exponentBits = value.GetExponentBits();
-            var fractionBits = value.GetFractionBits();
+            var mantissaBits = value.GetMantissaBits();
             if (exponentBits == 0)
             {
                 // ゼロか非正規化数
@@ -161,7 +161,7 @@ namespace Ksnm.Numerics
             }
             else if (exponentBits == 0x7ff)
             {
-                if (fractionBits != 0)
+                if (mantissaBits != 0)
                 {
                     // 非数
                     bits = 0;
@@ -180,22 +180,22 @@ namespace Ksnm.Numerics
             }
             else
             {
-                fractionBits |= 0x10_0000_0000_0000;
+                mantissaBits |= 0x10_0000_0000_0000;
                 var shift = -52 + (exponentBits - 1023);
                 shift += QBits;
 
                 if (shift < 0)
                 {
                     shift = -shift;
-                    bits = (BitsType)(fractionBits >> shift);
+                    bits = (BitsType)(mantissaBits >> shift);
                 }
                 else if (shift > 0)
                 {
-                    bits = (BitsType)(fractionBits << shift);
+                    bits = (BitsType)(mantissaBits << shift);
                 }
                 else
                 {
-                    bits = (BitsType)fractionBits;
+                    bits = (BitsType)mantissaBits;
                 }
                 // 負数に変換
                 if (value.GetSignBits() == 1)

@@ -72,6 +72,24 @@ namespace Ksnm.ExtensionMethods.System.Double
             return (byte)(value.ToUInt64Bits() >> 63);
         }
         /// <summary>
+        /// 符号を取得
+        /// </summary>
+        public static int GetSign(this double value)
+        {
+            if (value.IsNegative())
+            {
+                return -1;
+            }
+            return +1;
+        }
+        /// <summary>
+        /// 符号を取得
+        /// </summary>
+        public static bool IsNegative(this double value)
+        {
+            return value.GetSignBits() == 1;
+        }
+        /// <summary>
         /// 指数部を取得
         /// </summary>
         public static ushort GetExponentBits(this double value)
@@ -79,11 +97,25 @@ namespace Ksnm.ExtensionMethods.System.Double
             return (ushort)((value.ToUInt64Bits() >> 52) & 0x7FF);
         }
         /// <summary>
+        /// 指数を取得
+        /// </summary>
+        public static int GetExponent(this double value)
+        {
+            return value.GetExponentBits() - 1023;
+        }
+        /// <summary>
         /// 仮数部を取得
         /// </summary>
-        public static ulong GetFractionBits(this double value)
+        public static ulong GetMantissaBits(this double value)
         {
             return value.ToUInt64Bits() & 0x000F_FFFF_FFFF_FFFF;
+        }
+        /// <summary>
+        /// 仮数を取得
+        /// </summary>
+        public static ulong GetMantissa(this double value)
+        {
+            return value.GetMantissaBits() | 0x0010_0000_0000_0000;
         }
 #if false// セットできるわけではないので、一時的に非公開
         /// <summary>

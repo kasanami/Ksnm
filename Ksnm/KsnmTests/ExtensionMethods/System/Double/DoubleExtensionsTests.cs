@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Ksnm.ExtensionMethods.System.Double;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Ksnm.ExtensionMethods.System.Double.Tests
 {
@@ -42,22 +43,22 @@ namespace Ksnm.ExtensionMethods.System.Double.Tests
         }
 
         [TestMethod()]
-        public void GetFractionBitsTest()
+        public void GetMantissaBitsTest()
         {
             double sample = 1;
-            Assert.AreEqual<ulong>(sample.GetFractionBits(), 0);
+            Assert.AreEqual<ulong>(sample.GetMantissaBits(), 0);
             sample = -1;
-            Assert.AreEqual<ulong>(sample.GetFractionBits(), 0);
+            Assert.AreEqual<ulong>(sample.GetMantissaBits(), 0);
 
             sample = 2;
-            Assert.AreEqual<ulong>(sample.GetFractionBits(), 0);
+            Assert.AreEqual<ulong>(sample.GetMantissaBits(), 0);
             sample = -2;
-            Assert.AreEqual<ulong>(sample.GetFractionBits(), 0);
+            Assert.AreEqual<ulong>(sample.GetMantissaBits(), 0);
 
             sample = 3;
-            Assert.AreEqual<ulong>(sample.GetFractionBits(), 0x0008_0000_0000_0000);
+            Assert.AreEqual<ulong>(sample.GetMantissaBits(), 0x0008_0000_0000_0000);
             sample = -3;
-            Assert.AreEqual<ulong>(sample.GetFractionBits(), 0x0008_0000_0000_0000);
+            Assert.AreEqual<ulong>(sample.GetMantissaBits(), 0x0008_0000_0000_0000);
         }
 
         [TestMethod()]
@@ -71,6 +72,54 @@ namespace Ksnm.ExtensionMethods.System.Double.Tests
             Assert.AreEqual("0.00001", sample.ToDecimalString(), Debug.GetFilePathAndLineNumber());
             sample = double.Epsilon;
             Assert.AreEqual("0.00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000494065645841247", sample.ToDecimalString(), Debug.GetFilePathAndLineNumber());
+        }
+
+        [TestMethod()]
+        public void GetSignTest()
+        {
+            double sample = 1;
+            Assert.AreEqual(+1, sample.GetSign());
+            sample = -1;
+            Assert.AreEqual(-1, sample.GetSign());
+        }
+
+        [TestMethod()]
+        public void GetExponentTest()
+        {
+            double sample = 1;
+            Assert.AreEqual(0, sample.GetExponent());
+            sample = 2;
+            Assert.AreEqual(1, sample.GetExponent());
+            sample = 4;
+            Assert.AreEqual(2, sample.GetExponent());
+            sample = 8;
+            Assert.AreEqual(3, sample.GetExponent());
+
+            sample = 1;
+            Assert.AreEqual(0, sample.GetExponent());
+            sample = 0.5;
+            Assert.AreEqual(-1, sample.GetExponent());
+            sample = 0.25;
+            Assert.AreEqual(-2, sample.GetExponent());
+            sample = 0.125;
+            Assert.AreEqual(-3, sample.GetExponent());
+        }
+
+        [TestMethod()]
+        public void GetMantissaTest()
+        {
+            double sample = 1;
+            Assert.AreEqual(0x0010_0000_0000_0000UL, sample.GetMantissa());
+            sample = -1;
+            Assert.AreEqual(0x0010_0000_0000_0000UL, sample.GetMantissa());
+            sample = 2;
+            Assert.AreEqual(0x0010_0000_0000_0000UL, sample.GetMantissa());
+            sample = -2;
+            Assert.AreEqual(0x0010_0000_0000_0000UL, sample.GetMantissa());
+            sample = 3;
+            Assert.AreEqual(0x0018_0000_0000_0000UL, sample.GetMantissa());
+            sample = -3;
+            Assert.AreEqual(0x0018_0000_0000_0000UL, sample.GetMantissa());
         }
     }
 }
