@@ -78,6 +78,7 @@ namespace Ksnm.Numerics
         #endregion コンストラクタ
         /// <summary>
         /// 約分する。
+        /// <para>可約でない場合は何もしません。</para>
         /// </summary>
         public void Reduce()
         {
@@ -90,6 +91,7 @@ namespace Ksnm.Numerics
         }
         /// <summary>
         /// 可約ならtrueを返す。
+        /// <para>判定後にReduce()を呼び出すより、Reduce()単体で使用したほうが効率的です。</para>
         /// </summary>
         public bool IsReducible()
         {

@@ -147,6 +147,35 @@ namespace Ksnm.Numerics.Tests
         }
 
         [TestMethod()]
+        public void IsReducibleTest()
+        {
+            var sample = new Fraction32(2, 4);
+            Assert.IsTrue(sample.IsReducible());
+            sample = new Fraction32(2, 6);
+            Assert.IsTrue(sample.IsReducible());
+            sample = new Fraction32(5, 25);
+            Assert.IsTrue(sample.IsReducible());
+
+            sample = new Fraction32(1, 2);
+            Assert.IsFalse(sample.IsReducible());
+            sample = new Fraction32(1, 3);
+            Assert.IsFalse(sample.IsReducible());
+            sample = new Fraction32(3, 5);
+            Assert.IsFalse(sample.IsReducible());
+        }
+
+        [TestMethod()]
+        public void GetReciprocalTest()
+        {
+            var sample = new Fraction32(2, 4);
+            Assert.AreEqual(new Fraction32(4, 2), sample.GetReciprocal());
+            sample = new Fraction32(1, 4);
+            Assert.AreEqual(new Fraction32(4, 1), sample.GetReciprocal());
+            sample = new Fraction32(1, 3);
+            Assert.AreEqual(new Fraction32(3, 1), sample.GetReciprocal());
+        }
+
+        [TestMethod()]
         public void OperationsTest1()
         {
             var value = new Fraction32(1, 2);
