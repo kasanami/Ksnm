@@ -184,7 +184,7 @@ namespace Ksnm.Numerics
         public static Fraction32 operator *(Fraction32 valueL, Fraction32 valueR)
         {
             var temp = new Fraction32();
-            temp.Numerator = valueL.Numerator * valueR.Numerator ;
+            temp.Numerator = valueL.Numerator * valueR.Numerator;
             temp.Denominator = valueL.Denominator * valueR.Denominator;
             return temp;
         }
