@@ -711,8 +711,8 @@ namespace Ksnm
         #region 最大公約数 GreatestCommonDivisor
 
         /// <summary>
-        /// 最大公約数を求める
-        /// 負数は正数にされる。
+        /// 最大公約数を計算する。
+        /// <para>負数は正数にされる。</para>
         /// </summary>
         /// <param name="a">整数</param>
         /// <param name="b">整数</param>
@@ -726,6 +726,7 @@ namespace Ksnm
                 // 引数を入替えて自分を呼び出す
                 return GreatestCommonDivisor(b, a);
             }
+#if true
             while (b != 0)
             {
                 var remainder = a % b;
@@ -733,6 +734,15 @@ namespace Ksnm
                 b = remainder;
             }
             return a;
+#else
+            // 再帰呼び出しでは、わずかに遅い
+            var remainder = a % b;
+            if (remainder == 0)
+            {
+                return b;
+            }
+            return GreatestCommonDivisor(b, remainder);
+#endif
         }
 
         #endregion 最大公約数 GreatestCommonDivisor
