@@ -139,7 +139,7 @@ namespace Ksnm.Numerics
         }
         /// <summary>
         /// 符号反転
-        /// <para>変更されるのは Numerator<para>
+        /// <para>変更されるのは Numerator</para>
         /// </summary>
         public static Fraction32 operator -(Fraction32 value)
         {
