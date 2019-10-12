@@ -14,6 +14,8 @@ namespace DemoApp
         [STAThread]
         static void Main()
         {
+            Test.RunAll();
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new MainForm());
