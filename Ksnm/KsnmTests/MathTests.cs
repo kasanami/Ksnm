@@ -253,9 +253,20 @@ namespace Ksnm.Tests
         public void GreatestCommonDivisorTest()
         {
             Assert.AreEqual(Math.GreatestCommonDivisor(30, 42), 6);
+            Assert.AreEqual(Math.GreatestCommonDivisor(108, 56), 4);
+            Assert.AreEqual(Math.GreatestCommonDivisor(168, 180), 12);
             Assert.AreEqual(Math.GreatestCommonDivisor(1071, 1029), 21);
             Assert.AreEqual(Math.GreatestCommonDivisor(-30, 42), 6);
             Assert.AreEqual(Math.GreatestCommonDivisor(-1071, 1029), 21);
+        }
+
+        [TestMethod()]
+        public void GreatestCommonDivisorTest2()
+        {
+            Assert.AreEqual(Math.GreatestCommonDivisor(30u, 42u), 6u);
+            Assert.AreEqual(Math.GreatestCommonDivisor(108u, 56u), 4u);
+            Assert.AreEqual(Math.GreatestCommonDivisor(168u, 180u), 12u);
+            Assert.AreEqual(Math.GreatestCommonDivisor(1071u, 1029u), 21u);
         }
 
         [TestMethod()]

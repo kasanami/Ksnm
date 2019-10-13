@@ -779,6 +779,27 @@ namespace Ksnm
             return GreatestCommonDivisor(b, remainder);
 #endif
         }
+        /// <summary>
+        /// 最大公約数を計算する。
+        /// </summary>
+        /// <param name="a">符号なし整数</param>
+        /// <param name="b">符号なし整数</param>
+        /// <returns>最大公約数</returns>
+        public static uint GreatestCommonDivisor(uint a, uint b)
+        {
+            if (a < b)
+            {
+                // 引数を入替えて自分を呼び出す
+                return GreatestCommonDivisor(b, a);
+            }
+            while (b != 0)
+            {
+                var remainder = a % b;
+                a = b;
+                b = remainder;
+            }
+            return a;
+        }
 
         #endregion 最大公約数 GreatestCommonDivisor
 
