@@ -35,9 +35,9 @@ namespace DemoApp
             Console.WriteLine($"System.Math.Pow");
             for (int i = 0; i < count; i++)
             {
-                for (int m = 1; m <= 10; m++)
+                for (int m = 0; m <= 10; m++)
                 {
-                    for (int n = 1; n <= 10; n++)
+                    for (int n = 0; n <= 10; n++)
                     {
                         Math.Pow(m, n);
                     }
@@ -47,12 +47,27 @@ namespace DemoApp
             Console.WriteLine($"{stopwatch.Elapsed}");
 
             stopwatch.Restart();
-            Console.WriteLine($"Ksnm.Math.Pow");
+            Console.WriteLine($"Ksnm.Math.Pow(int)");
             for (int i = 0; i < count; i++)
             {
-                for (int m = 1; m <= 10; m++)
+                for (int m = 0; m <= 10; m++)
                 {
-                    for (int n = 1; n <= 10; n++)
+                    for (int n = 0; n <= 10; n++)
+                    {
+                        Ksnm.Math.Pow(m, n);
+                    }
+                }
+            }
+            stopwatch.Stop();
+            Console.WriteLine($"{stopwatch.Elapsed}");
+
+            stopwatch.Restart();
+            Console.WriteLine($"Ksnm.Math.Pow(uint)");
+            for (int i = 0; i < count; i++)
+            {
+                for (uint m = 0; m <= 10; m++)
+                {
+                    for (uint n = 0; n <= 10; n++)
                     {
                         Ksnm.Math.Pow(m, n);
                     }
