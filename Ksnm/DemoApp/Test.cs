@@ -16,11 +16,24 @@ namespace DemoApp
         public static void GreatestCommonDivisorWeightTest()
         {
             const int count = 2000;
+
+            Console.WriteLine($"Math.GreatestCommonDivisor(int)");
             stopwatch.Restart();
-            Console.WriteLine($"Math.GreatestCommonDivisor");
             for (int m = 1; m <= count; m++)
             {
                 for (int n = 1; n <= count; n++)
+                {
+                    Ksnm.Math.GreatestCommonDivisor(m, n);
+                }
+            }
+            stopwatch.Stop();
+            Console.WriteLine($"{stopwatch.Elapsed}");
+
+            Console.WriteLine($"Math.GreatestCommonDivisor(uint)");
+            stopwatch.Restart();
+            for (uint m = 1; m <= count; m++)
+            {
+                for (uint n = 1; n <= count; n++)
                 {
                     Ksnm.Math.GreatestCommonDivisor(m, n);
                 }
