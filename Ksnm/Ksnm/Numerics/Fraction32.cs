@@ -27,10 +27,12 @@ using System;
 
 namespace Ksnm.Numerics
 {
+    // コードを再利用するためのエイリアスを定義
+    using Fraction = Fraction32;
     /// <summary>
     /// 分数
     /// </summary>
-    public struct Fraction32 : IComparable, IComparable<Fraction32>, IEquatable<Fraction32>
+    public struct Fraction32 : IComparable, IComparable<Fraction>, IEquatable<Fraction>
     {
         #region プロパティ
         /// <summary>
@@ -124,16 +126,16 @@ namespace Ksnm.Numerics
         /// <summary>
         /// 逆数を返す。
         /// </summary>
-        public Fraction32 GetReciprocal()
+        public Fraction GetReciprocal()
         {
-            return new Fraction32(Denominator, Numerator);
+            return new Fraction(Denominator, Numerator);
         }
 
         #region 単項演算子
         /// <summary>
         /// 符号維持
         /// </summary>
-        public static Fraction32 operator +(Fraction32 value)
+        public static Fraction operator +(Fraction value)
         {
             return value;
         }
@@ -141,7 +143,7 @@ namespace Ksnm.Numerics
         /// 符号反転
         /// <para>変更されるのは Numerator</para>
         /// </summary>
-        public static Fraction32 operator -(Fraction32 value)
+        public static Fraction operator -(Fraction value)
         {
             value.Numerator = -value.Numerator;
             return value;
@@ -149,7 +151,7 @@ namespace Ksnm.Numerics
         /// <summary>
         /// valueの補数を返す
         /// </summary>
-        public static Fraction32 operator ~(Fraction32 value)
+        public static Fraction operator ~(Fraction value)
         {
             value.Numerator = ~value.Numerator;
             value.Denominator = ~value.Denominator;
@@ -161,9 +163,9 @@ namespace Ksnm.Numerics
         /// <summary>
         /// 加算
         /// </summary>
-        public static Fraction32 operator +(in Fraction32 valueL, in Fraction32 valueR)
+        public static Fraction operator +(in Fraction valueL, in Fraction valueR)
         {
-            var temp = new Fraction32();
+            var temp = new Fraction();
             temp.Numerator = valueL.Numerator * valueR.Denominator + valueR.Numerator * valueL.Denominator;
             temp.Denominator = valueL.Denominator * valueR.Denominator;
             return temp;
@@ -171,9 +173,9 @@ namespace Ksnm.Numerics
         /// <summary>
         /// 減算
         /// </summary>
-        public static Fraction32 operator -(Fraction32 valueL, Fraction32 valueR)
+        public static Fraction operator -(Fraction valueL, Fraction valueR)
         {
-            var temp = new Fraction32();
+            var temp = new Fraction();
             temp.Numerator = valueL.Numerator * valueR.Denominator - valueR.Numerator * valueL.Denominator;
             temp.Denominator = valueL.Denominator * valueR.Denominator;
             return temp;
@@ -181,9 +183,9 @@ namespace Ksnm.Numerics
         /// <summary>
         /// 乗算
         /// </summary>
-        public static Fraction32 operator *(Fraction32 valueL, Fraction32 valueR)
+        public static Fraction operator *(Fraction valueL, Fraction valueR)
         {
-            var temp = new Fraction32();
+            var temp = new Fraction();
             temp.Numerator = valueL.Numerator * valueR.Numerator;
             temp.Denominator = valueL.Denominator * valueR.Denominator;
             return temp;
@@ -191,9 +193,9 @@ namespace Ksnm.Numerics
         /// <summary>
         /// 除算
         /// </summary>
-        public static Fraction32 operator /(Fraction32 valueL, Fraction32 valueR)
+        public static Fraction operator /(Fraction valueL, Fraction valueR)
         {
-            var temp = new Fraction32();
+            var temp = new Fraction();
             temp.Numerator = valueL.Numerator * valueR.Denominator;
             temp.Denominator = valueL.Denominator * valueR.Numerator;
             return temp;
@@ -204,42 +206,42 @@ namespace Ksnm.Numerics
         /// <summary>
         /// 等しい場合は true。それ以外の場合は false。
         /// </summary>
-        public static bool operator ==(Fraction32 valueL, Fraction32 valueR)
+        public static bool operator ==(Fraction valueL, Fraction valueR)
         {
             return valueL.Numerator * valueR.Denominator == valueR.Numerator * valueL.Denominator;
         }
         /// <summary>
         /// 等しくない場合は true。それ以外の場合は false。
         /// </summary>
-        public static bool operator !=(Fraction32 valueL, Fraction32 valueR)
+        public static bool operator !=(Fraction valueL, Fraction valueR)
         {
             return valueL.Numerator * valueR.Denominator != valueR.Numerator * valueL.Denominator;
         }
         /// <summary>
         /// 大なり演算子
         /// </summary>
-        public static bool operator >(Fraction32 valueL, Fraction32 valueR)
+        public static bool operator >(Fraction valueL, Fraction valueR)
         {
             return valueL.Numerator * valueR.Denominator > valueR.Numerator * valueL.Denominator;
         }
         /// <summary>
         /// 小なり演算子
         /// </summary>
-        public static bool operator <(Fraction32 valueL, Fraction32 valueR)
+        public static bool operator <(Fraction valueL, Fraction valueR)
         {
             return valueL.Numerator * valueR.Denominator < valueR.Numerator * valueL.Denominator;
         }
         /// <summary>
         /// 以上演算子
         /// </summary>
-        public static bool operator >=(Fraction32 valueL, Fraction32 valueR)
+        public static bool operator >=(Fraction valueL, Fraction valueR)
         {
             return valueL.Numerator * valueR.Denominator >= valueR.Numerator * valueL.Denominator;
         }
         /// <summary>
         /// 以下演算子
         /// </summary>
-        public static bool operator <=(Fraction32 valueL, Fraction32 valueR)
+        public static bool operator <=(Fraction valueL, Fraction valueR)
         {
             return valueL.Numerator * valueR.Denominator <= valueR.Numerator * valueL.Denominator;
         }
@@ -250,149 +252,149 @@ namespace Ksnm.Numerics
         /// <summary>
         /// byte から 分数型 への暗黙的な変換を定義します。
         /// </summary>
-        public static implicit operator Fraction32(byte value)
+        public static implicit operator Fraction(byte value)
         {
-            return new Fraction32(value);
+            return new Fraction(value);
         }
         /// <summary>
         /// sbyte から 分数型 への暗黙的な変換を定義します。
         /// </summary>
-        public static implicit operator Fraction32(sbyte value)
+        public static implicit operator Fraction(sbyte value)
         {
-            return new Fraction32(value);
+            return new Fraction(value);
         }
         /// <summary>
         /// short から 分数型 への暗黙的な変換を定義します。
         /// </summary>
-        public static implicit operator Fraction32(short value)
+        public static implicit operator Fraction(short value)
         {
-            return new Fraction32(value);
+            return new Fraction(value);
         }
         /// <summary>
         /// ushort から 分数型 への暗黙的な変換を定義します。
         /// </summary>
-        public static implicit operator Fraction32(ushort value)
+        public static implicit operator Fraction(ushort value)
         {
-            return new Fraction32(value);
+            return new Fraction(value);
         }
         /// <summary>
         /// int から 分数型 への暗黙的な変換を定義します。
         /// </summary>
-        public static implicit operator Fraction32(int value)
+        public static implicit operator Fraction(int value)
         {
-            return new Fraction32(value);
+            return new Fraction(value);
         }
         /// <summary>
         /// uint から 分数型 への明示的な変換を定義します。
         /// </summary>
-        public static explicit operator Fraction32(uint value)
+        public static explicit operator Fraction(uint value)
         {
-            return new Fraction32((int)value);
+            return new Fraction((int)value);
         }
         /// <summary>
         /// long から 分数型 への明示的な変換を定義します。
         /// </summary>
-        public static explicit operator Fraction32(long value)
+        public static explicit operator Fraction(long value)
         {
-            return new Fraction32((int)value);
+            return new Fraction((int)value);
         }
         /// <summary>
         /// ulong から 分数型 への明示的な変換を定義します。
         /// </summary>
-        public static explicit operator Fraction32(ulong value)
+        public static explicit operator Fraction(ulong value)
         {
-            return new Fraction32((int)value);
+            return new Fraction((int)value);
         }
         /// <summary>
         /// float から 分数型 への明示的な変換を定義します。
         /// </summary>
-        public static explicit operator Fraction32(float value)
+        public static explicit operator Fraction(float value)
         {
-            return (Fraction32)(double)value;
+            return (Fraction)(double)value;
         }
         /// <summary>
         /// double から 分数型 への明示的な変換を定義します。
         /// </summary>
-        public static explicit operator Fraction32(double value)
+        public static explicit operator Fraction(double value)
         {
-            return new Fraction32(value);
+            return new Fraction(value);
         }
         /// <summary>
         /// decimal から 分数型 への明示的な変換を定義します。
         /// </summary>
-        public static explicit operator Fraction32(decimal value)
+        public static explicit operator Fraction(decimal value)
         {
-            return new Fraction32(value);
+            return new Fraction(value);
         }
         #endregion 他の型→分数型
         #region 分数型→他の型
         /// <summary>
         /// 分数型 から byte への明示的な変換を定義します。
         /// </summary>
-        public static explicit operator byte(Fraction32 value)
+        public static explicit operator byte(Fraction value)
         {
             return (byte)(int)value;
         }
         /// <summary>
         /// 分数型 から sbyte への明示的な変換を定義します。
         /// </summary>
-        public static explicit operator sbyte(Fraction32 value)
+        public static explicit operator sbyte(Fraction value)
         {
             return (sbyte)(int)value;
         }
         /// <summary>
         /// 分数型 から short への明示的な変換を定義します。
         /// </summary>
-        public static explicit operator short(Fraction32 value)
+        public static explicit operator short(Fraction value)
         {
             return (short)(int)value;
         }
         /// <summary>
         /// 分数型 から ushort への明示的な変換を定義します。
         /// </summary>
-        public static explicit operator ushort(Fraction32 value)
+        public static explicit operator ushort(Fraction value)
         {
             return (ushort)(int)value;
         }
         /// <summary>
         /// 分数型 から int への明示的な変換を定義します。
         /// </summary>
-        public static explicit operator int(Fraction32 value)
+        public static explicit operator int(Fraction value)
         {
             return value.Numerator / value.Denominator;
         }
         /// <summary>
         /// 分数型 から uint への明示的な変換を定義します。
         /// </summary>
-        public static explicit operator uint(Fraction32 value)
+        public static explicit operator uint(Fraction value)
         {
             return (uint)(int)value;
         }
         /// <summary>
         /// 分数型 から long への明示的な変換を定義します。
         /// </summary>
-        public static explicit operator long(Fraction32 value)
+        public static explicit operator long(Fraction value)
         {
             return (int)value;
         }
         /// <summary>
         /// 分数型 から ulong への明示的な変換を定義します。
         /// </summary>
-        public static explicit operator ulong(Fraction32 value)
+        public static explicit operator ulong(Fraction value)
         {
             return (ulong)(int)value;
         }
         /// <summary>
         /// 分数型 から float への明示的な変換を定義します。
         /// </summary>
-        public static explicit operator float(Fraction32 value)
+        public static explicit operator float(Fraction value)
         {
             return (float)(double)value;
         }
         /// <summary>
         /// 分数型 から double への暗黙的な変換を定義します。
         /// </summary>
-        public static implicit operator double(Fraction32 value)
+        public static implicit operator double(Fraction value)
         {
             double temp = value.Numerator;
             temp /= value.Denominator;
@@ -401,7 +403,7 @@ namespace Ksnm.Numerics
         /// <summary>
         /// 分数型 から double への暗黙的な変換を定義します。
         /// </summary>
-        public static implicit operator decimal(Fraction32 value)
+        public static implicit operator decimal(Fraction value)
         {
             decimal temp = value.Numerator;
             temp /= value.Denominator;
@@ -418,14 +420,14 @@ namespace Ksnm.Numerics
         /// <returns>0の場合等価です。0 より大きい値の場合 obj よりも大きいです。0 より小さい値の場合 obj よりも小さいです。</returns>
         public int CompareTo(object obj)
         {
-            return CompareTo((Fraction32)obj);
+            return CompareTo((Fraction)obj);
         }
         /// <summary>
         /// 比較し、これらの相対値を示す値を返します。
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>0の場合等価です。0 より大きい値の場合 obj よりも大きいです。0 より小さい値の場合 obj よりも小さいです。</returns>
-        public int CompareTo(Fraction32 other)
+        public int CompareTo(Fraction other)
         {
             other.Numerator *= Denominator;
             return (Numerator * other.Denominator).CompareTo(other.Numerator);
@@ -437,7 +439,7 @@ namespace Ksnm.Numerics
         /// 指定したオブジェクトが、現在のオブジェクトと等しいかどうかを判断します。
         /// </summary>
         /// <returns>指定したオブジェクトが現在のオブジェクトと等しい場合は true。それ以外の場合は false。</returns>
-        public bool Equals(Fraction32 other)
+        public bool Equals(Fraction other)
         {
             return CompareTo(other) == 0;
         }
@@ -454,9 +456,9 @@ namespace Ksnm.Numerics
             {
                 return false;
             }
-            if (obj is Fraction32)
+            if (obj is Fraction)
             {
-                return Equals((Fraction32)obj);
+                return Equals((Fraction)obj);
             }
             return false;
         }
