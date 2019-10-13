@@ -141,6 +141,10 @@ namespace Ksnm.Numerics.Tests
             sample.Reduce();
             Assert.AreEqual(f1_2, sample);
 
+            sample = new Fraction32(-2, 4);
+            sample.Reduce();
+            Assert.AreEqual(-f1_2, sample);
+
             sample = new Fraction32(2, 6);
             sample.Reduce();
             Assert.AreEqual(f1_3, sample);
@@ -282,9 +286,11 @@ namespace Ksnm.Numerics.Tests
         {
             var a = new Fraction32(1, 2);
             var b = new Fraction32(2, 3);
+            var c = new Fraction32(2, 4);
 
             Assert.IsTrue(a.GetHashCode() == a.GetHashCode());
             Assert.IsFalse(a.GetHashCode() == b.GetHashCode());
+            Assert.IsFalse(c.GetHashCode() == b.GetHashCode());
         }
 
         [TestMethod()]
