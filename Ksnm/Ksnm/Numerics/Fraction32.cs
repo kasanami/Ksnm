@@ -60,10 +60,8 @@ namespace Ksnm.Numerics
         /// 分子を指定して初期化
         /// </summary>
         /// <param name="numerator">分子</param>
-        public Fraction32(int numerator)
+        public Fraction32(int numerator) : this(numerator, 1)
         {
-            Numerator = numerator;
-            Denominator = 1;
         }
         /// <summary>
         /// 実数を分数に変換して初期化
