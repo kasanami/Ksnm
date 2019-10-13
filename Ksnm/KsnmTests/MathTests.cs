@@ -414,6 +414,14 @@ namespace Ksnm.Tests
             Assert.AreEqual(0x1000, Math.Pow(16, 3));
             Assert.AreEqual(0x10000, Math.Pow(16, 4));
             Assert.AreEqual(0x100000, Math.Pow(16, 5));
+
+            for (int n = -10; n < 10; n++)
+            {
+                for (int e = -9; e <= 9; e++)
+                {
+                    Assert.AreEqual((int)System.Math.Pow(n, e), Math.Pow(n, e), $"{n}^{e}");
+                }
+            }
         }
     }
 }

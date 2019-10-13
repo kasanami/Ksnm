@@ -688,19 +688,54 @@ namespace Ksnm
 
         #region Pow
         /// <summary>
-        /// 指定の数値を指定した値で累乗した値を返します。
+        /// 指定の整数を指定した値で累乗した値を返します。
+        /// <para>整数限定ですが、System.Math.Powより高速</para>
+        /// </summary>
+        /// <param name="baseValue">累乗対象の底</param>
+        /// <param name="exponent">冪指数</param>
+        /// <returns>累乗した値
+        /// <para>baseValue==0,exponent<0=int.MinValue(無限大の代わり)</para>
+        /// <para>baseValue>+1,exponent<0=0</para>
+        /// <para>baseValue<-1,exponent<0=0</para>
+        /// </returns>
+        public static int Pow(int baseValue, int exponent)
+        {
+            // exponent がマイナスのときは、1未満になるので0にする。
+            if (exponent < 0)
+            {
+                // baseValueが0なら無限大の代わりに int.MinValue を返す。
+                if (baseValue == 0)
+                {
+                    return int.MinValue;
+                }
+                // baseValue が -1 か 1 のときは、exponent を正にして継続
+                if (baseValue == -1 || baseValue == 1)
+                {
+                    exponent = -exponent;
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+            int value = 1;
+            for (int i = 0; i < exponent; i++)
+            {
+                value *= baseValue;
+            }
+            return value;
+        }
+        /// <summary>
+        /// 指定の符号なし整数を指定した値で累乗した値を返します。
+        /// <para>符号なし整数限定ですが、System.Math.Powより高速</para>
         /// </summary>
         /// <param name="baseValue">累乗対象の底</param>
         /// <param name="exponent">冪指数</param>
         /// <returns>累乗した値</returns>
-        public static int Pow(int baseValue, int exponent)
+        public static uint Pow(uint baseValue, uint exponent)
         {
-            if (exponent < 0)
-            {
-                throw new System.ArgumentException($"{nameof(exponent)}(={exponent})は0以上の必要があります。");
-            }
-            int value = 1;
-            for (int i = 0; i < exponent; i++)
+            uint value = 1;
+            for (uint i = 0; i < exponent; i++)
             {
                 value *= baseValue;
             }

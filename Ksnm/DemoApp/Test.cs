@@ -10,6 +10,8 @@ namespace DemoApp
         public static void RunAll()
         {
             //GreatestCommonDivisorWeightTest();
+            //PowWeightTest();
+            //PowTest();
         }
         public static void GreatestCommonDivisorWeightTest()
         {
@@ -25,6 +27,58 @@ namespace DemoApp
             }
             stopwatch.Stop();
             Console.WriteLine($"{stopwatch.Elapsed}");
+        }
+        public static void PowWeightTest()
+        {
+            const int count = 10000;
+            stopwatch.Restart();
+            Console.WriteLine($"System.Math.Pow");
+            for (int i = 0; i < count; i++)
+            {
+                for (int m = 1; m <= 10; m++)
+                {
+                    for (int n = 1; n <= 10; n++)
+                    {
+                        Math.Pow(m, n);
+                    }
+                }
+            }
+            stopwatch.Stop();
+            Console.WriteLine($"{stopwatch.Elapsed}");
+
+            stopwatch.Restart();
+            Console.WriteLine($"Ksnm.Math.Pow");
+            for (int i = 0; i < count; i++)
+            {
+                for (int m = 1; m <= 10; m++)
+                {
+                    for (int n = 1; n <= 10; n++)
+                    {
+                        Ksnm.Math.Pow(m, n);
+                    }
+                }
+            }
+            stopwatch.Stop();
+            Console.WriteLine($"{stopwatch.Elapsed}");
+        }
+        public static void PowTest()
+        {
+            for (int e = -9; e <= 9; e++)
+            {
+                for (int n = -10; n < 10; n++)
+                {
+                    Console.WriteLine($"{n}^{e}={Math.Pow(n, e)}");
+                }
+                Console.WriteLine();
+            }
+            for (int n = -10; n < 10; n++)
+            {
+                for (int e = -9; e <= 9; e++)
+                {
+                    Console.WriteLine($"{n}^{e}={Math.Pow(n, e)}");
+                }
+                Console.WriteLine();
+            }
         }
     }
 }
