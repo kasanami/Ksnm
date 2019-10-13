@@ -394,32 +394,81 @@ namespace Ksnm.Tests
         [TestMethod()]
         public void PowTest()
         {
-            Assert.AreEqual(1, Math.Pow(10, 0));
-            Assert.AreEqual(10, Math.Pow(10, 1));
-            Assert.AreEqual(100, Math.Pow(10, 2));
-            Assert.AreEqual(1000, Math.Pow(10, 3));
-            Assert.AreEqual(10000, Math.Pow(10, 4));
-            Assert.AreEqual(100000, Math.Pow(10, 5));
-
-            Assert.AreEqual(0b1, Math.Pow(2, 0));
-            Assert.AreEqual(0b10, Math.Pow(2, 1));
-            Assert.AreEqual(0b100, Math.Pow(2, 2));
-            Assert.AreEqual(0b1000, Math.Pow(2, 3));
-            Assert.AreEqual(0b10000, Math.Pow(2, 4));
-            Assert.AreEqual(0b100000, Math.Pow(2, 5));
-
-            Assert.AreEqual(0x1, Math.Pow(16, 0));
-            Assert.AreEqual(0x10, Math.Pow(16, 1));
-            Assert.AreEqual(0x100, Math.Pow(16, 2));
-            Assert.AreEqual(0x1000, Math.Pow(16, 3));
-            Assert.AreEqual(0x10000, Math.Pow(16, 4));
-            Assert.AreEqual(0x100000, Math.Pow(16, 5));
+            int baseValue = 0;
+            Assert.AreEqual(1, Math.Pow(baseValue, 0));
+            Assert.AreEqual(0, Math.Pow(baseValue, 1));
+            Assert.AreEqual(0, Math.Pow(baseValue, 2));
+            Assert.AreEqual(0, Math.Pow(baseValue, 3));
+            Assert.AreEqual(0, Math.Pow(baseValue, 4));
+            Assert.AreEqual(0, Math.Pow(baseValue, 5));
+            baseValue = 10;
+            Assert.AreEqual(1, Math.Pow(baseValue, 0));
+            Assert.AreEqual(10, Math.Pow(baseValue, 1));
+            Assert.AreEqual(100, Math.Pow(baseValue, 2));
+            Assert.AreEqual(1000, Math.Pow(baseValue, 3));
+            Assert.AreEqual(10000, Math.Pow(baseValue, 4));
+            Assert.AreEqual(100000, Math.Pow(baseValue, 5));
+            baseValue = 0b10;
+            Assert.AreEqual(0b1, Math.Pow(baseValue, 0));
+            Assert.AreEqual(0b10, Math.Pow(baseValue, 1));
+            Assert.AreEqual(0b100, Math.Pow(baseValue, 2));
+            Assert.AreEqual(0b1000, Math.Pow(baseValue, 3));
+            Assert.AreEqual(0b10000, Math.Pow(baseValue, 4));
+            Assert.AreEqual(0b100000, Math.Pow(baseValue, 5));
+            baseValue = 0x10;
+            Assert.AreEqual(0x1, Math.Pow(baseValue, 0));
+            Assert.AreEqual(0x10, Math.Pow(baseValue, 1));
+            Assert.AreEqual(0x100, Math.Pow(baseValue, 2));
+            Assert.AreEqual(0x1000, Math.Pow(baseValue, 3));
+            Assert.AreEqual(0x10000, Math.Pow(baseValue, 4));
+            Assert.AreEqual(0x100000, Math.Pow(baseValue, 5));
 
             for (int n = -10; n < 10; n++)
             {
                 for (int e = -9; e <= 9; e++)
                 {
                     Assert.AreEqual((int)System.Math.Pow(n, e), Math.Pow(n, e), $"{n}^{e}");
+                }
+            }
+        }
+
+        [TestMethod()]
+        public void PowTest2()
+        {
+            uint baseValue = 0;
+            Assert.AreEqual<uint>(1, Math.Pow(baseValue, 0));
+            Assert.AreEqual<uint>(0, Math.Pow(baseValue, 1));
+            Assert.AreEqual<uint>(0, Math.Pow(baseValue, 2));
+            Assert.AreEqual<uint>(0, Math.Pow(baseValue, 3));
+            Assert.AreEqual<uint>(0, Math.Pow(baseValue, 4));
+            Assert.AreEqual<uint>(0, Math.Pow(baseValue, 5));
+            baseValue = 10;
+            Assert.AreEqual<uint>(1, Math.Pow(baseValue, 0));
+            Assert.AreEqual<uint>(10, Math.Pow(baseValue, 1));
+            Assert.AreEqual<uint>(100, Math.Pow(baseValue, 2));
+            Assert.AreEqual<uint>(1000, Math.Pow(baseValue, 3));
+            Assert.AreEqual<uint>(10000, Math.Pow(baseValue, 4));
+            Assert.AreEqual<uint>(100000, Math.Pow(baseValue, 5));
+            baseValue = 0b10;
+            Assert.AreEqual<uint>(0b1, Math.Pow(baseValue, 0));
+            Assert.AreEqual<uint>(0b10, Math.Pow(baseValue, 1));
+            Assert.AreEqual<uint>(0b100, Math.Pow(baseValue, 2));
+            Assert.AreEqual<uint>(0b1000, Math.Pow(baseValue, 3));
+            Assert.AreEqual<uint>(0b10000, Math.Pow(baseValue, 4));
+            Assert.AreEqual<uint>(0b100000, Math.Pow(baseValue, 5));
+            baseValue = 0x10;
+            Assert.AreEqual<uint>(0x1, Math.Pow(baseValue, 0));
+            Assert.AreEqual<uint>(0x10, Math.Pow(baseValue, 1));
+            Assert.AreEqual<uint>(0x100, Math.Pow(baseValue, 2));
+            Assert.AreEqual<uint>(0x1000, Math.Pow(baseValue, 3));
+            Assert.AreEqual<uint>(0x10000, Math.Pow(baseValue, 4));
+            Assert.AreEqual<uint>(0x100000, Math.Pow(baseValue, 5));
+
+            for (uint n = 0; n < 10; n++)
+            {
+                for (uint e = 0; e <= 9; e++)
+                {
+                    Assert.AreEqual((uint)System.Math.Pow(n, e), Math.Pow(n, e), $"{n}^{e}");
                 }
             }
         }
