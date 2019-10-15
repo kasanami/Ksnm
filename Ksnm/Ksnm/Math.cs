@@ -754,8 +754,6 @@ namespace Ksnm
         /// <returns>最大公約数</returns>
         public static int GreatestCommonDivisor(int a, int b)
         {
-            a = System.Math.Abs(a);
-            b = System.Math.Abs(b);
             if (a < b)
             {
                 // 引数を入替えて自分を呼び出す
@@ -768,7 +766,7 @@ namespace Ksnm
                 a = b;
                 b = remainder;
             }
-            return a;
+            return System.Math.Abs(a);
 #else
             // 再帰呼び出しでは、わずかに遅い
             var remainder = a % b;
