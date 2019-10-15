@@ -165,11 +165,11 @@ namespace Ksnm.Numerics.Tests
         public void IsReducibleTest()
         {
             var sample = new Fraction32(2, 4);
-            Assert.IsTrue(sample.IsReducible());
+            Assert.IsFalse(sample.IsReducible());
             sample = new Fraction32(2, 6);
-            Assert.IsTrue(sample.IsReducible());
+            Assert.IsFalse(sample.IsReducible());
             sample = new Fraction32(5, 25);
-            Assert.IsTrue(sample.IsReducible());
+            Assert.IsFalse(sample.IsReducible());
 
             sample = new Fraction32(1, 2);
             Assert.IsFalse(sample.IsReducible());

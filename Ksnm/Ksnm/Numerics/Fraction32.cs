@@ -82,6 +82,7 @@ namespace Ksnm.Numerics
         {
             Numerator = numerator;
             Denominator = denominator;
+            Reduce();
         }
         /// <summary>
         /// 分子を指定して初期化
@@ -222,6 +223,7 @@ namespace Ksnm.Numerics
             var temp = new Fraction();
             temp.Numerator = valueL.Numerator * valueR.Denominator + valueR.Numerator * valueL.Denominator;
             temp.Denominator = valueL.Denominator * valueR.Denominator;
+            temp.Reduce();
             return temp;
         }
         /// <summary>
@@ -232,6 +234,7 @@ namespace Ksnm.Numerics
             var temp = new Fraction();
             temp.Numerator = valueL.Numerator * valueR.Denominator - valueR.Numerator * valueL.Denominator;
             temp.Denominator = valueL.Denominator * valueR.Denominator;
+            temp.Reduce();
             return temp;
         }
         /// <summary>
@@ -242,6 +245,7 @@ namespace Ksnm.Numerics
             var temp = new Fraction();
             temp.Numerator = valueL.Numerator * valueR.Numerator;
             temp.Denominator = valueL.Denominator * valueR.Denominator;
+            temp.Reduce();
             return temp;
         }
         /// <summary>
@@ -252,6 +256,7 @@ namespace Ksnm.Numerics
             var temp = new Fraction();
             temp.Numerator = valueL.Numerator * valueR.Denominator;
             temp.Denominator = valueL.Denominator * valueR.Numerator;
+            temp.Reduce();
             return temp;
         }
         #endregion 2項演算子
@@ -262,14 +267,14 @@ namespace Ksnm.Numerics
         /// </summary>
         public static bool operator ==(Fraction valueL, Fraction valueR)
         {
-            return valueL.Numerator * valueR.Denominator == valueR.Numerator * valueL.Denominator;
+            return valueL.Numerator == valueR.Numerator && valueL.Denominator == valueR.Denominator;
         }
         /// <summary>
         /// 等しくない場合は true。それ以外の場合は false。
         /// </summary>
         public static bool operator !=(Fraction valueL, Fraction valueR)
         {
-            return valueL.Numerator * valueR.Denominator != valueR.Numerator * valueL.Denominator;
+            return valueL.Numerator != valueR.Numerator || valueL.Denominator != valueR.Denominator;
         }
         /// <summary>
         /// 大なり演算子

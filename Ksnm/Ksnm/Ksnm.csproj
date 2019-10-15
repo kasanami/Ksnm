@@ -51,7 +51,6 @@
     <Compile Include="ExtensionMethods\System\IO\Stream\StreamExtensions.cs" />
     <Compile Include="Numerics\FixedPointNumber32Q16.cs" />
     <Compile Include="Numerics\FixedPointNumber64Q32.cs" />
-    <Compile Include="Numerics\AutoReduceFraction32.cs" />
     <Compile Include="Numerics\Fraction32.cs" />
     <Compile Include="Utilities\CsvLogger.cs" />
     <Compile Include="Mathematics\Algorithm.cs" />
