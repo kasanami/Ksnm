@@ -34,6 +34,33 @@ namespace Ksnm.Numerics
     /// </summary>
     public struct Fraction32 : IComparable, IComparable<Fraction>, IEquatable<Fraction>
     {
+        #region 定数
+        /// <summary>
+        /// 数値 0 を表します。
+        /// </summary>
+        public readonly static Fraction Zero = new Fraction(0);
+        /// <summary>
+        /// 数値 1 を表します。
+        /// </summary>
+        public readonly static Fraction One = new Fraction(1);
+        /// <summary>
+        /// 負の 1 (-1) を表します。
+        /// </summary>
+        public readonly static Fraction MinusOne = new Fraction(-1);
+        /// <summary>
+        /// 最小有効値を表します。
+        /// </summary>
+        public readonly static Fraction MinValue = new Fraction(int.MinValue);
+        /// <summary>
+        /// 最大有効値を表します。
+        /// </summary>
+        public readonly static Fraction MaxValue = new Fraction(int.MaxValue);
+        /// <summary>
+        /// ゼロより大きい最小の値を表します。
+        /// </summary>
+        public readonly static Fraction Epsilon = new Fraction(1, int.MaxValue);
+        #endregion 定数
+
         #region プロパティ
         /// <summary>
         /// 分子
@@ -70,15 +97,44 @@ namespace Ksnm.Numerics
         public Fraction32(double value) : this((decimal)value)
         {
 #if false
-            if (value >= 0)
+            var mantissa = value.GetMantissa();
+            var exponentBits = value.GetExponentBits();
+            var exponent = value.GetExponent();
+            if (mantissa == 0 && exponentBits == 0)
             {
-                Numerator = (int)value;
+                Numerator = 0;
+                Denominator = 1;
+            }
+            else if (exponent <= -32)
+            {
+                // アンダーフロー
+                Numerator = 0;
+                Denominator = 1;
+            }
+            else if (exponent >= 32)
+            {
+                // オーバーフロー
+                if (value.GetSignBits() == 1)
+                {
+                    Numerator = int.MinValue;
+                }
+                else
+                {
+                    Numerator = int.MaxValue;
+                }
                 Denominator = 1;
             }
             else
             {
-                Numerator = (int)(value.GetMantissa() >> (52 - 31));
-                Denominator = 1 << -value.GetExponent();
+                // 分子の精度を残しつつ
+                // 分母を最小値にする
+                if (exponent < 0)
+                {
+                    Denominator = 1 << -exponent;
+                }
+                Numerator = (int)(mantissa >> shift);
+                
+                Numerator *= value.GetSign();
             }
 #endif
         }

@@ -34,6 +34,33 @@ namespace Ksnm.Numerics
     /// </summary>
     public struct AutoReduceFraction32 : IComparable, IComparable<Fraction>, IEquatable<Fraction>
     {
+        #region 定数
+        /// <summary>
+        /// 数値 0 を表します。
+        /// </summary>
+        public readonly static Fraction Zero = new Fraction(0);
+        /// <summary>
+        /// 数値 1 を表します。
+        /// </summary>
+        public readonly static Fraction One = new Fraction(1);
+        /// <summary>
+        /// 負の 1 (-1) を表します。
+        /// </summary>
+        public readonly static Fraction MinusOne = new Fraction(-1);
+        /// <summary>
+        /// 最小有効値を表します。
+        /// </summary>
+        public readonly static Fraction MinValue = new Fraction(int.MinValue);
+        /// <summary>
+        /// 最大有効値を表します。
+        /// </summary>
+        public readonly static Fraction MaxValue = new Fraction(int.MaxValue);
+        /// <summary>
+        /// ゼロより大きい最小の値を表します。
+        /// </summary>
+        public readonly static Fraction Epsilon = new Fraction(1, int.MaxValue);
+        #endregion 定数
+
         #region プロパティ
         /// <summary>
         /// 分子

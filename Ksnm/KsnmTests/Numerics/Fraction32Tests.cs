@@ -6,6 +6,23 @@ namespace Ksnm.Numerics.Tests
     public class Fraction32Tests
     {
         const float LoopIncrement = 1.0f / 8;
+
+        [TestMethod()]
+        public void ConstantTest()
+        {
+            var zero = (Fraction32)0;
+            var one = (Fraction32)1;
+            var two = (Fraction32)2;
+            var minusTwo = (Fraction32)(-2);
+            Assert.AreEqual(one, one + Fraction32.Zero);
+            Assert.AreEqual(two, one + Fraction32.One);
+            Assert.AreEqual(zero, one + Fraction32.MinusOne);
+            Assert.AreEqual(one, Fraction32.MinusOne * Fraction32.MinusOne);
+            Assert.AreEqual(minusTwo, Fraction32.MinusOne + Fraction32.MinusOne);
+            Assert.IsFalse(one == one + Fraction32.Epsilon);
+            Assert.IsFalse(one == one - Fraction32.Epsilon);
+        }
+
         [TestMethod()]
         public void CastTest()
         {
@@ -19,7 +36,7 @@ namespace Ksnm.Numerics.Tests
             {
                 var i = (byte)d;
                 var fr = (Fraction32)d;
-                Assert.AreEqual(i, (byte)fr, $"byte i={i} fr={fr}");
+                Assert.AreEqual(i, (byte)fr, $"byte i={i} fr={fr} d={d}");
             }
             // sbyte
             for (sbyte i = -10; i <= 10; i++)
@@ -295,6 +312,20 @@ namespace Ksnm.Numerics.Tests
 
             Assert.AreEqual("1/2", a.ToString());
             Assert.AreEqual("2/3", b.ToString());
+        }
+
+        [TestMethod()]
+        public void CalculationTest()
+        {
+            for (int i = -10; i <= 10; i++)
+            {
+                if (i == 0) { continue; }
+                var dev = i;
+                var fr = Fraction32.One / dev;
+                fr *= dev;
+                fr.Reduce();
+                Assert.AreEqual(Fraction32.One, fr, $"{fr}");
+            }
         }
     }
 }
