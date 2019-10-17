@@ -207,12 +207,14 @@ namespace Ksnm.Numerics.Tests
         {
             var f1_2 = new Fraction32(1, 2);
             var f2_2 = new Fraction32(2, 2);
+            var f3_2 = new Fraction32(3, 2);
             var f1_4 = new Fraction32(1, 4);
             var f2_4 = new Fraction32(2, 4);
             var f3_4 = new Fraction32(3, 4);
 
             // +
             Assert.AreEqual(f2_2, f1_2 + f1_2, $"{f1_2} + {f1_2}");
+            Assert.AreEqual(f3_2, f1_2 + f2_2, $"{f1_2} + {f2_2}");
             Assert.AreEqual(f3_4, f1_2 + f1_4, $"{f1_2} + {f1_4}");
             // -
             Assert.AreEqual(f1_2, f2_2 - f1_2, $"{f2_2} - {f1_2}");
