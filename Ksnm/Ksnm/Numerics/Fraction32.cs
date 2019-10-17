@@ -190,7 +190,7 @@ namespace Ksnm.Numerics
         /// <summary>
         /// 符号維持
         /// </summary>
-        public static Fraction operator +(Fraction value)
+        public static Fraction operator +(in Fraction value)
         {
             return value;
         }
@@ -198,19 +198,16 @@ namespace Ksnm.Numerics
         /// 符号反転
         /// <para>変更されるのは Numerator</para>
         /// </summary>
-        public static Fraction operator -(Fraction value)
+        public static Fraction operator -(in Fraction value)
         {
-            value.Numerator = -value.Numerator;
-            return value;
+            return new Fraction(-value.Numerator, value.Denominator);
         }
         /// <summary>
         /// valueの補数を返す
         /// </summary>
-        public static Fraction operator ~(Fraction value)
+        public static Fraction operator ~(in Fraction value)
         {
-            value.Numerator = ~value.Numerator;
-            value.Denominator = ~value.Denominator;
-            return value;
+            return new Fraction(~value.Numerator, ~value.Denominator);
         }
         #endregion 単項演算子
 
@@ -236,7 +233,7 @@ namespace Ksnm.Numerics
         /// <summary>
         /// 減算
         /// </summary>
-        public static Fraction operator -(Fraction valueL, Fraction valueR)
+        public static Fraction operator -(in Fraction valueL, in Fraction valueR)
         {
             var temp = new Fraction();
             temp.Numerator = valueL.Numerator * valueR.Denominator - valueR.Numerator * valueL.Denominator;
@@ -247,7 +244,7 @@ namespace Ksnm.Numerics
         /// <summary>
         /// 乗算
         /// </summary>
-        public static Fraction operator *(Fraction valueL, Fraction valueR)
+        public static Fraction operator *(in Fraction valueL, in Fraction valueR)
         {
             var temp = new Fraction();
             temp.Numerator = valueL.Numerator * valueR.Numerator;
@@ -258,7 +255,7 @@ namespace Ksnm.Numerics
         /// <summary>
         /// 除算
         /// </summary>
-        public static Fraction operator /(Fraction valueL, Fraction valueR)
+        public static Fraction operator /(in Fraction valueL, in Fraction valueR)
         {
             var temp = new Fraction();
             temp.Numerator = valueL.Numerator * valueR.Denominator;
@@ -272,42 +269,42 @@ namespace Ksnm.Numerics
         /// <summary>
         /// 等しい場合は true。それ以外の場合は false。
         /// </summary>
-        public static bool operator ==(Fraction valueL, Fraction valueR)
+        public static bool operator ==(in Fraction valueL, in Fraction valueR)
         {
             return valueL.Numerator == valueR.Numerator && valueL.Denominator == valueR.Denominator;
         }
         /// <summary>
         /// 等しくない場合は true。それ以外の場合は false。
         /// </summary>
-        public static bool operator !=(Fraction valueL, Fraction valueR)
+        public static bool operator !=(in Fraction valueL, in Fraction valueR)
         {
             return valueL.Numerator != valueR.Numerator || valueL.Denominator != valueR.Denominator;
         }
         /// <summary>
         /// 大なり演算子
         /// </summary>
-        public static bool operator >(Fraction valueL, Fraction valueR)
+        public static bool operator >(in Fraction valueL, in Fraction valueR)
         {
             return valueL.Numerator * valueR.Denominator > valueR.Numerator * valueL.Denominator;
         }
         /// <summary>
         /// 小なり演算子
         /// </summary>
-        public static bool operator <(Fraction valueL, Fraction valueR)
+        public static bool operator <(in Fraction valueL, in Fraction valueR)
         {
             return valueL.Numerator * valueR.Denominator < valueR.Numerator * valueL.Denominator;
         }
         /// <summary>
         /// 以上演算子
         /// </summary>
-        public static bool operator >=(Fraction valueL, Fraction valueR)
+        public static bool operator >=(in Fraction valueL, in Fraction valueR)
         {
             return valueL.Numerator * valueR.Denominator >= valueR.Numerator * valueL.Denominator;
         }
         /// <summary>
         /// 以下演算子
         /// </summary>
-        public static bool operator <=(Fraction valueL, Fraction valueR)
+        public static bool operator <=(in Fraction valueL, in Fraction valueR)
         {
             return valueL.Numerator * valueR.Denominator <= valueR.Numerator * valueL.Denominator;
         }
@@ -397,79 +394,79 @@ namespace Ksnm.Numerics
         /// <summary>
         /// 分数型 から byte への明示的な変換を定義します。
         /// </summary>
-        public static explicit operator byte(Fraction value)
+        public static explicit operator byte(in Fraction value)
         {
             return (byte)(int)value;
         }
         /// <summary>
         /// 分数型 から sbyte への明示的な変換を定義します。
         /// </summary>
-        public static explicit operator sbyte(Fraction value)
+        public static explicit operator sbyte(in Fraction value)
         {
             return (sbyte)(int)value;
         }
         /// <summary>
         /// 分数型 から short への明示的な変換を定義します。
         /// </summary>
-        public static explicit operator short(Fraction value)
+        public static explicit operator short(in Fraction value)
         {
             return (short)(int)value;
         }
         /// <summary>
         /// 分数型 から ushort への明示的な変換を定義します。
         /// </summary>
-        public static explicit operator ushort(Fraction value)
+        public static explicit operator ushort(in Fraction value)
         {
             return (ushort)(int)value;
         }
         /// <summary>
         /// 分数型 から int への明示的な変換を定義します。
         /// </summary>
-        public static explicit operator int(Fraction value)
+        public static explicit operator int(in Fraction value)
         {
             return value.Numerator / value.Denominator;
         }
         /// <summary>
         /// 分数型 から uint への明示的な変換を定義します。
         /// </summary>
-        public static explicit operator uint(Fraction value)
+        public static explicit operator uint(in Fraction value)
         {
             return (uint)(int)value;
         }
         /// <summary>
         /// 分数型 から long への明示的な変換を定義します。
         /// </summary>
-        public static explicit operator long(Fraction value)
+        public static explicit operator long(in Fraction value)
         {
             return (int)value;
         }
         /// <summary>
         /// 分数型 から ulong への明示的な変換を定義します。
         /// </summary>
-        public static explicit operator ulong(Fraction value)
+        public static explicit operator ulong(in Fraction value)
         {
             return (ulong)(int)value;
         }
         /// <summary>
         /// 分数型 から float への明示的な変換を定義します。
         /// </summary>
-        public static explicit operator float(Fraction value)
+        public static explicit operator float(in Fraction value)
         {
             return (float)(double)value;
         }
         /// <summary>
-        /// 分数型 から double への暗黙的な変換を定義します。
+        /// 分数型 から double への明示的な変換を定義します。
         /// </summary>
-        public static implicit operator double(Fraction value)
+        public static explicit operator double(in Fraction value)
         {
             double temp = value.Numerator;
             temp /= value.Denominator;
             return temp;
         }
         /// <summary>
-        /// 分数型 から double への暗黙的な変換を定義します。
+        /// 分数型 から decimal への明示的な変換を定義します。
         /// </summary>
-        public static implicit operator decimal(Fraction value)
+        public static explicit operator decimal(in Fraction value)
         {
             decimal temp = value.Numerator;
             temp /= value.Denominator;
@@ -495,8 +492,7 @@ namespace Ksnm.Numerics
         /// <returns>0の場合等価です。0 より大きい値の場合 obj よりも大きいです。0 より小さい値の場合 obj よりも小さいです。</returns>
         public int CompareTo(Fraction other)
         {
-            other.Numerator *= Denominator;
-            return (Numerator * other.Denominator).CompareTo(other.Numerator);
+            return (Numerator * other.Denominator).CompareTo(other.Numerator * Denominator);
         }
         #endregion IComparable
 
