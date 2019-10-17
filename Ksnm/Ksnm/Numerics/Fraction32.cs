@@ -221,6 +221,7 @@ namespace Ksnm.Numerics
             if (valueR.Denominator == valueL.Denominator)
             {
                 temp.Numerator = valueL.Numerator + valueR.Numerator;
+                temp.Denominator = valueL.Denominator;
             }
             else
             {
@@ -239,6 +240,7 @@ namespace Ksnm.Numerics
             if (valueR.Denominator == valueL.Denominator)
             {
                 temp.Numerator = valueL.Numerator - valueR.Numerator;
+                temp.Denominator = valueL.Denominator;
             }
             else
             {
