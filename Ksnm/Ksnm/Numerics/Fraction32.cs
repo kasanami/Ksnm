@@ -236,8 +236,15 @@ namespace Ksnm.Numerics
         public static Fraction operator -(in Fraction valueL, in Fraction valueR)
         {
             var temp = new Fraction();
-            temp.Numerator = valueL.Numerator * valueR.Denominator - valueR.Numerator * valueL.Denominator;
-            temp.Denominator = valueL.Denominator * valueR.Denominator;
+            if (valueR.Denominator == valueL.Denominator)
+            {
+                temp.Numerator = valueL.Numerator - valueR.Numerator;
+            }
+            else
+            {
+                temp.Numerator = valueL.Numerator * valueR.Denominator - valueR.Numerator * valueL.Denominator;
+                temp.Denominator = valueL.Denominator * valueR.Denominator;
+            }
             temp.Reduce();
             return temp;
         }
