@@ -21,7 +21,6 @@ freely, subject to the following restrictions:
 
 3. This notice may not be removed or altered from any source distribution.
 */
-using System;
 using System.Collections.Generic;
 
 #if Ksnm_Using_UniLinq
@@ -137,6 +136,7 @@ namespace Ksnm.ExtensionMethods.System.String
         /// 部分文字列を取得します。
         /// この部分文字列は、startString～endStringの文字列です。
         /// </summary>
+        /// <param name="self">インスタンス</param>
         /// <param name="startString">開始文字列 nullを指定すると先頭から選択されます。</param>
         /// <param name="endString">終了文字列 nullを指定すると最後まで選択されます。</param>
         /// <param name="includeStartString">trueなら、開始文字列を含める</param>
@@ -177,6 +177,31 @@ namespace Ksnm.ExtensionMethods.System.String
                 endIndex += endString.Length;
             }
             return self.Substring(startIndex, endIndex - startIndex);
+        }
+        /// <summary>
+        /// 部分文字列を取得します。
+        /// </summary>
+        /// <param name="self">インスタンス</param>
+        /// <param name="lengths">取得する文字数のリスト</param>
+        /// <returns>部分文字列のコレクション</returns>
+        public static IEnumerable<string> Substrings(this string self, IEnumerable<int> lengths)
+        {
+            int offset = 0;
+            foreach (var length in lengths)
+            {
+                yield return new string(self.Skip(offset).Take(length).ToArray());
+                offset += length;
+            }
+        }
+        /// <summary>
+        /// 部分文字列を取得します。
+        /// </summary>
+        /// <param name="self">インスタンス</param>
+        /// <param name="lengths">取得する文字数のリスト</param>
+        /// <returns>部分文字列のコレクション</returns>
+        public static IEnumerable<string> Substrings(this string self, params int[] lengths)
+        {
+            return self.Substrings((IEnumerable<int>)lengths);
         }
         /// <summary>
         /// 文字列が null または System.String.Empty 文字列であるかどうかを示します。

@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Linq;
 
 namespace Ksnm.ExtensionMethods.System.String.Tests
 {
@@ -112,6 +113,16 @@ namespace Ksnm.ExtensionMethods.System.String.Tests
 
             str2 = str.Replace(new[] { "あ", "う", "お" }, "★");
             Assert.AreEqual(str2, "★い★え★");
+        }
+
+        [TestMethod()]
+        public void SubstringsTest()
+        {
+            var str = "abcdefg";
+            var subStrs = str.Substrings(2,2,3).ToArray();
+            Assert.AreEqual("ab" ,subStrs[0]);
+            Assert.AreEqual("cd" ,subStrs[1]);
+            Assert.AreEqual("efg",subStrs[2]);
         }
     }
 }
