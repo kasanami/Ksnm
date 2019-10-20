@@ -116,10 +116,10 @@ namespace Ksnm.ExtensionMethods.System.String.Tests
         }
 
         [TestMethod()]
-        public void SubstringsTest()
+        public void SplitTest()
         {
             var str = "abcdefg";
-            var subStrs = str.Substrings(2,2,3).ToArray();
+            var subStrs = str.Split(2,2,3).ToArray();
             Assert.AreEqual("ab" ,subStrs[0]);
             Assert.AreEqual("cd" ,subStrs[1]);
             Assert.AreEqual("efg",subStrs[2]);

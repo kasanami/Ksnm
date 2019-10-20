@@ -184,7 +184,7 @@ namespace Ksnm.ExtensionMethods.System.String
         /// <param name="self">インスタンス</param>
         /// <param name="lengths">取得する文字数のリスト</param>
         /// <returns>部分文字列のコレクション</returns>
-        public static IEnumerable<string> Substrings(this string self, IEnumerable<int> lengths)
+        public static IEnumerable<string> Split(this string self, IEnumerable<int> lengths)
         {
             int offset = 0;
             foreach (var length in lengths)
@@ -199,9 +199,9 @@ namespace Ksnm.ExtensionMethods.System.String
         /// <param name="self">インスタンス</param>
         /// <param name="lengths">取得する文字数のリスト</param>
         /// <returns>部分文字列のコレクション</returns>
-        public static IEnumerable<string> Substrings(this string self, params int[] lengths)
+        public static IEnumerable<string> Split(this string self, params int[] lengths)
         {
-            return self.Substrings((IEnumerable<int>)lengths);
+            return self.Split((IEnumerable<int>)lengths);
         }
         /// <summary>
         /// 文字列が null または System.String.Empty 文字列であるかどうかを示します。
