@@ -119,10 +119,28 @@ namespace Ksnm.ExtensionMethods.System.String.Tests
         public void SplitTest()
         {
             var str = "abcdefg";
-            var subStrs = str.Split(2,2,3).ToArray();
-            Assert.AreEqual("ab" ,subStrs[0]);
-            Assert.AreEqual("cd" ,subStrs[1]);
-            Assert.AreEqual("efg",subStrs[2]);
+            var subStrs = str.Split(2, 2, 3).ToArray();
+            Assert.AreEqual(3, subStrs.Count());
+            Assert.AreEqual("ab", subStrs[0]);
+            Assert.AreEqual("cd", subStrs[1]);
+            Assert.AreEqual("efg", subStrs[2]);
+
+            subStrs = str.Split(2, 3).ToArray();
+            Assert.AreEqual(2, subStrs.Count());
+            Assert.AreEqual("ab", subStrs[0]);
+            Assert.AreEqual("cde", subStrs[1]);
+
+            subStrs = str.Split(3, 3, 3).ToArray();
+            Assert.AreEqual(3, subStrs.Count());
+            Assert.AreEqual("abc", subStrs[0]);
+            Assert.AreEqual("def", subStrs[1]);
+            Assert.AreEqual("g", subStrs[2]);
+
+            subStrs = str.Split(4, 4, 4).ToArray();
+            Assert.AreEqual(3, subStrs.Count());
+            Assert.AreEqual("abcd", subStrs[0]);
+            Assert.AreEqual("efg", subStrs[1]);
+            Assert.AreEqual("", subStrs[2]);
         }
     }
 }
