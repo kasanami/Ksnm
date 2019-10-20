@@ -179,10 +179,10 @@ namespace Ksnm.ExtensionMethods.System.String
             return self.Substring(startIndex, endIndex - startIndex);
         }
         /// <summary>
-        /// 部分文字列を取得します。
+        /// 配列内の文字数に基づいて文字列を部分文字列に分割します。
         /// </summary>
         /// <param name="self">インスタンス</param>
-        /// <param name="lengths">取得する文字数のリスト</param>
+        /// <param name="lengths">分割する文字数のリスト</param>
         /// <returns>部分文字列のコレクション</returns>
         public static IEnumerable<string> Split(this string self, IEnumerable<int> lengths)
         {
@@ -194,10 +194,10 @@ namespace Ksnm.ExtensionMethods.System.String
             }
         }
         /// <summary>
-        /// 部分文字列を取得します。
+        /// 配列内の文字数に基づいて文字列を部分文字列に分割します。
         /// </summary>
         /// <param name="self">インスタンス</param>
-        /// <param name="lengths">取得する文字数のリスト</param>
+        /// <param name="lengths">分割する文字数のリスト</param>
         /// <returns>部分文字列のコレクション</returns>
         public static IEnumerable<string> Split(this string self, params int[] lengths)
         {
