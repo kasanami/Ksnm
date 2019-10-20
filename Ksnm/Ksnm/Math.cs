@@ -27,7 +27,7 @@ using System.Linq;
 namespace Ksnm
 {
     /// <summary>
-    /// System.Mathに無い関数を定義
+    /// System.Math に無い機能を定義したクラス
     /// </summary>
     public static partial class Math
     {
