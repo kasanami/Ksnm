@@ -58,6 +58,7 @@
   <ItemGroup>
     <Compile Include="Algorithm\Crc16Tests.cs" />
     <Compile Include="BinaryTests.cs" />
+    <Compile Include="EnumTests.cs" />
     <Compile Include="ExtensionMethods\System\Array\ArrayExtensionsTests.cs" />
     <Compile Include="ExtensionMethods\System\Collections\Generic\Dictionary\DictionaryExtensionsTests.cs" />
     <Compile Include="ExtensionMethods\System\Collections\Generic\Enumerable\EnumerableExtensionsTests.cs" />

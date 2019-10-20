@@ -360,7 +360,7 @@ namespace Ksnm.LitJson
                 if (value_type.IsEnum)
                 {
                     // 文字列→Enum
-                    return Enum.Parse(value_type, reader.Value.ToString());
+                    return System.Enum.Parse(value_type, reader.Value.ToString());
                     /* 元のコード
                     return Enum.ToObject (value_type, reader.Value);
                      */
@@ -500,7 +500,7 @@ namespace Ksnm.LitJson
                         else if (keyType == typeof(decimal))
                             key = decimal.Parse(property);
                         else if (keyType.IsEnum)
-                            key = Enum.Parse(keyType, property);
+                            key = System.Enum.Parse(keyType, property);
                         else
                         {
                             throw new JsonException(String.Format(

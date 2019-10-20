@@ -48,6 +48,7 @@
   <ItemGroup>
     <Compile Include="Algorithm\Crc16.cs" />
     <Compile Include="Algorithm\Crc16Polynomial.cs" />
+    <Compile Include="Enum.cs" />
     <Compile Include="ExtensionMethods\System\IO\Stream\StreamExtensions.cs" />
     <Compile Include="Numerics\FixedPointNumber32Q16.cs" />
     <Compile Include="Numerics\FixedPointNumber64Q32.cs" />
