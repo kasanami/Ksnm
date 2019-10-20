@@ -33,7 +33,7 @@ namespace Ksnm.Text
         /// </summary>
         const int Shift_JIS_CodePage = 932;
         /// <summary>
-        /// Shift_JISのエンコーディング
+        /// Shift_JIS 形式のエンコーディングを取得します。
         /// </summary>
         public static System.Text.Encoding Shift_JIS { get; }
         static Encoding()
