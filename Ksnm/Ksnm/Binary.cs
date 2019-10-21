@@ -359,6 +359,14 @@ namespace Ksnm
         /// <summary>
         /// 天井関数
         /// </summary>
+        public static uint CeilingPowerOfTwo(uint bits)
+        {
+            return (uint)CeilingPowerOfTwo((int)bits);
+        }
+
+        /// <summary>
+        /// 天井関数
+        /// </summary>
         public static long CeilingPowerOfTwo(long bits)
         {
             bits = bits - 1;
@@ -369,6 +377,14 @@ namespace Ksnm
             bits = bits | (bits >> 16);
             bits = bits | (bits >> 32);
             return bits + 1;
+        }
+
+        /// <summary>
+        /// 天井関数
+        /// </summary>
+        public static ulong CeilingPowerOfTwo(ulong bits)
+        {
+            return (ulong)CeilingPowerOfTwo((long)bits);
         }
 
         #endregion CeilingPowerOfTwo

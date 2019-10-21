@@ -148,29 +148,49 @@ namespace Ksnm.Tests
         [TestMethod]
         public void CeilingPowerOfTwoTest()
         {
-            int result;
-            result = Binary.CeilingPowerOfTwo(0b1);
-            Assert.AreEqual(result, 0b1);
-            result = Binary.CeilingPowerOfTwo(0b11);
-            Assert.AreEqual(result, 0b100);
-            result = Binary.CeilingPowerOfTwo(0b111);
-            Assert.AreEqual(result, 0b1000);
-            result = Binary.CeilingPowerOfTwo(0b101);
-            Assert.AreEqual(result, 0b1000);
+            Assert.AreEqual(0, Binary.CeilingPowerOfTwo(0));
+
+            Assert.AreEqual(0b0001, Binary.CeilingPowerOfTwo(0b0001));
+            Assert.AreEqual(0b0010, Binary.CeilingPowerOfTwo(0b0010));
+            Assert.AreEqual(0b0100, Binary.CeilingPowerOfTwo(0b0011));
+            Assert.AreEqual(0b0100, Binary.CeilingPowerOfTwo(0b0100));
+            Assert.AreEqual(0b1000, Binary.CeilingPowerOfTwo(0b0101));
+            Assert.AreEqual(0b1000, Binary.CeilingPowerOfTwo(0b0110));
+            Assert.AreEqual(0b1000, Binary.CeilingPowerOfTwo(0b0111));
+            Assert.AreEqual(0b1000, Binary.CeilingPowerOfTwo(0b1000));
+
+            Assert.AreEqual(0b0001_0000, Binary.CeilingPowerOfTwo(0b0000_1001));
+            Assert.AreEqual(0b0010_0000, Binary.CeilingPowerOfTwo(0b0001_0001));
+            Assert.AreEqual(0b0100_0000, Binary.CeilingPowerOfTwo(0b0010_0001));
+            Assert.AreEqual(0b1000_0000, Binary.CeilingPowerOfTwo(0b0100_0001));
+
+            Assert.AreEqual(0x8000_0000, Binary.CeilingPowerOfTwo(0x4000_0001u));
+            Assert.AreEqual(0x8000_0000_0000_0000, Binary.CeilingPowerOfTwo(0x4000_0000_0000_0001uL));
         }
 
         [TestMethod]
         public void FloorPowerOfTwoTest()
         {
-            int result;
-            result = Binary.FloorPowerOfTwo(0b1);
-            Assert.AreEqual(result, 0b1);
-            result = Binary.FloorPowerOfTwo(0b11);
-            Assert.AreEqual(result, 0b10);
-            result = Binary.FloorPowerOfTwo(0b111);
-            Assert.AreEqual(result, 0b100);
-            result = Binary.FloorPowerOfTwo(0b101);
-            Assert.AreEqual(result, 0b100);
+            Assert.AreEqual(0, Binary.FloorPowerOfTwo(0));
+
+            Assert.AreEqual(0b0001, Binary.FloorPowerOfTwo(0b0001));
+            Assert.AreEqual(0b0010, Binary.FloorPowerOfTwo(0b0010));
+            Assert.AreEqual(0b0010, Binary.FloorPowerOfTwo(0b0011));
+            Assert.AreEqual(0b0100, Binary.FloorPowerOfTwo(0b0100));
+            Assert.AreEqual(0b0100, Binary.FloorPowerOfTwo(0b0101));
+            Assert.AreEqual(0b0100, Binary.FloorPowerOfTwo(0b0110));
+            Assert.AreEqual(0b0100, Binary.FloorPowerOfTwo(0b0111));
+            Assert.AreEqual(0b1000, Binary.FloorPowerOfTwo(0b1000));
+
+            Assert.AreEqual(0b0000_1000, Binary.FloorPowerOfTwo(0b0000_1001));
+            Assert.AreEqual(0b0001_0000, Binary.FloorPowerOfTwo(0b0001_0001));
+            Assert.AreEqual(0b0010_0000, Binary.FloorPowerOfTwo(0b0010_0001));
+            Assert.AreEqual(0b0100_0000, Binary.FloorPowerOfTwo(0b0100_0001));
+            Assert.AreEqual(0b1000_0000, Binary.FloorPowerOfTwo(0b1000_0001));
+
+            Assert.AreEqual(0x8000_0000, Binary.FloorPowerOfTwo(0x8000_0001u));
+            Assert.AreEqual(0x8000_0000_0000_0000, Binary.FloorPowerOfTwo(0x8000_0000_0000_0001uL));
+            Assert.AreEqual(0x8000_0000_0000_0000, Binary.FloorPowerOfTwo(ulong.MaxValue));
         }
 
         [TestMethod]
