@@ -33,8 +33,9 @@ namespace Ksnm.ExtensionMethods.System.Collections.Generic.Dictionary
         /// <summary>
         /// 指定したキーが存在しなければ、指定したキーと値を追加
         /// </summary>
-        /// <param name="key"></param>
-        /// <param name="value"></param>
+        /// <param name="dictionary">インスタンス</param>
+        /// <param name="key">検索するキー</param>
+        /// <param name="value">追加する値</param>
         public static void AddIfKeyNotExists<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, TValue value)
         {
             if (dictionary.ContainsKey(key) == false)
@@ -45,6 +46,7 @@ namespace Ksnm.ExtensionMethods.System.Collections.Generic.Dictionary
         /// <summary>
         /// 指定したキーに関連付けられている値を取得します。
         /// </summary>
+        /// <param name="dictionary">インスタンス</param>
         /// <param name="key">取得する値のキー。</param>
         /// <param name="defaultValue">キーが見つからない場合の value パラメーターの型に対する既定の値。</param>
         public static TValue GetValueOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, TValue defaultValue)
@@ -58,6 +60,7 @@ namespace Ksnm.ExtensionMethods.System.Collections.Generic.Dictionary
         /// <summary>
         /// 指定したキーに関連付けられている値を取得します。
         /// </summary>
+        /// <param name="dictionary">インスタンス</param>
         /// <param name="key">取得する値のキー。</param>
         public static TValue GetValueOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key)
         {

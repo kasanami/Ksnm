@@ -28,9 +28,21 @@ namespace Ksnm.Algorithm
     /// </summary>
     public enum Crc16Polynomial : ushort
     {
+        /// <summary>
+        /// CRC-16-IBM
+        /// </summary>
         Ibm = 0x8005,
+        /// <summary>
+        /// CRC-16-IBMの反転
+        /// </summary>
         IbmReversed = 0xA001,
+        /// <summary>
+        /// CRC-16-CCITT
+        /// </summary>
         Ccitt = 0x1021,
+        /// <summary>
+        /// CRC-16-CCITTの反転
+        /// </summary>
         CcittReversed = 0x8408,
     }
 }

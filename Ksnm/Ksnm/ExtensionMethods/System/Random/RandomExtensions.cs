@@ -34,6 +34,7 @@ namespace Ksnm.ExtensionMethods.System.Random
         /// <summary>
         /// false と true の乱数を返します。
         /// </summary>
+        /// <param name="random">インスタンス</param>
         public static bool NextBool(this Original.Random random)
         {
             return random.Next(2) == 1;
@@ -42,6 +43,7 @@ namespace Ksnm.ExtensionMethods.System.Random
         /// <summary>
         /// 0 以上のランダムな整数を返します。
         /// </summary>
+        /// <param name="random">インスタンス</param>
         /// <returns>0 以上で System.Int64.MaxValue より小さい 64 ビット符号付整数。</returns>
         public static long NextLong(this Original.Random random)
         {
@@ -51,8 +53,11 @@ namespace Ksnm.ExtensionMethods.System.Random
         /// <summary>
         /// 0 以上のランダムな整数を返します。
         /// </summary>
+        /// <param name="random">インスタンス</param>
+        /// <param name="minValue">生成される乱数の包括的下限値。</param>
+        /// <param name="maxValue">生成される乱数の排他的上限値。maxValue は 0 以上にする必要があります。</param>
         /// <returns>0 以上で System.Int64.MaxValue より小さい 64 ビット符号付整数。</returns>
-        /// <exception cref="System.ArgumentOutOfRangeException">maxValue が 0 未満です。</exception>
+        /// <exception cref="Original.ArgumentOutOfRangeException">maxValue が 0 未満です。</exception>
         public static long NextLong(this Original.Random random, long minValue, long maxValue)
         {
             return minValue + random.NextLong(maxValue - minValue);
@@ -61,12 +66,13 @@ namespace Ksnm.ExtensionMethods.System.Random
         /// <summary>
         /// 指定した最大値より小さい 0 以上のランダムな整数を返します。
         /// </summary>
+        /// <param name="random">インスタンス</param>
         /// <param name="maxValue">生成される乱数の排他的上限値。maxValue は 0 以上にする必要があります。</param>
         /// <returns>0 以上で maxValue 未満の 64 ビット符号付整数。
         /// つまり、通常は戻り値の範囲に 0 は含まれますが、maxValue は含まれません。
         /// ただし、maxValue が 0 の場合は、0 が返されます。
         /// </returns>
-        /// <exception cref="System.ArgumentOutOfRangeException">maxValue が 0 未満です。</exception>
+        /// <exception cref="Original.ArgumentOutOfRangeException">maxValue が 0 未満です。</exception>
         public static long NextLong(this Original.Random random, long maxValue)
         {
             if (maxValue < 0)
@@ -87,6 +93,7 @@ namespace Ksnm.ExtensionMethods.System.Random
         /// <summary>
         /// 0.0 以上 1.0 以下のランダムな浮動小数点数を返します。
         /// </summary>
+        /// <param name="random">インスタンス</param>
         /// <returns>0.0 以上 1.0 以下の倍精度浮動小数点数。</returns>
         public static double UnitInterval(this Original.Random random)
         {
@@ -99,6 +106,7 @@ namespace Ksnm.ExtensionMethods.System.Random
         /// <summary>
         /// 指定した範囲内のランダムな整数を返します。
         /// </summary>
+        /// <param name="random">インスタンス</param>
         /// <param name="min">返される乱数の包括的下限値。</param>
         /// <param name="max">返される乱数の包括的上限値。</param>
         public static int Range(this Original.Random random, int min, int max)
@@ -109,6 +117,7 @@ namespace Ksnm.ExtensionMethods.System.Random
         /// <summary>
         /// 指定した範囲内のランダムな浮動小数点数を返します。
         /// </summary>
+        /// <param name="random">インスタンス</param>
         /// <param name="min">返される乱数の包括的下限値。</param>
         /// <param name="max">返される乱数の包括的上限値。</param>
         public static float Range(this Original.Random random, float min, float max)
@@ -119,6 +128,7 @@ namespace Ksnm.ExtensionMethods.System.Random
         /// <summary>
         /// 指定した範囲内のランダムな浮動小数点数を返します。
         /// </summary>
+        /// <param name="random">インスタンス</param>
         /// <param name="min">返される乱数の包括的下限値。</param>
         /// <param name="max">返される乱数の包括的上限値。</param>
         public static double Range(this Original.Random random, double min, double max)
