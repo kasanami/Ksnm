@@ -694,9 +694,9 @@ namespace Ksnm
         /// <param name="baseValue">累乗対象の底</param>
         /// <param name="exponent">冪指数</param>
         /// <returns>累乗した値
-        /// <para>baseValue==0,exponent<0=int.MinValue(無限大の代わり)</para>
-        /// <para>baseValue>+1,exponent<0=0</para>
-        /// <para>baseValue<-1,exponent<0=0</para>
+        /// <para>baseValue==0,exponent&lt;0 のときは int.MinValue(無限大の代わり)</para>
+        /// <para>baseValue&gt;+1,exponent&lt;0 のときは 0</para>
+        /// <para>baseValue&lt;-1,exponent&lt;0 のときは 0</para>
         /// </returns>
         public static int Pow(int baseValue, int exponent)
         {
