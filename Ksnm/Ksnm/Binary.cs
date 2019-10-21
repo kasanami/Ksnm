@@ -257,12 +257,12 @@ namespace Ksnm
 
         #endregion CountTrainingZero
 
-        #region IsPowerOf2
+        #region IsPowerOfTwo
 
         /// <summary>
         /// 2の累乗ならtrueを返す
         /// </summary>
-        public static bool IsPowerOf2(int bits)
+        public static bool IsPowerOfTwo(int bits)
         {
             return (bits & (bits - 1)) == 0;
         }
@@ -270,7 +270,7 @@ namespace Ksnm
         /// <summary>
         /// 2の累乗ならtrueを返す
         /// </summary>
-        public static bool IsPowerOf2(uint bits)
+        public static bool IsPowerOfTwo(uint bits)
         {
             return (bits & (bits - 1)) == 0;
         }
@@ -278,7 +278,7 @@ namespace Ksnm
         /// <summary>
         /// 2の累乗ならtrueを返す
         /// </summary>
-        public static bool IsPowerOf2(long bits)
+        public static bool IsPowerOfTwo(long bits)
         {
             return (bits & (bits - 1)) == 0;
         }
@@ -286,19 +286,19 @@ namespace Ksnm
         /// <summary>
         /// 2の累乗ならtrueを返す
         /// </summary>
-        public static bool IsPowerOf2(ulong bits)
+        public static bool IsPowerOfTwo(ulong bits)
         {
             return (bits & (bits - 1)) == 0;
         }
 
-        #endregion IsPowerOf2
+        #endregion IsPowerOfTwo
 
-        #region FloorPowerOf2
+        #region FloorPowerOfTwo
 
         /// <summary>
         /// 床関数
         /// </summary>
-        public static uint FloorPowerOf2(uint bits)
+        public static uint FloorPowerOfTwo(uint bits)
         {
             bits = bits | (bits >> 1);
             bits = bits | (bits >> 2);
@@ -311,15 +311,15 @@ namespace Ksnm
         /// <summary>
         /// 床関数
         /// </summary>
-        public static int FloorPowerOf2(int bits)
+        public static int FloorPowerOfTwo(int bits)
         {
-            return (int)FloorPowerOf2((uint)bits);
+            return (int)FloorPowerOfTwo((uint)bits);
         }
 
         /// <summary>
         /// 床関数
         /// </summary>
-        public static ulong FloorPowerOf2(ulong bits)
+        public static ulong FloorPowerOfTwo(ulong bits)
         {
             bits = bits | (bits >> 1);
             bits = bits | (bits >> 2);
@@ -333,19 +333,19 @@ namespace Ksnm
         /// <summary>
         /// 床関数
         /// </summary>
-        public static long FloorPowerOf2(long bits)
+        public static long FloorPowerOfTwo(long bits)
         {
-            return (long)FloorPowerOf2((ulong)bits);
+            return (long)FloorPowerOfTwo((ulong)bits);
         }
 
-        #endregion FloorPowerOf2
+        #endregion FloorPowerOfTwo
 
-        #region CeilingPowerOf2
+        #region CeilingPowerOfTwo
 
         /// <summary>
         /// 天井関数
         /// </summary>
-        public static int CeilingPowerOf2(int bits)
+        public static int CeilingPowerOfTwo(int bits)
         {
             bits = bits - 1;
             bits = bits | (bits >> 1);
@@ -359,7 +359,7 @@ namespace Ksnm
         /// <summary>
         /// 天井関数
         /// </summary>
-        public static long CeilingPowerOf2(long bits)
+        public static long CeilingPowerOfTwo(long bits)
         {
             bits = bits - 1;
             bits = bits | (bits >> 1);
@@ -371,7 +371,7 @@ namespace Ksnm
             return bits + 1;
         }
 
-        #endregion CeilingPowerOf2
+        #endregion CeilingPowerOfTwo
 
         #region ToInt16
 

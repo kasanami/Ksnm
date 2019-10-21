@@ -103,73 +103,73 @@ namespace Ksnm.Tests
         }
 
         [TestMethod]
-        public void IsPowerOf2Test()
+        public void IsPowerOfTwoTest()
         {
-            Assert.IsTrue(Binary.IsPowerOf2(0));
-            Assert.IsTrue(Binary.IsPowerOf2(1));
-            Assert.IsTrue(Binary.IsPowerOf2(0b10));
-            Assert.IsTrue(Binary.IsPowerOf2(0b100));
-            Assert.IsTrue(Binary.IsPowerOf2(0b1000));
-            Assert.IsTrue(Binary.IsPowerOf2(0x10));
-            Assert.IsTrue(Binary.IsPowerOf2(0x100));
-            Assert.IsTrue(Binary.IsPowerOf2(0x1000));
-            Assert.IsTrue(Binary.IsPowerOf2(0x1_0000));
-            Assert.IsTrue(Binary.IsPowerOf2(0x10_0000));
-            Assert.IsTrue(Binary.IsPowerOf2(0x100_0000));
-            Assert.IsTrue(Binary.IsPowerOf2(0x1000_0000));
-            Assert.IsTrue(Binary.IsPowerOf2(0x1_0000_0000));
-            Assert.IsTrue(Binary.IsPowerOf2(0x10_0000_0000));
-            Assert.IsTrue(Binary.IsPowerOf2(0x100_0000_0000));
-            Assert.IsTrue(Binary.IsPowerOf2(0x1000_0000_0000));
-            Assert.IsTrue(Binary.IsPowerOf2(0x1_0000_0000_0000));
-            Assert.IsTrue(Binary.IsPowerOf2(0x10_0000_0000_0000));
-            Assert.IsTrue(Binary.IsPowerOf2(0x100_0000_0000_0000));
-            Assert.IsTrue(Binary.IsPowerOf2(0x1000_0000_0000_0000));
-            Assert.IsFalse(Binary.IsPowerOf2(0b11));
-            Assert.IsFalse(Binary.IsPowerOf2(0b101));
-            Assert.IsFalse(Binary.IsPowerOf2(0b1001));
-            Assert.IsFalse(Binary.IsPowerOf2(0x11));
-            Assert.IsFalse(Binary.IsPowerOf2(0x101));
-            Assert.IsFalse(Binary.IsPowerOf2(0x1001));
-            Assert.IsFalse(Binary.IsPowerOf2(0x1_0001));
-            Assert.IsFalse(Binary.IsPowerOf2(0x10_0001));
-            Assert.IsFalse(Binary.IsPowerOf2(0x100_0001));
-            Assert.IsFalse(Binary.IsPowerOf2(0x1000_0001));
-            Assert.IsFalse(Binary.IsPowerOf2(0x1_0000_0001));
-            Assert.IsFalse(Binary.IsPowerOf2(0x10_0000_0001));
-            Assert.IsFalse(Binary.IsPowerOf2(0x100_0000_0001));
-            Assert.IsFalse(Binary.IsPowerOf2(0x1000_0000_0001));
-            Assert.IsFalse(Binary.IsPowerOf2(0x1_0000_0000_0001));
-            Assert.IsFalse(Binary.IsPowerOf2(0x10_0000_0000_0001));
-            Assert.IsFalse(Binary.IsPowerOf2(0x100_0000_0000_0001));
-            Assert.IsFalse(Binary.IsPowerOf2(0x1000_0000_0000_0001));
+            Assert.IsTrue(Binary.IsPowerOfTwo(0));
+            Assert.IsTrue(Binary.IsPowerOfTwo(1));
+            Assert.IsTrue(Binary.IsPowerOfTwo(0b10));
+            Assert.IsTrue(Binary.IsPowerOfTwo(0b100));
+            Assert.IsTrue(Binary.IsPowerOfTwo(0b1000));
+            Assert.IsTrue(Binary.IsPowerOfTwo(0x10));
+            Assert.IsTrue(Binary.IsPowerOfTwo(0x100));
+            Assert.IsTrue(Binary.IsPowerOfTwo(0x1000));
+            Assert.IsTrue(Binary.IsPowerOfTwo(0x1_0000));
+            Assert.IsTrue(Binary.IsPowerOfTwo(0x10_0000));
+            Assert.IsTrue(Binary.IsPowerOfTwo(0x100_0000));
+            Assert.IsTrue(Binary.IsPowerOfTwo(0x1000_0000));
+            Assert.IsTrue(Binary.IsPowerOfTwo(0x1_0000_0000));
+            Assert.IsTrue(Binary.IsPowerOfTwo(0x10_0000_0000));
+            Assert.IsTrue(Binary.IsPowerOfTwo(0x100_0000_0000));
+            Assert.IsTrue(Binary.IsPowerOfTwo(0x1000_0000_0000));
+            Assert.IsTrue(Binary.IsPowerOfTwo(0x1_0000_0000_0000));
+            Assert.IsTrue(Binary.IsPowerOfTwo(0x10_0000_0000_0000));
+            Assert.IsTrue(Binary.IsPowerOfTwo(0x100_0000_0000_0000));
+            Assert.IsTrue(Binary.IsPowerOfTwo(0x1000_0000_0000_0000));
+            Assert.IsFalse(Binary.IsPowerOfTwo(0b11));
+            Assert.IsFalse(Binary.IsPowerOfTwo(0b101));
+            Assert.IsFalse(Binary.IsPowerOfTwo(0b1001));
+            Assert.IsFalse(Binary.IsPowerOfTwo(0x11));
+            Assert.IsFalse(Binary.IsPowerOfTwo(0x101));
+            Assert.IsFalse(Binary.IsPowerOfTwo(0x1001));
+            Assert.IsFalse(Binary.IsPowerOfTwo(0x1_0001));
+            Assert.IsFalse(Binary.IsPowerOfTwo(0x10_0001));
+            Assert.IsFalse(Binary.IsPowerOfTwo(0x100_0001));
+            Assert.IsFalse(Binary.IsPowerOfTwo(0x1000_0001));
+            Assert.IsFalse(Binary.IsPowerOfTwo(0x1_0000_0001));
+            Assert.IsFalse(Binary.IsPowerOfTwo(0x10_0000_0001));
+            Assert.IsFalse(Binary.IsPowerOfTwo(0x100_0000_0001));
+            Assert.IsFalse(Binary.IsPowerOfTwo(0x1000_0000_0001));
+            Assert.IsFalse(Binary.IsPowerOfTwo(0x1_0000_0000_0001));
+            Assert.IsFalse(Binary.IsPowerOfTwo(0x10_0000_0000_0001));
+            Assert.IsFalse(Binary.IsPowerOfTwo(0x100_0000_0000_0001));
+            Assert.IsFalse(Binary.IsPowerOfTwo(0x1000_0000_0000_0001));
         }
 
         [TestMethod]
-        public void CeilingPowerOf2Test()
+        public void CeilingPowerOfTwoTest()
         {
             int result;
-            result = Binary.CeilingPowerOf2(0b1);
+            result = Binary.CeilingPowerOfTwo(0b1);
             Assert.AreEqual(result, 0b1);
-            result = Binary.CeilingPowerOf2(0b11);
+            result = Binary.CeilingPowerOfTwo(0b11);
             Assert.AreEqual(result, 0b100);
-            result = Binary.CeilingPowerOf2(0b111);
+            result = Binary.CeilingPowerOfTwo(0b111);
             Assert.AreEqual(result, 0b1000);
-            result = Binary.CeilingPowerOf2(0b101);
+            result = Binary.CeilingPowerOfTwo(0b101);
             Assert.AreEqual(result, 0b1000);
         }
 
         [TestMethod]
-        public void FloorPowerOf2Test()
+        public void FloorPowerOfTwoTest()
         {
             int result;
-            result = Binary.FloorPowerOf2(0b1);
+            result = Binary.FloorPowerOfTwo(0b1);
             Assert.AreEqual(result, 0b1);
-            result = Binary.FloorPowerOf2(0b11);
+            result = Binary.FloorPowerOfTwo(0b11);
             Assert.AreEqual(result, 0b10);
-            result = Binary.FloorPowerOf2(0b111);
+            result = Binary.FloorPowerOfTwo(0b111);
             Assert.AreEqual(result, 0b100);
-            result = Binary.FloorPowerOf2(0b101);
+            result = Binary.FloorPowerOfTwo(0b101);
             Assert.AreEqual(result, 0b100);
         }
 
