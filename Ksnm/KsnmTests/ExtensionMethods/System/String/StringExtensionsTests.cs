@@ -95,6 +95,12 @@ namespace Ksnm.ExtensionMethods.System.String.Tests
             Assert.AreEqual(subStr, "abcdefg");
             subStr = str.Substring(null, null);
             Assert.AreEqual(subStr, "abcdefg");
+            // 全角でテスト
+            str = "あいうえお";
+            subStr = str.Substring("あ", "お");
+            Assert.AreEqual(subStr, "いうえ");
+            subStr = str.Substring("あ", "お", true, true);
+            Assert.AreEqual(subStr, "あいうえお");
         }
 
         [TestMethod()]

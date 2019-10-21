@@ -21,6 +21,7 @@ freely, subject to the following restrictions:
 
 3. This notice may not be removed or altered from any source distribution.
 */
+using System;
 using System.Collections.Generic;
 
 #if Ksnm_Using_UniLinq
@@ -143,6 +144,19 @@ namespace Ksnm.ExtensionMethods.System.String
         /// <param name="includeEndString">trueなら、終了文字列を含める</param>
         public static string Substring(this string self, string startString, string endString, bool includeStartString = false, bool includeEndString = false)
         {
+            return self.AsSpan(startString, endString, includeStartString, includeEndString).ToString();
+        }
+        /// <summary>
+        /// 部分文字列を取得します。
+        /// この部分文字列は、startString～endStringの文字列です。
+        /// </summary>
+        /// <param name="self">インスタンス</param>
+        /// <param name="startString">開始文字列 nullを指定すると先頭から選択されます。</param>
+        /// <param name="endString">終了文字列 nullを指定すると最後まで選択されます。</param>
+        /// <param name="includeStartString">trueなら、開始文字列を含める</param>
+        /// <param name="includeEndString">trueなら、終了文字列を含める</param>
+        public static ReadOnlySpan<char> AsSpan(this string self, string startString, string endString, bool includeStartString = false, bool includeEndString = false)
+        {
             var startIndex = 0;
             if (startString != null)
             {
@@ -176,7 +190,7 @@ namespace Ksnm.ExtensionMethods.System.String
             {
                 endIndex += endString.Length;
             }
-            return self.Substring(startIndex, endIndex - startIndex);
+            return self.AsSpan(startIndex, endIndex - startIndex);
         }
         /// <summary>
         /// 配列内の文字数に基づいて文字列を部分文字列に分割します。
