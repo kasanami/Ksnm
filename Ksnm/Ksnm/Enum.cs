@@ -21,8 +21,6 @@ freely, subject to the following restrictions:
 
 3. This notice may not be removed or altered from any source distribution.
 */
-using System.Collections.Generic;
-
 namespace Ksnm
 {
     /// <summary>
@@ -34,10 +32,10 @@ namespace Ksnm
         /// 指定した列挙体に含まれている定数の値の配列を取得します。
         /// </summary>
         /// <typeparam name="T">列挙型。</typeparam>
-        /// <returns>T に含まれている定数の値を格納したコレクション。</returns>
-        public static IEnumerable<T> GetValues<T>() where T : System.Enum
+        /// <returns>T に含まれている定数の値を格納した配列。</returns>
+        public static T[] GetValues<T>() where T : System.Enum
         {
-            return (IEnumerable<T>)System.Enum.GetValues(typeof(T));
+            return (T[])System.Enum.GetValues(typeof(T));
         }
     }
 }
