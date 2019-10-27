@@ -1,9 +1,9 @@
 ﻿using System;
 
-namespace Ksnm.ExtensionMethods.System.Memory.Span
+namespace Ksnm.ExtensionMethods.System.Span
 {
     /// <summary>
-    /// Randomの拡張メソッド
+    /// Spanの拡張メソッド
     /// </summary>
     public static class SpanExtensions
     {

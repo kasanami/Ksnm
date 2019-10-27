@@ -1,9 +1,9 @@
-﻿using Ksnm.ExtensionMethods.System.Memory.Span;
+﻿using Ksnm.ExtensionMethods.System.Span;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Linq;
 
-namespace Ksnm.ExtensionMethods.System.Memory.Span.Tests
+namespace Ksnm.ExtensionMethods.System.Span.Tests
 {
     [TestClass()]
     public class SpanExtensionsTests

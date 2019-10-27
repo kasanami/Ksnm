@@ -59,7 +59,7 @@
     <Compile Include="Algorithm\Crc16Polynomial.cs" />
     <Compile Include="Enum.cs" />
     <Compile Include="ExtensionMethods\System\IO\Stream\StreamExtensions.cs" />
-    <Compile Include="ExtensionMethods\System\Memory\Span\SpanExtensions.cs" />
+    <Compile Include="ExtensionMethods\System\Span\SpanExtensions.cs" />
     <Compile Include="Numerics\FixedPointNumber32Q16.cs" />
     <Compile Include="Numerics\FixedPointNumber64Q32.cs" />
     <Compile Include="Numerics\Fraction32.cs" />
