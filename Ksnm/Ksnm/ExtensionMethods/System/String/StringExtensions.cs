@@ -267,5 +267,26 @@ namespace Ksnm.ExtensionMethods.System.String
             }
             return temp.ToString();
         }
+        /// <summary>
+        /// 指定文字列が連続して出現する場合、一つの文字列に置換します。
+        /// </summary>
+        /// <param name="self">インスタンス</param>
+        /// <param name="value">置換する文字列。</param>
+        /// <returns>変更後の新しいインスタンス</returns>
+        public static string Unify(this string self, string value)
+        {
+            string oldValue = value + value;
+            var temp = new global::System.Text.StringBuilder(self);
+            int afterLength = temp.Length;
+            int beforeLength;
+            do
+            {
+                beforeLength = afterLength;
+                temp.Replace(oldValue, value);
+                afterLength = temp.Length;
+            }
+            while (beforeLength != afterLength);
+            return temp.ToString();
+        }
     }
 }

@@ -148,5 +148,13 @@ namespace Ksnm.ExtensionMethods.System.String.Tests
             Assert.AreEqual("efg", subStrs[1]);
             Assert.AreEqual("", subStrs[2]);
         }
+
+        [TestMethod()]
+        public void UnifyTest()
+        {
+            var str = "a b  c   d    e     f      g";
+            var unifiedStr = str.Unify(" ");
+            Assert.AreEqual("a b c d e f g", unifiedStr);
+        }
     }
 }
