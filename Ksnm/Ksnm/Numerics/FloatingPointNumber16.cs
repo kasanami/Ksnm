@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Ksnm.ExtensionMethods.System.Double;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,9 +11,21 @@ namespace Ksnm.Numerics
     /// <summary>
     /// 半精度浮動小数点数型
     /// </summary>
-    public struct FloatingPointNumber16
+    public struct FloatingPointNumber16: IEquatable<FloatingPointNumber16>
     {
         #region 定数
+        /// <summary>
+        /// 指数部バイアス
+        /// </summary>
+        public const int ExponentBias = 15;
+        /// <summary>
+        /// 指数の最小値
+        /// </summary>
+        public const int ExponentMinValue = -14;
+        /// <summary>
+        /// 指数の最大値
+        /// </summary>
+        public const int ExponentMaxValue = 15;
         /// <summary>
         /// 数値 0 を表します。
         /// </summary>
@@ -95,7 +108,7 @@ namespace Ksnm.Numerics
         public BitsType Bits { get; private set; }
         /// <summary>
         /// 符号部ビット
-        /// 負数ならば1になる。
+        /// 負数ならば 1 になる。
         /// </summary>
         public BitsType SignBits
         {
@@ -118,8 +131,8 @@ namespace Ksnm.Numerics
         /// </summary>
         public int Exponent
         {
-            get => ExponentBits - 15;
-            set => ExponentBits = (ushort)(value + 15);
+            get => ExponentBits - ExponentBias;
+            set => ExponentBits = (ushort)(value + ExponentBias);
         }
         /// <summary>
         /// 指数部ビット
@@ -175,7 +188,7 @@ namespace Ksnm.Numerics
             }
             else
             {
-                exponentBits -= 15;
+                exponentBits -= ExponentBias;
                 exponentBits += 1023;
                 doubleBits |= (ulong)exponentBits << (52);
             }
@@ -190,5 +203,101 @@ namespace Ksnm.Numerics
             }
             return BitConverter.Int64BitsToDouble((long)doubleBits);
         }
+
+        /// <summary>
+        /// 倍精度浮動小数点数から半精度浮動小数点数型に変換する
+        /// </summary>
+        public static FloatingPointNumber16 FromDouble(double value)
+        {
+            FloatingPointNumber16 temp = Zero;
+            // 符号部
+            var sign = value.GetSignBits() != 0;
+            // 指数部
+            int exponentBits = value.GetExponentBits();
+            // 仮数部
+            var mantissaBits = value.GetMantissaBits();
+
+            if (exponentBits == 0x7FF)
+            {
+                temp.ExponentBits = 0x1F;
+            }
+            else if (exponentBits == 0)
+            {
+                temp.ExponentBits = 0;
+            }
+            else
+            {
+                exponentBits -= 1023;
+                if (exponentBits < ExponentMinValue)
+                {
+                    // 最小値未満
+                    temp.Bits = EpsilonBits;
+                }
+                else if (exponentBits > ExponentMaxValue)
+                {
+                    // 最大値超過
+                    temp.Bits = PositiveInfinityBits;
+                }
+                else
+                {
+                    exponentBits += ExponentBias;
+                    temp.ExponentBits = (BitsType)exponentBits;
+                }
+            }
+            // 符号部
+            if (sign)
+            {
+                temp.SignBits = 1;
+            }
+            // 仮数部
+            {
+                temp.MantissaBits |= (BitsType)(mantissaBits >> (52 - 10));
+            }
+            return temp;
+        }
+        #region IEquatable
+        /// <summary>
+        /// このインスタンスが指定した FloatingPointNumber16 値に等しいかどうかを示す値を返します。
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns></returns>
+        public bool Equals(FloatingPointNumber16 other)
+        {
+            return Bits.Equals(other.Bits);
+        }
+        #endregion IEquatable
+
+        #region object
+        /// <summary>
+        /// 指定したオブジェクトが、現在のオブジェクトと等しいかどうかを判断します。
+        /// </summary>
+        /// <returns>指定したオブジェクトが現在のオブジェクトと等しい場合は true。それ以外の場合は false。</returns>
+        public override bool Equals(object obj)
+        {
+            if (obj == null)
+            {
+                return false;
+            }
+            if (obj is FloatingPointNumber16)
+            {
+                return Equals((FloatingPointNumber16)obj);
+            }
+            return false;
+        }
+        /// <summary>
+        /// このインスタンスのハッシュ コードを返します。
+        /// </summary>
+        public override int GetHashCode()
+        {
+            return Bits.GetHashCode();
+        }
+        /// <summary>
+        /// このインスタンスの数値を、それと等価な文字列形式に変換します。
+        /// </summary>
+        public override string ToString()
+        {
+            return ToDouble().ToString();
+        }
+        #endregion object
     }
 }
