@@ -1,5 +1,4 @@
-﻿using Ksnm.ExtensionMethods.System.Span;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Linq;
 
@@ -64,6 +63,29 @@ namespace Ksnm.ExtensionMethods.System.Span.Tests
             Assert.AreEqual(subStr, "いうえ");
             subStr = str.Slice("あ", "お", true, true).ToString();
             Assert.AreEqual(subStr, "あいうえお");
+        }
+
+        [TestMethod()]
+        public void SplitTest()
+        {
+            {
+                var str = "a,bc,def,g".AsSpan();
+                var cells = str.Split(',');
+                var expectedCells = new[] { "a", "bc", "def", "g" };
+                Assert.IsTrue(expectedCells.SequenceEqual(cells));
+            }
+            {
+                var str = "abcdefg".AsSpan();
+                var cells = str.Split(',');
+                var expectedCells = new[] { "abcdefg" };
+                Assert.IsTrue(expectedCells.SequenceEqual(cells));
+            }
+            {
+                var str = "a,bc.def,g".AsSpan();
+                var cells = str.Split(',', '.');
+                var expectedCells = new[] { "a", "bc", "def", "g" };
+                Assert.IsTrue(expectedCells.SequenceEqual(cells));
+            }
         }
     }
 }
