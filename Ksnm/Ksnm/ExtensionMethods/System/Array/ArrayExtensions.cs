@@ -31,6 +31,18 @@ namespace Ksnm.ExtensionMethods.System.Array
     public static class ArrayExtensions
     {
         /// <summary>
+        /// 指定したオブジェクトを検索し、1 次元配列でそのオブジェクトが最初に見つかった位置のインデックス番号を返します。
+        /// </summary>
+        /// <typeparam name="T">配列要素の型。</typeparam>
+        /// <param name="array">検索する 1 次元の配列。インデックス番号が 0 から始まる必要があります。</param>
+        /// <param name="value">array 内で検索するオブジェクト。</param>
+        /// <returns>array 全体を対象とする value の検索で最初に見つかった位置のインデックス (0 から始まる)。それ以外の場合は -1。</returns>
+        /// <exception cref="System.ArgumentNullException">array は nullです。</exception>
+        public static int IndexOf<T>(this T[] array, T value)
+        {
+            return Original.Array.IndexOf(array, value);
+        }
+        /// <summary>
         /// <para>２つの配列の要素の大きさを比較します。</para>
         /// <para>長さが違う場合、短い方で比較され、それでも同じであれば、長い方が大きいと判定されます。</para>
         /// <para>配列の要素が同じか判定するだけであれば、System.LinqのSequenceEqual関数を使用する方法もあります。</para>

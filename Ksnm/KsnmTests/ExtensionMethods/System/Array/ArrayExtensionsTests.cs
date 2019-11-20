@@ -70,5 +70,24 @@ namespace Ksnm.ExtensionMethods.System.Array.Tests
             };
             Assert.AreEqual(array3.GetCenterValue(), 25);
         }
+
+        [TestMethod()]
+        public void IndexOfTest()
+        {
+            {
+                var ary = new[] { 0, 1, 2, 3 };
+                for (int i = 0; i < ary.Length; i++)
+                {
+                    Assert.AreEqual(i, ary.IndexOf(i));
+                }
+            }
+            {
+                var ary = new[] { "0", "1", "2", "3" };
+                for (int i = 0; i < ary.Length; i++)
+                {
+                    Assert.AreEqual(i, ary.IndexOf(i.ToString()));
+                }
+            }
+        }
     }
 }
