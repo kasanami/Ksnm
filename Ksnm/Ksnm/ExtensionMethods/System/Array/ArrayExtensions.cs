@@ -43,6 +43,21 @@ namespace Ksnm.ExtensionMethods.System.Array
             return Original.Array.IndexOf(array, value);
         }
         /// <summary>
+        /// 指定されたオブジェクトを 1 次元配列の要素範囲内で検索し、最初に見つかったオブジェクトのインデックスを返します。 要素範囲は、指定されたインデックスから、配列の最後までの範囲です。
+        /// </summary>
+        /// <typeparam name="T">配列要素の型。</typeparam>
+        /// <param name="array">検索する 1 次元配列。</param>
+        /// <param name="value">array 内で検索するオブジェクト。</param>
+        /// <param name="startIndex">検索の開始インデックス。 空の配列の場合 0 (ゼロ) は有効です。</param>
+        /// <returns>array の startIndex から最後の要素までの範囲内で value が見つかった場合は、最初に見つかった位置のインデックス。それ以外の場合は、-1。</returns>
+        /// /// <exception cref="System.ArgumentNullException">array は nullです。</exception>
+        /// /// <exception cref="System.ArgumentOutOfRangeException">startIndex は array の有効なインデックスの範囲外です。</exception>
+        /// /// <exception cref="System.RankException">array が多次元です。</exception>
+        public static int IndexOf<T>(this T[] array, T value, int startIndex)
+        {
+            return Original.Array.IndexOf(array, value, startIndex);
+        }
+        /// <summary>
         /// <para>２つの配列の要素の大きさを比較します。</para>
         /// <para>長さが違う場合、短い方で比較され、それでも同じであれば、長い方が大きいと判定されます。</para>
         /// <para>配列の要素が同じか判定するだけであれば、System.LinqのSequenceEqual関数を使用する方法もあります。</para>

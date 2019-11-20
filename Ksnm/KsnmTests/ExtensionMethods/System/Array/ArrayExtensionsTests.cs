@@ -82,10 +82,24 @@ namespace Ksnm.ExtensionMethods.System.Array.Tests
                 }
             }
             {
+                var ary = new[] { 0, 1, 2, 3 };
+                for (int i = 0; i < ary.Length; i++)
+                {
+                    Assert.AreEqual(i, ary.IndexOf(i, 0));
+                }
+            }
+            {
                 var ary = new[] { "0", "1", "2", "3" };
                 for (int i = 0; i < ary.Length; i++)
                 {
                     Assert.AreEqual(i, ary.IndexOf(i.ToString()));
+                }
+            }
+            {
+                var ary = new[] { "0", "1", "2", "3" };
+                for (int i = 0; i < ary.Length; i++)
+                {
+                    Assert.AreEqual(i, ary.IndexOf(i.ToString(), 0));
                 }
             }
         }
