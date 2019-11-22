@@ -21,6 +21,7 @@ freely, subject to the following restrictions:
 
 3. This notice may not be removed or altered from any source distribution.
 */
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Ksnm.ExtensionMethods.System.Collections.Generic.Enumerable;
@@ -63,6 +64,14 @@ namespace Ksnm.Utilities
         /// ファイルにCSV形式の一行を追加します。
         /// </summary>
         /// <param name="values">追加する値</param>
+        public void AppendLine(IEnumerable<string> values)
+        {
+            AppendLine(FilePath, Encoding, values);
+        }
+        /// <summary>
+        /// ファイルにCSV形式の一行を追加します。
+        /// </summary>
+        /// <param name="values">追加する値</param>
         public void AppendLine(params string[] values)
         {
             AppendLine(FilePath, Encoding, values);
@@ -73,26 +82,27 @@ namespace Ksnm.Utilities
         /// <param name="filePath">CSVファイルのパス</param>
         /// <param name="encoding">CSVファイルのエンコーディング</param>
         /// <param name="values">追加する値</param>
-        public static void AppendLine(string filePath, Encoding encoding, params string[] values)
+        public static void AppendLine(string filePath, Encoding encoding, IEnumerable<string> values)
         {
             var escapeChars = new char[] { '\"', '\n', ',' };
             var text = new StringBuilder();
-            for (int i = 0; i < values.Length; i++)
+            var isFirst = true;
+            foreach (var value in values)
             {
-                if (i != 0)
+                if (isFirst == false)
                 {
                     text.Append(",");
                 }
-                var arg = values[i];
-                if (arg.Contains(escapeChars))
+                isFirst = false;
+                if (value.Contains(escapeChars))
                 {
-                    arg = arg.Replace("\n", "\r\n");// 改行はCRLFに統一
+                    var temp = value.Replace("\n", "\r\n");// 改行はCRLFに統一
                     // 特定の文字列が含まれている場合、ダブルクォーテーションで挟む
-                    text.Append("\"" + arg + "\"");
+                    text.Append("\"" + temp + "\"");
                 }
                 else
                 {
-                    text.Append(arg);
+                    text.Append(value);
                 }
             }
             text.AppendLine();
