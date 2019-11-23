@@ -55,13 +55,7 @@ namespace Ksnm.ExtensionMethods.System.Collections.Generic.Enumerable
         /// <returns></returns>
         public static IEnumerable<T> Concat<T>(this IEnumerable<IEnumerable<T>> self)
         {
-            foreach (var item in self)
-            {
-                foreach (var item2 in item)
-                {
-                    yield return item2;
-                }
-            }
+            return self.SelectMany(item => item);
         }
         /// <summary>
         /// 総乗
