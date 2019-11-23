@@ -49,6 +49,21 @@ namespace Ksnm.ExtensionMethods.System.Collections.Generic.Enumerable
             return false;
         }
         /// <summary>
+        /// 複数のシーケンスを連結します。
+        /// </summary>
+        /// <param name="self">連結するシーケンス。</param>
+        /// <returns></returns>
+        public static IEnumerable<T> Concat<T>(this IEnumerable<IEnumerable<T>> self)
+        {
+            foreach (var item in self)
+            {
+                foreach (var item2 in item)
+                {
+                    yield return item2;
+                }
+            }
+        }
+        /// <summary>
         /// 総乗
         /// </summary>
         public static int Product(this IEnumerable<int> source)

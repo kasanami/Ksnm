@@ -1,6 +1,7 @@
 ﻿using Ksnm.ExtensionMethods.System.Collections.Generic.Enumerable;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Ksnm.ExtensionMethods.System.Collections.Generic.Enumerable.Tests
 {
@@ -67,6 +68,19 @@ namespace Ksnm.ExtensionMethods.System.Collections.Generic.Enumerable.Tests
 
             var list = new List<int>(ary);
             Assert.AreEqual("01,02,03", list.ToJoinedString(",", "X2"));
+        }
+
+        [TestMethod()]
+        public void ConcatTest()
+        {
+            var list = new List<int[]>();
+            list.Add(new int[] { 1, 2, 3 });
+            list.Add(new int[] { 4, 5, 6 });
+            list.Add(new int[] { 7, 8, 9 });
+
+            var expected = new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+            var actual = list.Concat();
+            Assert.IsTrue(expected.SequenceEqual(actual));
         }
     }
 }
