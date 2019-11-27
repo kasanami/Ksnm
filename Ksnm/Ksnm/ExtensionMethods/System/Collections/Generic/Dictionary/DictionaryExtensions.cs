@@ -22,6 +22,7 @@ freely, subject to the following restrictions:
 3. This notice may not be removed or altered from any source distribution.
 */
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Ksnm.ExtensionMethods.System.Collections.Generic.Dictionary
 {
@@ -65,6 +66,63 @@ namespace Ksnm.ExtensionMethods.System.Collections.Generic.Dictionary
         public static TValue GetValueOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key)
         {
             return dictionary.GetValueOrDefault(key, default(TValue));
+        }
+        /// <summary>
+        /// キーに従って昇順のシーケンスの要素を並べ替えます。
+        /// </summary>
+        /// <typeparam name="TKey">キーの型。</typeparam>
+        /// <typeparam name="TValue">値の型。</typeparam>
+        /// <param name="self">インスタンス</param>
+        /// <returns>並べ替え後の新しいインスタンス</returns>
+        public static Dictionary<TKey, TValue> OrderByKey<TKey, TValue>(this IDictionary<TKey, TValue> self)
+        {
+            return self.OrderBy(item => item.Key)
+                .ToDictionary(item => item.Key, item => item.Value);
+        }
+        /// <summary>
+        /// キーに従って昇順のシーケンスの要素を並べ替えます。
+        /// </summary>
+        /// <typeparam name="TKey">キーの型。</typeparam>
+        /// <typeparam name="TValue">値の型。</typeparam>
+        /// <param name="self">インスタンス</param>
+        /// <returns>並べ替え後の新しいインスタンス</returns>
+        public static Dictionary<TKey, TValue> OrderByValue<TKey, TValue>(this IDictionary<TKey, TValue> self)
+        {
+            return self.OrderBy(item => item.Value)
+                .ToDictionary(item => item.Key, item => item.Value);
+        }
+        /// <summary>
+        /// 型に対して既定の等値比較子を使用して要素を比較することで、2 つの Dictionary が等しいかどうかを決定します。
+        /// </summary>
+        /// <typeparam name="TKey">キーの型。</typeparam>
+        /// <typeparam name="TValue">値の型。</typeparam>
+        /// <param name="self">インスタンス</param>
+        /// <param name="other">インスタンス</param>
+        /// <returns>等しい場合は true それ以外の場合 false です。</returns>
+        public static bool SequenceEqual<TKey, TValue>(this IDictionary<TKey, TValue> self, IDictionary<TKey, TValue> other)
+        {
+            var selfEnumerator = self.GetEnumerator();
+            var otherEnumerator = other.GetEnumerator();
+            while (true)
+            {
+                var movedA = selfEnumerator.MoveNext();
+                var movedB = otherEnumerator.MoveNext();
+                // 片方が終わったら終了
+                if (movedA == false || movedB == false)
+                {
+                    return movedA == movedB;// 両方同時に終了ならtrue;
+                }
+                var selfCurrent = selfEnumerator.Current;
+                var otherCurrent = otherEnumerator.Current;
+                if (selfCurrent.Key.Equals(otherCurrent.Key) == false)
+                {
+                    return false;
+                }
+                if (selfCurrent.Value.Equals(otherCurrent.Value) == false)
+                {
+                    return false;
+                }
+            }
         }
     }
 }
