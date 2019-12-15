@@ -80,7 +80,7 @@ namespace Ksnm.ExtensionMethods.System.Collections.Generic.Dictionary
                 .ToDictionary(item => item.Key, item => item.Value);
         }
         /// <summary>
-        /// キーに従って昇順のシーケンスの要素を並べ替えます。
+        /// 値に従って昇順のシーケンスの要素を並べ替えます。
         /// </summary>
         /// <typeparam name="TKey">キーの型。</typeparam>
         /// <typeparam name="TValue">値の型。</typeparam>
@@ -89,6 +89,30 @@ namespace Ksnm.ExtensionMethods.System.Collections.Generic.Dictionary
         public static Dictionary<TKey, TValue> OrderByValue<TKey, TValue>(this IDictionary<TKey, TValue> self)
         {
             return self.OrderBy(item => item.Value)
+                .ToDictionary(item => item.Key, item => item.Value);
+        }
+        /// <summary>
+        /// キーに従って昇順のシーケンスの要素を並べ替えます。
+        /// </summary>
+        /// <typeparam name="TKey">キーの型。</typeparam>
+        /// <typeparam name="TValue">値の型。</typeparam>
+        /// <param name="self">インスタンス</param>
+        /// <returns>並べ替え後の新しいインスタンス</returns>
+        public static Dictionary<TKey, TValue> OrderByDescendingKey<TKey, TValue>(this IDictionary<TKey, TValue> self)
+        {
+            return self.OrderByDescending(item => item.Key)
+                .ToDictionary(item => item.Key, item => item.Value);
+        }
+        /// <summary>
+        /// 値に従って降順のシーケンスの要素を並べ替えます。
+        /// </summary>
+        /// <typeparam name="TKey">キーの型。</typeparam>
+        /// <typeparam name="TValue">値の型。</typeparam>
+        /// <param name="self">インスタンス</param>
+        /// <returns>並べ替え後の新しいインスタンス</returns>
+        public static Dictionary<TKey, TValue> OrderByDescendingValue<TKey, TValue>(this IDictionary<TKey, TValue> self)
+        {
+            return self.OrderByDescending(item => item.Value)
                 .ToDictionary(item => item.Key, item => item.Value);
         }
         /// <summary>

@@ -74,6 +74,52 @@ namespace Ksnm.ExtensionMethods.System.Collections.Generic.Dictionary.Tests
         }
 
         [TestMethod()]
+        public void OrderByDescendingKeyTest()
+        {
+            var sample = new Dictionary<string, int>()
+            {
+                {"A", 1 },
+                {"C", 2 },
+                {"B", 4 },
+                {"D", 3 },
+            };
+            var expected = new Dictionary<string, int>()
+            {
+                {"D", 3 },
+                {"C", 2 },
+                {"B", 4 },
+                {"A", 1 },
+            };
+            Assert.IsFalse(expected.SequenceEqual(sample));
+
+            var sorted = sample.OrderByDescendingKey();
+            Assert.IsTrue(expected.SequenceEqual(sorted));
+        }
+
+        [TestMethod()]
+        public void OrderByDescendingValueTest()
+        {
+            var sample = new Dictionary<string, int>()
+            {
+                {"A", 1 },
+                {"C", 2 },
+                {"B", 4 },
+                {"D", 3 },
+            };
+            var expected = new Dictionary<string, int>()
+            {
+                {"B", 4 },
+                {"D", 3 },
+                {"C", 2 },
+                {"A", 1 },
+            };
+            Assert.IsFalse(expected.SequenceEqual(sample));
+
+            var sorted = sample.OrderByDescendingValue();
+            Assert.IsTrue(expected.SequenceEqual(sorted));
+        }
+
+        [TestMethod()]
         public void SequenceEqualTest()
         {
             var sampleA = new Dictionary<string, int>();
