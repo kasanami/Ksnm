@@ -23,10 +23,6 @@ freely, subject to the following restrictions:
 */
 using Ksnm.ExtensionMethods.System.Double;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using BitsType = System.UInt16;// 半精度浮動小数点数 全体のビットを表す型
 
 namespace Ksnm.Numerics
