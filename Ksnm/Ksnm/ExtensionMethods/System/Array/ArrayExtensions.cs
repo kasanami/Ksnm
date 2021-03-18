@@ -37,7 +37,7 @@ namespace Ksnm.ExtensionMethods.System.Array
         /// <param name="array">検索する 1 次元の配列。インデックス番号が 0 から始まる必要があります。</param>
         /// <param name="value">array 内で検索するオブジェクト。</param>
         /// <returns>array 全体を対象とする value の検索で最初に見つかった位置のインデックス (0 から始まる)。それ以外の場合は -1。</returns>
-        /// <exception cref="System.ArgumentNullException">array は nullです。</exception>
+        /// <exception cref="global::System.ArgumentNullException">array は nullです。</exception>
         public static int IndexOf<T>(this T[] array, T value)
         {
             return Original.Array.IndexOf(array, value);
@@ -50,9 +50,9 @@ namespace Ksnm.ExtensionMethods.System.Array
         /// <param name="value">array 内で検索するオブジェクト。</param>
         /// <param name="startIndex">検索の開始インデックス。 空の配列の場合 0 (ゼロ) は有効です。</param>
         /// <returns>array の startIndex から最後の要素までの範囲内で value が見つかった場合は、最初に見つかった位置のインデックス。それ以外の場合は、-1。</returns>
-        /// /// <exception cref="System.ArgumentNullException">array は nullです。</exception>
-        /// /// <exception cref="System.ArgumentOutOfRangeException">startIndex は array の有効なインデックスの範囲外です。</exception>
-        /// /// <exception cref="System.RankException">array が多次元です。</exception>
+        /// /// <exception cref="global::System.ArgumentNullException">array は nullです。</exception>
+        /// /// <exception cref="global::System.ArgumentOutOfRangeException">startIndex は array の有効なインデックスの範囲外です。</exception>
+        /// /// <exception cref="global::System.RankException">array が多次元です。</exception>
         public static int IndexOf<T>(this T[] array, T value, int startIndex)
         {
             return Original.Array.IndexOf(array, value, startIndex);
