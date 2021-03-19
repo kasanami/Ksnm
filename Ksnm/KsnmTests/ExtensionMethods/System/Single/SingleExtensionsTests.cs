@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Ksnm.ExtensionMethods.System.Single;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Ksnm.ExtensionMethods.System.Single.Tests
 {
@@ -6,12 +7,81 @@ namespace Ksnm.ExtensionMethods.System.Single.Tests
     public class SingleExtensionsTests
     {
         [TestMethod()]
+        public void IsNegativeTest()
+        {
+            float sample = 1;
+            Assert.AreEqual(false, sample.IsNegative());
+            sample = -1;
+            Assert.AreEqual(true, sample.IsNegative());
+        }
+
+        [TestMethod()]
         public void IsInfinityTest()
         {
             Assert.IsTrue(float.PositiveInfinity.IsInfinity());
             Assert.IsTrue(float.NegativeInfinity.IsInfinity());
             float sample = 1;
             Assert.IsFalse(sample.IsInfinity());
+            sample = 0;
+            Assert.IsFalse(sample.IsInfinity());
+        }
+
+        [TestMethod()]
+        public void IsIntegerTest()
+        {
+            // 以下はtrueになる
+            float sample = 1f;
+            Assert.IsTrue(sample.IsInteger());
+            sample = short.MaxValue;
+            Assert.IsTrue(sample.IsInteger());
+            sample = short.MinValue;
+            Assert.IsTrue(sample.IsInteger());
+            sample = int.MaxValue;
+            Assert.IsTrue(sample.IsInteger());
+            sample = int.MinValue;
+            Assert.IsTrue(sample.IsInteger());
+            // 以下は少数を含むためfalse
+            sample = 1.1f;
+            Assert.IsFalse(sample.IsInteger());
+            sample = 0.1f;
+            Assert.IsFalse(sample.IsInteger());
+            sample = -0.1f;
+            Assert.IsFalse(sample.IsInteger());
+            sample = float.Epsilon;
+            Assert.IsFalse(sample.IsInteger());
+        }
+
+        [TestMethod()]
+        public void ToInt32BitsTest()
+        {
+            float sample;
+            sample = 0;
+            Assert.AreEqual<int>(0, sample.ToInt32Bits());
+            sample = float.Epsilon;
+            Assert.AreEqual<int>(1, sample.ToInt32Bits());
+        }
+
+        [TestMethod()]
+        public void ToUInt32BitsTest()
+        {
+            float sample;
+            sample = 0;
+            Assert.AreEqual<uint>(0, sample.ToUInt32Bits());
+            sample = float.Epsilon;
+            Assert.AreEqual<uint>(1, sample.ToUInt32Bits());
+        }
+
+        [TestMethod()]
+        public void ToDecimalStringTest()
+        {
+            float sample = 0;
+            Assert.AreEqual("0", sample.ToDecimalString(), Debug.GetFilePathAndLineNumber());
+            sample = 1;
+            Assert.AreEqual("1", sample.ToDecimalString(), Debug.GetFilePathAndLineNumber());
+            sample = 0.00001f;
+            Assert.AreEqual("0.00001", sample.ToDecimalString(), Debug.GetFilePathAndLineNumber());
+            sample = float.Epsilon;
+            Assert.AreEqual("0.000000000000000000000000000000000000000000001401298", sample.ToDecimalString(), Debug.GetFilePathAndLineNumber());
         }
 
         [TestMethod()]
@@ -59,19 +129,6 @@ namespace Ksnm.ExtensionMethods.System.Single.Tests
             Assert.AreEqual<uint>(0x0040_0000, sample.GetMantissaBits());
             sample = -3;
             Assert.AreEqual<uint>(0x0040_0000, sample.GetMantissaBits());
-        }
-
-        [TestMethod()]
-        public void ToDecimalStringTest()
-        {
-            float sample = 0;
-            Assert.AreEqual("0", sample.ToDecimalString(), Debug.GetFilePathAndLineNumber());
-            sample = 1;
-            Assert.AreEqual("1", sample.ToDecimalString(), Debug.GetFilePathAndLineNumber());
-            sample = 0.00001f;
-            Assert.AreEqual("0.00001", sample.ToDecimalString(), Debug.GetFilePathAndLineNumber());
-            sample = float.Epsilon;
-            Assert.AreEqual("0.000000000000000000000000000000000000000000001401298", sample.ToDecimalString(), Debug.GetFilePathAndLineNumber());
         }
 
         [TestMethod()]
@@ -123,24 +180,29 @@ namespace Ksnm.ExtensionMethods.System.Single.Tests
         }
 
         [TestMethod()]
-        public void IsIntegerTest()
+        public void GetFractionalBitsTest()
         {
-            // 以下はtrueになる
-            float sample = 1f;
-            Assert.IsTrue(sample.IsInteger());
-            sample = short.MaxValue;
-            Assert.IsTrue(sample.IsInteger());
-            sample = short.MinValue;
-            Assert.IsTrue(sample.IsInteger());
-            // 以下は少数を含むためfalse
-            sample = 1.1f;
-            Assert.IsFalse(sample.IsInteger());
-            sample = 0.1f;
-            Assert.IsFalse(sample.IsInteger());
-            sample = -0.1f;
-            Assert.IsFalse(sample.IsInteger());
-            sample = float.Epsilon;
-            Assert.IsFalse(sample.IsInteger());
+            float sample;
+            sample = 0.000f; Assert.AreEqual<uint>(0x00000000u, sample.GetFractionalBits());
+            sample = 0.250f; Assert.AreEqual<uint>(0x00000000u, sample.GetFractionalBits());
+            sample = 0.500f; Assert.AreEqual<uint>(0x00000000u, sample.GetFractionalBits());
+            sample = 0.750f; Assert.AreEqual<uint>(0x00400000u, sample.GetFractionalBits());
+            sample = 1.000f; Assert.AreEqual<uint>(0x00000000u, sample.GetFractionalBits());
+            sample = 1.250f; Assert.AreEqual<uint>(0x00200000u, sample.GetFractionalBits());
+            sample = 1.500f; Assert.AreEqual<uint>(0x00400000u, sample.GetFractionalBits());
+            sample = 1.750f; Assert.AreEqual<uint>(0x00600000u, sample.GetFractionalBits());
+            sample = 2.000f; Assert.AreEqual<uint>(0x00000000u, sample.GetFractionalBits());
+            sample = 2.250f; Assert.AreEqual<uint>(0x00200000u, sample.GetFractionalBits());
+            sample = 2.500f; Assert.AreEqual<uint>(0x00400000u, sample.GetFractionalBits());
+            sample = 2.750f; Assert.AreEqual<uint>(0x00600000u, sample.GetFractionalBits());
+            sample = 3.000f; Assert.AreEqual<uint>(0x00000000u, sample.GetFractionalBits());
+            sample = 3.250f; Assert.AreEqual<uint>(0x00200000u, sample.GetFractionalBits());
+            sample = 3.500f; Assert.AreEqual<uint>(0x00400000u, sample.GetFractionalBits());
+            sample = 3.750f; Assert.AreEqual<uint>(0x00600000u, sample.GetFractionalBits());
+            sample = 4.000f; Assert.AreEqual<uint>(0x00000000u, sample.GetFractionalBits());
+            sample = 4.250f; Assert.AreEqual<uint>(0x00200000u, sample.GetFractionalBits());
+            sample = 4.500f; Assert.AreEqual<uint>(0x00400000u, sample.GetFractionalBits());
+            sample = 4.750f; Assert.AreEqual<uint>(0x00600000u, sample.GetFractionalBits());
         }
     }
 }

@@ -30,10 +30,33 @@ namespace Ksnm.ExtensionMethods.System.Single
     /// </summary>
     public static class SingleExtensions
     {
+        #region 定数
+        /// <summary>
+        /// 符号部のビット数
+        /// </summary>
+        public const int SignLength = 1;
+        /// <summary>
+        /// 指数部のビット数
+        /// </summary>
+        public const int ExponentLength = 8;
+        /// <summary>
+        /// 指数部のビットマスク
+        /// </summary>
+        public const int ExponentBitMask = (1 << ExponentLength) - 1;
+        /// <summary>
+        /// 仮数部のビット数
+        /// </summary>
+        public const int MantissaLength = 23;
+        /// <summary>
+        /// 仮数部のビットマスク
+        /// </summary>
+        public const uint MantissaBitMask = (1 << MantissaLength) - 1;
         /// <summary>
         /// 指数形式ではなく小数形式に変換するためのフォーマット
         /// </summary>
         static readonly string DecimalFormat = "0." + new string('#', 51);
+        #endregion 定数
+
         /// <summary>
         /// 負または正の無限大と評価されるかどうかを示す値を返します。
         /// </summary>
@@ -46,12 +69,21 @@ namespace Ksnm.ExtensionMethods.System.Single
         /// </summary>
         public static bool IsInteger(this float value)
         {
-            return value == (int)value;
+            var bits = value.ToUInt32Bits();
+            var exponent = _GetExponent(bits);
+            // 指数が負数なら少数確定
+            if (exponent < 0)
+            {
+                return false;
+            }
+            // 少数が0なら整数
+            var fractionalBits = _GetFractionalBits(bits);
+            return fractionalBits == 0;
         }
         /// <summary>
         /// 32 ビット符号付き整数に変換します。
         /// </summary>
-        /// <returns>value と等価の値を持つ 32 ビット符号付き整数。</returns>
+        /// <returns>value と等価のビット値を持つ 32 ビット符号付き整数。</returns>
         public static int ToInt32Bits(this float value)
         {
             var bytes = BitConverter.GetBytes(value);
@@ -60,7 +92,7 @@ namespace Ksnm.ExtensionMethods.System.Single
         /// <summary>
         /// 32 ビット符号なし整数に変換します。
         /// </summary>
-        /// <returns>value と等価の値を持つ 32 ビット符号なし整数。</returns>
+        /// <returns>value と等価のビット値を持つ 32 ビット符号なし整数。</returns>
         public static uint ToUInt32Bits(this float value)
         {
             var bytes = BitConverter.GetBytes(value);
@@ -73,12 +105,13 @@ namespace Ksnm.ExtensionMethods.System.Single
         {
             return value.ToString(DecimalFormat);
         }
+        #region 各部情報の取得
         /// <summary>
         /// 符号ビットを取得
         /// </summary>
         public static byte GetSignBits(this float value)
         {
-            return (byte)(value.ToUInt32Bits() >> 31);
+            return _GetSignBits(value.ToUInt32Bits());
         }
         /// <summary>
         /// 符号を取得
@@ -103,28 +136,106 @@ namespace Ksnm.ExtensionMethods.System.Single
         /// </summary>
         public static ushort GetExponentBits(this float value)
         {
-            return (ushort)((value.ToUInt32Bits() >> 23) & 0xFF);
+            return _GetExponentBits(value.ToUInt32Bits());
         }
         /// <summary>
         /// 指数を取得
         /// </summary>
         public static int GetExponent(this float value)
         {
-            return value.GetExponentBits() - 127;
+            return _GetExponent(value.ToUInt32Bits());
         }
         /// <summary>
         /// 仮数部を取得
         /// </summary>
         public static uint GetMantissaBits(this float value)
         {
-            return value.ToUInt32Bits() & 0x007F_FFFF;
+            return _GetMantissaBits(value.ToUInt32Bits());
         }
         /// <summary>
         /// 仮数を取得
         /// </summary>
         public static uint GetMantissa(this float value)
         {
-            return value.GetMantissaBits() | 0x0080_0000;
+            return _GetMantissa(value.ToUInt32Bits());
         }
+        /// <summary>
+        /// 少数部を取得
+        /// </summary>
+        public static uint GetFractionalBits(this float value)
+        {
+            return _GetFractionalBits(value.ToUInt32Bits());
+        }
+        #endregion 各部情報の取得
+
+        #region 各部情報の取得(内部用)
+        /// <summary>
+        /// 符号ビットを取得
+        /// </summary>
+        private static byte _GetSignBits(uint bits)
+        {
+            return (byte)(bits >> (ExponentLength + MantissaLength));
+        }
+        /// <summary>
+        /// 符号を取得
+        /// </summary>
+        private static int _GetSign(uint bits)
+        {
+            if (_IsNegative(bits))
+            {
+                return -1;
+            }
+            return +1;
+        }
+        /// <summary>
+        /// 符号を取得
+        /// </summary>
+        private static bool _IsNegative(uint bits)
+        {
+            return _GetSignBits(bits) == 1;
+        }
+        /// <summary>
+        /// 指数部を取得
+        /// </summary>
+        private static ushort _GetExponentBits(uint bits)
+        {
+            return (ushort)((bits >> MantissaLength) & ExponentBitMask);
+        }
+        /// <summary>
+        /// 指数を取得
+        /// </summary>
+        private static int _GetExponent(uint bits)
+        {
+            return _GetExponentBits(bits) - 127;
+        }
+        /// <summary>
+        /// 仮数部を取得
+        /// </summary>
+        private static uint _GetMantissaBits(uint bits)
+        {
+            return bits & MantissaBitMask;
+        }
+        /// <summary>
+        /// 仮数を取得
+        /// </summary>
+        private static uint _GetMantissa(uint bits)
+        {
+            // (1 << MantissaBits)は"1."を意味する
+            return _GetMantissaBits(bits) | (1 << MantissaLength);
+        }
+        /// <summary>
+        /// 少数部を取得
+        /// </summary>
+        private static uint _GetFractionalBits(uint bits)
+        {
+            var shift = _GetExponent(bits);
+            if (shift > 0)
+            {
+                return (_GetMantissaBits(bits) << shift) & MantissaBitMask;
+            }
+            return _GetMantissaBits(bits);
+        }
+        #endregion 各部情報の取得(内部用)
+
     }
 }
