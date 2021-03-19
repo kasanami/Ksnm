@@ -1,7 +1,7 @@
 ﻿/*
 The zlib License
 
-Copyright (c) 2017-2019 Takahiro Kasanami
+Copyright (c) 2021 Takahiro Kasanami
 
 This software is provided 'as-is', without any express or implied
 warranty. In no event will the authors be held liable for any damages
@@ -57,6 +57,21 @@ namespace Ksnm.ExtensionMethods.System.Single
         static readonly string DecimalFormat = "0." + new string('#', 51);
         #endregion 定数
 
+        #region Is*
+        /// <summary>
+        /// 正数なら true を返します。
+        /// </summary>
+        public static bool IsPositive(this float value)
+        {
+            return value.GetSignBits() == 0;
+        }
+        /// <summary>
+        /// 負数なら true を返します。
+        /// </summary>
+        public static bool IsNegative(this float value)
+        {
+            return value.GetSignBits() == 1;
+        }
         /// <summary>
         /// 負または正の無限大と評価されるかどうかを示す値を返します。
         /// </summary>
@@ -80,6 +95,9 @@ namespace Ksnm.ExtensionMethods.System.Single
             var fractionalBits = _GetFractionalBits(bits);
             return fractionalBits == 0;
         }
+        #endregion Is*
+
+        #region To*
         /// <summary>
         /// 32 ビット符号付き整数に変換します。
         /// </summary>
@@ -105,6 +123,8 @@ namespace Ksnm.ExtensionMethods.System.Single
         {
             return value.ToString(DecimalFormat);
         }
+        #endregion To*
+
         #region 各部情報の取得
         /// <summary>
         /// 符号ビットを取得
@@ -123,13 +143,6 @@ namespace Ksnm.ExtensionMethods.System.Single
                 return -1;
             }
             return +1;
-        }
-        /// <summary>
-        /// 符号を取得
-        /// </summary>
-        public static bool IsNegative(this float value)
-        {
-            return value.GetSignBits() == 1;
         }
         /// <summary>
         /// 指数部を取得

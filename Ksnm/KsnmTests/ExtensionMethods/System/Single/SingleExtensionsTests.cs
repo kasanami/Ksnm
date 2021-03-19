@@ -7,12 +7,21 @@ namespace Ksnm.ExtensionMethods.System.Single.Tests
     public class SingleExtensionsTests
     {
         [TestMethod()]
+        public void IsPositiveTest()
+        {
+            float sample = 1;
+            Assert.IsTrue(sample.IsPositive());
+            sample = -1;
+            Assert.IsFalse(sample.IsPositive());
+        }
+
+        [TestMethod()]
         public void IsNegativeTest()
         {
             float sample = 1;
-            Assert.AreEqual(false, sample.IsNegative());
+            Assert.IsFalse(sample.IsNegative());
             sample = -1;
-            Assert.AreEqual(true, sample.IsNegative());
+            Assert.IsTrue(sample.IsNegative());
         }
 
         [TestMethod()]
