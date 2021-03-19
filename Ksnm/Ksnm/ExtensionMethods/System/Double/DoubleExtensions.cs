@@ -42,6 +42,13 @@ namespace Ksnm.ExtensionMethods.System.Double
             return double.IsInfinity(value);
         }
         /// <summary>
+        /// 整数なら true を返します。
+        /// </summary>
+        public static bool IsInteger(this double value)
+        {
+            return value == (long)value;
+        }
+        /// <summary>
         /// 64 ビット符号付き整数に変換します。
         /// </summary>
         /// <returns>value と等価の値を持つ 64 ビット符号付き整数。</returns>

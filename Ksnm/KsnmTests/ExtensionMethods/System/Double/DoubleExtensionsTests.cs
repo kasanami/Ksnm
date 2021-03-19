@@ -120,5 +120,26 @@ namespace Ksnm.ExtensionMethods.System.Double.Tests
             sample = -3;
             Assert.AreEqual(0x0018_0000_0000_0000UL, sample.GetMantissa());
         }
+
+        [TestMethod()]
+        public void IsIntegerTest()
+        {
+            // 以下はtrueになる
+            double sample = 1;
+            Assert.IsTrue(sample.IsInteger());
+            sample = int.MaxValue;
+            Assert.IsTrue(sample.IsInteger());
+            sample = int.MinValue;
+            Assert.IsTrue(sample.IsInteger());
+            // 以下は少数を含むためfalse
+            sample = 1.1;
+            Assert.IsFalse(sample.IsInteger());
+            sample = 0.1;
+            Assert.IsFalse(sample.IsInteger());
+            sample = -0.1;
+            Assert.IsFalse(sample.IsInteger());
+            sample = double.Epsilon;
+            Assert.IsFalse(sample.IsInteger());
+        }
     }
 }

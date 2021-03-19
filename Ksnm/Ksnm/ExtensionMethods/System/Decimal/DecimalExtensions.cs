@@ -97,6 +97,13 @@ namespace Ksnm.ExtensionMethods.System.Decimal
             int[] bits = decimal.GetBits(value);
             return new decimal(bits[0], bits[1], bits[2], false, 0);
         }
+        /// <summary>
+        /// 整数なら true を返します。
+        /// </summary>
+        public static bool IsInteger(this decimal value)
+        {
+            return value == (long)value;
+        }
         #endregion Get* Is*
 
         #region ToClamped*
