@@ -22,6 +22,8 @@ freely, subject to the following restrictions:
 3. This notice may not be removed or altered from any source distribution.
 */
 using System;
+using Float = System.Double;
+using UInt = System.UInt64;
 
 namespace Ksnm.ExtensionMethods.System.Double
 {
@@ -42,7 +44,7 @@ namespace Ksnm.ExtensionMethods.System.Double
         /// <summary>
         /// 指数部のビットマスク
         /// </summary>
-        public const ulong ExponentBitMask = (1ul << ExponentLength) - 1;
+        public const UInt ExponentBitMask = ((UInt)1 << ExponentLength) - 1;
         /// <summary>
         /// 指数部バイアス
         /// </summary>
@@ -54,32 +56,59 @@ namespace Ksnm.ExtensionMethods.System.Double
         /// <summary>
         /// 仮数部のビットマスク
         /// </summary>
-        public const ulong MantissaBitMask = (1ul << MantissaLength) - 1;
+        public const UInt MantissaBitMask = ((UInt)1 << MantissaLength) - 1;
         /// <summary>
         /// 指数形式ではなく小数形式に変換するためのフォーマット
         /// </summary>
         static readonly string DecimalFormat = "0." + new string('#', 338);
         #endregion 定数
 
+        #region Is*
+        /// <summary>
+        /// 正数なら true を返します。
+        /// </summary>
+        public static bool IsPositive(this Float value)
+        {
+            return value.GetSignBits() == 0;
+        }
+        /// <summary>
+        /// 負数なら true を返します。
+        /// </summary>
+        public static bool IsNegative(this Float value)
+        {
+            return value.GetSignBits() == 1;
+        }
         /// <summary>
         /// 負または正の無限大と評価されるかどうかを示す値を返します。
         /// </summary>
-        public static bool IsInfinity(this double value)
+        public static bool IsInfinity(this Float value)
         {
-            return double.IsInfinity(value);
+            return Float.IsInfinity(value);
         }
         /// <summary>
         /// 整数なら true を返します。
         /// </summary>
-        public static bool IsInteger(this double value)
+        public static bool IsInteger(this Float value)
         {
-            return value == (long)value;
+            var bits = value._ToBits();
+            var exponent = _GetExponent(bits);
+            // 指数が負数なら少数確定
+            if (exponent < 0)
+            {
+                return false;
+            }
+            // 少数が0なら整数
+            var fractionalBits = _GetFractionalBits(bits);
+            return fractionalBits == 0;
         }
+        #endregion Is*
+
+        #region To*
         /// <summary>
         /// 64 ビット符号付き整数に変換します。
         /// </summary>
         /// <returns>value と等価のビット値を持つ 64 ビット符号付き整数。</returns>
-        public static long ToInt64Bits(this double value)
+        public static long ToInt64Bits(this Float value)
         {
             return BitConverter.DoubleToInt64Bits(value);
         }
@@ -87,28 +116,38 @@ namespace Ksnm.ExtensionMethods.System.Double
         /// 64 ビット符号なし整数に変換します。
         /// </summary>
         /// <returns>value と等価のビット値を持つ 64 ビット符号なし整数。</returns>
-        public static ulong ToUInt64Bits(this double value)
+        public static UInt ToUInt64Bits(this Float value)
         {
-            return (ulong)BitConverter.DoubleToInt64Bits(value);
+            return (UInt)BitConverter.DoubleToInt64Bits(value);
         }
         /// <summary>
         /// 指数形式ではなく小数形式の文字列に変換する。
         /// </summary>
-        public static string ToDecimalString(this double value)
+        public static string ToDecimalString(this Float value)
         {
             return value.ToString(DecimalFormat);
         }
         /// <summary>
+        /// 符号なし整数に変換します。
+        /// </summary>
+        private static UInt _ToBits(this Float value)
+        {
+            return ToUInt64Bits(value);
+        }
+        #endregion To*
+
+        #region 各部情報の取得
+        /// <summary>
         /// 符号ビットを取得
         /// </summary>
-        public static byte GetSignBits(this double value)
+        public static byte GetSignBits(this Float value)
         {
-            return (byte)(value.ToUInt64Bits() >> (ExponentLength + MantissaLength));
+            return _GetSignBits(value._ToBits());
         }
         /// <summary>
         /// 符号を取得
         /// </summary>
-        public static int GetSign(this double value)
+        public static int GetSign(this Float value)
         {
             if (value.IsNegative())
             {
@@ -117,68 +156,137 @@ namespace Ksnm.ExtensionMethods.System.Double
             return +1;
         }
         /// <summary>
-        /// 符号を取得
-        /// </summary>
-        public static bool IsNegative(this double value)
-        {
-            return value.GetSignBits() == 1;
-        }
-        /// <summary>
         /// 指数部を取得
         /// </summary>
-        public static ushort GetExponentBits(this double value)
+        public static ushort GetExponentBits(this Float value)
         {
-            return (ushort)((value.ToUInt64Bits() >> MantissaLength) & ExponentBitMask);
+            return _GetExponentBits(value._ToBits());
         }
         /// <summary>
         /// 指数を取得
         /// </summary>
-        public static int GetExponent(this double value)
+        public static int GetExponent(this Float value)
         {
-            return value.GetExponentBits() - ExponentBias;
+            return _GetExponent(value._ToBits());
         }
         /// <summary>
         /// 仮数部を取得
         /// </summary>
-        public static ulong GetMantissaBits(this double value)
+        public static UInt GetMantissaBits(this Float value)
         {
-            return value.ToUInt64Bits() & MantissaBitMask;
+            return _GetMantissaBits(value._ToBits());
         }
         /// <summary>
         /// 仮数を取得
         /// </summary>
-        public static ulong GetMantissa(this double value)
+        public static UInt GetMantissa(this Float value)
         {
-            // (1ul << MantissaLength)は"1."を意味する
-            return value.GetMantissaBits() | (1ul << MantissaLength);
+            return _GetMantissa(value._ToBits());
         }
+        /// <summary>
+        /// 少数部を取得
+        /// </summary>
+        public static UInt GetFractionalBits(this Float value)
+        {
+            return _GetFractionalBits(value._ToBits());
+        }
+        #endregion 各部情報の取得
+
+        #region 各部情報の取得(内部用)
+        /// <summary>
+        /// 符号ビットを取得
+        /// </summary>
+        private static byte _GetSignBits(UInt bits)
+        {
+            return (byte)(bits >> (ExponentLength + MantissaLength));
+        }
+        /// <summary>
+        /// 符号を取得
+        /// </summary>
+        private static int _GetSign(UInt bits)
+        {
+            if (_IsNegative(bits))
+            {
+                return -1;
+            }
+            return +1;
+        }
+        /// <summary>
+        /// 符号を取得
+        /// </summary>
+        private static bool _IsNegative(UInt bits)
+        {
+            return _GetSignBits(bits) == 1;
+        }
+        /// <summary>
+        /// 指数部を取得
+        /// </summary>
+        private static ushort _GetExponentBits(UInt bits)
+        {
+            return (ushort)((bits >> MantissaLength) & ExponentBitMask);
+        }
+        /// <summary>
+        /// 指数を取得
+        /// </summary>
+        private static int _GetExponent(UInt bits)
+        {
+            return _GetExponentBits(bits) - ExponentBias;
+        }
+        /// <summary>
+        /// 仮数部を取得
+        /// </summary>
+        private static UInt _GetMantissaBits(UInt bits)
+        {
+            return bits & MantissaBitMask;
+        }
+        /// <summary>
+        /// 仮数を取得
+        /// </summary>
+        private static UInt _GetMantissa(UInt bits)
+        {
+            // ((UInt)1 << MantissaLength)は"1."を意味する
+            return _GetMantissaBits(bits) | ((UInt)1 << MantissaLength);
+        }
+        /// <summary>
+        /// 少数部を取得
+        /// </summary>
+        private static UInt _GetFractionalBits(UInt bits)
+        {
+            var shift = _GetExponent(bits);
+            if (shift > 0)
+            {
+                return (_GetMantissaBits(bits) << shift) & MantissaBitMask;
+            }
+            return _GetMantissaBits(bits);
+        }
+        #endregion 各部情報の取得(内部用)
 #if false// セットできるわけではないので、一時的に非公開
         /// <summary>
         /// 符号ビットを設定
         /// </summary>
-        public static double SetSignBits(this double value, int sign)
+        public static Float SetSignBits(this Float value, int sign)
         {
-            var bits = (ulong)BitConverter.DoubleToInt64Bits(value);
+            var bits = (BitsType)BitConverter.DoubleToInt64Bits(value);
             bits &= 0x7FFF_FFFF_FFFF_FFFF;
-            bits |= (ulong)sign << 63;
+            bits |= (BitsType)sign << 63;
             return BitConverter.Int64BitsToDouble((long)bits);
         }
         /// <summary>
         /// 指数部を設定
         /// </summary>
-        public static double SetExponentBits(this double value, int exponent)
+        public static Float SetExponentBits(this Float value, int exponent)
         {
-            var bits = (ulong)BitConverter.DoubleToInt64Bits(value);
+            var bits = (BitsType)BitConverter.DoubleToInt64Bits(value);
             bits &= 0x800F_FFFF_FFFF_FFFF;
-            bits |= (ulong)exponent << 52;
+            bits |= (BitsType)exponent << 52;
             return BitConverter.Int64BitsToDouble((long)bits);
         }
         /// <summary>
         /// 仮数部を設定
         /// </summary>
-        public static double SetFractionBits(this double value, ulong fraction)
+        public static Float SetFractionBits(this Float value, BitsType fraction)
         {
-            var bits = (ulong)BitConverter.DoubleToInt64Bits(value);
+            var bits = (BitsType)BitConverter.DoubleToInt64Bits(value);
             bits &= 0xFFF0_0000_0000_0000;
             bits |= fraction;
             return BitConverter.Int64BitsToDouble((long)bits);
