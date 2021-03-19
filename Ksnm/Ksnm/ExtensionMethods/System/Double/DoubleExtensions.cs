@@ -1,7 +1,7 @@
 ﻿/*
 The zlib License
 
-Copyright (c) 2017-2019 Takahiro Kasanami
+Copyright (c) 2017-2021 Takahiro Kasanami
 
 This software is provided 'as-is', without any express or implied
 warranty. In no event will the authors be held liable for any damages
@@ -30,10 +30,37 @@ namespace Ksnm.ExtensionMethods.System.Double
     /// </summary>
     public static class DoubleExtensions
     {
+        #region 定数
+        /// <summary>
+        /// 符号部のビット数
+        /// </summary>
+        public const int SignLength = 1;
+        /// <summary>
+        /// 指数部のビット数
+        /// </summary>
+        public const int ExponentLength = 11;
+        /// <summary>
+        /// 指数部のビットマスク
+        /// </summary>
+        public const ulong ExponentBitMask = (1ul << ExponentLength) - 1;
+        /// <summary>
+        /// 指数部バイアス
+        /// </summary>
+        public const int ExponentBias = 1023;
+        /// <summary>
+        /// 仮数部のビット数
+        /// </summary>
+        public const int MantissaLength = 52;
+        /// <summary>
+        /// 仮数部のビットマスク
+        /// </summary>
+        public const ulong MantissaBitMask = (1ul << MantissaLength) - 1;
         /// <summary>
         /// 指数形式ではなく小数形式に変換するためのフォーマット
         /// </summary>
         static readonly string DecimalFormat = "0." + new string('#', 338);
+        #endregion 定数
+
         /// <summary>
         /// 負または正の無限大と評価されるかどうかを示す値を返します。
         /// </summary>
@@ -51,7 +78,7 @@ namespace Ksnm.ExtensionMethods.System.Double
         /// <summary>
         /// 64 ビット符号付き整数に変換します。
         /// </summary>
-        /// <returns>value と等価の値を持つ 64 ビット符号付き整数。</returns>
+        /// <returns>value と等価のビット値を持つ 64 ビット符号付き整数。</returns>
         public static long ToInt64Bits(this double value)
         {
             return BitConverter.DoubleToInt64Bits(value);
@@ -59,7 +86,7 @@ namespace Ksnm.ExtensionMethods.System.Double
         /// <summary>
         /// 64 ビット符号なし整数に変換します。
         /// </summary>
-        /// <returns>value と等価の値を持つ 64 ビット符号なし整数。</returns>
+        /// <returns>value と等価のビット値を持つ 64 ビット符号なし整数。</returns>
         public static ulong ToUInt64Bits(this double value)
         {
             return (ulong)BitConverter.DoubleToInt64Bits(value);
@@ -76,7 +103,7 @@ namespace Ksnm.ExtensionMethods.System.Double
         /// </summary>
         public static byte GetSignBits(this double value)
         {
-            return (byte)(value.ToUInt64Bits() >> 63);
+            return (byte)(value.ToUInt64Bits() >> (ExponentLength + MantissaLength));
         }
         /// <summary>
         /// 符号を取得
@@ -101,28 +128,29 @@ namespace Ksnm.ExtensionMethods.System.Double
         /// </summary>
         public static ushort GetExponentBits(this double value)
         {
-            return (ushort)((value.ToUInt64Bits() >> 52) & 0x7FF);
+            return (ushort)((value.ToUInt64Bits() >> MantissaLength) & ExponentBitMask);
         }
         /// <summary>
         /// 指数を取得
         /// </summary>
         public static int GetExponent(this double value)
         {
-            return value.GetExponentBits() - 1023;
+            return value.GetExponentBits() - ExponentBias;
         }
         /// <summary>
         /// 仮数部を取得
         /// </summary>
         public static ulong GetMantissaBits(this double value)
         {
-            return value.ToUInt64Bits() & 0x000F_FFFF_FFFF_FFFF;
+            return value.ToUInt64Bits() & MantissaBitMask;
         }
         /// <summary>
         /// 仮数を取得
         /// </summary>
         public static ulong GetMantissa(this double value)
         {
-            return value.GetMantissaBits() | 0x0010_0000_0000_0000;
+            // (1ul << MantissaLength)は"1."を意味する
+            return value.GetMantissaBits() | (1ul << MantissaLength);
         }
 #if false// セットできるわけではないので、一時的に非公開
         /// <summary>

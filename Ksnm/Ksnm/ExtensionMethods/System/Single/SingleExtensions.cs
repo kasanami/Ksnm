@@ -42,7 +42,11 @@ namespace Ksnm.ExtensionMethods.System.Single
         /// <summary>
         /// 指数部のビットマスク
         /// </summary>
-        public const int ExponentBitMask = (1 << ExponentLength) - 1;
+        public const uint ExponentBitMask = (1u << ExponentLength) - 1;
+        /// <summary>
+        /// 指数部バイアス
+        /// </summary>
+        public const int ExponentBias = 127;
         /// <summary>
         /// 仮数部のビット数
         /// </summary>
@@ -50,7 +54,7 @@ namespace Ksnm.ExtensionMethods.System.Single
         /// <summary>
         /// 仮数部のビットマスク
         /// </summary>
-        public const uint MantissaBitMask = (1 << MantissaLength) - 1;
+        public const uint MantissaBitMask = (1u << MantissaLength) - 1;
         /// <summary>
         /// 指数形式ではなく小数形式に変換するためのフォーマット
         /// </summary>
@@ -219,7 +223,7 @@ namespace Ksnm.ExtensionMethods.System.Single
         /// </summary>
         private static int _GetExponent(uint bits)
         {
-            return _GetExponentBits(bits) - 127;
+            return _GetExponentBits(bits) - ExponentBias;
         }
         /// <summary>
         /// 仮数部を取得
@@ -233,8 +237,8 @@ namespace Ksnm.ExtensionMethods.System.Single
         /// </summary>
         private static uint _GetMantissa(uint bits)
         {
-            // (1 << MantissaBits)は"1."を意味する
-            return _GetMantissaBits(bits) | (1 << MantissaLength);
+            // (1u << MantissaLength)は"1."を意味する
+            return _GetMantissaBits(bits) | (1u << MantissaLength);
         }
         /// <summary>
         /// 少数部を取得
