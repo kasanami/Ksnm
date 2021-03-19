@@ -10,7 +10,8 @@ namespace Ksnm.ExtensionMethods.System.Double.Tests
         {
             Assert.IsTrue(double.PositiveInfinity.IsInfinity());
             Assert.IsTrue(double.NegativeInfinity.IsInfinity());
-            Assert.IsFalse((1.0).IsInfinity());
+            double sample = 1;
+            Assert.IsFalse(sample.IsInfinity());
         }
 
         [TestMethod()]

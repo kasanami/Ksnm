@@ -1,0 +1,146 @@
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+namespace Ksnm.ExtensionMethods.System.Single.Tests
+{
+    [TestClass()]
+    public class SingleExtensionsTests
+    {
+        [TestMethod()]
+        public void IsInfinityTest()
+        {
+            Assert.IsTrue(float.PositiveInfinity.IsInfinity());
+            Assert.IsTrue(float.NegativeInfinity.IsInfinity());
+            float sample = 1;
+            Assert.IsFalse(sample.IsInfinity());
+        }
+
+        [TestMethod()]
+        public void GetSignBitsTest()
+        {
+            float sample = 1;
+            Assert.AreEqual<int>(0, sample.GetSignBits());
+            sample = -1;
+            Assert.AreEqual<int>(1, sample.GetSignBits());
+        }
+
+        [TestMethod()]
+        public void GetExponentBitsTest()
+        {
+            float sample = 1;
+            Assert.AreEqual<int>(127, sample.GetExponentBits());
+            sample = -1;
+            Assert.AreEqual<int>(127, sample.GetExponentBits());
+
+            sample = 2;
+            Assert.AreEqual<int>(128, sample.GetExponentBits());
+            sample = -2;
+            Assert.AreEqual<int>(128, sample.GetExponentBits());
+
+            sample = 0.5f;
+            Assert.AreEqual<int>(126, sample.GetExponentBits());
+            sample = -0.5f;
+            Assert.AreEqual<int>(126, sample.GetExponentBits());
+        }
+
+        [TestMethod()]
+        public void GetMantissaBitsTest()
+        {
+            float sample = 1;
+            Assert.AreEqual<uint>(0x0000_0000, sample.GetMantissaBits());
+            sample = -1;
+            Assert.AreEqual<uint>(0x0000_0000, sample.GetMantissaBits());
+
+            sample = 2;
+            Assert.AreEqual<uint>(0x0000_0000, sample.GetMantissaBits());
+            sample = -2;
+            Assert.AreEqual<uint>(0x0000_0000, sample.GetMantissaBits());
+
+            sample = 3;
+            Assert.AreEqual<uint>(0x0040_0000, sample.GetMantissaBits());
+            sample = -3;
+            Assert.AreEqual<uint>(0x0040_0000, sample.GetMantissaBits());
+        }
+
+        [TestMethod()]
+        public void ToDecimalStringTest()
+        {
+            float sample = 0;
+            Assert.AreEqual("0", sample.ToDecimalString(), Debug.GetFilePathAndLineNumber());
+            sample = 1;
+            Assert.AreEqual("1", sample.ToDecimalString(), Debug.GetFilePathAndLineNumber());
+            sample = 0.00001f;
+            Assert.AreEqual("0.00001", sample.ToDecimalString(), Debug.GetFilePathAndLineNumber());
+            sample = float.Epsilon;
+            Assert.AreEqual("0.000000000000000000000000000000000000000000001401298", sample.ToDecimalString(), Debug.GetFilePathAndLineNumber());
+        }
+
+        [TestMethod()]
+        public void GetSignTest()
+        {
+            float sample = 1;
+            Assert.AreEqual(+1, sample.GetSign());
+            sample = -1;
+            Assert.AreEqual(-1, sample.GetSign());
+        }
+
+        [TestMethod()]
+        public void GetExponentTest()
+        {
+            float sample = 1;
+            Assert.AreEqual(0, sample.GetExponent());
+            sample = 2;
+            Assert.AreEqual(1, sample.GetExponent());
+            sample = 4;
+            Assert.AreEqual(2, sample.GetExponent());
+            sample = 8;
+            Assert.AreEqual(3, sample.GetExponent());
+
+            sample = 1;
+            Assert.AreEqual(0, sample.GetExponent());
+            sample = 0.5f;
+            Assert.AreEqual(-1, sample.GetExponent());
+            sample = 0.25f;
+            Assert.AreEqual(-2, sample.GetExponent());
+            sample = 0.125f;
+            Assert.AreEqual(-3, sample.GetExponent());
+        }
+
+        [TestMethod()]
+        public void GetMantissaTest()
+        {
+            float sample = 1;
+            Assert.AreEqual(0x0080_0000U, sample.GetMantissa());
+            sample = -1;
+            Assert.AreEqual(0x0080_0000U, sample.GetMantissa());
+            sample = 2;
+            Assert.AreEqual(0x0080_0000U, sample.GetMantissa());
+            sample = -2;
+            Assert.AreEqual(0x0080_0000U, sample.GetMantissa());
+            sample = 3;
+            Assert.AreEqual(0x00C0_0000U, sample.GetMantissa());
+            sample = -3;
+            Assert.AreEqual(0x00C0_0000U, sample.GetMantissa());
+        }
+
+        [TestMethod()]
+        public void IsIntegerTest()
+        {
+            // 以下はtrueになる
+            float sample = 1f;
+            Assert.IsTrue(sample.IsInteger());
+            sample = short.MaxValue;
+            Assert.IsTrue(sample.IsInteger());
+            sample = short.MinValue;
+            Assert.IsTrue(sample.IsInteger());
+            // 以下は少数を含むためfalse
+            sample = 1.1f;
+            Assert.IsFalse(sample.IsInteger());
+            sample = 0.1f;
+            Assert.IsFalse(sample.IsInteger());
+            sample = -0.1f;
+            Assert.IsFalse(sample.IsInteger());
+            sample = float.Epsilon;
+            Assert.IsFalse(sample.IsInteger());
+        }
+    }
+}

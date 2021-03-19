@@ -43,6 +43,10 @@
     <Reference Include="System.Memory, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Memory.4.5.4\lib\netstandard1.1\System.Memory.dll</HintPath>
     </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\portable-net45+win8+wp8+wpa81\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
     <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.5.0.0\lib\net45\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
     </Reference>
@@ -59,12 +63,14 @@
     <Compile Include="Algorithm\Crc16Polynomial.cs" />
     <Compile Include="Enum.cs" />
     <Compile Include="ExtensionMethods\System\IO\Stream\StreamExtensions.cs" />
+    <Compile Include="ExtensionMethods\System\Single\SingleExtensions.cs" />
     <Compile Include="ExtensionMethods\System\Span\SpanExtensions.cs" />
     <Compile Include="Numerics\Complex.cs" />
     <Compile Include="Numerics\FixedPointNumber32Q16.cs" />
     <Compile Include="Numerics\FixedPointNumber64Q32.cs" />
     <Compile Include="Numerics\FloatingPointNumber16.cs" />
     <Compile Include="Numerics\Fraction32.cs" />
+    <Compile Include="Numerics\Numeric.cs" />
     <Compile Include="Text\Encoding.cs" />
     <Compile Include="Utilities\CsvLogger.cs" />
     <Compile Include="Mathematics\Algorithm.cs" />
