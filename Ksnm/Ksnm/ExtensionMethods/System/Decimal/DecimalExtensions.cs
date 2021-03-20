@@ -24,6 +24,7 @@ freely, subject to the following restrictions:
 
 using Ksnm.ExtensionMethods.System.Comparable;
 using System.Linq;
+using System.Text;
 
 namespace Ksnm.ExtensionMethods.System.Decimal
 {
@@ -32,7 +33,42 @@ namespace Ksnm.ExtensionMethods.System.Decimal
     /// </summary>
     public static class DecimalExtensions
     {
-        #region Get* Is*
+        #region Is*
+        /// <summary>
+        /// 符号を取得
+        /// </summary>
+        /// <returns>正なら true を返す。負なら false を返す。</returns>
+        public static bool IsNegative(this decimal value)
+        {
+            return value.GetSignBits() != 0;
+        }
+        /// <summary>
+        /// 整数なら true を返します。
+        /// </summary>
+        public static bool IsInteger(this decimal value)
+        {
+            // TODO:long以上の値も対応する
+            return value == (long)value;
+            /*
+            // ゼロは整数で確定
+            if (value == 0)
+            {
+                return true;
+            }
+            // 指数がマイナスなら小数確定
+            var exponent = value.GetExponent();
+            if (exponent < 0)
+            {
+                return false;
+            }
+            // 小数部が0なら整数
+            var fractionalBits = value.GetMantissa();
+            return fractionalBits == 0;
+            */
+        }
+        #endregion Is*
+
+        #region Get*
         /// <summary>
         /// 符号ビットを取得
         /// </summary>
@@ -55,21 +91,13 @@ namespace Ksnm.ExtensionMethods.System.Decimal
             return +1;
         }
         /// <summary>
-        /// 符号を取得
-        /// </summary>
-        /// <returns>正なら true を返す。負なら false を返す。</returns>
-        public static bool IsNegative(this decimal value)
-        {
-            return value.GetSignBits() != 0;
-        }
-        /// <summary>
         /// 指数部を取得
         /// </summary>
         /// <returns>指数部のビット</returns>
-        public static ushort GetExponentBits(this decimal value)
+        public static byte GetExponentBits(this decimal value)
         {
             int[] bits = decimal.GetBits(value);
-            return (ushort)((bits[3] >> 16) & 0x7F);
+            return (byte)((bits[3] >> 16) & 0x7F);
         }
         /// <summary>
         /// 指数を取得
@@ -97,14 +125,16 @@ namespace Ksnm.ExtensionMethods.System.Decimal
             int[] bits = decimal.GetBits(value);
             return new decimal(bits[0], bits[1], bits[2], false, 0);
         }
+        #endregion Get*
+
+        #region To*
         /// <summary>
-        /// 整数なら true を返します。
+        /// 指定した System.Decimal のインスタンスの値を、それと等価のバイナリ形式に変換します。
         /// </summary>
-        public static bool IsInteger(this decimal value)
+        public static int[] ToBits(this decimal value)
         {
-            return value == (long)value;
+            return decimal.GetBits(value);
         }
-        #endregion Get* Is*
 
         #region ToClamped*
         /// <summary>
@@ -164,5 +194,25 @@ namespace Ksnm.ExtensionMethods.System.Decimal
             return decimal.ToUInt64(self.Clamp(ulong.MinValue, ulong.MaxValue));
         }
         #endregion ToClamped*
+        /// <summary>
+        /// 16進数の文字列に変換する
+        /// </summary>
+        /// <param name="value">変換する値</param>
+        /// <param name="separator">4バイト毎に挿入される区切り文字。"_"アンダーバーや、","コンマなど</param>
+        public static string ToHexadecimalString(this decimal value, string separator)
+        {
+            var builder = new StringBuilder(35);
+            var bits = decimal.GetBits(value);
+            for (int i = bits.Length - 1; i >= 0; i--)
+            {
+                builder.Append(bits[i].ToString("X8"));
+                if (i != 0)
+                {
+                    builder.Append(separator);
+                }
+            }
+            return builder.ToString();
+        }
+        #endregion To*
     }
 }
