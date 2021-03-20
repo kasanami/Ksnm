@@ -7,6 +7,23 @@ namespace Ksnm.ExtensionMethods.System.Decimal.Tests
     [TestClass()]
     public class DecimalExtensionsTests
     {
+        [TestMethod()]
+        public void IsPositiveTest()
+        {
+            decimal sample = 1;
+            Assert.IsTrue(sample.IsPositive());
+            sample = -1;
+            Assert.IsFalse(sample.IsPositive());
+        }
+
+        [TestMethod()]
+        public void IsNegativeTest()
+        {
+            decimal sample = 1;
+            Assert.IsFalse(sample.IsNegative());
+            sample = -1;
+            Assert.IsTrue(sample.IsNegative());
+        }
 
         [TestMethod()]
         public void IsIntegerTest()
@@ -131,15 +148,6 @@ namespace Ksnm.ExtensionMethods.System.Decimal.Tests
             Assert.AreEqual(+1, sample.GetSign());
             sample = -1;
             Assert.AreEqual(-1, sample.GetSign());
-        }
-
-        [TestMethod()]
-        public void IsNegativeTest()
-        {
-            decimal sample = 1;
-            Assert.AreEqual(false, sample.IsNegative());
-            sample = -1;
-            Assert.AreEqual(true, sample.IsNegative());
         }
 
         [TestMethod()]

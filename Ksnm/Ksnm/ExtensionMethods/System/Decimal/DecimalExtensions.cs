@@ -1,7 +1,7 @@
 ﻿/*
 The zlib License
 
-Copyright (c) 2019 Takahiro Kasanami
+Copyright (c) 2019ｰ2021 Takahiro Kasanami
 
 This software is provided 'as-is', without any express or implied
 warranty. In no event will the authors be held liable for any damages
@@ -35,9 +35,15 @@ namespace Ksnm.ExtensionMethods.System.Decimal
     {
         #region Is*
         /// <summary>
-        /// 符号を取得
+        /// 正数なら true を返します。
         /// </summary>
-        /// <returns>正なら true を返す。負なら false を返す。</returns>
+        public static bool IsPositive(this decimal value)
+        {
+            return value.GetSignBits() == 0;
+        }
+        /// <summary>
+        /// 負数なら true を返します。
+        /// </summary>
         public static bool IsNegative(this decimal value)
         {
             return value.GetSignBits() != 0;
