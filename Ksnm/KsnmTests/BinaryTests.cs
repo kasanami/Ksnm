@@ -1,6 +1,7 @@
 ﻿using Ksnm;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.Linq;
 
 namespace Ksnm.Tests
 {
@@ -327,6 +328,37 @@ namespace Ksnm.Tests
             sample = Binary.ToScaledDouble(ulong.MaxValue);
             Assert.IsTrue(sample > 0.9999999999);
             Assert.IsTrue(sample < 1.0);
+        }
+
+        [TestMethod()]
+        public void RightShiftTest()
+        {
+            int[] sample;
+            int[] expected;
+            sample = new int[] { 0x1111_1111, 0x2222_2222, 0x3333_3333, 0x4444_4444 };
+            expected = new int[] { 0x2111_1111, 0x3222_2222, 0x4333_3333, 0x0444_4444 };
+            Binary.RightShift(sample, 4);
+            Assert.IsTrue(sample.SequenceEqual(expected));
+
+            sample = new int[] { 0x1111_1111, 0x2222_2222, 0x3333_3333, 0x4444_4444 };
+            expected = new int[] { 0x2211_1111, 0x3322_2222, 0x4433_3333, 0x0044_4444 };
+            Binary.RightShift(sample, 8);
+            Assert.IsTrue(sample.SequenceEqual(expected));
+
+            sample = new int[] { 0x1111_1111, 0x2222_2222, 0x3333_3333, 0x4444_4444 };
+            expected = new int[] { 0x2222_2222, 0x3333_3333, 0x4444_4444, 0x0000_0000 };
+            Binary.RightShift(sample, 32);
+            Assert.IsTrue(sample.SequenceEqual(expected));
+
+            sample = new int[] { 0x1111_1111, 0x2222_2222, 0x3333_3333, 0x4444_4444 };
+            expected = new int[] { 0x3222_2222, 0x4333_3333, 0x0444_4444, 0x0000_0000 };
+            Binary.RightShift(sample, 32 + 4);
+            Assert.IsTrue(sample.SequenceEqual(expected));
+
+            sample = new int[] { 0x1111_1111, 0x2222_2222, 0x3333_3333, 0x4444_4444 };
+            expected = new int[] { 0x3333_3333, 0x4444_4444, 0x0000_0000, 0x0000_0000 };
+            Binary.RightShift(sample, 64);
+            Assert.IsTrue(sample.SequenceEqual(expected));
         }
     }
 }

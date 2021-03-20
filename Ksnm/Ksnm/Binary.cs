@@ -717,5 +717,76 @@ namespace Ksnm
             return ((bits << (~shift)) << 1) | (bits >> shift);
         }
         #endregion Rotate
+
+        #region BitShift
+        /// <summary>
+        /// 配列をまたいで右ビットシフトする。
+        /// bits[0]の最上位ビットの隣は、bits[1]の最下位ビットとする。
+        /// </summary>
+        /// <param name="bits">ビット配列</param>
+        /// <param name="shift">シフトするビット数</param>
+        public static void RightShift(int[] bits, int shift)
+        {
+            if (shift == 0)
+            {
+                return;
+            }
+            // shiftが32を超える場合2つ次の要素からビット値をコピーする
+            int offset = shift / 32;
+            shift %= 32;
+            if (shift > 0)
+            {
+                // ビットシフト実施
+                for (int i = 0; i < bits.Length; i++)
+                {
+                    // もとのshiftが32未満の場合は、その要素をシフトする。
+                    // 32を超える場合は、次の要素をシフトしてコピーする。
+                    var sourceIndex = i + offset;
+                    if (sourceIndex < bits.Length)
+                    {
+                        bits[i] = LogicalRightShift(bits[sourceIndex], shift);
+                    }
+                    else
+                    {
+                        bits[i] = 0;
+                    }
+                    // 次の要素のビット値を上位ビットにコピー
+                    sourceIndex += 1;
+                    if (sourceIndex < bits.Length)
+                    {
+                        bits[i] |= bits[sourceIndex] << (32 - shift);
+                    }
+                }
+            }
+            else
+            {
+                // もとのshiftが32の倍数の場合、次の要素からそのままコピーする
+                // 最後の要素は0にする。
+                for (int i = 0; i < bits.Length; i++)
+                {
+                    // 次の要素のビット値を上位ビットにコピー
+                    var nextIndex = i + offset;
+                    if (nextIndex < bits.Length)
+                    {
+                        bits[i] = bits[nextIndex];
+                    }
+                    else
+                    {
+                        bits[i] = 0;
+                    }
+                }
+            }
+        }
+        /// <summary>
+        /// 符号付きの整数を論理右シフトする。
+        /// </summary>
+        /// <param name="bits">シフトする値</param>
+        /// <param name="shift">シフトするビット数</param>
+        /// <returns>シフト後の値</returns>
+        public static int LogicalRightShift(int bits, int shift)
+        {
+            return (int)((uint)bits >> shift);
+        }
+        #endregion BitShift
     }
 }
