@@ -35,6 +35,18 @@ namespace Ksnm.ExtensionMethods.System.Decimal.Tests
             Assert.IsTrue(sample.IsInteger());
             sample = int.MinValue;
             Assert.IsTrue(sample.IsInteger());
+            sample = short.MaxValue;
+            Assert.IsTrue(sample.IsInteger());
+            sample = short.MinValue;
+            Assert.IsTrue(sample.IsInteger());
+            sample = int.MaxValue;
+            Assert.IsTrue(sample.IsInteger());
+            sample = int.MinValue;
+            Assert.IsTrue(sample.IsInteger());
+            for (int i = 1; i < 100000; i *= 10)
+            {
+                sample = i; Assert.IsTrue(sample.IsInteger(), $"i={i}");
+            }
             // 以下は少数を含むためfalse
             sample = 1.1m;
             Assert.IsFalse(sample.IsInteger());
@@ -42,6 +54,10 @@ namespace Ksnm.ExtensionMethods.System.Decimal.Tests
             Assert.IsFalse(sample.IsInteger());
             sample = -0.1m;
             Assert.IsFalse(sample.IsInteger());
+            for (int i = 1; i < 100000; i *= 10)
+            {
+                sample = i + 0.1m; Assert.IsFalse(sample.IsInteger(), $"i={i}");
+            }
         }
 
         [TestMethod()]

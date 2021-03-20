@@ -53,24 +53,7 @@ namespace Ksnm.ExtensionMethods.System.Decimal
         /// </summary>
         public static bool IsInteger(this decimal value)
         {
-            // TODO:long以上の値も対応する
-            return value == (long)value;
-            /*
-            // ゼロは整数で確定
-            if (value == 0)
-            {
-                return true;
-            }
-            // 指数がマイナスなら小数確定
-            var exponent = value.GetExponent();
-            if (exponent < 0)
-            {
-                return false;
-            }
-            // 小数部が0なら整数
-            var fractionalBits = value.GetMantissa();
-            return fractionalBits == 0;
-            */
+            return value.GetFractional() == 0;
         }
         #endregion Is*
 
@@ -130,6 +113,13 @@ namespace Ksnm.ExtensionMethods.System.Decimal
         {
             int[] bits = decimal.GetBits(value);
             return new decimal(bits[0], bits[1], bits[2], false, 0);
+        }
+        /// <summary>
+        /// 小数部を取得
+        /// </summary>
+        public static decimal GetFractional(this decimal value)
+        {
+            return decimal.Remainder(value, 1);
         }
         #endregion Get*
 
