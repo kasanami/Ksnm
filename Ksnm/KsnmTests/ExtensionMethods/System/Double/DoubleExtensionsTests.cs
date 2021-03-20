@@ -40,7 +40,11 @@ namespace Ksnm.ExtensionMethods.System.Double.Tests
         public void IsIntegerTest()
         {
             // 以下はtrueになる
-            Float sample = 1f;
+            Float sample = 0f;
+            Assert.IsTrue(sample.IsInteger());
+            sample = -0f;
+            Assert.IsTrue(sample.IsInteger());
+            sample = 1f;
             Assert.IsTrue(sample.IsInteger());
             sample = short.MaxValue;
             Assert.IsTrue(sample.IsInteger());
@@ -50,7 +54,11 @@ namespace Ksnm.ExtensionMethods.System.Double.Tests
             Assert.IsTrue(sample.IsInteger());
             sample = int.MinValue;
             Assert.IsTrue(sample.IsInteger());
-            // 以下は少数を含むためfalse
+            for (int i = 1; i < 100000; i *= 10)
+            {
+                sample = i; Assert.IsTrue(sample.IsInteger(), $"i={i}");
+            }
+            // 以下は小数を含むためfalse
             sample = 1.1f;
             Assert.IsFalse(sample.IsInteger());
             sample = 0.1f;
@@ -59,6 +67,10 @@ namespace Ksnm.ExtensionMethods.System.Double.Tests
             Assert.IsFalse(sample.IsInteger());
             sample = Float.Epsilon;
             Assert.IsFalse(sample.IsInteger());
+            for (int i = 1; i < 100000; i *= 10)
+            {
+                sample = i + 0.1f; Assert.IsFalse(sample.IsInteger(), $"i={i}");
+            }
         }
 
         [TestMethod()]

@@ -90,14 +90,19 @@ namespace Ksnm.ExtensionMethods.System.Single
         /// </summary>
         public static bool IsInteger(this Float value)
         {
+            // ゼロは整数で確定
+            if (value == 0)
+            {
+                return true;
+            }
             var bits = value._ToBits();
+            // 指数がマイナスなら小数確定
             var exponent = _GetExponent(bits);
-            // 指数が負数なら少数確定
             if (exponent < 0)
             {
                 return false;
             }
-            // 少数が0なら整数
+            // 小数部が0なら整数
             var fractionalBits = _GetFractionalBits(bits);
             return fractionalBits == 0;
         }
