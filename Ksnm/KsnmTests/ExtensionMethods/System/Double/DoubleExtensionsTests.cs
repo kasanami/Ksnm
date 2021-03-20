@@ -71,6 +71,11 @@ namespace Ksnm.ExtensionMethods.System.Double.Tests
             {
                 sample = i + 0.1f; Assert.IsFalse(sample.IsInteger(), $"i={i}");
             }
+            // 無限大はfalse
+            sample = Float.PositiveInfinity;
+            Assert.IsFalse(sample.IsInteger());
+            sample = Float.NegativeInfinity;
+            Assert.IsFalse(sample.IsInteger());
         }
 
         [TestMethod()]

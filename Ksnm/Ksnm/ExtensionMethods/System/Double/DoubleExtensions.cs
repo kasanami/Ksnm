@@ -50,6 +50,10 @@ namespace Ksnm.ExtensionMethods.System.Double
         /// </summary>
         public const int ExponentBias = 1023;
         /// <summary>
+        /// 無限大を表す指数部
+        /// </summary>
+        public const int InfinityExponent = 1024;
+        /// <summary>
         /// 仮数部のビット数
         /// </summary>
         public const int MantissaLength = 52;
@@ -99,6 +103,11 @@ namespace Ksnm.ExtensionMethods.System.Double
             // 指数がマイナスなら小数確定
             var exponent = _GetExponent(bits);
             if (exponent < 0)
+            {
+                return false;
+            }
+            // 無限大はfalse
+            if (exponent == InfinityExponent)
             {
                 return false;
             }
