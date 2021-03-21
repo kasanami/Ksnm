@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Diagnostics;
+using Numeric = Ksnm.Numerics.Numeric;
+using Ksnm.ExtensionMethods.System.Single;
+using Ksnm.ExtensionMethods.System.Double;
 
 namespace DemoApp
 {
@@ -9,9 +12,47 @@ namespace DemoApp
 
         public static void RunAll()
         {
+            //SingleTest();
+            //DoubleTest();
             //GreatestCommonDivisorWeightTest();
             //PowWeightTest();
             //PowTest();
+            /*
+            Numeric num = new Numeric(100m);
+            num.Normalize();
+            */
+        }
+        public static void SingleTest()
+        {
+            Console.WriteLine($"SingleTest");
+            var stopwatch = new Stopwatch();
+            for (int j = 0; j < 5; j++)
+            {
+                stopwatch.Restart();
+                float sample = 1.1f;
+                for (int i = 0; i < 10000000; i++)
+                {
+                    sample.IsInteger();
+                }
+                stopwatch.Stop();
+                Console.WriteLine($"{stopwatch.ElapsedMilliseconds}ミリ秒");
+            }
+        }
+        public static void DoubleTest()
+        {
+            Console.WriteLine($"DoubleTest");
+            var stopwatch = new Stopwatch();
+            for (int j = 0; j < 5; j++)
+            {
+                stopwatch.Restart();
+                double sample = 1.1;
+                for (int i = 0; i < 10000000; i++)
+                {
+                    sample.IsInteger();
+                }
+                stopwatch.Stop();
+                Console.WriteLine($"{stopwatch.ElapsedMilliseconds}ミリ秒");
+            }
         }
         public static void GreatestCommonDivisorWeightTest()
         {

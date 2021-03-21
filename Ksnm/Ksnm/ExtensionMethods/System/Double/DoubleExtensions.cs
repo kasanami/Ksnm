@@ -99,6 +99,8 @@ namespace Ksnm.ExtensionMethods.System.Double
             {
                 return true;
             }
+#if true
+            // .NET4.7Releaseビルドで、10000000回にかかる時間：44ミリ秒
             var bits = value._ToBits();
             // 指数がマイナスなら小数確定
             var exponent = _GetExponent(bits);
@@ -114,6 +116,10 @@ namespace Ksnm.ExtensionMethods.System.Double
             // 小数部が0なら整数
             var fractionalBits = _GetFractionalBits(bits);
             return fractionalBits == 0;
+#else
+            // .NET4.7Releaseビルドで、10000000回にかかる時間：77ミリ秒
+            return (value % 1.0) == 0;
+#endif
         }
         #endregion Is*
 
