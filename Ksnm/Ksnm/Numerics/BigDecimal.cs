@@ -53,6 +53,25 @@ namespace Ksnm.Numerics
         /// <summary>
         /// 指定した値で初期化
         /// </summary>
+        /// <param name="other">コピー元</param>
+        public BigDecimal(BigDecimal other)
+        {
+            Exponent = other.Exponent;
+            Mantissa = other.Mantissa;
+        }
+        /// <summary>
+        /// 指定した値で初期化
+        /// </summary>
+        /// <param name="mantissa">仮数部</param>
+        /// <param name="exponent">指数部</param>
+        public BigDecimal(BigInteger mantissa, int exponent)
+        {
+            Exponent = exponent;
+            Mantissa = mantissa;
+        }
+        /// <summary>
+        /// 指定した値で初期化
+        /// </summary>
         public BigDecimal(int value)
         {
             Exponent = 0;
@@ -64,9 +83,110 @@ namespace Ksnm.Numerics
         public BigDecimal(decimal value)
         {
             Exponent = value.GetExponent();
-            Mantissa = (BigInteger)(value * Ksnm.Math.Pow(10m, Exponent));
+            Mantissa = (BigInteger)value.GetMantissa();
+            Mantissa *= value.GetSign();
         }
         #endregion コンストラクタ
+
+        #region 単項演算子
+        /// <summary>
+        /// 符号維持
+        /// </summary>
+        public static BigDecimal operator +(in BigDecimal value)
+        {
+            return value;
+        }
+        /// <summary>
+        /// 符号反転
+        /// <para>変更されるのは Numerator</para>
+        /// </summary>
+        public static BigDecimal operator -(in BigDecimal value)
+        {
+            return new BigDecimal(-value.Mantissa, value.Exponent);
+        }
+        #endregion 単項演算子
+
+        #region 二項演算子
+        /// <summary>
+        /// 加算
+        /// </summary>
+        public static BigDecimal operator +(in BigDecimal valueL, in BigDecimal valueR)
+        {
+            if (valueL.Exponent > valueR.Exponent)
+            {
+                var temp = new BigDecimal(valueL);
+                var scale = temp.Exponent - valueR.Exponent;
+                temp.Mantissa *= Math.Pow(10, scale);
+                temp.Mantissa += valueR.Mantissa;
+                temp.Exponent = valueR.Exponent;
+                return temp;
+            }
+            else if (valueL.Exponent < valueR.Exponent)
+            {
+                var temp = new BigDecimal(valueR);
+                var scale = temp.Exponent - valueL.Exponent;
+                temp.Mantissa *= Math.Pow(10, scale);
+                temp.Mantissa += valueL.Mantissa;
+                temp.Exponent = valueL.Exponent;
+                return temp;
+            }
+            return new BigDecimal(valueL.Mantissa + valueR.Mantissa, valueL.Exponent);
+        }
+        /// <summary>
+        /// 減算
+        /// </summary>
+        public static BigDecimal operator -(in BigDecimal valueL, in BigDecimal valueR)
+        {
+            if (valueL.Exponent > valueR.Exponent)
+            {
+                var temp = new BigDecimal(valueL);
+                var scale = temp.Exponent - valueR.Exponent;
+                temp.Mantissa *= Math.Pow(10, scale);
+                temp.Mantissa -= valueR.Mantissa;
+                temp.Exponent = valueR.Exponent;
+                return temp;
+            }
+            else if (valueL.Exponent < valueR.Exponent)
+            {
+                var temp = new BigDecimal(valueR);
+                var scale = temp.Exponent - valueL.Exponent;
+                temp.Mantissa *= Math.Pow(10, scale);
+                temp.Mantissa -= valueL.Mantissa;
+                temp.Exponent = valueL.Exponent;
+                return temp;
+            }
+            return new BigDecimal(valueL.Mantissa - valueR.Mantissa, valueL.Exponent);
+        }
+        /// <summary>
+        /// 乗算
+        /// </summary>
+        public static BigDecimal operator *(in BigDecimal valueL, in BigDecimal valueR)
+        {
+            var temp = new BigDecimal(valueL);
+            temp.Mantissa *= valueR.Mantissa;
+            temp.Exponent += valueR.Exponent;
+            return temp;
+        }
+        /// <summary>
+        /// 乗算
+        /// </summary>
+        public static BigDecimal operator *(in BigDecimal valueL, in int valueR)
+        {
+            var temp = new BigDecimal(valueL);
+            temp.Mantissa *= valueR;
+            return temp;
+        }
+        /// <summary>
+        /// 除算
+        /// </summary>
+        public static BigDecimal operator /(in BigDecimal valueL, in BigDecimal valueR)
+        {
+            var temp = new BigDecimal(valueL);
+            temp.Mantissa /= valueR.Mantissa;
+            temp.Exponent -= valueR.Exponent;
+            return temp;
+        }
+        #endregion 2項演算子
 
         #region To*
         /// <summary>
@@ -79,7 +199,7 @@ namespace Ksnm.Numerics
             var bytes = mantissa.ToByteArray().ToList();
             if (bytes.Count > (4 * 3))
             {
-                throw new InvalidCastException($"{nameof(Mantissa)}が decimal の");
+                throw new InvalidCastException($"{nameof(Mantissa)}が decimal の最大値より大きい");
             }
             while (bytes.Count < (4 * 3))
             {
@@ -90,7 +210,11 @@ namespace Ksnm.Numerics
             int mid = BitConverter.ToInt32(bytes2, 4);
             int hi = BitConverter.ToInt32(bytes2, 8);
             bool isNegative = Mantissa < 0;
-            byte scale = (byte)Exponent;
+            byte scale = 0;
+            if (Exponent < 0)
+            {
+                scale = (byte)(-Exponent);
+            }
             return new decimal(lo, mid, hi, isNegative, scale);
         }
         #endregion To*

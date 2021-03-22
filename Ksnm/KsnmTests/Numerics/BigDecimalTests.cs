@@ -19,6 +19,16 @@ namespace Ksnm.Numerics.Tests
                 var sample = new BigDecimal(i);
                 Assert.AreEqual(i, sample.ToDecimal());
             }
+            for (decimal i = 1; i < 1_000_000m; i *= 2)
+            {
+                var sample = new BigDecimal(i);
+                Assert.AreEqual(i, sample.ToDecimal());
+            }
+            for (decimal i = 1; i > 0.001m; i /= 2)
+            {
+                var sample = new BigDecimal(i);
+                Assert.AreEqual(i, sample.ToDecimal());
+            }
         }
     }
 }
