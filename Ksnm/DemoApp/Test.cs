@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Diagnostics;
 using Numeric = Ksnm.Numerics.Numeric;
+using Ksnm.ExtensionMethods.System.Collections.Generic.Enumerable;
 using Ksnm.ExtensionMethods.System.Single;
 using Ksnm.ExtensionMethods.System.Double;
+using System.Numerics;
+using Ksnm.Numerics;
 
 namespace DemoApp
 {
@@ -14,6 +17,8 @@ namespace DemoApp
         {
             //SingleTest();
             //DoubleTest();
+            BigIntegerTest();
+            BigDecimalTest();
             //GreatestCommonDivisorWeightTest();
             //PowWeightTest();
             //PowTest();
@@ -67,6 +72,36 @@ namespace DemoApp
                 }
                 stopwatch.Stop();
                 Console.WriteLine($"{stopwatch.ElapsedMilliseconds}ミリ秒");
+            }
+        }
+        public static void BigIntegerTest()
+        {
+            Console.WriteLine("BigIntegerTest()");
+
+            BigInteger sample = 0x0123_4567_89AB_CDEF;
+            var bytes = sample.ToByteArray();
+            Console.WriteLine(sample);
+            Console.WriteLine(bytes.ToDebugString("X2", null, false));
+        }
+
+        public static void BigDecimalTest()
+        {
+            Console.WriteLine("BigDecimalTest()");
+
+            for (decimal i = -10; i < 10; i++)
+            {
+                var sample = new BigDecimal(i);
+                Console.WriteLine(i);
+                Console.WriteLine(sample.ToDecimal());
+            }
+
+            {
+                decimal sourceDecimal = 0x0123_4567_89AB_CDEF;
+                BigDecimal sample = new BigDecimal(sourceDecimal);
+                var sampleDecimal = sample.ToDecimal();
+                Console.WriteLine(sourceDecimal);
+                Console.WriteLine(sampleDecimal);
+                Console.WriteLine(sourceDecimal == sampleDecimal);
             }
         }
         public static void GreatestCommonDivisorWeightTest()

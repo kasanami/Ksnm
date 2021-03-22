@@ -78,6 +78,7 @@
     <Compile Include="ExtensionMethods\System\Collections\Generic\List\ListExtensionsTests.cs" />
     <Compile Include="ExtensionMethods\System\Collections\ObjectModel\ReadOnlyCollection\ReadOnlyCollectionExtensionsTests.cs" />
     <Compile Include="ExtensionMethods\System\Comparable\ComparableExtensionsTests.cs" />
+    <Compile Include="ExtensionMethods\System\Complex\ComplexExtensionsTests.cs" />
     <Compile Include="ExtensionMethods\System\Decimal\DecimalExtensionsTests.cs" />
     <Compile Include="ExtensionMethods\System\Double\DoubleExtensionsTests.cs" />
     <Compile Include="ExtensionMethods\System\IO\Stream\StreamExtensionsTests.cs" />
@@ -85,6 +86,7 @@
     <Compile Include="ExtensionMethods\System\Span\SpanExtensionsTests.cs" />
     <Compile Include="ExtensionMethods\System\Random\RandomExtensionsTests.cs" />
     <Compile Include="ExtensionMethods\System\String\StringExtensionsTests.cs" />
+    <Compile Include="Numerics\BigDecimalTests.cs" />
     <Compile Include="Numerics\ComplexTests.cs" />
     <Compile Include="Numerics\FixedPointNumber64Q32Tests.cs" />
     <Compile Include="Numerics\FixedPointNumber32Q16Tests.cs" />
