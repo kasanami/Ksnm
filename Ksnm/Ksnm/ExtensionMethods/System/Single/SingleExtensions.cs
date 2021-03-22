@@ -73,14 +73,14 @@ namespace Ksnm.ExtensionMethods.System.Single
         /// </summary>
         public static bool IsPositive(this Float value)
         {
-            return value.GetSignBits() == 0;
+            return value > 0;
         }
         /// <summary>
         /// 負数なら true を返します。
         /// </summary>
         public static bool IsNegative(this Float value)
         {
-            return value.GetSignBits() == 1;
+            return value < 1;
         }
         /// <summary>
         /// 負または正の無限大と評価されるかどうかを示す値を返します。

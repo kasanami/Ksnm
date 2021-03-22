@@ -42,6 +42,21 @@ namespace DemoApp
         {
             Console.WriteLine($"DoubleTest");
             var stopwatch = new Stopwatch();
+
+            Console.WriteLine($"IsPositive test");
+            for (int j = 0; j < 5; j++)
+            {
+                stopwatch.Restart();
+                double sample = 1.1;
+                for (int i = 0; i < 100_000_000; i++)
+                {
+                    sample.IsPositive();
+                }
+                stopwatch.Stop();
+                Console.WriteLine($"{stopwatch.ElapsedMilliseconds}ミリ秒");
+            }
+
+            Console.WriteLine($"IsInteger test");
             for (int j = 0; j < 5; j++)
             {
                 stopwatch.Restart();
