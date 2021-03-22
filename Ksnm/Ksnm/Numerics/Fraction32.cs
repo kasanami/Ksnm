@@ -147,7 +147,7 @@ namespace Ksnm.Numerics
         {
             var mantissa = value.GetMantissa();
             var exponent = value.GetExponentBits();
-            var denominator = Math.Pow(10u, exponent);
+            var denominator = Math.Pow(10u, (uint)exponent);
             Numerator = (int)mantissa;
             Denominator = (int)denominator;
             if (value < 0)
