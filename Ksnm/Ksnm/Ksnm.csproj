@@ -62,6 +62,7 @@
     <Compile Include="Algorithm\Crc16.cs" />
     <Compile Include="Algorithm\Crc16Polynomial.cs" />
     <Compile Include="Enum.cs" />
+    <Compile Include="ExtensionMethods\System\Complex\ComplexExtensions.cs" />
     <Compile Include="ExtensionMethods\System\IO\Stream\StreamExtensions.cs" />
     <Compile Include="ExtensionMethods\System\Single\SingleExtensions.cs" />
     <Compile Include="ExtensionMethods\System\Span\SpanExtensions.cs" />
