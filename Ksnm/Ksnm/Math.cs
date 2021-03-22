@@ -741,6 +741,47 @@ namespace Ksnm
             }
             return value;
         }
+        /// <summary>
+        /// 指定の decimal を指定した値で累乗した値を返します。
+        /// </summary>
+        /// <param name="baseValue">累乗対象の底</param>
+        /// <param name="exponent">冪指数</param>
+        /// <returns>累乗した値</returns>
+        public static decimal Pow(decimal baseValue, int exponent)
+        {
+            decimal value = 1;
+            if (exponent > 0)
+            {
+                for (int i = 0; i < exponent; i++)
+                {
+                    value *= baseValue;
+                }
+            }
+            else if (exponent < 0)
+            {
+                exponent = -exponent;
+                for (int i = 0; i < exponent; i++)
+                {
+                    value /= baseValue;
+                }
+            }
+            return value;
+        }
+        /// <summary>
+        /// 指定の decimal を指定した値で累乗した値を返します。
+        /// </summary>
+        /// <param name="baseValue">累乗対象の底</param>
+        /// <param name="exponent">冪指数</param>
+        /// <returns>累乗した値</returns>
+        public static decimal Pow(decimal baseValue, uint exponent)
+        {
+            decimal value = 1;
+            for (uint i = 0; i < exponent; i++)
+            {
+                value *= baseValue;
+            }
+            return value;
+        }
         #endregion Pow
 
         #region 最大公約数 GreatestCommonDivisor
