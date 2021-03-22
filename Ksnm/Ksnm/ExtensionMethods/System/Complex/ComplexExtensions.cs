@@ -1,4 +1,5 @@
-﻿using complex = System.Numerics.Complex;// 拡張元の型
+﻿using Ksnm.ExtensionMethods.System.Double;
+using complex = System.Numerics.Complex;// 拡張元の型
 
 namespace Ksnm.ExtensionMethods.System.Complex
 {
@@ -27,14 +28,14 @@ namespace Ksnm.ExtensionMethods.System.Complex
         /// </summary>
         public static bool IsInfinity(this complex value)
         {
-            return value.IsInfinity();
+            return value.Real.IsInfinity();
         }
         /// <summary>
         /// 整数なら true を返します。
         /// </summary>
         public static bool IsInteger(this complex value)
         {
-            return value.IsInteger();
+            return value.Real.IsInteger();
         }
         #endregion Is*
     }
