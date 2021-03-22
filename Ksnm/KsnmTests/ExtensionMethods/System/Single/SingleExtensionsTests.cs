@@ -12,6 +12,8 @@ namespace Ksnm.ExtensionMethods.System.Single.Tests
         {
             Float sample = 1;
             Assert.IsTrue(sample.IsPositive());
+            sample = 0;
+            Assert.IsFalse(sample.IsPositive());
             sample = -1;
             Assert.IsFalse(sample.IsPositive());
         }
@@ -20,6 +22,8 @@ namespace Ksnm.ExtensionMethods.System.Single.Tests
         public void IsNegativeTest()
         {
             Float sample = 1;
+            Assert.IsFalse(sample.IsNegative());
+            sample = 0;
             Assert.IsFalse(sample.IsNegative());
             sample = -1;
             Assert.IsTrue(sample.IsNegative());

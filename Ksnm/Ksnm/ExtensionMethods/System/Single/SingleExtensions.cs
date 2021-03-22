@@ -80,7 +80,7 @@ namespace Ksnm.ExtensionMethods.System.Single
         /// </summary>
         public static bool IsNegative(this Float value)
         {
-            return value < 1;
+            return value < 0;
         }
         /// <summary>
         /// 負または正の無限大と評価されるかどうかを示す値を返します。
