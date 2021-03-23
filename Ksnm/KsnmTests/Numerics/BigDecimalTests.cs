@@ -27,6 +27,14 @@ namespace Ksnm.Numerics.Tests
                 sample.MinimizeMantissa();
                 Assert.AreEqual(i, sample.ToDecimal(), $"i={i} sample={sample}");
             }
+
+            {
+                decimal i = 0.123m;
+                var sample = new BigDecimal(i);
+                sample.MinimizeExponent();
+                sample.MinimizeMantissa();
+                Assert.AreEqual(i, sample.ToDecimal(), $"i={i} sample={sample}");
+            }
         }
 
         [TestMethod()]
