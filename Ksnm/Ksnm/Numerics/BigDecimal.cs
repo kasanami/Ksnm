@@ -33,9 +33,13 @@ namespace Ksnm.Numerics
     /// 
     /// BigDecimal=Mantissa*10^Exponent
     /// </summary>
-    public class BigDecimal : IEquatable<BigDecimal>
+    public struct BigDecimal : IEquatable<BigDecimal>
     {
         #region 定数
+        /// <summary>
+        /// 十進数の底（てい）
+        /// </summary>
+        public const int Base = 10;
         #endregion 定数
 
         #region プロパティ
@@ -92,15 +96,15 @@ namespace Ksnm.Numerics
         /// <summary>
         /// 符号維持
         /// </summary>
-        public static BigDecimal operator +(in BigDecimal value)
+        public static BigDecimal operator +(BigDecimal value)
         {
             return value;
         }
         /// <summary>
         /// 符号反転
-        /// <para>変更されるのは Numerator</para>
+        /// <para>変更されるのは Mantissa</para>
         /// </summary>
-        public static BigDecimal operator -(in BigDecimal value)
+        public static BigDecimal operator -(BigDecimal value)
         {
             return new BigDecimal(-value.Mantissa, value.Exponent);
         }
@@ -110,13 +114,13 @@ namespace Ksnm.Numerics
         /// <summary>
         /// 加算
         /// </summary>
-        public static BigDecimal operator +(in BigDecimal valueL, in BigDecimal valueR)
+        public static BigDecimal operator +(BigDecimal valueL, BigDecimal valueR)
         {
             if (valueL.Exponent > valueR.Exponent)
             {
                 var temp = new BigDecimal(valueL);
                 var scale = temp.Exponent - valueR.Exponent;
-                temp.Mantissa *= Math.Pow(10, scale);
+                temp.Mantissa *= BigInteger.Pow(Base, scale);
                 temp.Mantissa += valueR.Mantissa;
                 temp.Exponent = valueR.Exponent;
                 return temp;
@@ -125,7 +129,7 @@ namespace Ksnm.Numerics
             {
                 var temp = new BigDecimal(valueR);
                 var scale = temp.Exponent - valueL.Exponent;
-                temp.Mantissa *= Math.Pow(10, scale);
+                temp.Mantissa *= BigInteger.Pow(Base, scale);
                 temp.Mantissa += valueL.Mantissa;
                 temp.Exponent = valueL.Exponent;
                 return temp;
@@ -135,13 +139,13 @@ namespace Ksnm.Numerics
         /// <summary>
         /// 減算
         /// </summary>
-        public static BigDecimal operator -(in BigDecimal valueL, in BigDecimal valueR)
+        public static BigDecimal operator -(BigDecimal valueL, BigDecimal valueR)
         {
             if (valueL.Exponent > valueR.Exponent)
             {
                 var temp = new BigDecimal(valueL);
                 var scale = temp.Exponent - valueR.Exponent;
-                temp.Mantissa *= Math.Pow(10, scale);
+                temp.Mantissa *= BigInteger.Pow(Base, scale);
                 temp.Mantissa -= valueR.Mantissa;
                 temp.Exponent = valueR.Exponent;
                 return temp;
@@ -150,7 +154,7 @@ namespace Ksnm.Numerics
             {
                 var temp = new BigDecimal(valueR);
                 var scale = temp.Exponent - valueL.Exponent;
-                temp.Mantissa *= Math.Pow(10, scale);
+                temp.Mantissa *= BigInteger.Pow(Base, scale);
                 temp.Mantissa -= valueL.Mantissa;
                 temp.Exponent = valueL.Exponent;
                 return temp;
@@ -160,7 +164,7 @@ namespace Ksnm.Numerics
         /// <summary>
         /// 乗算
         /// </summary>
-        public static BigDecimal operator *(in BigDecimal valueL, in BigDecimal valueR)
+        public static BigDecimal operator *(BigDecimal valueL, BigDecimal valueR)
         {
             var temp = new BigDecimal(valueL);
             temp.Mantissa *= valueR.Mantissa;
@@ -170,7 +174,7 @@ namespace Ksnm.Numerics
         /// <summary>
         /// 乗算
         /// </summary>
-        public static BigDecimal operator *(in BigDecimal valueL, in int valueR)
+        public static BigDecimal operator *(BigDecimal valueL, int valueR)
         {
             var temp = new BigDecimal(valueL);
             temp.Mantissa *= valueR;
@@ -179,7 +183,7 @@ namespace Ksnm.Numerics
         /// <summary>
         /// 除算
         /// </summary>
-        public static BigDecimal operator /(in BigDecimal valueL, in BigDecimal valueR)
+        public static BigDecimal operator /(BigDecimal valueL, BigDecimal valueR)
         {
             var temp = new BigDecimal(valueL);
             temp.Mantissa /= valueR.Mantissa;
@@ -187,6 +191,72 @@ namespace Ksnm.Numerics
             return temp;
         }
         #endregion 2項演算子
+
+        #region 比較演算子
+        /// <summary>
+        /// 等しい場合は true。それ以外の場合は false。
+        /// </summary>
+        public static bool operator ==(BigDecimal valueL, BigDecimal valueR)
+        {
+            return valueL.Mantissa == valueR.Mantissa && valueL.Exponent == valueR.Exponent;
+        }
+        /// <summary>
+        /// 等しくない場合は true。それ以外の場合は false。
+        /// </summary>
+        public static bool operator !=(BigDecimal valueL, BigDecimal valueR)
+        {
+            return valueL.Mantissa != valueR.Mantissa || valueL.Exponent != valueR.Exponent;
+        }
+        /// <summary>
+        /// 大なり演算子
+        /// </summary>
+        public static bool operator >(BigDecimal valueL, BigDecimal valueR)
+        {
+            _ConvertSameExponent(ref valueL, ref valueR);
+            return valueL.Mantissa > valueR.Mantissa;
+        }
+        /// <summary>
+        /// 小なり演算子
+        /// </summary>
+        public static bool operator <(BigDecimal valueL, BigDecimal valueR)
+        {
+            _ConvertSameExponent(ref valueL, ref valueR);
+            return valueL.Mantissa < valueR.Mantissa;
+        }
+        /// <summary>
+        /// 以上演算子
+        /// </summary>
+        public static bool operator >=(BigDecimal valueL, BigDecimal valueR)
+        {
+            _ConvertSameExponent(ref valueL, ref valueR);
+            return valueL.Mantissa >= valueR.Mantissa;
+        }
+        /// <summary>
+        /// 以下演算子
+        /// </summary>
+        public static bool operator <=(BigDecimal valueL, BigDecimal valueR)
+        {
+            _ConvertSameExponent(ref valueL, ref valueR);
+            return valueL.Mantissa <= valueR.Mantissa;
+        }
+        /// <summary>
+        /// 指定した双方の値を、同じ Exponent になるように変換する
+        /// ※Mantissa は調整するが、Exponent は調整しないので、元の値から大きさが変わる。
+        /// </summary>
+        private static void _ConvertSameExponent(ref BigDecimal valueL, ref BigDecimal valueR)
+        {
+            if (valueL.Exponent > valueR.Exponent)
+            {
+                var exponentDiff = valueL.Exponent - valueR.Exponent;
+                valueL.Mantissa *= BigInteger.Pow(Base, exponentDiff);
+            }
+            else if (valueR.Exponent > valueL.Exponent)
+            {
+                var exponentDiff = valueR.Exponent - valueL.Exponent;
+                valueR.Mantissa *= BigInteger.Pow(Base, exponentDiff);
+            }
+        }
+        #endregion 比較演算子
 
         #region To*
         /// <summary>
@@ -219,12 +289,42 @@ namespace Ksnm.Numerics
         }
         #endregion To*
 
+        #region object
+        /// <summary>
+        /// 現在のインスタンスの値と指定されたオブジェクトの値が等しいかどうかを示す値を返します。
+        /// </summary>
+        public override bool Equals(object obj)
+        {
+            if (obj == null)
+            {
+                return false;
+            }
+            if (obj is BigDecimal)
+            {
+                return Equals((BigDecimal)obj);
+            }
+            return false;
+        }
+        /// <summary>
+        /// このインスタンスのハッシュ コードを返します。
+        /// </summary>
+        public override int GetHashCode()
+        {
+            return Mantissa.GetHashCode() ^ Exponent.GetHashCode();
+        }
+        /// <summary>
+        /// このインスタンスの数値を、それと等価な文字列形式に変換します。
+        /// </summary>
+        public override string ToString()
+        {
+            return $"({Mantissa}*10^{Exponent})";
+        }
+        #endregion object
+
         #region IEquatable
         /// <summary>
-        /// このインスタンスが指定した FloatingPointNumber16 値に等しいかどうかを示す値を返します。
+        /// このインスタンスが指定した値と等しいかどうかを示す値を返します。
         /// </summary>
-        /// <param name="other"></param>
-        /// <returns></returns>
         public bool Equals(BigDecimal other)
         {
             if (Exponent != other.Exponent)

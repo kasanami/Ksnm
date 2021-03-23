@@ -1,10 +1,4 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Ksnm.Numerics;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Ksnm.Numerics.Tests
 {
@@ -28,6 +22,50 @@ namespace Ksnm.Numerics.Tests
             {
                 var sample = new BigDecimal(i);
                 Assert.AreEqual(i, sample.ToDecimal());
+            }
+        }
+
+        [TestMethod()]
+        public void OperationsTest1()
+        {
+            var sample = new BigDecimal(1, 2);
+            var expected1 = new BigDecimal(1, 2);
+            var expected2 = new BigDecimal(-1, 2);
+            Assert.AreEqual(expected1, +sample);
+            Assert.AreEqual(expected2, -sample);
+        }
+
+        [TestMethod()]
+        public void OperationsTest2()
+        {
+            for (decimal i = 0.01m; i < 100; i *= 10)
+            {
+                var sample = new BigDecimal(i);
+                for (decimal j = 0.01m; j < 100; j *= 10)
+                {
+                    var sample2 = new BigDecimal(j);
+                    // +
+                    Assert.AreEqual(i + j, (sample + sample2).ToDecimal());
+                    // -
+                    Assert.AreEqual(i - j, (sample - sample2).ToDecimal());
+                    // *
+                    Assert.AreEqual(i * j, (sample * sample2).ToDecimal());
+                    // /
+                    // TODO:割り算未完成
+                    //Assert.AreEqual(i / j, (sample / sample2).ToDecimal());
+                    // ==
+                    Assert.AreEqual(i == j, sample == sample2);
+                    // !=
+                    Assert.AreEqual(i != j, sample != sample2);
+                    // >
+                    Assert.AreEqual(i > j, sample > sample2);
+                    // <
+                    Assert.AreEqual(i < j, sample < sample2);
+                    // >=
+                    Assert.AreEqual(i >= j, sample >= sample2);
+                    // <=
+                    Assert.AreEqual(i <= j, sample <= sample2);
+                }
             }
         }
     }
