@@ -24,6 +24,7 @@ freely, subject to the following restrictions:
 using System;
 using System.Linq;
 using System.Numerics;
+using System.Text;
 using Ksnm.ExtensionMethods.System.Decimal;
 
 namespace Ksnm.Numerics
@@ -393,7 +394,31 @@ namespace Ksnm.Numerics
         /// </summary>
         public override string ToString()
         {
+#if true
+            var stringBuilder = new StringBuilder();
+            stringBuilder.Append(Mantissa.ToString());
+            if (Exponent > 0)
+            {
+                stringBuilder.Append(new string('0', Exponent));
+            }
+            else if (Exponent < 0)
+            {
+                var e = -Exponent;
+                if (e < stringBuilder.Length)
+                {
+                    stringBuilder.Insert(stringBuilder.Length - e, '.');
+                }
+                else
+                {
+                    var zeroCount = e - stringBuilder.Length + 1;
+                    stringBuilder.Insert(0, new string('0', zeroCount));
+                    stringBuilder.Insert(1, '.');
+                }
+            }
+            return stringBuilder.ToString();
+#else
             return $"({Mantissa}*10^{Exponent})";
+#endif
         }
         #endregion object
 

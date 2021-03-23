@@ -99,5 +99,31 @@ namespace Ksnm.Numerics.Tests
                 }
             }
         }
+
+        [TestMethod()]
+        public void ToStringTest()
+        {
+            var sample = new BigDecimal(1m);
+            Assert.AreEqual("1", sample.ToString());
+            sample = new BigDecimal(12m);
+            Assert.AreEqual("12", sample.ToString());
+            sample = new BigDecimal(123m);
+            Assert.AreEqual("123", sample.ToString());
+            sample = new BigDecimal(12.3m);
+            Assert.AreEqual("12.3", sample.ToString());
+            sample = new BigDecimal(1.23m);
+            Assert.AreEqual("1.23", sample.ToString());
+            sample = new BigDecimal(0.123m);
+            Assert.AreEqual("0.123", sample.ToString());
+            sample = new BigDecimal(0.0123m);
+            Assert.AreEqual("0.0123", sample.ToString());
+            sample = new BigDecimal(0.00123m);
+            Assert.AreEqual("0.00123", sample.ToString());
+
+            sample = new BigDecimal(123, 1);
+            Assert.AreEqual("1230", sample.ToString());
+            sample = new BigDecimal(123, 2);
+            Assert.AreEqual("12300", sample.ToString());
+        }
     }
 }
