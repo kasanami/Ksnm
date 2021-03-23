@@ -5,6 +5,30 @@ namespace Ksnm.Numerics.Tests
     [TestClass()]
     public class BigDecimalTests
     {
+
+        [TestMethod()]
+        public void MinimizeExponentTest()
+        {
+            for (decimal i = 0.01m; i < 100; i *= 10)
+            {
+                var sample = new BigDecimal(i);
+                sample.MinimizeExponent();
+                Assert.AreEqual(i, sample.ToDecimal());
+            }
+        }
+
+        [TestMethod()]
+        public void MinimizeMantissaTest()
+        {
+            for (decimal i = 0.01m; i < 100; i *= 10)
+            {
+                var sample = new BigDecimal(i);
+                sample.MinimizeExponent();
+                sample.MinimizeMantissa();
+                Assert.AreEqual(i, sample.ToDecimal(), $"i={i} sample={sample}");
+            }
+        }
+
         [TestMethod()]
         public void ToDecimalTest()
         {
@@ -51,8 +75,7 @@ namespace Ksnm.Numerics.Tests
                     // *
                     Assert.AreEqual(i * j, (sample * sample2).ToDecimal());
                     // /
-                    // TODO:割り算未完成
-                    //Assert.AreEqual(i / j, (sample / sample2).ToDecimal());
+                    Assert.AreEqual(i / j, (sample / sample2).ToDecimal());
                     // ==
                     Assert.AreEqual(i == j, sample == sample2);
                     // !=
