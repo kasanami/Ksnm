@@ -43,8 +43,9 @@ namespace Ksnm.Numerics
         public const int Base = 10;
         /// <summary>
         /// MinExponentの初期値
+        /// (System.Decimalの値に合わせて28)
         /// </summary>
-        public const int DefaultMinExponent = -10;
+        public const int DefaultMinExponent = -28;
         #endregion 定数
 
         #region プロパティ
@@ -73,10 +74,11 @@ namespace Ksnm.Numerics
         {
             Exponent = other.Exponent;
             Mantissa = other.Mantissa;
-            MinExponent = DefaultMinExponent;
+            MinExponent = other.MinExponent;
         }
         /// <summary>
         /// 指定した値で初期化
+        /// ・exponent が DefaultMinExponent より小さい場合は、exponent を MinExponent に設定します。
         /// </summary>
         /// <param name="mantissa">仮数部</param>
         /// <param name="exponent">指数部</param>
@@ -84,7 +86,19 @@ namespace Ksnm.Numerics
         {
             Exponent = exponent;
             Mantissa = mantissa;
-            MinExponent = DefaultMinExponent;
+            MinExponent = System.Math.Min(exponent, DefaultMinExponent);
+        }
+        /// <summary>
+        /// 指定した値で初期化
+        /// </summary>
+        /// <param name="mantissa">仮数部</param>
+        /// <param name="exponent">指数部</param>
+        /// <param name="minExponent">指数部の最小値</param>
+        public BigDecimal(BigInteger mantissa, int exponent, int minExponent)
+        {
+            Exponent = exponent;
+            Mantissa = mantissa;
+            MinExponent = minExponent;
         }
         /// <summary>
         /// 指定した値で初期化
@@ -151,8 +165,8 @@ namespace Ksnm.Numerics
                     break;
                 }
             }
-            //
-            if (maxDivisor > 0)
+            // プロパティを更新
+            if (maxExponent > 0)
             {
                 Exponent += maxExponent;
                 Mantissa /= maxDivisor;
@@ -250,6 +264,7 @@ namespace Ksnm.Numerics
         }
         /// <summary>
         /// 除算
+        /// TODO:丸め処理未実装
         /// </summary>
         public static BigDecimal operator /(BigDecimal valueL, BigDecimal valueR)
         {
@@ -259,6 +274,8 @@ namespace Ksnm.Numerics
             //
             temp.Mantissa /= valueR.Mantissa;
             temp.Exponent -= valueR.Exponent;
+            //
+            temp.MinimizeMantissa();
             return temp;
         }
         #endregion 2項演算子

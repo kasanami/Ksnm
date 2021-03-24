@@ -98,6 +98,37 @@ namespace Ksnm.Numerics.Tests
                     Assert.AreEqual(i <= j, sample <= sample2);
                 }
             }
+
+            for (decimal i = 0m; i < 10; i++)
+            {
+                var sample = new BigDecimal(i);
+                for (decimal j = 1; j < 10; j++)
+                {
+                    var sample2 = new BigDecimal(j);
+                    // +
+                    Assert.AreEqual(i + j, (sample + sample2).ToDecimal());
+                    // -
+                    Assert.AreEqual(i - j, (sample - sample2).ToDecimal());
+                    // *
+                    Assert.AreEqual(i * j, (sample * sample2).ToDecimal());
+                    // /
+                    /* 丸め処理未実装のため失敗する
+                     * Assert.AreEqual(i / j, (sample / sample2).ToDecimal());
+                     */
+                    // ==
+                    Assert.AreEqual(i == j, sample == sample2);
+                    // !=
+                    Assert.AreEqual(i != j, sample != sample2);
+                    // >
+                    Assert.AreEqual(i > j, sample > sample2);
+                    // <
+                    Assert.AreEqual(i < j, sample < sample2);
+                    // >=
+                    Assert.AreEqual(i >= j, sample >= sample2);
+                    // <=
+                    Assert.AreEqual(i <= j, sample <= sample2);
+                }
+            }
         }
 
         [TestMethod()]
