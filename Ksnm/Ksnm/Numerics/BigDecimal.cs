@@ -22,6 +22,7 @@ freely, subject to the following restrictions:
 3. This notice may not be removed or altered from any source distribution.
 */
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using System.Text;
@@ -65,6 +66,10 @@ namespace Ksnm.Numerics
         /// 精度とも言える
         /// </summary>
         public int MinExponent { get; private set; }
+        /// <summary>
+        /// Pow10の結果を保存しておき、2回目以降はこちらを使用する。
+        /// </summary>
+        private static readonly Dictionary<int, BigInteger> Pow10Results = new Dictionary<int, BigInteger>();
         #endregion プロパティ
 
         #region コンストラクタ
@@ -159,12 +164,12 @@ namespace Ksnm.Numerics
                 Exponent = 0;
                 return;
             }
-            // 10^iで割り切れる値の最大
+            // 10^eで割り切れる値の最大
             BigInteger maxDivisor = 0;
             int maxExponent = 0;
-            for (int i = 1; i < int.MaxValue; i++)
+            for (int e = 1; e < int.MaxValue; e++)
             {
-                var divisor = BigInteger.Pow(Base, i);
+                var divisor = BigInteger.Pow(Base, e);
                 // divisor のほうが大きいなら終了
                 if (Mantissa < divisor)
                 {
@@ -175,7 +180,7 @@ namespace Ksnm.Numerics
                 {
                     // 更新して次へ
                     maxDivisor = divisor;
-                    maxExponent = i;
+                    maxExponent = e;
                 }
                 else
                 {
@@ -190,6 +195,21 @@ namespace Ksnm.Numerics
                 Mantissa /= maxDivisor;
                 System.Diagnostics.Debug.Assert(Exponent > MinExponent);
             }
+        }
+        /// <summary>
+        /// 指定された値を指数として 10 を累乗します。
+        /// </summary>
+        /// <param name="exponent">指数</param>
+        /// <returns>10 を exponent で累乗した結果。</returns>
+        public static BigInteger Pow10(int exponent)
+        {
+            if (Pow10Results.ContainsKey(exponent))
+            {
+                return Pow10Results[exponent];
+            }
+            var value = BigInteger.Pow(Base, exponent);
+            Pow10Results[exponent] = value;
+            return value;
         }
         #endregion 独自メソッド
 
@@ -224,6 +244,7 @@ namespace Ksnm.Numerics
                 temp.Mantissa *= BigInteger.Pow(Base, scale);
                 temp.Mantissa += valueR.Mantissa;
                 temp.Exponent = valueR.Exponent;
+                temp.MinExponent = valueR.MinExponent;
                 return temp;
             }
             else if (valueL.Exponent < valueR.Exponent)
@@ -233,6 +254,7 @@ namespace Ksnm.Numerics
                 temp.Mantissa *= BigInteger.Pow(Base, scale);
                 temp.Mantissa += valueL.Mantissa;
                 temp.Exponent = valueL.Exponent;
+                temp.MinExponent = valueL.MinExponent;
                 return temp;
             }
             return new BigDecimal(valueL.Mantissa + valueR.Mantissa, valueL.Exponent);
@@ -249,6 +271,7 @@ namespace Ksnm.Numerics
                 temp.Mantissa *= BigInteger.Pow(Base, scale);
                 temp.Mantissa -= valueR.Mantissa;
                 temp.Exponent = valueR.Exponent;
+                temp.MinExponent = valueR.MinExponent;
                 return temp;
             }
             else if (valueL.Exponent < valueR.Exponent)
@@ -258,18 +281,25 @@ namespace Ksnm.Numerics
                 temp.Mantissa *= BigInteger.Pow(Base, scale);
                 temp.Mantissa -= valueL.Mantissa;
                 temp.Exponent = valueL.Exponent;
+                temp.MinExponent = valueL.MinExponent;
                 return temp;
             }
             return new BigDecimal(valueL.Mantissa - valueR.Mantissa, valueL.Exponent);
         }
         /// <summary>
         /// 乗算
+        /// * MinExponent は新たに設定されます
         /// </summary>
         public static BigDecimal operator *(BigDecimal valueL, BigDecimal valueR)
         {
             var temp = new BigDecimal(valueL);
             temp.Mantissa *= valueR.Mantissa;
             temp.Exponent += valueR.Exponent;
+            // MinExponent 設定
+            if (temp.MinExponent > temp.Exponent)
+            {
+                temp.MinExponent = temp.Exponent;
+            }
             return temp;
         }
         /// <summary>

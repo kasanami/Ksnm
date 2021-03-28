@@ -56,6 +56,22 @@ namespace Ksnm.Numerics.Tests
         }
 
         [TestMethod()]
+        public void Pow10Test()
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                var sample = BigDecimal.Pow10(0);
+                Assert.AreEqual((System.Numerics.BigInteger)1, sample);
+                sample = BigDecimal.Pow10(1);
+                Assert.AreEqual((System.Numerics.BigInteger)10, sample);
+                sample = BigDecimal.Pow10(2);
+                Assert.AreEqual((System.Numerics.BigInteger)100, sample);
+                sample = BigDecimal.Pow10(3);
+                Assert.AreEqual((System.Numerics.BigInteger)1000, sample);
+            }
+        }
+
+        [TestMethod()]
         public void ToDecimalTest()
         {
             for (decimal i = -100; i < 100; i++)
@@ -160,6 +176,27 @@ namespace Ksnm.Numerics.Tests
                     Assert.AreEqual(i <= j, sample <= sample2);
                 }
             }
+        }
+
+        [TestMethod()]
+        public void OperationsTest3()
+        {
+            var sample1 = new BigDecimal(1);
+            var sample2 = new BigDecimal(1, -30);
+            var sample3 = sample1 + sample2;
+            Assert.AreEqual(-30, sample3.MinExponent);
+            sample3 = sample2 + sample1;
+            Assert.AreEqual(-30, sample3.MinExponent);
+
+            sample3 = sample1 - sample2;
+            Assert.AreEqual(-30, sample3.MinExponent);
+            sample3 = sample2 - sample1;
+            Assert.AreEqual(-30, sample3.MinExponent);
+
+            sample3 = sample1 * sample2;
+            Assert.AreEqual(-30, sample3.MinExponent);
+            sample3 = sample2 * sample1;
+            Assert.AreEqual(-30, sample3.MinExponent);
         }
 
         [TestMethod()]

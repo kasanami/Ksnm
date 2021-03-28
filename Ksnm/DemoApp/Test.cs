@@ -94,6 +94,20 @@ namespace DemoApp
         {
             Console.WriteLine("BigIntegerTest()");
 
+            Console.WriteLine($"BigInteger.Pow(10, e);");
+            for (int i = 0; i < 10; i++)
+            {
+                Console.WriteLine($"e={i}");
+                stopwatch.Restart();
+                for (int j = 1; j < 5_000_000; j++)
+                {
+                    BigInteger.Pow(10, i);
+                }
+                stopwatch.Stop();
+                Console.WriteLine($"{stopwatch.Elapsed}");
+            }
+            Console.WriteLine();
+
             BigInteger sample = 0x0123_4567_89AB_CDEF;
             var bytes = sample.ToByteArray();
             Console.WriteLine(sample);
@@ -103,6 +117,20 @@ namespace DemoApp
         public static void BigDecimalTest()
         {
             Console.WriteLine("BigDecimalTest()");
+
+            Console.WriteLine($"BigDecimal.Pow10(e);");
+            for (int i = 0; i < 10; i++)
+            {
+                Console.WriteLine($"e={i}");
+                stopwatch.Restart();
+                for (int j = 1; j < 5_000_000; j++)
+                {
+                    BigDecimal.Pow10(i);
+                }
+                stopwatch.Stop();
+                Console.WriteLine($"{stopwatch.Elapsed}");
+            }
+            Console.WriteLine();
 
             for (decimal i = -10; i < 10; i++)
             {
