@@ -17,6 +17,7 @@ namespace DemoApp
         {
             //SingleTest();
             //DoubleTest();
+            DecimalTest();
             BigIntegerTest();
             BigDecimalTest();
             //GreatestCommonDivisorWeightTest();
@@ -74,6 +75,21 @@ namespace DemoApp
                 Console.WriteLine($"{stopwatch.ElapsedMilliseconds}ミリ秒");
             }
         }
+
+        public static void DecimalTest()
+        {
+            Console.WriteLine("DecimalTest()");
+
+            decimal d1 = 1;
+            decimal d2 = 6;
+            decimal d3 = d1 / d2;
+            Console.WriteLine($"{d1} / {d2} = {d3}");
+
+            d1 = -1;
+            d3 = d1 / d2;
+            Console.WriteLine($"{d1} / {d2} = {d3}");
+        }
+
         public static void BigIntegerTest()
         {
             Console.WriteLine("BigIntegerTest()");

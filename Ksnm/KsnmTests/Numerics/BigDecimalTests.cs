@@ -7,14 +7,32 @@ namespace Ksnm.Numerics.Tests
     {
 
         [TestMethod()]
+        public void ConstructorTest1()
+        {
+            for (decimal source = -10; source < 10; source += 0.1m)
+            {
+                var sample = new BigDecimal(source);
+                Assert.AreEqual(source, sample.ToDecimal(), $"{source} {sample}");
+            }
+        }
+
+        [TestMethod()]
         public void MinimizeExponentTest()
         {
-            for (decimal i = 0.01m; i < 100; i *= 10)
-            {
-                var sample = new BigDecimal(i);
-                sample.MinimizeExponent();
-                Assert.AreEqual(i, sample.ToDecimal());
-            }
+            var sample = new BigDecimal(1, 0, 0);
+            sample.MinimizeExponent();
+            Assert.AreEqual(1, sample.Mantissa);
+            Assert.AreEqual(0, sample.Exponent);
+
+            sample = new BigDecimal(1, 0, -5);
+            sample.MinimizeExponent();
+            Assert.AreEqual(100000, sample.Mantissa);
+            Assert.AreEqual(-5, sample.Exponent);
+
+            sample = new BigDecimal(1, 0, -6);
+            sample.MinimizeExponent();
+            Assert.AreEqual(1000000, sample.Mantissa);
+            Assert.AreEqual(-6, sample.Exponent);
         }
 
         [TestMethod()]
@@ -70,6 +88,21 @@ namespace Ksnm.Numerics.Tests
         [TestMethod()]
         public void OperationsTest2()
         {
+            {
+                var sample = new BigDecimal(0.01m);
+                var sample2 = new BigDecimal(0.1m);
+                var sample3 = sample * sample2;
+                var d = sample3.ToDecimal();
+                Assert.AreEqual(0.01m * 0.1m, d);
+            }
+            {
+                var sample = new BigDecimal(0.1m);
+                var sample2 = new BigDecimal(0.1m);
+                var sample3 = sample + sample2;
+                var d = sample3.ToDecimal();
+                Assert.AreEqual(0.1m + 0.1m, d);
+            }
+
             for (decimal i = 0.01m; i < 100; i *= 10)
             {
                 var sample = new BigDecimal(i);
@@ -77,13 +110,13 @@ namespace Ksnm.Numerics.Tests
                 {
                     var sample2 = new BigDecimal(j);
                     // +
-                    Assert.AreEqual(i + j, (sample + sample2).ToDecimal());
+                    Assert.AreEqual(i + j, (sample + sample2).ToDecimal(), $"{i} + {j}");
                     // -
-                    Assert.AreEqual(i - j, (sample - sample2).ToDecimal());
+                    Assert.AreEqual(i - j, (sample - sample2).ToDecimal(), $"{i} - {j}");
                     // *
-                    Assert.AreEqual(i * j, (sample * sample2).ToDecimal());
+                    Assert.AreEqual(i * j, (sample * sample2).ToDecimal(), $"{i} * {j}");
                     // /
-                    Assert.AreEqual(i / j, (sample / sample2).ToDecimal());
+                    Assert.AreEqual(i / j, (sample / sample2).ToDecimal(), $"{i} / {j}");
                     // ==
                     Assert.AreEqual(i == j, sample == sample2);
                     // !=
@@ -112,9 +145,7 @@ namespace Ksnm.Numerics.Tests
                     // *
                     Assert.AreEqual(i * j, (sample * sample2).ToDecimal());
                     // /
-                    /* 丸め処理未実装のため失敗する
-                     * Assert.AreEqual(i / j, (sample / sample2).ToDecimal());
-                     */
+                    Assert.AreEqual(i / j, (sample / sample2).ToDecimal());
                     // ==
                     Assert.AreEqual(i == j, sample == sample2);
                     // !=
@@ -155,6 +186,28 @@ namespace Ksnm.Numerics.Tests
             Assert.AreEqual("1230", sample.ToString());
             sample = new BigDecimal(123, 2);
             Assert.AreEqual("12300", sample.ToString());
+
+            sample = new BigDecimal(-1m);
+            Assert.AreEqual("-1", sample.ToString());
+            sample = new BigDecimal(-12m);
+            Assert.AreEqual("-12", sample.ToString());
+            sample = new BigDecimal(-123m);
+            Assert.AreEqual("-123", sample.ToString());
+            sample = new BigDecimal(-12.3m);
+            Assert.AreEqual("-12.3", sample.ToString());
+            sample = new BigDecimal(-1.23m);
+            Assert.AreEqual("-1.23", sample.ToString());
+            sample = new BigDecimal(-0.123m);
+            Assert.AreEqual("-0.123", sample.ToString());
+            sample = new BigDecimal(-0.0123m);
+            Assert.AreEqual("-0.0123", sample.ToString());
+            sample = new BigDecimal(-0.00123m);
+            Assert.AreEqual("-0.00123", sample.ToString());
+
+            sample = new BigDecimal(-123, 1);
+            Assert.AreEqual("-1230", sample.ToString());
+            sample = new BigDecimal(-123, 2);
+            Assert.AreEqual("-12300", sample.ToString());
         }
     }
 }
