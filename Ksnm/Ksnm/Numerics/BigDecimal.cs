@@ -85,6 +85,16 @@ namespace Ksnm.Numerics
         }
         /// <summary>
         /// 指定した値で初期化
+        /// </summary>
+        /// <param name="integer">整数</param>
+        public BigDecimal(BigInteger integer)
+        {
+            Exponent = 0;
+            Mantissa = integer;
+            MinExponent = DefaultMinExponent;
+        }
+        /// <summary>
+        /// 指定した値で初期化
         /// ・exponent が DefaultMinExponent より小さい場合は、exponent を MinExponent に設定します。
         /// </summary>
         /// <param name="mantissa">仮数部</param>
@@ -409,6 +419,14 @@ namespace Ksnm.Numerics
 
         #region To*
         /// <summary>
+        /// int へ変換します。
+        /// * 小数点以下は切り捨て
+        /// </summary>
+        public int ToInt32()
+        {
+            return (int)ToBigInteger();
+        }
+        /// <summary>
         /// decimal へ変換します。
         /// </summary>
         public decimal ToDecimal()
@@ -441,6 +459,23 @@ namespace Ksnm.Numerics
                 scale = (byte)(-Exponent);
             }
             return new decimal(lo, mid, hi, isNegative, scale);
+        }
+        /// <summary>
+        /// BigInteger へ変換します。
+        /// * 小数点以下は切り捨て
+        /// </summary>
+        public BigInteger ToBigInteger()
+        {
+            var mantissa = Mantissa;
+            if (Exponent > 0)
+            {
+                mantissa *= BigInteger.Pow(Base, Exponent);
+            }
+            else if (Exponent < 0)
+            {
+                mantissa /= BigInteger.Pow(Base, -Exponent);
+            }
+            return mantissa;
         }
         #endregion To*
 

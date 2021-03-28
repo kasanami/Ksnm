@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Numerics;
 
 namespace Ksnm.Numerics.Tests
 {
@@ -72,6 +73,26 @@ namespace Ksnm.Numerics.Tests
         }
 
         [TestMethod()]
+        public void ToInt32Test()
+        {
+            for (int i = -100; i < 100; i++)
+            {
+                var sample = new BigDecimal(i);
+                Assert.AreEqual(i, sample.ToInt32());
+            }
+            for (int i = 1; i < 1_000_000; i *= 2)
+            {
+                var sample = new BigDecimal(i);
+                Assert.AreEqual(i, sample.ToInt32());
+            }
+            for (decimal i = 1; i > 0.001m; i /= 2)
+            {
+                var sample = new BigDecimal(i);
+                Assert.AreEqual((int)i, sample.ToInt32());
+            }
+        }
+
+        [TestMethod()]
         public void ToDecimalTest()
         {
             for (decimal i = -100; i < 100; i++)
@@ -88,6 +109,26 @@ namespace Ksnm.Numerics.Tests
             {
                 var sample = new BigDecimal(i);
                 Assert.AreEqual(i, sample.ToDecimal());
+            }
+        }
+
+        [TestMethod()]
+        public void ToBigIntegerTest()
+        {
+            for (BigInteger i = -100; i < 100; i++)
+            {
+                var sample = new BigDecimal(i);
+                Assert.AreEqual(i, sample.ToBigInteger());
+            }
+            for (BigInteger i = 1; i < 1_000_000; i *= 2)
+            {
+                var sample = new BigDecimal(i);
+                Assert.AreEqual(i, sample.ToBigInteger());
+            }
+            for (decimal i = 1; i > 0.001m; i /= 2)
+            {
+                var sample = new BigDecimal(i);
+                Assert.AreEqual((BigInteger)i, sample.ToBigInteger());
             }
         }
 
