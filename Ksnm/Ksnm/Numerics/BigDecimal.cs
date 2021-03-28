@@ -313,7 +313,6 @@ namespace Ksnm.Numerics
         }
         /// <summary>
         /// 除算
-        /// TODO:丸め処理未実装
         /// </summary>
         public static BigDecimal operator /(BigDecimal valueL, BigDecimal valueR)
         {
