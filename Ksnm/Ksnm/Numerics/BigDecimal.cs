@@ -186,7 +186,7 @@ namespace Ksnm.Numerics
             {
                 var diff = Exponent - newExponent;
                 Exponent = newExponent;
-                Mantissa *= BigInteger.Pow(Base, diff);
+                Mantissa *= Pow10(diff);
             }
         }
         /// <summary>
@@ -206,7 +206,7 @@ namespace Ksnm.Numerics
             int maxExponent = 0;
             for (int e = 1; e < int.MaxValue; e++)
             {
-                var divisor = BigInteger.Pow(Base, e);
+                var divisor = Pow10(e);
                 // divisor のほうが大きいなら終了
                 if (Mantissa < divisor)
                 {
@@ -277,8 +277,8 @@ namespace Ksnm.Numerics
             if (valueL.Exponent > valueR.Exponent)
             {
                 var temp = new BigDecimal(valueL);
-                var scale = temp.Exponent - valueR.Exponent;
-                temp.Mantissa *= BigInteger.Pow(Base, scale);
+                var diff = temp.Exponent - valueR.Exponent;
+                temp.Mantissa *= Pow10(diff);
                 temp.Mantissa += valueR.Mantissa;
                 temp.Exponent = valueR.Exponent;
                 temp.MinExponent = valueR.MinExponent;
@@ -287,8 +287,8 @@ namespace Ksnm.Numerics
             else if (valueL.Exponent < valueR.Exponent)
             {
                 var temp = new BigDecimal(valueR);
-                var scale = temp.Exponent - valueL.Exponent;
-                temp.Mantissa *= BigInteger.Pow(Base, scale);
+                var diff = temp.Exponent - valueL.Exponent;
+                temp.Mantissa *= Pow10(diff);
                 temp.Mantissa += valueL.Mantissa;
                 temp.Exponent = valueL.Exponent;
                 temp.MinExponent = valueL.MinExponent;
@@ -304,8 +304,8 @@ namespace Ksnm.Numerics
             if (valueL.Exponent > valueR.Exponent)
             {
                 var temp = new BigDecimal(valueL);
-                var scale = temp.Exponent - valueR.Exponent;
-                temp.Mantissa *= BigInteger.Pow(Base, scale);
+                var diff = temp.Exponent - valueR.Exponent;
+                temp.Mantissa *= Pow10(diff);
                 temp.Mantissa -= valueR.Mantissa;
                 temp.Exponent = valueR.Exponent;
                 temp.MinExponent = valueR.MinExponent;
@@ -314,8 +314,8 @@ namespace Ksnm.Numerics
             else if (valueL.Exponent < valueR.Exponent)
             {
                 var temp = new BigDecimal(valueR);
-                var scale = temp.Exponent - valueL.Exponent;
-                temp.Mantissa *= BigInteger.Pow(Base, scale);
+                var diff = temp.Exponent - valueL.Exponent;
+                temp.Mantissa *= Pow10(diff);
                 temp.Mantissa -= valueL.Mantissa;
                 temp.Exponent = valueL.Exponent;
                 temp.MinExponent = valueL.MinExponent;
@@ -434,12 +434,12 @@ namespace Ksnm.Numerics
             if (valueL.Exponent > valueR.Exponent)
             {
                 var exponentDiff = valueL.Exponent - valueR.Exponent;
-                valueL.Mantissa *= BigInteger.Pow(Base, exponentDiff);
+                valueL.Mantissa *= Pow10(exponentDiff);
             }
             else if (valueR.Exponent > valueL.Exponent)
             {
                 var exponentDiff = valueR.Exponent - valueL.Exponent;
-                valueR.Mantissa *= BigInteger.Pow(Base, exponentDiff);
+                valueR.Mantissa *= Pow10(exponentDiff);
             }
         }
         #endregion 比較演算子
@@ -662,7 +662,7 @@ namespace Ksnm.Numerics
             // decimal は正の Exponent に対応していないので、mantissa を変換
             if (Exponent > 0)
             {
-                mantissa *= BigInteger.Pow(Base, Exponent);
+                mantissa *= Pow10(Exponent);
             }
             // [0]=最上位
             var bytes = mantissa.ToByteArray().ToList();
@@ -695,11 +695,11 @@ namespace Ksnm.Numerics
             var mantissa = Mantissa;
             if (Exponent > 0)
             {
-                mantissa *= BigInteger.Pow(Base, Exponent);
+                mantissa *= Pow10(Exponent);
             }
             else if (Exponent < 0)
             {
-                mantissa /= BigInteger.Pow(Base, -Exponent);
+                mantissa /= Pow10(-Exponent);
             }
             return mantissa;
         }
