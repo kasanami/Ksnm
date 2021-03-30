@@ -74,6 +74,14 @@ namespace Ksnm.Numerics.Tests
                 sample.MinimizeMantissa();
                 Assert.AreEqual(i, sample.ToDecimal(), $"i={i} sample={sample}");
             }
+
+            {
+                // 0.123 と同値
+                var sample = new BigDecimal(123000, -6);
+                sample.MinimizeMantissa();
+                Assert.AreEqual(123, sample.Mantissa);
+                Assert.AreEqual(-3, sample.Exponent);
+            }
         }
 
         [TestMethod()]
