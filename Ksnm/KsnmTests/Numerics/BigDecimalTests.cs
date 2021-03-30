@@ -93,6 +93,32 @@ namespace Ksnm.Numerics.Tests
         }
 
         [TestMethod()]
+        public void MaxExponentTest()
+        {
+            for (int i = 0; i < 30; i++)
+            {
+                var sample = BigDecimal.Pow10(i);
+                Assert.AreEqual(i, BigDecimal.MaxExponent(sample));
+            }
+            {
+                var sample = new BigInteger(100);
+                Assert.AreEqual(2, BigDecimal.MaxExponent(sample));
+            }
+            {
+                var sample = new BigInteger(120);
+                Assert.AreEqual(1, BigDecimal.MaxExponent(sample));
+            }
+            {
+                var sample = new BigInteger(123);
+                Assert.AreEqual(0, BigDecimal.MaxExponent(sample));
+            }
+            {
+                var sample = new BigInteger(0);
+                Assert.AreEqual(0, BigDecimal.MaxExponent(sample));
+            }
+        }
+
+        [TestMethod()]
         public void ToInt32Test()
         {
             for (int i = -100; i < 100; i++)

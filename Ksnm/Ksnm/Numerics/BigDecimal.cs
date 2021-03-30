@@ -191,8 +191,8 @@ namespace Ksnm.Numerics
         }
         /// <summary>
         /// Mantissa が最小になるように変換します。
-        /// Exponent が大きくなります。
-        /// 0 の場合は、Exponent は 0 になります。
+        /// * Exponent が大きくなります。
+        /// * 0 の場合は、Exponent は 0 になります。
         /// </summary>
         public void MinimizeMantissa()
         {
@@ -202,34 +202,12 @@ namespace Ksnm.Numerics
                 return;
             }
             // 10^eで割り切れる値の最大
-            BigInteger maxDivisor = 0;
-            int maxExponent = 0;
-            for (int e = 1; e < int.MaxValue; e++)
-            {
-                var divisor = Pow10(e);
-                // divisor のほうが大きいなら終了
-                if (Mantissa < divisor)
-                {
-                    break;
-                }
-                // 10^eで割り切れるか
-                if (Mantissa % divisor == 0)
-                {
-                    // 更新して次へ
-                    maxDivisor = divisor;
-                    maxExponent = e;
-                }
-                else
-                {
-                    // 終了
-                    break;
-                }
-            }
+            int maxExponent = MaxExponent(Mantissa);
             // プロパティを更新
             if (maxExponent > 0)
             {
                 Exponent += maxExponent;
-                Mantissa /= maxDivisor;
+                Mantissa /= Pow10(maxExponent);
                 System.Diagnostics.Debug.Assert(Exponent > MinExponent);
             }
         }
@@ -247,6 +225,41 @@ namespace Ksnm.Numerics
             var value = BigInteger.Pow(Base, exponent);
             Pow10Results[exponent] = value;
             return value;
+        }
+        /// <summary>
+        /// 底を 10 とする value の割り切れる最大の指数
+        /// * 100 の場合は 2 を返す。
+        /// * 120 の場合は 1 を返す。
+        /// * 123 の場合は 0 を返す。
+        /// * 0 の場合は 0 を返す。
+        /// </summary>
+        /// <param name="value">調査する値</param>
+        /// <returns>底を 10 とする指数</returns>
+        public static int MaxExponent(BigInteger value)
+        {
+            // 10^eで割り切れる値の最大
+            int maxExponent = 0;
+            for (int e = 1; e < int.MaxValue; e++)
+            {
+                var divisor = Pow10(e);
+                // divisor のほうが大きいなら終了
+                if (value < divisor)
+                {
+                    break;
+                }
+                // 10^eで割り切れるか
+                if (value % divisor == 0)
+                {
+                    // 更新して次へ
+                    maxExponent = e;
+                }
+                else
+                {
+                    // 終了
+                    break;
+                }
+            }
+            return maxExponent;
         }
         #endregion 独自メソッド
 
