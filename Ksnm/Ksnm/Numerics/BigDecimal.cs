@@ -129,6 +129,33 @@ namespace Ksnm.Numerics
         /// <summary>
         /// 指定した値で初期化
         /// </summary>
+        public BigDecimal(uint value)
+        {
+            Exponent = 0;
+            Mantissa = value;
+            MinExponent = DefaultMinExponent;
+        }
+        /// <summary>
+        /// 指定した値で初期化
+        /// </summary>
+        public BigDecimal(long value)
+        {
+            Exponent = 0;
+            Mantissa = value;
+            MinExponent = DefaultMinExponent;
+        }
+        /// <summary>
+        /// 指定した値で初期化
+        /// </summary>
+        public BigDecimal(ulong value)
+        {
+            Exponent = 0;
+            Mantissa = value;
+            MinExponent = DefaultMinExponent;
+        }
+        /// <summary>
+        /// 指定した値で初期化
+        /// </summary>
         public BigDecimal(decimal value)
         {
             Exponent = value.GetExponent();

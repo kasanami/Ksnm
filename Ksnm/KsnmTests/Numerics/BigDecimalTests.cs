@@ -10,6 +10,26 @@ namespace Ksnm.Numerics.Tests
         [TestMethod()]
         public void ConstructorTest1()
         {
+            for (int source = -10; source < 10; source += 1)
+            {
+                var sample = new BigDecimal(source);
+                Assert.AreEqual(source, sample.ToDecimal(), $"{source} {sample}");
+            }
+            for (uint source = 0; source < 10; source += 1)
+            {
+                var sample = new BigDecimal(source);
+                Assert.AreEqual(source, sample.ToDecimal(), $"{source} {sample}");
+            }
+            for (long source = -10; source < 10; source += 1)
+            {
+                var sample = new BigDecimal(source);
+                Assert.AreEqual(source, sample.ToDecimal(), $"{source} {sample}");
+            }
+            for (ulong source = 0; source < 10; source += 1)
+            {
+                var sample = new BigDecimal(source);
+                Assert.AreEqual(source, sample.ToDecimal(), $"{source} {sample}");
+            }
             for (decimal source = -10; source < 10; source += 0.1m)
             {
                 var sample = new BigDecimal(source);
