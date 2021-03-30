@@ -95,7 +95,7 @@ namespace Ksnm.Numerics
         }
         /// <summary>
         /// 指定した値で初期化
-        /// ・exponent が DefaultMinExponent より小さい場合は、exponent を MinExponent に設定します。
+        /// * exponent と DefaultMinExponent どちらか小さい方を、MinExponent に設定します。
         /// </summary>
         /// <param name="mantissa">仮数部</param>
         /// <param name="exponent">指数部</param>
@@ -212,7 +212,7 @@ namespace Ksnm.Numerics
                 {
                     break;
                 }
-                // 10^iで割り切れるか
+                // 10^eで割り切れるか
                 if (Mantissa % divisor == 0)
                 {
                     // 更新して次へ
@@ -444,6 +444,181 @@ namespace Ksnm.Numerics
         }
         #endregion 比較演算子
 
+        #region 型変換
+        #region 他の型→BigDecimal
+        /// <summary>
+        /// byte から BigDecimal への暗黙的な変換を定義します。
+        /// </summary>
+        public static implicit operator BigDecimal(byte value)
+        {
+            return new BigDecimal(value);
+        }
+        /// <summary>
+        /// sbyte から BigDecimal への暗黙的な変換を定義します。
+        /// </summary>
+        public static implicit operator BigDecimal(sbyte value)
+        {
+            return new BigDecimal(value);
+        }
+        /// <summary>
+        /// short から BigDecimal への暗黙的な変換を定義します。
+        /// </summary>
+        public static implicit operator BigDecimal(short value)
+        {
+            return new BigDecimal(value);
+        }
+        /// <summary>
+        /// ushort から BigDecimal への暗黙的な変換を定義します。
+        /// </summary>
+        public static implicit operator BigDecimal(ushort value)
+        {
+            return new BigDecimal(value);
+        }
+        /// <summary>
+        /// int から BigDecimal への暗黙的な変換を定義します。
+        /// </summary>
+        public static implicit operator BigDecimal(int value)
+        {
+            return new BigDecimal(value);
+        }
+        /// <summary>
+        /// uint から BigDecimal への暗黙的な変換を定義します。
+        /// </summary>
+        public static implicit operator BigDecimal(uint value)
+        {
+            return new BigDecimal(value);
+        }
+        /// <summary>
+        /// long から BigDecimal への暗黙的な変換を定義します。
+        /// </summary>
+        public static implicit operator BigDecimal(long value)
+        {
+            return new BigDecimal(value);
+        }
+        /// <summary>
+        /// ulong から BigDecimal への暗黙的な変換を定義します。
+        /// </summary>
+        public static implicit operator BigDecimal(ulong value)
+        {
+            return new BigDecimal(value);
+        }
+        /// <summary>
+        /// float から BigDecimal への明示的な変換を定義します。
+        /// </summary>
+        public static explicit operator BigDecimal(float value)
+        {
+            return new BigDecimal((decimal)value);
+        }
+        /// <summary>
+        /// double から BigDecimal への明示的な変換を定義します。
+        /// </summary>
+        public static explicit operator BigDecimal(double value)
+        {
+            return new BigDecimal((decimal)value);
+        }
+        /// <summary>
+        /// decimal から BigDecimal への暗黙的な変換を定義します。
+        /// </summary>
+        public static implicit operator BigDecimal(decimal value)
+        {
+            return new BigDecimal(value);
+        }
+        /// <summary>
+        /// BigInteger から BigDecimal への暗黙的な変換を定義します。
+        /// </summary>
+        public static implicit operator BigDecimal(BigInteger value)
+        {
+            return new BigDecimal(value);
+        }
+        #endregion 他の型→BigDecimal
+        #region BigDecimal→他の型
+        /// <summary>
+        /// BigDecimal から byte への明示的な変換を定義します。
+        /// </summary>
+        public static explicit operator byte(BigDecimal value)
+        {
+            return (byte)value.ToBigInteger();
+        }
+        /// <summary>
+        /// BigDecimal から sbyte への明示的な変換を定義します。
+        /// </summary>
+        public static explicit operator sbyte(BigDecimal value)
+        {
+            return (sbyte)value.ToBigInteger();
+        }
+        /// <summary>
+        /// BigDecimal から short への明示的な変換を定義します。
+        /// </summary>
+        public static explicit operator short(BigDecimal value)
+        {
+            return (short)value.ToBigInteger();
+        }
+        /// <summary>
+        /// BigDecimal から ushort への明示的な変換を定義します。
+        /// </summary>
+        public static explicit operator ushort(BigDecimal value)
+        {
+            return (ushort)value.ToBigInteger();
+        }
+        /// <summary>
+        /// BigDecimal から int への明示的な変換を定義します。
+        /// </summary>
+        public static explicit operator int(BigDecimal value)
+        {
+            return value.ToInt32();
+        }
+        /// <summary>
+        /// BigDecimal から uint への明示的な変換を定義します。
+        /// </summary>
+        public static explicit operator uint(BigDecimal value)
+        {
+            return value.ToUInt32();
+        }
+        /// <summary>
+        /// BigDecimal から long への明示的な変換を定義します。
+        /// </summary>
+        public static explicit operator long(BigDecimal value)
+        {
+            return value.ToInt64();
+        }
+        /// <summary>
+        /// BigDecimal から ulong への明示的な変換を定義します。
+        /// </summary>
+        public static explicit operator ulong(BigDecimal value)
+        {
+            return value.ToUInt64();
+        }
+        /// <summary>
+        /// BigDecimal から float への明示的な変換を定義します。
+        /// </summary>
+        public static explicit operator float(BigDecimal value)
+        {
+            return (float)value.ToDecimal();
+        }
+        /// <summary>
+        /// BigDecimal から double への明示的な変換を定義します。
+        /// </summary>
+        public static explicit operator double(BigDecimal value)
+        {
+            return (double)value.ToDecimal();
+        }
+        /// <summary>
+        /// BigDecimal から decimal への明示的な変換を定義します。
+        /// </summary>
+        public static explicit operator decimal(BigDecimal value)
+        {
+            return value.ToDecimal();
+        }
+        /// <summary>
+        /// BigDecimal から BigInteger への明示的な変換を定義します。
+        /// </summary>
+        public static explicit operator BigInteger(BigDecimal value)
+        {
+            return value.ToBigInteger();
+        }
+        #endregion BigDecimal→他の型
+        #endregion 型変換
+
         #region To*
         /// <summary>
         /// int へ変換します。
@@ -452,6 +627,30 @@ namespace Ksnm.Numerics
         public int ToInt32()
         {
             return (int)ToBigInteger();
+        }
+        /// <summary>
+        /// uint へ変換します。
+        /// * 小数点以下は切り捨て
+        /// </summary>
+        public uint ToUInt32()
+        {
+            return (uint)ToBigInteger();
+        }
+        /// <summary>
+        /// long へ変換します。
+        /// * 小数点以下は切り捨て
+        /// </summary>
+        public long ToInt64()
+        {
+            return (long)ToBigInteger();
+        }
+        /// <summary>
+        /// ulong へ変換します。
+        /// * 小数点以下は切り捨て
+        /// </summary>
+        public ulong ToUInt64()
+        {
+            return (ulong)ToBigInteger();
         }
         /// <summary>
         /// decimal へ変換します。

@@ -113,6 +113,66 @@ namespace Ksnm.Numerics.Tests
         }
 
         [TestMethod()]
+        public void ToUInt32Test()
+        {
+            for (uint i = 0; i < 100; i++)
+            {
+                var sample = new BigDecimal(i);
+                Assert.AreEqual(i, sample.ToUInt32());
+            }
+            for (uint i = 1; i < 1_000_000; i *= 2)
+            {
+                var sample = new BigDecimal(i);
+                Assert.AreEqual(i, sample.ToUInt32());
+            }
+            for (decimal i = 1; i > 0.001m; i /= 2)
+            {
+                var sample = new BigDecimal(i);
+                Assert.AreEqual((uint)i, sample.ToUInt32());
+            }
+        }
+
+        [TestMethod()]
+        public void ToInt64Test()
+        {
+            for (int i = -100; i < 100; i++)
+            {
+                var sample = new BigDecimal(i);
+                Assert.AreEqual(i, sample.ToInt64());
+            }
+            for (int i = 1; i < 1_000_000; i *= 2)
+            {
+                var sample = new BigDecimal(i);
+                Assert.AreEqual(i, sample.ToInt64());
+            }
+            for (decimal i = 1; i > 0.001m; i /= 2)
+            {
+                var sample = new BigDecimal(i);
+                Assert.AreEqual((long)i, sample.ToInt64());
+            }
+        }
+
+        [TestMethod()]
+        public void ToUInt64Test()
+        {
+            for (uint i = 0; i < 100; i++)
+            {
+                var sample = new BigDecimal(i);
+                Assert.AreEqual(i, sample.ToUInt64());
+            }
+            for (uint i = 1; i < 1_000_000; i *= 2)
+            {
+                var sample = new BigDecimal(i);
+                Assert.AreEqual(i, sample.ToUInt64());
+            }
+            for (decimal i = 1; i > 0.001m; i /= 2)
+            {
+                var sample = new BigDecimal(i);
+                Assert.AreEqual((ulong)i, sample.ToUInt64());
+            }
+        }
+
+        [TestMethod()]
         public void ToDecimalTest()
         {
             for (decimal i = -100; i < 100; i++)
@@ -258,6 +318,72 @@ namespace Ksnm.Numerics.Tests
             Assert.AreEqual(-30, sample3.MinExponent);
             sample3 = sample2 * sample1;
             Assert.AreEqual(-30, sample3.MinExponent);
+        }
+
+        [TestMethod()]
+        public void CastTest()
+        {
+            BigDecimal sample;
+            for (sbyte source = -10; source < 10; source++)
+            {
+                sample = source;
+                Assert.AreEqual<sbyte>(source, (sbyte)sample);
+            }
+            for (short source = -10; source < 10; source++)
+            {
+                sample = source;
+                Assert.AreEqual<short>(source, (short)sample);
+            }
+            for (int source = -10; source < 10; source++)
+            {
+                sample = source;
+                Assert.AreEqual<int>(source, (int)sample);
+            }
+            for (long source = -10; source < 10; source++)
+            {
+                sample = source;
+                Assert.AreEqual<long>(source, (long)sample);
+            }
+            for (byte source = 0; source < 10; source++)
+            {
+                sample = source;
+                Assert.AreEqual<byte>(source, (byte)sample);
+            }
+            for (ushort source = 0; source < 10; source++)
+            {
+                sample = source;
+                Assert.AreEqual<ushort>(source, (ushort)sample);
+            }
+            for (uint source = 0; source < 10; source++)
+            {
+                sample = source;
+                Assert.AreEqual<uint>(source, (uint)sample);
+            }
+            for (ulong source = 0; source < 10; source++)
+            {
+                sample = source;
+                Assert.AreEqual<ulong>(source, (ulong)sample);
+            }
+            for (float source = 0; source < 10; source += 0.25f)
+            {
+                sample = (BigDecimal)source;
+                Assert.AreEqual<float>(source, (float)sample);
+            }
+            for (double source = 0; source < 10; source += 0.25)
+            {
+                sample = (BigDecimal)source;
+                Assert.AreEqual<double>(source, (double)sample);
+            }
+            for (decimal source = 0; source < 10; source += 0.1m)
+            {
+                sample = (BigDecimal)source;
+                Assert.AreEqual<decimal>(source, (decimal)sample);
+            }
+            for (BigInteger source = 0; source < 10; source++)
+            {
+                sample = (BigDecimal)source;
+                Assert.AreEqual<BigInteger>(source, (BigInteger)sample);
+            }
         }
 
         [TestMethod()]
