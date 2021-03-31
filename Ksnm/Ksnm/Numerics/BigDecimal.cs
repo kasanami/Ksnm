@@ -27,6 +27,7 @@ using System.Linq;
 using System.Numerics;
 using System.Text;
 using Ksnm.ExtensionMethods.System.Decimal;
+using static System.Diagnostics.Debug;
 
 namespace Ksnm.Numerics
 {
@@ -113,6 +114,7 @@ namespace Ksnm.Numerics
         /// <param name="minExponent">指数部の最小値</param>
         public BigDecimal(BigInteger mantissa, int exponent, int minExponent)
         {
+            Assert(exponent >= minExponent);
             Exponent = exponent;
             Mantissa = mantissa;
             MinExponent = minExponent;
@@ -208,7 +210,7 @@ namespace Ksnm.Numerics
             {
                 Exponent += maxExponent;
                 Mantissa /= Pow10(maxExponent);
-                System.Diagnostics.Debug.Assert(Exponent > MinExponent);
+                Assert(Exponent > MinExponent);
             }
         }
         /// <summary>
@@ -400,6 +402,7 @@ namespace Ksnm.Numerics
                 temp.Mantissa /= Base;
                 temp.Exponent += 1;
             }
+            Assert(temp.Exponent >= temp.MinExponent);
             // 最適化
             temp.MinimizeMantissa();
             return temp;
