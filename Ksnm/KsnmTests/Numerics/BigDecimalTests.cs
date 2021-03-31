@@ -508,5 +508,28 @@ namespace Ksnm.Numerics.Tests
             sample = new BigDecimal(-123, 2);
             Assert.AreEqual("-12300", sample.ToString());
         }
+
+        [TestMethod()]
+        public void EqualsTest()
+        {
+            {
+                var sample1 = new BigDecimal(100, 1);
+                var sample2 = new BigDecimal(100, 1);
+                Assert.IsTrue(sample1.Equals(sample2));
+                Assert.IsTrue(sample2.Equals(sample1));
+            }
+            {
+                var sample1 = new BigDecimal(10, 2);
+                var sample2 = new BigDecimal(100, 1);
+                Assert.IsTrue(sample1.Equals(sample2));
+                Assert.IsTrue(sample2.Equals(sample1));
+            }
+            {
+                var sample1 = new BigDecimal(10, -2);
+                var sample2 = new BigDecimal(100, -3);
+                Assert.IsTrue(sample1.Equals(sample2));
+                Assert.IsTrue(sample2.Equals(sample1));
+            }
+        }
     }
 }

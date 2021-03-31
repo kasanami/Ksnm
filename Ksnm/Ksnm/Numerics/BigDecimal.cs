@@ -415,14 +415,14 @@ namespace Ksnm.Numerics
         /// </summary>
         public static bool operator ==(BigDecimal valueL, BigDecimal valueR)
         {
-            return valueL.Mantissa == valueR.Mantissa && valueL.Exponent == valueR.Exponent;
+            return valueL.Equals(valueR);
         }
         /// <summary>
         /// 等しくない場合は true。それ以外の場合は false。
         /// </summary>
         public static bool operator !=(BigDecimal valueL, BigDecimal valueR)
         {
-            return valueL.Mantissa != valueR.Mantissa || valueL.Exponent != valueR.Exponent;
+            return !valueL.Equals(valueR);
         }
         /// <summary>
         /// 大なり演算子
@@ -800,15 +800,18 @@ namespace Ksnm.Numerics
         /// </summary>
         public bool Equals(BigDecimal other)
         {
-            if (Exponent != other.Exponent)
+            // Exponent を一致させてから比較
+            if (Exponent > other.Exponent)
             {
-                return false;
+                var diff = Exponent - other.Exponent;
+                return Mantissa * Pow10(diff) == other.Mantissa;
             }
-            if (Mantissa != other.Mantissa)
+            else if (Exponent < other.Exponent)
             {
-                return false;
+                var diff = other.Exponent - Exponent;
+                return Mantissa == other.Mantissa * Pow10(diff);
             }
-            return true;
+            return Mantissa == other.Mantissa;
         }
         #endregion IEquatable
     }
