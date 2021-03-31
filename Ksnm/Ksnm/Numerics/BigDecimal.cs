@@ -239,6 +239,7 @@ namespace Ksnm.Numerics
         /// <returns>底を 10 とする指数</returns>
         public static int MaxExponent(BigInteger value)
         {
+            value = BigInteger.Abs(value);
             // 10^eで割り切れる値の最大
             int maxExponent = 0;
             for (int e = 1; e < int.MaxValue; e++)
@@ -267,19 +268,40 @@ namespace Ksnm.Numerics
 
         #region 数学関数
         /// <summary>
-        /// 最下位の桁を四捨五入する。
-        /// 最下位の桁は0になります。
+        /// 最下位の桁を最も近い10の累乗に丸めます。
+        /// 最下位の桁は削除なります。
+        /// * 中間にある場合は偶数が返されます。
         /// </summary>
         public void RoundBottom()
         {
-            var remainder = Mantissa % Base;
-            if (remainder >= 5)
+            var remainder = (int)(Mantissa % Base);// 1桁目
+            if (remainder > 5)
             {
-                Mantissa += Base - remainder;
+                Mantissa += Base;
             }
-            else
+            else if (remainder < -5)
             {
-                Mantissa -= remainder;
+                Mantissa -= Base;
+            }
+            // Mantissa を1桁減らし、Exponent を増やす
+            Mantissa /= Base;
+            Exponent += 1;
+            // 中間の時は偶数に変更する。
+            if (remainder == 5 || remainder == -5)
+            {
+                remainder = (int)(Mantissa % Base);// 新1桁目
+                // 奇数なら変更する
+                if (Math.IsOdd(remainder))
+                {
+                    if (remainder > 0)
+                    {
+                        Mantissa++;
+                    }
+                    else
+                    {
+                        Mantissa--;
+                    }
+                }
             }
         }
         #endregion 数学関数
@@ -699,7 +721,7 @@ namespace Ksnm.Numerics
             var bytes = mantissa.ToByteArray().ToList();
             if (bytes.Count > (4 * 3))
             {
-                throw new InvalidCastException($"{nameof(Mantissa)}が decimal の最大値より大きい");
+                throw new InvalidCastException($"{nameof(Mantissa)}({Mantissa})が decimal の最大値より大きい");
             }
             while (bytes.Count < (4 * 3))
             {

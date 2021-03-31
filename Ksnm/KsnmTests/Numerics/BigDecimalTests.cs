@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Ksnm.ExtensionMethods.System.Random;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Numerics;
 
 namespace Ksnm.Numerics.Tests
@@ -107,6 +108,14 @@ namespace Ksnm.Numerics.Tests
             {
                 var sample = BigDecimal.Pow10(i);
                 Assert.AreEqual(i, BigDecimal.MaxExponent(sample));
+            }
+            {
+                var sample = new BigInteger(-100);
+                Assert.AreEqual(2, BigDecimal.MaxExponent(sample));
+            }
+            {
+                var sample = new BigInteger(-120);
+                Assert.AreEqual(1, BigDecimal.MaxExponent(sample));
             }
             {
                 var sample = new BigInteger(100);
@@ -249,20 +258,39 @@ namespace Ksnm.Numerics.Tests
         [TestMethod()]
         public void RoundTest()
         {
-            // 切り上げ
-            for (decimal i = 0.5m; i < 1.0m; i+= 0.1m)
+            for (decimal i = -0.9m; i < 1.0m; i += 0.1m)
             {
                 var actual = new BigDecimal(i);
                 actual.RoundBottom();
-                var expected = new BigDecimal(1.0m);
+                var expected = decimal.Round(i);
+                Assert.AreEqual(expected, actual, $"i={i}");
+            }
+
+            {
+                var actual = new BigDecimal(15);
+                actual.RoundBottom();
+                var expected = new BigDecimal(20);
                 Assert.AreEqual(expected, actual);
             }
-            // 切り下げ
-            for (decimal i = 0.0m; i < 0.5m; i += 0.1m)
+
             {
-                var actual = new BigDecimal(i);
+                var actual = new BigDecimal(-15);
                 actual.RoundBottom();
-                var expected = new BigDecimal(0.0m);
+                var expected = new BigDecimal(-20);
+                Assert.AreEqual(expected, actual);
+            }
+
+            {
+                var actual = new BigDecimal(25);
+                actual.RoundBottom();
+                var expected = new BigDecimal(20);
+                Assert.AreEqual(expected, actual);
+            }
+
+            {
+                var actual = new BigDecimal(-25);
+                actual.RoundBottom();
+                var expected = new BigDecimal(-20);
                 Assert.AreEqual(expected, actual);
             }
         }
@@ -280,6 +308,16 @@ namespace Ksnm.Numerics.Tests
         [TestMethod()]
         public void OperationsTest2()
         {
+            {
+                var source1 = -10m;
+                var source2 = 6;
+                var sample1 = new BigDecimal(source1);
+                var sample2 = new BigDecimal(source2);
+                var sample3 = sample1 / sample2;
+                var d = source1 / source2;
+                var bd = sample3.ToDecimal();
+                Assert.AreEqual(d, bd);
+            }
             // 精度不足テスト
             {
                 var sample = new BigDecimal(1, 0, -1);
@@ -344,10 +382,10 @@ namespace Ksnm.Numerics.Tests
                 }
             }
 
-            for (decimal i = 0m; i < 10; i++)
+            for (decimal i = -10; i < 10; i++)
             {
                 var sample = new BigDecimal(i);
-                for (decimal j = 1; j < 10; j++)
+                for (decimal j = -10; j < 10; j++)
                 {
                     var sample2 = new BigDecimal(j);
                     // +
@@ -357,7 +395,10 @@ namespace Ksnm.Numerics.Tests
                     // *
                     Assert.AreEqual(i * j, (sample * sample2).ToDecimal());
                     // /
-                    Assert.AreEqual(i / j, (sample / sample2).ToDecimal());
+                    if (j != 0)
+                    {
+                        Assert.AreEqual(i / j, (sample / sample2).ToDecimal());
+                    }
                     // ==
                     Assert.AreEqual(i == j, sample == sample2);
                     // !=
@@ -370,6 +411,38 @@ namespace Ksnm.Numerics.Tests
                     Assert.AreEqual(i >= j, sample >= sample2);
                     // <=
                     Assert.AreEqual(i <= j, sample <= sample2);
+                }
+            }
+
+            var random = new Ksnm.Randoms.Xorshift128();
+            for (int i = 0; i < 10; i++)
+            {
+                var source = new decimal(random.Next(), 0, 0, random.NextBool(), (byte)random.Next(28));
+                var sample = new BigDecimal(source);
+                for (int j = 0; j < 10; j++)
+                {
+                    var source2 = new decimal(random.Next(), 0, 0, random.NextBool(), (byte)random.Next(28));
+                    var sample2 = new BigDecimal(source2);
+                    // +
+                    Assert.AreEqual(source + source2, (sample + sample2).ToDecimal(), $"{source} + {source2}");
+                    // -
+                    Assert.AreEqual(source - source2, (sample - sample2).ToDecimal(), $"{source} - {source2}");
+                    // *
+                    Assert.AreEqual(source * source2, (sample * sample2).ToDecimal(), $"{source} * {source2}");
+                    // /
+                    Assert.AreEqual(source / source2, (sample / sample2).ToDecimal(), $"{source} / {source2}");
+                    // ==
+                    Assert.AreEqual(source == source2, sample == sample2, $"{source} == {source2}");
+                    // !=
+                    Assert.AreEqual(source != source2, sample != sample2, $"{source} != {source2}");
+                    // >
+                    Assert.AreEqual(source > source2, sample > sample2, $"{source} > {source2}");
+                    // <
+                    Assert.AreEqual(source < source2, sample < sample2, $"{source} < {source2}");
+                    // >=
+                    Assert.AreEqual(source >= source2, sample >= sample2, $"{source} >= {source2}");
+                    // <=
+                    Assert.AreEqual(source <= source2, sample <= sample2, $"{source} <= {source2}");
                 }
             }
         }
