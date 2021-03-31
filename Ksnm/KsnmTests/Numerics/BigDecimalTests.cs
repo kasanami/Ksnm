@@ -280,6 +280,26 @@ namespace Ksnm.Numerics.Tests
         [TestMethod()]
         public void OperationsTest2()
         {
+            // 精度不足テスト
+            {
+                var sample = new BigDecimal(1, 0, -1);
+                var sample2 = new BigDecimal(1000, 0);
+                var sample3 = sample / sample2;
+                var d = sample3.ToDecimal();
+                Assert.AreEqual(0, d);
+
+                sample = new BigDecimal(1, 0, -2);
+                sample2 = new BigDecimal(1000, 0);
+                sample3 = sample / sample2;
+                d = sample3.ToDecimal();
+                Assert.AreEqual(0, d);
+
+                sample = new BigDecimal(1, 0, -3);
+                sample2 = new BigDecimal(1000, 0);
+                sample3 = sample / sample2;
+                d = sample3.ToDecimal();
+                Assert.AreEqual(0.001m, d);
+            }
             {
                 var sample = new BigDecimal(0.01m);
                 var sample2 = new BigDecimal(0.1m);
