@@ -35,8 +35,6 @@ namespace Ksnm.Numerics
     /// 任意の大きさを持つ10 進数の浮動小数点数を表します。
     /// 
     /// BigDecimal=Mantissa*10^Exponent
-    /// 
-    /// TODO:MinExponent は四則演算すると精度の高い方に合わせた結果を出力日します。
     /// </summary>
     public struct BigDecimal : IEquatable<BigDecimal>
     {
@@ -388,19 +386,10 @@ namespace Ksnm.Numerics
         }
         /// <summary>
         /// 乗算
-        /// * MinExponent は新たに設定されます
         /// </summary>
         public static BigDecimal operator *(BigDecimal valueL, BigDecimal valueR)
         {
-            var temp = new BigDecimal(valueL);
-            temp.Mantissa *= valueR.Mantissa;
-            temp.Exponent += valueR.Exponent;
-            // MinExponent 設定
-            if (temp.MinExponent > temp.Exponent)
-            {
-                temp.MinExponent = temp.Exponent;
-            }
-            return temp;
+            return new BigDecimal(valueL.Mantissa * valueR.Mantissa, valueL.Exponent + valueR.Exponent);
         }
         /// <summary>
         /// 乗算
