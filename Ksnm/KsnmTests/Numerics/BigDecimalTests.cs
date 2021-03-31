@@ -247,6 +247,27 @@ namespace Ksnm.Numerics.Tests
         }
 
         [TestMethod()]
+        public void RoundTest()
+        {
+            // 切り上げ
+            for (decimal i = 0.5m; i < 1.0m; i+= 0.1m)
+            {
+                var actual = new BigDecimal(i);
+                actual.RoundBottom();
+                var expected = new BigDecimal(1.0m);
+                Assert.AreEqual(expected, actual);
+            }
+            // 切り下げ
+            for (decimal i = 0.0m; i < 0.5m; i += 0.1m)
+            {
+                var actual = new BigDecimal(i);
+                actual.RoundBottom();
+                var expected = new BigDecimal(0.0m);
+                Assert.AreEqual(expected, actual);
+            }
+        }
+
+        [TestMethod()]
         public void OperationsTest1()
         {
             var sample = new BigDecimal(1, 2);

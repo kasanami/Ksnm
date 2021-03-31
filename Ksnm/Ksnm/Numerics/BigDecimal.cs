@@ -263,6 +263,25 @@ namespace Ksnm.Numerics
         }
         #endregion 独自メソッド
 
+        #region 数学関数
+        /// <summary>
+        /// 最下位の桁を四捨五入する。
+        /// 最下位の桁は0になります。
+        /// </summary>
+        public void RoundBottom()
+        {
+            var remainder = Mantissa % Base;
+            if (remainder >= 5)
+            {
+                Mantissa += Base - remainder;
+            }
+            else
+            {
+                Mantissa -= remainder;
+            }
+        }
+        #endregion 数学関数
+
         #region 単項演算子
         /// <summary>
         /// 符号維持
@@ -374,11 +393,7 @@ namespace Ksnm.Numerics
             temp.Mantissa /= valueR.Mantissa;
             temp.Exponent -= valueR.Exponent;
             // 四捨五入
-            var remainder = temp.Mantissa % Base;
-            if (remainder >= 5)
-            {
-                temp.Mantissa += Base - remainder;
-            }
+            temp.RoundBottom();
             // 1桁増やした分を減らす
             if (temp.Exponent < temp.MinExponent)
             {
