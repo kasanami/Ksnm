@@ -274,24 +274,32 @@ namespace Ksnm.Numerics
         /// </summary>
         public void RoundBottom()
         {
-            var remainder = (int)(Mantissa % Base);// 1桁目
-            if (remainder > 5)
+            RoundBottom(1);
+        }
+        public void RoundBottom(int ex)
+        {
+            var divisor = Pow10(ex);
+            var half = divisor / 2;
+            var remainder = Mantissa % divisor;// 1桁目
+            if (remainder > half)
             {
-                Mantissa += Base;
+                Mantissa += divisor;
             }
-            else if (remainder < -5)
+            else if (remainder < -half)
             {
-                Mantissa -= Base;
+                Mantissa -= divisor;
             }
-            // Mantissa を1桁減らし、Exponent を増やす
-            Mantissa /= Base;
-            Exponent += 1;
-            // 中間の時は偶数に変更する。
-            if (remainder == 5 || remainder == -5)
+            // Mantissa を桁減らし、Exponent を増やす
+            Mantissa /= divisor;
+            Exponent += ex;
+            // 中間の時
+            if (remainder == half || remainder == -half)
             {
+#if false
+                // 偶数に変更する。
                 remainder = (int)(Mantissa % Base);// 新1桁目
                 // 奇数なら変更する
-                if (Math.IsOdd(remainder))
+                if (remainder.IsEven == false)
                 {
                     if (remainder > 0)
                     {
@@ -302,6 +310,17 @@ namespace Ksnm.Numerics
                         Mantissa--;
                     }
                 }
+#else
+                // 普通の四捨五入
+                if (remainder > 0)
+                {
+                    Mantissa++;
+                }
+                else
+                {
+                    Mantissa--;
+                }
+#endif
             }
         }
         #endregion 数学関数
@@ -330,26 +349,20 @@ namespace Ksnm.Numerics
         /// </summary>
         public static BigDecimal operator +(BigDecimal valueL, BigDecimal valueR)
         {
+            // 指数が小さい方に合わせる
             if (valueL.Exponent > valueR.Exponent)
             {
-                var temp = new BigDecimal(valueL);
-                var diff = temp.Exponent - valueR.Exponent;
-                temp.Mantissa *= Pow10(diff);
-                temp.Mantissa += valueR.Mantissa;
-                temp.Exponent = valueR.Exponent;
-                temp.MinExponent = valueR.MinExponent;
-                return temp;
+                var diff = valueL.Exponent - valueR.Exponent;
+                valueL.Mantissa *= Pow10(diff);
+                valueL.Exponent -= diff;
             }
-            else if (valueL.Exponent < valueR.Exponent)
+            else if (valueR.Exponent > valueL.Exponent)
             {
-                var temp = new BigDecimal(valueR);
-                var diff = temp.Exponent - valueL.Exponent;
-                temp.Mantissa *= Pow10(diff);
-                temp.Mantissa += valueL.Mantissa;
-                temp.Exponent = valueL.Exponent;
-                temp.MinExponent = valueL.MinExponent;
-                return temp;
+                var diff = valueR.Exponent - valueL.Exponent;
+                valueR.Mantissa *= Pow10(diff);
+                valueR.Exponent -= diff;
             }
+            Assert(valueR.Exponent == valueL.Exponent);
             return new BigDecimal(valueL.Mantissa + valueR.Mantissa, valueL.Exponent);
         }
         /// <summary>
@@ -357,26 +370,20 @@ namespace Ksnm.Numerics
         /// </summary>
         public static BigDecimal operator -(BigDecimal valueL, BigDecimal valueR)
         {
+            // 指数が小さい方に合わせる
             if (valueL.Exponent > valueR.Exponent)
             {
-                var temp = new BigDecimal(valueL);
-                var diff = temp.Exponent - valueR.Exponent;
-                temp.Mantissa *= Pow10(diff);
-                temp.Mantissa -= valueR.Mantissa;
-                temp.Exponent = valueR.Exponent;
-                temp.MinExponent = valueR.MinExponent;
-                return temp;
+                var diff = valueL.Exponent - valueR.Exponent;
+                valueL.Mantissa *= Pow10(diff);
+                valueL.Exponent -= diff;
             }
-            else if (valueL.Exponent < valueR.Exponent)
+            else if (valueR.Exponent > valueL.Exponent)
             {
-                var temp = new BigDecimal(valueR);
-                var diff = temp.Exponent - valueL.Exponent;
-                temp.Mantissa *= Pow10(diff);
-                temp.Mantissa -= valueL.Mantissa;
-                temp.Exponent = valueL.Exponent;
-                temp.MinExponent = valueL.MinExponent;
-                return temp;
+                var diff = valueR.Exponent - valueL.Exponent;
+                valueR.Mantissa *= Pow10(diff);
+                valueR.Exponent -= diff;
             }
+            Assert(valueR.Exponent == valueL.Exponent);
             return new BigDecimal(valueL.Mantissa - valueR.Mantissa, valueL.Exponent);
         }
         /// <summary>
@@ -413,17 +420,11 @@ namespace Ksnm.Numerics
             // 割られる数の Exponent を最小にする。
             // 丸め処理のため1つ桁増やす
             temp._MinimizeExponent(temp.MinExponent - 1);
-            //
+            // 除算
             temp.Mantissa /= valueR.Mantissa;
             temp.Exponent -= valueR.Exponent;
-            // 四捨五入
+            // 丸め処理(桁増やした分はここで減る)
             temp.RoundBottom();
-            // 1桁増やした分を減らす
-            if (temp.Exponent < temp.MinExponent)
-            {
-                temp.Mantissa /= Base;
-                temp.Exponent += 1;
-            }
             Assert(temp.Exponent >= temp.MinExponent);
             // 最適化
             temp.MinimizeMantissa();
