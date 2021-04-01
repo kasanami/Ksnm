@@ -259,6 +259,16 @@ namespace Ksnm.Numerics.Tests
         [TestMethod()]
         public void RoundTest()
         {
+            for (int ex = 0; ex < 5; ex++)
+            {
+                for (int i = 0; i < 100; i++)
+                {
+                    var actual = new BigInteger(i);
+                    actual = BigDecimal.RoundBottom(actual, ex);
+                    var expected = decimal.Round((decimal)i / Math.Pow(10, ex), 0, MidpointRounding.AwayFromZero);
+                    Assert.AreEqual(expected, (decimal)actual, $"i={i}");
+                }
+            }
             for (decimal i = -0.9m; i < 1.0m; i += 0.1m)
             {
                 var actual = new BigDecimal(i);
@@ -334,19 +344,19 @@ namespace Ksnm.Numerics.Tests
             // 精度不足テスト
             {
                 var sample = new BigDecimal(1, 0, -1);
-                var sample2 = new BigDecimal(1000, 0);
+                var sample2 = new BigDecimal(1000, 0, 0);
                 var sample3 = sample / sample2;
                 var d = sample3.ToDecimal();
                 Assert.AreEqual(0, d);
 
                 sample = new BigDecimal(1, 0, -2);
-                sample2 = new BigDecimal(1000, 0);
+                sample2 = new BigDecimal(1000, 0, 0);
                 sample3 = sample / sample2;
                 d = sample3.ToDecimal();
                 Assert.AreEqual(0, d);
 
                 sample = new BigDecimal(1, 0, -3);
-                sample2 = new BigDecimal(1000, 0);
+                sample2 = new BigDecimal(1000, 0, 0);
                 sample3 = sample / sample2;
                 d = sample3.ToDecimal();
                 Assert.AreEqual(0.001m, d);

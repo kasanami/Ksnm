@@ -28,6 +28,7 @@ using System.Numerics;
 using System.Text;
 using Ksnm.ExtensionMethods.System.Decimal;
 using static System.Diagnostics.Debug;
+using static System.Math;
 
 namespace Ksnm.Numerics
 {
@@ -47,7 +48,7 @@ namespace Ksnm.Numerics
         /// MinExponentの初期値
         /// (System.Decimalの値に合わせて28)
         /// </summary>
-        public const int DefaultMinExponent = -28;
+        public const int DefaultMinExponent = -30;
         #endregion 定数
 
         #region プロパティ
@@ -276,20 +277,28 @@ namespace Ksnm.Numerics
         }
         public void RoundBottom(int ex)
         {
+            Mantissa = RoundBottom(Mantissa, ex);
+            Exponent += ex;
+        }
+        public static BigInteger RoundBottom(BigInteger mantissa, int ex)
+        {
+            if (ex <= 0)
+            {
+                return mantissa;
+            }
             var divisor = Pow10(ex);
             var half = divisor / 2;
-            var remainder = Mantissa % divisor;// 1桁目
+            var remainder = mantissa % divisor;// 1桁目
             if (remainder > half)
             {
-                Mantissa += divisor;
+                mantissa += divisor;
             }
             else if (remainder < -half)
             {
-                Mantissa -= divisor;
+                mantissa -= divisor;
             }
             // Mantissa を桁減らし、Exponent を増やす
-            Mantissa /= divisor;
-            Exponent += ex;
+            mantissa /= divisor;
             // 中間の時
             if (remainder == half || remainder == -half)
             {
@@ -312,14 +321,15 @@ namespace Ksnm.Numerics
                 // 普通の四捨五入
                 if (remainder > 0)
                 {
-                    Mantissa++;
+                    mantissa++;
                 }
                 else
                 {
-                    Mantissa--;
+                    mantissa--;
                 }
 #endif
             }
+            return mantissa;
         }
         #endregion 数学関数
 
@@ -406,6 +416,8 @@ namespace Ksnm.Numerics
         public static BigDecimal operator /(BigDecimal valueL, BigDecimal valueR)
         {
             var temp = new BigDecimal(valueL);
+            // 指数が小さい方に合わせる
+            temp.MinExponent = Min(valueL.MinExponent, valueR.MinExponent);
             // 割られる数の Exponent を最小にする。
             // 丸め処理のため1つ桁増やす
             temp._MinimizeExponent(temp.MinExponent - 1);
@@ -702,16 +714,28 @@ namespace Ksnm.Numerics
         {
             // mantissa は正の数にする
             var mantissa = BigInteger.Abs(Mantissa);
+            byte scale = 0;
             // decimal は正の Exponent に対応していないので、mantissa を変換
             if (Exponent > 0)
             {
                 mantissa *= Pow10(Exponent);
             }
+            else if (Exponent < 0)
+            {
+                scale = (byte)(-Exponent);
+                if (scale > 28)
+                {
+                    var diff = scale - 28;
+                    mantissa = RoundBottom(mantissa, diff);
+                    scale = 28;
+                }
+            }
             // [0]=最上位
             var bytes = mantissa.ToByteArray().ToList();
             if (bytes.Count > (4 * 3))
             {
-                throw new InvalidCastException($"{nameof(Mantissa)}({Mantissa})が decimal の最大値より大きい");
+                throw new OverflowException($"{nameof(Mantissa)}={Mantissa}");
+                //throw new InvalidCastException($"{nameof(Mantissa)}({Mantissa})が decimal の最大値より大きい");
             }
             while (bytes.Count < (4 * 3))
             {
@@ -722,11 +746,6 @@ namespace Ksnm.Numerics
             int mid = BitConverter.ToInt32(bytes2, 4);
             int hi = BitConverter.ToInt32(bytes2, 8);
             bool isNegative = Mantissa < 0;
-            byte scale = 0;
-            if (Exponent < 0)
-            {
-                scale = (byte)(-Exponent);
-            }
             return new decimal(lo, mid, hi, isNegative, scale);
         }
         /// <summary>
