@@ -260,13 +260,14 @@ namespace Ksnm.Numerics.Tests
         [TestMethod()]
         public void RoundTest()
         {
+            var midpointRounding = MidpointRounding.AwayFromZero;
             for (int ex = 0; ex < 5; ex++)
             {
                 for (int i = 0; i < 100; i++)
                 {
                     var actual = new BigInteger(i);
-                    actual = BigDecimal.RoundBottom(actual, ex);
-                    var expected = decimal.Round((decimal)i / Math.Pow(10, ex), 0, MidpointRounding.AwayFromZero);
+                    actual = BigDecimal.RoundBottom(actual, ex, midpointRounding);
+                    var expected = decimal.Round((decimal)i / Math.Pow(10, ex), 0, midpointRounding);
                     Assert.AreEqual(expected, (decimal)actual, $"i={i}");
                 }
             }
@@ -274,7 +275,7 @@ namespace Ksnm.Numerics.Tests
             {
                 var actual = new BigDecimal(i);
                 actual.RoundBottom();
-                var expected = decimal.Round(i, MidpointRounding.AwayFromZero);
+                var expected = decimal.Round(i, BigDecimal.DefaultMidpointRounding);
                 Assert.AreEqual(expected, actual, $"i={i}");
             }
 

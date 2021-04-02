@@ -53,6 +53,10 @@ namespace Ksnm.Numerics
         /// ※System.Decimal 内では正数で保持しているが、この値は指数のため負の値とする。
         /// </summary>
         private const int DecimalMinExponent = -28;
+        /// <summary>
+        /// デフォルトの丸め処理方法
+        /// </summary>
+        public const MidpointRounding DefaultMidpointRounding = MidpointRounding.AwayFromZero;
         #endregion 定数
 
         #region プロパティ
@@ -283,11 +287,11 @@ namespace Ksnm.Numerics
         {
             if (digits > 0)
             {
-                Mantissa = RoundBottom(Mantissa, digits);
+                Mantissa = RoundBottom(Mantissa, digits, DefaultMidpointRounding);
                 Exponent += digits;
             }
         }
-        public static BigInteger RoundBottom(BigInteger mantissa, int digits)
+        public static BigInteger RoundBottom(BigInteger mantissa, int digits, MidpointRounding midpointRounding)
         {
             if (digits <= 0)
             {
@@ -310,32 +314,39 @@ namespace Ksnm.Numerics
             // 中間の時
             if (remainder == half || remainder == -half)
             {
-#if false
-                // 偶数に変更する。
-                remainder = (int)(Mantissa % Base);// 新1桁目
-                // 奇数なら変更する
-                if (remainder.IsEven == false)
+                if (midpointRounding == MidpointRounding.ToEven)
                 {
+                    // 偶数に変更する。
+                    remainder = (int)(mantissa % Base);// 新1桁目
+                                                       // 奇数なら変更する
+                    if (remainder.IsEven == false)
+                    {
+                        if (remainder > 0)
+                        {
+                            mantissa++;
+                        }
+                        else
+                        {
+                            mantissa--;
+                        }
+                    }
+                }
+                else if (midpointRounding == MidpointRounding.AwayFromZero)
+                {
+                    // 普通の四捨五入
                     if (remainder > 0)
                     {
-                        Mantissa++;
+                        mantissa++;
                     }
                     else
                     {
-                        Mantissa--;
+                        mantissa--;
                     }
-                }
-#else
-                // 普通の四捨五入
-                if (remainder > 0)
-                {
-                    mantissa++;
                 }
                 else
                 {
-                    mantissa--;
+                    throw new AggregateException($"{nameof(midpointRounding)}={midpointRounding }");
                 }
-#endif
             }
             return mantissa;
         }
@@ -736,7 +747,7 @@ namespace Ksnm.Numerics
                 if (exponent < DecimalMinExponent)
                 {
                     var diff = DecimalMinExponent - exponent;
-                    mantissa = RoundBottom(mantissa, diff);
+                    mantissa = RoundBottom(mantissa, diff, MidpointRounding.AwayFromZero);
                     exponent = DecimalMinExponent;
                 }
                 scale = (byte)(-exponent);
