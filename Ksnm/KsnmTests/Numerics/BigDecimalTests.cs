@@ -1,4 +1,5 @@
 ﻿using Ksnm.ExtensionMethods.System.Random;
+using Ksnm.ExtensionMethods.System.Decimal;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Numerics;
@@ -320,6 +321,42 @@ namespace Ksnm.Numerics.Tests
         public void OperationsTest2()
         {
             {
+                var source1 = -0.00000000000000000191855991m;
+                var source2 = 0.0000001862788385m;
+                var sample1 = new BigDecimal(source1);
+                var sample2 = new BigDecimal(source2);
+                var sample3 = sample1 / sample2;
+                var d = source1 / source2;
+                var bd = sample3.ToDecimal();
+                var d_m = d.GetMantissa();
+                var d_e = d.GetExponent();
+                Assert.AreEqual(d, bd, $"{source1} / {source2}");
+            }
+            {
+                var source1 = 0.000000000000000000000000001m;
+                var source2 = 0.0000000000000000000000000002m;
+                var sample1 = new BigDecimal(source1);
+                var sample2 = new BigDecimal(source2);
+                var sample3 = sample1 / sample2;
+                var d = source1 / source2;
+                var bd = sample3.ToDecimal();
+                var d_m = d.GetMantissa();
+                var d_e = d.GetExponent();
+                Assert.AreEqual(d, bd, $"{source1} / {source2}");
+            }
+            {
+                var source1 = 10000000000000000000000000000m;
+                var source2 = 20000000000000000000000000000m;
+                var sample1 = new BigDecimal(source1);
+                var sample2 = new BigDecimal(source2);
+                var sample3 = sample1 / sample2;
+                var d = source1 / source2;
+                var bd = sample3.ToDecimal();
+                var d_m = d.GetMantissa();
+                var d_e = d.GetExponent();
+                Assert.AreEqual(d, bd, $"{source1} / {source2}");
+            }
+            {
                 var source1 = -0.00000000000001046m;
                 var source2 = -7.316m;
                 var sample1 = new BigDecimal(source1);
@@ -356,6 +393,12 @@ namespace Ksnm.Numerics.Tests
                 Assert.AreEqual(0, d);
 
                 sample = new BigDecimal(1, 0, -3);
+                sample2 = new BigDecimal(1000, 0, 0);
+                sample3 = sample / sample2;
+                d = sample3.ToDecimal();
+                Assert.AreEqual(0, d);
+
+                sample = new BigDecimal(1, 0, -4);
                 sample2 = new BigDecimal(1000, 0, 0);
                 sample3 = sample / sample2;
                 d = sample3.ToDecimal();
@@ -436,7 +479,7 @@ namespace Ksnm.Numerics.Tests
                     Assert.AreEqual(i <= j, sample <= sample2);
                 }
             }
-#if false
+#if true
             var random = new Ksnm.Randoms.Xorshift128();
             for (int i = 0; i < 10; i++)
             {
@@ -457,9 +500,9 @@ namespace Ksnm.Numerics.Tests
                         // /
                         Assert.AreEqual(source / source2, (sample / sample2).ToDecimal(), $"{source} / {source2}");
                     }
-                    catch (InvalidCastException)
+                    catch (OverflowException)
                     {
-                        // InvalidCastExceptionはココでは無視
+                        // OverflowExceptionはココでは無視
                     }
                     catch (ArgumentOutOfRangeException)
                     {

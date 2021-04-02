@@ -46,9 +46,13 @@ namespace Ksnm.Numerics
         public const int Base = 10;
         /// <summary>
         /// MinExponentの初期値
-        /// (System.Decimalの値に合わせて28)
         /// </summary>
-        public const int DefaultMinExponent = -30;
+        public const int DefaultMinExponent = DecimalMinExponent - 1;
+        /// <summary>
+        /// System.Decimal の指数の最小値
+        /// ※System.Decimal 内では正数で保持しているが、この値は指数のため負の値とする。
+        /// </summary>
+        private const int DecimalMinExponent = -28;
         #endregion 定数
 
         #region プロパティ
@@ -277,8 +281,11 @@ namespace Ksnm.Numerics
         }
         public void RoundBottom(int ex)
         {
-            Mantissa = RoundBottom(Mantissa, ex);
-            Exponent += ex;
+            if (ex > 0)
+            {
+                Mantissa = RoundBottom(Mantissa, ex);
+                Exponent += ex;
+            }
         }
         public static BigInteger RoundBottom(BigInteger mantissa, int ex)
         {
@@ -288,7 +295,8 @@ namespace Ksnm.Numerics
             }
             var divisor = Pow10(ex);
             var half = divisor / 2;
-            var remainder = mantissa % divisor;// 1桁目
+            var remainder = mantissa % divisor;
+            // 中間を超えている時
             if (remainder > half)
             {
                 mantissa += divisor;
@@ -419,8 +427,9 @@ namespace Ksnm.Numerics
             // 指数が小さい方に合わせる
             temp.MinExponent = Min(valueL.MinExponent, valueR.MinExponent);
             // 割られる数の Exponent を最小にする。
-            // 丸め処理のため1つ桁増やす
-            temp._MinimizeExponent(temp.MinExponent - 1);
+            // 丸め処理のため桁増やす
+            var addExponent = Min(valueR.Exponent, 0);
+            temp._MinimizeExponent(temp.MinExponent + addExponent);
             // 除算
             temp.Mantissa /= valueR.Mantissa;
             temp.Exponent -= valueR.Exponent;
@@ -722,18 +731,21 @@ namespace Ksnm.Numerics
             }
             else if (Exponent < 0)
             {
-                scale = (byte)(-Exponent);
-                if (scale > 28)
+                var exponent = Exponent;
+                // Decimal より精度が高い場合、丸める
+                if (exponent < DecimalMinExponent)
                 {
-                    var diff = scale - 28;
+                    var diff = DecimalMinExponent - exponent;
                     mantissa = RoundBottom(mantissa, diff);
-                    scale = 28;
+                    exponent = DecimalMinExponent;
                 }
+                scale = (byte)(-exponent);
             }
             // [0]=最上位
             var bytes = mantissa.ToByteArray().ToList();
             if (bytes.Count > (4 * 3))
             {
+                //return decimal.MaxValue;
                 throw new OverflowException($"{nameof(Mantissa)}={Mantissa}");
                 //throw new InvalidCastException($"{nameof(Mantissa)}({Mantissa})が decimal の最大値より大きい");
             }
