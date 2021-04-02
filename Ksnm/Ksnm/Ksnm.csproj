@@ -64,6 +64,7 @@
     <Compile Include="Enum.cs" />
     <Compile Include="ExtensionMethods\System\Complex\ComplexExtensions.cs" />
     <Compile Include="ExtensionMethods\System\IO\Stream\StreamExtensions.cs" />
+    <Compile Include="ExtensionMethods\System\Numerics\BigIntegerExtensions.cs" />
     <Compile Include="ExtensionMethods\System\Single\SingleExtensions.cs" />
     <Compile Include="ExtensionMethods\System\Span\SpanExtensions.cs" />
     <Compile Include="Numerics\BigDecimal.cs" />

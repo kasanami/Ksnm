@@ -27,6 +27,7 @@ using System.Linq;
 using System.Numerics;
 using System.Text;
 using Ksnm.ExtensionMethods.System.Decimal;
+using Ksnm.ExtensionMethods.System.Numerics;
 using static System.Diagnostics.Debug;
 using static System.Math;
 
@@ -74,10 +75,6 @@ namespace Ksnm.Numerics
         /// 精度とも言える
         /// </summary>
         public int MinExponent { get; private set; }
-        /// <summary>
-        /// Pow10の結果を保存しておき、2回目以降はこちらを使用する。
-        /// </summary>
-        private static readonly Dictionary<int, BigInteger> Pow10Results = new Dictionary<int, BigInteger>();
         #endregion プロパティ
 
         #region コンストラクタ
@@ -227,13 +224,7 @@ namespace Ksnm.Numerics
         /// <returns>10 を exponent で累乗した結果。</returns>
         public static BigInteger Pow10(int exponent)
         {
-            if (Pow10Results.ContainsKey(exponent))
-            {
-                return Pow10Results[exponent];
-            }
-            var value = BigInteger.Pow(Base, exponent);
-            Pow10Results[exponent] = value;
-            return value;
+            return Math.BigIntegerPow10(exponent);
         }
         /// <summary>
         /// 底を 10 とする value の割り切れる最大の指数
@@ -287,68 +278,9 @@ namespace Ksnm.Numerics
         {
             if (digits > 0)
             {
-                Mantissa = RoundBottom(Mantissa, digits, DefaultMidpointRounding);
+                Mantissa = Mantissa.Round(digits, DefaultMidpointRounding);
                 Exponent += digits;
             }
-        }
-        public static BigInteger RoundBottom(BigInteger mantissa, int digits, MidpointRounding midpointRounding)
-        {
-            if (digits <= 0)
-            {
-                return mantissa;
-            }
-            var divisor = Pow10(digits);
-            var half = divisor / 2;
-            var remainder = mantissa % divisor;
-            // 中間を超えている時
-            if (remainder > half)
-            {
-                mantissa += divisor;
-            }
-            else if (remainder < -half)
-            {
-                mantissa -= divisor;
-            }
-            // Mantissa を桁減らし、Exponent を増やす
-            mantissa /= divisor;
-            // 中間の時
-            if (remainder == half || remainder == -half)
-            {
-                if (midpointRounding == MidpointRounding.ToEven)
-                {
-                    // 偶数に変更する。
-                    remainder = (int)(mantissa % Base);// 新1桁目
-                                                       // 奇数なら変更する
-                    if (remainder.IsEven == false)
-                    {
-                        if (remainder > 0)
-                        {
-                            mantissa++;
-                        }
-                        else
-                        {
-                            mantissa--;
-                        }
-                    }
-                }
-                else if (midpointRounding == MidpointRounding.AwayFromZero)
-                {
-                    // 普通の四捨五入
-                    if (remainder > 0)
-                    {
-                        mantissa++;
-                    }
-                    else
-                    {
-                        mantissa--;
-                    }
-                }
-                else
-                {
-                    throw new AggregateException($"{nameof(midpointRounding)}={midpointRounding }");
-                }
-            }
-            return mantissa;
         }
         #endregion 数学関数
 
@@ -747,7 +679,7 @@ namespace Ksnm.Numerics
                 if (exponent < DecimalMinExponent)
                 {
                     var diff = DecimalMinExponent - exponent;
-                    mantissa = RoundBottom(mantissa, diff, MidpointRounding.AwayFromZero);
+                    mantissa = mantissa.Round(diff, MidpointRounding.ToEven);
                     exponent = DecimalMinExponent;
                 }
                 scale = (byte)(-exponent);

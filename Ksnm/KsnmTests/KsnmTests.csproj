@@ -82,6 +82,7 @@
     <Compile Include="ExtensionMethods\System\Decimal\DecimalExtensionsTests.cs" />
     <Compile Include="ExtensionMethods\System\Double\DoubleExtensionsTests.cs" />
     <Compile Include="ExtensionMethods\System\IO\Stream\StreamExtensionsTests.cs" />
+    <Compile Include="ExtensionMethods\System\Numerics\BigIntegerExtensionsTests.cs" />
     <Compile Include="ExtensionMethods\System\Single\SingleExtensionsTests.cs" />
     <Compile Include="ExtensionMethods\System\Span\SpanExtensionsTests.cs" />
     <Compile Include="ExtensionMethods\System\Random\RandomExtensionsTests.cs" />

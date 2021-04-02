@@ -260,17 +260,6 @@ namespace Ksnm.Numerics.Tests
         [TestMethod()]
         public void RoundTest()
         {
-            var midpointRounding = MidpointRounding.AwayFromZero;
-            for (int ex = 0; ex < 5; ex++)
-            {
-                for (int i = 0; i < 100; i++)
-                {
-                    var actual = new BigInteger(i);
-                    actual = BigDecimal.RoundBottom(actual, ex, midpointRounding);
-                    var expected = decimal.Round((decimal)i / Math.Pow(10, ex), 0, midpointRounding);
-                    Assert.AreEqual(expected, (decimal)actual, $"i={i}");
-                }
-            }
             for (decimal i = -0.9m; i < 1.0m; i += 0.1m)
             {
                 var actual = new BigDecimal(i);
@@ -321,6 +310,18 @@ namespace Ksnm.Numerics.Tests
         [TestMethod()]
         public void OperationsTest2()
         {
+            {
+                var source1 = 0.000000000000077158759m;
+                var source2 = 11.60083295m;
+                var sample1 = new BigDecimal(source1);
+                var sample2 = new BigDecimal(source2);
+                var sample3 = sample1 * sample2;
+                var d = source1 * source2;
+                var bd = sample3.ToDecimal();
+                var d_m = d.GetMantissa();
+                var d_e = d.GetExponent();
+                Assert.AreEqual(d, bd, $"{source1} * {source2}");
+            }
             {
                 var source1 = -0.00000000000000000191855991m;
                 var source2 = 0.0000001862788385m;

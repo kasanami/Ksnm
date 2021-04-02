@@ -1,6 +1,8 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Ksnm;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Linq;
 using Ksnm.ExtensionMethods.System.Collections.Generic.Enumerable;
+using System.Numerics;
 
 namespace Ksnm.Tests
 {
@@ -482,6 +484,17 @@ namespace Ksnm.Tests
                     Assert.AreEqual((uint)System.Math.Pow(n, e), Math.Pow(n, e), $"{n}^{e}");
                 }
             }
+        }
+
+        [TestMethod()]
+        public void BigIntegerPow10Test()
+        {
+            Assert.AreEqual(1, Math.BigIntegerPow10(0));
+            Assert.AreEqual(10, Math.BigIntegerPow10(1));
+            Assert.AreEqual(100, Math.BigIntegerPow10(2));
+            Assert.AreEqual(1000, Math.BigIntegerPow10(3));
+            Assert.AreEqual(10000, Math.BigIntegerPow10(4));
+            Assert.AreEqual(100000, Math.BigIntegerPow10(5));
         }
     }
 }

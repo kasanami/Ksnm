@@ -23,6 +23,7 @@ freely, subject to the following restrictions:
 */
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 
 namespace Ksnm
 {
@@ -782,6 +783,27 @@ namespace Ksnm
             }
             return value;
         }
+        #region BigInteger
+        /// <summary>
+        /// 指定された値を指数として 10 を累乗します。
+        /// </summary>
+        /// <param name="exponent">指数</param>
+        /// <returns>baseValue を exponent で累乗した結果。</returns>
+        public static BigInteger BigIntegerPow10(int exponent)
+        {
+            if (BigIntegerPow10Results.ContainsKey(exponent))
+            {
+                return BigIntegerPow10Results[exponent];
+            }
+            var result = BigInteger.Pow(10, exponent);
+            BigIntegerPow10Results[exponent] = result;
+            return result;
+        }
+        /// <summary>
+        /// BigIntegerPow10() の結果を保存しておき、2回目以降はこちらを使用する。
+        /// </summary>
+        private static readonly Dictionary<int, BigInteger> BigIntegerPow10Results = new Dictionary<int, BigInteger>();
+        #endregion BigInteger
         #endregion Pow
 
         #region 最大公約数 GreatestCommonDivisor
