@@ -279,21 +279,21 @@ namespace Ksnm.Numerics
         {
             RoundBottom(1);
         }
-        public void RoundBottom(int ex)
+        public void RoundBottom(int digits)
         {
-            if (ex > 0)
+            if (digits > 0)
             {
-                Mantissa = RoundBottom(Mantissa, ex);
-                Exponent += ex;
+                Mantissa = RoundBottom(Mantissa, digits);
+                Exponent += digits;
             }
         }
-        public static BigInteger RoundBottom(BigInteger mantissa, int ex)
+        public static BigInteger RoundBottom(BigInteger mantissa, int digits)
         {
-            if (ex <= 0)
+            if (digits <= 0)
             {
                 return mantissa;
             }
-            var divisor = Pow10(ex);
+            var divisor = Pow10(digits);
             var half = divisor / 2;
             var remainder = mantissa % divisor;
             // 中間を超えている時
