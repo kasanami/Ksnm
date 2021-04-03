@@ -33,11 +33,17 @@ namespace Ksnm.Science.Electromagnetism.Tests
             var actual = ElectricalResistance.ParallelConnection(1);
             Assert.AreEqual(1, actual);
 
+            actual = ElectricalResistance.ParallelConnection(1, 1);
+            Assert.AreEqual(0.5, actual);
+
             actual = ElectricalResistance.ParallelConnection(2, 2);
             Assert.AreEqual(1, actual);
 
             actual = ElectricalResistance.ParallelConnection(2, 2, 1);
             Assert.AreEqual(0.5, actual);
+
+            actual = ElectricalResistance.ParallelConnection(1, 2, 3, 4);
+            Assert.AreEqual(0.48, actual, 0.0001);
         }
     }
 }
