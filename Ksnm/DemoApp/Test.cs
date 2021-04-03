@@ -17,9 +17,9 @@ namespace DemoApp
         {
             //SingleTest();
             //DoubleTest();
-            DecimalTest();
-            BigIntegerTest();
-            BigDecimalTest();
+            //DecimalTest();
+            //BigIntegerTest();
+            //BigDecimalTest();
             //GreatestCommonDivisorWeightTest();
             //PowWeightTest();
             //PowTest();
@@ -48,6 +48,18 @@ namespace DemoApp
         {
             Console.WriteLine($"DoubleTest");
             var stopwatch = new Stopwatch();
+
+
+#if true
+            {
+                double baseValue = 0.00000001;
+                for (int i = 0; i < 3; i++)
+                {
+                    var value = (float)(baseValue + i);
+                    Console.WriteLine($"{baseValue + i} => {value}");
+                }
+            }
+#endif
 
             Console.WriteLine($"IsPositive test");
             for (int j = 0; j < 5; j++)
@@ -80,14 +92,56 @@ namespace DemoApp
         {
             Console.WriteLine("DecimalTest()");
 
-            decimal d1 = 1;
-            decimal d2 = 6;
-            decimal d3 = d1 / d2;
-            Console.WriteLine($"{d1} / {d2} = {d3}");
+#if true
+            {
+                decimal baseValue = 0.001m;
+                for (int i = 0; i < 3; i++)
+                {
+                    var value = (int)(baseValue + i);
+                    Console.WriteLine($"{baseValue + i} => {value}");
+                }
+            }
+#endif
+#if false
+            {
+                decimal baseValue = int.MaxValue;
+                for (int i = 0; i < 3; i++)
+                {
+                    var value = (int)(baseValue + i);
+                    Console.WriteLine($"{baseValue + i} => {value}");
+                }
+            }
+#endif
 
-            d1 = -1;
-            d3 = d1 / d2;
-            Console.WriteLine($"{d1} / {d2} = {d3}");
+#if false
+            {
+                var baseValue = BigInteger.Parse("79228162514264337593543950335");
+                for (int i = 0; i < 3; i++)
+                {
+                    decimal d = (decimal)(baseValue + i);
+                    Console.WriteLine($"{baseValue + i} => {d}");
+                }
+            }
+#endif
+
+            {
+                decimal d1 = 0.0000000000000000000000000001m;
+                decimal d2 = 2m;
+
+                decimal d3 = d1 / d2;
+                Console.WriteLine($"{d1} / {d2} = {d3}");
+            }
+
+            for (decimal d1 = 0; d1 <= 20; d1++)
+            {
+                for (decimal d2 = 1; d2 <= 20; d2++)
+                {
+                    decimal d3 = d1 / d2;
+                    Console.WriteLine($"{d1} / {d2} = {d3}");
+                }
+            }
+
+            Console.WriteLine();
         }
 
         public static void BigIntegerTest()
