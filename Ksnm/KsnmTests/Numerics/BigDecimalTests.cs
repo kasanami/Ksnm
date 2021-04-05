@@ -435,6 +435,8 @@ namespace Ksnm.Numerics.Tests
                     Assert.AreEqual(i * j, (sample * sample2).ToDecimal(), $"{i} * {j}");
                     // /
                     Assert.AreEqual(i / j, (sample / sample2).ToDecimal(), $"{i} / {j}");
+                    // %
+                    Assert.AreEqual(i % j, (sample % sample2).ToDecimal(), $"{i} % {j}");
                     // ==
                     Assert.AreEqual(i == j, sample == sample2);
                     // !=
@@ -462,10 +464,12 @@ namespace Ksnm.Numerics.Tests
                     Assert.AreEqual(i - j, (sample - sample2).ToDecimal(), $"{i} - {j}");
                     // *
                     Assert.AreEqual(i * j, (sample * sample2).ToDecimal(), $"{i} * {j}");
-                    // /
                     if (j != 0)
                     {
+                        // /
                         Assert.AreEqual(i / j, (sample / sample2).ToDecimal(), $"{i} / {j}");
+                        // %
+                        Assert.AreEqual(i % j, (sample % sample2).ToDecimal(), $"{i} % {j}");
                     }
                     // ==
                     Assert.AreEqual(i == j, sample == sample2);
@@ -501,6 +505,8 @@ namespace Ksnm.Numerics.Tests
                         Assert.AreEqual(source * source2, (sample * sample2).ToDecimal(), $"{source} * {source2}");
                         // /
                         Assert.AreEqual(source / source2, (sample / sample2).ToDecimal(), $"{source} / {source2}");
+                        // %
+                        Assert.AreEqual(source % source2, (sample % sample2).ToDecimal(), $"{source} % {source2}");
                     }
                     catch (OverflowException)
                     {

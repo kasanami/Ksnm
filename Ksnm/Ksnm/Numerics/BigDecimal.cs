@@ -383,6 +383,28 @@ namespace Ksnm.Numerics
             temp.MinimizeMantissa();
             return temp;
         }
+        /// <summary>
+        /// 剰余
+        /// </summary>
+        /// <returns></returns>
+        public static BigDecimal operator %(BigDecimal valueL, BigDecimal valueR)
+        {
+            // 指数が小さい方に合わせる
+            if (valueL.Exponent > valueR.Exponent)
+            {
+                var diff = valueL.Exponent - valueR.Exponent;
+                valueL.Mantissa *= Pow10(diff);
+                valueL.Exponent -= diff;
+            }
+            else if (valueR.Exponent > valueL.Exponent)
+            {
+                var diff = valueR.Exponent - valueL.Exponent;
+                valueR.Mantissa *= Pow10(diff);
+                valueR.Exponent -= diff;
+            }
+            Assert(valueR.Exponent == valueL.Exponent);
+            return new BigDecimal(valueL.Mantissa % valueR.Mantissa, valueL.Exponent);
+        }
         #endregion 2項演算子
 
         #region 比較演算子
