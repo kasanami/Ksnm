@@ -138,6 +138,16 @@ namespace Ksnm.Numerics.Tests
         }
 
         [TestMethod()]
+        public void GetFractionalTest()
+        {
+            for (decimal i = -10m; i <= 10; i += 0.1m)
+            {
+                var sample = new BigDecimal(i);
+                Assert.AreEqual(i.GetFractional(), sample.GetFractional(), $"i={i}");
+            }
+        }
+
+        [TestMethod()]
         public void ToInt32Test()
         {
             for (int i = -100; i < 100; i++)

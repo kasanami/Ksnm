@@ -264,6 +264,16 @@ namespace Ksnm.Numerics
         }
         #endregion 独自メソッド
 
+        #region Get*
+        /// <summary>
+        /// 小数部を取得
+        /// </summary>
+        public BigDecimal GetFractional()
+        {
+            return this % 1;
+        }
+        #endregion Get*
+
         #region 数学関数
         /// <summary>
         /// 最下位の桁を最も近い10の累乗に丸めます。
