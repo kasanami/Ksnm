@@ -138,6 +138,26 @@ namespace Ksnm.Numerics.Tests
         }
 
         [TestMethod()]
+        public void IsEvenTest()
+        {
+            for (decimal i = -10m; i <= 10; i += 0.1m)
+            {
+                var sample = new BigDecimal(i);
+                Assert.AreEqual(i.IsEven(), sample.IsEven(), $"i={i}");
+            }
+        }
+
+        [TestMethod()]
+        public void IsOddTest()
+        {
+            for (decimal i = -10m; i <= 10; i += 0.1m)
+            {
+                var sample = new BigDecimal(i);
+                Assert.AreEqual(i.IsOdd(), sample.IsOdd(), $"i={i}");
+            }
+        }
+
+        [TestMethod()]
         public void GetFractionalTest()
         {
             for (decimal i = -10m; i <= 10; i += 0.1m)
@@ -270,6 +290,23 @@ namespace Ksnm.Numerics.Tests
         [TestMethod()]
         public void RoundTest()
         {
+            {
+                var mode = MidpointRounding.AwayFromZero;
+                for (decimal i = -2m; i <= 2m; i += 0.1m)
+                {
+                    var actual = BigDecimal.Round((BigDecimal)i, mode);
+                    var expected = decimal.Round(i, mode);
+                    Assert.AreEqual(expected, actual, $"i={i}");
+                }
+                mode = MidpointRounding.ToEven;
+                for (decimal i = -2m; i <= 2m; i += 0.1m)
+                {
+                    var actual = BigDecimal.Round((BigDecimal)i, mode);
+                    var expected = decimal.Round(i, mode);
+                    Assert.AreEqual(expected, actual, $"i={i}");
+                }
+            }
+
             for (decimal i = -0.9m; i < 1.0m; i += 0.1m)
             {
                 var actual = new BigDecimal(i);

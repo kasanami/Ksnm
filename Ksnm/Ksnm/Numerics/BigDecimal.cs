@@ -42,6 +42,18 @@ namespace Ksnm.Numerics
     {
         #region 定数
         /// <summary>
+        /// 数値 0 を表します。
+        /// </summary>
+        public static readonly BigDecimal Zero = new BigDecimal(0);
+        /// <summary>
+        /// 数値 1 を表します。
+        /// </summary>
+        public static readonly BigDecimal One = new BigDecimal(1);
+        /// <summary>
+        /// 負の 1 (-1) を表します。
+        /// </summary>
+        public static readonly BigDecimal MinusOne = new BigDecimal(-1);
+        /// <summary>
         /// 十進数の底（てい）
         /// </summary>
         public const int Base = 10;
@@ -264,6 +276,23 @@ namespace Ksnm.Numerics
         }
         #endregion 独自メソッド
 
+        #region Is*
+        /// <summary>
+        /// 偶数なら true を返す。
+        /// </summary>
+        public bool IsEven()
+        {
+            return (this % 2) == 0;
+        }
+        /// <summary>
+        /// 奇数なら true を返す。
+        /// </summary>
+        public bool IsOdd()
+        {
+            return (this % 2) != 0;
+        }
+        #endregion Is*
+
         #region Get*
         /// <summary>
         /// 小数部を取得
@@ -275,6 +304,67 @@ namespace Ksnm.Numerics
         #endregion Get*
 
         #region 数学関数
+        /// <summary>
+        /// 10 進値を最も近い整数に丸めます。
+        /// </summary>
+        public static BigDecimal Round(BigDecimal value, MidpointRounding midpointRounding)
+        {
+            var Half = One / 2;
+            var fractional = value.GetFractional();
+            if (midpointRounding == MidpointRounding.AwayFromZero)
+            {
+                if (fractional >= Half)
+                {
+                    // 切り上げ
+                    return (value - fractional) + 1;
+                }
+                else if (fractional <= -Half)
+                {
+                    // マイナス方向へ切り上げ
+                    return (value - fractional) - 1;
+                }
+                else if (fractional < Half && fractional > -Half)
+                {
+                    // 切り捨て
+                    return value - fractional;
+                }
+            }
+            else if (midpointRounding == MidpointRounding.ToEven)
+            {
+                if (fractional > Half)
+                {
+                    // 切り上げ
+                    return (value - fractional) + 1;
+                }
+                else if (fractional < -Half)
+                {
+                    // マイナス方向へ切り上げ
+                    return (value - fractional) - 1;
+                }
+                else if (fractional < Half && fractional > -Half)
+                {
+                    // 切り捨て
+                    return value - fractional;
+                }
+                // 中間の場合は奇数なら加算
+                if (value.ToBigInteger().IsOdd())
+                {
+                    if (fractional > 0)
+                    {
+                        // 切り上げ
+                        return (value - fractional) + 1;
+                    }
+                    else
+                    {
+                        // マイナス方向へ切り上げ
+                        return (value - fractional) - 1;
+                    }
+                }
+                // 偶数なら切り捨て
+                return value - fractional;
+            }
+            throw new ArgumentException($"{nameof(midpointRounding)}={midpointRounding} 値が不正");
+        }
         /// <summary>
         /// 最下位の桁を最も近い10の累乗に丸めます。
         /// 最下位の桁は削除なります。

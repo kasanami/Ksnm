@@ -61,6 +61,46 @@ namespace Ksnm.ExtensionMethods.System.Decimal.Tests
         }
 
         [TestMethod()]
+        public void IsEvenTest()
+        {
+            // 以下はtrueになる
+            decimal sample = 0;
+            Assert.IsTrue(sample.IsEven());
+            sample = 2;
+            Assert.IsTrue(sample.IsEven());
+            sample = -2;
+            Assert.IsTrue(sample.IsEven());
+
+            // 以下はfalseになる
+            sample = 1;
+            Assert.IsFalse(sample.IsEven());
+            sample = 1.2m;
+            Assert.IsFalse(sample.IsEven());
+            sample = -1m;
+            Assert.IsFalse(sample.IsEven());
+        }
+
+        [TestMethod()]
+        public void IsOddTest()
+        {
+            // 以下はfalseになる
+            decimal sample = 0;
+            Assert.IsFalse(sample.IsOdd());
+            sample = 2;
+            Assert.IsFalse(sample.IsOdd());
+            sample = -2;
+            Assert.IsFalse(sample.IsOdd());
+
+            // 以下はtrueになる
+            sample = 1;
+            Assert.IsTrue(sample.IsOdd());
+            sample = 1.2m;
+            Assert.IsTrue(sample.IsOdd());
+            sample = -1m;
+            Assert.IsTrue(sample.IsOdd());
+        }
+
+        [TestMethod()]
         public void ToClampedSByteTest()
         {
             decimal sample = 42;
@@ -271,10 +311,10 @@ namespace Ksnm.ExtensionMethods.System.Decimal.Tests
         public void ToHexadecimalStringTest()
         {
             decimal sample;
-            sample = 0m;      Assert.AreEqual("00000000_00000000_00000000_00000000", sample.ToHexadecimalString("_"));
-            sample = 0.125m;  Assert.AreEqual("00030000_00000000_00000000_0000007D", sample.ToHexadecimalString("_"));
-            sample = 0.25m;   Assert.AreEqual("00020000_00000000_00000000_00000019", sample.ToHexadecimalString("_"));
-            sample = 0.5m;    Assert.AreEqual("00010000_00000000_00000000_00000005", sample.ToHexadecimalString("_"));
+            sample = 0m; Assert.AreEqual("00000000_00000000_00000000_00000000", sample.ToHexadecimalString("_"));
+            sample = 0.125m; Assert.AreEqual("00030000_00000000_00000000_0000007D", sample.ToHexadecimalString("_"));
+            sample = 0.25m; Assert.AreEqual("00020000_00000000_00000000_00000019", sample.ToHexadecimalString("_"));
+            sample = 0.5m; Assert.AreEqual("00010000_00000000_00000000_00000005", sample.ToHexadecimalString("_"));
             sample = 000001m; Assert.AreEqual("00000000_00000000_00000000_00000001", sample.ToHexadecimalString("_"));
             sample = 000002m; Assert.AreEqual("00000000_00000000_00000000_00000002", sample.ToHexadecimalString("_"));
             sample = 000004m; Assert.AreEqual("00000000_00000000_00000000_00000004", sample.ToHexadecimalString("_"));

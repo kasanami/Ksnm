@@ -31,6 +31,22 @@ namespace Ksnm.ExtensionMethods.System.Numerics
     /// </summary>
     public static class BigIntegerExtensions
     {
+        #region Is*
+        /// <summary>
+        /// 偶数なら true を返す。
+        /// </summary>
+        public static bool IsEven(this BigInteger value)
+        {
+            return (value % 2) == 0;
+        }
+        /// <summary>
+        /// 奇数なら true を返す。
+        /// </summary>
+        public static bool IsOdd(this BigInteger value)
+        {
+            return (value % 2) != 0;
+        }
+        #endregion Is*
         /// <summary>
         /// 丸め処理
         /// </summary>

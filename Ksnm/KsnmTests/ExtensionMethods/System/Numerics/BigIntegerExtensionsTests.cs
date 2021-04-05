@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Ksnm.ExtensionMethods.System.Numerics;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Numerics;
 
@@ -7,6 +8,46 @@ namespace Ksnm.ExtensionMethods.System.Numerics.Tests
     [TestClass()]
     public class BigIntegerExtensionsTests
     {
+        [TestMethod()]
+        public void IsEvenTest()
+        {
+            // 以下はtrueになる
+            BigInteger sample = 0;
+            Assert.IsTrue(sample.IsEven());
+            sample = 2;
+            Assert.IsTrue(sample.IsEven());
+            sample = -2;
+            Assert.IsTrue(sample.IsEven());
+
+            // 以下はfalseになる
+            sample = 1;
+            Assert.IsFalse(sample.IsEven());
+            sample = 3;
+            Assert.IsFalse(sample.IsEven());
+            sample = -1;
+            Assert.IsFalse(sample.IsEven());
+        }
+
+        [TestMethod()]
+        public void IsOddTest()
+        {
+            // 以下はfalseになる
+            BigInteger sample = 0;
+            Assert.IsFalse(sample.IsOdd());
+            sample = 2;
+            Assert.IsFalse(sample.IsOdd());
+            sample = -2;
+            Assert.IsFalse(sample.IsOdd());
+
+            // 以下はtrueになる
+            sample = 1;
+            Assert.IsTrue(sample.IsOdd());
+            sample = 3;
+            Assert.IsTrue(sample.IsOdd());
+            sample = -1;
+            Assert.IsTrue(sample.IsOdd());
+        }
+
         [TestMethod()]
         public void RoundTest()
         {
