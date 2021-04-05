@@ -27,7 +27,7 @@ using System.Linq;
 using System.Numerics;
 using System.Text;
 using Ksnm.ExtensionMethods.System.Decimal;
-using Ksnm.ExtensionMethods.System.Numerics;
+using Ksnm.ExtensionMethods.System.Numerics.BigInteger;
 using static System.Diagnostics.Debug;
 using static System.Math;
 

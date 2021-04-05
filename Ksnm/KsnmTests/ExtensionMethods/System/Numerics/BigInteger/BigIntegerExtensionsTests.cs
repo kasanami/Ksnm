@@ -1,9 +1,9 @@
 ﻿using Ksnm.ExtensionMethods.System.Numerics;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-using System.Numerics;
+using bigint = System.Numerics.BigInteger;
 
-namespace Ksnm.ExtensionMethods.System.Numerics.Tests
+namespace Ksnm.ExtensionMethods.System.Numerics.BigInteger.Tests
 {
     [TestClass()]
     public class BigIntegerExtensionsTests
@@ -12,7 +12,7 @@ namespace Ksnm.ExtensionMethods.System.Numerics.Tests
         public void IsEvenTest()
         {
             // 以下はtrueになる
-            BigInteger sample = 0;
+            bigint sample = 0;
             Assert.IsTrue(sample.IsEven());
             sample = 2;
             Assert.IsTrue(sample.IsEven());
@@ -32,7 +32,7 @@ namespace Ksnm.ExtensionMethods.System.Numerics.Tests
         public void IsOddTest()
         {
             // 以下はfalseになる
-            BigInteger sample = 0;
+            bigint sample = 0;
             Assert.IsFalse(sample.IsOdd());
             sample = 2;
             Assert.IsFalse(sample.IsOdd());
@@ -56,7 +56,7 @@ namespace Ksnm.ExtensionMethods.System.Numerics.Tests
             {
                 for (int i = 0; i < 100; i++)
                 {
-                    var actual = new BigInteger(i);
+                    var actual = new bigint(i);
                     actual = actual.Round(ex, midpointRounding);
                     var expected = decimal.Round((decimal)i / Math.Pow(10, ex), 0, midpointRounding);
                     Assert.AreEqual(expected, (decimal)actual, $"i={i}");
@@ -67,7 +67,7 @@ namespace Ksnm.ExtensionMethods.System.Numerics.Tests
             {
                 for (int i = 0; i < 100; i++)
                 {
-                    var actual = new BigInteger(i);
+                    var actual = new bigint(i);
                     actual = actual.Round(ex, midpointRounding);
                     var expected = decimal.Round((decimal)i / Math.Pow(10, ex), 0, midpointRounding);
                     Assert.AreEqual(expected, (decimal)actual, $"i={i}");
