@@ -398,6 +398,20 @@ namespace Ksnm.Numerics
                 Exponent += digits;
             }
         }
+        /// <summary>
+        /// 整数の桁を返します。小数の桁は破棄されます。
+        /// </summary>
+        /// <param name="value">切り捨てる 10 進数。</param>
+        /// <returns>0 方向の近似整数に丸めた結果。</returns>
+        public static BigDecimal Truncate(BigDecimal value)
+        {
+            if (value.Exponent < 0)
+            {
+                value.Mantissa /= Pow10(-value.Exponent);
+                value.Exponent = 0;
+            }
+            return value;
+        }
         #endregion 数学関数
 
         #region 単項演算子

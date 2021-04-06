@@ -363,6 +363,23 @@ namespace Ksnm.Numerics.Tests
         }
 
         [TestMethod()]
+        public void TruncateTest()
+        {
+            for (decimal i = -2m; i <= 2m; i += 0.1m)
+            {
+                var actual = BigDecimal.Truncate(i);
+                var expected = decimal.Truncate(i);
+                Assert.AreEqual(expected, actual, $"i={i}");
+            }
+            for (decimal i = -2m; i <= 2m; i += 0.11m)
+            {
+                var actual = BigDecimal.Truncate(i);
+                var expected = decimal.Truncate(i);
+                Assert.AreEqual(expected, actual, $"i={i}");
+            }
+        }
+
+        [TestMethod()]
         public void OperationsTest1()
         {
             var sample = new BigDecimal(1, 2);
