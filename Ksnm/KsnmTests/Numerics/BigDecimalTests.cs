@@ -806,5 +806,25 @@ namespace Ksnm.Numerics.Tests
                 Assert.IsTrue(sample2.Equals(sample1));
             }
         }
+
+        [TestMethod()]
+        public void CompareToTest()
+        {
+            {
+                var sample1 = new BigDecimal(1, 1);
+                var sample2 = new BigDecimal(2, 1);
+                Assert.AreEqual(-1, sample1.CompareTo(sample2));
+                Assert.AreEqual(+1, sample2.CompareTo(sample1));
+            }
+            for (decimal d1 = -1; d1 <= 1; d1 += 0.1m)
+            {
+                var sample1 = new BigDecimal(d1);
+                for (decimal d2 = -1; d2 <= 1; d2 += 0.1m)
+                {
+                    var sample2 = new BigDecimal(d2);
+                    Assert.AreEqual(d1.CompareTo(d2), sample1.CompareTo(sample2), $"{d1} {d2}");
+                }
+            }
+        }
     }
 }

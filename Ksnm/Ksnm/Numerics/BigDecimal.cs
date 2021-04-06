@@ -38,7 +38,7 @@ namespace Ksnm.Numerics
     /// 
     /// BigDecimal=Mantissa*10^Exponent
     /// </summary>
-    public struct BigDecimal : IEquatable<BigDecimal>
+    public struct BigDecimal : IEquatable<BigDecimal>, IComparable, IComparable<BigDecimal>
     {
         #region 定数
         /// <summary>
@@ -990,5 +990,34 @@ namespace Ksnm.Numerics
             return Mantissa == other.Mantissa;
         }
         #endregion IEquatable
+
+        #region IComparable
+        /// <summary>
+        /// 比較し、これらの相対値を示す値を返します。
+        /// </summary>
+        /// <param name="obj">比較するオブジェクト</param>
+        public int CompareTo(object obj)
+        {
+            return CompareTo((BigDecimal)obj);
+        }
+        /// <summary>
+        /// 比較し、これらの相対値を示す値を返します。
+        /// </summary>
+        /// <param name="other">比較対象</param>
+        public int CompareTo(BigDecimal other)
+        {
+            var temp = new BigDecimal(this);
+            _ConvertSameExponent(ref temp, ref other);
+            if (temp.Mantissa > other.Mantissa)
+            {
+                return 1;
+            }
+            else if (temp.Mantissa < other.Mantissa)
+            {
+                return -1;
+            }
+            return 0;
+        }
+        #endregion IComparable
     }
 }
