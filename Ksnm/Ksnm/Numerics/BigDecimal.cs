@@ -307,11 +307,11 @@ namespace Ksnm.Numerics
         /// <summary>
         /// 10 進値を最も近い整数に丸めます。
         /// </summary>
-        public static BigDecimal Round(BigDecimal value, MidpointRounding midpointRounding)
+        public static BigDecimal Round(BigDecimal value, MidpointRounding mode)
         {
             var Half = One / 2;
             var fractional = value.GetFractional();
-            if (midpointRounding == MidpointRounding.AwayFromZero)
+            if (mode == MidpointRounding.AwayFromZero)
             {
                 if (fractional >= Half)
                 {
@@ -329,7 +329,7 @@ namespace Ksnm.Numerics
                     return value - fractional;
                 }
             }
-            else if (midpointRounding == MidpointRounding.ToEven)
+            else if (mode == MidpointRounding.ToEven)
             {
                 if (fractional > Half)
                 {
@@ -363,7 +363,23 @@ namespace Ksnm.Numerics
                 // 偶数なら切り捨て
                 return value - fractional;
             }
-            throw new ArgumentException($"{nameof(midpointRounding)}={midpointRounding} 値が不正");
+            throw new ArgumentException($"{nameof(mode)}={mode} 値が不正");
+        }
+        /// <summary>
+        /// 10 進値を指定した精度に丸めます。 パラメーターは、値が他の 2 つの数値の中間にある場合にその値を丸める方法を指定します。
+        /// </summary>
+        /// <param name="value">丸め対象の 10 進数。</param>
+        /// <param name="decimals">戻り値の小数点以下の有効桁数 (精度)。</param>
+        /// <param name="mode">d が他の 2 つの数値の中間にある場合に丸める方法を指定する値。</param>
+        public static BigDecimal Round(BigDecimal value, int decimals, MidpointRounding mode)
+        {
+            if (decimals < 0)
+            {
+                throw new ArgumentOutOfRangeException($"{nameof(decimals)}={decimals} 範囲を超えています。");
+            }
+            var scale = Pow10(decimals);
+            value *= scale;
+            return Round(value, mode) / scale;
         }
         /// <summary>
         /// 最下位の桁を最も近い10の累乗に丸めます。

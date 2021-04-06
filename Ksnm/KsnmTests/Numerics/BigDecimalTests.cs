@@ -294,16 +294,34 @@ namespace Ksnm.Numerics.Tests
                 var mode = MidpointRounding.AwayFromZero;
                 for (decimal i = -2m; i <= 2m; i += 0.1m)
                 {
-                    var actual = BigDecimal.Round((BigDecimal)i, mode);
+                    var actual = BigDecimal.Round(i, mode);
                     var expected = decimal.Round(i, mode);
                     Assert.AreEqual(expected, actual, $"i={i}");
                 }
                 mode = MidpointRounding.ToEven;
                 for (decimal i = -2m; i <= 2m; i += 0.1m)
                 {
-                    var actual = BigDecimal.Round((BigDecimal)i, mode);
+                    var actual = BigDecimal.Round(i, mode);
                     var expected = decimal.Round(i, mode);
                     Assert.AreEqual(expected, actual, $"i={i}");
+                }
+            }
+
+            for (int j = 0; j < 10; j++)
+            {
+                var mode = MidpointRounding.AwayFromZero;
+                for (decimal i = -2m; i <= 2m; i += 0.1111111111m)
+                {
+                    var actual = BigDecimal.Round(i, j, mode);
+                    var expected = decimal.Round(i, j, mode);
+                    Assert.AreEqual(expected, actual, $"i={i} j={j}");
+                }
+                mode = MidpointRounding.ToEven;
+                for (decimal i = -2m; i <= 2m; i += 0.1m)
+                {
+                    var actual = BigDecimal.Round(i, j, mode);
+                    var expected = decimal.Round(i, j, mode);
+                    Assert.AreEqual(expected, actual, $"i={i} j={j}");
                 }
             }
 
