@@ -380,6 +380,40 @@ namespace Ksnm.Numerics.Tests
         }
 
         [TestMethod()]
+        public void CeilingTest()
+        {
+            for (decimal i = -2m; i <= 2m; i += 0.1m)
+            {
+                var actual = BigDecimal.Ceiling(i);
+                var expected = decimal.Ceiling(i);
+                Assert.AreEqual(expected, actual, $"i={i}");
+            }
+            for (decimal i = -2m; i <= 2m; i += 0.11m)
+            {
+                var actual = BigDecimal.Ceiling(i);
+                var expected = decimal.Ceiling(i);
+                Assert.AreEqual(expected, actual, $"i={i}");
+            }
+        }
+
+        [TestMethod()]
+        public void FloorTest()
+        {
+            for (decimal i = -2m; i <= 2m; i += 0.1m)
+            {
+                var actual = BigDecimal.Floor(i);
+                var expected = decimal.Floor(i);
+                Assert.AreEqual(expected, actual, $"i={i}");
+            }
+            for (decimal i = -2m; i <= 2m; i += 0.11m)
+            {
+                var actual = BigDecimal.Floor(i);
+                var expected = decimal.Floor(i);
+                Assert.AreEqual(expected, actual, $"i={i}");
+            }
+        }
+
+        [TestMethod()]
         public void OperationsTest1()
         {
             var sample = new BigDecimal(1, 2);

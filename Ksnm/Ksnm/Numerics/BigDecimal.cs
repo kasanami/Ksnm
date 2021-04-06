@@ -412,6 +412,44 @@ namespace Ksnm.Numerics
             }
             return value;
         }
+        /// <summary>
+        /// 正の無限大方向の近似整数に丸めます。
+        /// 小数部がない場合は、未変更のまま返されます。
+        /// </summary>
+        public static BigDecimal Ceiling(BigDecimal value)
+        {
+            if (value.Exponent < 0)
+            {
+                var scale = Pow10(-value.Exponent);
+                var remainder = value.Mantissa % scale;
+                value.Mantissa /= scale;
+                value.Exponent = 0;
+                if (remainder > 0)
+                {
+                    value.Mantissa++;
+                }
+            }
+            return value;
+        }
+        /// <summary>
+        /// 負の無限大方向の近似整数に丸めます。
+        /// 小数部がない場合は、未変更のまま返されます。
+        /// </summary>
+        public static BigDecimal Floor(BigDecimal value)
+        {
+            if (value.Exponent < 0)
+            {
+                var scale = Pow10(-value.Exponent);
+                var remainder = value.Mantissa % scale;
+                value.Mantissa /= scale;
+                value.Exponent = 0;
+                if (remainder < 0)
+                {
+                    value.Mantissa--;
+                }
+            }
+            return value;
+        }
         #endregion 数学関数
 
         #region 単項演算子
