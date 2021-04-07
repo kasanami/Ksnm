@@ -296,6 +296,27 @@ namespace Ksnm.Numerics
             }
             return 0;
         }
+        /// <summary>
+        /// 指定された 2 つのインスタンスが同じ値を表しているかどうかを示す値を返します。
+        /// </summary>
+        /// <param name="d1">比較する最初の値です。</param>
+        /// <param name="d2">比較する 2 番目の値です。</param>
+        /// <returns>d1 と d2 が等しい場合は true。それ以外の場合は false。</returns>
+        public static bool Equals(BigDecimal d1, BigDecimal d2)
+        {
+            // Exponent を一致させてから比較
+            if (d1.Exponent > d2.Exponent)
+            {
+                var diff = d1.Exponent - d2.Exponent;
+                d1.Mantissa *= Pow10(diff);
+            }
+            else if (d1.Exponent < d2.Exponent)
+            {
+                var diff = d2.Exponent - d1.Exponent;
+                d2.Mantissa *= Pow10(diff);
+            }
+            return d1.Mantissa == d2.Mantissa;
+        }
         #endregion 独自メソッド
 
         #region Is*
@@ -998,18 +1019,7 @@ namespace Ksnm.Numerics
         /// </summary>
         public bool Equals(BigDecimal other)
         {
-            // Exponent を一致させてから比較
-            if (Exponent > other.Exponent)
-            {
-                var diff = Exponent - other.Exponent;
-                return Mantissa * Pow10(diff) == other.Mantissa;
-            }
-            else if (Exponent < other.Exponent)
-            {
-                var diff = other.Exponent - Exponent;
-                return Mantissa == other.Mantissa * Pow10(diff);
-            }
-            return Mantissa == other.Mantissa;
+            return Equals(this, other);
         }
         #endregion IEquatable
 
