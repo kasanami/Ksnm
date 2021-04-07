@@ -274,6 +274,28 @@ namespace Ksnm.Numerics
             }
             return maxExponent;
         }
+        /// <summary>
+        /// 2 つの値を比較します。
+        /// </summary>
+        /// <param name="d1">比較する最初の値です。</param>
+        /// <param name="d2">比較する 2 番目の値です。</param>
+        /// <returns>
+        /// -1：d1 は d2 より小さい。
+        /// 0 ：d1 と d2 が等しい。 
+        /// +1：d1 が d2 より大きい。</returns>
+        public static int Compare(BigDecimal d1, BigDecimal d2)
+        {
+            _ConvertSameExponent(ref d1, ref d2);
+            if (d1.Mantissa > d2.Mantissa)
+            {
+                return 1;
+            }
+            else if (d1.Mantissa < d2.Mantissa)
+            {
+                return -1;
+            }
+            return 0;
+        }
         #endregion 独自メソッド
 
         #region Is*
@@ -1006,17 +1028,7 @@ namespace Ksnm.Numerics
         /// <param name="other">比較対象</param>
         public int CompareTo(BigDecimal other)
         {
-            var temp = new BigDecimal(this);
-            _ConvertSameExponent(ref temp, ref other);
-            if (temp.Mantissa > other.Mantissa)
-            {
-                return 1;
-            }
-            else if (temp.Mantissa < other.Mantissa)
-            {
-                return -1;
-            }
-            return 0;
+            return Compare(this, other);
         }
         #endregion IComparable
     }
