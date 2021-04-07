@@ -88,6 +88,23 @@ namespace Ksnm.Numerics.Tests
         }
 
         [TestMethod()]
+        public void PowTest()
+        {
+            for (int i = 0; i < 10; i++)
+            {
+                var expected = BigInteger.Pow(10, i);
+                var actual = BigDecimal.Pow(10, i);
+                Assert.AreEqual(expected, actual, $"10 ^ {i}");
+            }
+            for (int i = 0; i < 10; i++)
+            {
+                var expected = BigInteger.Pow(i, i);
+                var actual = BigDecimal.Pow(i, i);
+                Assert.AreEqual(expected, actual, $"{i} ^ {i}");
+            }
+        }
+
+        [TestMethod()]
         public void Pow10Test()
         {
             for (int i = 0; i < 3; i++)
