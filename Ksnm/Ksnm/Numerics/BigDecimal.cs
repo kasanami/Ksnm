@@ -44,15 +44,15 @@ namespace Ksnm.Numerics
         /// <summary>
         /// 数値 0 を表します。
         /// </summary>
-        public static readonly BigDecimal Zero = new BigDecimal(0);
+        public static readonly BigDecimal Zero = 0;
         /// <summary>
         /// 数値 1 を表します。
         /// </summary>
-        public static readonly BigDecimal One = new BigDecimal(1);
+        public static readonly BigDecimal One = 1;
         /// <summary>
         /// 負の 1 (-1) を表します。
         /// </summary>
-        public static readonly BigDecimal MinusOne = new BigDecimal(-1);
+        public static readonly BigDecimal MinusOne = -1;
         /// <summary>
         /// 十進数の底（てい）
         /// </summary>
