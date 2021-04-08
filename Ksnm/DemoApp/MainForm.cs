@@ -12,7 +12,7 @@ using Ksnm.ExtensionMethods.System.Collections.Generic.Dictionary;
 using Ksnm.ExtensionMethods.System.Random;
 using Ksnm.ExtensionMethods.System.Decimal;
 using Ksnm.ExtensionMethods.System.Double;
-using Ksnm.Mathematics;
+using Ksnm.Science.Mathematics;
 
 namespace DemoApp
 {
