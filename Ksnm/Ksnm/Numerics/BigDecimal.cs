@@ -230,40 +230,6 @@ namespace Ksnm.Numerics
             }
         }
         /// <summary>
-        /// 指定された値を指数として System.Numerics.BigInteger 値を累乗します。
-        /// </summary>
-        /// <param name="value">累乗する数値</param>
-        /// <param name="exponent">指数</param>
-        /// <returns>value を exponent で累乗した結果。</returns>
-        /// <exception cref="System.ArgumentOutOfRangeException">exponent が負の値です。</exception>
-        public static BigDecimal Pow(BigDecimal value, int exponent)
-        {
-            if (exponent < 0)
-            {
-                throw new ArgumentOutOfRangeException($"{nameof(exponent)} が負の値です。");
-            }
-            if (exponent == 0)
-            {
-                return 1;
-            }
-            if (value == 0)
-            {
-                return 0;
-            }
-            var temp = value;
-            temp.Mantissa = BigInteger.Pow(temp.Mantissa, exponent);
-            return temp;
-        }
-        /// <summary>
-        /// 指定された値を指数として 10 を累乗します。
-        /// </summary>
-        /// <param name="exponent">指数</param>
-        /// <returns>10 を exponent で累乗した結果。</returns>
-        public static BigInteger Pow10(int exponent)
-        {
-            return Math.BigIntegerPow10(exponent);
-        }
-        /// <summary>
         /// 底を 10 とする value の割り切れる最大の指数
         /// * 100 の場合は 2 を返す。
         /// * 120 の場合は 1 を返す。
@@ -372,6 +338,40 @@ namespace Ksnm.Numerics
         #endregion Get*
 
         #region 数学関数
+        /// <summary>
+        /// 指定された値を指数として System.Numerics.BigInteger 値を累乗します。
+        /// </summary>
+        /// <param name="value">累乗する数値</param>
+        /// <param name="exponent">指数</param>
+        /// <returns>value を exponent で累乗した結果。</returns>
+        /// <exception cref="System.ArgumentOutOfRangeException">exponent が負の値です。</exception>
+        public static BigDecimal Pow(BigDecimal value, int exponent)
+        {
+            if (exponent < 0)
+            {
+                throw new ArgumentOutOfRangeException($"{nameof(exponent)} が負の値です。");
+            }
+            if (exponent == 0)
+            {
+                return 1;
+            }
+            if (value == 0)
+            {
+                return 0;
+            }
+            var temp = value;
+            temp.Mantissa = BigInteger.Pow(temp.Mantissa, exponent);
+            return temp;
+        }
+        /// <summary>
+        /// 指定された値を指数として 10 を累乗します。
+        /// </summary>
+        /// <param name="exponent">指数</param>
+        /// <returns>10 を exponent で累乗した結果。</returns>
+        public static BigInteger Pow10(int exponent)
+        {
+            return Math.BigIntegerPow10(exponent);
+        }
         /// <summary>
         /// 10 進値を最も近い整数に丸めます。
         /// </summary>
