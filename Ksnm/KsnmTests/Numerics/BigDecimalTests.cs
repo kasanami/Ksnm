@@ -843,5 +843,21 @@ namespace Ksnm.Numerics.Tests
                 }
             }
         }
+
+        [TestMethod()]
+        public void ParseTest()
+        {
+            for (decimal source = -100; source <= 100; source += 0.5m)
+            {
+                var str = source.ToString();
+                var sample = BigDecimal.Parse(str);
+                Assert.AreEqual(source, sample, $"{source}");
+            }
+            {
+                var source = "3.14159265358979323846264338327950288";
+                var sample = BigDecimal.Parse(source);
+                Assert.AreEqual(source, sample.ToString(), $"{source}");
+            }
+        }
     }
 }

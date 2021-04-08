@@ -308,6 +308,27 @@ namespace Ksnm.Numerics
             }
             return d1.Mantissa == d2.Mantissa;
         }
+        /// <summary>
+        /// 数値の文字列形式を、それと等価の BigDecimal に変換します。
+        /// </summary>
+        /// <param name="value">変換する数値の文字列形式。</param>
+        /// <returns>指定されている数値と等価の値。</returns>
+        public static BigDecimal Parse(string value)
+        {
+            var temp = new BigDecimal();
+            var pointIindex = value.IndexOf('.');
+            if (pointIindex < 0)
+            {
+                temp.Mantissa = BigInteger.Parse(value);
+            }
+            else
+            {
+                value = value.Remove(pointIindex, 1);
+                temp.Mantissa = BigInteger.Parse(value);
+                temp.Exponent = -(value.Length - pointIindex);
+            }
+            return temp;
+        }
         #endregion 独自メソッド
 
         #region Is*
