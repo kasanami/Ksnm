@@ -55,6 +55,20 @@ namespace Ksnm.ExtensionMethods.System.Decimal
         {
             return value.GetFractional() == 0;
         }
+        /// <summary>
+        /// 偶数なら true を返す。
+        /// </summary>
+        public static bool IsEven(this decimal value)
+        {
+            return (value % 2) == 0;
+        }
+        /// <summary>
+        /// 奇数なら true を返す。
+        /// </summary>
+        public static bool IsOdd(this decimal value)
+        {
+            return (value % 2) != 0;
+        }
         #endregion Is*
 
         #region Get*

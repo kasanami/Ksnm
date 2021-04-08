@@ -22,15 +22,31 @@ freely, subject to the following restrictions:
 3. This notice may not be removed or altered from any source distribution.
 */
 using System;
-using System.Numerics;
+using bigint = System.Numerics.BigInteger;
 
-namespace Ksnm.ExtensionMethods.System.Numerics
+namespace Ksnm.ExtensionMethods.System.Numerics.BigInteger
 {
     /// <summary>
     /// BigIntegerの拡張メソッド
     /// </summary>
     public static class BigIntegerExtensions
     {
+        #region Is*
+        /// <summary>
+        /// 偶数なら true を返す。
+        /// </summary>
+        public static bool IsEven(this bigint value)
+        {
+            return (value % 2) == 0;
+        }
+        /// <summary>
+        /// 奇数なら true を返す。
+        /// </summary>
+        public static bool IsOdd(this bigint value)
+        {
+            return (value % 2) != 0;
+        }
+        #endregion Is*
         /// <summary>
         /// 丸め処理
         /// </summary>
@@ -38,7 +54,7 @@ namespace Ksnm.ExtensionMethods.System.Numerics
         /// <param name="digits">桁数</param>
         /// <param name="midpointRounding">丸め処理の方法</param>
         /// <returns>丸めた後の値</returns>
-        public static BigInteger Round(this BigInteger value, int digits, MidpointRounding midpointRounding)
+        public static bigint Round(this bigint value, int digits, MidpointRounding midpointRounding)
         {
             if (digits <= 0)
             {

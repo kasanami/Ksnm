@@ -138,6 +138,36 @@ namespace Ksnm.Numerics.Tests
         }
 
         [TestMethod()]
+        public void IsEvenTest()
+        {
+            for (decimal i = -10m; i <= 10; i += 0.1m)
+            {
+                var sample = new BigDecimal(i);
+                Assert.AreEqual(i.IsEven(), sample.IsEven(), $"i={i}");
+            }
+        }
+
+        [TestMethod()]
+        public void IsOddTest()
+        {
+            for (decimal i = -10m; i <= 10; i += 0.1m)
+            {
+                var sample = new BigDecimal(i);
+                Assert.AreEqual(i.IsOdd(), sample.IsOdd(), $"i={i}");
+            }
+        }
+
+        [TestMethod()]
+        public void GetFractionalTest()
+        {
+            for (decimal i = -10m; i <= 10; i += 0.1m)
+            {
+                var sample = new BigDecimal(i);
+                Assert.AreEqual(i.GetFractional(), sample.GetFractional(), $"i={i}");
+            }
+        }
+
+        [TestMethod()]
         public void ToInt32Test()
         {
             for (int i = -100; i < 100; i++)
@@ -260,6 +290,23 @@ namespace Ksnm.Numerics.Tests
         [TestMethod()]
         public void RoundTest()
         {
+            {
+                var mode = MidpointRounding.AwayFromZero;
+                for (decimal i = -2m; i <= 2m; i += 0.1m)
+                {
+                    var actual = BigDecimal.Round((BigDecimal)i, mode);
+                    var expected = decimal.Round(i, mode);
+                    Assert.AreEqual(expected, actual, $"i={i}");
+                }
+                mode = MidpointRounding.ToEven;
+                for (decimal i = -2m; i <= 2m; i += 0.1m)
+                {
+                    var actual = BigDecimal.Round((BigDecimal)i, mode);
+                    var expected = decimal.Round(i, mode);
+                    Assert.AreEqual(expected, actual, $"i={i}");
+                }
+            }
+
             for (decimal i = -0.9m; i < 1.0m; i += 0.1m)
             {
                 var actual = new BigDecimal(i);
@@ -435,6 +482,8 @@ namespace Ksnm.Numerics.Tests
                     Assert.AreEqual(i * j, (sample * sample2).ToDecimal(), $"{i} * {j}");
                     // /
                     Assert.AreEqual(i / j, (sample / sample2).ToDecimal(), $"{i} / {j}");
+                    // %
+                    Assert.AreEqual(i % j, (sample % sample2).ToDecimal(), $"{i} % {j}");
                     // ==
                     Assert.AreEqual(i == j, sample == sample2);
                     // !=
@@ -462,10 +511,12 @@ namespace Ksnm.Numerics.Tests
                     Assert.AreEqual(i - j, (sample - sample2).ToDecimal(), $"{i} - {j}");
                     // *
                     Assert.AreEqual(i * j, (sample * sample2).ToDecimal(), $"{i} * {j}");
-                    // /
                     if (j != 0)
                     {
+                        // /
                         Assert.AreEqual(i / j, (sample / sample2).ToDecimal(), $"{i} / {j}");
+                        // %
+                        Assert.AreEqual(i % j, (sample % sample2).ToDecimal(), $"{i} % {j}");
                     }
                     // ==
                     Assert.AreEqual(i == j, sample == sample2);
@@ -501,6 +552,8 @@ namespace Ksnm.Numerics.Tests
                         Assert.AreEqual(source * source2, (sample * sample2).ToDecimal(), $"{source} * {source2}");
                         // /
                         Assert.AreEqual(source / source2, (sample / sample2).ToDecimal(), $"{source} / {source2}");
+                        // %
+                        Assert.AreEqual(source % source2, (sample % sample2).ToDecimal(), $"{source} % {source2}");
                     }
                     catch (OverflowException)
                     {
