@@ -92,6 +92,18 @@ namespace DemoApp
         {
             Console.WriteLine("DecimalTest()");
 
+            decimal pi = 3.14159_26535_89793_23846_26433_83279_50288m;
+            pi = decimal.Parse("3.14159265358979323846264338327950288");
+
+
+            {
+                decimal baseValue = 0.001m;
+                for (int i = 0; i < 3; i++)
+                {
+                    var value = (int)(baseValue + i);
+                    Console.WriteLine($"{baseValue + i} => {value}");
+                }
+            }
 #if true
             {
                 decimal baseValue = 0.001m;
