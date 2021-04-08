@@ -93,8 +93,8 @@
     <Compile Include="Numerics\FixedPointNumber32Q16Tests.cs" />
     <Compile Include="IO\PathTests.cs" />
     <Compile Include="LitJson\JsonMapperTests.cs" />
-    <Compile Include="Mathematics\AlgorithmTests.cs" />
-    <Compile Include="Mathematics\FormulaTests.cs" />
+    <Compile Include="Science\Mathematics\AlgorithmTests.cs" />
+    <Compile Include="Science\Mathematics\FormulaTests.cs" />
     <Compile Include="MathTests.cs" />
     <Compile Include="Numerics\FloatingPointNumber16Tests.cs" />
     <Compile Include="Numerics\Fraction32Tests.cs" />

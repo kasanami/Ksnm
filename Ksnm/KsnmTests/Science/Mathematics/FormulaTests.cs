@@ -1,6 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Ksnm.Mathematics.Tests
+namespace Ksnm.Science.Mathematics.Tests
 {
     [TestClass()]
     public class FormulaTests
