@@ -1,7 +1,7 @@
 ﻿/*
 The zlib License
 
-Copyright (c) 2019 Takahiro Kasanami
+Copyright (c) 2019-2021 Takahiro Kasanami
 
 This software is provided 'as-is', without any express or implied
 warranty. In no event will the authors be held liable for any damages
@@ -23,7 +23,7 @@ freely, subject to the following restrictions:
 */
 using static Ksnm.Math;
 
-namespace Ksnm.Mathematics
+namespace Ksnm.Science.Mathematics
 {
     /// <summary>
     /// 公式
