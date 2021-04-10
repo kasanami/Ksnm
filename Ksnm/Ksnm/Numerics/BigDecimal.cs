@@ -70,6 +70,18 @@ namespace Ksnm.Numerics
         /// デフォルトの丸め処理方法
         /// </summary>
         public const MidpointRounding DefaultMidpointRounding = MidpointRounding.AwayFromZero;
+        /// <summary>
+        /// 円周率を小数点以下100桁まで表します。
+        /// </summary>
+        public static readonly BigDecimal PI_100 = BigDecimal.Parse("3.1415926535897932384626433832795028841971693993751058209749445923078164062862089986280348253421170679");
+        /// <summary>
+        /// 自然対数の底を小数点以下100桁まで表します。
+        /// </summary>
+        public static readonly BigDecimal E_100 = BigDecimal.Parse("2.7182818284590452353602874713526624977572470936999595749669676277240766303535475945713821785251664274");
+        /// <summary>
+        /// 2 の平方根を小数点以下100桁まで表します。
+        /// </summary>
+        public static readonly BigDecimal SquareRootOfTwo_100 = BigDecimal.Parse("1.4142135623730950488016887242096980785696718753769480731766797379907324784621070388503875343276415727");
         #endregion 定数
 
         #region プロパティ
