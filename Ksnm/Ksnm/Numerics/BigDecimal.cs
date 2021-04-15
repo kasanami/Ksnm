@@ -63,18 +63,21 @@ namespace Ksnm.Numerics
         public const int Base = 10;
         /// <summary>
         /// MinExponentの初期値
-        /// * 任意の計算結果が Decimal で同様の計算をした結果と一致しないので、より高精度にしている。
         /// </summary>
-        public const int DefaultMinExponent = DecimalMinExponent - 2;
+        public const int DefaultMinExponent = DecimalMinExponent;
         /// <summary>
         /// System.Decimal の指数の最小値
         /// ※System.Decimal 内では正数で保持しているが、この値は指数のため負の値とする。
         /// </summary>
         private const int DecimalMinExponent = -28;
         /// <summary>
+        /// 任意の計算結果が Decimal で同様の計算をした結果と一致しないので、より高精度にするための追加指数。
+        /// </summary>
+        private const int AddExponent = -3;
+        /// <summary>
         /// デフォルトの丸め処理方法
         /// </summary>
-        public const MidpointRounding DefaultMidpointRounding = MidpointRounding.AwayFromZero;
+        public const MidpointRounding DefaultMidpointRounding = MidpointRounding.ToEven;
         /// <summary>
         /// 円周率を小数点以下100桁まで表します。
         /// * 最下位の桁は丸め済みの値
@@ -758,7 +761,7 @@ namespace Ksnm.Numerics
             temp.MinExponent = System.Math.Min(valueL.MinExponent, valueR.MinExponent);
             // 割られる数の Exponent を最小にする。
             // さらに、丸め処理のため桁増やす
-            var addExponent = System.Math.Min(valueR.Exponent - 1, 0);
+            var addExponent = System.Math.Min(valueR.Exponent + AddExponent, 0);
             temp._MinimizeExponent(temp.MinExponent + addExponent);
             // 除算
             temp.Mantissa /= valueR.Mantissa;
@@ -778,8 +781,7 @@ namespace Ksnm.Numerics
             var temp = new BigDecimal(valueL);
             // 割られる数の Exponent を最小にする。
             // さらに、丸め処理のため桁増やす
-            var addExponent = -1;
-            temp._MinimizeExponent(temp.MinExponent + addExponent);
+            temp._MinimizeExponent(temp.MinExponent + AddExponent);
             // 除算
             temp.Mantissa /= valueR;
             // 丸め処理(桁増やした分はここで減る)

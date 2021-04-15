@@ -364,14 +364,14 @@ namespace Ksnm.Numerics.Tests
             {
                 var actual = new BigDecimal(25);
                 actual.RoundBottom(1);
-                var expected = new BigDecimal(30);
+                var expected = new BigDecimal(20);
                 Assert.AreEqual(expected, actual);
             }
 
             {
                 var actual = new BigDecimal(-25);
                 actual.RoundBottom(1);
-                var expected = new BigDecimal(-30);
+                var expected = new BigDecimal(-20);
                 Assert.AreEqual(expected, actual);
             }
         }
@@ -468,100 +468,6 @@ namespace Ksnm.Numerics.Tests
         [TestMethod()]
         public void OperationsTest2()
         {
-            {
-                var source1 = 0.0000000000002110104827m;
-                var source2 = -120.1044625m;
-                var sample1 = new BigDecimal(source1);
-                var sample2 = new BigDecimal(source2);
-                var sample3 = sample1 / sample2;
-                var d = source1 / source2;
-                var bd = sample3.ToDecimal();
-                var d_m = d.GetMantissa();
-                var d_e = d.GetExponent();
-                Assert.AreEqual(d, bd, $"{source1} * {source2}");
-            }
-            {
-                var source1 = 0.000000001062451658m;
-                var source2 = 183.8252767m;
-                var sample1 = new BigDecimal(source1);
-                var sample2 = new BigDecimal(source2);
-                var sample3 = sample1 / sample2;
-                var d = source1 / source2;
-                var bd = sample3.ToDecimal();
-                var d_m = d.GetMantissa();
-                var d_e = d.GetExponent();
-                Assert.AreEqual(d, bd, $"{source1} * {source2}");
-            }
-            {
-                var source1 = 0.000000000000077158759m;
-                var source2 = 11.60083295m;
-                var sample1 = new BigDecimal(source1);
-                var sample2 = new BigDecimal(source2);
-                var sample3 = sample1 * sample2;
-                var d = source1 * source2;
-                var bd = sample3.ToDecimal();
-                var d_m = d.GetMantissa();
-                var d_e = d.GetExponent();
-                Assert.AreEqual(d, bd, $"{source1} * {source2}");
-            }
-            {
-                var source1 = -0.00000000000000000191855991m;
-                var source2 = 0.0000001862788385m;
-                var sample1 = new BigDecimal(source1);
-                var sample2 = new BigDecimal(source2);
-                var sample3 = sample1 / sample2;
-                var d = source1 / source2;
-                var bd = sample3.ToDecimal();
-                var d_m = d.GetMantissa();
-                var d_e = d.GetExponent();
-                Assert.AreEqual(d, bd, $"{source1} / {source2}");
-            }
-            {
-                var source1 = 0.000000000000000000000000001m;
-                var source2 = 0.0000000000000000000000000002m;
-                var sample1 = new BigDecimal(source1);
-                var sample2 = new BigDecimal(source2);
-                var sample3 = sample1 / sample2;
-                var d = source1 / source2;
-                var bd = sample3.ToDecimal();
-                var d_m = d.GetMantissa();
-                var d_e = d.GetExponent();
-                Assert.AreEqual(d, bd, $"{source1} / {source2}");
-            }
-            {
-                var source1 = 10000000000000000000000000000m;
-                var source2 = 20000000000000000000000000000m;
-                var sample1 = new BigDecimal(source1);
-                var sample2 = new BigDecimal(source2);
-                var sample3 = sample1 / sample2;
-                var d = source1 / source2;
-                var bd = sample3.ToDecimal();
-                var d_m = d.GetMantissa();
-                var d_e = d.GetExponent();
-                Assert.AreEqual(d, bd, $"{source1} / {source2}");
-            }
-            {
-                var source1 = -0.00000000000001046m;
-                var source2 = -7.316m;
-                var sample1 = new BigDecimal(source1);
-                var sample2 = new BigDecimal(source2);
-                var sample3 = sample1 - sample2;
-                var d = source1 - source2;
-                var bd = sample3.ToDecimal();
-                Assert.AreEqual(d, bd, $"{source1} {source2}");
-            }
-#if false// 解決できない保留
-            {
-                var source1 = 83877277.4m;
-                var source2 = -1526.188887m;
-                var sample1 = new BigDecimal(source1);
-                var sample2 = new BigDecimal(source2);
-                var sample3 = sample1 / sample2;
-                var d = source1 / source2;
-                var bd = sample3.ToDecimal();
-                Assert.AreEqual(d, bd, $"{source1} {source2}");
-            }
-#endif
             // 精度不足テスト
             {
                 var sample = new BigDecimal(1, 0, -1);
@@ -768,6 +674,132 @@ namespace Ksnm.Numerics.Tests
             Assert.AreEqual(-30, sample3.MinExponent);
             sample3 = sample2 * sample1;
             Assert.AreEqual(-30, sample3.MinExponent);
+        }
+
+        /// <summary>
+        /// 乱数により生成した組み合わせを記述
+        /// </summary>
+        [TestMethod()]
+        public void OperationsTest4()
+        {
+            {
+                var source1 = -8m;
+                var source2 = -7m;
+                var sample1 = new BigDecimal(source1);
+                var sample2 = new BigDecimal(source2);
+                var sample3 = sample1 / sample2;
+                var d = source1 / source2;
+                var bd = sample3.ToDecimal();
+                var d_m = d.GetMantissa();
+                var d_e = d.GetExponent();
+                Assert.AreEqual(d, bd, $"{source1} * {source2}");
+            }
+            {
+                var source1 = 0.000000000000880275091m;
+                var source2 = 0.001595151972m;
+                var sample1 = new BigDecimal(source1);
+                var sample2 = new BigDecimal(source2);
+                var sample3 = sample1 / sample2;
+                var d = source1 / source2;
+                var bd = sample3.ToDecimal();
+                var d_m = d.GetMantissa();
+                var d_e = d.GetExponent();
+                Assert.AreEqual(d, bd, $"{source1} * {source2}");
+            }
+            {
+                var source1 = 0.0000000000002110104827m;
+                var source2 = -120.1044625m;
+                var sample1 = new BigDecimal(source1);
+                var sample2 = new BigDecimal(source2);
+                var sample3 = sample1 / sample2;
+                var d = source1 / source2;
+                var bd = sample3.ToDecimal();
+                var d_m = d.GetMantissa();
+                var d_e = d.GetExponent();
+                Assert.AreEqual(d, bd, $"{source1} * {source2}");
+            }
+            {
+                var source1 = 0.000000001062451658m;
+                var source2 = 183.8252767m;
+                var sample1 = new BigDecimal(source1);
+                var sample2 = new BigDecimal(source2);
+                var sample3 = sample1 / sample2;
+                var d = source1 / source2;
+                var bd = sample3.ToDecimal();
+                var d_m = d.GetMantissa();
+                var d_e = d.GetExponent();
+                Assert.AreEqual(d, bd, $"{source1} * {source2}");
+            }
+            {
+                var source1 = 0.000000000000077158759m;
+                var source2 = 11.60083295m;
+                var sample1 = new BigDecimal(source1);
+                var sample2 = new BigDecimal(source2);
+                var sample3 = sample1 * sample2;
+                var d = source1 * source2;
+                var bd = sample3.ToDecimal();
+                var d_m = d.GetMantissa();
+                var d_e = d.GetExponent();
+                Assert.AreEqual(d, bd, $"{source1} * {source2}");
+            }
+            {
+                var source1 = -0.00000000000000000191855991m;
+                var source2 = 0.0000001862788385m;
+                var sample1 = new BigDecimal(source1);
+                var sample2 = new BigDecimal(source2);
+                var sample3 = sample1 / sample2;
+                var d = source1 / source2;
+                var bd = sample3.ToDecimal();
+                var d_m = d.GetMantissa();
+                var d_e = d.GetExponent();
+                Assert.AreEqual(d, bd, $"{source1} / {source2}");
+            }
+            {
+                var source1 = 0.000000000000000000000000001m;
+                var source2 = 0.0000000000000000000000000002m;
+                var sample1 = new BigDecimal(source1);
+                var sample2 = new BigDecimal(source2);
+                var sample3 = sample1 / sample2;
+                var d = source1 / source2;
+                var bd = sample3.ToDecimal();
+                var d_m = d.GetMantissa();
+                var d_e = d.GetExponent();
+                Assert.AreEqual(d, bd, $"{source1} / {source2}");
+            }
+            {
+                var source1 = 10000000000000000000000000000m;
+                var source2 = 20000000000000000000000000000m;
+                var sample1 = new BigDecimal(source1);
+                var sample2 = new BigDecimal(source2);
+                var sample3 = sample1 / sample2;
+                var d = source1 / source2;
+                var bd = sample3.ToDecimal();
+                var d_m = d.GetMantissa();
+                var d_e = d.GetExponent();
+                Assert.AreEqual(d, bd, $"{source1} / {source2}");
+            }
+            {
+                var source1 = -0.00000000000001046m;
+                var source2 = -7.316m;
+                var sample1 = new BigDecimal(source1);
+                var sample2 = new BigDecimal(source2);
+                var sample3 = sample1 - sample2;
+                var d = source1 - source2;
+                var bd = sample3.ToDecimal();
+                Assert.AreEqual(d, bd, $"{source1} {source2}");
+            }
+#if false// 解決できない保留
+            {
+                var source1 = 83877277.4m;
+                var source2 = -1526.188887m;
+                var sample1 = new BigDecimal(source1);
+                var sample2 = new BigDecimal(source2);
+                var sample3 = sample1 / sample2;
+                var d = source1 / source2;
+                var bd = sample3.ToDecimal();
+                Assert.AreEqual(d, bd, $"{source1} {source2}");
+            }
+#endif
         }
 
         [TestMethod()]
