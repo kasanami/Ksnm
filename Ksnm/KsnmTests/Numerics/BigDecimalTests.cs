@@ -469,10 +469,22 @@ namespace Ksnm.Numerics.Tests
         public void OperationsTest2()
         {
             {
+                var source1 = 0.0000000000002110104827m;
+                var source2 = -120.1044625m;
+                var sample1 = new BigDecimal(source1);
+                var sample2 = new BigDecimal(source2);
+                var sample3 = sample1 / sample2;
+                var d = source1 / source2;
+                var bd = sample3.ToDecimal();
+                var d_m = d.GetMantissa();
+                var d_e = d.GetExponent();
+                Assert.AreEqual(d, bd, $"{source1} * {source2}");
+            }
+            {
                 var source1 = 0.000000001062451658m;
                 var source2 = 183.8252767m;
-                var sample1 = new BigDecimal(0.000000001062451658m);
-                var sample2 = new BigDecimal(183.8252767m);
+                var sample1 = new BigDecimal(source1);
+                var sample2 = new BigDecimal(source2);
                 var sample3 = sample1 / sample2;
                 var d = source1 / source2;
                 var bd = sample3.ToDecimal();

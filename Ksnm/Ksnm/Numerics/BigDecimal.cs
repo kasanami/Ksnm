@@ -758,7 +758,7 @@ namespace Ksnm.Numerics
             temp.MinExponent = System.Math.Min(valueL.MinExponent, valueR.MinExponent);
             // 割られる数の Exponent を最小にする。
             // さらに、丸め処理のため桁増やす
-            var addExponent = System.Math.Min(valueR.Exponent, -1);
+            var addExponent = System.Math.Min(valueR.Exponent - 1, 0);
             temp._MinimizeExponent(temp.MinExponent + addExponent);
             // 除算
             temp.Mantissa /= valueR.Mantissa;
