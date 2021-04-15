@@ -175,6 +175,11 @@ namespace Ksnm.Numerics
         /// <exception cref="System.DivideByZeroException">divisor が 0 (ゼロ) です。</exception>
         T Remainder(T divisor);
         /// <summary>
+        /// 指定された数値の平方根を返します。
+        /// </summary>
+        /// <returns>戻り値 0 または正 d の正の平方根。</returns>
+        T Sqrt();
+        /// <summary>
         /// 減算し、その結果を返します。
         /// </summary>
         /// <param name="substrahend">減算する値 (減数)。</param>

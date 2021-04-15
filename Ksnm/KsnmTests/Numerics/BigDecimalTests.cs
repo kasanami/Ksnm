@@ -342,35 +342,35 @@ namespace Ksnm.Numerics.Tests
             for (decimal i = -0.9m; i < 1.0m; i += 0.1m)
             {
                 var actual = new BigDecimal(i);
-                actual.RoundBottom();
+                actual.RoundBottom(1);
                 var expected = decimal.Round(i, BigDecimal.DefaultMidpointRounding);
                 Assert.AreEqual(expected, actual, $"i={i}");
             }
 
             {
                 var actual = new BigDecimal(15);
-                actual.RoundBottom();
+                actual.RoundBottom(1);
                 var expected = new BigDecimal(20);
                 Assert.AreEqual(expected, actual);
             }
 
             {
                 var actual = new BigDecimal(-15);
-                actual.RoundBottom();
+                actual.RoundBottom(1);
                 var expected = new BigDecimal(-20);
                 Assert.AreEqual(expected, actual);
             }
 
             {
                 var actual = new BigDecimal(25);
-                actual.RoundBottom();
+                actual.RoundBottom(1);
                 var expected = new BigDecimal(30);
                 Assert.AreEqual(expected, actual);
             }
 
             {
                 var actual = new BigDecimal(-25);
-                actual.RoundBottom();
+                actual.RoundBottom(1);
                 var expected = new BigDecimal(-30);
                 Assert.AreEqual(expected, actual);
             }
@@ -428,6 +428,34 @@ namespace Ksnm.Numerics.Tests
         }
 
         [TestMethod()]
+        public void SqrtTest()
+        {
+            int precision = -BigDecimal.DefaultMinExponent;
+            for (int i = 0; i < 10; i++)
+            {
+                var expected = new BigDecimal(i);
+                var sample = expected * expected;
+                Assert.AreEqual(expected, BigDecimal.Sqrt(sample, precision));
+            }
+            for (int i = 0; i < 10; i++)
+            {
+                var expected = new BigDecimal(i);
+                var sample = expected * expected;
+                Assert.AreEqual(expected, BigDecimal.Sqrt(sample));
+            }
+            {
+                var expected = new BigDecimal(100);
+                var sample = expected * expected;
+                Assert.AreEqual(expected, BigDecimal.Sqrt(sample, precision));
+            }
+            {
+                var expected = BigDecimal.Round(BigDecimal.SquareRootOfTwo_100, precision, BigDecimal.DefaultMidpointRounding);
+                var sample = 2;
+                Assert.AreEqual(expected, BigDecimal.Sqrt(sample, precision));
+            }
+        }
+
+        [TestMethod()]
         public void OperationsTest1()
         {
             var sample = new BigDecimal(1, 2);
@@ -440,6 +468,18 @@ namespace Ksnm.Numerics.Tests
         [TestMethod()]
         public void OperationsTest2()
         {
+            {
+                var source1 = 0.000000001062451658m;
+                var source2 = 183.8252767m;
+                var sample1 = new BigDecimal(0.000000001062451658m);
+                var sample2 = new BigDecimal(183.8252767m);
+                var sample3 = sample1 / sample2;
+                var d = source1 / source2;
+                var bd = sample3.ToDecimal();
+                var d_m = d.GetMantissa();
+                var d_e = d.GetExponent();
+                Assert.AreEqual(d, bd, $"{source1} * {source2}");
+            }
             {
                 var source1 = 0.000000000000077158759m;
                 var source2 = 11.60083295m;
@@ -528,7 +568,7 @@ namespace Ksnm.Numerics.Tests
                 sample2 = new BigDecimal(1000, 0, 0);
                 sample3 = sample / sample2;
                 d = sample3.ToDecimal();
-                Assert.AreEqual(0, d);
+                Assert.AreEqual(0.001m, d);
 
                 sample = new BigDecimal(1, 0, -4);
                 sample2 = new BigDecimal(1000, 0, 0);
@@ -615,6 +655,40 @@ namespace Ksnm.Numerics.Tests
                     Assert.AreEqual(i <= j, sample <= sample2);
                 }
             }
+#if true
+            for (decimal i = -10; i < 10; i++)
+            {
+                var sample = new BigDecimal(i);
+                for (int j = -10; j < 10; j++)
+                {
+                    // +
+                    Assert.AreEqual(i + j, (sample + j).ToDecimal(), $"{i} + {j}");
+                    // -
+                    Assert.AreEqual(i - j, (sample - j).ToDecimal(), $"{i} - {j}");
+                    // *
+                    Assert.AreEqual(i * j, (sample * j).ToDecimal(), $"{i} * {j}");
+                    if (j != 0)
+                    {
+                        // /
+                        Assert.AreEqual(i / j, (sample / j).ToDecimal(), $"{i} / {j}");
+                        // %
+                        Assert.AreEqual(i % j, (sample % j).ToDecimal(), $"{i} % {j}");
+                    }
+                    // ==
+                    Assert.AreEqual(i == j, sample == j);
+                    // !=
+                    Assert.AreEqual(i != j, sample != j);
+                    // >
+                    Assert.AreEqual(i > j, sample > j);
+                    // <
+                    Assert.AreEqual(i < j, sample < j);
+                    // >=
+                    Assert.AreEqual(i >= j, sample >= j);
+                    // <=
+                    Assert.AreEqual(i <= j, sample <= j);
+                }
+            }
+#endif
 #if true
             var random = new Ksnm.Randoms.Xorshift128();
             for (int i = 0; i < 10; i++)

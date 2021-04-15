@@ -49,6 +49,13 @@ namespace DemoApp
             Console.WriteLine($"DoubleTest");
             var stopwatch = new Stopwatch();
 
+            {
+                for (int i = 0; i < 3; i++)
+                {
+                    var value = i * i;
+                    Console.WriteLine($"{i} => { Math.Sqrt(value)}");
+                }
+            }
 
 #if true
             {

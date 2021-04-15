@@ -46,6 +46,10 @@ namespace Ksnm.Numerics
         /// </summary>
         public static readonly BigDecimal Zero = 0;
         /// <summary>
+        /// 数値 0.5 を表します。
+        /// </summary>
+        public static readonly BigDecimal ZeroPointFive = 0.5m;
+        /// <summary>
         /// 数値 1 を表します。
         /// </summary>
         public static readonly BigDecimal One = 1;
@@ -59,8 +63,9 @@ namespace Ksnm.Numerics
         public const int Base = 10;
         /// <summary>
         /// MinExponentの初期値
+        /// * 任意の計算結果が Decimal で同様の計算をした結果と一致しないので、より高精度にしている。
         /// </summary>
-        public const int DefaultMinExponent = DecimalMinExponent - 1;
+        public const int DefaultMinExponent = DecimalMinExponent - 2;
         /// <summary>
         /// System.Decimal の指数の最小値
         /// ※System.Decimal 内では正数で保持しているが、この値は指数のため負の値とする。
@@ -439,21 +444,20 @@ namespace Ksnm.Numerics
         /// </summary>
         public static BigDecimal Round(BigDecimal value, MidpointRounding mode)
         {
-            var Half = One / 2;
             var fractional = value.GetFractional();
             if (mode == MidpointRounding.AwayFromZero)
             {
-                if (fractional >= Half)
+                if (fractional >= ZeroPointFive)
                 {
                     // 切り上げ
                     return (value - fractional) + 1;
                 }
-                else if (fractional <= -Half)
+                else if (fractional <= -ZeroPointFive)
                 {
                     // マイナス方向へ切り上げ
                     return (value - fractional) - 1;
                 }
-                else if (fractional < Half && fractional > -Half)
+                else if (fractional < ZeroPointFive && fractional > -ZeroPointFive)
                 {
                     // 切り捨て
                     return value - fractional;
@@ -461,17 +465,17 @@ namespace Ksnm.Numerics
             }
             else if (mode == MidpointRounding.ToEven)
             {
-                if (fractional > Half)
+                if (fractional > ZeroPointFive)
                 {
                     // 切り上げ
                     return (value - fractional) + 1;
                 }
-                else if (fractional < -Half)
+                else if (fractional < -ZeroPointFive)
                 {
                     // マイナス方向へ切り上げ
                     return (value - fractional) - 1;
                 }
-                else if (fractional < Half && fractional > -Half)
+                else if (fractional < ZeroPointFive && fractional > -ZeroPointFive)
                 {
                     // 切り捨て
                     return value - fractional;
@@ -512,14 +516,24 @@ namespace Ksnm.Numerics
             return Round(value, mode) / scale;
         }
         /// <summary>
-        /// 最下位の桁を最も近い10の累乗に丸めます。
-        /// 最下位の桁は削除なります。
-        /// * 中間にある場合は偶数が返されます。
+        /// 今の値が MinExponent 以下の値の場合、MinExponent に収まるように丸めます。
+        /// 丸められた桁は 0 になります。
+        /// * 丸めの種類は DefaultMidpointRounding
         /// </summary>
-        public void RoundBottom()
+        public void RoundByMinExponent()
         {
-            RoundBottom(1);
+            if (Exponent < MinExponent)
+            {
+                var digits = -(Exponent - MinExponent);
+                RoundBottom(digits);
+            }
         }
+        /// <summary>
+        /// 指定した桁を最も近い10の累乗に丸めます。
+        /// 指定した桁は 0 になります。
+        /// * 丸めの種類は DefaultMidpointRounding
+        /// </summary>
+        /// <param name="digits">丸める桁数</param>
         public void RoundBottom(int digits)
         {
             if (digits > 0)
@@ -579,6 +593,61 @@ namespace Ksnm.Numerics
                 }
             }
             return value;
+        }
+        /// <summary>
+        /// 指定された数値の平方根を返します。
+        /// * 精度は現在の value.MinExponent の値となる
+        /// </summary>
+        /// <param name="value">平方根を求める対象の数値。</param>
+        /// <returns>戻り値 0 または正 d の正の平方根。</returns>
+        public static BigDecimal Sqrt(BigDecimal value)
+        {
+            int precision = 0;
+            if (value.MinExponent < 0)
+            {
+                precision = -value.MinExponent;
+            }
+            return Sqrt(value, precision);
+        }
+        /// <summary>
+        /// 指定された数値の平方根を返します。
+        /// </summary>
+        /// <param name="value">平方根を求める対象の数値。</param>
+        /// <param name="precision">精度</param>
+        /// <returns>戻り値 0 または正 d の正の平方根。</returns>
+        public static BigDecimal Sqrt(BigDecimal value, int precision)
+        {
+            // 計算回数は仮
+            return Sqrt(value, precision, precision + 10);
+        }
+        /// <summary>
+        /// 指定された数値の平方根を返します。
+        /// </summary>
+        /// <param name="value">平方根を求める対象の数値。</param>
+        /// <param name="precision">精度</param>
+        /// <param name="count">計算回数</param>
+        /// <returns>戻り値 0 または正 d の正の平方根。</returns>
+        public static BigDecimal Sqrt(BigDecimal value, int precision, int count)
+        {
+            if (value == 0)
+            {
+                return 0;
+            }
+            var temp = value;
+            var prev = value;
+            for (int i = 0; i < count; i++)
+            {
+                temp = (temp * temp + value) / (2 * temp);
+                // 精度を制限
+                temp = Round(temp, precision, DefaultMidpointRounding);
+                // 前回から値が変わっていないなら終了
+                if (prev == temp)
+                {
+                    return temp;
+                }
+                prev = temp;
+            }
+            return temp;
         }
         #endregion 数学関数
 
@@ -648,16 +717,18 @@ namespace Ksnm.Numerics
         /// </summary>
         public static BigDecimal operator *(BigDecimal valueL, BigDecimal valueR)
         {
-            return new BigDecimal(valueL.Mantissa * valueR.Mantissa, valueL.Exponent + valueR.Exponent);
+            return new BigDecimal(
+                valueL.Mantissa * valueR.Mantissa,
+                valueL.Exponent + valueR.Exponent);
         }
         /// <summary>
         /// 乗算
         /// </summary>
         public static BigDecimal operator *(BigDecimal valueL, int valueR)
         {
-            var temp = new BigDecimal(valueL);
-            temp.Mantissa *= valueR;
-            return temp;
+            return new BigDecimal(
+                valueL.Mantissa * valueR,
+                valueL.Exponent);
         }
         /// <summary>
         /// 除算
@@ -668,14 +739,33 @@ namespace Ksnm.Numerics
             // 指数が小さい方に合わせる
             temp.MinExponent = System.Math.Min(valueL.MinExponent, valueR.MinExponent);
             // 割られる数の Exponent を最小にする。
-            // 丸め処理のため桁増やす
-            var addExponent = System.Math.Min(valueR.Exponent, 0);
+            // さらに、丸め処理のため桁増やす
+            var addExponent = System.Math.Min(valueR.Exponent, -1);
             temp._MinimizeExponent(temp.MinExponent + addExponent);
             // 除算
             temp.Mantissa /= valueR.Mantissa;
             temp.Exponent -= valueR.Exponent;
             // 丸め処理(桁増やした分はここで減る)
-            temp.RoundBottom();
+            temp.RoundByMinExponent();
+            Assert(temp.Exponent >= temp.MinExponent);
+            // 最適化
+            temp.MinimizeMantissa();
+            return temp;
+        }
+        /// <summary>
+        /// 除算
+        /// </summary>
+        public static BigDecimal operator /(BigDecimal valueL, int valueR)
+        {
+            var temp = new BigDecimal(valueL);
+            // 割られる数の Exponent を最小にする。
+            // さらに、丸め処理のため桁増やす
+            var addExponent = -1;
+            temp._MinimizeExponent(temp.MinExponent + addExponent);
+            // 除算
+            temp.Mantissa /= valueR;
+            // 丸め処理(桁増やした分はここで減る)
+            temp.RoundByMinExponent();
             Assert(temp.Exponent >= temp.MinExponent);
             // 最適化
             temp.MinimizeMantissa();
@@ -1252,6 +1342,15 @@ namespace Ksnm.Numerics
         public BigDecimal Subtract(BigDecimal substrahend)
         {
             return this - substrahend;
+        }
+        /// <summary>
+        /// 指定された数値の平方根を返します。
+        /// * 精度は現在の MinExponent の値となる
+        /// </summary>
+        /// <returns></returns>
+        public BigDecimal Sqrt()
+        {
+            return Sqrt(this);
         }
         /// <summary>
         /// 整数部を計算します。
