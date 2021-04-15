@@ -38,7 +38,7 @@ namespace Ksnm.Numerics
     /// 
     /// BigDecimal=Mantissa*10^Exponent
     /// </summary>
-    public struct BigDecimal : IEquatable<BigDecimal>, IComparable, IComparable<BigDecimal>
+    public struct BigDecimal : IEquatable<BigDecimal>, IComparable, IComparable<BigDecimal>, IMath<BigDecimal>
     {
         #region 定数
         /// <summary>
@@ -372,6 +372,35 @@ namespace Ksnm.Numerics
 
         #region 数学関数
         /// <summary>
+        /// 除算し、その結果を返します。剰余は出力パラメーターとして返されます。
+        /// </summary>
+        /// <param name="dividend">被除数。</param>
+        /// <param name="divisor">除数。</param>
+        /// <param name="remainder">このメソッドから制御が戻るときに、除算の剰余を表す System.Numerics.BigInteger 値が格納されます。 このパラメーターは初期化せずに渡されます。</param>
+        /// <returns>除算の商。</returns>
+        /// <exception cref="System.DivideByZeroException">divisor が 0 (ゼロ) です。</exception>
+        public static BigDecimal DivRem(BigDecimal dividend, BigDecimal divisor, out BigDecimal remainder)
+        {
+            // 指数が小さい方に合わせる
+            if (dividend.Exponent > divisor.Exponent)
+            {
+                var diff = dividend.Exponent - divisor.Exponent;
+                dividend.Mantissa *= Pow10(diff);
+                dividend.Exponent -= diff;
+            }
+            else if (divisor.Exponent > dividend.Exponent)
+            {
+                var diff = divisor.Exponent - dividend.Exponent;
+                divisor.Mantissa *= Pow10(diff);
+                divisor.Exponent -= diff;
+            }
+            Assert(dividend.Exponent == divisor.Exponent);
+            BigInteger remainderInt;
+            var quotient = BigInteger.DivRem(dividend.Mantissa, divisor.Mantissa, out remainderInt);
+            remainder = new BigDecimal(remainderInt, dividend.Exponent);
+            return new BigDecimal(quotient);
+        }
+        /// <summary>
         /// 指定された値を指数として System.Numerics.BigInteger 値を累乗します。
         /// </summary>
         /// <param name="value">累乗する数値</param>
@@ -637,10 +666,10 @@ namespace Ksnm.Numerics
         {
             var temp = new BigDecimal(valueL);
             // 指数が小さい方に合わせる
-            temp.MinExponent = Min(valueL.MinExponent, valueR.MinExponent);
+            temp.MinExponent = System.Math.Min(valueL.MinExponent, valueR.MinExponent);
             // 割られる数の Exponent を最小にする。
             // 丸め処理のため桁増やす
-            var addExponent = Min(valueR.Exponent, 0);
+            var addExponent = System.Math.Min(valueR.Exponent, 0);
             temp._MinimizeExponent(temp.MinExponent + addExponent);
             // 除算
             temp.Mantissa /= valueR.Mantissa;
@@ -1099,5 +1128,139 @@ namespace Ksnm.Numerics
             return Compare(this, other);
         }
         #endregion IComparable
+
+        #region IMath
+
+        BigDecimal IMath<BigDecimal>.Zero => Zero;
+
+        BigDecimal IMath<BigDecimal>.One => One;
+
+        BigDecimal IMath<BigDecimal>.MinusOne => MinusOne;
+
+        public int Sign
+        {
+            get
+            {
+                if (this > 0) { return +1; }
+                if (this < 0) { return -1; }
+                return 0;
+            }
+        }
+
+        public bool IsZero => this == Zero;
+
+        public bool IsOne => this == One;
+
+        public BigDecimal Abs()
+        {
+            if (this < 0)
+            {
+                return Negate();
+            }
+            return this;
+        }
+
+        public BigDecimal Add(BigDecimal addend)
+        {
+            return this + addend;
+        }
+        /// <summary>
+        /// 指定した数以上の数のうち、最小の整数値を返します。
+        /// </summary>
+        /// <returns>以上の最小の整数値。 </returns>
+        public BigDecimal Ceiling()
+        {
+            return Ceiling(this);
+        }
+
+        public int Compare(BigDecimal other)
+        {
+            return Compare(this, other);
+        }
+
+        public BigDecimal Divide(BigDecimal divisor)
+        {
+            return this / divisor;
+        }
+
+        public BigDecimal DivRem(BigDecimal divisor, out BigDecimal remainder)
+        {
+            return DivRem(this, divisor, out remainder);
+        }
+        /// <summary>
+        /// 指定した数以下の数のうち、最大の整数値を返します。
+        /// </summary>
+        /// <returns>以下の最大の整数値。</returns>
+        public BigDecimal Floor()
+        {
+            return Floor(this);
+        }
+
+        public double Log(double baseValue)
+        {
+            throw new NotImplementedException();
+        }
+
+        public double Log()
+        {
+            throw new NotImplementedException();
+        }
+
+        public double Log10()
+        {
+            throw new NotImplementedException();
+        }
+
+        public BigDecimal Max(BigDecimal other)
+        {
+            if (this > other)
+            {
+                return this;
+            }
+            return other;
+        }
+
+        public BigDecimal Min(BigDecimal other)
+        {
+            if (this < other)
+            {
+                return this;
+            }
+            return other;
+        }
+
+        public BigDecimal Multiply(BigDecimal multiplier)
+        {
+            return this * multiplier;
+        }
+
+        public BigDecimal Negate()
+        {
+            return -this;
+        }
+
+        public BigDecimal Pow(int exponent)
+        {
+            return Pow(this, exponent);
+        }
+
+        public BigDecimal Remainder(BigDecimal divisor)
+        {
+            return this % divisor;
+        }
+
+        public BigDecimal Subtract(BigDecimal substrahend)
+        {
+            return this - substrahend;
+        }
+        /// <summary>
+        /// 整数部を計算します。
+        /// </summary>
+        /// <returns>整数部。つまり、小数部の桁を破棄した後に残る数値。</returns>
+        public BigDecimal Truncate()
+        {
+            return Truncate(this);
+        }
+        #endregion IMath
     }
 }
