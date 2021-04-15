@@ -191,6 +191,14 @@ namespace DemoApp
         {
             Console.WriteLine("BigDecimalTest()");
 
+            Console.WriteLine($"BigDecimal.Sqrt();");
+            for (int i = 0; i < 10; i++)
+            {
+                var value = BigDecimal.Sqrt(i,105);
+                Console.WriteLine($"√{i}={value}");
+            }
+            Console.WriteLine();
+
             Console.WriteLine($"BigDecimal.Pow10(e);");
             for (int i = 0; i < 10; i++)
             {
