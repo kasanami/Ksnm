@@ -1,7 +1,7 @@
 ﻿/*
 The zlib License
 
-Copyright (c) 2014-2019 Takahiro Kasanami
+Copyright (c) 2014-2021 Takahiro Kasanami
 
 This software is provided 'as-is', without any express or implied
 warranty. In no event will the authors be held liable for any damages
@@ -21,6 +21,8 @@ freely, subject to the following restrictions:
 
 3. This notice may not be removed or altered from any source distribution.
 */
+using Ksnm.Numerics;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
@@ -993,5 +995,78 @@ namespace Ksnm
         }
 
         #endregion 数列
+
+        #region 連分数
+        /// <summary>
+        /// 連分数を計算する。
+        /// numerators と denominators のどちらか短い方の長さに合わせて要素を参照します。
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="args">args[i].Item1=分子。args[i].Item2=分母</param>
+        /// <returns>計算結果</returns>
+        public static double ContinuedFraction(double a, IReadOnlyList<Tuple<double, double>> args)
+        {
+            double temp = 0;
+            var reversed = args.Reverse();
+            foreach (var item in reversed)
+            {
+                var numerator = item.Item1;
+                var denominator = item.Item2;
+                temp = numerator / (denominator + temp);
+            }
+            return a + temp;
+        }
+        /// <summary>
+        /// 連分数を計算する。
+        /// numerators と denominators のどちらか短い方の長さに合わせて要素を参照します。
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="args">args[i].Item1=分子。args[i].Item2=分母</param>
+        /// <returns>計算結果</returns>
+        public static T ContinuedFraction<T>(T a, IReadOnlyList<Tuple<T, T>> args) where T : IMath<T>
+        {
+            T temp = a.Zero;
+            var reversed = args.Reverse();
+            foreach (var item in reversed)
+            {
+                var numerator = item.Item1;
+                var denominator = item.Item2;
+                temp = numerator.Divide(denominator.Add(temp));
+            }
+            return a.Add(temp);
+        }
+        /// <summary>
+        /// 正則連分数を計算する。
+        /// </summary>
+        /// <param name="a">[a; args[0], args[1], args[2], ...]</param>
+        /// <param name="args">[a; args[0], args[1], args[2], ...]</param>
+        /// <returns>計算結果</returns>
+        public static double RegularContinuedFraction(double a, params int[] args)
+        {
+            double temp = 0;
+            var r = args.Reverse();
+            foreach (var item in r)
+            {
+                temp = 1.0 / (item + temp);
+            }
+            return a + temp;
+        }
+        /// <summary>
+        /// 正則連分数を計算する。
+        /// </summary>
+        /// <param name="a">[a; args[0], args[1], args[2], ...]</param>
+        /// <param name="args">[a; args[0], args[1], args[2], ...]</param>
+        /// <returns>計算結果</returns>
+        public static T RegularContinuedFraction<T>(T a, params T[] args) where T : IMath<T>
+        {
+            T temp = a.Zero;
+            var reversed = args.Reverse();
+            foreach (var item in reversed)
+            {
+                temp = a.One.Divide(item.Add(temp));
+            }
+            return a.Add(temp);
+        }
+        #endregion 連分数
     }
 }

@@ -3,6 +3,10 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Linq;
 using Ksnm.ExtensionMethods.System.Collections.Generic.Enumerable;
 using System.Numerics;
+using Ksnm.Numerics;
+using SMath = System.Math;
+using System.Collections.Generic;
+using System;
 
 namespace Ksnm.Tests
 {
@@ -495,6 +499,72 @@ namespace Ksnm.Tests
             Assert.AreEqual(1000, Math.BigIntegerPow10(3));
             Assert.AreEqual(10000, Math.BigIntegerPow10(4));
             Assert.AreEqual(100000, Math.BigIntegerPow10(5));
+        }
+
+        [TestMethod()]
+        public void ContinuedFractionTest()
+        {
+            // 円周率
+            {
+                var list = new List<Tuple<double, double>>();
+                for (int i = 0; i < 20; i++)
+                {
+                    var a = i * 2 + 1;
+                    var item = new Tuple<double, double>(a * a, 6);
+                    list.Add(item);
+                }
+                var expected = SMath.PI;
+                var actual = Math.ContinuedFraction(3, list);
+                Assert.AreEqual(expected, actual, 0.001);
+            }
+            // 円周率
+            {
+                var list = new List<Tuple<BigDecimal, BigDecimal>>();
+                for (int i = 0; i < 40; i++)
+                {
+                    var a = i * 2 + 1;
+                    var item = new Tuple<BigDecimal, BigDecimal>(a * a, 6);
+                    list.Add(item);
+                }
+                var expected = BigDecimal.PI_100;
+                var actual = Math.ContinuedFraction<BigDecimal>(3, list);
+                expected = BigDecimal.Round(expected, 4, MidpointRounding.AwayFromZero);
+                actual = BigDecimal.Round(actual, 4, MidpointRounding.AwayFromZero);
+                Assert.AreEqual(expected, actual);
+            }
+        }
+
+        [TestMethod()]
+        public void RegularContinuedFractionTest()
+        {
+            // 黄金数
+            {
+                var expected = Math.GoldenNumber;
+                var actual = Math.RegularContinuedFraction(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1);
+                Assert.AreEqual(expected, actual, 0.00000001);
+            }
+            // √2
+            {
+                var expected = SMath.Sqrt(2);
+                var actual = Math.RegularContinuedFraction(1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2);
+                Assert.AreEqual(expected, actual, 0.0000000001);
+            }
+            // √3
+            {
+                var expected = SMath.Sqrt(3);
+                var actual = Math.RegularContinuedFraction(1, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2);
+                Assert.AreEqual(expected, actual, 0.0000000001);
+            }
+
+            // √2
+            {
+                var expected = BigDecimal.Sqrt(2);
+                var actual = Math.RegularContinuedFraction<BigDecimal>(1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2);
+
+                expected = BigDecimal.Round(expected, 10, MidpointRounding.AwayFromZero);
+                actual = BigDecimal.Round(actual, 10, MidpointRounding.AwayFromZero);
+                Assert.AreEqual(expected, actual);
+            }
         }
     }
 }
