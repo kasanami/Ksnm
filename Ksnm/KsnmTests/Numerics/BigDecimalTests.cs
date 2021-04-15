@@ -342,35 +342,35 @@ namespace Ksnm.Numerics.Tests
             for (decimal i = -0.9m; i < 1.0m; i += 0.1m)
             {
                 var actual = new BigDecimal(i);
-                actual.RoundBottom(1);
+                actual.RoundMantissa(1);
                 var expected = decimal.Round(i, BigDecimal.DefaultMidpointRounding);
                 Assert.AreEqual(expected, actual, $"i={i}");
             }
 
             {
                 var actual = new BigDecimal(15);
-                actual.RoundBottom(1);
+                actual.RoundMantissa(1);
                 var expected = new BigDecimal(20);
                 Assert.AreEqual(expected, actual);
             }
 
             {
                 var actual = new BigDecimal(-15);
-                actual.RoundBottom(1);
+                actual.RoundMantissa(1);
                 var expected = new BigDecimal(-20);
                 Assert.AreEqual(expected, actual);
             }
 
             {
                 var actual = new BigDecimal(25);
-                actual.RoundBottom(1);
+                actual.RoundMantissa(1);
                 var expected = new BigDecimal(20);
                 Assert.AreEqual(expected, actual);
             }
 
             {
                 var actual = new BigDecimal(-25);
-                actual.RoundBottom(1);
+                actual.RoundMantissa(1);
                 var expected = new BigDecimal(-20);
                 Assert.AreEqual(expected, actual);
             }

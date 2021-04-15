@@ -546,16 +546,16 @@ namespace Ksnm.Numerics
             if (Exponent < MinExponent)
             {
                 var digits = -(Exponent - MinExponent);
-                RoundBottom(digits);
+                RoundMantissa(digits);
             }
         }
         /// <summary>
-        /// 指定した桁を最も近い10の累乗に丸めます。
-        /// 指定した桁は 0 になります。
+        /// 仮数部を指定した桁の最も近い10の累乗に丸めます。
         /// * 丸めの種類は DefaultMidpointRounding
+        /// * Round と違い小数部分だけでなく仮数部自体に対する丸め処理
         /// </summary>
         /// <param name="digits">丸める桁数</param>
-        public void RoundBottom(int digits)
+        public void RoundMantissa(int digits)
         {
             if (digits > 0)
             {
