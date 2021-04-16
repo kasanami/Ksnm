@@ -385,16 +385,32 @@ namespace Ksnm.Tests
         [TestMethod()]
         public void FibonacciNumberTest()
         {
-            Assert.AreEqual(Math.FibonacciNumber(0), 0);
-            Assert.AreEqual(Math.FibonacciNumber(1), 1);
-            Assert.AreEqual(Math.FibonacciNumber(2), 1);
-            Assert.AreEqual(Math.FibonacciNumber(3), 2);
-            Assert.AreEqual(Math.FibonacciNumber(4), 3);
-            Assert.AreEqual(Math.FibonacciNumber(5), 5);
-            Assert.AreEqual(Math.FibonacciNumber(6), 8);
-            Assert.AreEqual(Math.FibonacciNumber(7), 13);
-            Assert.AreEqual(Math.FibonacciNumber(8), 21);
-            Assert.AreEqual(Math.FibonacciNumber(9), 34);
+            Assert.AreEqual(0, Math.FibonacciNumber(0));
+            Assert.AreEqual(1, Math.FibonacciNumber(1));
+            Assert.AreEqual(1, Math.FibonacciNumber(2));
+            Assert.AreEqual(2, Math.FibonacciNumber(3));
+            Assert.AreEqual(3, Math.FibonacciNumber(4));
+            Assert.AreEqual(5, Math.FibonacciNumber(5));
+            Assert.AreEqual(8, Math.FibonacciNumber(6));
+            Assert.AreEqual(13, Math.FibonacciNumber(7));
+            Assert.AreEqual(21, Math.FibonacciNumber(8));
+            Assert.AreEqual(34, Math.FibonacciNumber(9));
+        }
+
+        [TestMethod()]
+        public void FibonacciNumbersTest()
+        {
+            var fibonacciNumbers = Math.FibonacciNumbers(10);
+            Assert.AreEqual(0, fibonacciNumbers.ElementAt(0));
+            Assert.AreEqual(1, fibonacciNumbers.ElementAt(1));
+            Assert.AreEqual(1, fibonacciNumbers.ElementAt(2));
+            Assert.AreEqual(2, fibonacciNumbers.ElementAt(3));
+            Assert.AreEqual(3, fibonacciNumbers.ElementAt(4));
+            Assert.AreEqual(5, fibonacciNumbers.ElementAt(5));
+            Assert.AreEqual(8, fibonacciNumbers.ElementAt(6));
+            Assert.AreEqual(13, fibonacciNumbers.ElementAt(7));
+            Assert.AreEqual(21, fibonacciNumbers.ElementAt(8));
+            Assert.AreEqual(34, fibonacciNumbers.ElementAt(9));
         }
 
         [TestMethod()]

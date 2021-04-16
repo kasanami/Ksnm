@@ -973,11 +973,40 @@ namespace Ksnm
         /// <returns>n番目のフィボナッチ数</returns>
         public static int FibonacciNumber(int n)
         {
+            int current = 0;
+            int previous = 1;
+            for (int i = 0; i < n; i++)
+            {
+                var next = current + previous;
+                previous = current;
+                current = next;
+            }
+            return current;
+#if false
             var phi = GoldenNumber;
             var phiN = System.Math.Pow(phi, n);
             var _phi_N = System.Math.Pow(-phi, -n);
             var root5 = System.Math.Sqrt(5);
             return (int)((phiN - _phi_N) / root5);
+#endif
+        }
+
+        /// <summary>
+        /// フィボナッチ数列を計算
+        /// </summary>
+        /// <param name="count">計算する個数</param>
+        /// <returns>フィボナッチ数列の列挙子</returns>
+        public static IEnumerable<int> FibonacciNumbers(int count)
+        {
+            int current = 0;
+            int previous = 1;
+            for (int i = 0; i < count; i++)
+            {
+                yield return current;
+                var next = current + previous;
+                previous = current;
+                current = next;
+            }
         }
 
         /// <summary>
