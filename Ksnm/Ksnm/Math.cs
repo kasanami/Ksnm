@@ -1097,5 +1097,28 @@ namespace Ksnm
             return a.Add(temp);
         }
         #endregion 連分数
+
+        #region 貴金属数
+        /// <summary>
+        /// 貴金属数を計算する。
+        /// </summary>
+        /// <param name="n">自然数</param>
+        /// <returns>貴金属数</returns>
+        public static double MetallicNumber(int n)
+        {
+            return (n + System.Math.Sqrt(n * n + 4)) / 2;
+        }
+        /// <summary>
+        /// 貴金属数を計算する。
+        /// </summary>
+        /// <param name="n">自然数</param>
+        /// <returns>貴金属数</returns>
+        public static T MetallicNumber<T>(T n)where T:IMath<T>
+        {
+            var two = n.From(2);
+            var four = n.From(4);
+            return n.Add(n.Multiply(n).Add(four).Sqrt()).Divide(two);
+        }
+        #endregion 貴金属数
     }
 }

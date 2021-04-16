@@ -106,6 +106,11 @@ namespace Ksnm.Numerics
         /// <returns>以下の最大の整数値。</returns>
         T Floor();
         /// <summary>
+        /// 指定した値を T 型の値に変換します。
+        /// </summary>
+        /// <returns>変換した値。</returns>
+        T From(int value);
+        /// <summary>
         /// 指定した数値の指定した底での対数を返します。
         /// </summary>
         /// <param name="value"></param>

@@ -582,5 +582,44 @@ namespace Ksnm.Tests
                 Assert.AreEqual(expected, actual);
             }
         }
+
+        [TestMethod()]
+        public void MetallicNumberTest()
+        {
+            // 0
+            {
+                var expected = 1;
+                var actual = Math.MetallicNumber(0);
+                Assert.AreEqual(expected, actual, 0.00000001);
+            }
+            // 黄金数
+            {
+                var expected = 1.6180339887;
+                var actual = Math.MetallicNumber(1);
+                Assert.AreEqual(expected, actual, 0.00000001);
+            }
+            // 白銀数
+            {
+                var expected = 2.4142135623;
+                var actual = Math.MetallicNumber(2);
+                Assert.AreEqual(expected, actual, 0.00000001);
+            }
+            // 青銅数
+            {
+                var expected = 3.3027756377;
+                var actual = Math.MetallicNumber(3);
+                Assert.AreEqual(expected, actual, 0.00000001);
+            }
+
+            // 黄金数
+            {
+                var expected = BigDecimal.GoldenNumber_100;
+                var actual = Math.MetallicNumber(BigDecimal.One);
+
+                expected = BigDecimal.Round(expected, 20, MidpointRounding.AwayFromZero);
+                actual = BigDecimal.Round(actual, 20, MidpointRounding.AwayFromZero);
+                Assert.AreEqual(expected, actual);
+            }
+        }
     }
 }
