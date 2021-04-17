@@ -163,5 +163,11 @@ namespace Ksnm.Numerics
             return System.Math.Truncate(Value);
         }
         #endregion IMath
+        #region object
+        public override string ToString()
+        {
+            return Value.ToString();
+        }
+        #endregion object
     }
 }
