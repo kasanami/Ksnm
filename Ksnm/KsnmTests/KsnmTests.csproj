@@ -107,6 +107,7 @@
     <Compile Include="Randoms\Xorshift128Tests.cs" />
     <Compile Include="Science\Electromagnetism\ElectricalResistanceTests.cs" />
     <Compile Include="Text\EncodingTests.cs" />
+    <Compile Include="Units\SI\MetreTests.cs" />
     <Compile Include="Utilities\CsvLoggerTests.cs" />
   </ItemGroup>
   <ItemGroup>

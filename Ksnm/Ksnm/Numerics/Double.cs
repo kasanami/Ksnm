@@ -5,7 +5,7 @@ namespace Ksnm.Numerics
     /// <summary>
     /// System.Double のラッパー
     /// </summary>
-    public struct Double : IMath<double>
+    public struct Double : IMath<Double>
     {
         #region プロパティ
         public double Value;
@@ -33,11 +33,11 @@ namespace Ksnm.Numerics
         }
         #endregion 型変換
         #region IMath
-        public double Zero => 0.0;
+        public Double Zero => 0.0;
 
-        public double One => 1.0;
+        public Double One => 1.0;
 
-        public double MinusOne => -1.0;
+        public Double MinusOne => -1.0;
 
         public int Sign => Math.Sign(Value);
 
@@ -45,22 +45,22 @@ namespace Ksnm.Numerics
 
         public bool IsOne => Value == 1;
 
-        public double Abs()
+        public Double Abs()
         {
             return System.Math.Abs(Value);
         }
 
-        public double Add(double addend)
+        public Double Add(Double addend)
         {
             return Value + addend;
         }
 
-        public double Ceiling()
+        public Double Ceiling()
         {
             return System.Math.Ceiling(Value);
         }
 
-        public int Compare(double other)
+        public int Compare(Double other)
         {
             if (Value > other)
             {
@@ -73,28 +73,23 @@ namespace Ksnm.Numerics
             return 0;
         }
 
-        public double Divide(double divisor)
+        public Double Divide(Double divisor)
         {
             return Value / divisor;
         }
 
-        public double DivRem(double divisor, out double remainder)
+        public Double DivRem(Double divisor, out Double remainder)
         {
             throw new NotImplementedException();
             //return System.Math.DivRem(Value, divisor, out remainder);
         }
 
-        public double Floor()
+        public Double Floor()
         {
             return System.Math.Floor(Value);
         }
 
-        public double From(int value)
-        {
-            return value;
-        }
-
-        public double From(double value)
+        public Double From(int value)
         {
             return value;
         }
@@ -114,22 +109,22 @@ namespace Ksnm.Numerics
             return System.Math.Log10(Value);
         }
 
-        public double Max(double other)
+        public Double Max(Double other)
         {
             return System.Math.Max(Value, other);
         }
 
-        public double Min(double other)
+        public Double Min(Double other)
         {
             return System.Math.Min(Value, other);
         }
 
-        public double Multiply(double multiplier)
+        public Double Multiply(Double multiplier)
         {
             return Value * multiplier;
         }
 
-        public double Negate()
+        public Double Negate()
         {
             if (Value < 0)
             {
@@ -138,27 +133,27 @@ namespace Ksnm.Numerics
             return Value;
         }
 
-        public double Pow(int exponent)
+        public Double Pow(int exponent)
         {
             return System.Math.Pow(Value, exponent);
         }
 
-        public double Remainder(double divisor)
+        public Double Remainder(Double divisor)
         {
             return Value % divisor;
         }
 
-        public double Sqrt()
+        public Double Sqrt()
         {
             return System.Math.Sqrt(Value);
         }
 
-        public double Subtract(double substrahend)
+        public Double Subtract(Double substrahend)
         {
             return Value - substrahend;
         }
 
-        public double Truncate()
+        public Double Truncate()
         {
             return System.Math.Truncate(Value);
         }
