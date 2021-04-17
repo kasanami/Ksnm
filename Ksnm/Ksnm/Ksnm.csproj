@@ -83,6 +83,7 @@
     <Compile Include="Units\Area.cs" />
     <Compile Include="Units\ElectricCharge.cs" />
     <Compile Include="Units\ElectricCurrent.cs" />
+    <Compile Include="Units\ElectricPotential.cs" />
     <Compile Include="Units\Energy.cs" />
     <Compile Include="Units\Force.cs" />
     <Compile Include="Units\IQuantity.cs" />
@@ -99,6 +100,7 @@
     <Compile Include="Units\SI\Newton.cs" />
     <Compile Include="Units\SI\Pascal.cs" />
     <Compile Include="Units\SI\Second.cs" />
+    <Compile Include="Units\SI\Volt.cs" />
     <Compile Include="Units\Temperature.cs" />
     <Compile Include="Units\Time.cs" />
     <Compile Include="Units\Velocity.cs" />
