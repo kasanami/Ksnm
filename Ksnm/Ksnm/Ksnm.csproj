@@ -81,8 +81,10 @@
     <Compile Include="Text\Encoding.cs" />
     <Compile Include="Units\Area.cs" />
     <Compile Include="Units\IQuantity.cs" />
+    <Compile Include="Units\Mass.cs" />
     <Compile Include="Units\Quantity.cs" />
     <Compile Include="Units\Length.cs" />
+    <Compile Include="Units\SI\Kilogram.cs" />
     <Compile Include="Units\SI\Metre.cs" />
     <Compile Include="Units\SI\Second.cs" />
     <Compile Include="Units\Time.cs" />
