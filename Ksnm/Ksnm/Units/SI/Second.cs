@@ -21,25 +21,33 @@ freely, subject to the following restrictions:
 
 3. This notice may not be removed or altered from any source distribution.
 */
-namespace Ksnm.Units
+using Ksnm.Numerics;
+
+namespace Ksnm.Units.SI
 {
     /// <summary>
-    /// 何らかの量を表す。
+    /// 秒
     /// </summary>
-    /// <typeparam name="T">量を表す値の型</typeparam>
-    interface IQuantity<T>
+    public class Second<T> : Time<T> where T : IMath<T>
     {
+        #region プロパティ
         /// <summary>
         /// 名前
         /// </summary>
-        string Name { get; }
+        public override string Name => "second";
         /// <summary>
         /// 記号
         /// </summary>
-        string Symbol { get; }
-        /// <summary>
-        /// 値
-        /// </summary>
-        T Value { get; }
+        public override string Symbol => "s";
+        #endregion プロパティ
+        #region コンストラクタ
+        public Second()
+        {
+        }
+        public Second(T value)
+        {
+            Value = value;
+        }
+        #endregion コンストラクタ
     }
 }

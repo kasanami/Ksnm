@@ -21,25 +21,22 @@ freely, subject to the following restrictions:
 
 3. This notice may not be removed or altered from any source distribution.
 */
+using Ksnm.Numerics;
+
 namespace Ksnm.Units
 {
     /// <summary>
-    /// 何らかの量を表す。
+    /// 速度
     /// </summary>
-    /// <typeparam name="T">量を表す値の型</typeparam>
-    interface IQuantity<T>
+    public class Velocity<T> : Quantity<T> where T : IMath<T>
     {
         /// <summary>
-        /// 名前
+        /// 距離と時間から速度を計算する
         /// </summary>
-        string Name { get; }
-        /// <summary>
-        /// 記号
-        /// </summary>
-        string Symbol { get; }
-        /// <summary>
-        /// 値
-        /// </summary>
-        T Value { get; }
+        public Velocity(Length<T> length, Time<T> time)
+        {
+            Value = length.Value.Divide(time.Value);
+            Symbol = length.Symbol + "/" + time.Symbol;
+        }
     }
 }

@@ -84,6 +84,9 @@
     <Compile Include="Units\Quantity.cs" />
     <Compile Include="Units\Length.cs" />
     <Compile Include="Units\SI\Metre.cs" />
+    <Compile Include="Units\SI\Second.cs" />
+    <Compile Include="Units\Time.cs" />
+    <Compile Include="Units\Velocity.cs" />
     <Compile Include="Utilities\CsvLogger.cs" />
     <Compile Include="Science\Mathematics\Algorithm.cs" />
     <Compile Include="Binary.cs" />
