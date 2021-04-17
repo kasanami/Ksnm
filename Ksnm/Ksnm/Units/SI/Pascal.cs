@@ -26,49 +26,40 @@ using Ksnm.Numerics;
 namespace Ksnm.Units.SI
 {
     /// <summary>
-    /// ニュートン
+    /// パスカル
     /// </summary>
-    public class Newton<T> : Force<T> where T : IMath<T>
+    public class Pascal<T> : Pressure<T> where T : IMath<T>
     {
         #region プロパティ
         /// <summary>
         /// 名前
         /// </summary>
-        public override string Name => "newton";
+        public override string Name => "pascal";
         /// <summary>
         /// 記号
         /// </summary>
-        public override string Symbol => "N";
+        public override string Symbol => "Pa";
         #endregion プロパティ
         #region コンストラクタ
         /// <summary>
         /// 0 で初期化
         /// </summary>
-        public Newton()
+        public Pascal()
         {
         }
         /// <summary>
         /// 指定した値で初期化
         /// </summary>
-        public Newton(T value)
+        public Pascal(T value)
         {
             Value = value;
         }
         /// <summary>
-        /// 質量と加速度から力を計算する
+        /// 力と面積から圧力を計算する
         /// </summary>
-        public Newton(Kilogram<T> mass, Acceleration<T> acceleration) : base(mass, acceleration)
+        public Pascal(Newton<T> force, Area<T> area) : base(force, area)
         {
         }
         #endregion コンストラクタ
-        #region 演算子
-        /// <summary>
-        /// 除算し圧力を計算する
-        /// </summary>
-        public static Pascal<T> operator /(Newton<T> force, Area<T> area)
-        {
-            return new Pascal<T>(force, area);
-        }
-        #endregion 演算子
     }
 }

@@ -90,6 +90,7 @@
     <Compile Include="Units\SI\Kilogram.cs" />
     <Compile Include="Units\SI\Metre.cs" />
     <Compile Include="Units\SI\Newton.cs" />
+    <Compile Include="Units\SI\Pascal.cs" />
     <Compile Include="Units\SI\Second.cs" />
     <Compile Include="Units\Time.cs" />
     <Compile Include="Units\Velocity.cs" />
