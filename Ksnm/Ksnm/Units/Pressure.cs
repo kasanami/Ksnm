@@ -57,10 +57,10 @@ namespace Ksnm.Units
         /// <summary>
         /// 力と面積から圧力を計算する
         /// </summary>
-        public Pressure(Force<T> mass, Area<T> acceleration)
+        public Pressure(Force<T> force, Area<T> area)
         {
-            Value = mass.Value.Divide(acceleration.Value);
-            Symbol = mass.Symbol + "/" + acceleration.Symbol;
+            Value = force.Value.Divide(area.Value);
+            Symbol = force.Symbol + "/" + area.Symbol;
         }
         #endregion コンストラクタ
     }
