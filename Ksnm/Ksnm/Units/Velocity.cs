@@ -30,6 +30,20 @@ namespace Ksnm.Units
     /// </summary>
     public class Velocity<T> : Quantity<T> where T : IMath<T>
     {
+        #region コンストラクタ
+        /// <summary>
+        /// 0 で初期化
+        /// </summary>
+        public Velocity()
+        {
+        }
+        /// <summary>
+        /// 指定した値で初期化
+        /// </summary>
+        public Velocity(T value)
+        {
+            Value = value;
+        }
         /// <summary>
         /// 距離と時間から速度を計算する
         /// </summary>
@@ -38,5 +52,6 @@ namespace Ksnm.Units
             Value = length.Value.Divide(time.Value);
             Symbol = length.Symbol + "/" + time.Symbol;
         }
+        #endregion コンストラクタ
     }
 }
