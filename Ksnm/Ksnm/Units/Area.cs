@@ -44,18 +44,16 @@ namespace Ksnm.Units
         /// <summary>
         /// ２つの長さから面積を計算する
         /// </summary>
-        /// <param name="a"></param>
-        /// <param name="b"></param>
-        public Area(Length<T> a, Length<T> b)
+        public Area(Length<T> length1, Length<T> length2)
         {
-            Value = a.Value.Multiply(b.Value);
-            if (a.Symbol == b.Symbol)
+            Value = length1.Value.Multiply(length2.Value);
+            if (length1.Symbol == length2.Symbol)
             {
-                Symbol = a.Symbol + "^2";
+                Symbol = length1.Symbol + "^2";
             }
             else
             {
-                Symbol = a.Symbol + "*" + b.Symbol;
+                Symbol = length1.Symbol + "*" + length2.Symbol;
             }
         }
         #endregion コンストラクタ
