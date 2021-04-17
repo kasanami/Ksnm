@@ -94,6 +94,11 @@ namespace Ksnm.Numerics
             return value;
         }
 
+        public Double From(double value)
+        {
+            return value;
+        }
+
         public double Log(double baseValue)
         {
             return System.Math.Log(Value, baseValue);
