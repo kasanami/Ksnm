@@ -88,6 +88,7 @@
     <Compile Include="ExtensionMethods\System\Random\RandomExtensionsTests.cs" />
     <Compile Include="ExtensionMethods\System\String\StringExtensionsTests.cs" />
     <Compile Include="Numerics\BigDecimalTests.cs" />
+    <Compile Include="Numerics\DoubleTests.cs" />
     <Compile Include="Numerics\ComplexTests.cs" />
     <Compile Include="Numerics\FixedPointNumber64Q32Tests.cs" />
     <Compile Include="Numerics\FixedPointNumber32Q16Tests.cs" />

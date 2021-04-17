@@ -5,7 +5,7 @@ namespace Ksnm.Numerics
     /// <summary>
     /// System.Double のラッパー
     /// </summary>
-    public struct Double : IMath<Double>
+    public struct Double : IMath<Double>, IEquatable<Double>
     {
         #region プロパティ
         public double Value;
@@ -16,6 +16,16 @@ namespace Ksnm.Numerics
             Value = value;
         }
         #endregion コンストラクタ
+        /// <summary>
+        /// 指定された 2 つのインスタンスが同じ値を表しているかどうかを示す値を返します。
+        /// </summary>
+        /// <param name="d1">比較する最初の値です。</param>
+        /// <param name="d2">比較する 2 番目の値です。</param>
+        /// <returns>d1 と d2 が等しい場合は true。それ以外の場合は false。</returns>
+        public static bool Equals(Double d1, Double d2)
+        {
+            return d1.Value == d2.Value;
+        }
         #region 型変換
         /// <summary>
         /// byte から BigDecimal への暗黙的な変換を定義します。
@@ -164,10 +174,49 @@ namespace Ksnm.Numerics
         }
         #endregion IMath
         #region object
+        /// <summary>
+        /// 現在のインスタンスの値と指定されたオブジェクトの値が等しいかどうかを示す値を返します。
+        /// </summary>
+        public override bool Equals(object obj)
+        {
+            if (obj == null)
+            {
+                return false;
+            }
+            if (obj is Double)
+            {
+                return Equals((Double)obj);
+            }
+            if (obj is double)
+            {
+                return Equals((Double)obj);
+            }
+            return false;
+        }
+        /// <summary>
+        /// このインスタンスのハッシュ コードを返します。
+        /// </summary>
+        public override int GetHashCode()
+        {
+            return Value.GetHashCode();
+        }
+        /// <summary>
+        /// このインスタンスの数値を、それと等価な文字列形式に変換します。
+        /// </summary>
         public override string ToString()
         {
             return Value.ToString();
         }
         #endregion object
+
+        #region IEquatable
+        /// <summary>
+        /// このインスタンスが指定した値と等しいかどうかを示す値を返します。
+        /// </summary>
+        public bool Equals(Double other)
+        {
+            return Equals(this, other);
+        }
+        #endregion IEquatable
     }
 }
