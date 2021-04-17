@@ -23,51 +23,42 @@ freely, subject to the following restrictions:
 */
 using Ksnm.Numerics;
 
-namespace Ksnm.Units
+namespace Ksnm.Units.SI
 {
     /// <summary>
-    /// 力
+    /// ニュートン
     /// </summary>
-    public class Force<T> : Quantity<T> where T : IMath<T>
+    public class Newton<T> : Force<T> where T : IMath<T>
     {
         #region プロパティ
         /// <summary>
         /// 名前
         /// </summary>
-        public override string Name => "force";
+        public override string Name => "newton";
         /// <summary>
         /// 記号
         /// </summary>
-        public override string Symbol { get; protected set; }
+        public override string Symbol => "N";
         #endregion プロパティ
         #region コンストラクタ
         /// <summary>
         /// 0 で初期化
         /// </summary>
-        public Force()
+        public Newton()
         {
         }
         /// <summary>
         /// 指定した値で初期化
         /// </summary>
-        public Force(T value)
+        public Newton(T value)
         {
             Value = value;
         }
         /// <summary>
         /// 質量と加速度から力を計算する
         /// </summary>
-        public Force(Mass<T> mass, Acceleration<T> acceleration)
+        public Newton(Kilogram<T> mass, Acceleration<T> acceleration) : base(mass, acceleration)
         {
-            Value = mass.Value.Multiply(acceleration.Value);
-            if (mass.Symbol == acceleration.Symbol)
-            {
-                Symbol = mass.Symbol + "^2";
-            }
-            else
-            {
-                Symbol = mass.Symbol + "*" + acceleration.Symbol;
-            }
         }
         #endregion コンストラクタ
     }

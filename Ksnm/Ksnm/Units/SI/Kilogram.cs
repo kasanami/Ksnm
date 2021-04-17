@@ -49,5 +49,14 @@ namespace Ksnm.Units.SI
             Value = value;
         }
         #endregion コンストラクタ
+        #region 演算子
+        /// <summary>
+        /// 乗算し力を計算する
+        /// </summary>
+        public static Newton<T> operator *(Kilogram<T> mass, Acceleration<T> acceleration)
+        {
+            return new Newton<T>(mass, acceleration);
+        }
+        #endregion 演算子
     }
 }
