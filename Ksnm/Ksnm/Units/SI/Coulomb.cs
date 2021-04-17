@@ -26,38 +26,38 @@ using Ksnm.Numerics;
 namespace Ksnm.Units.SI
 {
     /// <summary>
-    /// アンペア
+    /// クーロン
     /// </summary>
-    public class Ampere<T> : ElectricCurrent<T> where T : IMath<T>
+    public class Coulomb<T> : ElectricCharge<T> where T : IMath<T>
     {
         #region プロパティ
         /// <summary>
         /// 名前
         /// </summary>
-        public override string Name => "ampere";
+        public override string Name => "coulomb";
         /// <summary>
         /// 記号
         /// </summary>
-        public override string Symbol => "A";
+        public override string Symbol => "C";
         #endregion プロパティ
         #region コンストラクタ
         /// <summary>
         /// 0 で初期化
         /// </summary>
-        public Ampere()
+        public Coulomb()
         {
         }
         /// <summary>
         /// 指定した値で初期化
         /// </summary>
-        public Ampere(T value)
+        public Coulomb(T value)
         {
             Value = value;
         }
         /// <summary>
-        /// 電荷と時間から電流を計算する
+        /// 電流と時間から電荷を計算する
         /// </summary>
-        public Ampere(Coulomb<T> charge, Second<T> time) : base(charge, time)
+        public Coulomb(Ampere<T> current, Second<T> time) : base(current, time)
         {
         }
         #endregion コンストラクタ

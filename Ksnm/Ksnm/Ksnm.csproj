@@ -81,6 +81,7 @@
     <Compile Include="Text\Encoding.cs" />
     <Compile Include="Units\Acceleration.cs" />
     <Compile Include="Units\Area.cs" />
+    <Compile Include="Units\ElectricCharge.cs" />
     <Compile Include="Units\ElectricCurrent.cs" />
     <Compile Include="Units\Energy.cs" />
     <Compile Include="Units\Force.cs" />
@@ -90,6 +91,7 @@
     <Compile Include="Units\Quantity.cs" />
     <Compile Include="Units\Length.cs" />
     <Compile Include="Units\SI\Ampere.cs" />
+    <Compile Include="Units\SI\Coulomb.cs" />
     <Compile Include="Units\SI\Joule.cs" />
     <Compile Include="Units\SI\Kilogram.cs" />
     <Compile Include="Units\SI\Kelvin.cs" />

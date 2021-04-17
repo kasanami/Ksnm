@@ -23,42 +23,44 @@ freely, subject to the following restrictions:
 */
 using Ksnm.Numerics;
 
-namespace Ksnm.Units.SI
+namespace Ksnm.Units
 {
     /// <summary>
-    /// アンペア
+    /// 電荷
     /// </summary>
-    public class Ampere<T> : ElectricCurrent<T> where T : IMath<T>
+    public class ElectricCharge<T> : Quantity<T> where T : IMath<T>
     {
         #region プロパティ
         /// <summary>
         /// 名前
         /// </summary>
-        public override string Name => "ampere";
+        public override string Name => "electric charge";
         /// <summary>
         /// 記号
         /// </summary>
-        public override string Symbol => "A";
+        public override string Symbol { get; protected set; }
         #endregion プロパティ
         #region コンストラクタ
         /// <summary>
         /// 0 で初期化
         /// </summary>
-        public Ampere()
+        public ElectricCharge()
         {
         }
         /// <summary>
         /// 指定した値で初期化
         /// </summary>
-        public Ampere(T value)
+        public ElectricCharge(T value)
         {
             Value = value;
         }
         /// <summary>
-        /// 電荷と時間から電流を計算する
+        /// 電流と時間から電荷を計算する
         /// </summary>
-        public Ampere(Coulomb<T> charge, Second<T> time) : base(charge, time)
+        public ElectricCharge(ElectricCurrent<T> current, Time<T> time)
         {
+            Value = current.Value.Multiply(time.Value);
+            Symbol = current.Symbol + "*" + time.Symbol;
         }
         #endregion コンストラクタ
     }

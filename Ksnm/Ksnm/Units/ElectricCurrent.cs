@@ -54,6 +54,14 @@ namespace Ksnm.Units
         {
             Value = value;
         }
+        /// <summary>
+        /// 電荷と時間から電流を計算する
+        /// </summary>
+        public ElectricCurrent(ElectricCharge<T> charge, Time<T> time)
+        {
+            Value = charge.Value.Divide(time.Value);
+            Symbol = charge.Symbol + "/" + time.Symbol;
+        }
         #endregion コンストラクタ
     }
 }
