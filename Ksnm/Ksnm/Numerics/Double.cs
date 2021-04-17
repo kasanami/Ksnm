@@ -89,6 +89,16 @@ namespace Ksnm.Numerics
             return System.Math.Floor(Value);
         }
 
+        public double From(int value)
+        {
+            return value;
+        }
+
+        public double From(double value)
+        {
+            return value;
+        }
+
         public double Log(double baseValue)
         {
             return System.Math.Log(Value, baseValue);
