@@ -4,21 +4,21 @@
     /// 何らかの量
     /// </summary>
     /// <typeparam name="T">値型</typeparam>
-    public class Quantity<T> : IQuantity<T>
+    public abstract class Quantity<T> : IQuantity<T>
     {
         #region プロパティ
         /// <summary>
         /// 名前
         /// </summary>
-        public string Name => "";
+        public virtual string Name { get; protected set; } = "";
         /// <summary>
         /// 記号
         /// </summary>
-        public string Symbol => "";
+        public virtual string Symbol { get; protected set; } = "";
         /// <summary>
         /// 名前
         /// </summary>
-        public T Value { get; protected set; }
+        public virtual T Value { get; protected set; }
         #endregion プロパティ
         #region コンストラクタ
         public Quantity()

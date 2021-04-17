@@ -11,11 +11,11 @@ namespace Ksnm.Units.SI
         /// <summary>
         /// 名前
         /// </summary>
-        public new string Name => "metre";
+        public override string Name => "metre";
         /// <summary>
         /// 記号
         /// </summary>
-        public new string Symbol => "m";
+        public override string Symbol => "m";
         #endregion プロパティ
         #region コンストラクタ
         public Metre()

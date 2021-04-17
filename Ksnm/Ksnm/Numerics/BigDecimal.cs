@@ -1319,6 +1319,14 @@ namespace Ksnm.Numerics
         {
             return value;
         }
+        /// <summary>
+        /// 指定した値を T 型の値に変換します。
+        /// </summary>
+        /// <returns>変換した値。</returns>
+        public BigDecimal From(double value)
+        {
+            throw new NotImplementedException();
+        }
 
         public double Log(double baseValue)
         {
