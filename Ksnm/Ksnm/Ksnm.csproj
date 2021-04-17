@@ -94,6 +94,7 @@
     <Compile Include="Units\SI\Newton.cs" />
     <Compile Include="Units\SI\Pascal.cs" />
     <Compile Include="Units\SI\Second.cs" />
+    <Compile Include="Units\Temperature.cs" />
     <Compile Include="Units\Time.cs" />
     <Compile Include="Units\Velocity.cs" />
     <Compile Include="Utilities\CsvLogger.cs" />
