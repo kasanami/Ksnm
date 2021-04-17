@@ -26,56 +26,40 @@ using Ksnm.Numerics;
 namespace Ksnm.Units.SI
 {
     /// <summary>
-    /// ニュートン
+    /// ジュール
     /// </summary>
-    public class Newton<T> : Force<T> where T : IMath<T>
+    public class Joule<T> : Energy<T> where T : IMath<T>
     {
         #region プロパティ
         /// <summary>
         /// 名前
         /// </summary>
-        public override string Name => "newton";
+        public override string Name => "joule";
         /// <summary>
         /// 記号
         /// </summary>
-        public override string Symbol => "N";
+        public override string Symbol => "J";
         #endregion プロパティ
         #region コンストラクタ
         /// <summary>
         /// 0 で初期化
         /// </summary>
-        public Newton()
+        public Joule()
         {
         }
         /// <summary>
         /// 指定した値で初期化
         /// </summary>
-        public Newton(T value)
+        public Joule(T value)
         {
             Value = value;
         }
         /// <summary>
-        /// 質量と加速度から力を計算する
+        /// 力と距離からエネルギーを計算する
         /// </summary>
-        public Newton(Kilogram<T> mass, Acceleration<T> acceleration) : base(mass, acceleration)
+        public Joule(Newton<T> force, Metre<T> length) : base(force, length)
         {
         }
         #endregion コンストラクタ
-        #region 演算子
-        /// <summary>
-        /// 力と面積から圧力を計算する
-        /// </summary>
-        public static Pascal<T> operator /(Newton<T> force, Area<T> area)
-        {
-            return new Pascal<T>(force, area);
-        }
-        /// <summary>
-        /// 力と距離からエネルギーを計算する
-        /// </summary>
-        public static Joule<T> operator *(Newton<T> force, Metre<T> length)
-        {
-            return new Joule<T>(force, length);
-        }
-        #endregion 演算子
     }
 }
