@@ -17,5 +17,14 @@ namespace Ksnm.Units.SI
         /// </summary>
         public new string Symbol => "m";
         #endregion プロパティ
+        #region コンストラクタ
+        public Metre()
+        {
+        }
+        public Metre(T value)
+        {
+            Value = value;
+        }
+        #endregion コンストラクタ
     }
 }

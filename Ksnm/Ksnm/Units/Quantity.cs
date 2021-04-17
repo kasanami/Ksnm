@@ -20,5 +20,20 @@
         /// </summary>
         public T Value { get; protected set; }
         #endregion プロパティ
+        #region コンストラクタ
+        public Quantity()
+        {
+        }
+        public Quantity(T value)
+        {
+            Value = value;
+        }
+        #endregion コンストラクタ
+        #region object
+        public override string ToString()
+        {
+            return Value.ToString() + Symbol;
+        }
+        #endregion object
     }
 }
