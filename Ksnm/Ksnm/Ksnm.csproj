@@ -81,6 +81,7 @@
     <Compile Include="Text\Encoding.cs" />
     <Compile Include="Units\Acceleration.cs" />
     <Compile Include="Units\Area.cs" />
+    <Compile Include="Units\Force.cs" />
     <Compile Include="Units\IQuantity.cs" />
     <Compile Include="Units\Mass.cs" />
     <Compile Include="Units\Quantity.cs" />
