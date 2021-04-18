@@ -70,7 +70,7 @@ namespace Ksnm.Units.SI
         /// </summary>
         public Second(Hour<T> time)
         {
-            Value = time.Value.Multiply(Value.From(60));
+            Value = time.Value.Multiply(Value.From(3600));
         }
         #endregion コンストラクタ
         #region 型変換
