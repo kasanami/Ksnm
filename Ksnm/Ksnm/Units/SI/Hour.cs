@@ -26,67 +26,66 @@ using Ksnm.Numerics;
 namespace Ksnm.Units.SI
 {
     /// <summary>
-    /// 秒
-    /// <para>記号:s</para>
-    /// <para>系  :国際単位系(SI)</para>
-    /// <para>種類:基本単位</para>
+    /// 時
+    /// <para>記号:min</para>
+    /// <para>種類:SI併用単位</para>
     /// <para>量  :時間</para>
     /// </summary>
-    public class Second<T> : Time<T> where T : IMath<T>
+    public class Hour<T> : Time<T> where T : IMath<T>
     {
         #region プロパティ
         /// <summary>
         /// 名前
         /// </summary>
-        public override string Name => "second";
+        public override string Name => "minute";
         /// <summary>
         /// 記号
         /// </summary>
-        public override string Symbol => "s";
+        public override string Symbol => "min";
         #endregion プロパティ
         #region コンストラクタ
         /// <summary>
         /// 0 で初期化
         /// </summary>
-        public Second()
+        public Hour()
         {
         }
         /// <summary>
         /// 指定した値で初期化
         /// </summary>
-        public Second(T value)
+        public Hour(T value)
         {
             Value = value;
         }
         /// <summary>
         /// 指定した値で初期化
         /// </summary>
-        public Second(Minute<T> time)
+        public Hour(Second<T> time)
         {
-            Value = time.Value.Multiply(Value.From(60));
+            Value = time.Value.Divide(Value.From(3600));
         }
         /// <summary>
         /// 指定した値で初期化
         /// </summary>
-        public Second(Hour<T> time)
+        public Hour(Minute<T> time)
         {
-            Value = time.Value.Multiply(Value.From(60));
+            Value = time.Value.Divide(Value.From(60));
         }
         #endregion コンストラクタ
         #region 型変換
         /// <summary>
         /// 他の型から、この型への暗黙的な変換を定義します。
         /// </summary>
-        public static implicit operator Second<T>(Minute<T> time)
+        public static implicit operator Hour<T>(Second<T> time)
         {
-            return new Second<T>(time);
+            return new Hour<T>(time);
         }
         /// <summary>
         /// 他の型から、この型への暗黙的な変換を定義します。
         /// </summary>
-        public static implicit operator Second<T>(Hour<T> time)
+        public static implicit operator Hour<T>(Minute<T> time)
         {
-            return new Second<T>(time);
+            return new Hour<T>(time);
         }
         #endregion 型変換
     }
