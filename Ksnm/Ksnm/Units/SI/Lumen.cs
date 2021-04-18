@@ -54,6 +54,14 @@ namespace Ksnm.Units.SI
         {
             Value = value;
         }
+        /// <summary>
+        /// 光度と角度から光束を計算する
+        /// </summary>
+        /// <param name="luminousIntensity">光度</param>
+        /// <param name="solidAngle">立体角</param>
+        public Lumen(LuminousIntensity<T> luminousIntensity, SolidAngle<T> solidAngle) : base(luminousIntensity, solidAngle)
+        {
+        }
         #endregion コンストラクタ
     }
 }
