@@ -65,6 +65,11 @@ namespace Ksnm.Numerics
             return Value + addend;
         }
 
+        public Double Add(int addend)
+        {
+            return Value + addend;
+        }
+
         public Double Ceiling()
         {
             return System.Math.Ceiling(Value);
@@ -84,6 +89,11 @@ namespace Ksnm.Numerics
         }
 
         public Double Divide(Double divisor)
+        {
+            return Value / divisor;
+        }
+
+        public Double Divide(int divisor)
         {
             return Value / divisor;
         }
@@ -139,6 +149,11 @@ namespace Ksnm.Numerics
             return Value * multiplier;
         }
 
+        public Double Multiply(int multiplier)
+        {
+            return Value * multiplier;
+        }
+
         public Double Negate()
         {
             if (Value < 0)
@@ -164,6 +179,11 @@ namespace Ksnm.Numerics
         }
 
         public Double Subtract(Double substrahend)
+        {
+            return Value - substrahend;
+        }
+
+        public Double Subtract(int substrahend)
         {
             return Value - substrahend;
         }

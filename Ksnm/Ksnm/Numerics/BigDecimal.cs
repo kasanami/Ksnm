@@ -1280,6 +1280,11 @@ namespace Ksnm.Numerics
         {
             return this + addend;
         }
+
+        public BigDecimal Add(int addend)
+        {
+            return this + addend;
+        }
         /// <summary>
         /// 指定した数以上の数のうち、最小の整数値を返します。
         /// </summary>
@@ -1295,6 +1300,11 @@ namespace Ksnm.Numerics
         }
 
         public BigDecimal Divide(BigDecimal divisor)
+        {
+            return this / divisor;
+        }
+
+        public BigDecimal Divide(int divisor)
         {
             return this / divisor;
         }
@@ -1366,6 +1376,11 @@ namespace Ksnm.Numerics
             return this * multiplier;
         }
 
+        public BigDecimal Multiply(int multiplier)
+        {
+            return this * multiplier;
+        }
+
         public BigDecimal Negate()
         {
             return -this;
@@ -1382,6 +1397,11 @@ namespace Ksnm.Numerics
         }
 
         public BigDecimal Subtract(BigDecimal substrahend)
+        {
+            return this - substrahend;
+        }
+
+        public BigDecimal Subtract(int substrahend)
         {
             return this - substrahend;
         }
