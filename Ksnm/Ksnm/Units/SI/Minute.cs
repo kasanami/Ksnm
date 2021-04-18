@@ -62,7 +62,14 @@ namespace Ksnm.Units.SI
         /// </summary>
         public Minute(Second<T> time)
         {
-            Value = time.Value.Divide(Value.From(60));
+            Value = time.Value.Divide(60);
+        }
+        /// <summary>
+        /// 指定した値で初期化
+        /// </summary>
+        public Minute(Hour<T> time)
+        {
+            Value = time.Value.Multiply(60);
         }
         #endregion コンストラクタ
         #region 型変換
@@ -70,6 +77,13 @@ namespace Ksnm.Units.SI
         /// 他の型から、この型への暗黙的な変換を定義します。
         /// </summary>
         public static implicit operator Minute<T>(Second<T> time)
+        {
+            return new Minute<T>(time);
+        }
+        /// <summary>
+        /// 他の型から、この型への暗黙的な変換を定義します。
+        /// </summary>
+        public static implicit operator Minute<T>(Hour<T> time)
         {
             return new Minute<T>(time);
         }

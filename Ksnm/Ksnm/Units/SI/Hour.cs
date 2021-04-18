@@ -62,14 +62,14 @@ namespace Ksnm.Units.SI
         /// </summary>
         public Hour(Second<T> time)
         {
-            Value = time.Value.Divide(Value.From(3600));
+            Value = time.Value.Divide(3600);
         }
         /// <summary>
         /// 指定した値で初期化
         /// </summary>
         public Hour(Minute<T> time)
         {
-            Value = time.Value.Divide(Value.From(60));
+            Value = time.Value.Divide(60);
         }
         #endregion コンストラクタ
         #region 型変換
