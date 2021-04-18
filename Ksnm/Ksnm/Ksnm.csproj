@@ -87,7 +87,9 @@
     <Compile Include="Units\ElectricPotential.cs" />
     <Compile Include="Units\Energy.cs" />
     <Compile Include="Units\Force.cs" />
+    <Compile Include="Units\Illuminance.cs" />
     <Compile Include="Units\IQuantity.cs" />
+    <Compile Include="Units\LuminousFlux.cs" />
     <Compile Include="Units\LuminousIntensity.cs" />
     <Compile Include="Units\Mass.cs" />
     <Compile Include="Units\PlaneAngle.cs" />
@@ -101,6 +103,8 @@
     <Compile Include="Units\SI\Joule.cs" />
     <Compile Include="Units\SI\Kilogram.cs" />
     <Compile Include="Units\SI\Kelvin.cs" />
+    <Compile Include="Units\SI\Lumen.cs" />
+    <Compile Include="Units\SI\Lux.cs" />
     <Compile Include="Units\SI\Metre.cs" />
     <Compile Include="Units\SI\Mole.cs" />
     <Compile Include="Units\SI\Newton.cs" />
