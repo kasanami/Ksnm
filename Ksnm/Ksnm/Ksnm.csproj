@@ -107,6 +107,8 @@
     <Compile Include="Units\SI\Lumen.cs" />
     <Compile Include="Units\SI\Lux.cs" />
     <Compile Include="Units\SI\Metre.cs" />
+    <Compile Include="Units\SI\MetrePerSecond.cs" />
+    <Compile Include="Units\SI\MetrePerSecondSquared.cs" />
     <Compile Include="Units\SI\Mole.cs" />
     <Compile Include="Units\SI\Newton.cs" />
     <Compile Include="Units\SI\Pascal.cs" />
