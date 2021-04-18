@@ -30,12 +30,22 @@ namespace Ksnm.Units
     /// </summary>
     public class Time<T> : Quantity<T> where T : IMath<T>
     {
+        #region コンストラクタ
         /// <summary>
-        /// 除算し速度を計算する
+        /// 0 で初期化
         /// </summary>
-        public static Velocity<T> operator /(Length<T> valueL, Time<T> valueR)
+        public Time()
         {
-            return new Velocity<T>(valueL, valueR);
         }
+        /// <summary>
+        /// 指定した値で初期化
+        /// </summary>
+        public Time(T value)
+        {
+            Value = value;
+        }
+        #endregion コンストラクタ
+        #region 演算子
+        #endregion 演算子
     }
 }

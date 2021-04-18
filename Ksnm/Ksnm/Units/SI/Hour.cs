@@ -27,7 +27,7 @@ namespace Ksnm.Units.SI
 {
     /// <summary>
     /// 時
-    /// <para>記号:min</para>
+    /// <para>記号:h</para>
     /// <para>種類:SI併用単位</para>
     /// <para>量  :時間</para>
     /// </summary>
@@ -37,11 +37,11 @@ namespace Ksnm.Units.SI
         /// <summary>
         /// 名前
         /// </summary>
-        public override string Name => "minute";
+        public override string Name => "hour";
         /// <summary>
         /// 記号
         /// </summary>
-        public override string Symbol => "min";
+        public override string Symbol => "h";
         #endregion プロパティ
         #region コンストラクタ
         /// <summary>

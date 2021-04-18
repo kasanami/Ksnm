@@ -47,11 +47,18 @@ namespace Ksnm.Units
         #endregion コンストラクタ
         #region 演算子
         /// <summary>
-        /// 乗算し面積を計算する
+        /// 2つの長さから面積を計算する
         /// </summary>
         public static Area<T> operator *(Length<T> valueL, Length<T> valueR)
         {
             return new Area<T>(valueL, valueR);
+        }
+        /// <summary>
+        /// 距離と時間から速度を計算する
+        /// </summary>
+        public static Velocity<T> operator /(Length<T> length, Time<T> time)
+        {
+            return new Velocity<T>(length, time);
         }
         #endregion 演算子
     }
