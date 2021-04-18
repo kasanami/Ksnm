@@ -119,6 +119,7 @@
     <Compile Include="Units\Temperature.cs" />
     <Compile Include="Units\Time.cs" />
     <Compile Include="Units\Velocity.cs" />
+    <Compile Include="Units\Volume.cs" />
     <Compile Include="Utilities\CsvLogger.cs" />
     <Compile Include="Science\Mathematics\Algorithm.cs" />
     <Compile Include="Binary.cs" />
