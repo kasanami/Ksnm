@@ -61,5 +61,14 @@ namespace Ksnm.Units.SI
         {
         }
         #endregion コンストラクタ
+        #region 演算子
+        /// <summary>
+        /// エネルギーと時間から仕事率を計算する
+        /// </summary>
+        public static Watt<T> operator /(Joule<T> energy, Second<T> time)
+        {
+            return new Watt<T>(energy, time);
+        }
+        #endregion 演算子
     }
 }
