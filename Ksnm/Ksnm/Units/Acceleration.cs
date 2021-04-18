@@ -42,6 +42,19 @@ namespace Ksnm.Units
         #endregion プロパティ
         #region コンストラクタ
         /// <summary>
+        /// 0 で初期化
+        /// </summary>
+        public Acceleration()
+        {
+        }
+        /// <summary>
+        /// 指定した値で初期化
+        /// </summary>
+        public Acceleration(T value)
+        {
+            Value = value;
+        }
+        /// <summary>
         /// 速度と時間から加速度を計算する
         /// </summary>
         public Acceleration(Velocity<T> velocity, Time<T> time)
