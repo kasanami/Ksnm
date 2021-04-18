@@ -80,6 +80,7 @@
     <Compile Include="Science\Electromagnetism\ElectricalResistance.cs" />
     <Compile Include="Text\Encoding.cs" />
     <Compile Include="Units\Acceleration.cs" />
+    <Compile Include="Units\AmountOfSubstance.cs" />
     <Compile Include="Units\Area.cs" />
     <Compile Include="Units\ElectricCharge.cs" />
     <Compile Include="Units\ElectricCurrent.cs" />
@@ -100,6 +101,7 @@
     <Compile Include="Units\SI\Kilogram.cs" />
     <Compile Include="Units\SI\Kelvin.cs" />
     <Compile Include="Units\SI\Metre.cs" />
+    <Compile Include="Units\SI\Mole.cs" />
     <Compile Include="Units\SI\Newton.cs" />
     <Compile Include="Units\SI\Pascal.cs" />
     <Compile Include="Units\SI\Second.cs" />
