@@ -59,7 +59,7 @@ namespace Ksnm.Units.SI
         /// </summary>
         /// <param name="luminousIntensity">光度</param>
         /// <param name="solidAngle">立体角</param>
-        public Lumen(LuminousIntensity<T> luminousIntensity, SolidAngle<T> solidAngle) : base(luminousIntensity, solidAngle)
+        public Lumen(LuminousIntensity<T> luminousIntensity, Steradian<T> solidAngle) : base(luminousIntensity, solidAngle)
         {
         }
         #endregion コンストラクタ

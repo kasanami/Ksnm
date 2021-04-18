@@ -57,7 +57,7 @@ namespace Ksnm.Units.SI
         /// <summary>
         /// 力と面積から圧力を計算する
         /// </summary>
-        public Pascal(Newton<T> force, Area<T> area) : base(force, area)
+        public Pascal(Newton<T> force, SquareMetre<T> area) : base(force, area)
         {
         }
         #endregion コンストラクタ

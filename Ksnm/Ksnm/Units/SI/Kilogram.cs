@@ -53,7 +53,7 @@ namespace Ksnm.Units.SI
         /// <summary>
         /// 乗算し力を計算する
         /// </summary>
-        public static Newton<T> operator *(Kilogram<T> mass, Acceleration<T> acceleration)
+        public static Newton<T> operator *(Kilogram<T> mass, MetrePerSecondSquared<T> acceleration)
         {
             return new Newton<T>(mass, acceleration);
         }

@@ -64,7 +64,7 @@ namespace Ksnm.Units.SI
         /// </summary>
         /// <param name="radius">半径</param>
         /// <param name="arc">円弧</param>
-        public Radian(Length<T> radius, Length<T> arc)
+        public Radian(Metre<T> radius, Metre<T> arc)
         {
             Value = arc.Value.Divide(radius.Value);
         }
@@ -73,9 +73,9 @@ namespace Ksnm.Units.SI
         /// <summary>
         /// 半径と角度から円弧を計算する
         /// </summary>
-        public static Length<T> operator *(Length<T> radius, Radian<T> radian)
+        public static Metre<T> operator *(Metre<T> radius, Radian<T> radian)
         {
-            return new Length<T>(radius.Value.Multiply(radian.Value));
+            return new Metre<T>(radius.Value.Multiply(radian.Value));
         }
         #endregion 演算子
     }

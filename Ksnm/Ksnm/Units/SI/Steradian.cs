@@ -64,7 +64,7 @@ namespace Ksnm.Units.SI
         /// </summary>
         /// <param name="radius">半径</param>
         /// <param name="area">表面積</param>
-        public Steradian(Length<T> radius, Area<T> area)
+        public Steradian(Metre<T> radius, SquareMetre<T> area)
         {
             Value = area.Value.Divide(radius.Value.Multiply(radius.Value));
         }

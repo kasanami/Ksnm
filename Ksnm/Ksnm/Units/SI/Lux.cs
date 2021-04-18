@@ -59,7 +59,7 @@ namespace Ksnm.Units.SI
         /// </summary>
         /// <param name="lumen">光束</param>
         /// <param name="area">面積</param>
-        public Lux(Lumen<T> lumen, Area<T> area) : base(lumen, area)
+        public Lux(Lumen<T> lumen, SquareMetre<T> area) : base(lumen, area)
         {
         }
         #endregion コンストラクタ

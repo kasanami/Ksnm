@@ -57,7 +57,7 @@ namespace Ksnm.Units.SI
         /// <summary>
         /// 質量と加速度から力を計算する
         /// </summary>
-        public Newton(Kilogram<T> mass, Acceleration<T> acceleration) : base(mass, acceleration)
+        public Newton(Kilogram<T> mass, MetrePerSecondSquared<T> acceleration) : base(mass, acceleration)
         {
         }
         #endregion コンストラクタ
@@ -65,7 +65,7 @@ namespace Ksnm.Units.SI
         /// <summary>
         /// 力と面積から圧力を計算する
         /// </summary>
-        public static Pascal<T> operator /(Newton<T> force, Area<T> area)
+        public static Pascal<T> operator /(Newton<T> force, SquareMetre<T> area)
         {
             return new Pascal<T>(force, area);
         }
