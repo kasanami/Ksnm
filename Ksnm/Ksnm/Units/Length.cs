@@ -26,7 +26,7 @@ using Ksnm.Numerics;
 namespace Ksnm.Units
 {
     /// <summary>
-    /// 長さの単位
+    /// 長さ
     /// </summary>
     public class Length<T> : Quantity<T> where T : IMath<T>
     {

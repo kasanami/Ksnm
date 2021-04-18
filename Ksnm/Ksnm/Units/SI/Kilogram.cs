@@ -27,6 +27,10 @@ namespace Ksnm.Units.SI
 {
     /// <summary>
     /// キログラム
+    /// <para>記号:kg</para>
+    /// <para>系  :国際単位系(SI)</para>
+    /// <para>種類:基本単位</para>
+    /// <para>量  :質量</para>
     /// </summary>
     public class Kilogram<T> : Mass<T> where T : IMath<T>
     {
@@ -51,7 +55,7 @@ namespace Ksnm.Units.SI
         #endregion コンストラクタ
         #region 演算子
         /// <summary>
-        /// 乗算し力を計算する
+        /// 質量と加速度から力を計算する
         /// </summary>
         public static Newton<T> operator *(Kilogram<T> mass, MetrePerSecondSquared<T> acceleration)
         {

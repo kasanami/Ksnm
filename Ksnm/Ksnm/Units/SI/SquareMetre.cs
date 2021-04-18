@@ -61,5 +61,14 @@ namespace Ksnm.Units.SI
         {
         }
         #endregion コンストラクタ
+        #region 演算子
+        /// <summary>
+        /// 面積と長さから体積を計算する
+        /// </summary>
+        public static CubicMetre<T> operator *(SquareMetre<T> area, Metre<T> length)
+        {
+            return new CubicMetre<T>(area, length);
+        }
+        #endregion 演算子
     }
 }

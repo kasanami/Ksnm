@@ -27,6 +27,10 @@ namespace Ksnm.Units.SI
 {
     /// <summary>
     /// モル
+    /// <para>記号:mol</para>
+    /// <para>系  :国際単位系(SI)</para>
+    /// <para>種類:基本単位</para>
+    /// <para>量  :物質量</para>
     /// </summary>
     public class Mole<T> : AmountOfSubstance<T> where T : IMath<T>
     {

@@ -27,6 +27,10 @@ namespace Ksnm.Units.SI
 {
     /// <summary>
     /// メートル
+    /// <para>記号:m</para>
+    /// <para>系  :国際単位系(SI)</para>
+    /// <para>種類:基本単位</para>
+    /// <para>量  :長さ</para>
     /// </summary>
     public class Metre<T> : Length<T> where T : IMath<T>
     {
@@ -49,5 +53,14 @@ namespace Ksnm.Units.SI
             Value = value;
         }
         #endregion コンストラクタ
+        #region 演算子
+        /// <summary>
+        /// 2つの長さから面積を計算する
+        /// </summary>
+        public static SquareMetre<T> operator *(Metre<T> length1, Metre<T> length2)
+        {
+            return new SquareMetre<T>(length1, length2);
+        }
+        #endregion 演算子
     }
 }

@@ -27,6 +27,10 @@ namespace Ksnm.Units.SI
 {
     /// <summary>
     /// 秒
+    /// <para>記号:s</para>
+    /// <para>系  :国際単位系(SI)</para>
+    /// <para>種類:基本単位</para>
+    /// <para>量  :時間</para>
     /// </summary>
     public class Second<T> : Time<T> where T : IMath<T>
     {
@@ -41,9 +45,15 @@ namespace Ksnm.Units.SI
         public override string Symbol => "s";
         #endregion プロパティ
         #region コンストラクタ
+        /// <summary>
+        /// 0 で初期化
+        /// </summary>
         public Second()
         {
         }
+        /// <summary>
+        /// 指定した値で初期化
+        /// </summary>
         public Second(T value)
         {
             Value = value;

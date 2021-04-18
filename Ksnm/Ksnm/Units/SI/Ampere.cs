@@ -27,6 +27,10 @@ namespace Ksnm.Units.SI
 {
     /// <summary>
     /// アンペア
+    /// <para>記号:A</para>
+    /// <para>系  :国際単位系(SI)</para>
+    /// <para>種類:基本単位</para>
+    /// <para>量  :電流</para>
     /// </summary>
     public class Ampere<T> : ElectricCurrent<T> where T : IMath<T>
     {

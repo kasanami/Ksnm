@@ -27,6 +27,10 @@ namespace Ksnm.Units.SI
 {
     /// <summary>
     /// ケルビン
+    /// <para>記号:K</para>
+    /// <para>系  :国際単位系(SI)</para>
+    /// <para>種類:基本単位</para>
+    /// <para>量  :熱力学温度</para>
     /// </summary>
     public class Kelvin<T> : Temperature<T> where T : IMath<T>
     {

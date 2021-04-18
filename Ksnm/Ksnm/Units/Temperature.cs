@@ -26,7 +26,7 @@ using Ksnm.Numerics;
 namespace Ksnm.Units
 {
     /// <summary>
-    /// 温度
+    /// 熱力学温度
     /// </summary>
     public class Temperature<T> : Quantity<T> where T : IMath<T>
     {
