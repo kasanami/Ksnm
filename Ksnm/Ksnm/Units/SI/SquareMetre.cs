@@ -54,6 +54,12 @@ namespace Ksnm.Units.SI
         {
             Value = value;
         }
+        /// <summary>
+        /// 2つの長さから面積を計算する
+        /// </summary>
+        public SquareMetre(Metre<T> length1, Metre<T> length2) : base(length1, length2)
+        {
+        }
         #endregion コンストラクタ
     }
 }
