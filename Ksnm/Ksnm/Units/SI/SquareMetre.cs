@@ -23,51 +23,36 @@ freely, subject to the following restrictions:
 */
 using Ksnm.Numerics;
 
-namespace Ksnm.Units
+namespace Ksnm.Units.SI
 {
     /// <summary>
-    /// 面積
+    /// 平方メートル
     /// </summary>
-    public class Area<T> : Quantity<T> where T : IMath<T>
+    public class SquareMetre<T> : Area<T> where T : IMath<T>
     {
         #region プロパティ
         /// <summary>
         /// 名前
         /// </summary>
-        public override string Name => "area";
+        public override string Name => "square metre";
         /// <summary>
         /// 記号
         /// </summary>
-        public override string Symbol { get; protected set; }
+        public override string Symbol => "m^2";
         #endregion プロパティ
         #region コンストラクタ
         /// <summary>
         /// 0 で初期化
         /// </summary>
-        public Area()
+        public SquareMetre()
         {
         }
         /// <summary>
         /// 指定した値で初期化
         /// </summary>
-        public Area(T value)
+        public SquareMetre(T value)
         {
             Value = value;
-        }
-        /// <summary>
-        /// ２つの長さから面積を計算する
-        /// </summary>
-        public Area(Length<T> length1, Length<T> length2)
-        {
-            Value = length1.Value.Multiply(length2.Value);
-            if (length1.Symbol == length2.Symbol)
-            {
-                Symbol = length1.Symbol + "^2";
-            }
-            else
-            {
-                Symbol = length1.Symbol + "*" + length2.Symbol;
-            }
         }
         #endregion コンストラクタ
     }

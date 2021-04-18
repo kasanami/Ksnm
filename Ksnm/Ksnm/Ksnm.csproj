@@ -111,6 +111,7 @@
     <Compile Include="Units\SI\Pascal.cs" />
     <Compile Include="Units\SI\Radian.cs" />
     <Compile Include="Units\SI\Second.cs" />
+    <Compile Include="Units\SI\SquareMetre.cs" />
     <Compile Include="Units\SI\Steradian.cs" />
     <Compile Include="Units\SI\Volt.cs" />
     <Compile Include="Units\SI\Watt.cs" />
