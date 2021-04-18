@@ -39,9 +39,9 @@ namespace Ksnm.Units
         /// </summary>
         public virtual string Symbol { get; protected set; } = "";
         /// <summary>
-        /// 名前
+        /// 値
         /// </summary>
-        public virtual T Value { get; protected set; }
+        public virtual T Value { get; set; }
         #endregion プロパティ
         #region コンストラクタ
         public Quantity()
