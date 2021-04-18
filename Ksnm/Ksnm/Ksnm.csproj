@@ -90,6 +90,7 @@
     <Compile Include="Units\IQuantity.cs" />
     <Compile Include="Units\LuminousIntensity.cs" />
     <Compile Include="Units\Mass.cs" />
+    <Compile Include="Units\PlaneAngle.cs" />
     <Compile Include="Units\Power.cs" />
     <Compile Include="Units\Pressure.cs" />
     <Compile Include="Units\Quantity.cs" />
@@ -107,6 +108,7 @@
     <Compile Include="Units\SI\Second.cs" />
     <Compile Include="Units\SI\Volt.cs" />
     <Compile Include="Units\SI\Watt.cs" />
+    <Compile Include="Units\SolidAngle.cs" />
     <Compile Include="Units\Temperature.cs" />
     <Compile Include="Units\Time.cs" />
     <Compile Include="Units\Velocity.cs" />
