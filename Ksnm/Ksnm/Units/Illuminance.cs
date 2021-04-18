@@ -54,6 +54,16 @@ namespace Ksnm.Units
         {
             Value = value;
         }
+        /// <summary>
+        /// 光束と面積から照度を計算する
+        /// </summary>
+        /// <param name="luminousFlux">光束</param>
+        /// <param name="area">面積</param>
+        public Illuminance(LuminousFlux<T> luminousFlux, Area<T> area)
+        {
+            Value = luminousFlux.Value.Divide(area.Value);
+            Symbol = luminousFlux.Symbol + "/" + area.Symbol;
+        }
         #endregion コンストラクタ
     }
 }

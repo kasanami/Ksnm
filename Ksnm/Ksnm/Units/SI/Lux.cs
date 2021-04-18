@@ -54,6 +54,14 @@ namespace Ksnm.Units.SI
         {
             Value = value;
         }
+        /// <summary>
+        /// 光束と面積から照度を計算する
+        /// </summary>
+        /// <param name="lumen">光束</param>
+        /// <param name="area">面積</param>
+        public Lux(Lumen<T> lumen, Area<T> area) : base(lumen, area)
+        {
+        }
         #endregion コンストラクタ
     }
 }
