@@ -45,12 +45,24 @@ namespace Ksnm.Units.SI
         public override string Symbol => "kg";
         #endregion プロパティ
         #region コンストラクタ
+        /// <summary>
+        /// 0 で初期化
+        /// </summary>
         public Kilogram()
         {
         }
+        /// <summary>
+        /// 指定した値で初期化
+        /// </summary>
         public Kilogram(T value)
         {
             Value = value;
+        }
+        /// <summary>
+        /// エネルギーと光速から質量を計算する
+        /// </summary>
+        public Kilogram(Joule<T> energy) : base(energy, MetrePerSecond<T>.SpeedOfLight)
+        {
         }
         #endregion コンストラクタ
         #region 演算子
@@ -62,5 +74,14 @@ namespace Ksnm.Units.SI
             return new Newton<T>(mass, acceleration);
         }
         #endregion 演算子
+        #region 型変換
+        /// <summary>
+        /// 他の型から、この型への明示的な変換を定義します。
+        /// </summary>
+        public static explicit operator Kilogram<T>(Joule<T> mass)
+        {
+            return new Kilogram<T>(mass);
+        }
+        #endregion 型変換
     }
 }

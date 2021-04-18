@@ -30,6 +30,12 @@ namespace Ksnm.Units.SI
     /// </summary>
     public class MetrePerSecond<T> : Velocity<T> where T : IMath<T>
     {
+        #region 定数
+        /// <summary>
+        /// 光速
+        /// </summary>
+        public static readonly MetrePerSecond<T> SpeedOfLight = new MetrePerSecond<T>(299792458);
+        #endregion 定数
         #region プロパティ
         /// <summary>
         /// 名前
@@ -46,6 +52,13 @@ namespace Ksnm.Units.SI
         /// </summary>
         public MetrePerSecond()
         {
+        }
+        /// <summary>
+        /// 指定した値で初期化
+        /// </summary>
+        public MetrePerSecond(int value)
+        {
+            Value = Value.From(value);
         }
         /// <summary>
         /// 指定した値で初期化

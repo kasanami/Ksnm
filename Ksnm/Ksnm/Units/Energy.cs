@@ -62,6 +62,14 @@ namespace Ksnm.Units
             Value = force.Value.Multiply(length.Value);
             Symbol = force.Symbol + "*" + length.Symbol;
         }
+        /// <summary>
+        /// 質量と光速からエネルギーを計算する
+        /// </summary>
+        public Energy(Mass<T> mass, Velocity<T> speedOfLight)
+        {
+            Value = mass.Value.Multiply(speedOfLight.Value.Multiply(speedOfLight.Value));
+            Symbol = mass.Symbol + "*" + speedOfLight.Symbol + "^2";
+        }
         #endregion コンストラクタ
     }
 }

@@ -30,5 +30,34 @@ namespace Ksnm.Units
     /// </summary>
     public class Mass<T> : Quantity<T> where T : IMath<T>
     {
+        #region プロパティ
+        /// <summary>
+        /// 名前
+        /// </summary>
+        public override string Name => "mass";
+        #endregion プロパティ
+        #region コンストラクタ
+        /// <summary>
+        /// 0 で初期化
+        /// </summary>
+        public Mass()
+        {
+        }
+        /// <summary>
+        /// 指定した値で初期化
+        /// </summary>
+        public Mass(T value)
+        {
+            Value = value;
+        }
+        /// <summary>
+        /// エネルギーと光速から質量を計算する
+        /// </summary>
+        public Mass(Energy<T> energy, Velocity<T> speedOfLight)
+        {
+            Value = energy.Value.Divide(speedOfLight.Value.Multiply(speedOfLight.Value));
+            Symbol = energy.Symbol + "/" + speedOfLight.Symbol + "^2";
+        }
+        #endregion コンストラクタ
     }
 }

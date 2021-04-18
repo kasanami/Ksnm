@@ -60,6 +60,12 @@ namespace Ksnm.Units.SI
         public Joule(Newton<T> force, Metre<T> length) : base(force, length)
         {
         }
+        /// <summary>
+        /// 質量と光速からエネルギーを計算する
+        /// </summary>
+        public Joule(Kilogram<T> mass) : base(mass, MetrePerSecond<T>.SpeedOfLight)
+        {
+        }
         #endregion コンストラクタ
         #region 演算子
         /// <summary>
@@ -70,5 +76,14 @@ namespace Ksnm.Units.SI
             return new Watt<T>(energy, time);
         }
         #endregion 演算子
+        #region 型変換
+        /// <summary>
+        /// 他の型から、この型への明示的な変換を定義します。
+        /// </summary>
+        public static explicit operator Joule<T>(Kilogram<T> mass)
+        {
+            return new Joule<T>(mass);
+        }
+        #endregion 型変換
     }
 }
