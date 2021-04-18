@@ -23,36 +23,51 @@ freely, subject to the following restrictions:
 */
 using Ksnm.Numerics;
 
-namespace Ksnm.Units
+namespace Ksnm.Units.SI
 {
     /// <summary>
-    /// 長さの単位
+    /// ステラジアン
+    /// <para>記号:sr</para>
+    /// <para>系  :国際単位系(SI)</para>
+    /// <para>種類:組立単位</para>
+    /// <para>量  :立体角</para>
+    /// <para>組立:m^2/m^2</para>
     /// </summary>
-    public class Length<T> : Quantity<T> where T : IMath<T>
+    public class Steradian<T> : SolidAngle<T> where T : IMath<T>
     {
+        #region プロパティ
+        /// <summary>
+        /// 名前
+        /// </summary>
+        public override string Name => "steradian";
+        /// <summary>
+        /// 記号
+        /// </summary>
+        public override string Symbol => "sr";
+        #endregion プロパティ
         #region コンストラクタ
         /// <summary>
         /// 0 で初期化
         /// </summary>
-        public Length()
+        public Steradian()
         {
         }
         /// <summary>
         /// 指定した値で初期化
         /// </summary>
-        public Length(T value)
+        public Steradian(T value)
         {
             Value = value;
         }
-        #endregion コンストラクタ
-        #region 演算子
         /// <summary>
-        /// 乗算し面積を計算する
+        /// 半径と表面積から角度を計算する
         /// </summary>
-        public static Area<T> operator *(Length<T> valueL, Length<T> valueR)
+        /// <param name="radius">半径</param>
+        /// <param name="area">表面積</param>
+        public Steradian(Length<T> radius, Area<T> area)
         {
-            return new Area<T>(valueL, valueR);
+            Value = area.Value.Divide(radius.Value.Multiply(radius.Value));
         }
-        #endregion 演算子
+        #endregion コンストラクタ
     }
 }

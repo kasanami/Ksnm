@@ -23,35 +23,59 @@ freely, subject to the following restrictions:
 */
 using Ksnm.Numerics;
 
-namespace Ksnm.Units
+namespace Ksnm.Units.SI
 {
     /// <summary>
-    /// 長さの単位
+    /// ラジアン
+    /// <para>記号:rad</para>
+    /// <para>系  :国際単位系(SI)</para>
+    /// <para>種類:組立単位</para>
+    /// <para>量  :平面角</para>
+    /// <para>組立:m/m</para>
     /// </summary>
-    public class Length<T> : Quantity<T> where T : IMath<T>
+    public class Radian<T> : PlaneAngle<T> where T : IMath<T>
     {
+        #region プロパティ
+        /// <summary>
+        /// 名前
+        /// </summary>
+        public override string Name => "radian";
+        /// <summary>
+        /// 記号
+        /// </summary>
+        public override string Symbol => "rad";
+        #endregion プロパティ
         #region コンストラクタ
         /// <summary>
         /// 0 で初期化
         /// </summary>
-        public Length()
+        public Radian()
         {
         }
         /// <summary>
         /// 指定した値で初期化
         /// </summary>
-        public Length(T value)
+        public Radian(T value)
         {
             Value = value;
+        }
+        /// <summary>
+        /// 半径と円弧から角度を計算する
+        /// </summary>
+        /// <param name="radius">半径</param>
+        /// <param name="arc">円弧</param>
+        public Radian(Length<T> radius, Length<T> arc)
+        {
+            Value = arc.Value.Divide(radius.Value);
         }
         #endregion コンストラクタ
         #region 演算子
         /// <summary>
-        /// 乗算し面積を計算する
+        /// 半径と角度から円弧を計算する
         /// </summary>
-        public static Area<T> operator *(Length<T> valueL, Length<T> valueR)
+        public static Length<T> operator *(Length<T> radius, Radian<T> radian)
         {
-            return new Area<T>(valueL, valueR);
+            return new Length<T>(radius.Value.Multiply(radian.Value));
         }
         #endregion 演算子
     }
