@@ -69,6 +69,7 @@
     <Compile Include="ExtensionMethods\System\Span\SpanExtensions.cs" />
     <Compile Include="Numerics\BigDecimal.cs" />
     <Compile Include="Numerics\Complex.cs" />
+    <Compile Include="Numerics\Decimal.cs" />
     <Compile Include="Numerics\Double.cs" />
     <Compile Include="Numerics\FixedPointNumber32Q16.cs" />
     <Compile Include="Numerics\FixedPointNumber64Q32.cs" />

@@ -1,6 +1,7 @@
 ﻿using Ksnm.ExtensionMethods.System.Decimal;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using static System.Math;
 
 namespace Ksnm.ExtensionMethods.System.Decimal.Tests
 {
@@ -335,6 +336,36 @@ namespace Ksnm.ExtensionMethods.System.Decimal.Tests
             sample = 131072m; Assert.AreEqual("00000000_00000000_00000000_00020000", sample.ToHexadecimalString("_"));
             sample = 262144m; Assert.AreEqual("00000000_00000000_00000000_00040000", sample.ToHexadecimalString("_"));
             sample = 524288m; Assert.AreEqual("00000000_00000000_00000000_00080000", sample.ToHexadecimalString("_"));
+        }
+
+        [TestMethod()]
+        public void LogTest()
+        {
+            const int Count = 100000;
+
+            var expecteds = new[]
+            {
+                -1m   ,// 0
+                0m   ,// 1
+                0.6931418055994530941723212145817656807550013436026m   ,// 2
+                1.098612886681096913952452369225257046474905578228m    ,// 3
+                1.386293611198906188344642429163531361510002687205m    ,// 4
+                1.609439124341003746007593332261876395256013542685m    ,// 5
+                1.79175469228055000812477358380702272722990692183m     ,// 6
+                1.945911490553133051053527434431797296370847295819m    ,// 7
+                2.079445416798359282516963643745297042265004030808m    ,// 8
+                2.197225773362193827904904738450514092949811156455m    ,// 9
+                2.3025850929940456840179914546843642076011014886288m    ,// 10
+            };
+
+            for (int i = 0; i < expecteds.Length; i++)
+            {
+                var expected = expecteds[i];
+                expected = Round(expected, 4, MidpointRounding.AwayFromZero);
+                var actual = ((decimal)i).Log(Count);
+                actual = Round(actual, 4, MidpointRounding.AwayFromZero);
+                Assert.AreEqual(expected, actual, $"log{i}");
+            }
         }
     }
 }

@@ -6,6 +6,7 @@ using Ksnm.ExtensionMethods.System.Single;
 using Ksnm.ExtensionMethods.System.Double;
 using System.Numerics;
 using Ksnm.Numerics;
+using static System.Math;
 
 namespace DemoApp
 {
@@ -23,6 +24,7 @@ namespace DemoApp
             //GreatestCommonDivisorWeightTest();
             //PowWeightTest();
             //PowTest();
+            //LogTest();
             /*
             Numeric num = new Numeric(100m);
             num.Normalize();
@@ -323,6 +325,10 @@ namespace DemoApp
                 }
                 Console.WriteLine();
             }
+        }
+        public static void LogTest()
+        {
+
         }
     }
 }

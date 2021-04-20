@@ -224,5 +224,39 @@ namespace Ksnm.ExtensionMethods.System.Decimal
             return builder.ToString();
         }
         #endregion To*
+
+        /// <summary>
+        /// 指定した数の自然 (底 e) 対数を返します。
+        /// NOTE:計算回数を増やしても精度があまり上がらない、count=100000くらいがベター
+        /// </summary>
+        /// <param name="value">対数を求める対象の数値。</param>
+        /// <param name="count">計算回数</param>
+        /// <returns></returns>
+        public static decimal Log(this decimal value, int count)
+        {
+            // 1未満の場合
+            if (value < 1)
+            {
+                return -1;
+            }
+            // 1の場合
+            if (value == 1)
+            {
+                return 0;
+            }
+            // 積分
+            var integral = 0m;
+            var div = (value - 1) / count;
+            // 積分していく
+            for (int i = 1; i < count - 1; i++)
+            {
+                integral += 1m / (i * div + 1);
+            }
+
+            integral += 1m / 2m;
+            integral += 1m / value;
+
+            return integral * div;
+        }
     }
 }
