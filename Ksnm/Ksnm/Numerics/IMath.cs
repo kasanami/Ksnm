@@ -80,6 +80,18 @@ namespace Ksnm.Numerics
         /// <returns>合計。</returns>
         T Add(int addend);
         /// <summary>
+        /// 加算し、その結果を返します。
+        /// </summary>
+        /// <param name="addend">加数。</param>
+        /// <returns>合計。</returns>
+        T Add(double addend);
+        /// <summary>
+        /// 加算し、その結果を返します。
+        /// </summary>
+        /// <param name="addend">加数。</param>
+        /// <returns>合計。</returns>
+        T Add(decimal addend);
+        /// <summary>
         /// 指定した数以上の数のうち、最小の整数値を返します。
         /// </summary>
         /// <returns>以上の最小の整数値。 </returns>
@@ -106,6 +118,20 @@ namespace Ksnm.Numerics
         /// <exception cref="System.DivideByZeroException">divisor が 0 (ゼロ) です。</exception>
         T Divide(int divisor);
         /// <summary>
+        /// 除算し、その結果を返します。
+        /// </summary>
+        /// <param name="divisor">除数。</param>
+        /// <returns>除算の商。</returns>
+        /// <exception cref="System.DivideByZeroException">divisor が 0 (ゼロ) です。</exception>
+        T Divide(double divisor);
+        /// <summary>
+        /// 除算し、その結果を返します。
+        /// </summary>
+        /// <param name="divisor">除数。</param>
+        /// <returns>除算の商。</returns>
+        /// <exception cref="System.DivideByZeroException">divisor が 0 (ゼロ) です。</exception>
+        T Divide(decimal divisor);
+        /// <summary>
         /// 除算し、その結果を返します。剰余は出力パラメーターとして返されます。
         /// </summary>
         /// <param name="divisor">除数。</param>
@@ -128,6 +154,11 @@ namespace Ksnm.Numerics
         /// </summary>
         /// <returns>変換した値。</returns>
         T From(double value);
+        /// <summary>
+        /// 指定した値を T 型の値に変換します。
+        /// </summary>
+        /// <returns>変換した値。</returns>
+        T From(decimal value);
         /// <summary>
         /// 指定した数値の指定した底での対数を返します。
         /// </summary>
@@ -185,6 +216,18 @@ namespace Ksnm.Numerics
         /// <returns>積。</returns>
         T Multiply(int multiplier);
         /// <summary>
+        /// 積を返します。
+        /// </summary>
+        /// <param name="multiplier">乗算対象の 2 番目の数。</param>
+        /// <returns>積。</returns>
+        T Multiply(double multiplier);
+        /// <summary>
+        /// 積を返します。
+        /// </summary>
+        /// <param name="multiplier">乗算対象の 2 番目の数。</param>
+        /// <returns>積。</returns>
+        T Multiply(decimal multiplier);
+        /// <summary>
         /// 否定 (負数化) します。
         /// </summary>
         /// <returns>-1 を乗算した結果。</returns>
@@ -220,6 +263,18 @@ namespace Ksnm.Numerics
         /// <param name="substrahend">減算する値 (減数)。</param>
         /// <returns>減算した結果。</returns>
         T Subtract(int substrahend);
+        /// <summary>
+        /// 減算し、その結果を返します。
+        /// </summary>
+        /// <param name="substrahend">減算する値 (減数)。</param>
+        /// <returns>減算した結果。</returns>
+        T Subtract(double substrahend);
+        /// <summary>
+        /// 減算し、その結果を返します。
+        /// </summary>
+        /// <param name="substrahend">減算する値 (減数)。</param>
+        /// <returns>減算した結果。</returns>
+        T Subtract(decimal substrahend);
         /// <summary>
         /// 整数部を計算します。
         /// </summary>

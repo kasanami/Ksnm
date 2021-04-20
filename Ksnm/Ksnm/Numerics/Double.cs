@@ -70,6 +70,16 @@ namespace Ksnm.Numerics
             return Value + addend;
         }
 
+        public Double Add(double addend)
+        {
+            return Value + addend;
+        }
+
+        public Double Add(decimal addend)
+        {
+            return Value + (double)addend;
+        }
+
         public Double Ceiling()
         {
             return System.Math.Ceiling(Value);
@@ -98,6 +108,16 @@ namespace Ksnm.Numerics
             return Value / divisor;
         }
 
+        public Double Divide(double divisor)
+        {
+            return Value / divisor;
+        }
+
+        public Double Divide(decimal divisor)
+        {
+            return Value / (double)divisor;
+        }
+
         public Double DivRem(Double divisor, out Double remainder)
         {
             throw new NotImplementedException();
@@ -117,6 +137,11 @@ namespace Ksnm.Numerics
         public Double From(double value)
         {
             return value;
+        }
+
+        public Double From(decimal value)
+        {
+            return (double)value;
         }
 
         public double Log(double baseValue)
@@ -154,6 +179,16 @@ namespace Ksnm.Numerics
             return Value * multiplier;
         }
 
+        public Double Multiply(double multiplier)
+        {
+            return Value * multiplier;
+        }
+
+        public Double Multiply(decimal multiplier)
+        {
+            return Value * (double)multiplier;
+        }
+
         public Double Negate()
         {
             if (Value < 0)
@@ -186,6 +221,16 @@ namespace Ksnm.Numerics
         public Double Subtract(int substrahend)
         {
             return Value - substrahend;
+        }
+
+        public Double Subtract(double substrahend)
+        {
+            return Value - substrahend;
+        }
+
+        public Double Subtract(decimal substrahend)
+        {
+            return Value - (double)substrahend;
         }
 
         public Double Truncate()

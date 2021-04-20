@@ -1285,6 +1285,16 @@ namespace Ksnm.Numerics
         {
             return this + addend;
         }
+
+        public BigDecimal Add(double addend)
+        {
+            return this + (BigDecimal)addend;
+        }
+
+        public BigDecimal Add(decimal addend)
+        {
+            return this + addend;
+        }
         /// <summary>
         /// 指定した数以上の数のうち、最小の整数値を返します。
         /// </summary>
@@ -1305,6 +1315,16 @@ namespace Ksnm.Numerics
         }
 
         public BigDecimal Divide(int divisor)
+        {
+            return this / divisor;
+        }
+
+        public BigDecimal Divide(double divisor)
+        {
+            return this / (BigDecimal)divisor;
+        }
+
+        public BigDecimal Divide(decimal divisor)
         {
             return this / divisor;
         }
@@ -1335,7 +1355,15 @@ namespace Ksnm.Numerics
         /// <returns>変換した値。</returns>
         public BigDecimal From(double value)
         {
-            throw new NotImplementedException();
+            return (BigDecimal)value;
+        }
+        /// <summary>
+        /// 指定した値を T 型の値に変換します。
+        /// </summary>
+        /// <returns>変換した値。</returns>
+        public BigDecimal From(decimal value)
+        {
+            return value;
         }
 
         public double Log(double baseValue)
@@ -1381,6 +1409,16 @@ namespace Ksnm.Numerics
             return this * multiplier;
         }
 
+        public BigDecimal Multiply(double multiplier)
+        {
+            return this * (BigDecimal)multiplier;
+        }
+
+        public BigDecimal Multiply(decimal multiplier)
+        {
+            return this * multiplier;
+        }
+
         public BigDecimal Negate()
         {
             return -this;
@@ -1402,6 +1440,16 @@ namespace Ksnm.Numerics
         }
 
         public BigDecimal Subtract(int substrahend)
+        {
+            return this - substrahend;
+        }
+
+        public BigDecimal Subtract(double substrahend)
+        {
+            return this - (BigDecimal)substrahend;
+        }
+
+        public BigDecimal Subtract(decimal substrahend)
         {
             return this - substrahend;
         }
