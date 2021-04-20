@@ -14,6 +14,7 @@ using Ksnm.ExtensionMethods.System.Decimal;
 using Ksnm.ExtensionMethods.System.Double;
 using Ksnm.Science.Mathematics;
 
+#pragma warning disable CS0162 // 到達できないコードが検出されました
 namespace DemoApp
 {
     public partial class MainForm : Form
@@ -634,3 +635,4 @@ namespace DemoApp
 
     }
 }
+#pragma warning restore CS0162 // 到達できないコードが検出されました
