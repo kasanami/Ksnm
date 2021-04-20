@@ -21,51 +21,50 @@ freely, subject to the following restrictions:
 
 3. This notice may not be removed or altered from any source distribution.
 */
-namespace Ksnm.Units
+using Ksnm.Numerics;
+
+namespace Ksnm.Units.SI
 {
     /// <summary>
-    /// 何らかの量
+    /// セルシウス度
+    /// <para>記号:℃</para>
+    /// <para>系  :国際単位系(SI)</para>
+    /// <para>種類:固有の名称と記号を持つ SI 単位</para>
+    /// <para>量  :温度</para>
     /// </summary>
-    /// <typeparam name="T">値型</typeparam>
-    public abstract class Quantity<T> : IQuantity<T>
+    public class DegreeCelsius<T> : Temperature<T> where T : IMath<T>
     {
         #region プロパティ
         /// <summary>
         /// 名前
         /// </summary>
-        public virtual string Name { get; protected set; } = "";
+        public override string Name => "degree Celsius";
         /// <summary>
         /// 記号
         /// </summary>
-        public virtual string Symbol { get; protected set; } = "";
-        /// <summary>
-        /// 値
-        /// </summary>
-        public virtual T Value { get; set; }
+        public override string Symbol => "℃";
         #endregion プロパティ
         #region コンストラクタ
-        public Quantity()
+        /// <summary>
+        /// 0 で初期化
+        /// </summary>
+        public DegreeCelsius()
         {
         }
-        public Quantity(T value)
+        /// <summary>
+        /// 指定した値で初期化
+        /// </summary>
+        public DegreeCelsius(T value)
         {
             Value = value;
         }
-        #endregion コンストラクタ
-        #region object
-        public override string ToString()
-        {
-            return Value.ToString() + Symbol;
-        }
-        #endregion object
-        #region 型変換
         /// <summary>
-        /// T型への暗黙的な変換を定義します。
+        /// ケルビンをセルシウス度に設定する。
         /// </summary>
-        public static implicit operator T(Quantity<T> quantity)
+        public DegreeCelsius(Kelvin<T> kelvin)
         {
-            return quantity.Value;
+            Value = kelvin.Value.Subtract(273.15m);
         }
-        #endregion 型変換
+        #endregion コンストラクタ
     }
 }

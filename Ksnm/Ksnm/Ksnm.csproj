@@ -101,6 +101,7 @@
     <Compile Include="Units\SI\Candela.cs" />
     <Compile Include="Units\SI\Coulomb.cs" />
     <Compile Include="Units\SI\CubicMetre.cs" />
+    <Compile Include="Units\SI\DegreeCelsius.cs" />
     <Compile Include="Units\SI\Hour.cs" />
     <Compile Include="Units\SI\Joule.cs" />
     <Compile Include="Units\SI\Kilogram.cs" />

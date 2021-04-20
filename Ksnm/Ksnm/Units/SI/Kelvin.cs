@@ -58,6 +58,13 @@ namespace Ksnm.Units.SI
         {
             Value = value;
         }
+        /// <summary>
+        /// セルシウス度をケルビンに設定する。
+        /// </summary>
+        public Kelvin(DegreeCelsius<T> degreeCelsius)
+        {
+            Value = degreeCelsius.Value.Add(273.15m);
+        }
         #endregion コンストラクタ
     }
 }
