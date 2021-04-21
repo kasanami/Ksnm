@@ -50,10 +50,15 @@ namespace Ksnm.Units.SI
         /// <summary>
         /// 指定した値で初期化
         /// </summary>
-        public Lux(T value)
-        {
-            Value = value;
-        }
+        public Lux(T value) : base(value) { }
+        /// <summary>
+        /// 指定した値で初期化
+        /// </summary>
+        public Lux(int value) : base(value) { }
+        /// <summary>
+        /// 指定した値で初期化
+        /// </summary>
+        public Lux(decimal value) : base(value) { }
         /// <summary>
         /// 光束と面積から照度を計算する
         /// </summary>

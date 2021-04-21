@@ -50,10 +50,15 @@ namespace Ksnm.Units.SI
         /// <summary>
         /// 指定した値で初期化
         /// </summary>
-        public CubicMetre(T value)
-        {
-            Value = value;
-        }
+        public CubicMetre(T value) : base(value) { }
+        /// <summary>
+        /// 指定した値で初期化
+        /// </summary>
+        public CubicMetre(int value) : base(value) { }
+        /// <summary>
+        /// 指定した値で初期化
+        /// </summary>
+        public CubicMetre(decimal value) : base(value) { }
         /// <summary>
         /// 3つの長さから体積を計算する
         /// </summary>

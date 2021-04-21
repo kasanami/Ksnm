@@ -55,10 +55,15 @@ namespace Ksnm.Units.SI
         /// <summary>
         /// 指定した値で初期化
         /// </summary>
-        public Steradian(T value)
-        {
-            Value = value;
-        }
+        public Steradian(T value) : base(value) { }
+        /// <summary>
+        /// 指定した値で初期化
+        /// </summary>
+        public Steradian(int value) : base(value) { }
+        /// <summary>
+        /// 指定した値で初期化
+        /// </summary>
+        public Steradian(decimal value) : base(value) { }
         /// <summary>
         /// 半径と表面積から角度を計算する
         /// </summary>

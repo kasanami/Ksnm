@@ -50,10 +50,15 @@ namespace Ksnm.Units
         /// <summary>
         /// 指定した値で初期化
         /// </summary>
-        public LuminousFlux(T value)
-        {
-            Value = value;
-        }
+        public LuminousFlux(T value) : base(value) { }
+        /// <summary>
+        /// 指定した値で初期化
+        /// </summary>
+        public LuminousFlux(int value) : base(value) { }
+        /// <summary>
+        /// 指定した値で初期化
+        /// </summary>
+        public LuminousFlux(decimal value) : base(value) { }
         /// <summary>
         /// 光度と角度から光束を計算する
         /// </summary>

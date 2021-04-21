@@ -40,10 +40,15 @@ namespace Ksnm.Units
         /// <summary>
         /// 指定した値で初期化
         /// </summary>
-        public Velocity(T value)
-        {
-            Value = value;
-        }
+        public Velocity(T value) : base(value) { }
+        /// <summary>
+        /// 指定した値で初期化
+        /// </summary>
+        public Velocity(int value) : base(value) { }
+        /// <summary>
+        /// 指定した値で初期化
+        /// </summary>
+        public Velocity(decimal value) : base(value) { }
         /// <summary>
         /// 距離と時間から速度を計算する
         /// </summary>

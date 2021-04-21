@@ -50,10 +50,15 @@ namespace Ksnm.Units
         /// <summary>
         /// 指定した値で初期化
         /// </summary>
-        public Illuminance(T value)
-        {
-            Value = value;
-        }
+        public Illuminance(T value) : base(value) { }
+        /// <summary>
+        /// 指定した値で初期化
+        /// </summary>
+        public Illuminance(int value) : base(value) { }
+        /// <summary>
+        /// 指定した値で初期化
+        /// </summary>
+        public Illuminance(decimal value) : base(value) { }
         /// <summary>
         /// 光束と面積から照度を計算する
         /// </summary>

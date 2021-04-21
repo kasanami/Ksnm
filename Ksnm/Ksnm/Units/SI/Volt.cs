@@ -50,10 +50,15 @@ namespace Ksnm.Units.SI
         /// <summary>
         /// 指定した値で初期化
         /// </summary>
-        public Volt(T value)
-        {
-            Value = value;
-        }
+        public Volt(T value) : base(value) { }
+        /// <summary>
+        /// 指定した値で初期化
+        /// </summary>
+        public Volt(int value) : base(value) { }
+        /// <summary>
+        /// 指定した値で初期化
+        /// </summary>
+        public Volt(decimal value) : base(value) { }
         /// <summary>
         /// エネルギーと電荷から電位差を計算する
         /// </summary>

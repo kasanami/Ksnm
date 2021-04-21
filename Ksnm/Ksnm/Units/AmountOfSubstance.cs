@@ -44,16 +44,19 @@ namespace Ksnm.Units
         /// <summary>
         /// 0 で初期化
         /// </summary>
-        public AmountOfSubstance()
-        {
-        }
+        public AmountOfSubstance() { }
         /// <summary>
         /// 指定した値で初期化
         /// </summary>
-        public AmountOfSubstance(T value)
-        {
-            Value = value;
-        }
+        public AmountOfSubstance(T value) : base(value) { }
+        /// <summary>
+        /// 指定した値で初期化
+        /// </summary>
+        public AmountOfSubstance(int value) : base(value) { }
+        /// <summary>
+        /// 指定した値で初期化
+        /// </summary>
+        public AmountOfSubstance(decimal value) : base(value) { }
         #endregion コンストラクタ
     }
 }

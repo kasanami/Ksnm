@@ -54,10 +54,15 @@ namespace Ksnm.Units.SI
         /// <summary>
         /// 指定した値で初期化
         /// </summary>
-        public Mole(T value)
-        {
-            Value = value;
-        }
+        public Mole(T value) : base(value) { }
+        /// <summary>
+        /// 指定した値で初期化
+        /// </summary>
+        public Mole(int value) : base(value) { }
+        /// <summary>
+        /// 指定した値で初期化
+        /// </summary>
+        public Mole(decimal value) : base(value) { }
         #endregion コンストラクタ
     }
 }

@@ -46,10 +46,15 @@ namespace Ksnm.Units
         /// <summary>
         /// 指定した値で初期化
         /// </summary>
-        public Mass(T value)
-        {
-            Value = value;
-        }
+        public Mass(T value) : base(value) { }
+        /// <summary>
+        /// 指定した値で初期化
+        /// </summary>
+        public Mass(int value) : base(value) { }
+        /// <summary>
+        /// 指定した値で初期化
+        /// </summary>
+        public Mass(decimal value) : base(value) { }
         /// <summary>
         /// エネルギーと光速から質量を計算する
         /// </summary>

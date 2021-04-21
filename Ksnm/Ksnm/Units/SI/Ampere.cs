@@ -48,16 +48,19 @@ namespace Ksnm.Units.SI
         /// <summary>
         /// 0 で初期化
         /// </summary>
-        public Ampere()
-        {
-        }
+        public Ampere() { }
         /// <summary>
         /// 指定した値で初期化
         /// </summary>
-        public Ampere(T value)
-        {
-            Value = value;
-        }
+        public Ampere(T value) : base(value) { }
+        /// <summary>
+        /// 指定した値で初期化
+        /// </summary>
+        public Ampere(int value) : base(value) { }
+        /// <summary>
+        /// 指定した値で初期化
+        /// </summary>
+        public Ampere(decimal value) : base(value) { }
         /// <summary>
         /// 電荷と時間から電流を計算する
         /// </summary>

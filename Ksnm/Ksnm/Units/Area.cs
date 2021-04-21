@@ -50,10 +50,15 @@ namespace Ksnm.Units
         /// <summary>
         /// 指定した値で初期化
         /// </summary>
-        public Area(T value)
-        {
-            Value = value;
-        }
+        public Area(T value) : base(value) { }
+        /// <summary>
+        /// 指定した値で初期化
+        /// </summary>
+        public Area(int value) : base(value) { }
+        /// <summary>
+        /// 指定した値で初期化
+        /// </summary>
+        public Area(decimal value) : base(value) { }
         /// <summary>
         /// ２つの長さから面積を計算する
         /// </summary>

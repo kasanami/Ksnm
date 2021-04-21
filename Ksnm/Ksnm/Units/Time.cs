@@ -40,10 +40,15 @@ namespace Ksnm.Units
         /// <summary>
         /// 指定した値で初期化
         /// </summary>
-        public Time(T value)
-        {
-            Value = value;
-        }
+        public Time(T value) : base(value) { }
+        /// <summary>
+        /// 指定した値で初期化
+        /// </summary>
+        public Time(int value) : base(value) { }
+        /// <summary>
+        /// 指定した値で初期化
+        /// </summary>
+        public Time(decimal value) : base(value) { }
         #endregion コンストラクタ
         #region 演算子
         #endregion 演算子

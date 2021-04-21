@@ -50,10 +50,15 @@ namespace Ksnm.Units.SI
         /// <summary>
         /// 指定した値で初期化
         /// </summary>
-        public Pascal(T value)
-        {
-            Value = value;
-        }
+        public Pascal(T value) : base(value) { }
+        /// <summary>
+        /// 指定した値で初期化
+        /// </summary>
+        public Pascal(int value) : base(value) { }
+        /// <summary>
+        /// 指定した値で初期化
+        /// </summary>
+        public Pascal(decimal value) : base(value) { }
         /// <summary>
         /// 力と面積から圧力を計算する
         /// </summary>

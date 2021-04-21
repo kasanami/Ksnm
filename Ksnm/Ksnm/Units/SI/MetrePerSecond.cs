@@ -56,17 +56,15 @@ namespace Ksnm.Units.SI
         /// <summary>
         /// 指定した値で初期化
         /// </summary>
-        public MetrePerSecond(int value)
-        {
-            Value = Value.From(value);
-        }
+        public MetrePerSecond(T value) : base(value) { }
         /// <summary>
         /// 指定した値で初期化
         /// </summary>
-        public MetrePerSecond(T value)
-        {
-            Value = value;
-        }
+        public MetrePerSecond(int value) : base(value) { }
+        /// <summary>
+        /// 指定した値で初期化
+        /// </summary>
+        public MetrePerSecond(decimal value) : base(value) { }
         /// <summary>
         /// 距離と時間から速度を計算する
         /// </summary>

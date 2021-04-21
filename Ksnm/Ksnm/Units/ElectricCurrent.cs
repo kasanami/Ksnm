@@ -50,10 +50,15 @@ namespace Ksnm.Units
         /// <summary>
         /// 指定した値で初期化
         /// </summary>
-        public ElectricCurrent(T value)
-        {
-            Value = value;
-        }
+        public ElectricCurrent(T value) : base(value) { }
+        /// <summary>
+        /// 指定した値で初期化
+        /// </summary>
+        public ElectricCurrent(int value) : base(value) { }
+        /// <summary>
+        /// 指定した値で初期化
+        /// </summary>
+        public ElectricCurrent(decimal value) : base(value) { }
         /// <summary>
         /// 電荷と時間から電流を計算する
         /// </summary>

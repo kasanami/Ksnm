@@ -50,10 +50,15 @@ namespace Ksnm.Units
         /// <summary>
         /// 指定した値で初期化
         /// </summary>
-        public ElectricPotential(T value)
-        {
-            Value = value;
-        }
+        public ElectricPotential(T value) : base(value) { }
+        /// <summary>
+        /// 指定した値で初期化
+        /// </summary>
+        public ElectricPotential(int value) : base(value) { }
+        /// <summary>
+        /// 指定した値で初期化
+        /// </summary>
+        public ElectricPotential(decimal value) : base(value) { }
         /// <summary>
         /// エネルギーと電荷から電位差を計算する
         /// </summary>

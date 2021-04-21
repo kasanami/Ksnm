@@ -54,10 +54,15 @@ namespace Ksnm.Units.SI
         /// <summary>
         /// 指定した値で初期化
         /// </summary>
-        public Kelvin(T value)
-        {
-            Value = value;
-        }
+        public Kelvin(T value) : base(value) { }
+        /// <summary>
+        /// 指定した値で初期化
+        /// </summary>
+        public Kelvin(int value) : base(value) { }
+        /// <summary>
+        /// 指定した値で初期化
+        /// </summary>
+        public Kelvin(decimal value) : base(value) { }
         /// <summary>
         /// セルシウス度をケルビンに設定する。
         /// </summary>

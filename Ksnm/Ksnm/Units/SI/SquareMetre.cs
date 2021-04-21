@@ -50,10 +50,15 @@ namespace Ksnm.Units.SI
         /// <summary>
         /// 指定した値で初期化
         /// </summary>
-        public SquareMetre(T value)
-        {
-            Value = value;
-        }
+        public SquareMetre(T value) : base(value) { }
+        /// <summary>
+        /// 指定した値で初期化
+        /// </summary>
+        public SquareMetre(int value) : base(value) { }
+        /// <summary>
+        /// 指定した値で初期化
+        /// </summary>
+        public SquareMetre(decimal value) : base(value) { }
         /// <summary>
         /// 2つの長さから面積を計算する
         /// </summary>

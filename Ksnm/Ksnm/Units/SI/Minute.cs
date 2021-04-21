@@ -53,10 +53,15 @@ namespace Ksnm.Units.SI
         /// <summary>
         /// 指定した値で初期化
         /// </summary>
-        public Minute(T value)
-        {
-            Value = value;
-        }
+        public Minute(T value) : base(value) { }
+        /// <summary>
+        /// 指定した値で初期化
+        /// </summary>
+        public Minute(int value) : base(value) { }
+        /// <summary>
+        /// 指定した値で初期化
+        /// </summary>
+        public Minute(decimal value) : base(value) { }
         /// <summary>
         /// 指定した値で初期化
         /// </summary>

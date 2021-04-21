@@ -50,10 +50,15 @@ namespace Ksnm.Units.SI
         /// <summary>
         /// 指定した値で初期化
         /// </summary>
-        public Watt(T value)
-        {
-            Value = value;
-        }
+        public Watt(T value) : base(value) { }
+        /// <summary>
+        /// 指定した値で初期化
+        /// </summary>
+        public Watt(int value) : base(value) { }
+        /// <summary>
+        /// 指定した値で初期化
+        /// </summary>
+        public Watt(decimal value) : base(value) { }
         /// <summary>
         /// エネルギーと時間から速度を計算する
         /// </summary>

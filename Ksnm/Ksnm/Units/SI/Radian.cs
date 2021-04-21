@@ -55,10 +55,15 @@ namespace Ksnm.Units.SI
         /// <summary>
         /// 指定した値で初期化
         /// </summary>
-        public Radian(T value)
-        {
-            Value = value;
-        }
+        public Radian(T value) : base(value) { }
+        /// <summary>
+        /// 指定した値で初期化
+        /// </summary>
+        public Radian(int value) : base(value) { }
+        /// <summary>
+        /// 指定した値で初期化
+        /// </summary>
+        public Radian(decimal value) : base(value) { }
         /// <summary>
         /// 半径と円弧から角度を計算する
         /// </summary>

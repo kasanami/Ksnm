@@ -45,13 +45,24 @@ namespace Ksnm.Units.SI
         public override string Symbol => "m";
         #endregion プロパティ
         #region コンストラクタ
+        /// <summary>
+        /// 0 で初期化
+        /// </summary>
         public Metre()
         {
         }
-        public Metre(T value)
-        {
-            Value = value;
-        }
+        /// <summary>
+        /// 指定した値で初期化
+        /// </summary>
+        public Metre(T value) : base(value) { }
+        /// <summary>
+        /// 指定した値で初期化
+        /// </summary>
+        public Metre(int value) : base(value) { }
+        /// <summary>
+        /// 指定した値で初期化
+        /// </summary>
+        public Metre(decimal value) : base(value) { }
         #endregion コンストラクタ
         #region 演算子
         /// <summary>

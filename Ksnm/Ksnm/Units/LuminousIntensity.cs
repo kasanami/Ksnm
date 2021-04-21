@@ -50,10 +50,15 @@ namespace Ksnm.Units
         /// <summary>
         /// 指定した値で初期化
         /// </summary>
-        public LuminousIntensity(T value)
-        {
-            Value = value;
-        }
+        public LuminousIntensity(T value) : base(value) { }
+        /// <summary>
+        /// 指定した値で初期化
+        /// </summary>
+        public LuminousIntensity(int value) : base(value) { }
+        /// <summary>
+        /// 指定した値で初期化
+        /// </summary>
+        public LuminousIntensity(decimal value) : base(value) { }
         #endregion コンストラクタ
     }
 }

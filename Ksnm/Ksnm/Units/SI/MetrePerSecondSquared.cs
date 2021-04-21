@@ -50,10 +50,15 @@ namespace Ksnm.Units.SI
         /// <summary>
         /// 指定した値で初期化
         /// </summary>
-        public MetrePerSecondSquared(T value)
-        {
-            Value = value;
-        }
+        public MetrePerSecondSquared(T value) : base(value) { }
+        /// <summary>
+        /// 指定した値で初期化
+        /// </summary>
+        public MetrePerSecondSquared(int value) : base(value) { }
+        /// <summary>
+        /// 指定した値で初期化
+        /// </summary>
+        public MetrePerSecondSquared(decimal value) : base(value) { }
         /// <summary>
         /// 速度と時間から加速度を計算する
         /// </summary>

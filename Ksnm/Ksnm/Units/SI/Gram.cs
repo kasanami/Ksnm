@@ -55,10 +55,15 @@ namespace Ksnm.Units.SI
         /// <summary>
         /// 指定した値で初期化
         /// </summary>
-        public Gram(T value)
-        {
-            Value = value;
-        }
+        public Gram(T value) : base(value) { }
+        /// <summary>
+        /// 指定した値で初期化
+        /// </summary>
+        public Gram(int value) : base(value) { }
+        /// <summary>
+        /// 指定した値で初期化
+        /// </summary>
+        public Gram(decimal value) : base(value) { }
         /// <summary>
         /// キログラムから変換
         /// </summary>

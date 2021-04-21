@@ -54,10 +54,15 @@ namespace Ksnm.Units.SI
         /// <summary>
         /// 指定した値で初期化
         /// </summary>
-        public Kilogram(T value)
-        {
-            Value = value;
-        }
+        public Kilogram(T value) : base(value) { }
+        /// <summary>
+        /// 指定した値で初期化
+        /// </summary>
+        public Kilogram(int value) : base(value) { }
+        /// <summary>
+        /// 指定した値で初期化
+        /// </summary>
+        public Kilogram(decimal value) : base(value) { }
         /// <summary>
         /// エネルギーと光速から質量を計算する
         /// </summary>

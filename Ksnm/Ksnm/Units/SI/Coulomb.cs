@@ -50,10 +50,15 @@ namespace Ksnm.Units.SI
         /// <summary>
         /// 指定した値で初期化
         /// </summary>
-        public Coulomb(T value)
-        {
-            Value = value;
-        }
+        public Coulomb(T value) : base(value) { }
+        /// <summary>
+        /// 指定した値で初期化
+        /// </summary>
+        public Coulomb(int value) : base(value) { }
+        /// <summary>
+        /// 指定した値で初期化
+        /// </summary>
+        public Coulomb(decimal value) : base(value) { }
         /// <summary>
         /// 電流と時間から電荷を計算する
         /// </summary>

@@ -21,6 +21,7 @@ freely, subject to the following restrictions:
 
 3. This notice may not be removed or altered from any source distribution.
 */
+using Ksnm.Numerics;
 using System;
 
 namespace Ksnm.Units
@@ -29,7 +30,7 @@ namespace Ksnm.Units
     /// 何らかの量
     /// </summary>
     /// <typeparam name="T">値型</typeparam>
-    public abstract class Quantity<T> : IQuantity<T>, IEquatable<Quantity<T>>
+    public abstract class Quantity<T> : IQuantity<T>, IEquatable<Quantity<T>> where T : IMath<T>
     {
         #region プロパティ
         /// <summary>
@@ -46,12 +47,32 @@ namespace Ksnm.Units
         public virtual T Value { get; set; }
         #endregion プロパティ
         #region コンストラクタ
+        /// <summary>
+        /// 0 で初期化
+        /// </summary>
         public Quantity()
         {
         }
+        /// <summary>
+        /// 指定した値で初期化
+        /// </summary>
         public Quantity(T value)
         {
             Value = value;
+        }
+        /// <summary>
+        /// 指定した値で初期化
+        /// </summary>
+        public Quantity(int value)
+        {
+            Value = Value.From(value);
+        }
+        /// <summary>
+        /// 指定した値で初期化
+        /// </summary>
+        public Quantity(decimal value)
+        {
+            Value = Value.From(value);
         }
         #endregion コンストラクタ
         #region object
