@@ -110,12 +110,13 @@
     <Compile Include="Text\EncodingTests.cs" />
     <Compile Include="Units\EnergyTests.cs" />
     <Compile Include="Units\ForceTests.cs" />
+    <Compile Include="Units\MassTests.cs" />
+    <Compile Include="Units\QuantityTests.cs" />
     <Compile Include="Units\SI\WattTests.cs" />
     <Compile Include="Units\TemperatureTests.cs" />
     <Compile Include="Units\TimeTests.cs" />
     <Compile Include="Units\VelocityTests.cs" />
     <Compile Include="Units\AreaTests.cs" />
-    <Compile Include="Units\SI\MetreTests.cs" />
     <Compile Include="Utilities\CsvLoggerTests.cs" />
   </ItemGroup>
   <ItemGroup>

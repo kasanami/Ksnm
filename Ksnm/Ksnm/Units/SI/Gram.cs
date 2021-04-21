@@ -26,75 +26,56 @@ using Ksnm.Numerics;
 namespace Ksnm.Units.SI
 {
     /// <summary>
-    /// キログラム
-    /// <para>記号:kg</para>
+    /// グラム
+    /// <para>記号:g</para>
     /// <para>系  :国際単位系(SI)</para>
-    /// <para>種類:基本単位</para>
+    /// <para>種類:基本単位の分量単位</para>
     /// <para>量  :質量</para>
+    /// <para>定義:10^−3 kg</para>
     /// </summary>
-    public class Kilogram<T> : Mass<T> where T : IMath<T>
+    public class Gram<T> : Mass<T> where T : IMath<T>
     {
         #region プロパティ
         /// <summary>
         /// 名前
         /// </summary>
-        public override string Name => "kilogram";
+        public override string Name => "gram";
         /// <summary>
         /// 記号
         /// </summary>
-        public override string Symbol => "kg";
+        public override string Symbol => "g";
         #endregion プロパティ
         #region コンストラクタ
         /// <summary>
         /// 0 で初期化
         /// </summary>
-        public Kilogram()
+        public Gram()
         {
         }
         /// <summary>
         /// 指定した値で初期化
         /// </summary>
-        public Kilogram(T value)
+        public Gram(T value)
         {
             Value = value;
         }
         /// <summary>
-        /// エネルギーと光速から質量を計算する
+        /// キログラムから変換
         /// </summary>
-        public Kilogram(Joule<T> energy) : base(energy, MetrePerSecond<T>.SpeedOfLight)
+        public Gram(Kilogram<T> kilogram)
         {
-        }
-        /// <summary>
-        /// グラムから変換
-        /// </summary>
-        public Kilogram(Gram<T> gram)
-        {
-            Value = gram.Value.Divide(1000m);
+            Value = kilogram.Value.Multiply(1000m);
         }
         #endregion コンストラクタ
         #region 演算子
-        /// <summary>
-        /// 質量と加速度から力を計算する
-        /// </summary>
-        public static Newton<T> operator *(Kilogram<T> mass, MetrePerSecondSquared<T> acceleration)
-        {
-            return new Newton<T>(mass, acceleration);
-        }
         #endregion 演算子
         #region 型変換
         /// <summary>
         /// 他の型から、この型への明示的な変換を定義します。
         /// </summary>
-        public static explicit operator Kilogram<T>(Joule<T> mass)
+        public static explicit operator Gram<T>(Kilogram<T> kilogram)
         {
-            return new Kilogram<T>(mass);
-        }
-        /// <summary>
-        /// 他の型から、この型への明示的な変換を定義します。
-        /// </summary>
-        public static explicit operator Kilogram<T>(Gram<T> gram)
-        {
-            return new Kilogram<T>(gram);
+            return new Gram<T>(kilogram);
         }
         #endregion 型変換
     }
