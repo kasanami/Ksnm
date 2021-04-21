@@ -55,6 +55,11 @@ namespace Ksnm.Units
         }
         #endregion コンストラクタ
         #region object
+        /// <summary>
+        /// 指定したオブジェクトが、現在のオブジェクトと等しいかどうかを判断します。
+        /// </summary>
+        /// <param name="obj">現在のオブジェクトと比較するオブジェクト。</param>
+        /// <returns>指定したオブジェクトが現在のオブジェクトと等しい場合は true。それ以外の場合は false。</returns>
         public override bool Equals(object obj)
         {
             if (obj is Quantity<T>)
@@ -63,10 +68,18 @@ namespace Ksnm.Units
             }
             return false;
         }
+        /// <summary>
+        /// 既定のハッシュ関数として機能します。
+        /// </summary>
+        /// <returns>現在のオブジェクトのハッシュ コード。</returns>
         public override int GetHashCode()
         {
             return Value.GetHashCode();
         }
+        /// <summary>
+        /// 現在のオブジェクトを表す文字列を返します。
+        /// </summary>
+        /// <returns>現在のオブジェクトを表す文字列。</returns>
         public override string ToString()
         {
             return Value.ToString() + Symbol;
