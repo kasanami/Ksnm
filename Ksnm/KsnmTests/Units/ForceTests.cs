@@ -13,7 +13,7 @@ namespace Ksnm.Units.Tests
             var newton = new SI.Newton<Decimal>(123);
             var kilogramForce = (GS.KilogramForce<Decimal>)newton;
             var newton2 = (SI.Newton<Decimal>)kilogramForce;
-            Assert.AreEqual(newton.Value, newton2.Value);
+            Assert.AreEqual(newton, newton2);
         }
     }
 }

@@ -21,13 +21,15 @@ freely, subject to the following restrictions:
 
 3. This notice may not be removed or altered from any source distribution.
 */
+using System;
+
 namespace Ksnm.Units
 {
     /// <summary>
     /// 何らかの量
     /// </summary>
     /// <typeparam name="T">値型</typeparam>
-    public abstract class Quantity<T> : IQuantity<T>
+    public abstract class Quantity<T> : IQuantity<T>, IEquatable<Quantity<T>>
     {
         #region プロパティ
         /// <summary>
@@ -53,11 +55,34 @@ namespace Ksnm.Units
         }
         #endregion コンストラクタ
         #region object
+        public override bool Equals(object obj)
+        {
+            if (obj is Quantity<T>)
+            {
+                return Equals((Quantity<T>)obj);
+            }
+            return false;
+        }
+        public override int GetHashCode()
+        {
+            return Value.GetHashCode();
+        }
         public override string ToString()
         {
             return Value.ToString() + Symbol;
         }
         #endregion object
+        #region IEquatable
+        /// <summary>
+        /// 現在のオブジェクトが、同じ型の別のオブジェクトと等しいかどうかを示します。
+        /// </summary>
+        /// <param name="other">このオブジェクトと比較するオブジェクト。</param>
+        /// <returns>現在のオブジェクトが other パラメーターと等しい場合は true、それ以外の場合は false です。</returns>
+        public bool Equals(Quantity<T> other)
+        {
+            return Value.Equals(other.Value);
+        }
+        #endregion IEquatable
         #region 型変換
         /// <summary>
         /// T型への暗黙的な変換を定義します。
