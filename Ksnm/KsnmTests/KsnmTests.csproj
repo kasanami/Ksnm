@@ -109,6 +109,7 @@
     <Compile Include="Science\Electromagnetism\ElectricalResistanceTests.cs" />
     <Compile Include="Text\EncodingTests.cs" />
     <Compile Include="Units\EnergyTests.cs" />
+    <Compile Include="Units\ForceTests.cs" />
     <Compile Include="Units\SI\WattTests.cs" />
     <Compile Include="Units\TemperatureTests.cs" />
     <Compile Include="Units\TimeTests.cs" />

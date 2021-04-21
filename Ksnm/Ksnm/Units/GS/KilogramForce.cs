@@ -23,74 +23,67 @@ freely, subject to the following restrictions:
 */
 using Ksnm.Numerics;
 
-namespace Ksnm.Units.SI
+namespace Ksnm.Units.GS
 {
     /// <summary>
-    /// ニュートン
+    /// 重量キログラム
+    /// <para>記号:kgf, kgw, kp</para>
+    /// <para>系  :MKS重力単位系</para>
+    /// <para>量  :力</para>
+    /// <para>SI  :9.80665 N</para>
+    /// <para>組立:g·kg</para>
+    /// <para>定義:1 kg の質量が標準重力加速度下で受ける重力</para>
     /// </summary>
-    public class Newton<T> : Force<T> where T : IMath<T>
+    public class KilogramForce<T> : Force<T> where T : IMath<T>
     {
+        #region 定数
+        /// <summary>
+        /// 標準重力
+        /// </summary>
+        public const decimal StandardGravity = 9.80665m;
+        #endregion 定数
         #region プロパティ
         /// <summary>
         /// 名前
         /// </summary>
-        public override string Name => "newton";
+        public override string Name => "kilogram-force";
         /// <summary>
         /// 記号
         /// </summary>
-        public override string Symbol => "N";
+        public override string Symbol => "kgf";
         #endregion プロパティ
         #region コンストラクタ
         /// <summary>
         /// 0 で初期化
         /// </summary>
-        public Newton()
+        public KilogramForce()
         {
         }
         /// <summary>
         /// 指定した値で初期化
         /// </summary>
-        public Newton(T value)
+        public KilogramForce(T value)
         {
             Value = value;
         }
         /// <summary>
-        /// 質量と加速度から力を計算する
+        /// ニュートンから変換
         /// </summary>
-        public Newton(Kilogram<T> mass, MetrePerSecondSquared<T> acceleration) : base(mass, acceleration)
+        public KilogramForce(SI.Newton<T> newton)
         {
-        }
-        /// <summary>
-        /// 重量キログラムから変換
-        /// </summary>
-        public Newton(GS.KilogramForce<T> kgf)
-        {
-            Value = kgf.Value.Divide(GS.KilogramForce<T>.StandardGravity);
+            Value = newton.Value.Multiply(StandardGravity);
         }
         #endregion コンストラクタ
         #region 演算子
-        /// <summary>
-        /// 力と面積から圧力を計算する
-        /// </summary>
-        public static Pascal<T> operator /(Newton<T> force, SquareMetre<T> area)
-        {
-            return new Pascal<T>(force, area);
-        }
-        /// <summary>
-        /// 力と距離からエネルギーを計算する
-        /// </summary>
-        public static Joule<T> operator *(Newton<T> force, Metre<T> length)
-        {
-            return new Joule<T>(force, length);
-        }
+
         #endregion 演算子
         #region 型変換
         /// <summary>
         /// 他の型から、この型への明示的な変換を定義します。
         /// </summary>
-        public static explicit operator Newton<T>(GS.KilogramForce<T> force)
+        public static explicit operator KilogramForce<T>(SI.Newton<T> force)
         {
-            return new Newton<T>(force);
+            return new KilogramForce<T>(force);
         }
         #endregion 型変換
     }
