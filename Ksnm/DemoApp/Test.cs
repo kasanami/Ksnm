@@ -2,11 +2,13 @@
 using System.Diagnostics;
 using Numeric = Ksnm.Numerics.Numeric;
 using Ksnm.ExtensionMethods.System.Collections.Generic.Enumerable;
+using Ksnm.ExtensionMethods.System.Collections.Generic.Dictionary;
 using Ksnm.ExtensionMethods.System.Single;
 using Ksnm.ExtensionMethods.System.Double;
 using System.Numerics;
 using Ksnm.Numerics;
 using static System.Math;
+using System.Collections.Generic;
 
 namespace DemoApp
 {
@@ -25,6 +27,7 @@ namespace DemoApp
             //PowWeightTest();
             //PowTest();
             //LogTest();
+            //SqrtTest();
             /*
             Numeric num = new Numeric(100m);
             num.Normalize();
@@ -196,7 +199,7 @@ namespace DemoApp
             Console.WriteLine($"BigDecimal.Sqrt();");
             for (int i = 0; i < 10; i++)
             {
-                var value = BigDecimal.Sqrt(i,105);
+                var value = BigDecimal.Sqrt(i, 105);
                 Console.WriteLine($"√{i}={value}");
             }
             Console.WriteLine();
@@ -329,6 +332,28 @@ namespace DemoApp
         public static void LogTest()
         {
 
+        }
+        public static void SqrtTest()
+        {
+            Console.WriteLine($"SqrtTest()");
+
+            var countCount = new Dictionary<int, int>();
+
+            {
+                decimal sqrt;
+                sqrt = Ksnm.Math.Sqrt(400m);
+                sqrt = Ksnm.Math.Sqrt(16m);
+                sqrt = Ksnm.Math.Sqrt(5m);
+                sqrt = Ksnm.Math.Sqrt(31m, 30);
+            }
+
+            for (decimal i = 0; i < 100000; i++)
+            {
+                var sqrt = Ksnm.Math.Sqrt(i, 30);
+                Console.WriteLine($"sqrt({i})={sqrt}");
+            }
+
+            countCount = countCount.OrderByKey();
         }
     }
 }

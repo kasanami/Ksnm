@@ -621,5 +621,42 @@ namespace Ksnm.Tests
                 Assert.AreEqual(expected, actual);
             }
         }
+
+        [TestMethod()]
+        public void SqrtTest()
+        {
+            // √2
+            {
+                var expected = 1.414213562373095048801688724m;
+                var actual = Math.Sqrt(2m);
+                Assert.AreEqual(expected, actual);
+            }
+            // √3
+            {
+                var expected = 1.732050807568877293527446342m;
+                var actual = Math.Sqrt(3m);
+                Assert.AreEqual(expected, actual);
+            }
+            // √4
+            {
+                var expected = 2m;
+                var actual = Math.Sqrt(4m);
+                Assert.AreEqual(expected, actual);
+            }
+            // √5
+            {
+                var expected = 2.236067977499789696409173669m;
+                var actual = Math.Sqrt(5m);
+                Assert.AreEqual(expected, actual);
+            }
+            // 2乗後に平方根
+            for (decimal i = 0; i < 100; i++)
+            {
+                var value = i * i;
+                var expected = i;
+                var actual = Math.Sqrt(value);
+                Assert.AreEqual(expected, actual, $"i={i}");
+            }
+        }
     }
 }

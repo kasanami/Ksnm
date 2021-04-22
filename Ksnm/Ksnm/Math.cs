@@ -21,6 +21,7 @@ freely, subject to the following restrictions:
 
 3. This notice may not be removed or altered from any source distribution.
 */
+using Ksnm.ExtensionMethods.System.Decimal;
 using Ksnm.Numerics;
 using System;
 using System.Collections.Generic;
@@ -808,6 +809,62 @@ namespace Ksnm
         #endregion BigInteger
         #endregion Pow
 
+        #region Sqrt
+        /// <summary>
+        /// 指定された数値の平方根を返します。
+        /// ※最下位桁は丸められます。
+        /// 丸めないと Sqrt(16)=4.0000000000000000000000000001 となるため
+        /// </summary>
+        /// <param name="value">平方根を求める対象の数値。</param>
+        /// <returns>戻り値 0 または正 d の正の平方根。</returns>
+        public static decimal Sqrt(decimal value)
+        {
+            // 0～100000で実験した結果、最低18必要
+            int count = 18;
+            return Sqrt(value, count);
+        }
+        /// <summary>
+        /// 指定された数値の平方根を返します。
+        /// ※最下位桁は丸められます。
+        /// 丸めないと Sqrt(16)=4.0000000000000000000000000001 となるため
+        /// </summary>
+        /// <param name="value">平方根を求める対象の数値。</param>
+        /// <param name="count">計算回数</param>
+        /// <returns>戻り値 0 または正 d の正の平方根。</returns>
+        public static decimal Sqrt(decimal value, int count)
+        {
+            if (value == 0)
+            {
+                return 0;
+            }
+            var temp = value;
+            var prev = value;
+            var prev2 = value;
+            var prev3 = value;
+            var prev4 = value;
+            var prev5 = value;
+            var prev6 = value;
+            for (int i = 0; i < count; i++)
+            {
+                temp = (temp * temp + value) / (2 * temp);
+                // 前から値が変わっていないなら終了
+                // (最下位桁が循環的に変わるパターンがあるので6個前まで比較する)
+                if (prev == temp || prev2 == temp || prev3 == temp || prev4 == temp || prev5 == temp || prev6 == temp)
+                {
+                    // 丸める
+                    return temp.RoundBottom();
+                }
+                prev6 = prev5;
+                prev5 = prev4;
+                prev4 = prev3;
+                prev3 = prev2;
+                prev2 = prev;
+                prev = temp;
+            }
+            return temp;
+        }
+        #endregion Sqrt
+
         #region 最大公約数 GreatestCommonDivisor
 
         /// <summary>
@@ -1113,7 +1170,7 @@ namespace Ksnm
         /// </summary>
         /// <param name="n">自然数</param>
         /// <returns>貴金属数</returns>
-        public static T MetallicNumber<T>(T n)where T:IMath<T>
+        public static T MetallicNumber<T>(T n) where T : IMath<T>
         {
             var two = n.From(2);
             var four = n.From(4);

@@ -131,6 +131,7 @@ namespace Ksnm.Numerics
         /// <returns>除算の商。</returns>
         /// <exception cref="System.DivideByZeroException">divisor が 0 (ゼロ) です。</exception>
         T Divide(decimal divisor);
+#if false
         /// <summary>
         /// 除算し、その結果を返します。剰余は出力パラメーターとして返されます。
         /// </summary>
@@ -139,6 +140,7 @@ namespace Ksnm.Numerics
         /// <returns>除算の商。</returns>
         /// <exception cref="System.DivideByZeroException">divisor が 0 (ゼロ) です。</exception>
         T DivRem(T divisor, out T remainder);
+#endif
         /// <summary>
         /// 指定した数以下の数のうち、最大の整数値を返します。
         /// </summary>
@@ -159,6 +161,7 @@ namespace Ksnm.Numerics
         /// </summary>
         /// <returns>変換した値。</returns>
         T From(decimal value);
+#if false
         /// <summary>
         /// 指定した数値の指定した底での対数を返します。
         /// </summary>
@@ -180,6 +183,7 @@ namespace Ksnm.Numerics
         /// <returns>10 を底とする value の対数。</returns>
         /// <exception cref="System.ArgumentOutOfRangeException">対数が、System.Double データ型の範囲外です。</exception>
         double Log10();
+#endif
         /// <summary>
         /// 2 つの値のうち 大きい方の値を返します。
         /// </summary>

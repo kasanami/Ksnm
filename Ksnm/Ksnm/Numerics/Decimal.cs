@@ -201,7 +201,7 @@ namespace Ksnm.Numerics
 
         public Decimal Pow(int exponent)
         {
-            return 0;// Pow(Value, exponent);
+            return Math.Pow(Value, exponent);
         }
 
         public Decimal Remainder(Decimal divisor)
@@ -211,7 +211,7 @@ namespace Ksnm.Numerics
 
         public Decimal Sqrt()
         {
-            return 0;// System.Math.Sqrt(Value);
+            return Math.Sqrt(Value);
         }
 
         public Decimal Subtract(Decimal substrahend)
