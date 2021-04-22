@@ -73,6 +73,20 @@ namespace Ksnm.Units.SI
         }
         #endregion コンストラクタ
         #region 演算子
+        /// <summary>
+        /// 乗算
+        /// </summary>
+        public static Gram<T> operator *(int value, Gram<T> quantity)
+        {
+            return new Gram<T>(quantity.Value.Multiply(value));
+        }
+        /// <summary>
+        /// 乗算
+        /// </summary>
+        public static Gram<T> operator *(decimal value, Gram<T> quantity)
+        {
+            return new Gram<T>(quantity.Value.Multiply(value));
+        }
         #endregion 演算子
         #region 型変換
         /// <summary>

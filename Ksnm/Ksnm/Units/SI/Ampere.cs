@@ -68,5 +68,21 @@ namespace Ksnm.Units.SI
         {
         }
         #endregion コンストラクタ
+        #region 演算子
+        /// <summary>
+        /// 乗算
+        /// </summary>
+        public static Ampere<T> operator *(int value, Ampere<T> quantity)
+        {
+            return new Ampere<T>(quantity.Value.Multiply(value));
+        }
+        /// <summary>
+        /// 乗算
+        /// </summary>
+        public static Ampere<T> operator *(decimal value, Ampere<T> quantity)
+        {
+            return new Ampere<T>(quantity.Value.Multiply(value));
+        }
+        #endregion 演算子
     }
 }

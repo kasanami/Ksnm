@@ -66,5 +66,21 @@ namespace Ksnm.Units.SI
         {
         }
         #endregion コンストラクタ
+        #region 演算子
+        /// <summary>
+        /// 乗算
+        /// </summary>
+        public static Pascal<T> operator *(int value, Pascal<T> quantity)
+        {
+            return new Pascal<T>(quantity.Value.Multiply(value));
+        }
+        /// <summary>
+        /// 乗算
+        /// </summary>
+        public static Pascal<T> operator *(decimal value, Pascal<T> quantity)
+        {
+            return new Pascal<T>(quantity.Value.Multiply(value));
+        }
+        #endregion 演算子
     }
 }

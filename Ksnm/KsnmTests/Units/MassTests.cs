@@ -1,6 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Ksnm.Units;
 using Ksnm.Numerics;
+using static Ksnm.Units.SIUnits<Ksnm.Numerics.Decimal>;
 
 namespace Ksnm.Units.Tests
 {
@@ -10,7 +10,7 @@ namespace Ksnm.Units.Tests
         [TestMethod()]
         public void MassTest()
         {
-            var kilogram = new SI.Kilogram<Decimal>(123m);
+            var kilogram = 123m * Kilogram;
             var gram = (SI.Gram<Decimal>)kilogram;
             var kilogram2 = (SI.Kilogram<Decimal>)gram;
             Assert.AreEqual(kilogram, kilogram2);

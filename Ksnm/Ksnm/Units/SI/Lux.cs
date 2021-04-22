@@ -68,5 +68,21 @@ namespace Ksnm.Units.SI
         {
         }
         #endregion コンストラクタ
+        #region 演算子
+        /// <summary>
+        /// 乗算
+        /// </summary>
+        public static Lux<T> operator *(int value, Lux<T> quantity)
+        {
+            return new Lux<T>(quantity.Value.Multiply(value));
+        }
+        /// <summary>
+        /// 乗算
+        /// </summary>
+        public static Lux<T> operator *(decimal value, Lux<T> quantity)
+        {
+            return new Lux<T>(quantity.Value.Multiply(value));
+        }
+        #endregion 演算子
     }
 }

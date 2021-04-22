@@ -99,6 +99,7 @@
     <Compile Include="Units\Pressure.cs" />
     <Compile Include="Units\Quantity.cs" />
     <Compile Include="Units\Length.cs" />
+    <Compile Include="Units\SIUnits.cs" />
     <Compile Include="Units\SI\Ampere.cs" />
     <Compile Include="Units\SI\Candela.cs" />
     <Compile Include="Units\SI\Coulomb.cs" />

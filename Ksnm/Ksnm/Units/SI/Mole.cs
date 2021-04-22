@@ -64,5 +64,21 @@ namespace Ksnm.Units.SI
         /// </summary>
         public Mole(decimal value) : base(value) { }
         #endregion コンストラクタ
+        #region 演算子
+        /// <summary>
+        /// 乗算
+        /// </summary>
+        public static Mole<T> operator *(int value, Mole<T> quantity)
+        {
+            return new Mole<T>(quantity.Value.Multiply(value));
+        }
+        /// <summary>
+        /// 乗算
+        /// </summary>
+        public static Mole<T> operator *(decimal value, Mole<T> quantity)
+        {
+            return new Mole<T>(quantity.Value.Multiply(value));
+        }
+        #endregion 演算子
     }
 }

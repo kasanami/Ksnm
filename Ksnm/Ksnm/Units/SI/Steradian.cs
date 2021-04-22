@@ -74,5 +74,21 @@ namespace Ksnm.Units.SI
             Value = area.Value.Divide(radius.Value.Multiply(radius.Value));
         }
         #endregion コンストラクタ
+        #region 演算子
+        /// <summary>
+        /// 乗算
+        /// </summary>
+        public static Steradian<T> operator *(int value, Steradian<T> quantity)
+        {
+            return new Steradian<T>(quantity.Value.Multiply(value));
+        }
+        /// <summary>
+        /// 乗算
+        /// </summary>
+        public static Steradian<T> operator *(decimal value, Steradian<T> quantity)
+        {
+            return new Steradian<T>(quantity.Value.Multiply(value));
+        }
+        #endregion 演算子
     }
 }

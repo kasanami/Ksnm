@@ -82,6 +82,20 @@ namespace Ksnm.Units.SI
         {
             return new Metre<T>(radius.Value.Multiply(radian.Value));
         }
+        /// <summary>
+        /// 乗算
+        /// </summary>
+        public static Radian<T> operator *(int value, Radian<T> quantity)
+        {
+            return new Radian<T>(quantity.Value.Multiply(value));
+        }
+        /// <summary>
+        /// 乗算
+        /// </summary>
+        public static Radian<T> operator *(decimal value, Radian<T> quantity)
+        {
+            return new Radian<T>(quantity.Value.Multiply(value));
+        }
         #endregion 演算子
     }
 }

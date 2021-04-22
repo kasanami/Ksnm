@@ -66,5 +66,21 @@ namespace Ksnm.Units.SI
         {
         }
         #endregion コンストラクタ
+        #region 演算子
+        /// <summary>
+        /// 乗算
+        /// </summary>
+        public static Coulomb<T> operator *(int value, Coulomb<T> quantity)
+        {
+            return new Coulomb<T>(quantity.Value.Multiply(value));
+        }
+        /// <summary>
+        /// 乗算
+        /// </summary>
+        public static Coulomb<T> operator *(decimal value, Coulomb<T> quantity)
+        {
+            return new Coulomb<T>(quantity.Value.Multiply(value));
+        }
+        #endregion 演算子
     }
 }

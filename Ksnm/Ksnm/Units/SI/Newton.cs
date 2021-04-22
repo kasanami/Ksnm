@@ -88,6 +88,20 @@ namespace Ksnm.Units.SI
         {
             return new Joule<T>(force, length);
         }
+        /// <summary>
+        /// 乗算
+        /// </summary>
+        public static Newton<T> operator *(int value, Newton<T> quantity)
+        {
+            return new Newton<T>(quantity.Value.Multiply(value));
+        }
+        /// <summary>
+        /// 乗算
+        /// </summary>
+        public static Newton<T> operator *(decimal value, Newton<T> quantity)
+        {
+            return new Newton<T>(quantity.Value.Multiply(value));
+        }
         #endregion 演算子
         #region 型変換
         /// <summary>

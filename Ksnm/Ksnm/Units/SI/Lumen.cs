@@ -68,5 +68,21 @@ namespace Ksnm.Units.SI
         {
         }
         #endregion コンストラクタ
+        #region 演算子
+        /// <summary>
+        /// 乗算
+        /// </summary>
+        public static Lumen<T> operator *(int value, Lumen<T> quantity)
+        {
+            return new Lumen<T>(quantity.Value.Multiply(value));
+        }
+        /// <summary>
+        /// 乗算
+        /// </summary>
+        public static Lumen<T> operator *(decimal value, Lumen<T> quantity)
+        {
+            return new Lumen<T>(quantity.Value.Multiply(value));
+        }
+        #endregion 演算子
     }
 }

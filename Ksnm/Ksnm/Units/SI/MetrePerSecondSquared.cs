@@ -66,5 +66,21 @@ namespace Ksnm.Units.SI
         {
         }
         #endregion コンストラクタ
+        #region 演算子
+        /// <summary>
+        /// 乗算
+        /// </summary>
+        public static MetrePerSecondSquared<T> operator *(int value, MetrePerSecondSquared<T> quantity)
+        {
+            return new MetrePerSecondSquared<T>(quantity.Value.Multiply(value));
+        }
+        /// <summary>
+        /// 乗算
+        /// </summary>
+        public static MetrePerSecondSquared<T> operator *(decimal value, MetrePerSecondSquared<T> quantity)
+        {
+            return new MetrePerSecondSquared<T>(quantity.Value.Multiply(value));
+        }
+        #endregion 演算子
     }
 }

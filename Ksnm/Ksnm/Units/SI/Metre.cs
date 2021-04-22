@@ -72,6 +72,20 @@ namespace Ksnm.Units.SI
         {
             return new SquareMetre<T>(length1, length2);
         }
+        /// <summary>
+        /// 乗算
+        /// </summary>
+        public static Metre<T> operator *(int value, Metre<T> quantity)
+        {
+            return new Metre<T>(quantity.Value.Multiply(value));
+        }
+        /// <summary>
+        /// 乗算
+        /// </summary>
+        public static Metre<T> operator *(decimal value, Metre<T> quantity)
+        {
+            return new Metre<T>(quantity.Value.Multiply(value));
+        }
         #endregion 演算子
     }
 }

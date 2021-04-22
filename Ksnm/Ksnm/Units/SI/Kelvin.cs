@@ -71,5 +71,21 @@ namespace Ksnm.Units.SI
             Value = degreeCelsius.Value.Add(273.15m);
         }
         #endregion コンストラクタ
+        #region 演算子
+        /// <summary>
+        /// 乗算
+        /// </summary>
+        public static Kelvin<T> operator *(int value, Kelvin<T> quantity)
+        {
+            return new Kelvin<T>(quantity.Value.Multiply(value));
+        }
+        /// <summary>
+        /// 乗算
+        /// </summary>
+        public static Kelvin<T> operator *(decimal value, Kelvin<T> quantity)
+        {
+            return new Kelvin<T>(quantity.Value.Multiply(value));
+        }
+        #endregion 演算子
     }
 }

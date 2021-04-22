@@ -80,6 +80,20 @@ namespace Ksnm.Units.SI
         {
             return new Watt<T>(energy, time);
         }
+        /// <summary>
+        /// 乗算
+        /// </summary>
+        public static Joule<T> operator *(int value, Joule<T> quantity)
+        {
+            return new Joule<T>(quantity.Value.Multiply(value));
+        }
+        /// <summary>
+        /// 乗算
+        /// </summary>
+        public static Joule<T> operator *(decimal value, Joule<T> quantity)
+        {
+            return new Joule<T>(quantity.Value.Multiply(value));
+        }
         #endregion 演算子
         #region 型変換
         /// <summary>

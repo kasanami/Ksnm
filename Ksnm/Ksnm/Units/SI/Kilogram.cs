@@ -85,6 +85,20 @@ namespace Ksnm.Units.SI
         {
             return new Newton<T>(mass, acceleration);
         }
+        /// <summary>
+        /// 乗算
+        /// </summary>
+        public static Kilogram<T> operator *(int value, Kilogram<T> quantity)
+        {
+            return new Kilogram<T>(quantity.Value.Multiply(value));
+        }
+        /// <summary>
+        /// 乗算
+        /// </summary>
+        public static Kilogram<T> operator *(decimal value, Kilogram<T> quantity)
+        {
+            return new Kilogram<T>(quantity.Value.Multiply(value));
+        }
         #endregion 演算子
         #region 型変換
         /// <summary>

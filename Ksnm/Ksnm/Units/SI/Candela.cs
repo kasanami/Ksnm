@@ -60,5 +60,21 @@ namespace Ksnm.Units.SI
         /// </summary>
         public Candela(decimal value) : base(value) { }
         #endregion コンストラクタ
+        #region 演算子
+        /// <summary>
+        /// 乗算
+        /// </summary>
+        public static Candela<T> operator *(int value, Candela<T> quantity)
+        {
+            return new Candela<T>(quantity.Value.Multiply(value));
+        }
+        /// <summary>
+        /// 乗算
+        /// </summary>
+        public static Candela<T> operator *(decimal value, Candela<T> quantity)
+        {
+            return new Candela<T>(quantity.Value.Multiply(value));
+        }
+        #endregion 演算子
     }
 }

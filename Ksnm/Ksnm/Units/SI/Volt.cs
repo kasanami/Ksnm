@@ -66,5 +66,21 @@ namespace Ksnm.Units.SI
         {
         }
         #endregion コンストラクタ
+        #region 演算子
+        /// <summary>
+        /// 乗算
+        /// </summary>
+        public static Volt<T> operator *(int value, Volt<T> quantity)
+        {
+            return new Volt<T>(quantity.Value.Multiply(value));
+        }
+        /// <summary>
+        /// 乗算
+        /// </summary>
+        public static Volt<T> operator *(decimal value, Volt<T> quantity)
+        {
+            return new Volt<T>(quantity.Value.Multiply(value));
+        }
+        #endregion 演算子
     }
 }

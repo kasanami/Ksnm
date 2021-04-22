@@ -77,6 +77,22 @@ namespace Ksnm.Units.SI
             Value = time.Value.Multiply(60);
         }
         #endregion コンストラクタ
+        #region 演算子
+        /// <summary>
+        /// 乗算
+        /// </summary>
+        public static Minute<T> operator *(int value, Minute<T> quantity)
+        {
+            return new Minute<T>(quantity.Value.Multiply(value));
+        }
+        /// <summary>
+        /// 乗算
+        /// </summary>
+        public static Minute<T> operator *(decimal value, Minute<T> quantity)
+        {
+            return new Minute<T>(quantity.Value.Multiply(value));
+        }
+        #endregion 演算子
         #region 型変換
         /// <summary>
         /// 他の型から、この型への暗黙的な変換を定義します。

@@ -72,5 +72,21 @@ namespace Ksnm.Units.SI
         {
         }
         #endregion コンストラクタ
+        #region 演算子
+        /// <summary>
+        /// 乗算
+        /// </summary>
+        public static CubicMetre<T> operator *(int value, CubicMetre<T> quantity)
+        {
+            return new CubicMetre<T>(quantity.Value.Multiply(value));
+        }
+        /// <summary>
+        /// 乗算
+        /// </summary>
+        public static CubicMetre<T> operator *(decimal value, CubicMetre<T> quantity)
+        {
+            return new CubicMetre<T>(quantity.Value.Multiply(value));
+        }
+        #endregion 演算子
     }
 }

@@ -74,6 +74,20 @@ namespace Ksnm.Units.SI
         {
             return new CubicMetre<T>(area, length);
         }
+        /// <summary>
+        /// 乗算
+        /// </summary>
+        public static SquareMetre<T> operator *(int value, SquareMetre<T> quantity)
+        {
+            return new SquareMetre<T>(quantity.Value.Multiply(value));
+        }
+        /// <summary>
+        /// 乗算
+        /// </summary>
+        public static SquareMetre<T> operator *(decimal value, SquareMetre<T> quantity)
+        {
+            return new SquareMetre<T>(quantity.Value.Multiply(value));
+        }
         #endregion 演算子
     }
 }
