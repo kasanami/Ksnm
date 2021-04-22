@@ -192,11 +192,7 @@ namespace Ksnm.Numerics
 
         public Decimal Negate()
         {
-            if (Value < 0)
-            {
-                return -Value;
-            }
-            return Value;
+            return -Value;
         }
 
         public Decimal Pow(int exponent)

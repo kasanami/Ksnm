@@ -191,11 +191,7 @@ namespace Ksnm.Numerics
 
         public Double Negate()
         {
-            if (Value < 0)
-            {
-                return -Value;
-            }
-            return Value;
+            return -Value;
         }
 
         public Double Pow(int exponent)
