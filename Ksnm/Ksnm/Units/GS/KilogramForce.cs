@@ -56,16 +56,19 @@ namespace Ksnm.Units.GS
         /// <summary>
         /// 0 で初期化
         /// </summary>
-        public KilogramForce()
-        {
-        }
+        public KilogramForce() { }
         /// <summary>
         /// 指定した値で初期化
         /// </summary>
-        public KilogramForce(T value)
-        {
-            Value = value;
-        }
+        public KilogramForce(T value) : base(value) { }
+        /// <summary>
+        /// 指定した値で初期化
+        /// </summary>
+        public KilogramForce(int value) : base(value) { }
+        /// <summary>
+        /// 指定した値で初期化
+        /// </summary>
+        public KilogramForce(decimal value) : base(value) { }
         /// <summary>
         /// ニュートンから変換
         /// </summary>
@@ -75,7 +78,20 @@ namespace Ksnm.Units.GS
         }
         #endregion コンストラクタ
         #region 演算子
-
+        /// <summary>
+        /// 乗算
+        /// </summary>
+        public static KilogramForce<T> operator *(int value, KilogramForce<T> quantity)
+        {
+            return new KilogramForce<T>(quantity.Value.Multiply(value));
+        }
+        /// <summary>
+        /// 乗算
+        /// </summary>
+        public static KilogramForce<T> operator *(decimal value, KilogramForce<T> quantity)
+        {
+            return new KilogramForce<T>(quantity.Value.Multiply(value));
+        }
         #endregion 演算子
         #region 型変換
         /// <summary>
