@@ -9,12 +9,6 @@ namespace Ksnm.Units.Tests
         [TestMethod()]
         public void ToStringTest()
         {
-            var len1 = 3 * Metre;
-            var len2 = 4 * Metre;
-            var area = len1 * len2;
-            Assert.AreEqual("3m", len1.ToString());
-            Assert.AreEqual("4m", len2.ToString());
-            Assert.AreEqual("12m^2", area.ToString());
         }
     }
 }

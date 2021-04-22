@@ -1,12 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Ksnm.Units;
 using Ksnm.Units.SI;
 using Ksnm.Numerics;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using static Ksnm.Units.SIUnits<Ksnm.Numerics.Decimal>;
 
 namespace Ksnm.Units.Tests
 {
@@ -16,12 +11,12 @@ namespace Ksnm.Units.Tests
         [TestMethod()]
         public void TemperatureTest()
         {
-            var celsius = new DegreeCelsius<BigDecimal>(36.5m);
-            var kelvin = new Kelvin<BigDecimal>(celsius);
-            Assert.AreEqual(36.5m + 273.15m, kelvin.Value);
+            var celsius = 36.5m * DegreeCelsius;
+            var kelvin = new Kelvin<Decimal>(celsius);
+            Assert.AreEqual<decimal>(36.5m + 273.15m, kelvin.Value);
             kelvin.Value += 1;
-            celsius = new DegreeCelsius<BigDecimal>(kelvin);
-            Assert.AreEqual(37.5m, celsius.Value);
+            celsius = new DegreeCelsius<Decimal>(kelvin);
+            Assert.AreEqual<decimal>(37.5m, celsius.Value);
         }
     }
 }

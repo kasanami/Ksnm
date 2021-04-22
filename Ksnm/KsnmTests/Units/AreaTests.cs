@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Ksnm.Numerics;
 using Ksnm.Units.SI;
+using static Ksnm.Units.SIUnits<Ksnm.Numerics.Decimal>;
 
 namespace Ksnm.Units.Tests
 {
@@ -10,9 +11,11 @@ namespace Ksnm.Units.Tests
         [TestMethod()]
         public void AreaTest()
         {
-            var len1 = new Metre<Double>(3);
-            var len2 = new Metre<Double>(4);
+            var len1 = 3 * Metre;
+            var len2 = 4 * Metre;
             var area = len1 * len2;
+            Assert.AreEqual("3m", len1.ToString());
+            Assert.AreEqual("4m", len2.ToString());
             Assert.AreEqual("12m^2", area.ToString());
         }
     }
