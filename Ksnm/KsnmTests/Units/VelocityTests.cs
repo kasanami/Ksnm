@@ -1,7 +1,9 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Ksnm.Numerics;
 using Ksnm.Units.SI;
+using Ksnm.Units.NonSI;
 using static Ksnm.Units.SIUnits<Ksnm.Numerics.Decimal>;
+using static Ksnm.Units.NonSIUnits<Ksnm.Numerics.Decimal>;
 
 namespace Ksnm.Units.Tests
 {
@@ -34,6 +36,20 @@ namespace Ksnm.Units.Tests
             {
                 var velocity = 123 * Metre / Hour;
                 Assert.AreEqual("123m/h", velocity.ToString());
+            }
+            // ノット
+            {
+                var velocity = 1 * Knot;
+                Assert.AreEqual("1kt", velocity.ToString());
+
+                var velocity2 = (MetrePerSecond<Decimal>)velocity;
+                Assert.AreEqual("0.5144444444444444444444444444m/s", velocity2.ToString());
+
+                velocity = NauticalMile / Hour;
+                Assert.AreEqual("1kt", velocity.ToString());
+
+                velocity2 = (MetrePerSecond<Decimal>)velocity;
+                Assert.AreEqual("0.5144444444444444444444444444m/s", velocity2.ToString());
             }
         }
     }

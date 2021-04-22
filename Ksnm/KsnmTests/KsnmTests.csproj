@@ -110,6 +110,7 @@
     <Compile Include="Text\EncodingTests.cs" />
     <Compile Include="Units\EnergyTests.cs" />
     <Compile Include="Units\ForceTests.cs" />
+    <Compile Include="Units\LengthTests.cs" />
     <Compile Include="Units\MassTests.cs" />
     <Compile Include="Units\QuantityTests.cs" />
     <Compile Include="Units\SI\WattTests.cs" />
