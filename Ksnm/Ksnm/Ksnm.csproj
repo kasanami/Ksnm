@@ -119,6 +119,7 @@
     <Compile Include="Units\SI\Mole.cs" />
     <Compile Include="Units\SI\Newton.cs" />
     <Compile Include="Units\SI\Pascal.cs" />
+    <Compile Include="Units\SIPrefixes.cs" />
     <Compile Include="Units\SI\Radian.cs" />
     <Compile Include="Units\SI\Second.cs" />
     <Compile Include="Units\SI\SquareMetre.cs" />
