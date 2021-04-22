@@ -258,5 +258,19 @@ namespace Ksnm.ExtensionMethods.System.Decimal
 
             return integral * div;
         }
+        /// <summary>
+        /// 最下位桁を丸めます。
+        /// 小数点以下が無い場合は何もしません。
+        /// </summary>
+        /// <returns>丸められた値。</returns>
+        public static decimal RoundBottom(this decimal value)
+        {
+            var decimals = value.GetExponentBits() - 1;
+            if (decimals >= 0)
+            {
+                return decimal.Round(value, decimals);
+            }
+            return value;
+        }
     }
 }

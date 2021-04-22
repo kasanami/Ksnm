@@ -367,5 +367,28 @@ namespace Ksnm.ExtensionMethods.System.Decimal.Tests
                 Assert.AreEqual(expected, actual, $"log{i}");
             }
         }
+
+        [TestMethod()]
+        public void RoundBottomTest()
+        {
+            {
+                var sample = 1.9999999999999999999999999999m;
+                var actual = sample.RoundBottom();
+                var expected = 2m;
+                Assert.AreEqual(expected, actual);
+            }
+            {
+                var sample = 19.999999999999999999999999999m;
+                var actual = sample.RoundBottom();
+                var expected = 20m;
+                Assert.AreEqual(expected, actual);
+            }
+            {
+                var sample = 1m;
+                var actual = sample.RoundBottom();
+                var expected = 1m;
+                Assert.AreEqual(expected, actual);
+            }
+        }
     }
 }
