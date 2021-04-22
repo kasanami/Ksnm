@@ -117,13 +117,13 @@ namespace Ksnm.Numerics
         {
             return Value / (double)divisor;
         }
-
+#if false
         public Double DivRem(Double divisor, out Double remainder)
         {
             throw new NotImplementedException();
             //return System.Math.DivRem(Value, divisor, out remainder);
         }
-
+#endif
         public Double Floor()
         {
             return System.Math.Floor(Value);

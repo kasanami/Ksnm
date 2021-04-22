@@ -118,13 +118,13 @@ namespace Ksnm.Numerics
         {
             return Value / divisor;
         }
-
+#if false
         public Decimal DivRem(Decimal divisor, out Decimal remainder)
         {
             throw new NotImplementedException();
             //return System.Math.DivRem(Value, divisor, out remainder);
         }
-
+#endif
         public Decimal Floor()
         {
             return System.Math.Floor(Value);
@@ -144,7 +144,7 @@ namespace Ksnm.Numerics
         {
             return value;
         }
-
+#if false
         public double Log(double baseValue)
         {
             return -1;// System.Math.Log(Value, baseValue);
@@ -159,7 +159,7 @@ namespace Ksnm.Numerics
         {
             return -1;//System.Math.Log10(Value);
         }
-
+#endif
         public Decimal Max(Decimal other)
         {
             return System.Math.Max(Value, other);
