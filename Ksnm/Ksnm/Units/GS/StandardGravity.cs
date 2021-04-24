@@ -26,13 +26,10 @@ using Ksnm.Numerics;
 namespace Ksnm.Units.GS
 {
     /// <summary>
-    /// 重量キログラム
-    /// <para>記号:kgf, kgw, kp</para>
-    /// <para>系  :MKS重力単位系</para>
-    /// <para>量  :力</para>
-    /// <para>SI  :9.80665 N</para>
-    /// <para>組立:g·kg</para>
-    /// <para>定義:1 kg の質量が標準重力加速度下で受ける重力</para>
+    /// 標準重力加速度
+    /// <para>記号:G</para>
+    /// <para>量  :加速度</para>
+    /// <para>定義:9.80665 m/s^2</para>
     /// </summary>
     public class StandardGravity<T> : Force<T> where T : IMath<T>
     {
