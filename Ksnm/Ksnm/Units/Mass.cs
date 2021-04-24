@@ -30,12 +30,6 @@ namespace Ksnm.Units
     /// </summary>
     public class Mass<T> : Quantity<T> where T : IMath<T>
     {
-        #region プロパティ
-        /// <summary>
-        /// 名前
-        /// </summary>
-        public override string Name => "mass";
-        #endregion プロパティ
         #region コンストラクタ
         /// <summary>
         /// 0 で初期化
