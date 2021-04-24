@@ -31,7 +31,7 @@ namespace Ksnm.Units.GS
     /// <para>量  :加速度</para>
     /// <para>定義:9.80665 m/s^2</para>
     /// </summary>
-    public class StandardGravity<T> : Force<T> where T : IMath<T>
+    public class StandardGravity<T> : Acceleration<T> where T : IMath<T>
     {
         #region 定数
         #endregion 定数
