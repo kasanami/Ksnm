@@ -88,7 +88,9 @@
     <Compile Include="Units\ElectricPotential.cs" />
     <Compile Include="Units\Energy.cs" />
     <Compile Include="Units\Force.cs" />
+    <Compile Include="Units\GSUnits.cs" />
     <Compile Include="Units\GS\KilogramForce.cs" />
+    <Compile Include="Units\GS\StandardGravity.cs" />
     <Compile Include="Units\Illuminance.cs" />
     <Compile Include="Units\IQuantity.cs" />
     <Compile Include="Units\LuminousFlux.cs" />

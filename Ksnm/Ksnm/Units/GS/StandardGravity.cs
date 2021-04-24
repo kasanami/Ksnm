@@ -23,72 +23,76 @@ freely, subject to the following restrictions:
 */
 using Ksnm.Numerics;
 
-namespace Ksnm.Units.SI
+namespace Ksnm.Units.GS
 {
     /// <summary>
-    /// メートル毎秒毎秒
+    /// 重量キログラム
+    /// <para>記号:kgf, kgw, kp</para>
+    /// <para>系  :MKS重力単位系</para>
+    /// <para>量  :力</para>
+    /// <para>SI  :9.80665 N</para>
+    /// <para>組立:g·kg</para>
+    /// <para>定義:1 kg の質量が標準重力加速度下で受ける重力</para>
     /// </summary>
-    public class MetrePerSecondSquared<T> : Acceleration<T> where T : IMath<T>
+    public class StandardGravity<T> : Force<T> where T : IMath<T>
     {
+        #region 定数
+        #endregion 定数
         #region プロパティ
         /// <summary>
         /// 名前
         /// </summary>
-        public override string Name => "metre per second squared";
+        public override string Name => "Standard gravity";
         /// <summary>
         /// 記号
         /// </summary>
-        public override string Symbol => "m/s^2";
+        public override string Symbol => "G";
         #endregion プロパティ
         #region コンストラクタ
         /// <summary>
         /// 0 で初期化
         /// </summary>
-        public MetrePerSecondSquared() { }
+        public StandardGravity() { }
         /// <summary>
         /// 指定した値で初期化
         /// </summary>
-        public MetrePerSecondSquared(T value) : base(value) { }
+        public StandardGravity(T value) : base(value) { }
         /// <summary>
         /// 指定した値で初期化
         /// </summary>
-        public MetrePerSecondSquared(int value) : base(value) { }
+        public StandardGravity(int value) : base(value) { }
         /// <summary>
         /// 指定した値で初期化
         /// </summary>
-        public MetrePerSecondSquared(decimal value) : base(value) { }
-        /// <summary>
-        /// 速度と時間から加速度を計算する
-        /// </summary>
-        public MetrePerSecondSquared(MetrePerSecond<T> velocity, Second<T> time) : base(velocity, time) { }
+        public StandardGravity(decimal value) : base(value) { }
         /// <summary>
         /// 他の加速度から初期化
         /// </summary>
-        public MetrePerSecondSquared(GS.StandardGravity<T> acceleration) : this(acceleration.Value.Multiply(9.80665m)) { }
+        public StandardGravity(SI.MetrePerSecondSquared<T> acceleration) : this(acceleration.Value.Divide(9.80665m)) { }
         #endregion コンストラクタ
         #region 演算子
         /// <summary>
         /// 乗算
         /// </summary>
-        public static MetrePerSecondSquared<T> operator *(int value, MetrePerSecondSquared<T> quantity)
+        public static StandardGravity<T> operator *(int value, StandardGravity<T> quantity)
         {
-            return new MetrePerSecondSquared<T>(quantity.Value.Multiply(value));
+            return new StandardGravity<T>(quantity.Value.Multiply(value));
         }
         /// <summary>
         /// 乗算
         /// </summary>
-        public static MetrePerSecondSquared<T> operator *(decimal value, MetrePerSecondSquared<T> quantity)
+        public static StandardGravity<T> operator *(decimal value, StandardGravity<T> quantity)
         {
-            return new MetrePerSecondSquared<T>(quantity.Value.Multiply(value));
+            return new StandardGravity<T>(quantity.Value.Multiply(value));
         }
         #endregion 演算子
         #region 型変換
         /// <summary>
         /// 明示的な変換を定義します。
         /// </summary>
-        public static explicit operator MetrePerSecondSquared<T>(GS.StandardGravity<T> acceleration)
+        public static explicit operator StandardGravity<T>(SI.MetrePerSecondSquared<T> acceleration)
         {
-            return new MetrePerSecondSquared<T>(acceleration);
+            return new StandardGravity<T>(acceleration);
         }
         #endregion 型変換
     }
