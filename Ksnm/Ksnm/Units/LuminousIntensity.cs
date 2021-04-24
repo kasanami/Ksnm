@@ -30,23 +30,11 @@ namespace Ksnm.Units
     /// </summary>
     public class LuminousIntensity<T> : Quantity<T> where T : IMath<T>
     {
-        #region プロパティ
-        /// <summary>
-        /// 名前
-        /// </summary>
-        public override string Name => "luminous intensity";
-        /// <summary>
-        /// 記号
-        /// </summary>
-        public override string Symbol { get; protected set; }
-        #endregion プロパティ
         #region コンストラクタ
         /// <summary>
         /// 0 で初期化
         /// </summary>
-        public LuminousIntensity()
-        {
-        }
+        public LuminousIntensity() { }
         /// <summary>
         /// 指定した値で初期化
         /// </summary>

@@ -34,9 +34,7 @@ namespace Ksnm.Units
         /// <summary>
         /// 0 で初期化
         /// </summary>
-        public Power()
-        {
-        }
+        public Power() { }
         /// <summary>
         /// 指定した値で初期化
         /// </summary>

@@ -34,9 +34,7 @@ namespace Ksnm.Units
         /// <summary>
         /// 0 で初期化
         /// </summary>
-        public Time()
-        {
-        }
+        public Time() { }
         /// <summary>
         /// 指定した値で初期化
         /// </summary>

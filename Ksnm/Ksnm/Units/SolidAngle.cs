@@ -30,23 +30,11 @@ namespace Ksnm.Units
     /// </summary>
     public class SolidAngle<T> : Quantity<T> where T : IMath<T>
     {
-        #region プロパティ
-        /// <summary>
-        /// 名前
-        /// </summary>
-        public override string Name => "solid angle";
-        /// <summary>
-        /// 記号
-        /// </summary>
-        public override string Symbol { get; protected set; }
-        #endregion プロパティ
         #region コンストラクタ
         /// <summary>
         /// 0 で初期化
         /// </summary>
-        public SolidAngle()
-        {
-        }
+        public SolidAngle() { }
         /// <summary>
         /// 指定した値で初期化
         /// </summary>

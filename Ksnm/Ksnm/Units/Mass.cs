@@ -26,7 +26,7 @@ using Ksnm.Numerics;
 namespace Ksnm.Units
 {
     /// <summary>
-    /// 質量の単位
+    /// 質量
     /// </summary>
     public class Mass<T> : Quantity<T> where T : IMath<T>
     {
@@ -40,9 +40,7 @@ namespace Ksnm.Units
         /// <summary>
         /// 0 で初期化
         /// </summary>
-        public Mass()
-        {
-        }
+        public Mass() { }
         /// <summary>
         /// 指定した値で初期化
         /// </summary>

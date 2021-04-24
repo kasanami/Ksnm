@@ -34,9 +34,7 @@ namespace Ksnm.Units
         /// <summary>
         /// 0 で初期化
         /// </summary>
-        public Velocity()
-        {
-        }
+        public Velocity() { }
         /// <summary>
         /// 指定した値で初期化
         /// </summary>
