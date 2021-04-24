@@ -26,75 +26,79 @@ using Ksnm.Numerics;
 namespace Ksnm.Units.SI
 {
     /// <summary>
-    /// メートル毎秒
+    /// キロメートル毎時
+    /// <para>記号:km/h</para>
+    /// <para>系  :SI併用単位</para>
+    /// <para>量  :速度</para>
+    /// <para>定義:1時間に1 km 進むの速さ</para>
     /// </summary>
-    public class MetrePerSecond<T> : Velocity<T> where T : IMath<T>
+    public class KiloMetrePerHour<T> : Velocity<T> where T : IMath<T>
     {
         #region 定数
-        /// <summary>
-        /// 光速
-        /// </summary>
-        public static readonly MetrePerSecond<T> SpeedOfLight = new MetrePerSecond<T>(299792458);
         #endregion 定数
         #region プロパティ
         /// <summary>
         /// 名前
         /// </summary>
-        public override string Name => "metre per second";
+        public override string Name => "kilometre per hour";
         /// <summary>
         /// 記号
         /// </summary>
-        public override string Symbol => "m/s";
+        public override string Symbol => "km/h";
         #endregion プロパティ
         #region コンストラクタ
         /// <summary>
         /// 0 で初期化
         /// </summary>
-        public MetrePerSecond() { }
+        public KiloMetrePerHour() { }
         /// <summary>
         /// 指定した値で初期化
         /// </summary>
-        public MetrePerSecond(T value) : base(value) { }
+        public KiloMetrePerHour(T value) : base(value) { }
         /// <summary>
         /// 指定した値で初期化
         /// </summary>
-        public MetrePerSecond(int value) : base(value) { }
+        public KiloMetrePerHour(int value) : base(value) { }
         /// <summary>
         /// 指定した値で初期化
         /// </summary>
-        public MetrePerSecond(decimal value) : base(value) { }
+        public KiloMetrePerHour(decimal value) : base(value) { }
         /// <summary>
         /// 距離と時間から速度を計算する
         /// </summary>
-        public MetrePerSecond(Metre<T> length, Second<T> time) : base(length, time) { }
+        public KiloMetrePerHour(Metre<T> length, Second<T> time) : base(length, time) { }
+        /// <summary>
+        /// 距離と時間から速度を計算する
+        /// </summary>
+        public KiloMetrePerHour(Metre<T> length, Hour<T> time) : this(length, (Second<T>)time) { }
         /// <summary>
         /// 別の速度から初期化
         /// </summary>
-        public MetrePerSecond(KiloMetrePerHour<T> velocity) : this(velocity.Value.Divide(3.6m)) { }
+        public KiloMetrePerHour(MetrePerSecond<T> velocity) : this(velocity.Value.Multiply(3.6m)) { }
         #endregion コンストラクタ
         #region 演算子
         /// <summary>
         /// 乗算
         /// </summary>
-        public static MetrePerSecond<T> operator *(int value, MetrePerSecond<T> quantity)
+        public static KiloMetrePerHour<T> operator *(int value, KiloMetrePerHour<T> quantity)
         {
-            return new MetrePerSecond<T>(quantity.Value.Multiply(value));
+            return new KiloMetrePerHour<T>(quantity.Value.Multiply(value));
         }
         /// <summary>
         /// 乗算
         /// </summary>
-        public static MetrePerSecond<T> operator *(decimal value, MetrePerSecond<T> quantity)
+        public static KiloMetrePerHour<T> operator *(decimal value, KiloMetrePerHour<T> quantity)
         {
-            return new MetrePerSecond<T>(quantity.Value.Multiply(value));
+            return new KiloMetrePerHour<T>(quantity.Value.Multiply(value));
         }
         #endregion 演算子
         #region 型変換
         /// <summary>
         /// 明示的な変換を定義します。
         /// </summary>
-        public static explicit operator MetrePerSecond<T>(KiloMetrePerHour<T> velocity)
+        public static explicit operator KiloMetrePerHour<T>(MetrePerSecond<T> velocity)
         {
-            return new MetrePerSecond<T>(velocity);
+            return new KiloMetrePerHour<T>(velocity);
         }
         #endregion 型変換
     }

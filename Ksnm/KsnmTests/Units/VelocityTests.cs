@@ -32,6 +32,13 @@ namespace Ksnm.Units.Tests
                 var velocity = len / time;
                 Assert.AreEqual("3m/h", velocity.ToString());
             }
+            // キロメートル毎時
+            {
+                var velocity = 300 * KiloMetrePerHour;
+                Assert.AreEqual("300km/h", velocity.ToString());
+                var velocity2 = (MetrePerSecond<Decimal>)velocity;
+                Assert.AreEqual("83.33333333333333333333333333m/s", velocity2.ToString());
+            }
             // メートル毎時
             {
                 var velocity = 123 * Metre / Hour;

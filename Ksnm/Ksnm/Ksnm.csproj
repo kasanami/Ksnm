@@ -117,6 +117,7 @@
     <Compile Include="Units\SI\Lumen.cs" />
     <Compile Include="Units\SI\Lux.cs" />
     <Compile Include="Units\SI\Metre.cs" />
+    <Compile Include="Units\SI\KiloMetrePerHour.cs" />
     <Compile Include="Units\SI\MetrePerSecond.cs" />
     <Compile Include="Units\SI\MetrePerSecondSquared.cs" />
     <Compile Include="Units\SI\Minute.cs" />

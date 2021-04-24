@@ -27,7 +27,7 @@ using Ksnm.Units.SI;
 namespace Ksnm.Units
 {
     /// <summary>
-    /// SI各単位の 1 を定義
+    /// SI各単位の 1 を定義(SI併用単位含む)
     /// 使用例：
     /// var mass = 123 * Gram;
     /// </summary>
@@ -43,6 +43,7 @@ namespace Ksnm.Units
         public static readonly Joule<T> Joule = new Joule<T>(1);
         public static readonly Kelvin<T> Kelvin = new Kelvin<T>(1);
         public static readonly Kilogram<T> Kilogram = new Kilogram<T>(1);
+        public static readonly KiloMetrePerHour<T> KiloMetrePerHour = new KiloMetrePerHour<T>(1);
         public static readonly Litre<T> Litre = new Litre<T>(1);
         public static readonly Lumen<T> Lumen = new Lumen<T>(1);
         public static readonly Lux<T> Lux = new Lux<T>(1);
