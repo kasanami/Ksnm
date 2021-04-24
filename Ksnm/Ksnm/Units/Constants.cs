@@ -22,17 +22,27 @@ freely, subject to the following restrictions:
 3. This notice may not be removed or altered from any source distribution.
 */
 using Ksnm.Numerics;
+using Ksnm.Units.GS;
+using Ksnm.Units.NonSI;
 using Ksnm.Units.SI;
 
 namespace Ksnm.Units
 {
     /// <summary>
-    /// SI各単位の 1 を定義(SI併用単位含む)
-    /// 使用例：
-    /// var mass = 123 * Gram;
+    /// 各単位の定数を定義
+    /// <para>使用例 : var mass = 123 * Gram;</para>
     /// </summary>
-    public static class SIUnits<T> where T : IMath<T>
+    public static class Constants<T> where T : IMath<T>
     {
+        #region GS
+        public static readonly KilogramForce<T> KilogramForce = new KilogramForce<T>(1);
+        public static readonly StandardGravity<T> StandardGravity = new StandardGravity<T>(1);
+        #endregion GS
+        #region NonSI
+        public static readonly Knot<T> Knot = new Knot<T>(1);
+        public static readonly NauticalMile<T> NauticalMile = new NauticalMile<T>(1);
+        #endregion NonSI
+        #region SI
         public static readonly Ampere<T> Ampere = new Ampere<T>(1);
         public static readonly Candela<T> Candela = new Candela<T>(1);
         public static readonly Coulomb<T> Coulomb = new Coulomb<T>(1);
@@ -60,5 +70,6 @@ namespace Ksnm.Units
         public static readonly Steradian<T> Steradian = new Steradian<T>(1);
         public static readonly Volt<T> Volt = new Volt<T>(1);
         public static readonly Watt<T> Watt = new Watt<T>(1);
+        #endregion SI
     }
 }

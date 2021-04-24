@@ -2,8 +2,7 @@
 using Ksnm.Numerics;
 using Ksnm.Units;
 using Ksnm.Units.SI;
-using static Ksnm.Units.SIUnits<Ksnm.Numerics.Decimal>;
-using static Ksnm.Units.NonSIUnits<Ksnm.Numerics.Decimal>;
+using static Ksnm.Units.Constants<Ksnm.Numerics.Decimal>;
 
 namespace Ksnm.Units.Tests
 {

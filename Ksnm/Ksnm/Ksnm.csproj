@@ -83,12 +83,12 @@
     <Compile Include="Units\Acceleration.cs" />
     <Compile Include="Units\AmountOfSubstance.cs" />
     <Compile Include="Units\Area.cs" />
+    <Compile Include="Units\Constants.cs" />
     <Compile Include="Units\ElectricCharge.cs" />
     <Compile Include="Units\ElectricCurrent.cs" />
     <Compile Include="Units\ElectricPotential.cs" />
     <Compile Include="Units\Energy.cs" />
     <Compile Include="Units\Force.cs" />
-    <Compile Include="Units\GSUnits.cs" />
     <Compile Include="Units\GS\KilogramForce.cs" />
     <Compile Include="Units\GS\StandardGravity.cs" />
     <Compile Include="Units\Illuminance.cs" />
@@ -96,7 +96,6 @@
     <Compile Include="Units\LuminousFlux.cs" />
     <Compile Include="Units\LuminousIntensity.cs" />
     <Compile Include="Units\Mass.cs" />
-    <Compile Include="Units\NonSIUnits.cs" />
     <Compile Include="Units\NonSI\Knot.cs" />
     <Compile Include="Units\NonSI\NauticalMile.cs" />
     <Compile Include="Units\PlaneAngle.cs" />
@@ -104,7 +103,6 @@
     <Compile Include="Units\Pressure.cs" />
     <Compile Include="Units\Quantity.cs" />
     <Compile Include="Units\Length.cs" />
-    <Compile Include="Units\SIUnits.cs" />
     <Compile Include="Units\SI\Ampere.cs" />
     <Compile Include="Units\SI\Candela.cs" />
     <Compile Include="Units\SI\Coulomb.cs" />

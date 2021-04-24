@@ -5,8 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Ksnm.Numerics;
-using static Ksnm.Units.SIUnits<Ksnm.Numerics.Decimal>;
-using static Ksnm.Units.GSUnits<Ksnm.Numerics.Decimal>;
+using static Ksnm.Units.Constants<Ksnm.Numerics.Decimal>;
 
 namespace Ksnm.Units.Tests
 {
