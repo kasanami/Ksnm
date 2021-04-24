@@ -55,8 +55,21 @@ namespace Ksnm.Units.Tests
                 velocity = NauticalMile / Hour;
                 Assert.AreEqual("1kt", velocity.ToString());
 
+                // 秒速に変換
                 velocity2 = (MetrePerSecond<Decimal>)velocity;
                 Assert.AreEqual("0.5144444444444444444444444444m/s", velocity2.ToString());
+
+                // 時速に変換
+                var velocity3 = (KiloMetrePerHour<Decimal>)velocity;
+                Assert.AreEqual("1.852km/h", velocity3.ToString());
+
+                // 再度ノットに変換
+                velocity = (Knot<Decimal>)velocity3;
+                Assert.AreEqual("1kt", velocity.ToString());
+
+                // 再度ノットに変換 精度の限界で正確に1ktにはならない
+                velocity = (Knot<Decimal>)velocity2;
+                Assert.AreEqual("0.9999999999999999999999999999kt", velocity.ToString());
             }
         }
     }

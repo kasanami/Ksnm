@@ -75,6 +75,10 @@ namespace Ksnm.Units.SI
         /// 別の速度から初期化
         /// </summary>
         public KiloMetrePerHour(MetrePerSecond<T> velocity) : this(velocity.Value.Multiply(3.6m)) { }
+        /// <summary>
+        /// 別の速度から初期化
+        /// </summary>
+        public KiloMetrePerHour(NonSI.Knot<T> velocity) : this(velocity.Value.Multiply(1.852m)) { }
         #endregion コンストラクタ
         #region 演算子
         /// <summary>
@@ -97,6 +101,13 @@ namespace Ksnm.Units.SI
         /// 明示的な変換を定義します。
         /// </summary>
         public static explicit operator KiloMetrePerHour<T>(MetrePerSecond<T> velocity)
+        {
+            return new KiloMetrePerHour<T>(velocity);
+        }
+        /// <summary>
+        /// 明示的な変換を定義します。
+        /// </summary>
+        public static explicit operator KiloMetrePerHour<T>(NonSI.Knot<T> velocity)
         {
             return new KiloMetrePerHour<T>(velocity);
         }

@@ -65,15 +65,19 @@ namespace Ksnm.Units.NonSI
         /// <summary>
         /// 距離と時間から速度を計算する
         /// </summary>
-        public Knot(NauticalMile<T> length, SI.Second<T> time) : base(length, (SI.Hour<T>)time)
-        {
-        }
+        public Knot(NauticalMile<T> length, SI.Second<T> time) : base(length, (SI.Hour<T>)time) { }
         /// <summary>
         /// 距離と時間から速度を計算する
         /// </summary>
-        public Knot(NauticalMile<T> length, SI.Hour<T> time) : base(length, time)
-        {
-        }
+        public Knot(NauticalMile<T> length, SI.Hour<T> time) : base(length, time) { }
+        /// <summary>
+        /// 別の速度から初期化
+        /// </summary>
+        public Knot(SI.MetrePerSecond<T> velocity) : this((SI.KiloMetrePerHour<T>)velocity) { }
+        /// <summary>
+        /// 別の速度から初期化
+        /// </summary>
+        public Knot(SI.KiloMetrePerHour<T> velocity) : this(velocity.Value.Divide(1.852m)) { }
         #endregion コンストラクタ
         #region 演算子
         /// <summary>
@@ -95,9 +99,16 @@ namespace Ksnm.Units.NonSI
         /// <summary>
         /// 明示的な変換を定義します。
         /// </summary>
-        public static explicit operator SI.MetrePerSecond<T>(Knot<T> knot)
+        public static explicit operator Knot<T>(SI.MetrePerSecond<T> velocity)
         {
-            return new SI.MetrePerSecond<T>(knot.Value.Multiply(1852).Divide(3600));
+            return new Knot<T>(velocity);
+        }
+        /// <summary>
+        /// 明示的な変換を定義します。
+        /// </summary>
+        public static explicit operator Knot<T>(SI.KiloMetrePerHour<T> velocity)
+        {
+            return new Knot<T>(velocity);
         }
         #endregion 型変換
     }
