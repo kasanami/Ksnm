@@ -431,13 +431,13 @@ namespace Ksnm.Numerics.Tests
         public void SqrtTest()
         {
             int precision = -BigDecimal.DefaultMinExponent;
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < 100; i++)
             {
                 var expected = new BigDecimal(i);
                 var sample = expected * expected;
                 Assert.AreEqual(expected, BigDecimal.Sqrt(sample, precision));
             }
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < 100; i++)
             {
                 var expected = new BigDecimal(i);
                 var sample = expected * expected;

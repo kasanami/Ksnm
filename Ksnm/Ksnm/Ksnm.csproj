@@ -113,6 +113,7 @@
     <Compile Include="Units\SI\Joule.cs" />
     <Compile Include="Units\SI\Kilogram.cs" />
     <Compile Include="Units\SI\Kelvin.cs" />
+    <Compile Include="Units\SI\Litre.cs" />
     <Compile Include="Units\SI\Lumen.cs" />
     <Compile Include="Units\SI\Lux.cs" />
     <Compile Include="Units\SI\Metre.cs" />

@@ -26,73 +26,86 @@ using Ksnm.Numerics;
 namespace Ksnm.Units.SI
 {
     /// <summary>
-    /// 立法メートル
+    /// リットル
+    /// <para>記号:L, l</para>
+    /// <para>度量衡:メートル法</para>
+    /// <para>系  :DKS単位系</para>
+    /// <para>種類:組立単位・SI併用単位</para>
+    /// <para>量  :体積</para>
+    /// <para>SI  :10^−3 m^3</para>
+    /// <para>定義:1 dm^3</para>
     /// </summary>
-    public class CubicMetre<T> : Volume<T> where T : IMath<T>
+    public class Litre<T> : Volume<T> where T : IMath<T>
     {
         #region プロパティ
         /// <summary>
         /// 名前
         /// </summary>
-        public override string Name => "cubic metre";
+        public override string Name => "litre";
         /// <summary>
         /// 記号
         /// </summary>
-        public override string Symbol => "m^3";
+        public override string Symbol => "L";
         #endregion プロパティ
         #region コンストラクタ
         /// <summary>
         /// 0 で初期化
         /// </summary>
-        public CubicMetre() { }
+        public Litre() { }
         /// <summary>
         /// 指定した値で初期化
         /// </summary>
-        public CubicMetre(T value) : base(value) { }
+        public Litre(T value) : base(value) { }
         /// <summary>
         /// 指定した値で初期化
         /// </summary>
-        public CubicMetre(int value) : base(value) { }
+        public Litre(int value) : base(value) { }
         /// <summary>
         /// 指定した値で初期化
         /// </summary>
-        public CubicMetre(decimal value) : base(value) { }
+        public Litre(decimal value) : base(value) { }
         /// <summary>
         /// 3つの長さから体積を計算する
         /// </summary>
-        public CubicMetre(Metre<T> length1, Metre<T> length2, Metre<T> length3) : base(length1, length2, length3) { }
+        public Litre(Metre<T> length1, Metre<T> length2, Metre<T> length3)
+        {
+            Value = length1.Value.Multiply(length2.Value).Multiply(length3.Value).Multiply(1000);
+        }
         /// <summary>
         /// 面積と長さから体積を計算する
         /// </summary>
-        public CubicMetre(SquareMetre<T> area, Metre<T> length) : base(area, length) { }
+        public Litre(SquareMetre<T> area, Metre<T> length)
+        {
+            Value = area.Value.Multiply(length.Value).Multiply(1000);
+        }
         /// <summary>
         /// 別の体積から初期化
         /// </summary>
-        public CubicMetre(Litre<T> litre) : base(litre.Value.Multiply(0.001m)) { }
+        public Litre(CubicMetre<T> cubicMetre) : base(cubicMetre.Value.Multiply(1000)) { }
         #endregion コンストラクタ
         #region 演算子
         /// <summary>
         /// 乗算
         /// </summary>
-        public static CubicMetre<T> operator *(int value, CubicMetre<T> quantity)
+        public static Litre<T> operator *(int value, Litre<T> quantity)
         {
-            return new CubicMetre<T>(quantity.Value.Multiply(value));
+            return new Litre<T>(quantity.Value.Multiply(value));
         }
         /// <summary>
         /// 乗算
         /// </summary>
-        public static CubicMetre<T> operator *(decimal value, CubicMetre<T> quantity)
+        public static Litre<T> operator *(decimal value, Litre<T> quantity)
         {
-            return new CubicMetre<T>(quantity.Value.Multiply(value));
+            return new Litre<T>(quantity.Value.Multiply(value));
         }
         #endregion 演算子
         #region 型変換
         /// <summary>
         /// 明示的な変換を定義します。
         /// </summary>
-        public static explicit operator CubicMetre<T>(Litre<T> litre)
+        public static explicit operator Litre<T>(CubicMetre<T> cubicMetre)
         {
-            return new CubicMetre<T>(litre);
+            return new Litre<T>(cubicMetre);
         }
         #endregion 型変換
     }

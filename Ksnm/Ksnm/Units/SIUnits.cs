@@ -43,6 +43,7 @@ namespace Ksnm.Units
         public static readonly Joule<T> Joule = new Joule<T>(1);
         public static readonly Kelvin<T> Kelvin = new Kelvin<T>(1);
         public static readonly Kilogram<T> Kilogram = new Kilogram<T>(1);
+        public static readonly Litre<T> Litre = new Litre<T>(1);
         public static readonly Lumen<T> Lumen = new Lumen<T>(1);
         public static readonly Lux<T> Lux = new Lux<T>(1);
         public static readonly Metre<T> Metre = new Metre<T>(1);
