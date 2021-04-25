@@ -27,6 +27,10 @@ namespace Ksnm.Units.SI
 {
     /// <summary>
     /// ジュール
+    /// <para>記号:J</para>
+    /// <para>系  :国際単位系 (SI)</para>
+    /// <para>量  :エネルギー・仕事・熱量・電力量</para>
+    /// <para>由来:1ニュートンの力がその力の方向に物体を1メートル動かすときの仕事</para>
     /// </summary>
     public class Joule<T> : Energy<T> where T : IMath<T>
     {
@@ -44,9 +48,7 @@ namespace Ksnm.Units.SI
         /// <summary>
         /// 0 で初期化
         /// </summary>
-        public Joule()
-        {
-        }
+        public Joule() { }
         /// <summary>
         /// 指定した値で初期化
         /// </summary>
@@ -62,15 +64,15 @@ namespace Ksnm.Units.SI
         /// <summary>
         /// 力と距離からエネルギーを計算する
         /// </summary>
-        public Joule(Newton<T> force, Metre<T> length) : base(force, length)
-        {
-        }
+        public Joule(Newton<T> force, Metre<T> length) : base(force, length) { }
         /// <summary>
         /// 質量と光速からエネルギーを計算する
         /// </summary>
-        public Joule(Kilogram<T> mass) : base(mass, MetrePerSecond<T>.SpeedOfLight)
-        {
-        }
+        public Joule(Kilogram<T> mass) : base(mass, MetrePerSecond<T>.SpeedOfLight) { }
+        /// <summary>
+        /// 別のエネルギーから初期化
+        /// </summary>
+        public Joule(NonSI.Calorie<T> energy) : this(energy.Value.Multiply(4.184m)) { }
         #endregion コンストラクタ
         #region 演算子
         /// <summary>
@@ -102,6 +104,13 @@ namespace Ksnm.Units.SI
         public static explicit operator Joule<T>(Kilogram<T> mass)
         {
             return new Joule<T>(mass);
+        }
+        /// <summary>
+        /// 他の型から、この型への明示的な変換を定義します。
+        /// </summary>
+        public static explicit operator Joule<T>(NonSI.Calorie<T> energy)
+        {
+            return new Joule<T>(energy);
         }
         #endregion 型変換
     }

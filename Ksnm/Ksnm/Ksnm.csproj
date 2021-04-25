@@ -96,6 +96,7 @@
     <Compile Include="Units\LuminousFlux.cs" />
     <Compile Include="Units\LuminousIntensity.cs" />
     <Compile Include="Units\Mass.cs" />
+    <Compile Include="Units\NonSI\Calorie.cs" />
     <Compile Include="Units\NonSI\Knot.cs" />
     <Compile Include="Units\NonSI\NauticalMile.cs" />
     <Compile Include="Units\PlaneAngle.cs" />

@@ -39,6 +39,7 @@ namespace Ksnm.Units
         public static readonly StandardGravity<T> StandardGravity = new StandardGravity<T>(1);
         #endregion GS
         #region NonSI
+        public static readonly Calorie<T> Calorie = new Calorie<T>(1);
         public static readonly Knot<T> Knot = new Knot<T>(1);
         public static readonly NauticalMile<T> NauticalMile = new NauticalMile<T>(1);
         #endregion NonSI
