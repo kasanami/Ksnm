@@ -21,6 +21,8 @@ freely, subject to the following restrictions:
 
 3. This notice may not be removed or altered from any source distribution.
 */
+using Ksnm.Numerics;
+using System;
 using static Ksnm.Math;
 
 namespace Ksnm.Science.Mathematics
@@ -52,6 +54,55 @@ namespace Ksnm.Science.Mathematics
             return sum;
         }
         /// <summary>
+        /// ライプニッツの公式
+        /// </summary>
+        /// <param name="count">計算回数</param>
+        /// <returns>PI/4(円周率の4分の1)</returns>
+        public static decimal LeibnizForDecimal(int count)
+        {
+            decimal sum = 0;
+            for (var i = 0; i < count; i++)
+            {
+                if (IsEven(i))
+                {
+                    sum += 1m / (2m * i + 1);
+                }
+                else
+                {
+                    sum -= 1m / (2m * i + 1);
+                }
+            }
+            return sum;
+        }
+        /// <summary>
+        /// ライプニッツの公式
+        /// </summary>
+        /// <param name="count">計算回数</param>
+        /// <param name="decimals">戻り値の小数点以下の有効桁数 (精度)。</param>
+        /// <returns>PI/4(円周率の4分の1)</returns>
+        public static BigDecimal LeibnizForBigDecimal(int count, int decimals)
+        {
+            if (decimals < 0)
+            {
+                throw new ArgumentOutOfRangeException($"{nameof(decimals)}={decimals} 範囲を超えています。");
+            }
+            BigDecimal sum = new BigDecimal(0, 0, -decimals);
+            BigDecimal one = new BigDecimal(1, 0, -decimals);
+            BigDecimal two = new BigDecimal(2, 0, -decimals);
+            for (var i = 0; i < count; i++)
+            {
+                if (IsEven(i))
+                {
+                    sum += one / (two * i + one);
+                }
+                else
+                {
+                    sum -= one / (two * i + one);
+                }
+            }
+            return sum;
+        }
+        /// <summary>
         /// ウォリスの公式
         /// </summary>
         /// <param name="count">計算回数</param>
@@ -64,6 +115,45 @@ namespace Ksnm.Science.Mathematics
             {
                 product *= (2.0 * i) / (2.0 * i - 1);
                 product *= (2.0 * i) / (2.0 * i + 1);
+            }
+            return product;
+        }
+        /// <summary>
+        /// ウォリスの公式
+        /// </summary>
+        /// <param name="count">計算回数</param>
+        /// <returns>PI/2(円周率の2分の1)</returns>
+        public static decimal WallisProductForDecimal(int count)
+        {
+            count++;// 1から開始するのでインクリメント
+            decimal product = 1;
+            for (var i = 1; i < count; i++)
+            {
+                product *= (2m * i) / (2m * i - 1);
+                product *= (2m * i) / (2m * i + 1);
+            }
+            return product;
+        }
+        /// <summary>
+        /// ウォリスの公式
+        /// </summary>
+        /// <param name="count">計算回数</param>
+        /// <param name="decimals">戻り値の小数点以下の有効桁数 (精度)。</param>
+        /// <returns>PI/2(円周率の2分の1)</returns>
+        public static BigDecimal WallisProductForBigDecimal(int count, int decimals)
+        {
+            if (decimals < 0)
+            {
+                throw new ArgumentOutOfRangeException($"{nameof(decimals)}={decimals} 範囲を超えています。");
+            }
+            BigDecimal one = new BigDecimal(1, 0, -decimals);
+            BigDecimal two = new BigDecimal(2, 0, -decimals);
+            count++;// 1から開始するのでインクリメント
+            BigDecimal product = one;
+            for (var i = 1; i < count; i++)
+            {
+                product *= (two * i) / (two * i - one);
+                product *= (two * i) / (two * i + one);
             }
             return product;
         }
