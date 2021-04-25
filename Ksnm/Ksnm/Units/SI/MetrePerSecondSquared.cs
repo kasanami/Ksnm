@@ -68,6 +68,13 @@ namespace Ksnm.Units.SI
         #endregion コンストラクタ
         #region 演算子
         /// <summary>
+        /// 加速度と時間から速度を計算する
+        /// </summary>
+        public static MetrePerSecond<T> operator *(MetrePerSecondSquared<T> velocity, Second<T> time)
+        {
+            return new MetrePerSecond<T>(velocity.Value.Multiply(time.Value));
+        }
+        /// <summary>
         /// 乗算
         /// </summary>
         public static MetrePerSecondSquared<T> operator *(int value, MetrePerSecondSquared<T> quantity)
