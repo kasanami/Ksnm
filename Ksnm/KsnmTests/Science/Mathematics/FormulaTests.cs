@@ -42,5 +42,15 @@ namespace Ksnm.Science.Mathematics.Tests
                 Assert.AreEqual(pi.ToString(), pi2.ToString());
             }
         }
+
+        [TestMethod()]
+        public void PIByRamanujanTest()
+        {
+            var pi = 1 / Formula.PIByRamanujan(20, 101);
+            pi.RoundByMinExponent(-100);
+            Assert.AreEqual(
+                "3.141592653589793238462643383279502884197169399375105820974944592307816406286208998628034825342117068",
+                pi.ToString());
+        }
     }
 }

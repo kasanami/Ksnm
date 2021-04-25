@@ -551,6 +551,21 @@ namespace Ksnm.Numerics
             }
         }
         /// <summary>
+        /// 今の値が指定した MinExponent 以下の値の場合、MinExponent に収まるように丸めます。
+        /// 丸められた桁は 0 になります。
+        /// * 丸めの種類は DefaultMidpointRounding
+        /// </summary>
+        /// <param name="newMinExponent">新しい MinExponent</param>
+        public void RoundByMinExponent(int newMinExponent)
+        {
+            MinExponent = newMinExponent;
+            if (Exponent < MinExponent)
+            {
+                var digits = -(Exponent - MinExponent);
+                RoundMantissa(digits);
+            }
+        }
+        /// <summary>
         /// 仮数部を指定した桁の最も近い10の累乗に丸めます。
         /// * 丸めの種類は DefaultMidpointRounding
         /// * Round と違い小数部分だけでなく仮数部自体に対する丸め処理

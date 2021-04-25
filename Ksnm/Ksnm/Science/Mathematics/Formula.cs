@@ -23,6 +23,7 @@ freely, subject to the following restrictions:
 */
 using Ksnm.Numerics;
 using System;
+using System.Numerics;
 using static Ksnm.Math;
 
 namespace Ksnm.Science.Mathematics
@@ -120,6 +121,7 @@ namespace Ksnm.Science.Mathematics
         }
         /// <summary>
         /// ウォリスの公式
+        /// NOTE:10000000回計算した結果:3.1415925750499818074560633566
         /// </summary>
         /// <param name="count">計算回数</param>
         /// <returns>PI/2(円周率の2分の1)</returns>
@@ -155,6 +157,33 @@ namespace Ksnm.Science.Mathematics
                 product *= (two * i) / (two * i - one);
                 product *= (two * i) / (two * i + one);
             }
+            return product;
+        }
+        /// <summary>
+        /// ラマヌジャンの円周率の公式
+        /// </summary>
+        /// <param name="count">計算回数</param>
+        /// <param name="decimals">精度</param>
+        /// <returns></returns>
+        public static BigDecimal PIByRamanujan(int count, int decimals)
+        {
+            if (decimals < 0)
+            {
+                throw new ArgumentOutOfRangeException($"{nameof(decimals)}={decimals} 範囲を超えています。");
+            }
+            var decimals2 = decimals + 5;// そのままだと精度が足りないので
+            BigDecimal temp = 0;
+            for (int i = 0; i < count; i++)
+            {
+                var anumerator = new BigDecimal(Factorial(4 * i) * (1103 + 26390 * i), 0, -decimals2);
+                var denominator = BigInteger.Pow(BigInteger.Pow(4, i) * BigInteger.Pow(99, i) * Factorial(i), 4);
+                temp += anumerator / denominator;
+            }
+            // 2√2/99^2 の結果
+            BigDecimal SquareRootOfTwo = BigDecimal.Sqrt(2, decimals2);
+            BigDecimal multiplicand = (2 * SquareRootOfTwo) / 9801;
+            var product = multiplicand * temp;
+            product.RoundByMinExponent(-decimals);
             return product;
         }
     }
