@@ -148,11 +148,8 @@ namespace Ksnm.Numerics
         /// 指定した値で初期化
         /// </summary>
         /// <param name="integer">整数</param>
-        public BigDecimal(BigInteger integer)
+        public BigDecimal(BigInteger integer) : this(integer, 0, DefaultMinExponent)
         {
-            Exponent = 0;
-            Mantissa = integer;
-            MinExponent = DefaultMinExponent;
         }
         /// <summary>
         /// 指定した値で初期化
@@ -160,24 +157,22 @@ namespace Ksnm.Numerics
         /// </summary>
         /// <param name="mantissa">仮数部</param>
         /// <param name="exponent">指数部</param>
-        public BigDecimal(BigInteger mantissa, int exponent)
+        public BigDecimal(BigInteger mantissa, int exponent) : this(
+            mantissa, exponent, System.Math.Min(exponent, DefaultMinExponent))
         {
-            Exponent = exponent;
-            Mantissa = mantissa;
-            MinExponent = System.Math.Min(exponent, DefaultMinExponent);
         }
         /// <summary>
         /// 指定した値で初期化
+        /// ※exponent が minExponent より小さい場合は、exponent を最小値とします。
         /// </summary>
         /// <param name="mantissa">仮数部</param>
         /// <param name="exponent">指数部</param>
         /// <param name="minExponent">指数部の最小値</param>
         public BigDecimal(BigInteger mantissa, int exponent, int minExponent)
         {
-            Assert(exponent >= minExponent);
-            Exponent = exponent;
             Mantissa = mantissa;
-            MinExponent = minExponent;
+            Exponent = exponent;
+            MinExponent = System.Math.Min(exponent, minExponent);
         }
         /// <summary>
         /// 指定した値で初期化
@@ -429,7 +424,7 @@ namespace Ksnm.Numerics
             Assert(dividend.Exponent == divisor.Exponent);
             BigInteger remainderInt;
             var quotient = BigInteger.DivRem(dividend.Mantissa, divisor.Mantissa, out remainderInt);
-            remainder = new BigDecimal(remainderInt, dividend.Exponent);
+            remainder = new BigDecimal(remainderInt, dividend.Exponent, System.Math.Min(dividend.MinExponent, divisor.MinExponent));
             return new BigDecimal(quotient);
         }
         /// <summary>
@@ -692,7 +687,7 @@ namespace Ksnm.Numerics
         /// </summary>
         public static BigDecimal operator -(BigDecimal value)
         {
-            return new BigDecimal(-value.Mantissa, value.Exponent);
+            return new BigDecimal(-value.Mantissa, value.Exponent, value.MinExponent);
         }
         #endregion 単項演算子
 
@@ -716,7 +711,10 @@ namespace Ksnm.Numerics
                 valueR.Exponent -= diff;
             }
             Assert(valueR.Exponent == valueL.Exponent);
-            return new BigDecimal(valueL.Mantissa + valueR.Mantissa, valueL.Exponent);
+            return new BigDecimal(
+                valueL.Mantissa + valueR.Mantissa,
+                valueL.Exponent,
+                System.Math.Min(valueL.MinExponent, valueR.MinExponent));
         }
         /// <summary>
         /// 減算
@@ -737,16 +735,22 @@ namespace Ksnm.Numerics
                 valueR.Exponent -= diff;
             }
             Assert(valueR.Exponent == valueL.Exponent);
-            return new BigDecimal(valueL.Mantissa - valueR.Mantissa, valueL.Exponent);
+            return new BigDecimal(
+                valueL.Mantissa - valueR.Mantissa,
+                valueL.Exponent,
+                System.Math.Min(valueL.MinExponent, valueR.MinExponent));
         }
         /// <summary>
         /// 乗算
         /// </summary>
         public static BigDecimal operator *(BigDecimal valueL, BigDecimal valueR)
         {
-            return new BigDecimal(
+            var temp = new BigDecimal(
                 valueL.Mantissa * valueR.Mantissa,
                 valueL.Exponent + valueR.Exponent);
+            temp.MinExponent = System.Math.Min(valueL.MinExponent, valueR.MinExponent);
+            temp.RoundByMinExponent();
+            return temp;
         }
         /// <summary>
         /// 乗算
@@ -755,7 +759,8 @@ namespace Ksnm.Numerics
         {
             return new BigDecimal(
                 valueL.Mantissa * valueR,
-                valueL.Exponent);
+                valueL.Exponent,
+                valueL.MinExponent);
         }
         /// <summary>
         /// 除算
@@ -817,7 +822,10 @@ namespace Ksnm.Numerics
                 valueR.Exponent -= diff;
             }
             Assert(valueR.Exponent == valueL.Exponent);
-            return new BigDecimal(valueL.Mantissa % valueR.Mantissa, valueL.Exponent);
+            return new BigDecimal(
+                valueL.Mantissa % valueR.Mantissa,
+                valueL.Exponent,
+                System.Math.Min(valueL.MinExponent, valueR.MinExponent));
         }
         #endregion 2項演算子
 
@@ -1247,21 +1255,13 @@ namespace Ksnm.Numerics
 
         #region IMath
 
-        BigDecimal IMath<BigDecimal>.Zero => Zero;
+        BigDecimal IMath<BigDecimal>.Zero => new BigDecimal(0, 0, MinExponent);
 
-        BigDecimal IMath<BigDecimal>.One => One;
+        BigDecimal IMath<BigDecimal>.One => new BigDecimal(1, 0, MinExponent);
 
-        BigDecimal IMath<BigDecimal>.MinusOne => MinusOne;
+        BigDecimal IMath<BigDecimal>.MinusOne => new BigDecimal(-1, 0, MinExponent);
 
-        public int Sign
-        {
-            get
-            {
-                if (this > 0) { return +1; }
-                if (this < 0) { return -1; }
-                return 0;
-            }
-        }
+        public int Sign => Mantissa.Sign;
 
         public bool IsZero => this == Zero;
 
