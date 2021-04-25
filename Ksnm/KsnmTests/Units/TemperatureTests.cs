@@ -1,7 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Ksnm.Units.SI;
 using Ksnm.Numerics;
-using static Ksnm.Units.SIUnits<Ksnm.Numerics.Decimal>;
+using static Ksnm.Units.Constants<Ksnm.Numerics.Decimal>;
 
 namespace Ksnm.Units.Tests
 {

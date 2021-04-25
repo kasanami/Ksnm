@@ -1,6 +1,6 @@
 ﻿using Ksnm.Numerics;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using static Ksnm.Units.SIUnits<Ksnm.Numerics.Decimal>;
+using static Ksnm.Units.Constants<Ksnm.Numerics.Decimal>;
 
 namespace Ksnm.Units.Tests
 {
@@ -15,6 +15,10 @@ namespace Ksnm.Units.Tests
             var mass2 = (SI.Kilogram<Decimal>)energy;
 
             Assert.AreEqual(mass.Value, mass2.Value);
+
+            {
+
+            }
         }
     }
 }
