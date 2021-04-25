@@ -119,9 +119,9 @@ namespace Ksnm.Units
         #endregion IEquatable
         #region 型変換
         /// <summary>
-        /// T型への暗黙的な変換を定義します。
+        /// T型への明示的な変換を定義します。
         /// </summary>
-        public static implicit operator T(Quantity<T> quantity)
+        public static explicit operator T(Quantity<T> quantity)
         {
             return quantity.Value;
         }
