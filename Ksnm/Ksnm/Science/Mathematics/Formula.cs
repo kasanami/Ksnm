@@ -51,5 +51,21 @@ namespace Ksnm.Science.Mathematics
             }
             return sum;
         }
+        /// <summary>
+        /// ウォリスの公式
+        /// </summary>
+        /// <param name="count">計算回数</param>
+        /// <returns>PI/2(円周率の2分の1)</returns>
+        public static double WallisProduct(int count)
+        {
+            count++;// 1から開始するのでインクリメント
+            double product = 1;
+            for (var i = 1; i < count; i++)
+            {
+                product *= (2.0 * i) / (2.0 * i - 1);
+                product *= (2.0 * i) / (2.0 * i + 1);
+            }
+            return product;
+        }
     }
 }
