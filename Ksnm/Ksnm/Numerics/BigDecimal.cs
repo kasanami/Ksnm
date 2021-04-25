@@ -655,6 +655,11 @@ namespace Ksnm.Numerics
             {
                 return 0;
             }
+            // 精度を設定
+            if (value.MinExponent > -decimals)
+            {
+                value.MinExponent = -decimals;
+            }
             var temp = value;
             var prev = value;
             for (int i = 0; i < count; i++)
