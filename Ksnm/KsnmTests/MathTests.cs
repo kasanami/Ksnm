@@ -256,6 +256,21 @@ namespace Ksnm.Tests
         }
 
         [TestMethod()]
+        public void FactorialTest()
+        {
+            Assert.AreEqual(1, Math.Factorial(0));
+            Assert.AreEqual(1, Math.Factorial(1));
+            Assert.AreEqual(2, Math.Factorial(2));
+            Assert.AreEqual(6, Math.Factorial(3));
+            Assert.AreEqual(24, Math.Factorial(4));
+            Assert.AreEqual(479_001_600, Math.Factorial(12));
+            Assert.AreEqual(6_227_020_800, Math.Factorial(13L));
+            Assert.AreEqual(87_178_291_200, Math.Factorial(14L));
+            Assert.AreEqual(1_307_674_368_000, Math.Factorial(15L));
+            Assert.AreEqual(2_432_902_008_176_640_000, Math.Factorial(20L));
+        }
+
+        [TestMethod()]
         public void GreatestCommonDivisorTest()
         {
             Assert.AreEqual(Math.GreatestCommonDivisor(30, 42), 6);

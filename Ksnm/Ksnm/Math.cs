@@ -690,6 +690,24 @@ namespace Ksnm
 
         #endregion Median
 
+        #region Factorial
+        /// <summary>
+        /// 階乗
+        /// NOTE:21!以上は BigInteger でないと表現できないので BigInteger のみ用意
+        /// </summary>
+        /// <param name="value">階乗する整数</param>
+        /// <returns>階乗した値</returns>
+        public static BigInteger Factorial(BigInteger value)
+        {
+            BigInteger temp = 1;
+            for (BigInteger i = value; i > 0; i--)
+            {
+                temp *= i;
+            }
+            return temp;
+        }
+        #endregion Factorial
+
         #region Pow
         /// <summary>
         /// 指定の整数を指定した値で累乗した値を返します。
