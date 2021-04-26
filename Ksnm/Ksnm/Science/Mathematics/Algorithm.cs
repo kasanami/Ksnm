@@ -21,6 +21,7 @@ freely, subject to the following restrictions:
 
 3. This notice may not be removed or altered from any source distribution.
 */
+using Ksnm.Numerics;
 using static System.Math;
 
 namespace Ksnm.Science.Mathematics
@@ -46,6 +47,30 @@ namespace Ksnm.Science.Mathematics
                 var beforeA = a;
                 a = (a + b) / 2;
                 b = Sqrt(beforeA * b);
+                t -= (p * (a - beforeA) * (a - beforeA));
+                p = 2 * p;
+            }
+            return (a + b) * (a + b) / (4 * t);
+        }
+        /// <summary>
+        /// ガウス＝ルジャンドルのアルゴリズム
+        /// ※最下位桁周辺は意図しない値の可能性があります。
+        /// NOTE:小数点以下100桁の場合、計算回数は 7 回で良い
+        /// </summary>
+        /// <param name="count">計算回数</param>
+        /// <param name="decimals">精度</param>
+        /// <returns>円周率</returns>
+        public static BigDecimal GaussLegendreForBigDecimal(int count,int decimals)
+        {
+            BigDecimal a = 1;
+            BigDecimal b = 1 / BigDecimal.Sqrt(2, decimals);
+            BigDecimal t = 1 / (BigDecimal)4;
+            BigDecimal p = 1;
+            for (var i = 0; i < count; i++)
+            {
+                var beforeA = a;
+                a = (a + b) / 2;
+                b = BigDecimal.Sqrt(beforeA * b, decimals);
                 t -= (p * (a - beforeA) * (a - beforeA));
                 p = 2 * p;
             }
