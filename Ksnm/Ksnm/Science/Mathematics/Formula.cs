@@ -161,6 +161,8 @@ namespace Ksnm.Science.Mathematics
         }
         /// <summary>
         /// ラマヌジャンの円周率の公式
+        /// ※最下位の桁は丸められるため意図しない値の可能性があります。
+        /// NOTE:小数点以下100桁の場合、計算回数は 13 回で良い
         /// </summary>
         /// <param name="count">計算回数</param>
         /// <param name="decimals">精度</param>
@@ -171,19 +173,17 @@ namespace Ksnm.Science.Mathematics
             {
                 throw new ArgumentOutOfRangeException($"{nameof(decimals)}={decimals} 範囲を超えています。");
             }
-            var decimals2 = decimals + 5;// そのままだと精度が足りないので
             BigDecimal temp = 0;
             for (int i = 0; i < count; i++)
             {
-                var anumerator = new BigDecimal(Factorial(4 * i) * (1103 + 26390 * i), 0, -decimals2);
+                var anumerator = new BigDecimal(Factorial(4 * i) * (1103 + 26390 * i), 0, -decimals);
                 var denominator = BigInteger.Pow(BigInteger.Pow(4, i) * BigInteger.Pow(99, i) * Factorial(i), 4);
                 temp += anumerator / denominator;
             }
             // 2√2/99^2 の結果
-            BigDecimal SquareRootOfTwo = BigDecimal.Sqrt(2, decimals2);
+            BigDecimal SquareRootOfTwo = BigDecimal.Sqrt(2, decimals);
             BigDecimal multiplicand = (2 * SquareRootOfTwo) / 9801;
             var product = multiplicand * temp;
-            product.RoundByMinExponent(-decimals);
             return product;
         }
     }

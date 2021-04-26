@@ -46,10 +46,10 @@ namespace Ksnm.Science.Mathematics.Tests
         [TestMethod()]
         public void PIByRamanujanTest()
         {
-            var pi = 1 / Formula.PIByRamanujan(20, 101);
+            var pi = 1 / Formula.PIByRamanujan(13, 105);
             pi.RoundByMinExponent(-100);
             Assert.AreEqual(
-                "3.141592653589793238462643383279502884197169399375105820974944592307816406286208998628034825342117068",
+                "3.1415926535897932384626433832795028841971693993751058209749445923078164062862089986280348253421170680",
                 pi.ToString());
         }
     }
