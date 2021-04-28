@@ -354,7 +354,7 @@ namespace Ksnm.Numerics
         /// <returns>指定されている数値と等価の値。</returns>
         public static BigDecimal Parse(string value)
         {
-            var temp = new BigDecimal();
+            var temp = Zero;
             var pointIindex = value.IndexOf('.');
             if (pointIindex < 0)
             {
