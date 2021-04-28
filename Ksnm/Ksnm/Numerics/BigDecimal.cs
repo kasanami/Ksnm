@@ -35,8 +35,8 @@ namespace Ksnm.Numerics
 {
     /// <summary>
     /// 任意の大きさを持つ10 進数の浮動小数点数を表します。
-    /// 
-    /// BigDecimal=Mantissa*10^Exponent
+    /// <para>* BigDecimal = Mantissa * 10^Exponent</para>
+    /// <para>* 精度が異なる値を演算すると精度の高い方に合わせる。</para>
     /// </summary>
     public struct BigDecimal : IEquatable<BigDecimal>, IComparable, IComparable<BigDecimal>, IMath<BigDecimal>
     {
