@@ -976,6 +976,17 @@ namespace Ksnm.Numerics.Tests
                 var source = "3.14159265358979323846264338327950288";
                 var sample = BigDecimal.Parse(source);
                 Assert.AreEqual(source, sample.ToString(), $"{source}");
+                Assert.AreEqual(BigInteger.Parse("314159265358979323846264338327950288"), sample.Mantissa, $"{source}");
+                Assert.AreEqual(-35, sample.Exponent, $"{source}");
+                Assert.AreEqual(-35, sample.MinExponent, $"{source}");
+            }
+            {
+                var source = "0.1234567890123456789012345678901234567890";
+                var sample = BigDecimal.Parse(source);
+                Assert.AreEqual(source, sample.ToString(), $"{source}");
+                Assert.AreEqual(BigInteger.Parse("1234567890123456789012345678901234567890"), sample.Mantissa, $"{source}");
+                Assert.AreEqual(-40, sample.Exponent, $"{source}");
+                Assert.AreEqual(-40, sample.MinExponent, $"{source}");
             }
         }
 

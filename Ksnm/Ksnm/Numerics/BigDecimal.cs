@@ -127,8 +127,8 @@ namespace Ksnm.Numerics
         public BigInteger Mantissa { get; private set; }
         /// <summary>
         /// 指数部の最小値
-        /// 無限小数の場合にこの桁数で丸める
-        /// 精度とも言える
+        /// <para>無限小数の場合にこの桁数で丸める</para>
+        /// <para>精度とも言える</para>
         /// </summary>
         public int MinExponent { get; private set; }
         #endregion プロパティ
@@ -365,6 +365,10 @@ namespace Ksnm.Numerics
                 value = value.Remove(pointIindex, 1);
                 temp.Mantissa = BigInteger.Parse(value);
                 temp.Exponent = -(value.Length - pointIindex);
+                if (temp.MinExponent > temp.Exponent)
+                {
+                    temp.MinExponent = temp.Exponent;
+                }
             }
             return temp;
         }
