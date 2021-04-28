@@ -27,6 +27,7 @@ using System.Linq;
 using System.Numerics;
 using System.Text;
 using Ksnm.ExtensionMethods.System.Decimal;
+using Ksnm.ExtensionMethods.System.Double;
 using Ksnm.ExtensionMethods.System.Numerics.BigInteger;
 using static System.Diagnostics.Debug;
 using static System.Math;
@@ -219,6 +220,14 @@ namespace Ksnm.Numerics
             Mantissa = (BigInteger)value.GetMantissa();
             Mantissa *= value.GetSign();
             MinExponent = DefaultMinExponent;
+        }
+        /// <summary>
+        /// 指定した値で初期化
+        /// </summary>
+        public BigDecimal(double value)
+        {
+            var temp = value.ToDecimalString();
+            this = Parse(temp);
         }
         #endregion コンストラクタ
 
@@ -440,10 +449,6 @@ namespace Ksnm.Numerics
         /// <exception cref="System.ArgumentOutOfRangeException">exponent が負の値です。</exception>
         public static BigDecimal Pow(BigDecimal value, int exponent)
         {
-            if (exponent < 0)
-            {
-                throw new ArgumentOutOfRangeException($"{nameof(exponent)} が負の値です。");
-            }
             if (exponent == 0)
             {
                 return 1;
@@ -452,9 +457,18 @@ namespace Ksnm.Numerics
             {
                 return 0;
             }
-            var temp = value;
-            temp.Mantissa = BigInteger.Pow(temp.Mantissa, exponent);
-            return temp;
+            if (exponent < 0)
+            {
+                exponent = -exponent;
+                var temp = Pow(value, exponent);
+                return 1 / temp;
+            }
+            else
+            {
+                var temp = value;
+                temp.Mantissa = BigInteger.Pow(temp.Mantissa, exponent);
+                return temp;
+            }
         }
         /// <summary>
         /// 指定された値を指数として 10 を累乗します。
@@ -982,14 +996,14 @@ namespace Ksnm.Numerics
         /// </summary>
         public static explicit operator BigDecimal(float value)
         {
-            return new BigDecimal((decimal)value);
+            return new BigDecimal(value);
         }
         /// <summary>
         /// double から BigDecimal への明示的な変換を定義します。
         /// </summary>
         public static explicit operator BigDecimal(double value)
         {
-            return new BigDecimal((decimal)value);
+            return new BigDecimal(value);
         }
         /// <summary>
         /// decimal から BigDecimal への暗黙的な変換を定義します。

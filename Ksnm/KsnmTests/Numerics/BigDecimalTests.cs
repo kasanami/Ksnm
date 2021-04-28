@@ -99,6 +99,16 @@ namespace Ksnm.Numerics.Tests
                     Assert.AreEqual(expected, actual, $"{i} ^ {j}");
                 }
             }
+            for (int i = -10; i <= 10; i++)
+            {
+                for (int j = -10; j <= 10; j++)
+                {
+                    if (i == 0) { continue; }
+                    var expected = System.Math.Pow(i, j);
+                    var actual = (double)BigDecimal.Pow(i, j);
+                    Assert.AreEqual(expected, actual, 0.00000000000001, $"{i} ^ {j}");
+                }
+            }
         }
 
         [TestMethod()]
@@ -987,6 +997,14 @@ namespace Ksnm.Numerics.Tests
                 Assert.AreEqual(BigInteger.Parse("1234567890123456789012345678901234567890"), sample.Mantissa, $"{source}");
                 Assert.AreEqual(-40, sample.Exponent, $"{source}");
                 Assert.AreEqual(-40, sample.MinExponent, $"{source}");
+            }
+            {
+                var source = "-0.123456789";
+                var sample = BigDecimal.Parse(source);
+                Assert.AreEqual(source, sample.ToString(), $"{source}");
+                Assert.AreEqual(-123456789, sample.Mantissa, $"{source}");
+                Assert.AreEqual(-9, sample.Exponent, $"{source}");
+                Assert.AreEqual(-28, sample.MinExponent, $"{source}");
             }
         }
 
