@@ -109,13 +109,15 @@ namespace DemoApp
         private void Math_LeibnizFormulaButton_Click(object sender, EventArgs e)
         {
             var count = Math_LeibnizFormula_CountNumericUpDown1.Value.ToClampedInt32();
-            Math_LeibnizFormulaLabel1.Text = (Formula.Leibniz(count) * 4).ToDecimalString();
+            //Math_LeibnizFormulaLabel1.Text = (Formula.Leibniz(count) * 4).ToDecimalString();
+            Math_LeibnizFormulaLabel1.Text = (Formula.LeibnizForBigDecimal(count, 100) * 4).ToString();
         }
 
         private void Math_GaussLegendreButton_Click(object sender, EventArgs e)
         {
             var count = Math_GaussLegendre_CountNumericUpDown.Value.ToClampedInt32();
-            Math_GaussLegendreLabel1.Text = (Algorithm.GaussLegendre(count)).ToDecimalString();
+            //Math_GaussLegendreLabel1.Text = (Algorithm.GaussLegendre(count)).ToDecimalString();
+            Math_GaussLegendreLabel1.Text = Algorithm.GaussLegendreForBigDecimal(count, 100).ToString();
         }
 
         private void Math_ChartUpdate()
