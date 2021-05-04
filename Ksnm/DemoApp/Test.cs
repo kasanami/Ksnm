@@ -26,6 +26,7 @@ namespace DemoApp
             //GreatestCommonDivisorWeightTest();
             //PowWeightTest();
             //PowTest();
+            ExpTest();
             //LogTest();
             //SqrtTest();
             /*
@@ -327,6 +328,25 @@ namespace DemoApp
                     Console.WriteLine($"{n}^{e}={Math.Pow(n, e)}");
                 }
                 Console.WriteLine();
+            }
+        }
+        public static void ExpTest()
+        {
+            Console.WriteLine($"ExpTest()");
+            Console.WriteLine($"System.Math");
+            for (int n = -10; n < 10; n++)
+            {
+                Console.WriteLine($"e^{n}={Exp(n)}");
+            }
+            Console.WriteLine($"Ksnm.Math");
+            for (int n = -10; n < 10; n++)
+            {
+                Console.WriteLine($"e^{n}={Ksnm.Math.Exp(n)}");
+            }
+            // 計算回数を替えて試す
+            for (int n = -10; n < 10; n++)
+            {
+                Console.WriteLine($"e^10 {n}={Ksnm.Math.Exp(10, n)}");
             }
         }
         public static void LogTest()

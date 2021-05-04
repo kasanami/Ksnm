@@ -46,7 +46,14 @@ namespace Ksnm
         /// 白銀数
         /// </summary>
         public const double SilverNumber = 2.41421356237309504880;
-
+        /// <summary>
+        /// 円周率
+        /// </summary>
+        public const decimal PI_Decimal = 3.141592653589793238462643383279m;
+        /// <summary>
+        /// ネイピア数
+        /// </summary>
+        public const decimal E_Decimal = 2.718281828459045235360287471352m;
         #endregion 定数
 
         #region IsEven
@@ -827,6 +834,35 @@ namespace Ksnm
         #endregion BigInteger
         #endregion Pow
 
+        #region Exp
+        /// <summary>
+        /// 指定した値で e を累乗した値を返します。
+        /// </summary>
+        /// <param name="exponent">累乗を指定する数値。</param>
+        /// <returns>数値 e を d で累乗した値。</returns>
+        public static decimal Exp(decimal exponent)
+        {
+            return Exp(exponent, 28);
+        }
+        /// <summary>
+        /// 指定した値で e を累乗した値を返します。
+        /// </summary>
+        /// <param name="exponent">累乗を指定する数値。</param>
+        /// <param name="count">計算回数。2 以下は結果が変化しません。29 以上はオーバーフローを起こす。</param>
+        /// <returns>数値 e を d で累乗した値。</returns>
+        public static decimal Exp(decimal exponent, int count)
+        {
+            decimal sum = 1 + exponent;// ループの2回目までは省略
+            decimal factorial = 1;// 階乗された値
+            for (int i = 2; i < count; i++)
+            {
+                factorial *= i;
+                sum += Pow(exponent, i) / factorial;
+            }
+            return sum;
+        }
+        #endregion Exp
+
         #region Sqrt
         /// <summary>
         /// 指定された数値の平方根を返します。
@@ -882,6 +918,93 @@ namespace Ksnm
             return temp;
         }
         #endregion Sqrt
+
+        #region 三角関数
+        /// <summary>
+        /// 指定された角度のサインを返します。
+        /// </summary>
+        /// <param name="x">ラジアンで表した角度。</param>
+        public static decimal Sin(decimal x)
+        {
+            return Sin(x, 10);
+        }
+        /// <summary>
+        /// 指定された角度のサインを返します。
+        /// </summary>
+        /// <param name="x">ラジアンで表した角度。</param>
+        /// <param name="count">計算回数。</param>
+        public static decimal Sin(decimal x, int count)
+        {
+            // -2π～2πにする
+            x -= (int)(x / (2 * PI_Decimal)) * 2 * PI_Decimal;
+            decimal sum = x;
+            decimal t = x;
+            for (int n = 1; n <= count; n++)
+            {
+                t *= -(x * x) / ((2 * n + 1) * (2 * n));
+                sum += t;
+            }
+            return sum;
+        }
+        /// <summary>
+        /// 指定された角度のコサインを返します。
+        /// </summary>
+        /// <param name="x">ラジアンで表した角度。</param>
+        public static decimal Cos(decimal x)
+        {
+            return Cos(x, 10);
+        }
+        /// <summary>
+        /// 指定された角度のコサインを返します。
+        /// </summary>
+        /// <param name="x">ラジアンで表した角度。</param>
+        /// <param name="count">計算回数。</param>
+        public static decimal Cos(decimal x, int count)
+        {
+            return Cos(PI_Decimal / 2 - x, count);
+        }
+        /// <summary>
+        /// コサインが指定数となる角度を返します。
+        /// </summary>
+        /// <param name="x">コサインを表す数で、-1 以上 1 以下である必要があります。</param>
+        /// <returns>0 ≤θ≤π の、ラジアンで表した角度 θ。</returns>
+        public static decimal Acos(decimal x)
+        {
+            throw new NotImplementedException();
+        }
+        /// <summary>
+        /// サインが指定数となる角度を返します。
+        /// </summary>
+        /// <param name="x">サインを表す数で、-1 以上 1 以下である必要があります。</param>
+        /// <returns>-π/2 ≤θ≤π/2 の、ラジアンで表した角度 θ。</returns>
+        public static decimal Asin(decimal x)
+        {
+            throw new NotImplementedException();
+        }
+        /// <summary>
+        /// タンジェントが指定数となる角度を返します。
+        /// </summary>
+        /// <param name="x">タンジェントを表す数。</param>
+        /// <returns>-π/2 ≤θ≤π/2 の、ラジアンで表した角度 θ。</returns>
+        public static decimal Atan(decimal x)
+        {
+            throw new NotImplementedException();
+        }
+        /// <summary>
+        /// タンジェントが 2 つの指定された数の商である角度を返します。
+        /// </summary>
+        /// <param name="y">点の y 座標。</param>
+        /// <param name="x">点の x 座標。</param>
+        /// <returns>-π≤θ≤π および tan(θ) = y / x の、ラジアンで示した角度 θ。(x, y) は、デカルト座標の点を示します。 次の点に注意してください。
+        ///     クワドラント 1 の (x, y) の場合は、0 < θ < π/2。 クワドラント 2 の (x, y) の場合は、π/2 < θ≤π。 クワドラント
+        ///     3 の (x, y) の場合は、-π < θ < -π/2。 クワドラント 4 の (x, y) の場合は、-π/2 < θ < 0。 クワドラント間の境界上にある点の場合は、次の戻り値になります。
+        ///     y が 0 で x が負数でない場合は、θ = 0。 y が 0 で x が負の場合は、θ = π。 y が正で x が 0 の場合は、θ = π/2。
+        ///     y が負数で x が 0 の場合は、θ = -π/2。 y が 0 かつ x が 0 の場合は、θ = 0。</returns>
+        public static decimal Atan2(decimal y, decimal x)
+        {
+            throw new NotImplementedException();
+        }
+        #endregion 三角関数
 
         #region 最大公約数 GreatestCommonDivisor
 

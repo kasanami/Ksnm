@@ -522,6 +522,17 @@ namespace Ksnm.Tests
         }
 
         [TestMethod()]
+        public void ExpTest()
+        {
+            for (int i = 0; i < 5; i++)
+            {
+                var expected = SMath.Exp(i);
+                var actual = (double)Math.Exp(i);
+                Assert.AreEqual(expected, actual, 0.000000001, $"i={i}");
+            }
+        }
+
+        [TestMethod()]
         public void BigIntegerPow10Test()
         {
             Assert.AreEqual(1, Math.BigIntegerPow10(0));
