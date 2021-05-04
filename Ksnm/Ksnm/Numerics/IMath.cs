@@ -68,30 +68,6 @@ namespace Ksnm.Numerics
         /// <returns>絶対値。</returns>
         T Abs();
         /// <summary>
-        /// 加算し、その結果を返します。
-        /// </summary>
-        /// <param name="addend">加数。</param>
-        /// <returns>合計。</returns>
-        T Add(T addend);
-        /// <summary>
-        /// 加算し、その結果を返します。
-        /// </summary>
-        /// <param name="addend">加数。</param>
-        /// <returns>合計。</returns>
-        T Add(int addend);
-        /// <summary>
-        /// 加算し、その結果を返します。
-        /// </summary>
-        /// <param name="addend">加数。</param>
-        /// <returns>合計。</returns>
-        T Add(double addend);
-        /// <summary>
-        /// 加算し、その結果を返します。
-        /// </summary>
-        /// <param name="addend">加数。</param>
-        /// <returns>合計。</returns>
-        T Add(decimal addend);
-        /// <summary>
         /// 指定した数以上の数のうち、最小の整数値を返します。
         /// </summary>
         /// <returns>以上の最小の整数値。 </returns>
@@ -103,44 +79,6 @@ namespace Ksnm.Numerics
         //  0 : other と等しい。
         //  0 より大きい :  other より大きい。</returns>
         int Compare(T other);
-        /// <summary>
-        /// 除算し、その結果を返します。
-        /// </summary>
-        /// <param name="divisor">除数。</param>
-        /// <returns>除算の商。</returns>
-        /// <exception cref="System.DivideByZeroException">divisor が 0 (ゼロ) です。</exception>
-        T Divide(T divisor);
-        /// <summary>
-        /// 除算し、その結果を返します。
-        /// </summary>
-        /// <param name="divisor">除数。</param>
-        /// <returns>除算の商。</returns>
-        /// <exception cref="System.DivideByZeroException">divisor が 0 (ゼロ) です。</exception>
-        T Divide(int divisor);
-        /// <summary>
-        /// 除算し、その結果を返します。
-        /// </summary>
-        /// <param name="divisor">除数。</param>
-        /// <returns>除算の商。</returns>
-        /// <exception cref="System.DivideByZeroException">divisor が 0 (ゼロ) です。</exception>
-        T Divide(double divisor);
-        /// <summary>
-        /// 除算し、その結果を返します。
-        /// </summary>
-        /// <param name="divisor">除数。</param>
-        /// <returns>除算の商。</returns>
-        /// <exception cref="System.DivideByZeroException">divisor が 0 (ゼロ) です。</exception>
-        T Divide(decimal divisor);
-#if false
-        /// <summary>
-        /// 除算し、その結果を返します。剰余は出力パラメーターとして返されます。
-        /// </summary>
-        /// <param name="divisor">除数。</param>
-        /// <param name="remainder">このメソッドから制御が戻るときに、除算の剰余を表す System.Numerics.BigInteger 値が格納されます。 このパラメーターは初期化せずに渡されます。</param>
-        /// <returns>除算の商。</returns>
-        /// <exception cref="System.DivideByZeroException">divisor が 0 (ゼロ) です。</exception>
-        T DivRem(T divisor, out T remainder);
-#endif
         /// <summary>
         /// 指定した数以下の数のうち、最大の整数値を返します。
         /// </summary>
@@ -208,30 +146,6 @@ namespace Ksnm.Numerics
         T ModPow(T exponent, T modulus);
 #endif
         /// <summary>
-        /// 積を返します。
-        /// </summary>
-        /// <param name="multiplier">乗算対象の 2 番目の数。</param>
-        /// <returns>積。</returns>
-        T Multiply(T multiplier);
-        /// <summary>
-        /// 積を返します。
-        /// </summary>
-        /// <param name="multiplier">乗算対象の 2 番目の数。</param>
-        /// <returns>積。</returns>
-        T Multiply(int multiplier);
-        /// <summary>
-        /// 積を返します。
-        /// </summary>
-        /// <param name="multiplier">乗算対象の 2 番目の数。</param>
-        /// <returns>積。</returns>
-        T Multiply(double multiplier);
-        /// <summary>
-        /// 積を返します。
-        /// </summary>
-        /// <param name="multiplier">乗算対象の 2 番目の数。</param>
-        /// <returns>積。</returns>
-        T Multiply(decimal multiplier);
-        /// <summary>
         /// 否定 (負数化) します。
         /// </summary>
         /// <returns>-1 を乗算した結果。</returns>
@@ -244,17 +158,40 @@ namespace Ksnm.Numerics
         /// <exception cref="System.ArgumentOutOfRangeException">exponent が負の値です。</exception>
         T Pow(int exponent);
         /// <summary>
-        /// 整数除算を実行し、その剰余を返します。
-        /// </summary>
-        /// <param name="divisor">除数。</param>
-        /// <returns>divisor で除算した結果生じた剰余。</returns>
-        /// <exception cref="System.DivideByZeroException">divisor が 0 (ゼロ) です。</exception>
-        T Remainder(T divisor);
-        /// <summary>
         /// 指定された数値の平方根を返します。
         /// </summary>
         /// <returns>戻り値 0 または正 d の正の平方根。</returns>
         T Sqrt();
+        /// <summary>
+        /// 整数部を計算します。
+        /// </summary>
+        /// <returns>整数部。つまり、小数部の桁を破棄した後に残る数値。</returns>
+        T Truncate();
+        #region 四則演算
+        /// <summary>
+        /// 加算し、その結果を返します。
+        /// </summary>
+        /// <param name="addend">加数。</param>
+        /// <returns>合計。</returns>
+        T Add(T addend);
+        /// <summary>
+        /// 加算し、その結果を返します。
+        /// </summary>
+        /// <param name="addend">加数。</param>
+        /// <returns>合計。</returns>
+        T Add(int addend);
+        /// <summary>
+        /// 加算し、その結果を返します。
+        /// </summary>
+        /// <param name="addend">加数。</param>
+        /// <returns>合計。</returns>
+        T Add(double addend);
+        /// <summary>
+        /// 加算し、その結果を返します。
+        /// </summary>
+        /// <param name="addend">加数。</param>
+        /// <returns>合計。</returns>
+        T Add(decimal addend);
         /// <summary>
         /// 減算し、その結果を返します。
         /// </summary>
@@ -280,10 +217,78 @@ namespace Ksnm.Numerics
         /// <returns>減算した結果。</returns>
         T Subtract(decimal substrahend);
         /// <summary>
-        /// 整数部を計算します。
+        /// 積を返します。
         /// </summary>
-        /// <returns>整数部。つまり、小数部の桁を破棄した後に残る数値。</returns>
-        T Truncate();
+        /// <param name="multiplier">乗算対象の 2 番目の数。</param>
+        /// <returns>積。</returns>
+        T Multiply(T multiplier);
+        /// <summary>
+        /// 積を返します。
+        /// </summary>
+        /// <param name="multiplier">乗算対象の 2 番目の数。</param>
+        /// <returns>積。</returns>
+        T Multiply(int multiplier);
+        /// <summary>
+        /// 積を返します。
+        /// </summary>
+        /// <param name="multiplier">乗算対象の 2 番目の数。</param>
+        /// <returns>積。</returns>
+        T Multiply(double multiplier);
+        /// <summary>
+        /// 積を返します。
+        /// </summary>
+        /// <param name="multiplier">乗算対象の 2 番目の数。</param>
+        /// <returns>積。</returns>
+        T Multiply(decimal multiplier);
+        /// <summary>
+        /// 除算し、その結果を返します。
+        /// </summary>
+        /// <param name="divisor">除数。</param>
+        /// <returns>除算の商。</returns>
+        /// <exception cref="System.DivideByZeroException">divisor が 0 (ゼロ) です。</exception>
+        T Divide(T divisor);
+        /// <summary>
+        /// 除算し、その結果を返します。
+        /// </summary>
+        /// <param name="divisor">除数。</param>
+        /// <returns>除算の商。</returns>
+        /// <exception cref="System.DivideByZeroException">divisor が 0 (ゼロ) です。</exception>
+        T Divide(int divisor);
+        /// <summary>
+        /// 除算し、その結果を返します。
+        /// </summary>
+        /// <param name="divisor">除数。</param>
+        /// <returns>除算の商。</returns>
+        /// <exception cref="System.DivideByZeroException">divisor が 0 (ゼロ) です。</exception>
+        T Divide(double divisor);
+        /// <summary>
+        /// 除算し、その結果を返します。
+        /// </summary>
+        /// <param name="divisor">除数。</param>
+        /// <returns>除算の商。</returns>
+        /// <exception cref="System.DivideByZeroException">divisor が 0 (ゼロ) です。</exception>
+        T Divide(decimal divisor);
+#if false
+        /// <summary>
+        /// 除算し、その結果を返します。剰余は出力パラメーターとして返されます。
+        /// </summary>
+        /// <param name="divisor">除数。</param>
+        /// <param name="remainder">このメソッドから制御が戻るときに、除算の剰余を表す System.Numerics.BigInteger 値が格納されます。 このパラメーターは初期化せずに渡されます。</param>
+        /// <returns>除算の商。</returns>
+        /// <exception cref="System.DivideByZeroException">divisor が 0 (ゼロ) です。</exception>
+        T DivRem(T divisor, out T remainder);
+#endif
+        /// <summary>
+        /// 整数除算を実行し、その剰余を返します。
+        /// </summary>
+        /// <param name="divisor">除数。</param>
+        /// <returns>divisor で除算した結果生じた剰余。</returns>
+        /// <exception cref="System.DivideByZeroException">divisor が 0 (ゼロ) です。</exception>
+        T Remainder(T divisor);
+        #endregion 四則演算
+        #region 三角関数
+
+        #endregion 三角関数
         #endregion メソッド
     }
 }
