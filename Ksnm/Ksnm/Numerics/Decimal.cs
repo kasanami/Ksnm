@@ -9,9 +9,15 @@ namespace Ksnm.Numerics
     public struct Decimal : IMath<Decimal>, IEquatable<Decimal>
     {
         #region プロパティ
+        /// <summary>
+        /// 値
+        /// </summary>
         public decimal Value;
         #endregion プロパティ
         #region コンストラクタ
+        /// <summary>
+        /// 指定した値で初期化する
+        /// </summary>
         public Decimal(decimal value)
         {
             Value = value;

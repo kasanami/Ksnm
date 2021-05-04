@@ -8,9 +8,15 @@ namespace Ksnm.Numerics
     public struct Double : IMath<Double>, IEquatable<Double>
     {
         #region プロパティ
+        /// <summary>
+        /// 値
+        /// </summary>
         public double Value;
         #endregion プロパティ
         #region コンストラクタ
+        /// <summary>
+        /// 指定した値で初期化する
+        /// </summary>
         public Double(double value)
         {
             Value = value;
