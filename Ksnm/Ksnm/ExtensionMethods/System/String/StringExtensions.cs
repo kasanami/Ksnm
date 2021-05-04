@@ -126,6 +126,41 @@ namespace Ksnm.ExtensionMethods.System.String
             return new string(self.Select(c => ToWideDictionary.ContainsKey(c) ? ToWideDictionary[c] : c).ToArray());
         }
         /// <summary>
+        /// 数値の文字列形式を、それと等価な 32 ビット符号付き整数に変換します。
+        /// </summary>
+        public static int ToInt32(this string self)
+        {
+            return int.Parse(self);
+        }
+        /// <summary>
+        /// 数値の文字列形式を、それと等価な 64 ビット符号付き整数に変換します。
+        /// </summary>
+        public static long ToInt64(this string self)
+        {
+            return long.Parse(self);
+        }
+        /// <summary>
+        /// 数値の文字列形式を、それと等しい単精度浮動小数点数に変換します。
+        /// </summary>
+        public static float ToSingle(this string self)
+        {
+            return float.Parse(self);
+        }
+        /// <summary>
+        /// 数値の文字列形式を、等価の倍精度浮動小数点数に変換します。
+        /// </summary>
+        public static double ToDouble(this string self)
+        {
+            return double.Parse(self);
+        }
+        /// <summary>
+        /// 数値の文字列形式を、それと等価の System.Decimal に変換します。
+        /// </summary>
+        public static decimal ToDecimal(this string self)
+        {
+            return decimal.Parse(self);
+        }
+        /// <summary>
         /// 制御文字を削除する
         /// </summary>
         /// <returns>削除</returns>

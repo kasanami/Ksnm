@@ -156,5 +156,40 @@ namespace Ksnm.ExtensionMethods.System.String.Tests
             var unifiedStr = str.Unify(" ");
             Assert.AreEqual("a b c d e f g", unifiedStr);
         }
+
+        [TestMethod()]
+        public void ToInt32Test()
+        {
+            Assert.AreEqual(0, "0".ToInt32());
+            Assert.AreEqual(1, "1".ToInt32());
+        }
+
+        [TestMethod()]
+        public void ToInt64Test()
+        {
+            Assert.AreEqual(0L, "0".ToInt64());
+            Assert.AreEqual(1L, "1".ToInt64());
+        }
+
+        [TestMethod()]
+        public void ToSingleTest()
+        {
+            Assert.AreEqual(0f, "0".ToSingle());
+            Assert.AreEqual(1f, "1".ToSingle());
+        }
+
+        [TestMethod()]
+        public void ToDoubleTest()
+        {
+            Assert.AreEqual(0d, "0".ToDouble());
+            Assert.AreEqual(1d, "1".ToDouble());
+        }
+
+        [TestMethod()]
+        public void ToDecimalTest()
+        {
+            Assert.AreEqual(0m, "0".ToDecimal());
+            Assert.AreEqual(1m, "1".ToDecimal());
+        }
     }
 }
