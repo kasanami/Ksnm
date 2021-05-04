@@ -684,5 +684,38 @@ namespace Ksnm.Tests
                 Assert.AreEqual(expected, actual, $"i={i}");
             }
         }
+
+        [TestMethod()]
+        public void SinTest()
+        {
+            for (int i = -10; i <= 10; i++)
+            {
+                var expected = SMath.Sin(i);
+                var actual = (double)Math.Sin(i);
+                Assert.AreEqual(expected, actual, 0.000000000000001, $"i={i}");
+            }
+        }
+
+        [TestMethod()]
+        public void CosTest()
+        {
+            for (int i = -10; i <= 10; i++)
+            {
+                var expected = SMath.Cos(i);
+                var actual = (double)Math.Cos(i);
+                Assert.AreEqual(expected, actual, 0.000000000000001, $"i={i}");
+            }
+        }
+
+        [TestMethod()]
+        public void TanTest()
+        {
+            for (int i = -10; i <= 10; i++)
+            {
+                var expected = SMath.Tan(i);
+                var actual = (double)Math.Tan(i);
+                Assert.AreEqual(expected, actual, 0.000000000000001, $"i={i}");
+            }
+        }
     }
 }

@@ -29,6 +29,7 @@ namespace DemoApp
             ExpTest();
             //LogTest();
             //SqrtTest();
+            SinTest();
             /*
             Numeric num = new Numeric(100m);
             num.Normalize();
@@ -344,7 +345,7 @@ namespace DemoApp
                 Console.WriteLine($"e^{n}={Ksnm.Math.Exp(n)}");
             }
             // 計算回数を替えて試す
-            for (int n = -10; n < 10; n++)
+            for (int n = 0; n < 10; n++)
             {
                 Console.WriteLine($"e^10 {n}={Ksnm.Math.Exp(10, n)}");
             }
@@ -374,6 +375,29 @@ namespace DemoApp
             }
 
             countCount = countCount.OrderByKey();
+        }
+        public static void SinTest()
+        {
+            Console.WriteLine($"SinTest()");
+            Console.WriteLine($"System.Sin");
+            for (int n = -10; n < 10; n++)
+            {
+                Console.WriteLine($"Sin {n}={Sin(n)}");
+            }
+            Console.WriteLine($"Ksnm.Math");
+            for (int n = -10; n < 10; n++)
+            {
+                Console.WriteLine($"Sin {n}={Ksnm.Math.Sin(n)}");
+            }
+            // 計算回数を替えて試す
+            Console.WriteLine();
+            for (int n = -10; n < 10; n++)
+            {
+                for (int c = 0; c < 30; c++)
+                {
+                    Console.WriteLine($"Sin {n} {c}={Ksnm.Math.Sin(n, c)}");
+                }
+            }
         }
     }
 }

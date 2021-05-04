@@ -926,7 +926,8 @@ namespace Ksnm
         /// <param name="x">ラジアンで表した角度。</param>
         public static decimal Sin(decimal x)
         {
-            return Sin(x, 10);
+            // すべての組み合わせをテストしていないが、概ね25回目以降は結果が変わらない
+            return Sin(x, 25);
         }
         /// <summary>
         /// 指定された角度のサインを返します。
@@ -952,16 +953,15 @@ namespace Ksnm
         /// <param name="x">ラジアンで表した角度。</param>
         public static decimal Cos(decimal x)
         {
-            return Cos(x, 10);
+            return Sin(PI_Decimal / 2 - x);
         }
         /// <summary>
-        /// 指定された角度のコサインを返します。
+        /// 指定された角度のタンジェントを返します。
         /// </summary>
         /// <param name="x">ラジアンで表した角度。</param>
-        /// <param name="count">計算回数。</param>
-        public static decimal Cos(decimal x, int count)
+        public static decimal Tan(decimal x)
         {
-            return Cos(PI_Decimal / 2 - x, count);
+            return Sin(x) / Cos(x);
         }
         /// <summary>
         /// コサインが指定数となる角度を返します。
