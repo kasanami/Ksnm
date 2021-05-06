@@ -26,10 +26,12 @@ namespace DemoApp
             //GreatestCommonDivisorWeightTest();
             //PowWeightTest();
             //PowTest();
-            ExpTest();
+            //ExpTest();
             //LogTest();
             //SqrtTest();
-            SinTest();
+            //SinTest();
+            AsinTest();
+            AtanTest();
             /*
             Numeric num = new Numeric(100m);
             num.Normalize();
@@ -396,6 +398,72 @@ namespace DemoApp
                 for (int c = 0; c < 30; c++)
                 {
                     Console.WriteLine($"Sin {n} {c}={Ksnm.Math.Sin(n, c)}");
+                }
+            }
+        }
+        public static void AsinTest()
+        {
+            Console.WriteLine($"AsinTest()");
+
+            Console.WriteLine($"π/2={Ksnm.Math.PI_Decimal / 2}");
+            Console.WriteLine($"π/4={Ksnm.Math.PI_Decimal / 4}");
+
+            Console.WriteLine($"System.Math");
+            for (double x = -1; x <= 1; x += 0.125)
+            {
+                Console.WriteLine($"Asin({x})={Math.Asin(x)}");
+            }
+
+            // 計算回数を替えて試す
+            Console.WriteLine();
+            for (decimal x = -1; x <= 1; x += 0.125m)
+            {
+                for (int c = 1; c <= 50; c++)
+                {
+                    try
+                    {
+                        Console.WriteLine($"Asin({x}, {c})={Ksnm.Math.Asin(x, c)}");
+                    }
+                    catch
+                    {
+                        break;
+                    }
+                }
+            }
+        }
+        public static void AtanTest()
+        {
+            Console.WriteLine($"AtanTest()");
+
+            Console.WriteLine($"π/2={Ksnm.Math.PI_Decimal / 2}");
+            Console.WriteLine($"π/4={Ksnm.Math.PI_Decimal / 4}");
+
+            Console.WriteLine($"System.Math");
+            for (double x = -1; x <= 1; x += 0.125)
+            {
+                Console.WriteLine($"Atan({x})={Math.Atan(x)}");
+            }
+
+            {
+                decimal x = 1;
+                int c = 100000;
+                Console.WriteLine($"Atan({x}, {c})={Ksnm.Math.Atan(x, c)}");
+            }
+
+            // 計算回数を替えて試す
+            Console.WriteLine();
+            for (decimal x = -1; x <= 1; x += 0.125m)
+            {
+                for (int c = 1; c <= 1; c++)
+                {
+                    try
+                    {
+                        Console.WriteLine($"Atan({x}, {c})={Ksnm.Math.Atan(x, c)}");
+                    }
+                    catch
+                    {
+                        break;
+                    }
                 }
             }
         }

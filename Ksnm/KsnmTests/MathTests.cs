@@ -522,6 +522,54 @@ namespace Ksnm.Tests
         }
 
         [TestMethod()]
+        public void PowTest_decimal()
+        {
+            decimal baseValue = 0;
+            Assert.AreEqual(1, Math.Pow(baseValue, 0u));
+            Assert.AreEqual(0, Math.Pow(baseValue, 1u));
+            Assert.AreEqual(0, Math.Pow(baseValue, 2u));
+            Assert.AreEqual(0, Math.Pow(baseValue, 3u));
+            Assert.AreEqual(0, Math.Pow(baseValue, 4u));
+            Assert.AreEqual(0, Math.Pow(baseValue, 5u));
+            baseValue = 10;
+            Assert.AreEqual(1, Math.Pow(baseValue, 0u));
+            Assert.AreEqual(10, Math.Pow(baseValue, 1u));
+            Assert.AreEqual(100, Math.Pow(baseValue, 2u));
+            Assert.AreEqual(1000, Math.Pow(baseValue, 3u));
+            Assert.AreEqual(10000, Math.Pow(baseValue, 4u));
+            Assert.AreEqual(100000, Math.Pow(baseValue, 5u));
+            baseValue = 0b10;
+            Assert.AreEqual(0b1, Math.Pow(baseValue, 0u));
+            Assert.AreEqual(0b10, Math.Pow(baseValue, 1u));
+            Assert.AreEqual(0b100, Math.Pow(baseValue, 2u));
+            Assert.AreEqual(0b1000, Math.Pow(baseValue, 3u));
+            Assert.AreEqual(0b10000, Math.Pow(baseValue, 4u));
+            Assert.AreEqual(0b100000, Math.Pow(baseValue, 5u));
+            baseValue = 0x10;
+            Assert.AreEqual(0x1, Math.Pow(baseValue, 0u));
+            Assert.AreEqual(0x10, Math.Pow(baseValue, 1u));
+            Assert.AreEqual(0x100, Math.Pow(baseValue, 2u));
+            Assert.AreEqual(0x1000, Math.Pow(baseValue, 3u));
+            Assert.AreEqual(0x10000, Math.Pow(baseValue, 4u));
+            Assert.AreEqual(0x100000, Math.Pow(baseValue, 5u));
+
+            for (int n = -10; n <= 10; n++)
+            {
+                for (int e = 0; e <= 9; e++)
+                {
+                    Assert.AreEqual((decimal)System.Math.Pow((double)n, e), Math.Pow((decimal)n, e), $"{n}^{e}");
+                }
+            }
+            for (int n = -10; n <= 10; n++)
+            {
+                for (uint e = 0; e <= 9; e++)
+                {
+                    Assert.AreEqual((decimal)System.Math.Pow((double)n, e), Math.Pow((decimal)n, e), $"{n}^{e}");
+                }
+            }
+        }
+
+        [TestMethod()]
         public void ExpTest()
         {
             for (int i = 0; i < 5; i++)
@@ -715,6 +763,49 @@ namespace Ksnm.Tests
                 var expected = SMath.Tan(i);
                 var actual = (double)Math.Tan(i);
                 Assert.AreEqual(expected, actual, 0.000000000000001, $"i={i}");
+            }
+        }
+
+        [TestMethod()]
+        public void AsinTest()
+        {
+            {
+                var expected = Math.PI_Decimal / 2;
+                var actual = Math.Asin(1m);
+                Assert.AreEqual(expected, actual);
+            }
+            {
+                var expected = -Math.PI_Decimal / 2;
+                var actual = Math.Asin(-1m);
+                Assert.AreEqual(expected, actual);
+            }
+            for (decimal i = -1; i <= 1; i += 0.1m)
+            {
+                var expected = SMath.Asin((double)i);
+                var actual = (double)Math.Asin(i);
+                Assert.AreEqual(expected, actual, 0.0001, $"i={i}");
+            }
+        }
+
+        [TestMethod()]
+        public void AcosTest()
+        {
+            for (decimal i = -1; i <= 1; i += 0.1m)
+            {
+                var expected = SMath.Acos((double)i);
+                var actual = (double)Math.Acos(i);
+                Assert.AreEqual(expected, actual, 0.0001, $"i={i}");
+            }
+        }
+
+        [TestMethod()]
+        public void AtanTest()
+        {
+            for (decimal i = -1; i <= 1; i += 0.1m)
+            {
+                var expected = SMath.Atan((double)i);
+                var actual = (double)Math.Atan(i);
+                Assert.AreEqual(expected, actual, 0.0001, $"i={i}");
             }
         }
     }

@@ -99,14 +99,17 @@ namespace Ksnm.Numerics.Tests
                     Assert.AreEqual(expected, actual, $"{i} ^ {j}");
                 }
             }
-            for (int i = -10; i <= 10; i++)
+            for (decimal i = -10; i <= 10; i += 0.1m)
             {
                 for (int j = -10; j <= 10; j++)
                 {
-                    if (i == 0) { continue; }
-                    var expected = System.Math.Pow(i, j);
-                    var actual = (double)BigDecimal.Pow(i, j);
-                    Assert.AreEqual(expected, actual, 0.00000000000001, $"{i} ^ {j}");
+                    var expected = (BigDecimal)Math.Pow(i, j);
+                    var actual = BigDecimal.Pow(i, j);
+                    var delta = Math.Abs(expected - actual);
+                    if (delta > 0.00000000000000000000001m)
+                    {
+                        Assert.AreEqual(expected, actual, $"{i} ^ {j}");
+                    }
                 }
             }
         }

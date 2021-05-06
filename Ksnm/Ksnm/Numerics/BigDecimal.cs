@@ -465,8 +465,12 @@ namespace Ksnm.Numerics
             }
             else
             {
-                var temp = value;
-                temp.Mantissa = BigInteger.Pow(temp.Mantissa, exponent);
+                var temp = One;
+                for (int i = 0; i < exponent; i++)
+                {
+                    temp *= value;
+                }
+                //temp.Mantissa = BigInteger.Pow(temp.Mantissa, exponent);
                 return temp;
             }
         }
@@ -1507,6 +1511,61 @@ namespace Ksnm.Numerics
         public BigDecimal Truncate()
         {
             return Truncate(this);
+        }
+
+        public BigDecimal Sin()
+        {
+            throw new NotImplementedException();
+        }
+
+        public BigDecimal Cos()
+        {
+            throw new NotImplementedException();
+        }
+
+        public BigDecimal Tan()
+        {
+            throw new NotImplementedException();
+        }
+
+        public BigDecimal Sinh()
+        {
+            throw new NotImplementedException();
+        }
+
+        public BigDecimal Cosh()
+        {
+            throw new NotImplementedException();
+        }
+
+        public BigDecimal Tanh()
+        {
+            throw new NotImplementedException();
+        }
+
+        public BigDecimal Asin()
+        {
+            throw new NotImplementedException();
+        }
+
+        public BigDecimal Acos()
+        {
+            throw new NotImplementedException();
+        }
+
+        public BigDecimal Atan()
+        {
+            throw new NotImplementedException();
+        }
+
+        public BigDecimal Atan2(BigDecimal y, BigDecimal x)
+        {
+            throw new NotImplementedException();
+        }
+
+        public BigDecimal Exp()
+        {
+            throw new NotImplementedException();
         }
         #endregion IMath
     }

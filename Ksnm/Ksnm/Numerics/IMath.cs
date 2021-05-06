@@ -158,6 +158,12 @@ namespace Ksnm.Numerics
         /// <exception cref="System.ArgumentOutOfRangeException">exponent が負の値です。</exception>
         T Pow(int exponent);
         /// <summary>
+        /// 指定した値で e を累乗した値を返します。
+        /// this:累乗を指定する数値。
+        /// </summary>
+        /// <returns>数値 e を this で累乗した値。</returns>
+        T Exp();
+        /// <summary>
         /// 指定された数値の平方根を返します。
         /// </summary>
         /// <returns>戻り値 0 または正 d の正の平方根。</returns>
@@ -287,8 +293,72 @@ namespace Ksnm.Numerics
         T Remainder(T divisor);
         #endregion 四則演算
         #region 三角関数
-
+        /// <summary>
+        /// 指定された角度のサインを返します。
+        /// this:ラジアンで表した角度。
+        /// </summary>
+        T Sin();
+        /// <summary>
+        /// 指定された角度のコサインを返します。
+        /// this:ラジアンで表した角度。
+        /// </summary>
+        T Cos();
+        /// <summary>
+        /// 指定された角度のタンジェントを返します。
+        /// this:ラジアンで表した角度。
+        /// </summary>
+        T Tan();
+        /// <summary>
+        /// サインが指定数となる角度を返します。
+        /// this:サインを表す数で、d が -1 以上 1 以下である必要があります。
+        /// </summary>
+        /// <returns>-π/2 ≤θ≤π/2 の、ラジアンで表した角度 θ。 または d < -1 または d > 1、あるいは d が System.Double.NaN と等しい場合は、System.Double.NaN。</returns>
+        T Asin();
+        /// <summary>
+        /// コサインが指定数となる角度を返します。
+        /// this:コサインを表す数で、d が -1 以上 1 以下である必要があります。
+        /// </summary>
+        /// <returns>0 ≤θ≤π の、ラジアンで表した角度 θ。 または d < -1 または d > 1、あるいは d が System.Double.NaN と等しい場合は、System.Double.NaN。</returns>
+        T Acos();
+        /// <summary>
+        /// タンジェントが指定数となる角度を返します。
+        /// this:タンジェントを表す数。
+        /// </summary>
+        /// <returns>-π/2 ≤θ≤π/2 の、ラジアンで表した角度 θ。 または d が System.Double.NaN に等しい場合は System.Double.NaN。d
+        ///     が System.Double.NegativeInfinity に等しい場合は、倍精度に丸めた -π/2 (-1.5707963267949)。d が
+        ///     System.Double.PositiveInfinity に等しい場合は、倍精度に丸めた π/2 (1.5707963267949)。</returns>
+        T Atan();
+        /// <summary>
+        /// タンジェントが 2 つの指定された数の商である角度を返します。
+        /// </summary>
+        /// <param name="y">点の y 座標。</param>
+        /// <param name="x">点の x 座標。</param>
+        /// <returns>-π≤θ≤π および tan(θ) = y / x の、ラジアンで示した角度 θ。(x, y) は、デカルト座標の点を示します。 次の点に注意してください。
+        ///     クワドラント 1 の (x, y) の場合は、0 < θ < π/2。 クワドラント 2 の (x, y) の場合は、π/2 < θ≤π。 クワドラント
+        ///     3 の (x, y) の場合は、-π < θ < -π/2。 クワドラント 4 の (x, y) の場合は、-π/2 < θ < 0。 クワドラント間の境界上にある点の場合は、次の戻り値になります。
+        ///     y が 0 で x が負数でない場合は、θ = 0。 y が 0 で x が負の場合は、θ = π。 y が正で x が 0 の場合は、θ = π/2。
+        ///     y が負数で x が 0 の場合は、θ = -π/2。 y が 0 かつ x が 0 の場合は、θ = 0。 x または y が System.Double.NaN
+        ///     であるか、x または y が System.Double.PositiveInfinity または System.Double.NegativeInfinity
+        ///     のいずれである場合、メソッドは System.Double.NaN を返します。</returns>
+        T Atan2(T y, T x);
         #endregion 三角関数
+        #region 双曲線関数
+        /// <summary>
+        /// 指定された角度のハイパーボリック サインを返します。
+        /// this:ラジアンで表した角度。
+        /// </summary>
+        T Sinh();
+        /// <summary>
+        /// 指定された角度のハイパーボリック コサインを返します。
+        /// this:ラジアンで表した角度。
+        /// </summary>
+        T Cosh();
+        /// <summary>
+        /// 指定された角度のハイパーボリック タンジェントを返します。
+        /// this:ラジアンで表した角度。
+        /// </summary>
+        T Tanh();
+        #endregion 双曲線関数
         #endregion メソッド
     }
 }

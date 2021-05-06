@@ -312,6 +312,20 @@ namespace Ksnm
         }
         #endregion IsPrime
 
+        #region Abs
+        /// <summary>
+        /// 数値の絶対値を返します。
+        /// </summary>
+        public static BigDecimal Abs(BigDecimal value)
+        {
+            if (value < 0)
+            {
+                return -value;
+            }
+            return value;
+        }
+        #endregion Abs
+
         #region Sign
 
         /// <summary>
@@ -778,6 +792,18 @@ namespace Ksnm
         /// <returns>累乗した値</returns>
         public static decimal Pow(decimal baseValue, int exponent)
         {
+            if (exponent == 0)
+            {
+                return 1;
+            }
+            if (baseValue == 0)
+            {
+                return 0;
+            }
+            if (baseValue == 1)
+            {
+                return 1;
+            }
             decimal value = 1;
             if (exponent > 0)
             {
@@ -804,6 +830,18 @@ namespace Ksnm
         /// <returns>累乗した値</returns>
         public static decimal Pow(decimal baseValue, uint exponent)
         {
+            if (exponent == 0)
+            {
+                return 1;
+            }
+            if (baseValue == 0)
+            {
+                return 0;
+            }
+            if (baseValue == 1)
+            {
+                return 1;
+            }
             decimal value = 1;
             for (uint i = 0; i < exponent; i++)
             {
@@ -963,6 +1001,71 @@ namespace Ksnm
         {
             return Sin(x) / Cos(x);
         }
+        #region Asin
+        /// <summary>
+        /// サインが指定数となる角度を返します。
+        /// </summary>
+        /// <param name="z">サインを表す数で、-1 以上 1 以下である必要があります。</param>
+        /// <returns>-π/2 ≤θ≤π/2 の、ラジアンで表した角度 θ。</returns>
+        public static decimal Asin(decimal z)
+        {
+            // 23を超えるとオーバーフローとなる。
+            return Asin(z, 23);
+        }
+        /// <summary>
+        /// サインが指定数となる角度を返します。
+        /// </summary>
+        /// <param name="x">サインを表す数で、-1 以上 1 以下である必要があります。</param>
+        /// <param name="count">計算回数。</param>
+        /// <returns>-π/2 ≤θ≤π/2 の、ラジアンで表した角度 θ。</returns>
+        public static decimal Asin(decimal x, int count)
+        {
+            if (x < -1 || x > 1)
+            {
+                throw new ArgumentOutOfRangeException($"{nameof(x)}={x} が範囲外の値です。");
+            }
+            if (x == 1)
+            {
+                return PI_Decimal / 2;
+            }
+            if (x == -1)
+            {
+                return -PI_Decimal / 2;
+            }
+            decimal sum = x;// ループ一回目は省略
+            for (int n = 1; n < count; n++)
+            {
+                var n2 = (2 * n + 1);
+                sum += _Asin_(n) * (Pow(x, n2) / n2);
+            }
+            return sum;
+        }
+        /// <summary>
+        /// _Asin_の計算結果のキャッシュ
+        /// </summary>
+        private static Dictionary<int, decimal> _Asin_Cache = new Dictionary<int, decimal>();
+        /// <summary>
+        /// Asin で使用する内部用関数
+        /// </summary>
+        private static decimal _Asin_(int count)
+        {
+            int key = count;
+            if (_Asin_Cache.ContainsKey(key))
+            {
+                return _Asin_Cache[key];
+            }
+            decimal numerator = 1;
+            decimal denominator = 1;
+            count *= 2;// 2つずつ増やすので2倍
+            for (int n = 1; n < count; n += 2)
+            {
+                numerator *= n;
+                denominator *= n + 1;
+            }
+            _Asin_Cache[key] = numerator / denominator;
+            return _Asin_Cache[key];
+        }
+        #endregion Asin
         /// <summary>
         /// コサインが指定数となる角度を返します。
         /// </summary>
@@ -970,16 +1073,7 @@ namespace Ksnm
         /// <returns>0 ≤θ≤π の、ラジアンで表した角度 θ。</returns>
         public static decimal Acos(decimal x)
         {
-            throw new NotImplementedException();
-        }
-        /// <summary>
-        /// サインが指定数となる角度を返します。
-        /// </summary>
-        /// <param name="x">サインを表す数で、-1 以上 1 以下である必要があります。</param>
-        /// <returns>-π/2 ≤θ≤π/2 の、ラジアンで表した角度 θ。</returns>
-        public static decimal Asin(decimal x)
-        {
-            throw new NotImplementedException();
+            return PI_Decimal / 2 - Asin(x);
         }
         /// <summary>
         /// タンジェントが指定数となる角度を返します。
@@ -988,7 +1082,35 @@ namespace Ksnm
         /// <returns>-π/2 ≤θ≤π/2 の、ラジアンで表した角度 θ。</returns>
         public static decimal Atan(decimal x)
         {
-            throw new NotImplementedException();
+            // TODO:x の値によっては、100では足りない。
+            return Atan(x, 100);
+        }
+        /// <summary>
+        /// タンジェントが指定数となる角度を返します。
+        /// </summary>
+        /// <param name="x">タンジェントを表す数。</param>
+        /// <param name="count">計算回数。</param>
+        /// <returns>-π/2 ≤θ≤π/2 の、ラジアンで表した角度 θ。</returns>
+        public static decimal Atan(decimal x, int count)
+        {
+            if (x < -1 || x > 1)
+            {
+                throw new ArgumentOutOfRangeException($"{nameof(x)}={x} が範囲外の値です。");
+            }
+            decimal sum = x;// １周目は省略
+            for (int n = 1; n < count; n++)
+            {
+                var n2 = (2 * n + 1);
+                if (IsEven(n))
+                {
+                    sum += Pow(x, n2) / n2;
+                }
+                else
+                {
+                    sum -= Pow(x, n2) / n2;
+                }
+            }
+            return sum;
         }
         /// <summary>
         /// タンジェントが 2 つの指定された数の商である角度を返します。
