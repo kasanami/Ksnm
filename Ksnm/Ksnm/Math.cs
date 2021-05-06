@@ -1083,7 +1083,7 @@ namespace Ksnm
         public static decimal Atan(decimal x)
         {
             // TODO:x の値によっては、100では足りない。
-            return Atan(x, 100);
+            return Atan(x, 10000);
         }
         /// <summary>
         /// タンジェントが指定数となる角度を返します。
