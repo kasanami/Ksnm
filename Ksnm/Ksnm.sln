@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KsnmTests", "KsnmTests\Ksnm
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DemoApp", "DemoApp\DemoApp.csproj", "{7DE3A7CB-68D1-489C-94B2-D8CA0352940A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DemoWpfApp", "DemoWpfApp\DemoWpfApp.csproj", "{81D57EA3-025A-4AA2-A357-211FFEFFE560}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{7DE3A7CB-68D1-489C-94B2-D8CA0352940A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7DE3A7CB-68D1-489C-94B2-D8CA0352940A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7DE3A7CB-68D1-489C-94B2-D8CA0352940A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{81D57EA3-025A-4AA2-A357-211FFEFFE560}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{81D57EA3-025A-4AA2-A357-211FFEFFE560}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{81D57EA3-025A-4AA2-A357-211FFEFFE560}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{81D57EA3-025A-4AA2-A357-211FFEFFE560}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
