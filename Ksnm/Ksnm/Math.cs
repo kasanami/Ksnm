@@ -1082,8 +1082,10 @@ namespace Ksnm
         /// <returns>-π/2 ≤θ≤π/2 の、ラジアンで表した角度 θ。</returns>
         public static decimal Atan(decimal x)
         {
-            // TODO:x の値によっては、100では足りない。
-            return Atan(x, 10000);
+            // x=1のときで91回以上は結果がおなじになる。
+            // x=1未満のときは90回より少ない回数で十分
+            // x=1以上のときで10000回でも結果が収束しない
+            return Atan(x, 1000);
         }
         /// <summary>
         /// タンジェントが指定数となる角度を返します。
@@ -1093,38 +1095,110 @@ namespace Ksnm
         /// <returns>-π/2 ≤θ≤π/2 の、ラジアンで表した角度 θ。</returns>
         public static decimal Atan(decimal x, int count)
         {
-            if (x < -1 || x > 1)
-            {
-                throw new ArgumentOutOfRangeException($"{nameof(x)}={x} が範囲外の値です。");
-            }
+#if false
+            // TODO:x の値によっては、count=100では足りない。
+            //if (x < -1 || x > 1)
+            //{
+            //    throw new ArgumentOutOfRangeException($"{nameof(x)}={x} が範囲外の値です。");
+            //}
             decimal sum = x;// １周目は省略
-            for (int n = 1; n < count; n++)
+            try
             {
-                var n2 = (2 * n + 1);
-                if (IsEven(n))
+                for (int n = 1; n < count; n++)
                 {
-                    sum += Pow(x, n2) / n2;
+                    var n2 = (2 * n + 1);
+                    if (IsEven(n))
+                    {
+                        sum += Pow(x, n2) / n2;
+                    }
+                    else
+                    {
+                        sum -= Pow(x, n2) / n2;
+                    }
                 }
-                else
-                {
-                    sum -= Pow(x, n2) / n2;
-                }
+            }
+            catch(OverflowException)
+            {
+                // オーバーフローが発生したらそこまでの計算結果を返す。
             }
             return sum;
+#else
+            // 乗数のキャッシュ [k]=乗数
+            Dictionary<int, decimal> multiplierCache = new Dictionary<int, decimal>();
+
+            /// ｘ の2乗
+            var x2 = (x * x);
+            decimal sum = 1;// n=0のときは1なのでループ１回目は省略
+            for (int n = 1; n < count; n++)
+            {
+                decimal product = 1;
+                for (int k = 1; k <= n; k++)
+                {
+                    decimal multiplier;
+                    if (multiplierCache.ContainsKey(k))
+                    {
+                        multiplier = multiplierCache[k];
+                    }
+                    else
+                    {
+                        multiplier = (2m * k * x2) / ((2m * k + 1) * (1 + x2));
+                        multiplierCache.Add(k, multiplier);
+                    }
+                    product *= multiplier;
+                }
+                sum += product;
+            }
+            var temp = x / (1 + x * x);
+            return temp * sum;
+#endif
         }
         /// <summary>
         /// タンジェントが 2 つの指定された数の商である角度を返します。
         /// </summary>
         /// <param name="y">点の y 座標。</param>
         /// <param name="x">点の x 座標。</param>
-        /// <returns>-π≤θ≤π および tan(θ) = y / x の、ラジアンで示した角度 θ。(x, y) は、デカルト座標の点を示します。 次の点に注意してください。
-        ///     クワドラント 1 の (x, y) の場合は、0 < θ < π/2。 クワドラント 2 の (x, y) の場合は、π/2 < θ≤π。 クワドラント
-        ///     3 の (x, y) の場合は、-π < θ < -π/2。 クワドラント 4 の (x, y) の場合は、-π/2 < θ < 0。 クワドラント間の境界上にある点の場合は、次の戻り値になります。
-        ///     y が 0 で x が負数でない場合は、θ = 0。 y が 0 で x が負の場合は、θ = π。 y が正で x が 0 の場合は、θ = π/2。
-        ///     y が負数で x が 0 の場合は、θ = -π/2。 y が 0 かつ x が 0 の場合は、θ = 0。</returns>
+        /// <returns>-π≤θ≤π および tan(θ) = y / x の、ラジアンで示した角度 θ。(x, y) は、デカルト座標の点を示します。
+        /// 次の点に注意してください。
+        /// クワドラント 1 の (x, y) の場合は、0 < θ < π/2。
+        /// クワドラント 2 の (x, y) の場合は、π/2 < θ≤π。
+        /// クワドラント 3 の (x, y) の場合は、-π < θ < -π/2。
+        /// クワドラント 4 の (x, y) の場合は、-π/2 < θ < 0。
+        /// クワドラント間の境界上にある点の場合は、次の戻り値になります。
+        /// y が 0 で x が負数でない場合は、θ = 0。
+        /// y が 0 で x が負の場合は、θ = π。
+        /// y が正で x が 0 の場合は、θ = π/2。
+        /// y が負数で x が 0 の場合は、θ = -π/2。
+        /// y が 0 かつ x が 0 の場合は、θ = 0。</returns>
         public static decimal Atan2(decimal y, decimal x)
         {
-            throw new NotImplementedException();
+            if (x > 0)
+            {
+                return Atan(y / x);
+            }
+            else if (x < 0)
+            {
+                if (y > 0)
+                {
+                    return Atan(y / x) + PI_Decimal;
+                }
+                else
+                {
+                    return Atan(y / x) - PI_Decimal;
+                }
+            }
+            else// x==0
+            {
+                if (y > 0)
+                {
+                    return +(PI_Decimal / 2);
+                }
+                else if (y < 0)
+                {
+                    return -(PI_Decimal / 2);
+                }
+                // y==0
+                return 0;
+            }
         }
         #endregion 三角関数
 

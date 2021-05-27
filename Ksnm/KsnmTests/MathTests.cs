@@ -805,7 +805,48 @@ namespace Ksnm.Tests
             {
                 var expected = SMath.Atan((double)i);
                 var actual = (double)Math.Atan(i);
-                Assert.AreEqual(expected, actual, 0.0001, $"i={i}");
+                Assert.AreEqual(expected, actual, 0.001, $"i={i}");
+            }
+        }
+
+        [TestMethod()]
+        public void Atan2Test()
+        {
+            {
+                decimal x = 0;
+                decimal y = 0;
+                var expected = SMath.Atan2((double)y, (double)x);
+                var actual = (double)Math.Atan2(y, x);
+                Assert.AreEqual(expected, actual, 0.0001, $"y={y},x={x}");
+            }
+            {
+                decimal x = -0.3m;
+                decimal y = -1;
+                var expected = SMath.Atan2((double)y, (double)x);
+                var expected2 = SMath.Atan((double)y / (double)x);
+                var actual = (double)Math.Atan2(y, x);
+                Assert.AreEqual(expected, actual, 0.0001, $"y={y},x={x}");
+            }
+            {
+                decimal x = 0.9m;
+                decimal y = 1;
+                var expected = SMath.Atan2((double)y, (double)x);
+                var expected2 = SMath.Atan((double)y / (double)x);
+                var actual = (double)Math.Atan2(y, x);
+                Assert.AreEqual(expected, actual, 0.0001, $"y={y},x={x}");
+            }
+            for (decimal x = -1; x <= 1; x += 0.1m)
+            {
+                for (decimal y = -1; y <= 1; y += 0.1m)
+                {
+                    if (y == 0 || x == 0)
+                    {
+                        continue;
+                    }
+                    var expected = SMath.Atan2((double)y, (double)x);
+                    var actual = (double)Math.Atan2(y, x);
+                    Assert.AreEqual(expected, actual, 0.0001, $"y={y},x={x}");
+                }
             }
         }
     }
