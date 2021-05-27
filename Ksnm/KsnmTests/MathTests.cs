@@ -801,11 +801,11 @@ namespace Ksnm.Tests
         [TestMethod()]
         public void AtanTest()
         {
-            for (decimal i = -1; i <= 1; i += 0.1m)
+            for (decimal i = -2; i <= 2; i += 0.1m)
             {
                 var expected = SMath.Atan((double)i);
                 var actual = (double)Math.Atan(i);
-                Assert.AreEqual(expected, actual, 0.001, $"i={i}");
+                Assert.AreEqual(expected, actual, 0.000000000000001, $"i={i}");
             }
         }
 
@@ -817,7 +817,7 @@ namespace Ksnm.Tests
                 decimal y = 0;
                 var expected = SMath.Atan2((double)y, (double)x);
                 var actual = (double)Math.Atan2(y, x);
-                Assert.AreEqual(expected, actual, 0.0001, $"y={y},x={x}");
+                Assert.AreEqual(expected, actual, 0.000000000000001, $"y={y},x={x}");
             }
             {
                 decimal x = -0.3m;
@@ -825,7 +825,7 @@ namespace Ksnm.Tests
                 var expected = SMath.Atan2((double)y, (double)x);
                 var expected2 = SMath.Atan((double)y / (double)x);
                 var actual = (double)Math.Atan2(y, x);
-                Assert.AreEqual(expected, actual, 0.0001, $"y={y},x={x}");
+                Assert.AreEqual(expected, actual, 0.000000000000001, $"y={y},x={x}");
             }
             {
                 decimal x = 0.9m;
@@ -833,7 +833,7 @@ namespace Ksnm.Tests
                 var expected = SMath.Atan2((double)y, (double)x);
                 var expected2 = SMath.Atan((double)y / (double)x);
                 var actual = (double)Math.Atan2(y, x);
-                Assert.AreEqual(expected, actual, 0.0001, $"y={y},x={x}");
+                Assert.AreEqual(expected, actual, 0.000000000000001, $"y={y},x={x}");
             }
             for (decimal x = -1; x <= 1; x += 0.1m)
             {
@@ -845,7 +845,7 @@ namespace Ksnm.Tests
                     }
                     var expected = SMath.Atan2((double)y, (double)x);
                     var actual = (double)Math.Atan2(y, x);
-                    Assert.AreEqual(expected, actual, 0.0001, $"y={y},x={x}");
+                    Assert.AreEqual(expected, actual, 0.000000000000001, $"y={y},x={x}");
                 }
             }
         }
