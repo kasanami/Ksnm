@@ -1084,8 +1084,8 @@ namespace Ksnm
         {
             // x=1のときで91回以上は結果がおなじになる。
             // x=1未満のときは90回より少ない回数で十分
-            // x=1以上のときで10000回でも結果が収束しない
-            return Atan(x, 1000);
+            // x=が大きいと10000回でも結果が収束しない
+            return Atan(x, 10000);
         }
         /// <summary>
         /// タンジェントが指定数となる角度を返します。
@@ -1123,29 +1123,29 @@ namespace Ksnm
             }
             return sum;
 #else
-            // 乗数のキャッシュ [k]=乗数
-            Dictionary<int, decimal> multiplierCache = new Dictionary<int, decimal>();
-
+            // 過去の積を再利用する
+            decimal product = 1;
+            int k = 1;
             /// ｘ の2乗
             var x2 = (x * x);
             decimal sum = 1;// n=0のときは1なのでループ１回目は省略
             for (int n = 1; n < count; n++)
             {
+#if false
                 decimal product = 1;
                 for (int k = 1; k <= n; k++)
                 {
-                    decimal multiplier;
-                    if (multiplierCache.ContainsKey(k))
-                    {
-                        multiplier = multiplierCache[k];
-                    }
-                    else
-                    {
-                        multiplier = (2m * k * x2) / ((2m * k + 1) * (1 + x2));
-                        multiplierCache.Add(k, multiplier);
-                    }
+                    decimal multiplier = (2m * k * x2) / ((2m * k + 1) * (1 + x2));
                     product *= multiplier;
                 }
+#else
+                if (k <= n)
+                {
+                    decimal multiplier = (2m * k * x2) / ((2m * k + 1) * (1 + x2));
+                    product *= multiplier;
+                    k++;
+                }
+#endif
                 sum += product;
             }
             var temp = x / (1 + x * x);
