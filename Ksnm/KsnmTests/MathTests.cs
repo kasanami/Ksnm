@@ -291,6 +291,22 @@ namespace Ksnm.Tests
         }
 
         [TestMethod()]
+        public void LeastCommonMultipleTest()
+        {
+            Assert.AreEqual(1, Math.LeastCommonMultiple(1, 1));
+            Assert.AreEqual(2, Math.LeastCommonMultiple(1, 2));
+            Assert.AreEqual(6, Math.LeastCommonMultiple(2, 3));
+            Assert.AreEqual(18, Math.LeastCommonMultiple(6, 9));
+            Assert.AreEqual(72, Math.LeastCommonMultiple(24, 36));
+
+            Assert.AreEqual(1u, Math.LeastCommonMultiple(1u, 1u));
+            Assert.AreEqual(2u, Math.LeastCommonMultiple(1u, 2u));
+            Assert.AreEqual(6u, Math.LeastCommonMultiple(2u, 3u));
+            Assert.AreEqual(18u, Math.LeastCommonMultiple(6u, 9u));
+            Assert.AreEqual(72u, Math.LeastCommonMultiple(24u, 36u));
+        }
+
+        [TestMethod()]
         public void PrimeFactorizationTest()
         {
             var primes = Math.PrimeFactorization(0).ToArray();

@@ -1260,6 +1260,31 @@ namespace Ksnm
 
         #endregion 最大公約数 GreatestCommonDivisor
 
+        #region 最小公倍数
+        /// <summary>
+        /// 最小公倍数を計算する。
+        /// </summary>
+        /// <param name="a">整数</param>
+        /// <param name="b">整数</param>
+        /// <returns>最小公倍数</returns>
+        public static int LeastCommonMultiple(int a, int b)
+        {
+            var gcd = GreatestCommonDivisor(a, b);
+            return (a * b) / gcd;
+        }
+        /// <summary>
+        /// 最小公倍数を計算する。
+        /// </summary>
+        /// <param name="a">符号なし整数</param>
+        /// <param name="b">符号なし整数</param>
+        /// <returns>最小公倍数</returns>
+        public static uint LeastCommonMultiple(uint a, uint b)
+        {
+            var gcd = GreatestCommonDivisor(a, b);
+            return (a * b) / gcd;
+        }
+        #endregion 最小公倍数
+
         #region 素因数分解
 
         /// <summary>
