@@ -264,10 +264,34 @@ namespace Ksnm.Tests
             Assert.AreEqual(6, Math.Factorial(3));
             Assert.AreEqual(24, Math.Factorial(4));
             Assert.AreEqual(479_001_600, Math.Factorial(12));
-            Assert.AreEqual(6_227_020_800, Math.Factorial(13L));
-            Assert.AreEqual(87_178_291_200, Math.Factorial(14L));
-            Assert.AreEqual(1_307_674_368_000, Math.Factorial(15L));
-            Assert.AreEqual(2_432_902_008_176_640_000, Math.Factorial(20L));
+            Assert.AreEqual(6_227_020_800, Math.Factorial(13));
+            Assert.AreEqual(87_178_291_200, Math.Factorial(14));
+            Assert.AreEqual(1_307_674_368_000, Math.Factorial(15));
+            Assert.AreEqual(6_402_373_705_728_000, Math.Factorial(18));
+            Assert.AreEqual(2_432_902_008_176_640_000, Math.Factorial(20));
+
+            Assert.AreEqual(1, Math.Factorial(0.0));
+            Assert.AreEqual(1, Math.Factorial(1.0));
+            Assert.AreEqual(2, Math.Factorial(2.0));
+            Assert.AreEqual(6, Math.Factorial(3.0));
+            Assert.AreEqual(24, Math.Factorial(4.0));
+            Assert.AreEqual(479_001_600, Math.Factorial(12.0));
+            Assert.AreEqual(6_227_020_800, Math.Factorial(13.0));
+            Assert.AreEqual(87_178_291_200, Math.Factorial(14.0));
+            Assert.AreEqual(1_307_674_368_000, Math.Factorial(15.0));
+            Assert.AreEqual(6_402_373_705_728_000, Math.Factorial(18.0));
+
+            Assert.AreEqual(1, Math.Factorial((BigInteger)0));
+            Assert.AreEqual(1, Math.Factorial((BigInteger)1));
+            Assert.AreEqual(2, Math.Factorial((BigInteger)2));
+            Assert.AreEqual(6, Math.Factorial((BigInteger)3));
+            Assert.AreEqual(24, Math.Factorial((BigInteger)4));
+            Assert.AreEqual(479_001_600, Math.Factorial((BigInteger)12));
+            Assert.AreEqual(6_227_020_800, Math.Factorial((BigInteger)13));
+            Assert.AreEqual(87_178_291_200, Math.Factorial((BigInteger)14));
+            Assert.AreEqual(1_307_674_368_000, Math.Factorial((BigInteger)15));
+            Assert.AreEqual(6_402_373_705_728_000, Math.Factorial((BigInteger)18));
+            Assert.AreEqual(2_432_902_008_176_640_000, Math.Factorial((BigInteger)20));
         }
 
         [TestMethod()]

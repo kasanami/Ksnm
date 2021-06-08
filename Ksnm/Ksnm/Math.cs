@@ -714,6 +714,38 @@ namespace Ksnm
         #region Factorial
         /// <summary>
         /// 階乗
+        /// ※ long で表現できる整数の最大値は 9223372036854775807
+        /// よって、20!	までなら正確に計算できる。
+        /// </summary>
+        /// <param name="value">階乗する値</param>
+        /// <returns>階乗した値</returns>
+        public static long Factorial(long value)
+        {
+            long temp = 1;
+            for (long i = value; i > 0; i--)
+            {
+                temp *= i;
+            }
+            return temp;
+        }
+        /// <summary>
+        /// 階乗
+        /// ※ double で表現できる整数の最大値は 9007199254740992
+        /// よって、18!	までなら正確に計算できる。
+        /// </summary>
+        /// <param name="value">階乗する値</param>
+        /// <returns>階乗した値</returns>
+        public static double Factorial(double value)
+        {
+            double temp = 1;
+            for (double i = value; i > 0; i--)
+            {
+                temp *= i;
+            }
+            return temp;
+        }
+        /// <summary>
+        /// 階乗
         /// NOTE:21!以上は BigInteger でないと表現できないので BigInteger のみ用意
         /// </summary>
         /// <param name="value">階乗する整数</param>
