@@ -176,8 +176,9 @@ namespace Ksnm.Science.Mathematics
             BigDecimal temp = 0;
             for (int i = 0; i < count; i++)
             {
-                var anumerator = new BigDecimal(Factorial(4 * i) * (1103 + 26390 * i), 0, -decimals);
-                var denominator = BigInteger.Pow(BigInteger.Pow(4, i) * BigInteger.Pow(99, i) * Factorial(i), 4);
+                var bi = (BigInteger)i;
+                var anumerator = new BigDecimal(Factorial(4 * bi) * (1103 + 26390 * i), 0, -decimals);
+                var denominator = BigInteger.Pow(BigInteger.Pow(4, i) * BigInteger.Pow(99, i) * Factorial(bi), 4);
                 temp += anumerator / denominator;
             }
             // 2√2/99^2 の結果

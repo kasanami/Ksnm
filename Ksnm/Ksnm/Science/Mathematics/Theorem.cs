@@ -1,4 +1,6 @@
-﻿namespace Ksnm.Science.Mathematics
+﻿using System.Numerics;
+
+namespace Ksnm.Science.Mathematics
 {
     /// <summary>
     /// 数学の定理
@@ -13,7 +15,7 @@
         /// <returns>p が素数ならば true</returns>
         public static bool Wilsons(int p)
         {
-            return (Math.Factorial(p - 1) + 1) % p == 0;
+            return (Math.Factorial((BigInteger)p - 1) + 1) % p == 0;
         }
     }
 }
