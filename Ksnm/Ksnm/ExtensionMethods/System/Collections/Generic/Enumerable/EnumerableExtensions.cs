@@ -33,6 +33,7 @@ namespace Ksnm.ExtensionMethods.System.Collections.Generic.Enumerable
     /// </summary>
     public static class EnumerableExtensions
     {
+        #region Contains
         /// <summary>
         /// シーケンスが既定の等値比較子を使用して、指定した要素を含んでいるか判定します。
         /// </summary>
@@ -57,6 +58,8 @@ namespace Ksnm.ExtensionMethods.System.Collections.Generic.Enumerable
         {
             return self.SelectMany(item => item);
         }
+        #endregion Contains
+
         #region SequenceEqual
         /// <summary>
         /// System.Linq.Enumerable.SequenceEqual を可変長引数にしたもの。
@@ -66,6 +69,8 @@ namespace Ksnm.ExtensionMethods.System.Collections.Generic.Enumerable
             return global::System.Linq.Enumerable.SequenceEqual(self, values);
         }
         #endregion SequenceEqual
+
+        #region Product
         /// <summary>
         /// 総乗
         /// </summary>
@@ -115,6 +120,9 @@ namespace Ksnm.ExtensionMethods.System.Collections.Generic.Enumerable
         {
             return source.Aggregate((product, item) => product * item);
         }
+        #endregion Product
+
+        #region ToString
         /// <summary>
         /// コレクションのメンバーを連結します。各メンバーの間には、指定した区切り記号が挿入されます。
         /// </summary>
@@ -191,5 +199,6 @@ namespace Ksnm.ExtensionMethods.System.Collections.Generic.Enumerable
             str.Append("}");
             return str.ToString();
         }
+        #endregion ToString
     }
 }
