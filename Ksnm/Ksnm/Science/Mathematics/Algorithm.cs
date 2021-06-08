@@ -120,7 +120,7 @@ namespace Ksnm.Science.Mathematics
             for (int m = 1; m <= pow2n; m++)
             {
                 double count = _PrimeCountPlusOne(m);
-                var addend = (int)Floor(Pow(n / count, exp));
+                var addend = (int)Pow(n / count, exp);
                 if (addend == 0)
                 {
                     break;
