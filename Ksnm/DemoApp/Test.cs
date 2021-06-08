@@ -30,8 +30,8 @@ namespace DemoApp
             //LogTest();
             //SqrtTest();
             //SinTest();
-            AsinTest();
-            AtanTest();
+            //AsinTest();
+            //AtanTest();
             /*
             Numeric num = new Numeric(100m);
             num.Normalize();
