@@ -57,6 +57,15 @@ namespace Ksnm.ExtensionMethods.System.Collections.Generic.Enumerable
         {
             return self.SelectMany(item => item);
         }
+        #region SequenceEqual
+        /// <summary>
+        /// System.Linq.Enumerable.SequenceEqual を可変長引数にしたもの。
+        /// </summary>
+        public static bool SequenceEqual<T>(this IEnumerable<T> self, params T[] values)
+        {
+            return global::System.Linq.Enumerable.SequenceEqual(self, values);
+        }
+        #endregion SequenceEqual
         /// <summary>
         /// 総乗
         /// </summary>
