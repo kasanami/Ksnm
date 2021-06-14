@@ -63,6 +63,7 @@
     <Compile Include="Algorithm\Crc16Polynomial.cs" />
     <Compile Include="Enum.cs" />
     <Compile Include="ExtensionMethods\System\Complex\ComplexExtensions.cs" />
+    <Compile Include="ExtensionMethods\System\Int32\Int32Extensions.cs" />
     <Compile Include="ExtensionMethods\System\IO\Stream\StreamExtensions.cs" />
     <Compile Include="ExtensionMethods\System\Numerics\BigInteger\BigIntegerExtensions.cs" />
     <Compile Include="ExtensionMethods\System\Single\SingleExtensions.cs" />

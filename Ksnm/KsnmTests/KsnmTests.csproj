@@ -81,6 +81,7 @@
     <Compile Include="ExtensionMethods\System\Complex\ComplexExtensionsTests.cs" />
     <Compile Include="ExtensionMethods\System\Decimal\DecimalExtensionsTests.cs" />
     <Compile Include="ExtensionMethods\System\Double\DoubleExtensionsTests.cs" />
+    <Compile Include="ExtensionMethods\System\Int32\Int32ExtensionsTests.cs" />
     <Compile Include="ExtensionMethods\System\IO\Stream\StreamExtensionsTests.cs" />
     <Compile Include="ExtensionMethods\System\Numerics\BigInteger\BigIntegerExtensionsTests.cs" />
     <Compile Include="ExtensionMethods\System\Single\SingleExtensionsTests.cs" />

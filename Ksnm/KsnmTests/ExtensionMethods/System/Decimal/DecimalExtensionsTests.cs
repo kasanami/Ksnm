@@ -5,6 +5,8 @@ using static System.Math;
 
 namespace Ksnm.ExtensionMethods.System.Decimal.Tests
 {
+    using Int32 = global::System.Int32;
+
     [TestClass()]
     public class DecimalExtensionsTests
     {
