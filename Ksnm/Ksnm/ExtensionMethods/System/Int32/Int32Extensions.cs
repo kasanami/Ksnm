@@ -107,6 +107,7 @@ namespace Ksnm.ExtensionMethods.System.Int32
         /// <summary>
         /// 指定した数を、数の列に変換する。上位の位が先頭になります。
         /// </summary>
+        /// <param name="value">変換する数値</param>
         /// <param name="radix">基数</param>
         /// <returns>数の列</returns>
         public static IEnumerable<int> ToDigits(this Self value, int radix)
@@ -116,6 +117,7 @@ namespace Ksnm.ExtensionMethods.System.Int32
         /// <summary>
         /// 指定した数を、数の列に変換する。1の位が先頭になります。
         /// </summary>
+        /// <param name="value">変換する数値</param>
         /// <param name="radix">基数</param>
         /// <returns>数の列</returns>
         public static IEnumerable<int> ToReversedDigits(this Self value, int radix)
@@ -123,6 +125,11 @@ namespace Ksnm.ExtensionMethods.System.Int32
             if (radix <= 1)
             {
                 throw new ArgumentOutOfRangeException($"{nameof(radix)}={radix}");
+            }
+            if (value == 0)
+            {
+                yield return 0;
+                yield break;
             }
             while (value != 0)
             {

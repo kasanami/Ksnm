@@ -31,26 +31,50 @@ namespace Ksnm.ExtensionMethods.System.Int32.Tests
         [TestMethod()]
         public void ToDigitsTest()
         {
-            int sample = 12345;
-            var digits = sample.ToDigits(10);
-            var expected = new[] { 1, 2, 3, 4, 5 };
-            Assert.IsTrue(digits.SequenceEqual(expected));
+            {
+                int sample = 12345;
+                var digits = sample.ToDigits(10);
+                var expected = new[] { 1, 2, 3, 4, 5 };
+                Assert.IsTrue(digits.SequenceEqual(expected));
 
-            digits = sample.ToDigits(2).ToArray();
-            expected = new[] { 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 1 };
-            Assert.IsTrue(digits.SequenceEqual(expected));
+                digits = sample.ToDigits(2).ToArray();
+                expected = new[] { 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 1 };
+                Assert.IsTrue(digits.SequenceEqual(expected));
+            }
+
+            {
+                int sample = 0;
+                var digits = sample.ToDigits(10);
+                var expected = new[] { 0 };
+                Assert.IsTrue(digits.SequenceEqual(expected));
+
+                digits = sample.ToDigits(2).ToArray();
+                expected = new[] { 0 };
+                Assert.IsTrue(digits.SequenceEqual(expected));
+            }
         }
 
         [TestMethod()]
         public void ToReversedDigitsTest()
         {
-            int sample = 12345;
-            var digits = sample.ToReversedDigits(10).ToArray();
-            Assert.AreEqual(5, digits[0]);
-            Assert.AreEqual(4, digits[1]);
-            Assert.AreEqual(3, digits[2]);
-            Assert.AreEqual(2, digits[3]);
-            Assert.AreEqual(1, digits[4]);
+            {
+                int sample = 12345;
+                var digits = sample.ToReversedDigits(10).ToArray();
+                Assert.AreEqual(5, digits.Length);
+                Assert.AreEqual(5, digits[0]);
+                Assert.AreEqual(4, digits[1]);
+                Assert.AreEqual(3, digits[2]);
+                Assert.AreEqual(2, digits[3]);
+                Assert.AreEqual(1, digits[4]);
+            }
+
+            {
+                int sample = 0;
+                var digits = sample.ToReversedDigits(10).ToArray();
+                Assert.AreEqual(1, digits.Length);
+                Assert.AreEqual(0, digits[0]);
+                
+            }
         }
     }
 }
