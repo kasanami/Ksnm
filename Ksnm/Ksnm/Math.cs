@@ -746,7 +746,7 @@ namespace Ksnm
         }
         /// <summary>
         /// 階乗
-        /// NOTE:21!以上は BigInteger でないと表現できないので BigInteger のみ用意
+        /// NOTE:21!以上は BigInteger でないと表現できない
         /// </summary>
         /// <param name="value">階乗する整数</param>
         /// <returns>階乗した値</returns>
