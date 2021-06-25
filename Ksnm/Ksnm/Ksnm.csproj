@@ -59,6 +59,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AI\NeuralNetwork.cs" />
+    <Compile Include="AI\Neuron.cs" />
     <Compile Include="Algorithm\Crc16.cs" />
     <Compile Include="Algorithm\Crc16Polynomial.cs" />
     <Compile Include="Enum.cs" />
