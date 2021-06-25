@@ -26,7 +26,7 @@ using Ksnm.Numerics;
 namespace Ksnm.Units
 {
     /// <summary>
-    /// 仕事率
+    /// 仕事率・工率・電力・放射束
     /// </summary>
     public class Power<T> : Quantity<T> where T : IMath<T>
     {

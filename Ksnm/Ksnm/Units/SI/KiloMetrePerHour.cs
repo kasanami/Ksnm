@@ -30,7 +30,7 @@ namespace Ksnm.Units.SI
     /// <para>記号:km/h</para>
     /// <para>系  :SI併用単位</para>
     /// <para>量  :速度</para>
-    /// <para>定義:1時間に1 km 進むの速さ</para>
+    /// <para>定義:1時間に1 km 進む速さ</para>
     /// </summary>
     public class KiloMetrePerHour<T> : Velocity<T> where T : IMath<T>
     {

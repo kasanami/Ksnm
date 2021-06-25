@@ -27,6 +27,11 @@ namespace Ksnm.Units.SI
 {
     /// <summary>
     /// ボルト
+    /// <para>記号:V</para>
+    /// <para>系  :国際単位系 (SI)</para>
+    /// <para>種類:組立単位</para>
+    /// <para>量  :電圧・起電力</para>
+    /// <para>定義:1Aの電流が流れる導体の2点間において消費される電力が1Wであるときの、その2点間の電圧</para>
     /// </summary>
     public class Volt<T> : ElectricPotential<T> where T : IMath<T>
     {
