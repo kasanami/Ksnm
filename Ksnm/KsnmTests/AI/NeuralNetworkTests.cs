@@ -35,9 +35,9 @@ namespace Ksnm.AI.Tests
         public void UpdateTest()
         {
             var nn = new NeuralNetwork(3, 2, 1);
-            nn.SourceNeurons.ElementAt(0).Bias = 0;
-            nn.SourceNeurons.ElementAt(1).Bias = 1;
-            nn.SourceNeurons.ElementAt(2).Bias = 2;
+            nn.SourceNeurons.ElementAt(0).Value = 0;
+            nn.SourceNeurons.ElementAt(1).Value = 1;
+            nn.SourceNeurons.ElementAt(2).Value = 2;
             nn.HiddenNeurons.ElementAt(0).Bias = 0;
             nn.HiddenNeurons.ElementAt(1).Bias = 1;
             nn.ResultNeurons.ElementAt(0).Bias = 0;

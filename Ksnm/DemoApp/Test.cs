@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using Numeric = Ksnm.Numerics.Numeric;
+using Ksnm.AI;
 using Ksnm.ExtensionMethods.System.Collections.Generic.Enumerable;
 using Ksnm.ExtensionMethods.System.Collections.Generic.Dictionary;
 using Ksnm.ExtensionMethods.System.Single;
@@ -36,6 +37,7 @@ namespace DemoApp
             Numeric num = new Numeric(100m);
             num.Normalize();
             */
+            AITest();
         }
         public static void SingleTest()
         {
@@ -466,6 +468,40 @@ namespace DemoApp
                     }
                 }
             }
+        }
+        public static void AITest()
+        {
+            Console.WriteLine(Neuron.DifferentiatedSigmoid(-1));
+            Console.WriteLine(Neuron.DifferentiatedSigmoid(0.5));
+            Console.WriteLine(Neuron.DifferentiatedSigmoid(0));
+            Console.WriteLine(Neuron.DifferentiatedSigmoid(+0.5));
+            Console.WriteLine(Neuron.DifferentiatedSigmoid(+1));
+            // XOR
+#if false
+            {
+                NeuralNetwork neuralNetwork = new NeuralNetwork(2, 2, 1);
+                neuralNetwork.SourceNeurons[0].Name = "i0";
+                neuralNetwork.SourceNeurons[1].Name = "i1";
+                neuralNetwork.ResultNeurons[0].Name = "o";
+                var samples = new Sample[]
+                {
+                    new Sample(){ SourceValues=new double[]{0,0}, ResultValues=new double[]{0} },
+                    new Sample(){ SourceValues=new double[]{0,1}, ResultValues=new double[]{1} },
+                    new Sample(){ SourceValues=new double[]{1,0}, ResultValues=new double[]{1} },
+                    new Sample(){ SourceValues=new double[]{1,1}, ResultValues=new double[]{0} },
+                };
+                neuralNetwork.ResetWeights(1);
+                for (int i = 0; i < 10; i++)
+                {
+                    neuralNetwork.Learn(samples, 0.01, 1);
+
+                    neuralNetwork.Sources[0] = samples[0].SourceValues[0];
+                    neuralNetwork.Sources[1] = samples[0].SourceValues[1];
+                    neuralNetwork.Update();
+                    
+                }
+            }
+#endif
         }
     }
 }

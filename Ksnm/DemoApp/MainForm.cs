@@ -13,6 +13,7 @@ using Ksnm.ExtensionMethods.System.Random;
 using Ksnm.ExtensionMethods.System.Decimal;
 using Ksnm.ExtensionMethods.System.Double;
 using Ksnm.Science.Mathematics;
+using Ksnm.AI;
 
 #pragma warning disable CS0162 // 到達できないコードが検出されました
 namespace DemoApp
@@ -635,6 +636,47 @@ namespace DemoApp
         }
         #endregion Binaryタブ
 
+        #region AI タブ
+        NeuralNetwork neuralNetwork = new NeuralNetwork(2, 2, 1);
+        Sample[] AndSample = new[]
+        {
+            new Sample() { SourceValues = new double[] { 0, 0 }, ResultValues = new double[] { 0 } },
+            new Sample() { SourceValues = new double[] { 0, 1 }, ResultValues = new double[] { 0 } },
+            new Sample() { SourceValues = new double[] { 1, 0 }, ResultValues = new double[] { 0 } },
+            new Sample() { SourceValues = new double[] { 1, 1 }, ResultValues = new double[] { 1 } },
+        };
+        Sample[] XorSample = new[]
+        {
+            new Sample() { SourceValues = new double[] { 0, 0 }, ResultValues = new double[] { 0 } },
+            new Sample() { SourceValues = new double[] { 0, 1 }, ResultValues = new double[] { 1 } },
+            new Sample() { SourceValues = new double[] { 1, 0 }, ResultValues = new double[] { 1 } },
+            new Sample() { SourceValues = new double[] { 1, 1 }, ResultValues = new double[] { 0 } },
+        };
+        #region パーセプトロン タブ
+        private void Perceptron_Click(object sender, EventArgs e)
+        {
+            neuralNetwork.Learn(XorSample, 0.1, 1000);
+
+            neuralNetwork.SourceNeurons[0].Value = ((double)numericUpDown1.Value);
+            neuralNetwork.SourceNeurons[1].Value = ((double)numericUpDown2.Value);
+            neuralNetwork.Update();
+            label22.Text = neuralNetwork.SourceNeurons[0].Value.ToString();
+            label23.Text = neuralNetwork.SourceNeurons[1].Value.ToString();
+            label24.Text = neuralNetwork.HiddenNeurons[0].Value.ToString();
+            label25.Text = neuralNetwork.HiddenNeurons[1].Value.ToString();
+            label26.Text = neuralNetwork.ResultNeurons[0].Value.ToString();
+        }
+
+        private void numericUpDown1_ValueChanged(object sender, EventArgs e)
+        {
+        }
+
+        private void numericUpDown2_ValueChanged(object sender, EventArgs e)
+        {
+        }
+        #endregion パーセプトロン タブ
+
+        #endregion AI タブ
     }
 }
 #pragma warning restore CS0162 // 到達できないコードが検出されました
