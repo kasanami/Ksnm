@@ -638,6 +638,13 @@ namespace DemoApp
 
         #region AI タブ
         NeuralNetwork neuralNetwork = new NeuralNetwork(2, 2, 1);
+        Sample[] OrSample = new[]
+        {
+            new Sample() { SourceValues = new double[] { 0, 0 }, ResultValues = new double[] { 0 } },
+            new Sample() { SourceValues = new double[] { 0, 1 }, ResultValues = new double[] { 1 } },
+            new Sample() { SourceValues = new double[] { 1, 0 }, ResultValues = new double[] { 1 } },
+            new Sample() { SourceValues = new double[] { 1, 1 }, ResultValues = new double[] { 1 } },
+        };
         Sample[] AndSample = new[]
         {
             new Sample() { SourceValues = new double[] { 0, 0 }, ResultValues = new double[] { 0 } },
@@ -658,7 +665,7 @@ namespace DemoApp
             // 学習
             for (int i = 0; i < 100; i++)
             {
-                neuralNetwork = NeuralNetwork.Learn(neuralNetwork, AndSample, 0.1);
+                neuralNetwork = NeuralNetwork.Learn(neuralNetwork, OrSample, 0.1);
             }
             //neuralNetwork.Learn(AndSample, 0.1, 1000);
             // 計算

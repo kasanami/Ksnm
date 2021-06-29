@@ -289,7 +289,7 @@ namespace Ksnm.AI
             Update();
             // バックプロパゲーション
             //Backpropagation(sample.ResultValues, learningRate);
-            //Randomization(sample.ResultValues, learningRate);
+            Randomization(sample.ResultValues, learningRate);
         }
         /// <summary>
         /// 学習
