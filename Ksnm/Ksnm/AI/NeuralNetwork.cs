@@ -54,6 +54,7 @@ namespace Ksnm.AI
                 SourceNeurons[i].Value = values[i];
             }
         }
+        #region プロパティ
         /// <summary>
         /// 出力値取得
         /// </summary>
@@ -76,7 +77,9 @@ namespace Ksnm.AI
         /// </summary>
         public IReadOnlyList<Neuron> ResultNeurons { get => resultNeurons; }
         private List<Neuron> resultNeurons = new List<Neuron>();
+        #endregion プロパティ
 
+        #region コンストラクタ
         /// <summary>
         /// ニューロン数ゼロで初期化
         /// </summary>
@@ -107,6 +110,28 @@ namespace Ksnm.AI
             }
         }
         /// <summary>
+        /// コピーコンストラクタ
+        /// </summary>
+        public NeuralNetwork(NeuralNetwork source)
+        {
+            sourceNeurons = new List<SourceNeuron>();
+            hiddenNeurons = new List<Neuron>();
+            resultNeurons = new List<Neuron>();
+            foreach (var item in source.sourceNeurons)
+            {
+                sourceNeurons.Add(new SourceNeuron(item));
+            }
+            foreach (var item in source.hiddenNeurons)
+            {
+                hiddenNeurons.Add(new Neuron(item, sourceNeurons));
+            }
+            foreach (var item in source.resultNeurons)
+            {
+                resultNeurons.Add(new Neuron(item, hiddenNeurons));
+            }
+        }
+        #endregion コンストラクタ
+        /// <summary>
         /// 更新
         /// </summary>
         public void Update()
@@ -121,6 +146,18 @@ namespace Ksnm.AI
                 item.Update();
             }
         }
+
+        /// <summary>
+        /// 複製を作成
+        /// </summary>
+        public IEnumerable<NeuralNetwork> Clones(int count)
+        {
+            for (int i = 0; i < count; i++)
+            {
+                yield return new NeuralNetwork(this);
+            }
+        }
+
         /// <summary>
         /// 重みをランダムに設定
         /// </summary>
@@ -178,33 +215,53 @@ namespace Ksnm.AI
                 neuron.Backpropagation(expectedValues[i], learningRate);
             }
         }
+        #region Error
         /// <summary>
         /// 現在値と期待値との誤差を計算
-        /// 
-        /// </summary>
-        /// <param name="expectedValues">期待値</param>
-        /// <returns>誤差</returns>
-        public IEnumerable<double> Errors(IReadOnlyList<double> expectedValues)
-        {
-            var count = resultNeurons.Count;
-            System.Diagnostics.Debug.Assert(count == expectedValues.Count());
-            for (int i = 0; i < count; i++)
-            {
-                yield return expectedValues[i] - resultNeurons[i].Value;
-            }
-        }
-        /// <summary>
-        /// 現在値と期待値との誤差を計算
-        /// 
         /// </summary>
         /// <param name="expectedValues">期待値</param>
         /// <returns>誤差</returns>
         public double Error(IReadOnlyList<double> expectedValues)
         {
-            var errors = Errors(expectedValues);
+            var count = resultNeurons.Count;
+            System.Diagnostics.Debug.Assert(count == expectedValues.Count());
+            var errors = 0.0;
+            for (int i = 0; i < count; i++)
+            {
+                var error = expectedValues[i] - resultNeurons[i].Value;
+                errors += error * error;
+            }
             // 各値の差を2乗→合計→2で割る。
-            return errors.Select(e => e * e).Sum() / 2;
+            return errors / 2;
         }
+        /// <summary>
+        /// 再計算し期待値との誤差を計算
+        /// </summary>
+        /// <param name="expectedValues">期待値</param>
+        /// <returns>誤差</returns>
+        public double Error(Sample sample)
+        {
+            SetSourceValues(sample.SourceValues);
+            Update();
+            return Error(sample.ResultValues);
+        }
+        /// <summary>
+        /// 現在値と期待値との誤差を計算
+        /// </summary>
+        /// <param name="samples">期待値を持っているSample</param>
+        /// <returns>誤差の合計</returns>
+        public double Error(IReadOnlyList<Sample> samples)
+        {
+            double error = 0;
+            foreach (var sample in samples)
+            {
+                error += Error(sample);
+            }
+            return error;
+        }
+        #endregion Error
+
+        #region Learn
         /// <summary>
         /// 学習
         /// </summary>
@@ -238,5 +295,39 @@ namespace Ksnm.AI
                 }
             }
         }
+        /// <summary>
+        /// 学習
+        /// </summary>
+        public void Learn(IReadOnlyList<Sample> samples, double learningRate)
+        {
+            foreach (var sample in samples)
+            {
+                Learn(sample, learningRate);
+            }
+        }
+        /// <summary>
+        /// 学習
+        /// </summary>
+        public static NeuralNetwork Learn(NeuralNetwork neuralNetwork, IReadOnlyList<Sample> samples, double learningRate)
+        {
+            int childrenCount = 100;
+            // 複製
+            var children = neuralNetwork.Clones(childrenCount).ToList();
+            // 誤差
+            var minErrorIndex = -1;
+            var minError = 0.0;
+            for (int i = 0; i < childrenCount; i++)
+            {
+                children[i].Learn(samples, learningRate);
+                var error = children[i].Error(samples);
+                if (error < minError)
+                {
+                    minErrorIndex = i;
+                }
+            }
+            // 成績が最も良いClone
+            return children[minErrorIndex];
+        }
+        #endregion Learn
     }
 }

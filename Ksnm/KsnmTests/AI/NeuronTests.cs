@@ -41,5 +41,31 @@ namespace Ksnm.AI.Tests
             neuron.Update();
             Assert.AreEqual(1, neuron.Value);
         }
+
+        [TestMethod()]
+        public void CloneTest()
+        {
+            Neuron neuron1 = new Neuron();
+            Neuron neuron2 = new Neuron(new[] { neuron1 });
+
+            neuron1.Name = "neuron1";
+            neuron2.Name = "neuron2";
+            neuron2.InputWeights[0] = 123;
+
+            Neuron neuron1Clone = new Neuron(neuron1);
+            Neuron neuron2Clone = new Neuron(neuron2, new[] { neuron1Clone });
+
+            Assert.AreEqual(neuron1.Name, neuron1Clone.Name);
+            Assert.AreEqual(neuron2.Name, neuron2Clone.Name);
+            Assert.AreEqual(neuron2.InputWeights[0], neuron2Clone.InputWeights[0]);
+
+            // 元を変更しても、クローンには影響ない
+            neuron1.Name = "NEURON1";
+            neuron2.Name = "NEURON2";
+            neuron2.InputWeights[0] = 456;
+            Assert.AreEqual("neuron1", neuron1Clone.Name);
+            Assert.AreEqual("neuron2", neuron2Clone.Name);
+            Assert.AreEqual(123, neuron2Clone.InputWeights[0]);
+        }
     }
 }

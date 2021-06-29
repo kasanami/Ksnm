@@ -29,6 +29,21 @@ namespace Ksnm.AI
         /// </summary>
         public IList<double> InputWeights { get; private set; } = new double[0];
 
+        /// <summary>
+        /// デフォルト値で初期化
+        /// </summary>
+        public SourceNeuron()
+        {
+        }
+        /// <summary>
+        /// コピーコンストラクタ
+        /// </summary>
+        public SourceNeuron(SourceNeuron source)
+        {
+            Name = source.Name;
+            Value = source.Value;
+        }
+
         public void Randomization(double expectedValue, double learningRate)
         {
             // 何もしない

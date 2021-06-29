@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Ksnm.AI
 {
+    /// <summary>
+    /// ニューロンインターフェイス
+    /// </summary>
     public interface INeuron
     {
         /// <summary>

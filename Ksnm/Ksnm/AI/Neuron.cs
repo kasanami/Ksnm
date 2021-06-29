@@ -59,9 +59,9 @@ namespace Ksnm.AI
         /// <summary>
         /// 活性化関数
         /// </summary>
-        public ActivationFunction Activation = DefaultActivationFunction;
+        public ActivationFunction Activation = Keep;
 
-        public ActivationFunction DifferentiatedActivation = DifferentiatedSigmoid;
+        public ActivationFunction DifferentiatedActivation = DifferentiatedKeep;
         /// <summary>
         /// 活性化関数
         /// </summary>
@@ -73,9 +73,16 @@ namespace Ksnm.AI
         /// </summary>
         /// <param name="value">ニューロンの値に重みをかけたあとの合計値</param>
         /// <returns>入力された value そのまま</returns>
-        public static double DefaultActivationFunction(double value)
+        public static double Keep(double value)
         {
             return value;
+        }
+        /// <summary>
+        /// デフォルトの活性化関数の微分
+        /// </summary>
+        public static double DifferentiatedKeep(double value)
+        {
+            return 1;
         }
         /// <summary>
         /// シグモイド関数
@@ -98,6 +105,28 @@ namespace Ksnm.AI
         {
         }
         /// <summary>
+        /// コピーコンストラクタ
+        /// </summary>
+        public Neuron(Neuron source)
+        {
+            Name = source.Name;
+            Value = source.Value;
+            Activation = source.Activation;
+            DifferentiatedActivation = source.DifferentiatedActivation;
+        }
+        /// <summary>
+        /// コピーコンストラクタ
+        /// ※inputNeuronsは、インスタンスを明確にするため指定する必要がある。source.inputNeuronsは使用されない。
+        /// </summary>
+        public Neuron(Neuron source, IReadOnlyList<INeuron> inputNeurons) : this(inputNeurons)
+        {
+            Name = source.Name;
+            Value = source.Value;
+            InputWeights = new List<double>(source.InputWeights);
+            Activation = source.Activation;
+            DifferentiatedActivation = source.DifferentiatedActivation;
+        }
+        /// <summary>
         /// 入力ニューロンを指定して初期化
         /// </summary>
         public Neuron(IReadOnlyList<INeuron> inputNeurons)
@@ -109,6 +138,7 @@ namespace Ksnm.AI
                 InputWeights[i] = 1;
             }
         }
+
         /// <summary>
         /// Valueを更新
         /// </summary>
@@ -143,20 +173,18 @@ namespace Ksnm.AI
         {
             Random random = new Random();
             // 誤差
+            // 期待値＞出力値なら+値　期待値＜出力値なら-値が得られる
             var error = (expectedValue - Value);
-            error *= error;
-            error /= 2;
 
             // 重みを修正
             for (int i = 0; i < InputWeights.Count; i++)
             {
                 // 修正量 = () * 学習係数
-                // 期待値＞出力値なら+値　期待値＜出力値なら-値が得られる
-                InputWeights[i] += random.Range(-learningRate, +learningRate) * error;
+                InputWeights[i] += random.NextDouble() * error * learningRate;
             }
 
             // バイアスを修正
-            Bias += random.Range(-learningRate, +learningRate) * error;
+            Bias += random.NextDouble() * error * learningRate;
 
             // 前の層へ
             var count = InputNeurons.Count;
@@ -164,7 +192,7 @@ namespace Ksnm.AI
             {
                 var neuron = InputNeurons[i];
                 var weight = InputWeights[i];
-                neuron.Randomization(neuron.Value, learningRate * weight);
+                neuron.Randomization(neuron.Value + error, learningRate * weight);
             }
         }
         /// <summary>
@@ -248,6 +276,6 @@ namespace Ksnm.AI
         {
             return $"{Name}:{Value}";
         }
-#endregion Object
+        #endregion Object
     }
 }
