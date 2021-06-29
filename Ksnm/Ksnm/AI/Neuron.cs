@@ -33,6 +33,7 @@ namespace Ksnm.AI
     /// </summary>
     public class Neuron : INeuron
     {
+        public static Random Random = new Random();
         /// <summary>
         /// 名前
         /// </summary>
@@ -167,11 +168,23 @@ namespace Ksnm.AI
         /// <summary>
         /// 乱数による調整
         /// </summary>
+        public void Randomization(double weightRange)
+        {
+            // 重みを修正
+            for (int i = 0; i < InputWeights.Count; i++)
+            {
+                InputWeights[i] += Random.Range(-weightRange, +weightRange);
+            }
+            // バイアスを修正
+            Bias += Random.Range(-weightRange, +weightRange);
+        }
+        /// <summary>
+        /// 乱数による調整
+        /// </summary>
         /// <param name="expectedValue"></param>
         /// <param name="learningRate"></param>
         public void Randomization(double expectedValue, double learningRate)
         {
-            Random random = new Random();
             // 誤差
             // 期待値＞出力値なら+値　期待値＜出力値なら-値が得られる
             var error = (expectedValue - Value);
@@ -180,11 +193,11 @@ namespace Ksnm.AI
             for (int i = 0; i < InputWeights.Count; i++)
             {
                 // 修正量 = () * 学習係数
-                InputWeights[i] += random.NextDouble() * error * learningRate;
+                InputWeights[i] += Random.NextDouble() * error * learningRate;
             }
 
             // バイアスを修正
-            Bias += random.NextDouble() * error * learningRate;
+            Bias += Random.NextDouble() * error * learningRate;
 
             // 前の層へ
             var count = InputNeurons.Count;

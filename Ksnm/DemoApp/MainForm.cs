@@ -655,8 +655,13 @@ namespace DemoApp
         #region パーセプトロン タブ
         private void Perceptron_Click(object sender, EventArgs e)
         {
-            neuralNetwork.Learn(XorSample, 0.1, 1000);
-
+            // 学習
+            for (int i = 0; i < 100; i++)
+            {
+                neuralNetwork = NeuralNetwork.Learn(neuralNetwork, AndSample, 0.1);
+            }
+            //neuralNetwork.Learn(AndSample, 0.1, 1000);
+            // 計算
             neuralNetwork.SourceNeurons[0].Value = ((double)numericUpDown1.Value);
             neuralNetwork.SourceNeurons[1].Value = ((double)numericUpDown2.Value);
             neuralNetwork.Update();

@@ -154,7 +154,9 @@ namespace Ksnm.AI
         {
             for (int i = 0; i < count; i++)
             {
-                yield return new NeuralNetwork(this);
+                var nn = new NeuralNetwork(this);
+                nn.Randomization(10);
+                yield return nn;
             }
         }
 
@@ -181,6 +183,20 @@ namespace Ksnm.AI
         {
             Random random = new Random();
             ResetWeights(random, weightRange);
+        }
+        /// <summary>
+        /// 乱数による調整
+        /// </summary>
+        public void Randomization(double weightRange)
+        {
+            foreach (var neuron in hiddenNeurons)
+            {
+                neuron.Randomization(weightRange);
+            }
+            foreach (var neuron in resultNeurons)
+            {
+                neuron.Randomization(weightRange);
+            }
         }
         /// <summary>
         /// 乱数による調整
@@ -268,19 +284,12 @@ namespace Ksnm.AI
         public void Learn(Sample sample, double learningRate)
         {
             // SourceNeuronsの値更新
-            {
-                var count = sourceNeurons.Count;
-                System.Diagnostics.Debug.Assert(count == sample.SourceValues.Count());
-                for (int i = 0; i < count; i++)
-                {
-                    sourceNeurons[i].Value = sample.SourceValues[i];
-                }
-            }
+            SetSourceValues(sample.SourceValues);
             // 更新
             Update();
             // バックプロパゲーション
             //Backpropagation(sample.ResultValues, learningRate);
-            Randomization(sample.ResultValues, learningRate);
+            //Randomization(sample.ResultValues, learningRate);
         }
         /// <summary>
         /// 学習
@@ -315,13 +324,14 @@ namespace Ksnm.AI
             var children = neuralNetwork.Clones(childrenCount).ToList();
             // 誤差
             var minErrorIndex = -1;
-            var minError = 0.0;
+            double minError = double.MaxValue;
             for (int i = 0; i < childrenCount; i++)
             {
                 children[i].Learn(samples, learningRate);
                 var error = children[i].Error(samples);
-                if (error < minError)
+                if (minError> error)
                 {
+                    minError = error;
                     minErrorIndex = i;
                 }
             }
