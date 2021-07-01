@@ -1,12 +1,12 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Ksnm.AI;
+using Ksnm.MachineLearning;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Ksnm.AI.Tests
+namespace Ksnm.MachineLearning.Tests
 {
     [TestClass()]
     public class NeuronTests

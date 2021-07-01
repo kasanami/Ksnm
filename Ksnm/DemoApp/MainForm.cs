@@ -13,7 +13,7 @@ using Ksnm.ExtensionMethods.System.Random;
 using Ksnm.ExtensionMethods.System.Decimal;
 using Ksnm.ExtensionMethods.System.Double;
 using Ksnm.Science.Mathematics;
-using Ksnm.AI;
+using Ksnm.MachineLearning;
 
 #pragma warning disable CS0162 // 到達できないコードが検出されました
 namespace DemoApp
@@ -638,6 +638,13 @@ namespace DemoApp
 
         #region AI タブ
         NeuralNetwork neuralNetwork = new NeuralNetwork(2, 2, 1);
+        Sample[] NotSample = new[]
+        {
+            new Sample() { SourceValues = new double[] { 0, 0 }, ResultValues = new double[] { 1 } },
+            new Sample() { SourceValues = new double[] { 0, 1 }, ResultValues = new double[] { 0 } },
+            new Sample() { SourceValues = new double[] { 0, 0 }, ResultValues = new double[] { 1 } },
+            new Sample() { SourceValues = new double[] { 0, 1 }, ResultValues = new double[] { 0 } },
+        };
         Sample[] OrSample = new[]
         {
             new Sample() { SourceValues = new double[] { 0, 0 }, ResultValues = new double[] { 0 } },
@@ -665,7 +672,7 @@ namespace DemoApp
             // 学習
             for (int i = 0; i < 100; i++)
             {
-                neuralNetwork = NeuralNetwork.Learn(neuralNetwork, OrSample, 0.1);
+                neuralNetwork = NeuralNetwork.Learn(neuralNetwork, NotSample, 0.1);
             }
             //neuralNetwork.Learn(AndSample, 0.1, 1000);
             // 計算

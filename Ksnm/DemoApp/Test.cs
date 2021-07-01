@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using Numeric = Ksnm.Numerics.Numeric;
-using Ksnm.AI;
+using Ksnm.MachineLearning;
 using Ksnm.ExtensionMethods.System.Collections.Generic.Enumerable;
 using Ksnm.ExtensionMethods.System.Collections.Generic.Dictionary;
 using Ksnm.ExtensionMethods.System.Single;

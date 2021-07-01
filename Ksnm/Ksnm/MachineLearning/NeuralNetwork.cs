@@ -25,7 +25,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Ksnm.AI
+namespace Ksnm.MachineLearning
 {
     /// <summary>
     /// ニューラルネットワーク

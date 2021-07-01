@@ -26,7 +26,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Ksnm.ExtensionMethods.System.Random;
 
-namespace Ksnm.AI
+namespace Ksnm.MachineLearning
 {
     /// <summary>
     /// ニューロン
@@ -181,23 +181,22 @@ namespace Ksnm.AI
         /// <summary>
         /// 乱数による調整
         /// </summary>
-        /// <param name="expectedValue"></param>
-        /// <param name="learningRate"></param>
+        /// <param name="expectedValue">期待値</param>
+        /// <param name="learningRate">学習係数</param>
         public void Randomization(double expectedValue, double learningRate)
         {
             // 誤差
             // 期待値＞出力値なら+値　期待値＜出力値なら-値が得られる
-            var error = (expectedValue - Value);
+            var delta = (expectedValue - Value);
 
             // 重みを修正
             for (int i = 0; i < InputWeights.Count; i++)
             {
-                // 修正量 = () * 学習係数
-                InputWeights[i] += Random.NextDouble() * error * learningRate;
+                InputWeights[i] += Random.NextDouble() * delta * learningRate;
             }
 
             // バイアスを修正
-            Bias += Random.NextDouble() * error * learningRate;
+            Bias += Random.NextDouble() * delta * learningRate;
 
             // 前の層へ
             var count = InputNeurons.Count;
@@ -205,7 +204,7 @@ namespace Ksnm.AI
             {
                 var neuron = InputNeurons[i];
                 var weight = InputWeights[i];
-                neuron.Randomization(neuron.Value + error, learningRate * weight);
+                neuron.Randomization(neuron.Value + delta, learningRate * weight);
             }
         }
         /// <summary>
