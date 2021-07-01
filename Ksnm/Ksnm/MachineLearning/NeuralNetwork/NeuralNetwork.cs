@@ -329,7 +329,7 @@ namespace Ksnm.MachineLearning.NeuralNetwork
             {
                 children[i].Learn(samples, learningRate);
                 var error = children[i].Error(samples);
-                if (minError> error)
+                if (minError > error)
                 {
                     minError = error;
                     minErrorIndex = i;
