@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Ksnm.MachineLearning
+namespace Ksnm.MachineLearning.NeuralNetwork
 {
     /// <summary>
     /// 情報元のニューロン　Valueは設定後は変化しない。

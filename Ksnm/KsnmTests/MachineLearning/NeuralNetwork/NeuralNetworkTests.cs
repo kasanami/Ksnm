@@ -1,7 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Linq;
 
-namespace Ksnm.MachineLearning.Tests
+namespace Ksnm.MachineLearning.NeuralNetwork.Tests
 {
     [TestClass()]
     public class NeuralNetworkTests

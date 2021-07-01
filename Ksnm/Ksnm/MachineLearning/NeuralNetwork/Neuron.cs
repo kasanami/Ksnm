@@ -26,7 +26,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Ksnm.ExtensionMethods.System.Random;
 
-namespace Ksnm.MachineLearning
+namespace Ksnm.MachineLearning.NeuralNetwork
 {
     /// <summary>
     /// ニューロン

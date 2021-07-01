@@ -59,11 +59,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MachineLearning\INeuron.cs" />
-    <Compile Include="MachineLearning\SourceNeuron.cs" />
-    <Compile Include="MachineLearning\NeuralNetwork.cs" />
-    <Compile Include="MachineLearning\Neuron.cs" />
-    <Compile Include="MachineLearning\Sample.cs" />
+    <Compile Include="MachineLearning\NeuralNetwork\INeuron.cs" />
+    <Compile Include="MachineLearning\NeuralNetwork\SourceNeuron.cs" />
+    <Compile Include="MachineLearning\NeuralNetwork\NeuralNetwork.cs" />
+    <Compile Include="MachineLearning\NeuralNetwork\Neuron.cs" />
+    <Compile Include="MachineLearning\NeuralNetwork\Sample.cs" />
     <Compile Include="Algorithm\Crc16.cs" />
     <Compile Include="Algorithm\Crc16Polynomial.cs" />
     <Compile Include="Enum.cs" />

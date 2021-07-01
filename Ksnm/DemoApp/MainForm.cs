@@ -13,7 +13,7 @@ using Ksnm.ExtensionMethods.System.Random;
 using Ksnm.ExtensionMethods.System.Decimal;
 using Ksnm.ExtensionMethods.System.Double;
 using Ksnm.Science.Mathematics;
-using Ksnm.MachineLearning;
+using Ksnm.MachineLearning.NeuralNetwork;
 
 #pragma warning disable CS0162 // 到達できないコードが検出されました
 namespace DemoApp
