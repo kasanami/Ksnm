@@ -637,7 +637,7 @@ namespace DemoApp
         #endregion Binaryタブ
 
         #region AI タブ
-        NeuralNetwork neuralNetwork = new NeuralNetwork(2, 2, 1);
+        MultilayerPerceptron neuralNetwork = new MultilayerPerceptron(2, 2, 1);
         Sample[] NotSample = new[]
         {
             new Sample() { SourceValues = new double[] { 0, 0 }, ResultValues = new double[] { 1 } },
@@ -672,7 +672,7 @@ namespace DemoApp
             // 学習
             for (int i = 0; i < 100; i++)
             {
-                neuralNetwork = NeuralNetwork.Learn(neuralNetwork, NotSample, 0.1);
+                neuralNetwork = MultilayerPerceptron.Learn(neuralNetwork, NotSample, 0.1);
             }
             //neuralNetwork.Learn(AndSample, 0.1, 1000);
             // 計算

@@ -61,7 +61,7 @@
   <ItemGroup>
     <Compile Include="MachineLearning\NeuralNetwork\INeuron.cs" />
     <Compile Include="MachineLearning\NeuralNetwork\SourceNeuron.cs" />
-    <Compile Include="MachineLearning\NeuralNetwork\NeuralNetwork.cs" />
+    <Compile Include="MachineLearning\NeuralNetwork\MultilayerPerceptron.cs" />
     <Compile Include="MachineLearning\NeuralNetwork\Neuron.cs" />
     <Compile Include="MachineLearning\NeuralNetwork\Sample.cs" />
     <Compile Include="Algorithm\Crc16.cs" />

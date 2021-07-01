@@ -69,7 +69,7 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
-    <Compile Include="MachineLearning\NeuralNetwork\NeuralNetworkTests.cs" />
+    <Compile Include="MachineLearning\NeuralNetwork\MultilayerPerceptronTests.cs" />
     <Compile Include="MachineLearning\NeuralNetwork\NeuronTests.cs" />
     <Compile Include="Algorithm\Crc16Tests.cs" />
     <Compile Include="BinaryTests.cs" />

@@ -28,9 +28,9 @@ using System.Linq;
 namespace Ksnm.MachineLearning.NeuralNetwork
 {
     /// <summary>
-    /// ニューラルネットワーク
+    /// 多層パーセプトロン
     /// </summary>
-    public class NeuralNetwork
+    public class MultilayerPerceptron
     {
         /// <summary>
         /// 入力値設定
@@ -83,13 +83,13 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         /// <summary>
         /// ニューロン数ゼロで初期化
         /// </summary>
-        public NeuralNetwork()
+        public MultilayerPerceptron()
         {
         }
         /// <summary>
         /// 各レイヤーを指定したニューロン数で初期化
         /// </summary>
-        public NeuralNetwork(int sourceCount, int hiddenCount, int resultCount)
+        public MultilayerPerceptron(int sourceCount, int hiddenCount, int resultCount)
         {
             for (int i = 0; i < sourceCount; i++)
             {
@@ -112,7 +112,7 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         /// <summary>
         /// コピーコンストラクタ
         /// </summary>
-        public NeuralNetwork(NeuralNetwork source)
+        public MultilayerPerceptron(MultilayerPerceptron source)
         {
             sourceNeurons = new List<SourceNeuron>();
             hiddenNeurons = new List<Neuron>();
@@ -150,11 +150,11 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         /// <summary>
         /// 複製を作成
         /// </summary>
-        public IEnumerable<NeuralNetwork> Clones(int count)
+        public IEnumerable<MultilayerPerceptron> Clones(int count)
         {
             for (int i = 0; i < count; i++)
             {
-                var nn = new NeuralNetwork(this);
+                var nn = new MultilayerPerceptron(this);
                 nn.Randomization(10);
                 yield return nn;
             }
@@ -317,7 +317,7 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         /// <summary>
         /// 学習
         /// </summary>
-        public static NeuralNetwork Learn(NeuralNetwork neuralNetwork, IReadOnlyList<Sample> samples, double learningRate)
+        public static MultilayerPerceptron Learn(MultilayerPerceptron neuralNetwork, IReadOnlyList<Sample> samples, double learningRate)
         {
             int childrenCount = 100;
             // 複製
