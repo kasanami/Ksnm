@@ -21,11 +21,16 @@ freely, subject to the following restrictions:
 
 3. This notice may not be removed or altered from any source distribution.
 */
+using System;
 
 namespace Ksnm.MachineLearning.NeuralNetwork
 {
     public static class Utility
     {
+        /// <summary>
+        /// 共用ランダム
+        /// </summary>
+        public static Random Random = new Random();
         /// <summary>
         /// デフォルトの活性化関数
         /// </summary>

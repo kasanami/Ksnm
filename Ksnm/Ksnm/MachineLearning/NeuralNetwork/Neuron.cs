@@ -34,7 +34,6 @@ namespace Ksnm.MachineLearning.NeuralNetwork
     /// </summary>
     public class Neuron : INeuron
     {
-        public static Random Random = new Random();
         /// <summary>
         /// 名前
         /// </summary>
@@ -42,12 +41,12 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         /// <summary>
         /// 現在の値
         /// Update()で更新される。
+        /// 入力ニューロンの場合は、これに入力値を設定する。
         /// </summary>
         public double Value { get; set; }
         /// <summary>
         /// バイアス
         /// Update()時に最後に加算される値
-        /// 入力ニューロンの場合は、これに入力値を設定する。
         /// </summary>
         public double Bias { get; set; }
         /// <summary>
@@ -144,10 +143,10 @@ namespace Ksnm.MachineLearning.NeuralNetwork
             // 重みを修正
             for (int i = 0; i < InputWeights.Count; i++)
             {
-                InputWeights[i] += Random.Range(-weightRange, +weightRange);
+                InputWeights[i] += Utility.Random.Range(-weightRange, +weightRange);
             }
             // バイアスを修正
-            Bias += Random.Range(-weightRange, +weightRange);
+            Bias += Utility.Random.Range(-weightRange, +weightRange);
         }
         /// <summary>
         /// 乱数による調整
@@ -163,11 +162,11 @@ namespace Ksnm.MachineLearning.NeuralNetwork
             // 重みを修正
             for (int i = 0; i < InputWeights.Count; i++)
             {
-                InputWeights[i] += Random.NextDouble() * delta * learningRate;
+                InputWeights[i] += Utility.Random.NextDouble() * delta * learningRate;
             }
 
             // バイアスを修正
-            Bias += Random.NextDouble() * delta * learningRate;
+            Bias += Utility.Random.NextDouble() * delta * learningRate;
 
             // 前の層へ
             var count = InputNeurons.Count;
