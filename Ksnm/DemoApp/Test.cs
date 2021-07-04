@@ -471,37 +471,89 @@ namespace DemoApp
         }
         public static void AITest()
         {
-            Console.WriteLine(Neuron.DifferentiatedSigmoid(-1));
-            Console.WriteLine(Neuron.DifferentiatedSigmoid(0.5));
-            Console.WriteLine(Neuron.DifferentiatedSigmoid(0));
-            Console.WriteLine(Neuron.DifferentiatedSigmoid(+0.5));
-            Console.WriteLine(Neuron.DifferentiatedSigmoid(+1));
-            // XOR
-#if false
+            Console.WriteLine("AITest()");
+            #region 数字認識
+            Sample[] NumbersSample = new[]
             {
-                NeuralNetwork neuralNetwork = new NeuralNetwork(2, 2, 1);
-                neuralNetwork.SourceNeurons[0].Name = "i0";
-                neuralNetwork.SourceNeurons[1].Name = "i1";
-                neuralNetwork.ResultNeurons[0].Name = "o";
-                var samples = new Sample[]
-                {
-                    new Sample(){ SourceValues=new double[]{0,0}, ResultValues=new double[]{0} },
-                    new Sample(){ SourceValues=new double[]{0,1}, ResultValues=new double[]{1} },
-                    new Sample(){ SourceValues=new double[]{1,0}, ResultValues=new double[]{1} },
-                    new Sample(){ SourceValues=new double[]{1,1}, ResultValues=new double[]{0} },
-                };
-                neuralNetwork.ResetWeights(1);
-                for (int i = 0; i < 10; i++)
-                {
-                    neuralNetwork.Learn(samples, 0.01, 1);
-
-                    neuralNetwork.Sources[0] = samples[0].SourceValues[0];
-                    neuralNetwork.Sources[1] = samples[0].SourceValues[1];
-                    neuralNetwork.Update();
-                    
-                }
+                new Sample() { SourceValues = new double[] {
+                    1, 1, 1,
+                    1, 0, 1,
+                    1, 0, 1,
+                    1, 0, 1,
+                    1, 1, 1,}, ResultValues = new double[] { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 } },
+                new Sample() { SourceValues = new double[] {
+                    0, 1, 0,
+                    0, 1, 0,
+                    0, 1, 0,
+                    0, 1, 0,
+                    0, 1, 0,}, ResultValues = new double[] { 0, 1, 0, 0, 0, 0, 0, 0, 0, 0 } },
+                new Sample() { SourceValues = new double[] {
+                    1, 1, 1,
+                    0, 0, 1,
+                    1, 1, 1,
+                    1, 0, 0,
+                    1, 1, 1,}, ResultValues = new double[] { 0, 0, 1, 0, 0, 0, 0, 0, 0, 0 } },
+                new Sample() { SourceValues = new double[] {
+                    1, 1, 1,
+                    0, 0, 1,
+                    1, 1, 1,
+                    0, 0, 1,
+                    1, 1, 1,}, ResultValues = new double[] { 0, 0, 0, 1, 0, 0, 0, 0, 0, 0 } },
+                new Sample() { SourceValues = new double[] {
+                    1, 0, 1,
+                    1, 0, 1,
+                    1, 1, 1,
+                    0, 0, 1,
+                    0, 0, 1,}, ResultValues = new double[] { 0, 0, 0, 0, 1, 0, 0, 0, 0, 0 } },
+                new Sample() { SourceValues = new double[] {
+                    1, 1, 1,
+                    1, 0, 0,
+                    1, 1, 1,
+                    0, 0, 1,
+                    1, 1, 1,}, ResultValues = new double[] { 0, 0, 0, 0, 0, 1, 0, 0, 0, 0 } },
+                new Sample() { SourceValues = new double[] {
+                    1, 1, 1,
+                    1, 0, 0,
+                    1, 1, 1,
+                    1, 0, 1,
+                    1, 1, 1,}, ResultValues = new double[] { 0, 0, 0, 0, 0, 0, 1, 0, 0, 0 } },
+                new Sample() { SourceValues = new double[] {
+                    1, 1, 1,
+                    1, 0, 1,
+                    0, 0, 1,
+                    0, 0, 1,
+                    0, 0, 1,}, ResultValues = new double[] { 0, 0, 0, 0, 0, 0, 0, 1, 0, 0 } },
+                new Sample() { SourceValues = new double[] {
+                    1, 1, 1,
+                    1, 0, 1,
+                    1, 1, 1,
+                    1, 0, 1,
+                    1, 1, 1,}, ResultValues = new double[] { 0, 0, 0, 0, 0, 0, 0, 0, 1, 0 } },
+                new Sample() { SourceValues = new double[] {
+                    1, 1, 1,
+                    1, 0, 1,
+                    1, 1, 1,
+                    0, 0, 1,
+                    1, 1, 1,}, ResultValues = new double[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 } },
+            };
+            MultilayerPerceptron numbersNN = new MultilayerPerceptron(15, 10, 10);
+            // 学習
+            for (int i = 0; i < 100; i++)
+            {
+                numbersNN = MultilayerPerceptron.Learn(numbersNN, NumbersSample, 0.1);
             }
-#endif
+            for (int i = 0; i < NumbersSample.Length; i++)
+            {
+                numbersNN.ForwardPropagation(NumbersSample[i].SourceValues);
+                Console.WriteLine($"NumbersSample[{i}]={numbersNN.ResultValues.ToDebugString(false)}");
+            }
+            #endregion 数字認識
+
+            //Console.WriteLine(Utility.DifferentiatedSigmoid(-1));
+            //Console.WriteLine(Utility.DifferentiatedSigmoid(0.5));
+            //Console.WriteLine(Utility.DifferentiatedSigmoid(0));
+            //Console.WriteLine(Utility.DifferentiatedSigmoid(+0.5));
+            //Console.WriteLine(Utility.DifferentiatedSigmoid(+1));
         }
     }
 }

@@ -99,13 +99,13 @@ namespace Ksnm.MachineLearning.NeuralNetwork
             for (int i = 0; i < hiddenCount; i++)
             {
                 Neuron neuron = new Neuron(SourceNeurons);
-                neuron.Activation = Neuron.Sigmoid;
+                neuron.Activation = Utility.Sigmoid;
                 hiddenNeurons.Add(neuron);
             }
             for (int i = 0; i < resultCount; i++)
             {
                 Neuron neuron = new Neuron(HiddenNeurons);
-                neuron.Activation = Neuron.Sigmoid;
+                neuron.Activation = Utility.Sigmoid;
                 resultNeurons.Add(neuron);
             }
         }
@@ -131,10 +131,12 @@ namespace Ksnm.MachineLearning.NeuralNetwork
             }
         }
         #endregion コンストラクタ
+
+        #region ForwardPropagation
         /// <summary>
-        /// 更新
+        /// フォワードプロパゲーション
         /// </summary>
-        public void Update()
+        public void ForwardPropagation()
         {
             // ニューロンの値更新
             foreach (var item in hiddenNeurons)
@@ -146,6 +148,16 @@ namespace Ksnm.MachineLearning.NeuralNetwork
                 item.Update();
             }
         }
+        /// <summary>
+        /// フォワードプロパゲーション
+        /// </summary>
+        public IEnumerable<double> ForwardPropagation(IReadOnlyList<double> inputValues)
+        {
+            SetSourceValues(inputValues);
+            ForwardPropagation();
+            return ResultValues;
+        }
+        #endregion ForwardPropagation
 
         /// <summary>
         /// 複製を作成
@@ -258,7 +270,7 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         public double Error(Sample sample)
         {
             SetSourceValues(sample.SourceValues);
-            Update();
+            ForwardPropagation();
             return Error(sample.ResultValues);
         }
         /// <summary>
@@ -286,7 +298,7 @@ namespace Ksnm.MachineLearning.NeuralNetwork
             // SourceNeuronsの値更新
             SetSourceValues(sample.SourceValues);
             // 更新
-            Update();
+            ForwardPropagation();
             // バックプロパゲーション
             //Backpropagation(sample.ResultValues, learningRate);
             Randomization(sample.ResultValues, learningRate);

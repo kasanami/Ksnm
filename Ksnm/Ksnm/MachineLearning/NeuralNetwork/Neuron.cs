@@ -25,6 +25,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Ksnm.ExtensionMethods.System.Random;
+using static Ksnm.MachineLearning.NeuralNetwork.Utility;
 
 namespace Ksnm.MachineLearning.NeuralNetwork
 {
@@ -69,36 +70,6 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         /// <param name="value">ニューロンの値に重みをかけたあとの合計値</param>
         /// <returns>結果</returns>
         public delegate double ActivationFunction(double value);
-        /// <summary>
-        /// デフォルトの活性化関数
-        /// </summary>
-        /// <param name="value">ニューロンの値に重みをかけたあとの合計値</param>
-        /// <returns>入力された value そのまま</returns>
-        public static double Keep(double value)
-        {
-            return value;
-        }
-        /// <summary>
-        /// デフォルトの活性化関数の微分
-        /// </summary>
-        public static double DifferentiatedKeep(double value)
-        {
-            return 1;
-        }
-        /// <summary>
-        /// シグモイド関数
-        /// </summary>
-        public static double Sigmoid(double value)
-        {
-            return Ksnm.Math.Sigmoid(value, 5);
-        }
-        /// <summary>
-        /// シグモイド関数の微分
-        /// </summary>
-        public static double DifferentiatedSigmoid(double value)
-        {
-            return Sigmoid(value) * (1.0 - Sigmoid(value));
-        }
         /// <summary>
         /// 入力ニューロン無しで初期化
         /// </summary>

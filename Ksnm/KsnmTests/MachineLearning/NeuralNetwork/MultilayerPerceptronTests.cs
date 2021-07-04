@@ -38,13 +38,13 @@ namespace Ksnm.MachineLearning.NeuralNetwork.Tests
             nn.SourceNeurons[0].Value = 0;
             nn.SourceNeurons[1].Value = 1;
             nn.SourceNeurons[2].Value = 2;
-            nn.HiddenNeurons[0].Activation = Neuron.Keep;
-            nn.HiddenNeurons[1].Activation = Neuron.Keep;
+            nn.HiddenNeurons[0].Activation = Utility.Keep;
+            nn.HiddenNeurons[1].Activation = Utility.Keep;
             nn.HiddenNeurons[0].Bias = 0;
             nn.HiddenNeurons[1].Bias = 1;
-            nn.ResultNeurons[0].Activation = Neuron.Keep;
+            nn.ResultNeurons[0].Activation = Utility.Keep;
             nn.ResultNeurons[0].Bias = 0;
-            nn.Update();
+            nn.ForwardPropagation();
             Assert.AreEqual(7, nn.ResultNeurons.ElementAt(0).Value);
         }
 

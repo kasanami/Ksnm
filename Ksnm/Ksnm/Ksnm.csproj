@@ -73,6 +73,7 @@
     <Compile Include="ExtensionMethods\System\Numerics\BigInteger\BigIntegerExtensions.cs" />
     <Compile Include="ExtensionMethods\System\Single\SingleExtensions.cs" />
     <Compile Include="ExtensionMethods\System\Span\SpanExtensions.cs" />
+    <Compile Include="MachineLearning\NeuralNetwork\Utility.cs" />
     <Compile Include="Numerics\BigDecimal.cs" />
     <Compile Include="Numerics\Complex.cs" />
     <Compile Include="Numerics\Decimal.cs" />

@@ -90,6 +90,7 @@
     <Compile Include="ExtensionMethods\System\Span\SpanExtensionsTests.cs" />
     <Compile Include="ExtensionMethods\System\Random\RandomExtensionsTests.cs" />
     <Compile Include="ExtensionMethods\System\String\StringExtensionsTests.cs" />
+    <Compile Include="MachineLearning\NeuralNetwork\UtilityTests.cs" />
     <Compile Include="Numerics\BigDecimalTests.cs" />
     <Compile Include="Numerics\DoubleTests.cs" />
     <Compile Include="Numerics\ComplexTests.cs" />

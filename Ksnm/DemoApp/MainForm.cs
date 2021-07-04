@@ -638,6 +638,7 @@ namespace DemoApp
 
         #region AI タブ
         MultilayerPerceptron neuralNetwork = new MultilayerPerceptron(2, 2, 1);
+        #region 論理式
         Sample[] NotSample = new[]
         {
             new Sample() { SourceValues = new double[] { 0, 0 }, ResultValues = new double[] { 1 } },
@@ -666,32 +667,39 @@ namespace DemoApp
             new Sample() { SourceValues = new double[] { 1, 0 }, ResultValues = new double[] { 1 } },
             new Sample() { SourceValues = new double[] { 1, 1 }, ResultValues = new double[] { 0 } },
         };
-        #region パーセプトロン タブ
-        private void Perceptron_Click(object sender, EventArgs e)
+        #endregion 論理式
+        private void MultilayerPerceptron_Update()
         {
-            // 学習
-            for (int i = 0; i < 100; i++)
-            {
-                neuralNetwork = MultilayerPerceptron.Learn(neuralNetwork, NotSample, 0.1);
-            }
-            //neuralNetwork.Learn(AndSample, 0.1, 1000);
-            // 計算
             neuralNetwork.SourceNeurons[0].Value = ((double)numericUpDown1.Value);
             neuralNetwork.SourceNeurons[1].Value = ((double)numericUpDown2.Value);
-            neuralNetwork.Update();
+            neuralNetwork.ForwardPropagation();
             label22.Text = neuralNetwork.SourceNeurons[0].Value.ToString();
             label23.Text = neuralNetwork.SourceNeurons[1].Value.ToString();
             label24.Text = neuralNetwork.HiddenNeurons[0].Value.ToString();
             label25.Text = neuralNetwork.HiddenNeurons[1].Value.ToString();
             label26.Text = neuralNetwork.ResultNeurons[0].Value.ToString();
         }
+        #region パーセプトロン タブ
+        private void Perceptron_Click(object sender, EventArgs e)
+        {
+            // 学習
+            for (int i = 0; i < 100; i++)
+            {
+                neuralNetwork = MultilayerPerceptron.Learn(neuralNetwork, XorSample, 0.1);
+            }
+            //neuralNetwork.Learn(AndSample, 0.1, 1000);
+            // 再計算
+            MultilayerPerceptron_Update();
+        }
 
         private void numericUpDown1_ValueChanged(object sender, EventArgs e)
         {
+            MultilayerPerceptron_Update();
         }
 
         private void numericUpDown2_ValueChanged(object sender, EventArgs e)
         {
+            MultilayerPerceptron_Update();
         }
         #endregion パーセプトロン タブ
 
