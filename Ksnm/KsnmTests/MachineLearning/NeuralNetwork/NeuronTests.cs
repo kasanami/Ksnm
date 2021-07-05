@@ -26,19 +26,19 @@ namespace Ksnm.MachineLearning.NeuralNetwork.Tests
         {
             var inputNeuron = new Neuron();
             var neuron = new Neuron(new[] { inputNeuron });
-            neuron.Update();
+            neuron.ForwardPropagation();
             Assert.AreEqual(0, neuron.Value);
 
             inputNeuron.Value = 123;
-            neuron.Update();
+            neuron.ForwardPropagation();
             Assert.AreEqual(123, neuron.Value);
 
             neuron.InputWeights[0] = 0;
-            neuron.Update();
+            neuron.ForwardPropagation();
             Assert.AreEqual(0, neuron.Value);
 
             neuron.Bias = 1;
-            neuron.Update();
+            neuron.ForwardPropagation();
             Assert.AreEqual(1, neuron.Value);
         }
 

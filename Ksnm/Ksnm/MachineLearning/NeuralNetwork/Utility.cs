@@ -32,7 +32,7 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         /// </summary>
         public static Random Random = new Random();
         /// <summary>
-        /// デフォルトの活性化関数
+        /// そのまま値を返す関数
         /// </summary>
         /// <param name="value">ニューロンの値に重みをかけたあとの合計値</param>
         /// <returns>入力された value そのまま</returns>
@@ -41,7 +41,7 @@ namespace Ksnm.MachineLearning.NeuralNetwork
             return value;
         }
         /// <summary>
-        /// デフォルトの活性化関数の微分
+        /// Keepの微分
         /// </summary>
         public static double DifferentiatedKeep(double value)
         {

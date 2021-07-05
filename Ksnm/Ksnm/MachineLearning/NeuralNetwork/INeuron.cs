@@ -46,6 +46,11 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         /// 入力ニューロン
         /// </summary>
         IList<double> InputWeights { get; }
+        
+        /// <summary>
+        /// フォワードプロパゲーション
+        /// </summary>
+        void ForwardPropagation();
         /// <summary>
         /// 
         /// </summary>

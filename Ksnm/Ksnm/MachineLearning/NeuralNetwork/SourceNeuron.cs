@@ -77,5 +77,10 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         {
             // 何もしない
         }
+
+        public void ForwardPropagation()
+        {
+            // 何もしない
+        }
     }
 }

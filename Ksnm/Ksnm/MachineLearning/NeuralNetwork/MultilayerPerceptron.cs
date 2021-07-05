@@ -27,6 +27,7 @@ using System.Linq;
 
 namespace Ksnm.MachineLearning.NeuralNetwork
 {
+    using Layer = List<INeuron>;
     /// <summary>
     /// 多層パーセプトロン
     /// </summary>
@@ -141,11 +142,11 @@ namespace Ksnm.MachineLearning.NeuralNetwork
             // ニューロンの値更新
             foreach (var item in hiddenNeurons)
             {
-                item.Update();
+                item.ForwardPropagation();
             }
             foreach (var item in resultNeurons)
             {
-                item.Update();
+                item.ForwardPropagation();
             }
         }
         /// <summary>

@@ -113,7 +113,7 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         /// <summary>
         /// Valueを更新
         /// </summary>
-        public void Update()
+        public void ForwardPropagation()
         {
             double sum = 0.0;
             System.Diagnostics.Debug.Assert(InputNeurons.Count() == InputWeights.Count());
