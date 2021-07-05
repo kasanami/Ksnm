@@ -204,7 +204,29 @@ namespace Ksnm.Tests
         [TestMethod()]
         public void SigmoidTest()
         {
-            Assert.AreEqual(Math.Sigmoid(0, 1), 0.5f);
+            // ゲインあり
+            Assert.AreEqual(0.0, Math.Sigmoid(-1.0, 5), 0.01);
+            Assert.AreEqual(0.5, Math.Sigmoid(0.0, 5));
+            Assert.AreEqual(1.0, Math.Sigmoid(1.0, 5), 0.01);
+            // float版のチェック
+            for (double i = -1; i < +1; i += 0.25)
+            {
+                var d = Math.Sigmoid(i, 0.5);
+                var f = Math.Sigmoid((float)i, 0.5f);
+                Assert.AreEqual(d, (double)f, 0.0000001);
+            }
+
+            // ゲインなしの標準版
+            Assert.AreEqual(0.0, Math.Sigmoid(-6.0), 0.01);
+            Assert.AreEqual(0.5, Math.Sigmoid(0.0));
+            Assert.AreEqual(1.0, Math.Sigmoid(+6.0), 0.01);
+            // float版のチェック
+            for (double i = -1; i < +1; i += 0.25)
+            {
+                var d = Math.Sigmoid(i);
+                var f = Math.Sigmoid((float)i);
+                Assert.AreEqual(d, (double)f, 0.0000001);
+            }
         }
 
         [TestMethod()]

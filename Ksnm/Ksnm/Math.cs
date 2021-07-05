@@ -507,6 +507,20 @@ namespace Ksnm
         {
             return 1.0 / (1.0 + System.Math.Exp(-gain * x));
         }
+        /// <summary>
+        /// 標準シグモイド関数(ゲイン=1.0)
+        /// </summary>
+        public static float Sigmoid(float x)
+        {
+            return (float)Sigmoid((double)x);
+        }
+        /// <summary>
+        /// 標準シグモイド関数(ゲイン=1.0)
+        /// </summary>
+        public static double Sigmoid(double x)
+        {
+            return 1.0 / (1.0 + System.Math.Exp(-x));
+        }
 
         #endregion Sigmoid
 
