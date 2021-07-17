@@ -52,7 +52,7 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         /// </summary>
         public static double Sigmoid(double value)
         {
-            return Ksnm.Math.Sigmoid(value, 5);
+            return Ksnm.Math.Sigmoid(value);
         }
         /// <summary>
         /// シグモイド関数の微分

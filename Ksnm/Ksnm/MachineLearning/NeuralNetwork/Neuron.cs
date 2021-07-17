@@ -46,7 +46,6 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         public double Value { get; set; }
         /// <summary>
         /// バイアス
-        /// Update()時に最後に加算される値
         /// </summary>
         public double Bias { get; set; }
         /// <summary>
@@ -60,15 +59,18 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         /// <summary>
         /// 活性化関数
         /// </summary>
-        public ActivationFunction Activation = Keep;
-
-        public ActivationFunction DifferentiatedActivation = DifferentiatedKeep;
+        public ActivationFunction Activation { get; set; } = Keep;
+        /// <summary>
+        /// 活性化関数の微分
+        /// </summary>
+        public ActivationFunction DifferentiatedActivation { get; set; } = DifferentiatedKeep;
         /// <summary>
         /// 活性化関数
         /// </summary>
         /// <param name="value">ニューロンの値に重みをかけたあとの合計値</param>
         /// <returns>結果</returns>
         public delegate double ActivationFunction(double value);
+        #region コンストラクタ
         /// <summary>
         /// 入力ニューロン無しで初期化
         /// </summary>
@@ -108,6 +110,15 @@ namespace Ksnm.MachineLearning.NeuralNetwork
             {
                 InputWeights[i] = 1;
             }
+        }
+        #endregion コンストラクタ
+
+        /// <summary>
+        /// 複製を作成
+        /// </summary>
+        public INeuron Clone()
+        {
+            return new Neuron(this);
         }
 
         /// <summary>

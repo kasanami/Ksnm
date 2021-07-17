@@ -21,6 +21,7 @@ freely, subject to the following restrictions:
 
 3. This notice may not be removed or altered from any source distribution.
 */
+using System;
 using System.Collections.Generic;
 
 namespace Ksnm.MachineLearning.NeuralNetwork
@@ -30,6 +31,7 @@ namespace Ksnm.MachineLearning.NeuralNetwork
     /// </summary>
     public class SourceNeuron : INeuron
     {
+        #region プロパティ
         /// <summary>
         /// 名前
         /// </summary>
@@ -40,6 +42,10 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         /// </summary>
         public double Value { get; set; }
         /// <summary>
+        /// バイアス
+        /// </summary>
+        public double Bias { get; set; }
+        /// <summary>
         /// 入力無し
         /// </summary>
         public IReadOnlyList<INeuron> InputNeurons { get; private set; } = new SourceNeuron[0];
@@ -47,6 +53,15 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         /// 入力無し
         /// </summary>
         public IList<double> InputWeights { get; private set; } = new double[0];
+        /// <summary>
+        /// 活性化関数
+        /// </summary>
+        public Neuron.ActivationFunction Activation { get; set; } = null;
+        /// <summary>
+        /// 活性化関数の微分
+        /// </summary>
+        public Neuron.ActivationFunction DifferentiatedActivation { get; set; } = null;
+        #endregion プロパティ
 
         /// <summary>
         /// デフォルト値で初期化
@@ -61,6 +76,24 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         {
             Name = source.Name;
             Value = source.Value;
+        }
+
+        /// <summary>
+        /// 複製を作成
+        /// </summary>
+        public INeuron Clone()
+        {
+            return new SourceNeuron(this);
+        }
+
+        public void ResetWeights(Random random, double weightRange)
+        {
+            // 何もしない
+        }
+
+        public void Randomization(double weightRange)
+        {
+            // 何もしない
         }
 
         public void Randomization(double expectedValue, double learningRate)

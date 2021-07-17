@@ -59,7 +59,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MachineLearning\NeuralNetwork\ILayer.cs" />
     <Compile Include="MachineLearning\NeuralNetwork\INeuron.cs" />
+    <Compile Include="MachineLearning\NeuralNetwork\Layer.cs" />
     <Compile Include="MachineLearning\NeuralNetwork\SourceNeuron.cs" />
     <Compile Include="MachineLearning\NeuralNetwork\MultilayerPerceptron.cs" />
     <Compile Include="MachineLearning\NeuralNetwork\Neuron.cs" />

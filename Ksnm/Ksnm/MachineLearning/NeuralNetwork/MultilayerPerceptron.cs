@@ -27,7 +27,6 @@ using System.Linq;
 
 namespace Ksnm.MachineLearning.NeuralNetwork
 {
-    using Layer = List<INeuron>;
     /// <summary>
     /// 多層パーセプトロン
     /// </summary>
@@ -59,25 +58,32 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         /// <summary>
         /// 出力値取得
         /// </summary>
-        public IEnumerable<double> ResultValues { get => resultNeurons.Select(x => x.Value); }
+        public IEnumerable<double> ResultValues { get => ResultNeurons.Select(x => x.Value); }
 
         /// <summary>
-        /// 入力レイヤー
+        /// 入力レイヤーのニューロン
         /// </summary>
-        public IReadOnlyList<SourceNeuron> SourceNeurons { get => sourceNeurons; }
-        private List<SourceNeuron> sourceNeurons = new List<SourceNeuron>();
+        public IReadOnlyList<SourceNeuron> SourceNeurons { get => Layers[0].Neurons.Select(x => x as SourceNeuron).ToList(); }
 
         /// <summary>
-        /// 中間レイヤー
+        /// 中間レイヤー（1番目）のニューロン
         /// </summary>
-        public IReadOnlyList<Neuron> HiddenNeurons { get => hiddenNeurons; }
-        private List<Neuron> hiddenNeurons = new List<Neuron>();
+        public IReadOnlyList<Neuron> HiddenNeurons { get => Layers[1].Neurons.Select(x => x as Neuron).ToList(); }
 
         /// <summary>
-        /// 出力レイヤー
+        /// 出力レイヤーのニューロン
         /// </summary>
-        public IReadOnlyList<Neuron> ResultNeurons { get => resultNeurons; }
-        private List<Neuron> resultNeurons = new List<Neuron>();
+        public IReadOnlyList<Neuron> ResultNeurons { get => Layers[Layers.Count - 1].Neurons.Select(x => x as Neuron).ToList(); }
+
+        /// <summary>
+        /// レイヤー一覧
+        /// </summary>
+        public IReadOnlyList<ILayer> Layers { get => layers; }
+        /// <summary>
+        /// レイヤー一覧
+        /// </summary>
+        protected List<ILayer> layers = new List<ILayer>();
+
         #endregion プロパティ
 
         #region コンストラクタ
@@ -92,22 +98,37 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         /// </summary>
         public MultilayerPerceptron(int sourceCount, int hiddenCount, int resultCount)
         {
-            for (int i = 0; i < sourceCount; i++)
+            ILayer beforeLayer = null;
             {
-                SourceNeuron neuron = new SourceNeuron();
-                sourceNeurons.Add(neuron);
+                var layer = new Layer<SourceNeuron>();
+                for (int i = 0; i < sourceCount; i++)
+                {
+                    SourceNeuron neuron = new SourceNeuron();
+                    layer.neurons.Add(neuron);
+                }
+                layers.Add(layer);
+                beforeLayer = layer;
             }
-            for (int i = 0; i < hiddenCount; i++)
             {
-                Neuron neuron = new Neuron(SourceNeurons);
-                neuron.Activation = Utility.Sigmoid;
-                hiddenNeurons.Add(neuron);
+                var layer = new Layer<Neuron>();
+                for (int i = 0; i < hiddenCount; i++)
+                {
+                    Neuron neuron = new Neuron(beforeLayer.Neurons);
+                    neuron.Activation = Utility.Sigmoid;
+                    layer.neurons.Add(neuron);
+                }
+                layers.Add(layer);
+                beforeLayer = layer;
             }
-            for (int i = 0; i < resultCount; i++)
             {
-                Neuron neuron = new Neuron(HiddenNeurons);
-                neuron.Activation = Utility.Sigmoid;
-                resultNeurons.Add(neuron);
+                var layer = new Layer<Neuron>();
+                for (int i = 0; i < resultCount; i++)
+                {
+                    Neuron neuron = new Neuron(beforeLayer.Neurons);
+                    neuron.Activation = Utility.Sigmoid;
+                    layer.neurons.Add(neuron);
+                }
+                layers.Add(layer);
             }
         }
         /// <summary>
@@ -115,20 +136,9 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         /// </summary>
         public MultilayerPerceptron(MultilayerPerceptron source)
         {
-            sourceNeurons = new List<SourceNeuron>();
-            hiddenNeurons = new List<Neuron>();
-            resultNeurons = new List<Neuron>();
-            foreach (var item in source.sourceNeurons)
+            foreach (var item in source.layers)
             {
-                sourceNeurons.Add(new SourceNeuron(item));
-            }
-            foreach (var item in source.hiddenNeurons)
-            {
-                hiddenNeurons.Add(new Neuron(item, sourceNeurons));
-            }
-            foreach (var item in source.resultNeurons)
-            {
-                resultNeurons.Add(new Neuron(item, hiddenNeurons));
+                layers.Add(item.Clone());
             }
         }
         #endregion コンストラクタ
@@ -139,14 +149,12 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         /// </summary>
         public void ForwardPropagation()
         {
-            // ニューロンの値更新
-            foreach (var item in hiddenNeurons)
+            foreach (var layer in layers)
             {
-                item.ForwardPropagation();
-            }
-            foreach (var item in resultNeurons)
-            {
-                item.ForwardPropagation();
+                foreach (var neuron in layer.Neurons)
+                {
+                    neuron.ForwardPropagation();
+                }
             }
         }
         /// <summary>
@@ -178,15 +186,12 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         /// </summary>
         public void ResetWeights(Random random, double weightRange)
         {
-            // sourceNeuronsは変更しない
-
-            foreach (var item in hiddenNeurons)
+            foreach (var layer in layers)
             {
-                item.ResetWeights(random, weightRange);
-            }
-            foreach (var item in resultNeurons)
-            {
-                item.ResetWeights(random, weightRange);
+                foreach (var neuron in layer.Neurons)
+                {
+                    neuron.ResetWeights(random, weightRange);
+                }
             }
         }
         /// <summary>
@@ -202,13 +207,12 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         /// </summary>
         public void Randomization(double weightRange)
         {
-            foreach (var neuron in hiddenNeurons)
+            foreach (var layer in layers)
             {
-                neuron.Randomization(weightRange);
-            }
-            foreach (var neuron in resultNeurons)
-            {
-                neuron.Randomization(weightRange);
+                foreach (var neuron in layer.Neurons)
+                {
+                    neuron.Randomization(weightRange);
+                }
             }
         }
         /// <summary>
@@ -218,11 +222,11 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         /// <param name="learningRate">学習係数</param>
         public void Randomization(IReadOnlyList<double> expectedValues, double learningRate)
         {
-            var count = resultNeurons.Count;
+            var count = ResultNeurons.Count;
             System.Diagnostics.Debug.Assert(count == expectedValues.Count());
             for (int i = 0; i < count; i++)
             {
-                var neuron = resultNeurons[i];
+                var neuron = ResultNeurons[i];
                 neuron.Randomization(expectedValues[i], learningRate);
             }
         }
@@ -236,11 +240,11 @@ namespace Ksnm.MachineLearning.NeuralNetwork
             // 誤差
             var error = Error(expectedValues);
             // 出力層調整
-            var count = resultNeurons.Count;
+            var count = ResultNeurons.Count;
             System.Diagnostics.Debug.Assert(count == expectedValues.Count());
             for (int i = 0; i < count; i++)
             {
-                var neuron = resultNeurons[i];
+                var neuron = ResultNeurons[i];
                 neuron.Backpropagation(expectedValues[i], learningRate);
             }
         }
@@ -252,12 +256,12 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         /// <returns>誤差</returns>
         public double Error(IReadOnlyList<double> expectedValues)
         {
-            var count = resultNeurons.Count;
+            var count = ResultNeurons.Count;
             System.Diagnostics.Debug.Assert(count == expectedValues.Count());
             var errors = 0.0;
             for (int i = 0; i < count; i++)
             {
-                var error = expectedValues[i] - resultNeurons[i].Value;
+                var error = expectedValues[i] - ResultNeurons[i].Value;
                 errors += error * error;
             }
             // 各値の差を2乗→合計→2で割る。

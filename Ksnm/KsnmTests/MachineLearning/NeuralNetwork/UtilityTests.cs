@@ -32,17 +32,17 @@ namespace Ksnm.MachineLearning.NeuralNetwork.Tests
         [TestMethod()]
         public void SigmoidTest()
         {
-            Assert.AreEqual(0.0, Utility.Sigmoid(-5), 0.000001);
-            Assert.AreEqual(0.5, Utility.Sigmoid(0), 0.000001);
-            Assert.AreEqual(1.0, Utility.Sigmoid(+5), 0.000001);
+            Assert.AreEqual(0.0, Utility.Sigmoid(-10), 0.0001);
+            Assert.AreEqual(0.5, Utility.Sigmoid(0), 0.0001);
+            Assert.AreEqual(1.0, Utility.Sigmoid(+10), 0.0001);
         }
 
         [TestMethod()]
         public void DifferentiatedSigmoidTest()
         {
-            Assert.AreEqual(0.00, Utility.DifferentiatedSigmoid(-5), 0.000001);
-            Assert.AreEqual(0.25, Utility.DifferentiatedSigmoid(0), 0.000001);
-            Assert.AreEqual(0.00, Utility.DifferentiatedSigmoid(+5), 0.000001);
+            Assert.AreEqual(0.00, Utility.DifferentiatedSigmoid(-10), 0.0001);
+            Assert.AreEqual(0.25, Utility.DifferentiatedSigmoid(0), 0.0001);
+            Assert.AreEqual(0.00, Utility.DifferentiatedSigmoid(+10), 0.0001);
         }
 
         [TestMethod()]

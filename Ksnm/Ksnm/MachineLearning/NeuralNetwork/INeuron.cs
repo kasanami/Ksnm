@@ -21,6 +21,7 @@ freely, subject to the following restrictions:
 
 3. This notice may not be removed or altered from any source distribution.
 */
+using System;
 using System.Collections.Generic;
 
 namespace Ksnm.MachineLearning.NeuralNetwork
@@ -30,6 +31,7 @@ namespace Ksnm.MachineLearning.NeuralNetwork
     /// </summary>
     public interface INeuron
     {
+        #region プロパティ
         /// <summary>
         /// 名前
         /// </summary>
@@ -39,6 +41,10 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         /// </summary>
         double Value { get; set; }
         /// <summary>
+        /// バイアス
+        /// </summary>
+        double Bias { get; set; }
+        /// <summary>
         /// 入力ニューロン
         /// </summary>
         IReadOnlyList<INeuron> InputNeurons { get; }
@@ -46,7 +52,25 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         /// 入力ニューロン
         /// </summary>
         IList<double> InputWeights { get; }
-        
+        /// <summary>
+        /// 活性化関数
+        /// </summary>
+        Neuron.ActivationFunction Activation { get; set; }
+        #endregion プロパティ
+
+        #region インスタンス関係
+        /// <summary>
+        /// 複製を作成
+        /// </summary>
+        INeuron Clone();
+        #endregion インスタンス関係
+
+        #region 学習関係
+        /// <summary>
+        /// 重みをランダムに設定
+        /// </summary>
+        void ResetWeights(Random random, double weightRange);
+        void Randomization(double weightRange);
         /// <summary>
         /// フォワードプロパゲーション
         /// </summary>
@@ -63,5 +87,6 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         /// バックプロパゲーション
         /// </summary>
         void Backpropagation(double expectedValue, double learningRate, double nextDelta, double nextWeight);
+        #endregion 学習関係
     }
 }
