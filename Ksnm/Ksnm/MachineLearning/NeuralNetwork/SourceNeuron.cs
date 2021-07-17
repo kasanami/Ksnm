@@ -91,12 +91,12 @@ namespace Ksnm.MachineLearning.NeuralNetwork
             // 何もしない
         }
 
-        public void Randomization(double weightRange)
+        public void Randomization(Random random, double weightRange)
         {
             // 何もしない
         }
 
-        public void Randomization(double expectedValue, double learningRate)
+        public void Randomization(Random random, double expectedValue, double learningRate)
         {
             // 何もしない
         }

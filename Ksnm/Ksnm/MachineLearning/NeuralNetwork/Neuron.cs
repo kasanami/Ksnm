@@ -144,22 +144,22 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         /// <summary>
         /// 乱数による調整
         /// </summary>
-        public void Randomization(double weightRange)
+        public void Randomization(Random random, double weightRange)
         {
             // 重みを修正
             for (int i = 0; i < InputWeights.Count; i++)
             {
-                InputWeights[i] += Utility.Random.Range(-weightRange, +weightRange);
+                InputWeights[i] += random.Range(-weightRange, +weightRange);
             }
             // バイアスを修正
-            Bias += Utility.Random.Range(-weightRange, +weightRange);
+            Bias += random.Range(-weightRange, +weightRange);
         }
         /// <summary>
         /// 乱数による調整
         /// </summary>
         /// <param name="expectedValue">期待値</param>
         /// <param name="learningRate">学習係数</param>
-        public void Randomization(double expectedValue, double learningRate)
+        public void Randomization(Random random, double expectedValue, double learningRate)
         {
             // 誤差
             // 期待値＞出力値なら+値　期待値＜出力値なら-値が得られる
@@ -168,11 +168,11 @@ namespace Ksnm.MachineLearning.NeuralNetwork
             // 重みを修正
             for (int i = 0; i < InputWeights.Count; i++)
             {
-                InputWeights[i] += Utility.Random.NextDouble() * delta * learningRate;
+                InputWeights[i] += random.NextDouble() * delta * learningRate;
             }
 
             // バイアスを修正
-            Bias += Utility.Random.NextDouble() * delta * learningRate;
+            Bias += random.NextDouble() * delta * learningRate;
 
             // 前の層へ
             var count = InputNeurons.Count;
@@ -180,7 +180,7 @@ namespace Ksnm.MachineLearning.NeuralNetwork
             {
                 var neuron = InputNeurons[i];
                 var weight = InputWeights[i];
-                neuron.Randomization(neuron.Value + delta, learningRate * weight);
+                neuron.Randomization(random, neuron.Value + delta, learningRate * weight);
             }
         }
         /// <summary>

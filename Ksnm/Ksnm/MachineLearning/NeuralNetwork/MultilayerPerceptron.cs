@@ -55,6 +55,12 @@ namespace Ksnm.MachineLearning.NeuralNetwork
             }
         }
         #region プロパティ
+
+        /// <summary>
+        /// 擬似乱数ジェネレーター
+        /// </summary>
+        public Random Random = new Random();
+
         /// <summary>
         /// 出力値取得
         /// </summary>
@@ -184,26 +190,18 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         /// <summary>
         /// 重みをランダムに設定
         /// </summary>
-        public void ResetWeights(Random random, double weightRange)
+        public void ResetWeights(double weightRange)
         {
             foreach (var layer in layers)
             {
                 foreach (var neuron in layer.Neurons)
                 {
-                    neuron.ResetWeights(random, weightRange);
+                    neuron.ResetWeights(Random, weightRange);
                 }
             }
         }
         /// <summary>
-        /// 重みをランダムに設定
-        /// </summary>
-        public void ResetWeights(double weightRange)
-        {
-            Random random = new Random();
-            ResetWeights(random, weightRange);
-        }
-        /// <summary>
-        /// 乱数による調整
+        /// 重みをランダムに調整
         /// </summary>
         public void Randomization(double weightRange)
         {
@@ -211,7 +209,7 @@ namespace Ksnm.MachineLearning.NeuralNetwork
             {
                 foreach (var neuron in layer.Neurons)
                 {
-                    neuron.Randomization(weightRange);
+                    neuron.Randomization(Random, weightRange);
                 }
             }
         }
@@ -227,7 +225,7 @@ namespace Ksnm.MachineLearning.NeuralNetwork
             for (int i = 0; i < count; i++)
             {
                 var neuron = ResultNeurons[i];
-                neuron.Randomization(expectedValues[i], learningRate);
+                neuron.Randomization(Random, expectedValues[i], learningRate);
             }
         }
         /// <summary>

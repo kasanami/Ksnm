@@ -28,11 +28,6 @@ namespace Ksnm.MachineLearning.NeuralNetwork
     public static class Utility
     {
         /// <summary>
-        /// 共用ランダム
-        /// </summary>
-        public static Random Random = new Random();
-
-        /// <summary>
         /// 活性化関数
         /// </summary>
         /// <param name="value">ニューロンの値に重みをかけたあとの合計値</param>
