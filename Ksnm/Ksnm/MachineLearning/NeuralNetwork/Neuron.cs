@@ -111,9 +111,9 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         /// <summary>
         /// 複製を作成
         /// </summary>
-        public INeuron Clone()
+        public INeuron Clone(IReadOnlyList<INeuron> inputNeurons)
         {
-            return new Neuron(this);
+            return new Neuron(this, inputNeurons);
         }
 
         /// <summary>

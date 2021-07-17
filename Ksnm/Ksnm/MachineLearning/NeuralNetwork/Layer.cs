@@ -17,27 +17,28 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         public Layer()
         {
         }
-        public Layer(IReadOnlyList<T> neurons)
+        /// <summary>
+        /// コピーコンストラクタ
+        /// </summary>
+        /// <param name="neurons">複製するニューロン</param>
+        /// <param name="inputNeurons">入力ニューロン</param>
+        public Layer(IReadOnlyList<T> neurons, IReadOnlyList<INeuron> inputNeurons)
         {
             this.neurons = new List<T>();
             foreach (var item in neurons)
             {
-                this.neurons.Add(item.Clone() as T);
+                this.neurons.Add(item.Clone(inputNeurons) as T);
             }
         }
-        public Layer(Layer<T> layer) : this(layer.neurons)
+        public Layer(Layer<T> layer, IReadOnlyList<INeuron> inputNeurons) : this(layer.neurons, inputNeurons)
         {
         }
         #endregion コンストラクタ
-        public ILayer Clone()
+        public ILayer Clone(IReadOnlyList<INeuron> inputNeurons)
         {
-            return new Layer<T>(this);
+            return new Layer<T>(this, inputNeurons);
         }
         #region 型変換
-        public static implicit operator Layer<INeuron>(Layer<T> layer)
-        {
-            return new Layer<INeuron>(layer.Neurons);
-        }
         #endregion 型変換
     }
 }

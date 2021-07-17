@@ -62,7 +62,7 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         /// <summary>
         /// 複製を作成
         /// </summary>
-        INeuron Clone();
+        INeuron Clone(IReadOnlyList<INeuron> inputNeurons);
         #endregion インスタンス関係
 
         #region 学習関係

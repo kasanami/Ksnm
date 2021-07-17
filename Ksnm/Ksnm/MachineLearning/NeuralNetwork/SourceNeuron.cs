@@ -81,7 +81,7 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         /// <summary>
         /// 複製を作成
         /// </summary>
-        public INeuron Clone()
+        public INeuron Clone(IReadOnlyList<INeuron> inputNeurons)
         {
             return new SourceNeuron(this);
         }
@@ -115,5 +115,11 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         {
             // 何もしない
         }
+        #region Object
+        public override string ToString()
+        {
+            return $"{Name}:{Value}";
+        }
+        #endregion Object
     }
 }

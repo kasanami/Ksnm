@@ -9,6 +9,6 @@ namespace Ksnm.MachineLearning.NeuralNetwork
     public interface ILayer
     {
         IReadOnlyList<INeuron> Neurons { get; }
-        ILayer Clone();
+        ILayer Clone(IReadOnlyList<INeuron> inputNeurons);
     }
 }

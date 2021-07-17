@@ -142,9 +142,12 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         /// </summary>
         public MultilayerPerceptron(MultilayerPerceptron source)
         {
-            foreach (var item in source.layers)
+            IReadOnlyList<INeuron> inputNeurons = null;
+            foreach (var layer in source.layers)
             {
-                layers.Add(item.Clone());
+                var newLayer = layer.Clone(inputNeurons);
+                layers.Add(newLayer);
+                inputNeurons = newLayer.Neurons;
             }
         }
         #endregion コンストラクタ
@@ -334,7 +337,7 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         /// </summary>
         public static MultilayerPerceptron Learn(MultilayerPerceptron neuralNetwork, IReadOnlyList<Sample> samples, double learningRate)
         {
-            int childrenCount = 100;
+            int childrenCount = 1000;
             // 複製
             var children = neuralNetwork.Clones(childrenCount).ToList();
             // 誤差
