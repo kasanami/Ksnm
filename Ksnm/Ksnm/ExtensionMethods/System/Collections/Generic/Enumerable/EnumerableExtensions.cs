@@ -60,6 +60,33 @@ namespace Ksnm.ExtensionMethods.System.Collections.Generic.Enumerable
         }
         #endregion Contains
 
+        #region For*
+        /// <summary>
+        /// 反復処理
+        /// </summary>
+        /// <param name="action">各要素に対するアクション　引数＝(インデックス,要素)</param>
+        public static void For<T>(this IEnumerable<T> self, Action<int, T> action)
+        {
+            var index = 0;
+            foreach (var item in self)
+            {
+                action(index, item);
+                index++;
+            }
+        }
+        /// <summary>
+        /// 反復処理
+        /// </summary>
+        /// <param name="action">各要素に対するアクション　引数＝(要素)</param>
+        public static void ForEach<T>(this IEnumerable<T> self, Action<T> action)
+        {
+            foreach (var item in self)
+            {
+                action(item);
+            }
+        }
+        #endregion For*
+
         #region SequenceEqual
         /// <summary>
         /// System.Linq.Enumerable.SequenceEqual を可変長引数にしたもの。
