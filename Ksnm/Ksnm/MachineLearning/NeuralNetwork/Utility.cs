@@ -31,6 +31,13 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         /// 共用ランダム
         /// </summary>
         public static Random Random = new Random();
+
+        /// <summary>
+        /// 活性化関数
+        /// </summary>
+        /// <param name="value">ニューロンの値に重みをかけたあとの合計値</param>
+        /// <returns>結果</returns>
+        public delegate double ActivationFunction(double value);
         /// <summary>
         /// そのまま値を返す関数
         /// </summary>

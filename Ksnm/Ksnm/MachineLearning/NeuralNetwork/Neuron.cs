@@ -59,17 +59,12 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         /// <summary>
         /// 活性化関数
         /// </summary>
-        public ActivationFunction Activation { get; set; } = Keep;
+        public Utility.ActivationFunction Activation { get; set; } = Keep;
         /// <summary>
         /// 活性化関数の微分
         /// </summary>
-        public ActivationFunction DifferentiatedActivation { get; set; } = DifferentiatedKeep;
-        /// <summary>
-        /// 活性化関数
-        /// </summary>
-        /// <param name="value">ニューロンの値に重みをかけたあとの合計値</param>
-        /// <returns>結果</returns>
-        public delegate double ActivationFunction(double value);
+        public Utility.ActivationFunction DifferentiatedActivation { get; set; } = DifferentiatedKeep;
+
         #region コンストラクタ
         /// <summary>
         /// 入力ニューロン無しで初期化

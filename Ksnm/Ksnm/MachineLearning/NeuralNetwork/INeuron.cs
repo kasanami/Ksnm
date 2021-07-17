@@ -55,7 +55,7 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         /// <summary>
         /// 活性化関数
         /// </summary>
-        Neuron.ActivationFunction Activation { get; set; }
+        Utility.ActivationFunction Activation { get; set; }
         #endregion プロパティ
 
         #region インスタンス関係
