@@ -682,13 +682,14 @@ namespace DemoApp
         #region パーセプトロン タブ
         private void Perceptron_Click(object sender, EventArgs e)
         {
+            label27.Text = $"{nameof(XorSample)}";
             // 学習
             for (int i = 0; i < 100; i++)
             {
                 neuralNetwork = MultilayerPerceptron.Learn(neuralNetwork, XorSample, 0.1);
             }
             //neuralNetwork.Learn(AndSample, 0.1, 1000);
-            // 再計算
+            // UI更新
             MultilayerPerceptron_Update();
         }
 
