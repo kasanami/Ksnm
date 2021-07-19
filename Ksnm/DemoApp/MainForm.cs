@@ -673,11 +673,11 @@ namespace DemoApp
             neuralNetwork.SourceNeurons[0].Value = ((double)numericUpDown1.Value);
             neuralNetwork.SourceNeurons[1].Value = ((double)numericUpDown2.Value);
             neuralNetwork.ForwardPropagation();
-            label22.Text = neuralNetwork.SourceNeurons[0].Value.ToString();
-            label23.Text = neuralNetwork.SourceNeurons[1].Value.ToString();
-            label24.Text = neuralNetwork.HiddenNeurons[0].Value.ToString();
-            label25.Text = neuralNetwork.HiddenNeurons[1].Value.ToString();
-            label26.Text = neuralNetwork.ResultNeurons[0].Value.ToString();
+            label22.Text = neuralNetwork.SourceNeurons[0].Value.ToString("0.000");
+            label23.Text = neuralNetwork.SourceNeurons[1].Value.ToString("0.000");
+            label24.Text = neuralNetwork.HiddenNeurons[0].Value.ToString("0.000");
+            label25.Text = neuralNetwork.HiddenNeurons[1].Value.ToString("0.000");
+            label26.Text = neuralNetwork.ResultNeurons[0].Value.ToString("0.000");
         }
         #region パーセプトロン タブ
         private void Perceptron_Click(object sender, EventArgs e)

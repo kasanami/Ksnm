@@ -185,7 +185,6 @@ namespace Ksnm.MachineLearning.NeuralNetwork
             for (int i = 0; i < count; i++)
             {
                 var nn = new MultilayerPerceptron(this);
-                nn.Randomization(10);
                 yield return nn;
             }
         }
@@ -340,10 +339,11 @@ namespace Ksnm.MachineLearning.NeuralNetwork
             int childrenCount = 1000;
             // 複製
             var children = neuralNetwork.Clones(childrenCount).ToList();
+            children.ForEach((nn) => nn.Randomization(1));
             // 誤差
             var minErrorIndex = -1;
             double minError = double.MaxValue;
-            for (int i = 0; i < childrenCount; i++)
+            for (int i = 0; i < children.Count; i++)
             {
                 children[i].Learn(samples, learningRate);
                 var error = children[i].Error(samples);

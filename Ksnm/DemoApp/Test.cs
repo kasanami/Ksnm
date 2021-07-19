@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Linq;
 using Numeric = Ksnm.Numerics.Numeric;
 using Ksnm.MachineLearning.NeuralNetwork;
 using Ksnm.ExtensionMethods.System.Collections.Generic.Enumerable;
@@ -37,7 +38,7 @@ namespace DemoApp
             Numeric num = new Numeric(100m);
             num.Normalize();
             */
-            AITest();
+            //AITest();
         }
         public static void SingleTest()
         {
@@ -473,7 +474,7 @@ namespace DemoApp
         {
             Console.WriteLine("AITest()");
             #region 数字認識
-            Sample[] NumbersSample = new[]
+            var NumbersSample = new[]
             {
                 new Sample() { SourceValues = new double[] {
                     1, 1, 1,
@@ -536,16 +537,24 @@ namespace DemoApp
                     0, 0, 1,
                     1, 1, 1,}, ResultValues = new double[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 } },
             };
-            MultilayerPerceptron numbersNN = new MultilayerPerceptron(15, 10, 10);
+            var numbersNN = new MultilayerPerceptron(15, 10, 10);
             // 学習
             for (int i = 0; i < 100; i++)
             {
                 numbersNN = MultilayerPerceptron.Learn(numbersNN, NumbersSample, 0.1);
             }
+            // 
             for (int i = 0; i < NumbersSample.Length; i++)
             {
                 numbersNN.ForwardPropagation(NumbersSample[i].SourceValues);
-                Console.WriteLine($"NumbersSample[{i}]={numbersNN.ResultValues.ToDebugString(false)}");
+                // 数値調整
+                var resultValues = new List<double>();
+                var max = numbersNN.ResultValues.Max();
+                foreach (var value in numbersNN.ResultValues)
+                {
+                    resultValues.Add(value / max);
+                }
+                Console.WriteLine($"NumbersSample[{i}]={resultValues.ToDebugString("0.0", null, false)}");
             }
             #endregion 数字認識
 
