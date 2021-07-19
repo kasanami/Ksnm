@@ -637,7 +637,7 @@ namespace DemoApp
         #endregion Binaryタブ
 
         #region AI タブ
-        MultilayerPerceptron neuralNetwork = new MultilayerPerceptron(2, 2, 1);
+        MultilayerPerceptron neuralNetwork = new MultilayerPerceptron(2, 3, 1);
         #region 論理式
         Sample[] NotSample = new[]
         {
@@ -673,11 +673,25 @@ namespace DemoApp
             neuralNetwork.SourceNeurons[0].Value = ((double)numericUpDown1.Value);
             neuralNetwork.SourceNeurons[1].Value = ((double)numericUpDown2.Value);
             neuralNetwork.ForwardPropagation();
-            label22.Text = neuralNetwork.SourceNeurons[0].Value.ToString("0.000");
-            label23.Text = neuralNetwork.SourceNeurons[1].Value.ToString("0.000");
-            label24.Text = neuralNetwork.HiddenNeurons[0].Value.ToString("0.000");
-            label25.Text = neuralNetwork.HiddenNeurons[1].Value.ToString("0.000");
-            label26.Text = neuralNetwork.ResultNeurons[0].Value.ToString("0.000");
+            label22.Text = "V:" + neuralNetwork.SourceNeurons[0].Value.ToString("0.000");
+            label23.Text = "V:" + neuralNetwork.SourceNeurons[1].Value.ToString("0.000");
+            label24.Text = "V:" + neuralNetwork.HiddenNeurons[0].Value.ToString("0.000");
+            label25.Text = "V:" + neuralNetwork.HiddenNeurons[1].Value.ToString("0.000");
+            label40.Text = "V:" + neuralNetwork.HiddenNeurons[2].Value.ToString("0.000");
+            label26.Text = "V:" + neuralNetwork.ResultNeurons[0].Value.ToString("0.000");
+            label28.Text = "W:" + neuralNetwork.HiddenNeurons[0].InputWeights[0].ToString("0.000");
+            label29.Text = "W:" + neuralNetwork.HiddenNeurons[0].InputWeights[1].ToString("0.000");
+            label30.Text = "W:" + neuralNetwork.HiddenNeurons[1].InputWeights[0].ToString("0.000");
+            label31.Text = "W:" + neuralNetwork.HiddenNeurons[1].InputWeights[1].ToString("0.000");
+            label37.Text = "W:" + neuralNetwork.HiddenNeurons[2].InputWeights[0].ToString("0.000");
+            label38.Text = "W:" + neuralNetwork.HiddenNeurons[2].InputWeights[1].ToString("0.000");
+            label32.Text = "W:" + neuralNetwork.ResultNeurons[0].InputWeights[0].ToString("0.000");
+            label33.Text = "W:" + neuralNetwork.ResultNeurons[0].InputWeights[1].ToString("0.000");
+            label36.Text = "W:" + neuralNetwork.ResultNeurons[0].InputWeights[2].ToString("0.000");
+            label34.Text = "B:" + neuralNetwork.HiddenNeurons[0].Bias.ToString("0.000");
+            label35.Text = "B:" + neuralNetwork.HiddenNeurons[1].Bias.ToString("0.000");
+            label39.Text = "B:" + neuralNetwork.HiddenNeurons[2].Bias.ToString("0.000");
+            label41.Text = "B:" + neuralNetwork.ResultNeurons[0].Bias.ToString("0.000");
         }
         #region パーセプトロン タブ
         private void Perceptron_Click(object sender, EventArgs e)

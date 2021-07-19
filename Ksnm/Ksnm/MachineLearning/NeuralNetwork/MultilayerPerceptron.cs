@@ -264,8 +264,9 @@ namespace Ksnm.MachineLearning.NeuralNetwork
                 var error = expectedValues[i] - ResultNeurons[i].Value;
                 errors += error * error;
             }
+            return errors * 3;
             // 各値の差を2乗→合計→2で割る。
-            return errors / 2;
+            //return errors / 2;
         }
         /// <summary>
         /// 再計算し期待値との誤差を計算
@@ -339,7 +340,13 @@ namespace Ksnm.MachineLearning.NeuralNetwork
             int childrenCount = 1000;
             // 複製
             var children = neuralNetwork.Clones(childrenCount).ToList();
-            children.ForEach((nn) => nn.Randomization(1));
+            // 設定変更
+            double weightRange = 0;
+            foreach (var child in children)
+            {
+                child.Randomization(weightRange);
+                weightRange += 0.1;
+            }
             // 誤差
             var minErrorIndex = -1;
             double minError = double.MaxValue;

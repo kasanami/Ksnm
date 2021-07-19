@@ -168,7 +168,7 @@ namespace Ksnm.MachineLearning.NeuralNetwork
             // 重みを修正
             for (int i = 0; i < InputWeights.Count; i++)
             {
-                InputWeights[i] += random.NextDouble() * delta * learningRate;
+                InputWeights[i] += random.NextDouble() * InputNeurons[i].Value * delta * learningRate;
             }
 
             // バイアスを修正
@@ -191,18 +191,25 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         public void Backpropagation(double expectedValue, double learningRate)
         {
             var error = (expectedValue - Value);
+            if (error == 0)
+            {
+                return;
+            }
             error *= error;
             error /= 2;
+
+            // δ = (期待値 - 出力値) × 出力の微分
+            var delta = (expectedValue - Value) * DifferentiatedActivation(Value);
 
             // 重みを修正
             for (int i = 0; i < InputWeights.Count; i++)
             {
                 // 修正量 = () * 学習係数
                 // 期待値＞出力値なら+値　期待値＜出力値なら-値が得られる
-                InputWeights[i] += (expectedValue - Value) * error * learningRate;
+                InputWeights[i] += InputNeurons[i].Value * delta * learningRate;
             }
             // バイアスを修正
-            Bias += (expectedValue - Value) * error * learningRate;
+            Bias += delta * learningRate;
 #if false
             // δ = (期待値 - 出力値) × 出力の微分
             var delta = (expectedValue - Value) * Value * (1.0 - Value);

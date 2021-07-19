@@ -28,15 +28,15 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend3 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea16 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend16 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series16 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea17 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend17 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series17 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea18 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend18 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series18 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.RandomTabControl = new System.Windows.Forms.TabControl();
             this.MathTabPage = new System.Windows.Forms.TabPage();
             this.tabControl1 = new System.Windows.Forms.TabControl();
@@ -145,6 +145,7 @@
             this.AITabPage = new System.Windows.Forms.TabPage();
             this.tabControl4 = new System.Windows.Forms.TabControl();
             this.tabPage12 = new System.Windows.Forms.TabPage();
+            this.label27 = new System.Windows.Forms.Label();
             this.numericUpDown2 = new System.Windows.Forms.NumericUpDown();
             this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
             this.label26 = new System.Windows.Forms.Label();
@@ -154,7 +155,20 @@
             this.label23 = new System.Windows.Forms.Label();
             this.label22 = new System.Windows.Forms.Label();
             this.tabPage13 = new System.Windows.Forms.TabPage();
-            this.label27 = new System.Windows.Forms.Label();
+            this.label28 = new System.Windows.Forms.Label();
+            this.label29 = new System.Windows.Forms.Label();
+            this.label30 = new System.Windows.Forms.Label();
+            this.label31 = new System.Windows.Forms.Label();
+            this.label32 = new System.Windows.Forms.Label();
+            this.label33 = new System.Windows.Forms.Label();
+            this.label34 = new System.Windows.Forms.Label();
+            this.label35 = new System.Windows.Forms.Label();
+            this.label36 = new System.Windows.Forms.Label();
+            this.label37 = new System.Windows.Forms.Label();
+            this.label38 = new System.Windows.Forms.Label();
+            this.label39 = new System.Windows.Forms.Label();
+            this.label40 = new System.Windows.Forms.Label();
+            this.label41 = new System.Windows.Forms.Label();
             this.RandomTabControl.SuspendLayout();
             this.MathTabPage.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -706,18 +720,18 @@
             // 
             // Math_Chart
             // 
-            chartArea1.Name = "ChartArea1";
-            this.Math_Chart.ChartAreas.Add(chartArea1);
+            chartArea16.Name = "ChartArea1";
+            this.Math_Chart.ChartAreas.Add(chartArea16);
             this.Math_Chart.Dock = System.Windows.Forms.DockStyle.Fill;
-            legend1.Name = "Legend1";
-            this.Math_Chart.Legends.Add(legend1);
+            legend16.Name = "Legend1";
+            this.Math_Chart.Legends.Add(legend16);
             this.Math_Chart.Location = new System.Drawing.Point(31, 29);
             this.Math_Chart.Margin = new System.Windows.Forms.Padding(4);
             this.Math_Chart.Name = "Math_Chart";
-            series1.ChartArea = "ChartArea1";
-            series1.Legend = "Legend1";
-            series1.Name = "Series1";
-            this.Math_Chart.Series.Add(series1);
+            series16.ChartArea = "ChartArea1";
+            series16.Legend = "Legend1";
+            series16.Name = "Series1";
+            this.Math_Chart.Series.Add(series16);
             this.Math_Chart.Size = new System.Drawing.Size(929, 453);
             this.Math_Chart.TabIndex = 0;
             this.Math_Chart.Text = "chart1";
@@ -1039,20 +1053,20 @@
             // 
             // Random_Chart
             // 
-            chartArea2.AxisX.Title = "回目";
-            chartArea2.AxisY.Title = "生成値";
-            chartArea2.Name = "ChartArea1";
-            this.Random_Chart.ChartAreas.Add(chartArea2);
+            chartArea17.AxisX.Title = "回目";
+            chartArea17.AxisY.Title = "生成値";
+            chartArea17.Name = "ChartArea1";
+            this.Random_Chart.ChartAreas.Add(chartArea17);
             this.Random_Chart.Dock = System.Windows.Forms.DockStyle.Fill;
-            legend2.Name = "Legend1";
-            this.Random_Chart.Legends.Add(legend2);
+            legend17.Name = "Legend1";
+            this.Random_Chart.Legends.Add(legend17);
             this.Random_Chart.Location = new System.Drawing.Point(4, 19);
             this.Random_Chart.Margin = new System.Windows.Forms.Padding(4);
             this.Random_Chart.Name = "Random_Chart";
-            series2.ChartArea = "ChartArea1";
-            series2.Legend = "Legend1";
-            series2.Name = "Series1";
-            this.Random_Chart.Series.Add(series2);
+            series17.ChartArea = "ChartArea1";
+            series17.Legend = "Legend1";
+            series17.Name = "Series1";
+            this.Random_Chart.Series.Add(series17);
             this.Random_Chart.Size = new System.Drawing.Size(290, 148);
             this.Random_Chart.TabIndex = 0;
             this.Random_Chart.Text = "chart1";
@@ -1110,22 +1124,22 @@
             // 
             // Random_CountChart
             // 
-            chartArea3.AxisX.Title = "生成値";
-            chartArea3.AxisY.IntervalOffsetType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Number;
-            chartArea3.AxisY.IntervalType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Number;
-            chartArea3.AxisY.Title = "回数";
-            chartArea3.Name = "ChartArea1";
-            this.Random_CountChart.ChartAreas.Add(chartArea3);
+            chartArea18.AxisX.Title = "生成値";
+            chartArea18.AxisY.IntervalOffsetType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Number;
+            chartArea18.AxisY.IntervalType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Number;
+            chartArea18.AxisY.Title = "回数";
+            chartArea18.Name = "ChartArea1";
+            this.Random_CountChart.ChartAreas.Add(chartArea18);
             this.Random_CountChart.Dock = System.Windows.Forms.DockStyle.Fill;
-            legend3.Name = "Legend1";
-            this.Random_CountChart.Legends.Add(legend3);
+            legend18.Name = "Legend1";
+            this.Random_CountChart.Legends.Add(legend18);
             this.Random_CountChart.Location = new System.Drawing.Point(4, 19);
             this.Random_CountChart.Margin = new System.Windows.Forms.Padding(4);
             this.Random_CountChart.Name = "Random_CountChart";
-            series3.ChartArea = "ChartArea1";
-            series3.Legend = "Legend1";
-            series3.Name = "Series1";
-            this.Random_CountChart.Series.Add(series3);
+            series18.ChartArea = "ChartArea1";
+            series18.Legend = "Legend1";
+            series18.Name = "Series1";
+            this.Random_CountChart.Series.Add(series18);
             this.Random_CountChart.Size = new System.Drawing.Size(290, 148);
             this.Random_CountChart.TabIndex = 1;
             this.Random_CountChart.Text = "chart1";
@@ -1723,6 +1737,20 @@
             // 
             // tabPage12
             // 
+            this.tabPage12.Controls.Add(this.label41);
+            this.tabPage12.Controls.Add(this.label40);
+            this.tabPage12.Controls.Add(this.label39);
+            this.tabPage12.Controls.Add(this.label38);
+            this.tabPage12.Controls.Add(this.label37);
+            this.tabPage12.Controls.Add(this.label36);
+            this.tabPage12.Controls.Add(this.label35);
+            this.tabPage12.Controls.Add(this.label34);
+            this.tabPage12.Controls.Add(this.label33);
+            this.tabPage12.Controls.Add(this.label32);
+            this.tabPage12.Controls.Add(this.label31);
+            this.tabPage12.Controls.Add(this.label30);
+            this.tabPage12.Controls.Add(this.label29);
+            this.tabPage12.Controls.Add(this.label28);
             this.tabPage12.Controls.Add(this.label27);
             this.tabPage12.Controls.Add(this.numericUpDown2);
             this.tabPage12.Controls.Add(this.numericUpDown1);
@@ -1740,9 +1768,18 @@
             this.tabPage12.Text = "パーセプトロン";
             this.tabPage12.UseVisualStyleBackColor = true;
             // 
+            // label27
+            // 
+            this.label27.AutoSize = true;
+            this.label27.Location = new System.Drawing.Point(166, 15);
+            this.label27.Name = "label27";
+            this.label27.Size = new System.Drawing.Size(51, 15);
+            this.label27.TabIndex = 9;
+            this.label27.Text = "label27";
+            // 
             // numericUpDown2
             // 
-            this.numericUpDown2.Location = new System.Drawing.Point(33, 138);
+            this.numericUpDown2.Location = new System.Drawing.Point(33, 156);
             this.numericUpDown2.Maximum = new decimal(new int[] {
             1,
             0,
@@ -1769,7 +1806,7 @@
             // label26
             // 
             this.label26.AutoSize = true;
-            this.label26.Location = new System.Drawing.Point(392, 110);
+            this.label26.Location = new System.Drawing.Point(608, 126);
             this.label26.Name = "label26";
             this.label26.Size = new System.Drawing.Size(51, 15);
             this.label26.TabIndex = 6;
@@ -1778,7 +1815,7 @@
             // label25
             // 
             this.label25.AutoSize = true;
-            this.label25.Location = new System.Drawing.Point(280, 138);
+            this.label25.Location = new System.Drawing.Point(397, 163);
             this.label25.Name = "label25";
             this.label25.Size = new System.Drawing.Size(51, 15);
             this.label25.TabIndex = 5;
@@ -1787,7 +1824,7 @@
             // label24
             // 
             this.label24.AutoSize = true;
-            this.label24.Location = new System.Drawing.Point(280, 79);
+            this.label24.Location = new System.Drawing.Point(397, 81);
             this.label24.Name = "label24";
             this.label24.Size = new System.Drawing.Size(51, 15);
             this.label24.TabIndex = 4;
@@ -1806,7 +1843,7 @@
             // label23
             // 
             this.label23.AutoSize = true;
-            this.label23.Location = new System.Drawing.Point(163, 140);
+            this.label23.Location = new System.Drawing.Point(163, 163);
             this.label23.Name = "label23";
             this.label23.Size = new System.Drawing.Size(51, 15);
             this.label23.TabIndex = 2;
@@ -1815,7 +1852,7 @@
             // label22
             // 
             this.label22.AutoSize = true;
-            this.label22.Location = new System.Drawing.Point(163, 79);
+            this.label22.Location = new System.Drawing.Point(166, 81);
             this.label22.Name = "label22";
             this.label22.Size = new System.Drawing.Size(51, 15);
             this.label22.TabIndex = 1;
@@ -1831,14 +1868,131 @@
             this.tabPage13.Text = "tabPage13";
             this.tabPage13.UseVisualStyleBackColor = true;
             // 
-            // label27
+            // label28
             // 
-            this.label27.AutoSize = true;
-            this.label27.Location = new System.Drawing.Point(166, 15);
-            this.label27.Name = "label27";
-            this.label27.Size = new System.Drawing.Size(51, 15);
-            this.label27.TabIndex = 9;
-            this.label27.Text = "label27";
+            this.label28.AutoSize = true;
+            this.label28.Location = new System.Drawing.Point(301, 58);
+            this.label28.Name = "label28";
+            this.label28.Size = new System.Drawing.Size(51, 15);
+            this.label28.TabIndex = 10;
+            this.label28.Text = "label28";
+            // 
+            // label29
+            // 
+            this.label29.AutoSize = true;
+            this.label29.Location = new System.Drawing.Point(301, 81);
+            this.label29.Name = "label29";
+            this.label29.Size = new System.Drawing.Size(51, 15);
+            this.label29.TabIndex = 11;
+            this.label29.Text = "label29";
+            // 
+            // label30
+            // 
+            this.label30.AutoSize = true;
+            this.label30.Location = new System.Drawing.Point(301, 144);
+            this.label30.Name = "label30";
+            this.label30.Size = new System.Drawing.Size(51, 15);
+            this.label30.TabIndex = 12;
+            this.label30.Text = "label30";
+            // 
+            // label31
+            // 
+            this.label31.AutoSize = true;
+            this.label31.Location = new System.Drawing.Point(301, 163);
+            this.label31.Name = "label31";
+            this.label31.Size = new System.Drawing.Size(51, 15);
+            this.label31.TabIndex = 13;
+            this.label31.Text = "label31";
+            // 
+            // label32
+            // 
+            this.label32.AutoSize = true;
+            this.label32.Location = new System.Drawing.Point(519, 106);
+            this.label32.Name = "label32";
+            this.label32.Size = new System.Drawing.Size(51, 15);
+            this.label32.TabIndex = 14;
+            this.label32.Text = "label32";
+            // 
+            // label33
+            // 
+            this.label33.AutoSize = true;
+            this.label33.Location = new System.Drawing.Point(519, 126);
+            this.label33.Name = "label33";
+            this.label33.Size = new System.Drawing.Size(51, 15);
+            this.label33.TabIndex = 15;
+            this.label33.Text = "label33";
+            // 
+            // label34
+            // 
+            this.label34.AutoSize = true;
+            this.label34.Location = new System.Drawing.Point(301, 106);
+            this.label34.Name = "label34";
+            this.label34.Size = new System.Drawing.Size(51, 15);
+            this.label34.TabIndex = 16;
+            this.label34.Text = "label34";
+            // 
+            // label35
+            // 
+            this.label35.AutoSize = true;
+            this.label35.Location = new System.Drawing.Point(301, 178);
+            this.label35.Name = "label35";
+            this.label35.Size = new System.Drawing.Size(51, 15);
+            this.label35.TabIndex = 17;
+            this.label35.Text = "label35";
+            // 
+            // label36
+            // 
+            this.label36.AutoSize = true;
+            this.label36.Location = new System.Drawing.Point(519, 144);
+            this.label36.Name = "label36";
+            this.label36.Size = new System.Drawing.Size(51, 15);
+            this.label36.TabIndex = 18;
+            this.label36.Text = "label36";
+            // 
+            // label37
+            // 
+            this.label37.AutoSize = true;
+            this.label37.Location = new System.Drawing.Point(304, 217);
+            this.label37.Name = "label37";
+            this.label37.Size = new System.Drawing.Size(51, 15);
+            this.label37.TabIndex = 19;
+            this.label37.Text = "label37";
+            // 
+            // label38
+            // 
+            this.label38.AutoSize = true;
+            this.label38.Location = new System.Drawing.Point(304, 232);
+            this.label38.Name = "label38";
+            this.label38.Size = new System.Drawing.Size(51, 15);
+            this.label38.TabIndex = 20;
+            this.label38.Text = "label38";
+            // 
+            // label39
+            // 
+            this.label39.AutoSize = true;
+            this.label39.Location = new System.Drawing.Point(304, 247);
+            this.label39.Name = "label39";
+            this.label39.Size = new System.Drawing.Size(51, 15);
+            this.label39.TabIndex = 21;
+            this.label39.Text = "label39";
+            // 
+            // label40
+            // 
+            this.label40.AutoSize = true;
+            this.label40.Location = new System.Drawing.Point(400, 232);
+            this.label40.Name = "label40";
+            this.label40.Size = new System.Drawing.Size(51, 15);
+            this.label40.TabIndex = 22;
+            this.label40.Text = "label40";
+            // 
+            // label41
+            // 
+            this.label41.AutoSize = true;
+            this.label41.Location = new System.Drawing.Point(519, 163);
+            this.label41.Name = "label41";
+            this.label41.Size = new System.Drawing.Size(51, 15);
+            this.label41.TabIndex = 23;
+            this.label41.Text = "label41";
             // 
             // MainForm
             // 
@@ -2039,6 +2193,20 @@
         private System.Windows.Forms.NumericUpDown numericUpDown2;
         private System.Windows.Forms.NumericUpDown numericUpDown1;
         private System.Windows.Forms.Label label27;
+        private System.Windows.Forms.Label label33;
+        private System.Windows.Forms.Label label32;
+        private System.Windows.Forms.Label label31;
+        private System.Windows.Forms.Label label30;
+        private System.Windows.Forms.Label label29;
+        private System.Windows.Forms.Label label28;
+        private System.Windows.Forms.Label label36;
+        private System.Windows.Forms.Label label35;
+        private System.Windows.Forms.Label label34;
+        private System.Windows.Forms.Label label40;
+        private System.Windows.Forms.Label label39;
+        private System.Windows.Forms.Label label38;
+        private System.Windows.Forms.Label label37;
+        private System.Windows.Forms.Label label41;
     }
 }
 
