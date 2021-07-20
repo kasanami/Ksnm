@@ -537,9 +537,9 @@ namespace DemoApp
                     0, 0, 1,
                     1, 1, 1,}, ResultValues = new double[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 } },
             };
-            var numbersNN = new MultilayerPerceptron(15, 10, 10);
+            var numbersNN = new MultilayerPerceptron(15, 15, 10);
             // 学習
-            for (int i = 0; i < 100; i++)
+            for (int i = 0; i < 10000; i++)
             {
                 numbersNN = MultilayerPerceptron.Learn(numbersNN, NumbersSample, 0.1);
             }
@@ -554,7 +554,7 @@ namespace DemoApp
                 {
                     resultValues.Add(value / max);
                 }
-                Console.WriteLine($"NumbersSample[{i}]={resultValues.ToDebugString("0.0", null, false)}");
+                Console.WriteLine($"NumbersSample[{i}]={resultValues.ToDebugString("0.0 ", null, false)}");
             }
             #endregion 数字認識
 
