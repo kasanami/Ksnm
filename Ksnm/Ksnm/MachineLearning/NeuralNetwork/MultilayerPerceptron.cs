@@ -32,6 +32,7 @@ namespace Ksnm.MachineLearning.NeuralNetwork
     /// </summary>
     public class MultilayerPerceptron
     {
+        #region Set
         /// <summary>
         /// 入力値設定
         /// </summary>
@@ -48,12 +49,23 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         /// </summary>
         public void SetSourceValues(IReadOnlyList<double> values)
         {
-            System.Diagnostics.Debug.Assert(SourceNeurons.Count() == values.Count());
-            for (int i = 0; i < SourceNeurons.Count(); i++)
-            {
-                SourceNeurons[i].Value = values[i];
-            }
+            Layers[0].SetValues(values);
         }
+        /// <summary>
+        /// 入力値設定
+        /// </summary>
+        public void SetSourceValues(in double[,] values)
+        {
+            Layers[0].SetValues(values);
+        }
+        /// <summary>
+        /// 入力値設定
+        /// </summary>
+        public void SetSourceValues(in double[,,] values)
+        {
+            Layers[0].SetValues(values);
+        }
+        #endregion Set
         #region プロパティ
 
         /// <summary>
@@ -61,6 +73,10 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         /// </summary>
         public Random Random = new Random();
 
+        /// <summary>
+        /// 入力値取得※取得のみ
+        /// </summary>
+        public IEnumerable<double> SourceValues { get => SourceNeurons.Select(x => x.Value); }
         /// <summary>
         /// 出力値取得
         /// </summary>
@@ -306,8 +322,8 @@ namespace Ksnm.MachineLearning.NeuralNetwork
             // 更新
             ForwardPropagation();
             // バックプロパゲーション
-            //Backpropagation(sample.ResultValues, learningRate);
-            Randomization(sample.ResultValues, learningRate);
+            Backpropagation(sample.ResultValues, learningRate);
+            //Randomization(sample.ResultValues, learningRate);
         }
         /// <summary>
         /// 学習

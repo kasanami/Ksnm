@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Ksnm.MachineLearning.NeuralNetwork;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Linq;
 
 namespace Ksnm.MachineLearning.NeuralNetwork.Tests
@@ -71,6 +72,20 @@ namespace Ksnm.MachineLearning.NeuralNetwork.Tests
             Assert.AreEqual("SourceNeuron", nn2.SourceNeurons[0].Name);
             Assert.AreEqual("HiddenNeuron", nn2.HiddenNeurons[0].Name);
             Assert.AreEqual("ResultNeuron", nn2.ResultNeurons[0].Name);
+        }
+
+        [TestMethod()]
+        public void SetSourceValuesTest()
+        {
+            var nn = new MultilayerPerceptron(12, 1, 1);
+
+            var values = new double[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 };
+            nn.SetSourceValues(values);
+            Assert.IsTrue(values.SequenceEqual(nn.SourceValues));
+            nn.SetSourceValues(new double[,] { { 0, 1, 2 }, { 3, 4, 5, }, { 6, 7, 8 }, { 9, 10, 11 } });
+            Assert.IsTrue(values.SequenceEqual(nn.SourceValues));
+            nn.SetSourceValues(new double[,,] { { { 0 }, { 1 }, { 2 } }, { { 3 }, { 4 }, { 5 }, }, { { 6 }, { 7 }, { 8 } }, { { 9 }, { 10 }, { 11 } } });
+            Assert.IsTrue(values.SequenceEqual(nn.SourceValues));
         }
     }
 }

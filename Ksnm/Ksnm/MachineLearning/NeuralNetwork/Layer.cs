@@ -38,7 +38,58 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         {
             return new Layer<T>(this, inputNeurons);
         }
-        #region 型変換
-        #endregion 型変換
+        #region Set
+        /// <summary>
+        /// 値設定
+        /// </summary>
+        public void SetValues(IReadOnlyList<double> values)
+        {
+            System.Diagnostics.Debug.Assert(neurons.Count() == values.Count());
+            for (int i = 0; i < neurons.Count(); i++)
+            {
+                neurons[i].Value = values[i];
+            }
+        }
+        /// <summary>
+        /// 値設定
+        /// </summary>
+        public void SetValues(in double[,] values)
+        {
+            int index = 0;
+            var length0 = values.GetLength(0);
+            var length1 = values.GetLength(1);
+            System.Diagnostics.Debug.Assert(neurons.Count() == (length0 * length1));
+            for (int i = 0; i < length0; i++)
+            {
+                for (int j = 0; j < length1; j++)
+                {
+                    neurons[index].Value = values[i, j];
+                    index++;
+                }
+            }
+        }
+        /// <summary>
+        /// 値設定
+        /// </summary>
+        public void SetValues(in double[,,] values)
+        {
+            int index = 0;
+            var length0 = values.GetLength(0);
+            var length1 = values.GetLength(1);
+            var length2 = values.GetLength(2);
+            System.Diagnostics.Debug.Assert(neurons.Count() == (length0 * length1 * length2));
+            for (int i = 0; i < length0; i++)
+            {
+                for (int j = 0; j < length1; j++)
+                {
+                    for (int k = 0; k < length2; k++)
+                    {
+                        neurons[index].Value = values[i, j, k];
+                        index++;
+                    }
+                }
+            }
+        }
+        #endregion Set
     }
 }
