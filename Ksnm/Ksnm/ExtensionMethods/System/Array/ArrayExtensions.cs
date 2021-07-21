@@ -1,7 +1,7 @@
 ﻿/*
 The zlib License
 
-Copyright (c) 2014-2019 Takahiro Kasanami
+Copyright (c) 2014-2021 Takahiro Kasanami
 
 This software is provided 'as-is', without any express or implied
 warranty. In no event will the authors be held liable for any damages
@@ -21,6 +21,8 @@ freely, subject to the following restrictions:
 
 3. This notice may not be removed or altered from any source distribution.
 */
+using System.Collections.Generic;
+using _Debug = System.Diagnostics.Debug;
 using Original = System;
 
 namespace Ksnm.ExtensionMethods.System.Array
@@ -119,6 +121,70 @@ namespace Ksnm.ExtensionMethods.System.Array
             }
             array.SetValue(value, indices);
         }
+        #region CopyFrom
+        /// <summary>
+        /// コレクションの要素を配列へコピーする。
+        /// </summary>
+        public static void CopyFrom(this int[] self, IReadOnlyList<int> values)
+        {
+            Original.Diagnostics.Debug.Assert(self.Length == values.Count);
+            for (int i = 0; i < self.Length; i++)
+            {
+                self[i] = values[i];
+            }
+        }
+        /// <summary>
+        /// コレクションの要素を配列へコピーする。
+        /// </summary>
+        public static void CopyFrom(this double[] self, IReadOnlyList<double> values)
+        {
+            _Debug.Assert(self.Length == values.Count);
+            for (int i = 0; i < self.Length; i++)
+            {
+                self[i] = values[i];
+            }
+        }
+        /// <summary>
+        /// 2次元配列の要素を1次元配列へコピーする。
+        /// </summary>
+        public static void CopyFrom(this double[] self, in double[,] values)
+        {
+            int index = 0;
+            var length0 = values.GetLength(0);
+            var length1 = values.GetLength(1);
+            _Debug.Assert(self.Length == (length0 * length1));
+            for (int i = 0; i < length0; i++)
+            {
+                for (int j = 0; j < length1; j++)
+                {
+                    self[index] = values[i, j];
+                    index++;
+                }
+            }
+        }
+        /// <summary>
+        /// 3次元配列の要素を1次元配列へコピーする。
+        /// </summary>
+        public static void CopyFrom(this double[] self, in double[,,] values)
+        {
+            int index = 0;
+            var length0 = values.GetLength(0);
+            var length1 = values.GetLength(1);
+            var length2 = values.GetLength(2);
+            _Debug.Assert(self.Length == (length0 * length1 * length2)); ;
+            for (int i = 0; i < length0; i++)
+            {
+                for (int j = 0; j < length1; j++)
+                {
+                    for (int k = 0; k < length2; k++)
+                    {
+                        self[index] = values[i, j, k];
+                        index++;
+                    }
+                }
+            }
+        }
+        #endregion CopyFrom
 #if false// EnumerableExtensionsに移動
         /// <summary>
         /// 配列をデバッグ用文字列に変換します。
