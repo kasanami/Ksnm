@@ -22,6 +22,11 @@ freely, subject to the following restrictions:
 3. This notice may not be removed or altered from any source distribution.
 */
 
+using System;
+using System.Collections.Generic;
+using Ksnm.ExtensionMethods.System.Array;
+using Ksnm.MachineLearning.NeuralNetwork;
+
 namespace Ksnm.MachineLearning.NeuralNetwork
 {
     /// <summary>
@@ -29,7 +34,36 @@ namespace Ksnm.MachineLearning.NeuralNetwork
     /// </summary>
     public class Sample
     {
+        /// <summary>
+        /// 入力ニューロンに設定する値
+        /// </summary>
         public double[] SourceValues;
+        /// <summary>
+        /// 出力ニューロンに期待する値
+        /// </summary>
         public double[] ResultValues;
+        #region Set
+        /// <summary>
+        /// 値設定
+        /// </summary>
+        public void SetSourceValues(IReadOnlyList<double> values)
+        {
+            SourceValues.CopyFrom(values);
+        }
+        /// <summary>
+        /// 値設定
+        /// </summary>
+        public void SetSourceValues(in double[,] values)
+        {
+            SourceValues.CopyFrom(values);
+        }
+        /// <summary>
+        /// 値設定
+        /// </summary>
+        public void SetSourceValues(in double[,,] values)
+        {
+            SourceValues.CopyFrom(values);
+        }
+        #endregion Set
     }
 }
