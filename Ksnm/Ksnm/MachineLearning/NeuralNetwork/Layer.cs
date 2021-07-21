@@ -6,14 +6,27 @@ using System.Threading.Tasks;
 
 namespace Ksnm.MachineLearning.NeuralNetwork
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public class Layer<T> : ILayer where T : class, INeuron
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public List<T> neurons { get; private set; } = new List<T>();
+        /// <summary>
+        /// 
+        /// </summary>
         public IReadOnlyList<INeuron> Neurons
         {
             get => neurons.Select(x => (INeuron)x).ToList();
         }
         #region コンストラクタ
+        /// <summary>
+        /// 
+        /// </summary>
         public Layer()
         {
         }
@@ -30,10 +43,20 @@ namespace Ksnm.MachineLearning.NeuralNetwork
                 this.neurons.Add(item.Clone(inputNeurons) as T);
             }
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="layer"></param>
+        /// <param name="inputNeurons"></param>
         public Layer(Layer<T> layer, IReadOnlyList<INeuron> inputNeurons) : this(layer.neurons, inputNeurons)
         {
         }
         #endregion コンストラクタ
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="inputNeurons"></param>
+        /// <returns></returns>
         public ILayer Clone(IReadOnlyList<INeuron> inputNeurons)
         {
             return new Layer<T>(this, inputNeurons);
