@@ -64,6 +64,27 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         {
             SourceValues.CopyFrom(values);
         }
+        /// <summary>
+        /// 値設定
+        /// </summary>
+        public void SetResultValues(IReadOnlyList<double> values)
+        {
+            ResultValues.CopyFrom(values);
+        }
+        /// <summary>
+        /// 値設定
+        /// </summary>
+        public void SetResultValues(in double[,] values)
+        {
+            ResultValues.CopyFrom(values);
+        }
+        /// <summary>
+        /// 値設定
+        /// </summary>
+        public void SetResultValues(in double[,,] values)
+        {
+            ResultValues.CopyFrom(values);
+        }
         #endregion Set
     }
 }
