@@ -16,7 +16,7 @@ namespace Ksnm.MachineLearning.NeuralNetwork.Tests
         {
             for (double i = -2; i <= +2; i++)
             {
-                Assert.AreEqual(i, Utility.Keep(i));
+                Assert.AreEqual(i, Utility.Identity(i));
             }
         }
 
@@ -25,7 +25,7 @@ namespace Ksnm.MachineLearning.NeuralNetwork.Tests
         {
             for (double i = -2; i <= +2; i++)
             {
-                Assert.AreEqual(1, Utility.DifferentiatedKeep(i));
+                Assert.AreEqual(1, Utility.DerIdentity(i));
             }
         }
 
@@ -40,9 +40,9 @@ namespace Ksnm.MachineLearning.NeuralNetwork.Tests
         [TestMethod()]
         public void DifferentiatedSigmoidTest()
         {
-            Assert.AreEqual(0.00, Utility.DifferentiatedSigmoid(-10), 0.0001);
-            Assert.AreEqual(0.25, Utility.DifferentiatedSigmoid(0), 0.0001);
-            Assert.AreEqual(0.00, Utility.DifferentiatedSigmoid(+10), 0.0001);
+            Assert.AreEqual(0.00, Utility.DerSigmoid(-10), 0.0001);
+            Assert.AreEqual(0.25, Utility.DerSigmoid(0), 0.0001);
+            Assert.AreEqual(0.00, Utility.DerSigmoid(+10), 0.0001);
         }
 
         [TestMethod()]
@@ -58,11 +58,11 @@ namespace Ksnm.MachineLearning.NeuralNetwork.Tests
         [TestMethod()]
         public void DifferentiatedReLUTest()
         {
-            Assert.AreEqual(0, Utility.DifferentiatedReLU(-2));
-            Assert.AreEqual(0, Utility.DifferentiatedReLU(-1));
-            Assert.AreEqual(0, Utility.DifferentiatedReLU(0));
-            Assert.AreEqual(1, Utility.DifferentiatedReLU(+1));
-            Assert.AreEqual(1, Utility.DifferentiatedReLU(+2));
+            Assert.AreEqual(0, Utility.DerReLU(-2));
+            Assert.AreEqual(0, Utility.DerReLU(-1));
+            Assert.AreEqual(0, Utility.DerReLU(0));
+            Assert.AreEqual(1, Utility.DerReLU(+1));
+            Assert.AreEqual(1, Utility.DerReLU(+2));
         }
     }
 }

@@ -106,7 +106,7 @@ namespace Ksnm.MachineLearning.NeuralNetwork
             // 何もしない
         }
 
-        public void Backpropagation(double expectedValue, double learningRate, double nextDelta, double nextWeight)
+        public void Backpropagation(double nextDelta, double nextWeight, double learningRate)
         {
             // 何もしない
         }

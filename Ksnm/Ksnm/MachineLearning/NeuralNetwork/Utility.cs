@@ -21,6 +21,7 @@ freely, subject to the following restrictions:
 
 3. This notice may not be removed or altered from any source distribution.
 */
+using static System.Math;
 
 namespace Ksnm.MachineLearning.NeuralNetwork
 {
@@ -32,53 +33,64 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         /// <summary>
         /// 活性化関数
         /// </summary>
-        /// <param name="value">ニューロンの値に重みをかけたあとの合計値</param>
+        /// <param name="x">ニューロンの値に重みをかけたあとの合計値</param>
         /// <returns>結果</returns>
-        public delegate double ActivationFunction(double value);
+        public delegate double ActivationFunction(double x);
         /// <summary>
-        /// そのまま値を返す関数
+        /// 恒等関数関数
         /// </summary>
-        /// <param name="value">ニューロンの値に重みをかけたあとの合計値</param>
-        /// <returns>入力された value そのまま</returns>
-        public static double Keep(double value)
+        public static double Identity(double x)
         {
-            return value;
+            return x;
         }
         /// <summary>
-        /// Keepの微分
+        /// 恒等関数関数の導関数
         /// </summary>
-        public static double DifferentiatedKeep(double value)
+        public static double DerIdentity(double x)
         {
             return 1;
         }
         /// <summary>
         /// シグモイド関数
         /// </summary>
-        public static double Sigmoid(double value)
+        public static double Sigmoid(double x)
         {
-            return Ksnm.Math.Sigmoid(value);
+            return Ksnm.Math.Sigmoid(x);
         }
         /// <summary>
-        /// シグモイド関数の微分
+        /// シグモイド関数の導関数
         /// </summary>
-        public static double DifferentiatedSigmoid(double value)
+        public static double DerSigmoid(double x)
         {
-            var sigmoid = Sigmoid(value);
-            return sigmoid * (1.0 - sigmoid);
+            return x * (1.0 - x);
+        }
+        /// <summary>
+        /// 双曲線正接関数
+        /// </summary>
+        public static double Tanh(double x)
+        {
+            return (Exp(x) - Exp(-x)) / (Exp(x) + Exp(-x));
+        }
+        /// <summary>
+        /// 双曲線正接関数の導関数
+        /// </summary>
+        public static double DerTanh(double x)
+        {
+            return (1.0 - x * x);
         }
         /// <summary>
         /// 正規化線形関数
         /// </summary>
-        public static double ReLU(double value)
+        public static double ReLU(double x)
         {
-            return System.Math.Max(0, value);
+            return Max(0, x);
         }
         /// <summary>
-        /// 正規化線形関数の微分
+        /// 正規化線形関数の導関数
         /// </summary>
-        public static double DifferentiatedReLU(double value)
+        public static double DerReLU(double x)
         {
-            if (value > 0)
+            if (x > 0)
             {
                 return 1;
             }

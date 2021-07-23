@@ -59,11 +59,11 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         /// <summary>
         /// 活性化関数
         /// </summary>
-        public Utility.ActivationFunction Activation { get; set; } = Keep;
+        public ActivationFunction Activation { get; set; } = Identity;
         /// <summary>
-        /// 活性化関数の微分
+        /// 活性化関数の導関数
         /// </summary>
-        public Utility.ActivationFunction DifferentiatedActivation { get; set; } = DifferentiatedKeep;
+        public ActivationFunction DerActivation { get; set; } = DerIdentity;
 
         #region コンストラクタ
         /// <summary>
@@ -80,7 +80,7 @@ namespace Ksnm.MachineLearning.NeuralNetwork
             Name = source.Name;
             Value = source.Value;
             Activation = source.Activation;
-            DifferentiatedActivation = source.DifferentiatedActivation;
+            DerActivation = source.DerActivation;
         }
         /// <summary>
         /// コピーコンストラクタ
@@ -92,7 +92,7 @@ namespace Ksnm.MachineLearning.NeuralNetwork
             Value = source.Value;
             InputWeights = new List<double>(source.InputWeights);
             Activation = source.Activation;
-            DifferentiatedActivation = source.DifferentiatedActivation;
+            DerActivation = source.DerActivation;
         }
         /// <summary>
         /// 入力ニューロンを指定して初期化
@@ -157,6 +157,7 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         /// <summary>
         /// 乱数による調整
         /// </summary>
+        /// <param name="random"></param>
         /// <param name="expectedValue">期待値</param>
         /// <param name="learningRate">学習係数</param>
         public void Randomization(Random random, double expectedValue, double learningRate)
@@ -184,87 +185,61 @@ namespace Ksnm.MachineLearning.NeuralNetwork
             }
         }
         /// <summary>
-        /// バックプロパゲーション
+        /// バックプロパゲーション(出力層)
         /// </summary>
         /// <param name="expectedValue">期待値</param>
         /// <param name="learningRate">学習係数</param>
         public void Backpropagation(double expectedValue, double learningRate)
         {
-            var error = (expectedValue - Value);
-            if (error == 0)
-            {
-                return;
-            }
-            error *= error;
-            error /= 2;
-
             // δ = (期待値 - 出力値) × 出力の微分
-            var delta = (expectedValue - Value) * DifferentiatedActivation(Value);
+            var delta = (expectedValue - Value) * DerActivation(Value);
 
             // 重みを修正
+            var oldInputWeights = new List<double>(InputWeights);
             for (int i = 0; i < InputWeights.Count; i++)
             {
-                // 修正量 = () * 学習係数
-                // 期待値＞出力値なら+値　期待値＜出力値なら-値が得られる
+                // 修正量 = 前の層の出力値 * δ * 学習係数
                 InputWeights[i] += InputNeurons[i].Value * delta * learningRate;
             }
             // バイアスを修正
             Bias += delta * learningRate;
-#if false
-            // δ = (期待値 - 出力値) × 出力の微分
-            var delta = (expectedValue - Value) * Value * (1.0 - Value);
-            // 現在の重みを保存
-            var oldInputWeights = new double[InputWeights.Count];
-            InputWeights.CopyTo(oldInputWeights, 0);
-            // 重みを修正
-            for (int i = 0; i < InputWeights.Count; i++)
-            {
-                // 修正量 = δ × 中間層の値 × 学習係数
-                InputWeights[i] += delta * InputNeurons[i].Value * learningRate;
-            }
-            Bias += delta * Bias * learningRate;
 
             // 前の層へ
             var count = InputNeurons.Count;
             for (int i = 0; i < count; i++)
             {
                 var neuron = InputNeurons[i];
-                neuron.Backpropagation(neuron.Value, learningRate, delta, oldInputWeights[i]);
+                neuron.Backpropagation(delta, oldInputWeights[i], learningRate);
             }
-#endif
         }
         /// <summary>
-        /// バックプロパゲーション
+        /// バックプロパゲーション(中間層以降)
         /// </summary>
-        /// <param name="expectedValue">期待値</param>
-        /// <param name="learningRate">学習係数</param>
+        /// <param name="nextWeight">次の層の変化量（中間層のこの関数を使用するときに、出力層で計算した値）</param>
         /// <param name="nextWeight">次の層の重み（出力層から中間層のこの関数を使用するときに、出力層が持っていた重みを渡す）</param>
-        public void Backpropagation(double expectedValue, double learningRate, double nextDelta, double nextWeight)
+        /// <param name="learningRate">学習係数</param>
+        public void Backpropagation(double nextDelta, double nextWeight, double learningRate)
         {
-#if false
-            //// δ = (期待値 - 出力値) ×  × 出力の微分
-            //var delta = (expectedValue - Value) * Value * (1.0 - Value);
-            // δ = 前のδ × 前の重み × 出力の微分
-            var delta = nextDelta * nextWeight * Value * (1.0 - Value);
-            // 現在の重みを保存
-            var oldInputWeights = new double[InputWeights.Count];
-            InputWeights.CopyTo(oldInputWeights, 0);
+            // δ = 次の層のδ × 次の層の重み × 中間層の微分
+            var delta = nextDelta * nextWeight * DerActivation(Value);
+
             // 重みを修正
+            var oldInputWeights = new List<double>(InputWeights);
             for (int i = 0; i < InputWeights.Count; i++)
             {
-                // 修正量 = δ × 中間層の値 × 学習係数
-                InputWeights[i] += delta * InputNeurons[i].Value * learningRate;
+                // 修正量 = 前の層の出力値 * δ * 学習係数
+                InputWeights[i] += InputNeurons[i].Value * delta * learningRate;
             }
-            Bias += delta * Bias * learningRate;
+            // バイアスを修正
+            Bias += delta * learningRate;
 
             // 前の層へ
             var count = InputNeurons.Count;
             for (int i = 0; i < count; i++)
             {
                 var neuron = InputNeurons[i];
-                neuron.Backpropagation(neuron.Value, learningRate, delta, oldInputWeights[i]);
+                neuron.Backpropagation(delta, oldInputWeights[i], learningRate);
             }
-#endif
         }
         #region Object
         public override string ToString()

@@ -473,88 +473,110 @@ namespace DemoApp
         public static void AITest()
         {
             Console.WriteLine("AITest()");
-            #region 数字認識
-            var NumbersSample = new[]
+
             {
-                new Sample() { SourceValues = new double[] {
-                    1, 1, 1,
-                    1, 0, 1,
-                    1, 0, 1,
-                    1, 0, 1,
-                    1, 1, 1,}, ResultValues = new double[] { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 } },
-                new Sample() { SourceValues = new double[] {
-                    0, 1, 0,
-                    0, 1, 0,
-                    0, 1, 0,
-                    0, 1, 0,
-                    0, 1, 0,}, ResultValues = new double[] { 0, 1, 0, 0, 0, 0, 0, 0, 0, 0 } },
-                new Sample() { SourceValues = new double[] {
-                    1, 1, 1,
-                    0, 0, 1,
-                    1, 1, 1,
-                    1, 0, 0,
-                    1, 1, 1,}, ResultValues = new double[] { 0, 0, 1, 0, 0, 0, 0, 0, 0, 0 } },
-                new Sample() { SourceValues = new double[] {
-                    1, 1, 1,
-                    0, 0, 1,
-                    1, 1, 1,
-                    0, 0, 1,
-                    1, 1, 1,}, ResultValues = new double[] { 0, 0, 0, 1, 0, 0, 0, 0, 0, 0 } },
-                new Sample() { SourceValues = new double[] {
-                    1, 0, 1,
-                    1, 0, 1,
-                    1, 1, 1,
-                    0, 0, 1,
-                    0, 0, 1,}, ResultValues = new double[] { 0, 0, 0, 0, 1, 0, 0, 0, 0, 0 } },
-                new Sample() { SourceValues = new double[] {
-                    1, 1, 1,
-                    1, 0, 0,
-                    1, 1, 1,
-                    0, 0, 1,
-                    1, 1, 1,}, ResultValues = new double[] { 0, 0, 0, 0, 0, 1, 0, 0, 0, 0 } },
-                new Sample() { SourceValues = new double[] {
-                    1, 1, 1,
-                    1, 0, 0,
-                    1, 1, 1,
-                    1, 0, 1,
-                    1, 1, 1,}, ResultValues = new double[] { 0, 0, 0, 0, 0, 0, 1, 0, 0, 0 } },
-                new Sample() { SourceValues = new double[] {
-                    1, 1, 1,
-                    1, 0, 1,
-                    0, 0, 1,
-                    0, 0, 1,
-                    0, 0, 1,}, ResultValues = new double[] { 0, 0, 0, 0, 0, 0, 0, 1, 0, 0 } },
-                new Sample() { SourceValues = new double[] {
-                    1, 1, 1,
-                    1, 0, 1,
-                    1, 1, 1,
-                    1, 0, 1,
-                    1, 1, 1,}, ResultValues = new double[] { 0, 0, 0, 0, 0, 0, 0, 0, 1, 0 } },
-                new Sample() { SourceValues = new double[] {
-                    1, 1, 1,
-                    1, 0, 1,
-                    1, 1, 1,
-                    0, 0, 1,
-                    1, 1, 1,}, ResultValues = new double[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 } },
-            };
-            var numbersNN = new MultilayerPerceptron(15, 15, 10);
-            // 学習
-            for (int i = 0; i < 10000; i++)
-            {
-                numbersNN = MultilayerPerceptron.Learn(numbersNN, NumbersSample, 0.1);
-            }
-            // 
-            for (int i = 0; i < NumbersSample.Length; i++)
-            {
-                numbersNN.ForwardPropagation(NumbersSample[i].SourceValues);
-                // 数値調整
-                var resultValues = new List<double>();
-                var max = numbersNN.ResultValues.Max();
-                foreach (var value in numbersNN.ResultValues)
+                var nn = new MultilayerPerceptron(2, 2, 1);
+                var sample = new Sample();
+                sample.SourceValues = new double[] { 1, 0 };
+                sample.ResultValues = new double[] { 1 };
+                nn.SetSourceValues(sample.SourceValues);
+                for (int i = 0; i < 100; i++)
                 {
-                    resultValues.Add(value / max);
+                    Console.WriteLine($"i={i}");
+                    // 更新
+                    nn.ForwardPropagation();
+                    Console.WriteLine($"Result={nn.ResultValues.ElementAt(0).ToDecimalString()}");
+                    // 誤差
+                    var error = nn.Error(sample.ResultValues);
+                    Console.WriteLine($"error={error}");
+                    // バックプロパゲーション
+                    nn.Backpropagation(sample.ResultValues, 1);
                 }
-                Console.WriteLine($"NumbersSample[{i}]={resultValues.ToDebugString("0.0 ", null, false)}");
+            }
+            #region 数字認識
+            {
+                var NumbersSample = new[]
+                {
+                    new Sample() { SourceValues = new double[] {
+                        1, 1, 1,
+                        1, 0, 1,
+                        1, 0, 1,
+                        1, 0, 1,
+                        1, 1, 1,}, ResultValues = new double[] { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 } },
+                    new Sample() { SourceValues = new double[] {
+                        0, 1, 0,
+                        0, 1, 0,
+                        0, 1, 0,
+                        0, 1, 0,
+                        0, 1, 0,}, ResultValues = new double[] { 0, 1, 0, 0, 0, 0, 0, 0, 0, 0 } },
+                    new Sample() { SourceValues = new double[] {
+                        1, 1, 1,
+                        0, 0, 1,
+                        1, 1, 1,
+                        1, 0, 0,
+                        1, 1, 1,}, ResultValues = new double[] { 0, 0, 1, 0, 0, 0, 0, 0, 0, 0 } },
+                    new Sample() { SourceValues = new double[] {
+                        1, 1, 1,
+                        0, 0, 1,
+                        1, 1, 1,
+                        0, 0, 1,
+                        1, 1, 1,}, ResultValues = new double[] { 0, 0, 0, 1, 0, 0, 0, 0, 0, 0 } },
+                    new Sample() { SourceValues = new double[] {
+                        1, 0, 1,
+                        1, 0, 1,
+                        1, 1, 1,
+                        0, 0, 1,
+                        0, 0, 1,}, ResultValues = new double[] { 0, 0, 0, 0, 1, 0, 0, 0, 0, 0 } },
+                    new Sample() { SourceValues = new double[] {
+                        1, 1, 1,
+                        1, 0, 0,
+                        1, 1, 1,
+                        0, 0, 1,
+                        1, 1, 1,}, ResultValues = new double[] { 0, 0, 0, 0, 0, 1, 0, 0, 0, 0 } },
+                    new Sample() { SourceValues = new double[] {
+                        1, 1, 1,
+                        1, 0, 0,
+                        1, 1, 1,
+                        1, 0, 1,
+                        1, 1, 1,}, ResultValues = new double[] { 0, 0, 0, 0, 0, 0, 1, 0, 0, 0 } },
+                    new Sample() { SourceValues = new double[] {
+                        1, 1, 1,
+                        1, 0, 1,
+                        0, 0, 1,
+                        0, 0, 1,
+                        0, 0, 1,}, ResultValues = new double[] { 0, 0, 0, 0, 0, 0, 0, 1, 0, 0 } },
+                    new Sample() { SourceValues = new double[] {
+                        1, 1, 1,
+                        1, 0, 1,
+                        1, 1, 1,
+                        1, 0, 1,
+                        1, 1, 1,}, ResultValues = new double[] { 0, 0, 0, 0, 0, 0, 0, 0, 1, 0 } },
+                    new Sample() { SourceValues = new double[] {
+                        1, 1, 1,
+                        1, 0, 1,
+                        1, 1, 1,
+                        0, 0, 1,
+                        1, 1, 1,}, ResultValues = new double[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 } },
+                };
+                var numbersNN = new MultilayerPerceptron(15, 15, 10);
+                // 学習
+                for (int i = 0; i < 100; i++)
+                {
+                    numbersNN = MultilayerPerceptron.Learn(numbersNN, NumbersSample, 0.1);
+                }
+                // 結果
+                for (int i = 0; i < NumbersSample.Length; i++)
+                {
+                    numbersNN.ForwardPropagation(NumbersSample[i].SourceValues);
+                    // 数値調整
+                    var resultValues = new List<double>();
+                    var max = numbersNN.ResultValues.Max();
+                    foreach (var value in numbersNN.ResultValues)
+                    {
+                        resultValues.Add(value / max);
+                    }
+                    Console.WriteLine($"NumbersSample[{i}]={resultValues.ToDebugString("0.0 ", null, false)}");
+                }
             }
             #endregion 数字認識
 

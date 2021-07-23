@@ -89,7 +89,7 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         /// <summary>
         /// バックプロパゲーション
         /// </summary>
-        void Backpropagation(double expectedValue, double learningRate, double nextDelta, double nextWeight);
+        void Backpropagation(double nextDelta, double nextWeight, double learningRate);
         #endregion 学習関係
     }
 }

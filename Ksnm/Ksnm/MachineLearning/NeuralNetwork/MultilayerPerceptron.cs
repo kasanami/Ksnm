@@ -136,7 +136,10 @@ namespace Ksnm.MachineLearning.NeuralNetwork
                 for (int i = 0; i < hiddenCount; i++)
                 {
                     Neuron neuron = new Neuron(beforeLayer.Neurons);
+                    //neuron.Activation = Utility.Tanh;
+                    //neuron.DerActivation = Utility.DerTanh;
                     neuron.Activation = Utility.Sigmoid;
+                    neuron.DerActivation = Utility.DerSigmoid;
                     layer.neurons.Add(neuron);
                 }
                 layers.Add(layer);
@@ -148,6 +151,7 @@ namespace Ksnm.MachineLearning.NeuralNetwork
                 {
                     Neuron neuron = new Neuron(beforeLayer.Neurons);
                     neuron.Activation = Utility.Sigmoid;
+                    neuron.DerActivation = Utility.DerSigmoid;
                     layer.neurons.Add(neuron);
                 }
                 layers.Add(layer);
@@ -253,9 +257,6 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         /// <param name="learningRate">学習係数</param>
         public void Backpropagation(IReadOnlyList<double> expectedValues, double learningRate)
         {
-            // 誤差
-            var error = Error(expectedValues);
-            // 出力層調整
             var count = ResultNeurons.Count;
             System.Diagnostics.Debug.Assert(count == expectedValues.Count());
             for (int i = 0; i < count; i++)
@@ -328,25 +329,29 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         /// <summary>
         /// 学習
         /// </summary>
-        public void Learn(IReadOnlyList<Sample> samples, double learningRate, int tryCount)
-        {
-            for (int i = 0; i < tryCount; i++)
-            {
-                foreach (var sample in samples)
-                {
-                    Learn(sample, learningRate);
-                }
-            }
-        }
-        /// <summary>
-        /// 学習
-        /// </summary>
         public void Learn(IReadOnlyList<Sample> samples, double learningRate)
         {
             foreach (var sample in samples)
             {
                 Learn(sample, learningRate);
             }
+        }
+        /// <summary>
+        /// 学習
+        /// </summary>
+        public void Learn(IReadOnlyList<Sample> samples, double learningRate, int tryCount)
+        {
+            for (int i = 0; i < tryCount; i++)
+            {
+                Learn(samples, learningRate);
+            }
+        }
+        /// <summary>
+        /// 学習
+        /// </summary>
+        public static MultilayerPerceptron Learn(MultilayerPerceptron neuralNetwork, Sample sample, double learningRate)
+        {
+            return Learn(neuralNetwork, new[] { sample }, learningRate);
         }
         /// <summary>
         /// 学習
@@ -368,7 +373,7 @@ namespace Ksnm.MachineLearning.NeuralNetwork
             double minError = double.MaxValue;
             for (int i = 0; i < children.Count; i++)
             {
-                children[i].Learn(samples, learningRate);
+                children[i].Learn(samples, learningRate, 100);
                 var error = children[i].Error(samples);
                 if (minError > error)
                 {
