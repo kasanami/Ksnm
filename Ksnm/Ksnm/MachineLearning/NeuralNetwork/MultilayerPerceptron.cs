@@ -350,11 +350,6 @@ namespace Ksnm.MachineLearning.NeuralNetwork
             /// </summary>
             public LearnParam()
             {
-                learningRate = 1;
-                tryCount = 100;
-                cloneCount = 1000;
-                cloneWeightRangeStart = 0.1;
-                cloneWeightRangeDelta = 0.1;
             }
         }
         /// <summary>
