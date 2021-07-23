@@ -35,16 +35,16 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         /// </summary>
         /// <param name="x">ニューロンの値に重みをかけたあとの合計値</param>
         /// <returns>結果</returns>
-        public delegate double ActivationFunction(double x);
+        public delegate double Delegate(double x);
         /// <summary>
-        /// 恒等関数関数
+        /// 恒等関数
         /// </summary>
         public static double Identity(double x)
         {
             return x;
         }
         /// <summary>
-        /// 恒等関数関数の導関数
+        /// 恒等関数の導関数
         /// </summary>
         public static double DerIdentity(double x)
         {

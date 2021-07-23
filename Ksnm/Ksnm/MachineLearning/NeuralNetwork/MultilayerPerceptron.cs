@@ -138,8 +138,10 @@ namespace Ksnm.MachineLearning.NeuralNetwork
                     Neuron neuron = new Neuron(beforeLayer.Neurons);
                     //neuron.Activation = Utility.Tanh;
                     //neuron.DerActivation = Utility.DerTanh;
-                    neuron.Activation = Activations.Sigmoid;
-                    neuron.DerActivation = Activations.DerSigmoid;
+                    //neuron.Activation = Activations.Sigmoid;
+                    //neuron.DerActivation = Activations.DerSigmoid;
+                    neuron.Activation = Activations.ReLU;
+                    neuron.DerActivation = Activations.DerReLU;
                     layer.neurons.Add(neuron);
                 }
                 layers.Add(layer);

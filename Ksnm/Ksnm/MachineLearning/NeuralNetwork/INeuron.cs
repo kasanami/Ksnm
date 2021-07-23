@@ -52,10 +52,6 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         /// 入力ニューロン
         /// </summary>
         IList<double> InputWeights { get; }
-        /// <summary>
-        /// 活性化関数
-        /// </summary>
-        Activations.ActivationFunction Activation { get; set; }
         #endregion プロパティ
 
         #region インスタンス関係

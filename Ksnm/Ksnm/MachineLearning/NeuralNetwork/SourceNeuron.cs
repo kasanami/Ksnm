@@ -53,14 +53,6 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         /// 入力無し
         /// </summary>
         public IList<double> InputWeights { get; private set; } = new double[0];
-        /// <summary>
-        /// 活性化関数
-        /// </summary>
-        public Activations.ActivationFunction Activation { get; set; } = null;
-        /// <summary>
-        /// 活性化関数の微分
-        /// </summary>
-        public Activations.ActivationFunction DifferentiatedActivation { get; set; } = null;
         #endregion プロパティ
 
         /// <summary>

@@ -59,11 +59,11 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         /// <summary>
         /// 活性化関数
         /// </summary>
-        public ActivationFunction Activation { get; set; } = Identity;
+        public Activations.Delegate Activation { get; set; } = Identity;
         /// <summary>
         /// 活性化関数の導関数
         /// </summary>
-        public ActivationFunction DerActivation { get; set; } = DerIdentity;
+        public Activations.Delegate DerActivation { get; set; } = DerIdentity;
 
         #region コンストラクタ
         /// <summary>
