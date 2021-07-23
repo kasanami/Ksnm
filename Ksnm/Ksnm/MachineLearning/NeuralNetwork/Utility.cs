@@ -69,7 +69,9 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         /// </summary>
         public static double Tanh(double x)
         {
-            return (Exp(x) - Exp(-x)) / (Exp(x) + Exp(-x));
+            var ePlus = Exp(x);
+            var eMinus = Exp(-x);
+            return (ePlus - eMinus) / (ePlus + eMinus);
         }
         /// <summary>
         /// 双曲線正接関数の導関数

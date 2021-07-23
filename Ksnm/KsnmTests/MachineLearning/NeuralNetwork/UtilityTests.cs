@@ -64,5 +64,15 @@ namespace Ksnm.MachineLearning.NeuralNetwork.Tests
             Assert.AreEqual(1, Utility.DerReLU(+1));
             Assert.AreEqual(1, Utility.DerReLU(+2));
         }
+
+        [TestMethod()]
+        public void TanhTest()
+        {
+            Assert.AreEqual(-0.9950547, Utility.Tanh(-3), 0.0000001);
+            Assert.AreEqual(-0.7615942, Utility.Tanh(-1), 0.0000001);
+            Assert.AreEqual(+0.0000000, Utility.Tanh(+0), 0.0000001);
+            Assert.AreEqual(+0.7615942, Utility.Tanh(+1), 0.0000001);
+            Assert.AreEqual(+0.9950547, Utility.Tanh(+3), 0.0000001);
+        }
     }
 }
