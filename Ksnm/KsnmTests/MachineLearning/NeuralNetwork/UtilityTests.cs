@@ -40,9 +40,9 @@ namespace Ksnm.MachineLearning.NeuralNetwork.Tests
         [TestMethod()]
         public void DifferentiatedSigmoidTest()
         {
-            Assert.AreEqual(0.00, Utility.DerSigmoid(-10), 0.0001);
-            Assert.AreEqual(0.25, Utility.DerSigmoid(0), 0.0001);
-            Assert.AreEqual(0.00, Utility.DerSigmoid(+10), 0.0001);
+            Assert.AreEqual(0.00, Utility.DerSigmoid(Utility.Sigmoid(-10)), 0.0001);
+            Assert.AreEqual(0.25, Utility.DerSigmoid(Utility.Sigmoid(0)), 0.0001);
+            Assert.AreEqual(0.00, Utility.DerSigmoid(Utility.Sigmoid(+10)), 0.0001);
         }
 
         [TestMethod()]
