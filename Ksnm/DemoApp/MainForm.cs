@@ -24,6 +24,8 @@ namespace DemoApp
         {
             InitializeComponent();
             Random_InitializeComponent();
+
+            MultilayerPerceptron_Initialize();
         }
 
         private void MainForm_Load(object sender, EventArgs e)
@@ -637,6 +639,7 @@ namespace DemoApp
         #endregion Binaryタブ
 
         #region AI タブ
+        MultilayerPerceptron.LearnParam learnParam = new MultilayerPerceptron.LearnParam();
         MultilayerPerceptron neuralNetwork = new MultilayerPerceptron(2, 3, 1);
         #region 論理式
         Sample[] NotSample = new[]
@@ -668,6 +671,10 @@ namespace DemoApp
             new Sample() { SourceValues = new double[] { 1, 1 }, ResultValues = new double[] { 0 } },
         };
         #endregion 論理式
+        private void MultilayerPerceptron_Initialize()
+        {
+            learnParam.samples = XorSample;
+        }
         private void MultilayerPerceptron_Update()
         {
             neuralNetwork.SourceNeurons[0].Value = ((double)numericUpDown1.Value);
@@ -700,7 +707,7 @@ namespace DemoApp
             // 学習
             for (int i = 0; i < 100; i++)
             {
-                neuralNetwork = MultilayerPerceptron.Learn(neuralNetwork, XorSample, 0.1);
+                neuralNetwork = MultilayerPerceptron.Learn(neuralNetwork, learnParam);
             }
             //neuralNetwork.Learn(AndSample, 0.1, 1000);
             // UI更新

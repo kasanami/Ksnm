@@ -473,14 +473,14 @@ namespace DemoApp
         public static void AITest()
         {
             Console.WriteLine("AITest()");
-
+#if false
             {
                 var nn = new MultilayerPerceptron(2, 2, 1);
                 var sample = new Sample();
                 sample.SourceValues = new double[] { 1, 0 };
                 sample.ResultValues = new double[] { 1 };
                 nn.SetSourceValues(sample.SourceValues);
-                for (int i = 0; i < 100; i++)
+                for (int i = 0; i < 500; i++)
                 {
                     Console.WriteLine($"i={i}");
                     // 更新
@@ -488,14 +488,21 @@ namespace DemoApp
                     Console.WriteLine($"Result={nn.ResultValues.ElementAt(0).ToDecimalString()}");
                     // 誤差
                     var error = nn.Error(sample.ResultValues);
-                    Console.WriteLine($"error={error}");
+                    Console.WriteLine($"error ={error.ToDecimalString()}");
                     // バックプロパゲーション
-                    nn.Backpropagation(sample.ResultValues, 1);
+                    nn.Backpropagation(sample.ResultValues, 10);
                 }
             }
+#endif
             #region 数字認識
             {
-                var NumbersSample = new[]
+                var numbersNN = new MultilayerPerceptron(15, 15, 10);
+                var learnParam = new MultilayerPerceptron.LearnParam();
+                learnParam.learningRate = 1;
+                learnParam.tryCount = 100;
+                learnParam.cloneWeightRangeStart = 0.1;
+                learnParam.cloneWeightRangeDelta = 0.1;
+                learnParam.samples = new[]
                 {
                     new Sample() { SourceValues = new double[] {
                         1, 1, 1,
@@ -558,16 +565,19 @@ namespace DemoApp
                         0, 0, 1,
                         1, 1, 1,}, ResultValues = new double[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 } },
                 };
-                var numbersNN = new MultilayerPerceptron(15, 15, 10);
                 // 学習
                 for (int i = 0; i < 100; i++)
                 {
-                    numbersNN = MultilayerPerceptron.Learn(numbersNN, NumbersSample, 0.1);
+                    Console.WriteLine($"i={i}");
+                    numbersNN = MultilayerPerceptron.Learn(numbersNN, learnParam);
+                    // 誤差
+                    var error = numbersNN.Error(learnParam.samples);
+                    Console.WriteLine($"error ={error.ToDecimalString()}");
                 }
                 // 結果
-                for (int i = 0; i < NumbersSample.Length; i++)
+                for (int i = 0; i < learnParam.samples.Count; i++)
                 {
-                    numbersNN.ForwardPropagation(NumbersSample[i].SourceValues);
+                    numbersNN.ForwardPropagation(learnParam.samples[i].SourceValues);
                     // 数値調整
                     var resultValues = new List<double>();
                     var max = numbersNN.ResultValues.Max();

@@ -25,7 +25,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Ksnm.ExtensionMethods.System.Random;
-using static Ksnm.MachineLearning.NeuralNetwork.Activations;
 
 namespace Ksnm.MachineLearning.NeuralNetwork
 {
@@ -59,12 +58,7 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         /// <summary>
         /// 活性化関数
         /// </summary>
-        public Activations.Delegate Activation { get; set; } = Identity;
-        /// <summary>
-        /// 活性化関数の導関数
-        /// </summary>
-        public Activations.Delegate DerActivation { get; set; } = DerIdentity;
-
+        public Activation Activation { get; set; } = Activation.Identity;
         #region コンストラクタ
         /// <summary>
         /// 入力ニューロン無しで初期化
@@ -80,7 +74,6 @@ namespace Ksnm.MachineLearning.NeuralNetwork
             Name = source.Name;
             Value = source.Value;
             Activation = source.Activation;
-            DerActivation = source.DerActivation;
         }
         /// <summary>
         /// コピーコンストラクタ
@@ -92,7 +85,6 @@ namespace Ksnm.MachineLearning.NeuralNetwork
             Value = source.Value;
             InputWeights = new List<double>(source.InputWeights);
             Activation = source.Activation;
-            DerActivation = source.DerActivation;
         }
         /// <summary>
         /// 入力ニューロンを指定して初期化
@@ -128,7 +120,7 @@ namespace Ksnm.MachineLearning.NeuralNetwork
             {
                 sum += InputNeurons[i].Value * InputWeights[i];
             }
-            Value = Activation(sum + Bias);
+            Value = Activation.Function(sum + Bias);
         }
         /// <summary>
         /// 重みをランダムに設定
@@ -192,7 +184,7 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         public void Backpropagation(double expectedValue, double learningRate)
         {
             // δ = (期待値 - 出力値) × 出力の微分
-            var delta = (expectedValue - Value) * DerActivation(Value);
+            var delta = (expectedValue - Value) * Activation.DerivativeFunction(Value);
 
             // 重みを修正
             var oldInputWeights = new List<double>(InputWeights);
@@ -215,13 +207,13 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         /// <summary>
         /// バックプロパゲーション(中間層以降)
         /// </summary>
-        /// <param name="nextWeight">次の層の変化量（中間層のこの関数を使用するときに、出力層で計算した値）</param>
-        /// <param name="nextWeight">次の層の重み（出力層から中間層のこの関数を使用するときに、出力層が持っていた重みを渡す）</param>
+        /// <param name="nextDelta">次の層の変化量（中間層のときは、出力層で計算した値を渡す）</param>
+        /// <param name="nextWeight">次の層の重み（中間層のときは、出力層が持っていた重みを渡す）</param>
         /// <param name="learningRate">学習係数</param>
         public void Backpropagation(double nextDelta, double nextWeight, double learningRate)
         {
             // δ = 次の層のδ × 次の層の重み × 中間層の微分
-            var delta = nextDelta * nextWeight * DerActivation(Value);
+            var delta = nextDelta * nextWeight * Activation.DerivativeFunction(Value);
 
             // 重みを修正
             var oldInputWeights = new List<double>(InputWeights);
@@ -242,6 +234,9 @@ namespace Ksnm.MachineLearning.NeuralNetwork
             }
         }
         #region Object
+        /// <summary>
+        /// 
+        /// </summary>
         public override string ToString()
         {
             return $"{Name}:{Value}";

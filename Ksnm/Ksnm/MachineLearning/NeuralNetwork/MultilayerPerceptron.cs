@@ -118,7 +118,7 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         /// <summary>
         /// 各レイヤーを指定したニューロン数で初期化
         /// </summary>
-        public MultilayerPerceptron(int sourceCount, int hiddenCount, int resultCount)
+        public MultilayerPerceptron(int sourceCount, int hiddenCount, int resultCount, Activation hiddenActivation, Activation resultActivation)
         {
             ILayer beforeLayer = null;
             {
@@ -136,12 +136,7 @@ namespace Ksnm.MachineLearning.NeuralNetwork
                 for (int i = 0; i < hiddenCount; i++)
                 {
                     Neuron neuron = new Neuron(beforeLayer.Neurons);
-                    //neuron.Activation = Utility.Tanh;
-                    //neuron.DerActivation = Utility.DerTanh;
-                    //neuron.Activation = Activations.Sigmoid;
-                    //neuron.DerActivation = Activations.DerSigmoid;
-                    neuron.Activation = Activations.ReLU;
-                    neuron.DerActivation = Activations.DerReLU;
+                    neuron.Activation = hiddenActivation;
                     layer.neurons.Add(neuron);
                 }
                 layers.Add(layer);
@@ -152,12 +147,18 @@ namespace Ksnm.MachineLearning.NeuralNetwork
                 for (int i = 0; i < resultCount; i++)
                 {
                     Neuron neuron = new Neuron(beforeLayer.Neurons);
-                    neuron.Activation = Activations.Sigmoid;
-                    neuron.DerActivation = Activations.DerSigmoid;
+                    neuron.Activation = resultActivation;
                     layer.neurons.Add(neuron);
                 }
                 layers.Add(layer);
             }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        public MultilayerPerceptron(int sourceCount, int hiddenCount, int resultCount) :
+            this(sourceCount, hiddenCount, resultCount, Activation.Sigmoid, Activation.Sigmoid)
+        {
         }
         /// <summary>
         /// コピーコンストラクタ
@@ -316,6 +317,47 @@ namespace Ksnm.MachineLearning.NeuralNetwork
 
         #region Learn
         /// <summary>
+        /// Learnのパラメータ
+        /// </summary>
+        public class LearnParam
+        {
+            /// <summary>
+            /// 学習係数
+            /// </summary>
+            public double learningRate = 1;
+            /// <summary>
+            /// 学習サンプル
+            /// </summary>
+            public IReadOnlyList<Sample> samples;
+            /// <summary>
+            /// 学習回数
+            /// </summary>
+            public int tryCount = 100;
+            /// <summary>
+            /// 作成するクローンの数
+            /// </summary>
+            public int cloneCount = 100;
+            /// <summary>
+            /// クローンのWeightを変更する範囲の初期値
+            /// </summary>
+            public double cloneWeightRangeStart = 0;
+            /// <summary>
+            /// クローンのWeightを変更する範囲の増加量
+            /// </summary>
+            public double cloneWeightRangeDelta = 0.1;
+            /// <summary>
+            /// 
+            /// </summary>
+            public LearnParam()
+            {
+                learningRate = 1;
+                tryCount = 100;
+                cloneCount = 1000;
+                cloneWeightRangeStart = 0.1;
+                cloneWeightRangeDelta = 0.1;
+            }
+        }
+        /// <summary>
         /// 学習
         /// </summary>
         public void Learn(Sample sample, double learningRate)
@@ -353,30 +395,32 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         /// </summary>
         public static MultilayerPerceptron Learn(MultilayerPerceptron neuralNetwork, Sample sample, double learningRate)
         {
-            return Learn(neuralNetwork, new[] { sample }, learningRate);
+            var learnParam = new LearnParam();
+            learnParam.samples = new[] { sample };
+            learnParam.learningRate = learningRate;
+            return Learn(neuralNetwork, learnParam);
         }
         /// <summary>
         /// 学習
         /// </summary>
-        public static MultilayerPerceptron Learn(MultilayerPerceptron neuralNetwork, IReadOnlyList<Sample> samples, double learningRate)
+        public static MultilayerPerceptron Learn(MultilayerPerceptron neuralNetwork, LearnParam learnParam)
         {
-            int childrenCount = 1000;
             // 複製
-            var children = neuralNetwork.Clones(childrenCount).ToList();
+            var children = neuralNetwork.Clones(learnParam.cloneCount).ToList();
             // 設定変更
-            double weightRange = 0;
+            double weightRange = learnParam.cloneWeightRangeStart;
             foreach (var child in children)
             {
                 child.Randomization(weightRange);
-                weightRange += 0.1;
+                weightRange += learnParam.cloneWeightRangeDelta;
             }
             // 誤差
             var minErrorIndex = -1;
             double minError = double.MaxValue;
             for (int i = 0; i < children.Count; i++)
             {
-                children[i].Learn(samples, learningRate, 100);
-                var error = children[i].Error(samples);
+                children[i].Learn(learnParam.samples, learnParam.learningRate, learnParam.tryCount);
+                var error = children[i].Error(learnParam.samples);
                 if (minError > error)
                 {
                     minError = error;
