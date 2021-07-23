@@ -9,3 +9,10 @@ Ksnm/KsnmTests/obj/
 /Ksnm/.leu
 /Ksnm/DemoWpfApp/obj/
 /Ksnm/DemoWpfApp/bin/Debug/
+/Ksnm/DemoWpfApp/bin/Release/net5.0-windows/DemoWpfApp.deps.json
+/Ksnm/DemoWpfApp/bin/Release/net5.0-windows/DemoWpfApp.dll
+/Ksnm/DemoWpfApp/bin/Release/net5.0-windows/DemoWpfApp.exe
+/Ksnm/DemoWpfApp/bin/Release/net5.0-windows/DemoWpfApp.pdb
+/Ksnm/DemoWpfApp/bin/Release/net5.0-windows/DemoWpfApp.runtimeconfig.dev.json
+/Ksnm/DemoWpfApp/bin/Release/net5.0-windows/DemoWpfApp.runtimeconfig.json
+/Ksnm/DemoWpfApp/bin/Release/net5.0-windows/ref/DemoWpfApp.dll

@@ -25,7 +25,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Ksnm.ExtensionMethods.System.Random;
-using static Ksnm.MachineLearning.NeuralNetwork.Utility;
+using static Ksnm.MachineLearning.NeuralNetwork.Activations;
 
 namespace Ksnm.MachineLearning.NeuralNetwork
 {

@@ -138,8 +138,8 @@ namespace Ksnm.MachineLearning.NeuralNetwork
                     Neuron neuron = new Neuron(beforeLayer.Neurons);
                     //neuron.Activation = Utility.Tanh;
                     //neuron.DerActivation = Utility.DerTanh;
-                    neuron.Activation = Utility.Sigmoid;
-                    neuron.DerActivation = Utility.DerSigmoid;
+                    neuron.Activation = Activations.Sigmoid;
+                    neuron.DerActivation = Activations.DerSigmoid;
                     layer.neurons.Add(neuron);
                 }
                 layers.Add(layer);
@@ -150,8 +150,8 @@ namespace Ksnm.MachineLearning.NeuralNetwork
                 for (int i = 0; i < resultCount; i++)
                 {
                     Neuron neuron = new Neuron(beforeLayer.Neurons);
-                    neuron.Activation = Utility.Sigmoid;
-                    neuron.DerActivation = Utility.DerSigmoid;
+                    neuron.Activation = Activations.Sigmoid;
+                    neuron.DerActivation = Activations.DerSigmoid;
                     layer.neurons.Add(neuron);
                 }
                 layers.Add(layer);

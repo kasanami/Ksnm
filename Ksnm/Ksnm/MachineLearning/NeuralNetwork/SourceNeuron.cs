@@ -56,11 +56,11 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         /// <summary>
         /// 活性化関数
         /// </summary>
-        public Utility.ActivationFunction Activation { get; set; } = null;
+        public Activations.ActivationFunction Activation { get; set; } = null;
         /// <summary>
         /// 活性化関数の微分
         /// </summary>
-        public Utility.ActivationFunction DifferentiatedActivation { get; set; } = null;
+        public Activations.ActivationFunction DifferentiatedActivation { get; set; } = null;
         #endregion プロパティ
 
         /// <summary>
