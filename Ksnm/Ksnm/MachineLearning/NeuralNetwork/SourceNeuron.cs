@@ -78,6 +78,11 @@ namespace Ksnm.MachineLearning.NeuralNetwork
             return new SourceNeuron(this);
         }
 
+        public void ResetWeights(double weight)
+        {
+            // 何もしない
+        }
+
         public void ResetWeights(Random random, double weightRange)
         {
             // 何もしない

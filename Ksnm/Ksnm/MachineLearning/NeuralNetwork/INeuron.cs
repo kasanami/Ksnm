@@ -63,6 +63,10 @@ namespace Ksnm.MachineLearning.NeuralNetwork
 
         #region 学習関係
         /// <summary>
+        /// 重みを指定した値に設定
+        /// </summary>
+        void ResetWeights(double weight);
+        /// <summary>
         /// 重みをランダムに設定
         /// </summary>
         void ResetWeights(Random random, double weightRange);

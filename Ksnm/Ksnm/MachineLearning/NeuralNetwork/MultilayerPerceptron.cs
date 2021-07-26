@@ -217,10 +217,24 @@ namespace Ksnm.MachineLearning.NeuralNetwork
             }
         }
 
+
+        /// <summary>
+        /// 重みを指定した値に設定
+        /// </summary>
+        public void ResetWeights(double weight)
+        {
+            foreach (var layer in layers)
+            {
+                foreach (var neuron in layer.Neurons)
+                {
+                    neuron.ResetWeights(weight);
+                }
+            }
+        }
         /// <summary>
         /// 重みをランダムに設定
         /// </summary>
-        public void ResetWeights(double weightRange)
+        public void ResetWeightsWithRandom(double weightRange)
         {
             foreach (var layer in layers)
             {

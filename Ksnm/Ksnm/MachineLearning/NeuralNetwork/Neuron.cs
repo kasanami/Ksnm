@@ -123,6 +123,17 @@ namespace Ksnm.MachineLearning.NeuralNetwork
             Value = Activation.Function(sum + Bias);
         }
         /// <summary>
+        /// 重みを指定した値に設定
+        /// </summary>
+        public void ResetWeights(double weight)
+        {
+            for (int i = 0; i < InputWeights.Count; i++)
+            {
+                InputWeights[i] = weight;
+            }
+            Bias = weight;
+        }
+        /// <summary>
         /// 重みをランダムに設定
         /// </summary>
         public void ResetWeights(Random random, double weightRange)
