@@ -475,9 +475,9 @@ namespace DemoApp
             Console.WriteLine("AITest()");
 #if false
             {
-                var nn = new MultilayerPerceptron(2, 2, 1);
+                var nn = new MultilayerPerceptron(1, 1, 1);
                 var sample = new Sample();
-                sample.SourceValues = new double[] { 1, 0 };
+                sample.SourceValues = new double[] { 2 };
                 sample.ResultValues = new double[] { 1 };
                 nn.SetSourceValues(sample.SourceValues);
                 for (int i = 0; i < 500; i++)
@@ -490,17 +490,20 @@ namespace DemoApp
                     var error = nn.Error(sample.ResultValues);
                     Console.WriteLine($"error ={error.ToDecimalString()}");
                     // バックプロパゲーション
-                    nn.Backpropagation(sample.ResultValues, 10);
+                    nn.Backpropagation(sample.ResultValues, 100);
                 }
             }
 #endif
             #region 数字認識
             {
-                var numbersNN = new MultilayerPerceptron(15, 15, 10);
+                var numbersNN = new MultilayerPerceptron(15, 15, 10, Activation.Sigmoid, Activation.Sigmoid);
+                numbersNN.Random = new Random(123456789);
+                numbersNN.Randomization(1);
                 var learnParam = new MultilayerPerceptron.LearnParam();
-                learnParam.learningRate = 1;
+                learnParam.learningRate = 0.1;
                 learnParam.tryCount = 100;
-                learnParam.cloneWeightRangeStart = 0.1;
+                learnParam.cloneCount = 1000;
+                learnParam.cloneWeightRangeStart = 0;
                 learnParam.cloneWeightRangeDelta = 0.1;
                 learnParam.samples = new[]
                 {
@@ -575,6 +578,8 @@ namespace DemoApp
                     Console.WriteLine($"error ={error.ToDecimalString()}");
                 }
                 // 結果
+                Console.WriteLine("結果");
+                Console.WriteLine($"{nameof(learnParam)}={learnParam.ToString()}");
                 for (int i = 0; i < learnParam.samples.Count; i++)
                 {
                     numbersNN.ForwardPropagation(learnParam.samples[i].SourceValues);
@@ -587,6 +592,7 @@ namespace DemoApp
                     }
                     Console.WriteLine($"NumbersSample[{i}]={resultValues.ToDebugString("0.0 ", null, false)}");
                 }
+                Console.WriteLine($"{nameof(numbersNN)}={numbersNN.ToString()}");
             }
             #endregion 数字認識
 

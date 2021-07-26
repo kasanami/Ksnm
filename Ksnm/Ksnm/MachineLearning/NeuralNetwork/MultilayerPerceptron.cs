@@ -21,9 +21,13 @@ freely, subject to the following restrictions:
 
 3. This notice may not be removed or altered from any source distribution.
 */
+using Ksnm.ExtensionMethods.System.Collections.Generic.Enumerable;
+using Ksnm.ExtensionMethods.System.Collections.Generic.List;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Ksnm.MachineLearning.NeuralNetwork
 {
@@ -166,6 +170,7 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         public MultilayerPerceptron(MultilayerPerceptron source)
         {
             IReadOnlyList<INeuron> inputNeurons = null;
+            Random = source.Random;
             foreach (var layer in source.layers)
             {
                 var newLayer = layer.Clone(inputNeurons);
@@ -282,16 +287,17 @@ namespace Ksnm.MachineLearning.NeuralNetwork
             for (int i = 0; i < count; i++)
             {
                 var error = expectedValues[i] - ResultNeurons[i].Value;
-                errors += error * error;
+                errors += System.Math.Abs(error);
+                //errors += error * error;
             }
-            return errors * 3;
-            // 各値の差を2乗→合計→2で割る。
-            //return errors / 2;
+            //return errors * 3;
+            //return errors / 2;// 各値の差を2乗→合計→2で割る。
+            return errors;
         }
         /// <summary>
         /// 再計算し期待値との誤差を計算
         /// </summary>
-        /// <param name="expectedValues">期待値</param>
+        /// <param name="sample">サンプル</param>
         /// <returns>誤差</returns>
         public double Error(Sample sample)
         {
@@ -350,6 +356,23 @@ namespace Ksnm.MachineLearning.NeuralNetwork
             /// </summary>
             public LearnParam()
             {
+            }
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <returns></returns>
+            public override string ToString()
+            {
+                var str = new StringBuilder(512);
+                str.AppendLine("{");
+                str.AppendLine($"{nameof(learningRate)}={learningRate}");
+                str.AppendLine($"{nameof(samples)}     ={samples.Count}");
+                str.AppendLine($"{nameof(tryCount)}    ={tryCount}");
+                str.AppendLine($"{nameof(cloneCount)}  ={cloneCount}");
+                str.AppendLine($"{nameof(cloneWeightRangeStart)}={cloneWeightRangeStart}");
+                str.AppendLine($"{nameof(cloneWeightRangeDelta)}={cloneWeightRangeDelta}");
+                str.AppendLine("}");
+                return str.ToString();
             }
         }
         /// <summary>
@@ -410,21 +433,39 @@ namespace Ksnm.MachineLearning.NeuralNetwork
                 weightRange += learnParam.cloneWeightRangeDelta;
             }
             // 誤差
-            var minErrorIndex = -1;
-            double minError = double.MaxValue;
+            var errors = new double[children.Count];
+#if true// 並列処理
+            Parallel.For(0, children.Count, i =>
+#else
             for (int i = 0; i < children.Count; i++)
+#endif
             {
                 children[i].Learn(learnParam.samples, learnParam.learningRate, learnParam.tryCount);
-                var error = children[i].Error(learnParam.samples);
-                if (minError > error)
-                {
-                    minError = error;
-                    minErrorIndex = i;
-                }
+                errors[i] = children[i].Error(learnParam.samples);
             }
-            // 成績が最も良いClone
+#if true// 並列処理
+            );
+#endif
+            // 成績が最も良いCloneを返す
+            var minErrorIndex = errors.IndexOfMin();
             return children[minErrorIndex];
         }
         #endregion Learn
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            var str = new StringBuilder(512);
+            str.AppendLine("{");
+            str.AppendLine($"{nameof(Layers)}=");
+            for (int i = 0; i < Layers.Count; i++)
+            {
+                str.AppendLine($"{i}={Layers[i]}");
+            }
+            str.AppendLine("}");
+            return str.ToString();
+        }
     }
 }
