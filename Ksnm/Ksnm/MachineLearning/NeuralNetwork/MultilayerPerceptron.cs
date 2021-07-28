@@ -137,6 +137,7 @@ namespace Ksnm.MachineLearning.NeuralNetwork
             }
             {
                 var layer = new Layer<Neuron>();
+                layer.Activation = hiddenActivation;
                 for (int i = 0; i < hiddenCount; i++)
                 {
                     Neuron neuron = new Neuron(beforeLayer.Neurons);
@@ -148,6 +149,7 @@ namespace Ksnm.MachineLearning.NeuralNetwork
             }
             {
                 var layer = new Layer<Neuron>();
+                layer.Activation = resultActivation;
                 for (int i = 0; i < resultCount; i++)
                 {
                     Neuron neuron = new Neuron(beforeLayer.Neurons);
@@ -471,12 +473,11 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         /// <returns></returns>
         public override string ToString()
         {
-            var str = new StringBuilder(512);
+            var str = new StringBuilder(256);
             str.AppendLine("{");
-            str.AppendLine($"{nameof(Layers)}=");
             for (int i = 0; i < Layers.Count; i++)
             {
-                str.AppendLine($"{i}={Layers[i]}");
+                str.AppendLine($"{nameof(Layers)}[{i}]={Layers[i]}");
             }
             str.AppendLine("}");
             return str.ToString();

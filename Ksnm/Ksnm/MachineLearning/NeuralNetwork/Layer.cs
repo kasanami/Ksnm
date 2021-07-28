@@ -23,6 +23,10 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         {
             get => neurons.Select(x => (INeuron)x).ToList();
         }
+        /// <summary>
+        /// このレイヤーが使用する活性化関数
+        /// </summary>
+        public Activation Activation { get; set; }
         #region コンストラクタ
         /// <summary>
         /// 
@@ -114,5 +118,28 @@ namespace Ksnm.MachineLearning.NeuralNetwork
             }
         }
         #endregion Set
+
+        #region
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            var str = new StringBuilder(512);
+            str.AppendLine("{");
+            str.AppendLine($"{nameof(neurons)}[{neurons.Count}]");
+            if (Activation == null)
+            {
+                str.AppendLine($"{nameof(Activation)}=null");
+            }
+            else
+            {
+                str.AppendLine($"{nameof(Activation)}={Activation}");
+            }
+            str.AppendLine("}");
+            return str.ToString();
+        }
+        #endregion
     }
 }
