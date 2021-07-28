@@ -58,9 +58,17 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         /// </summary>
         public static readonly Activation Identity = new Activation(Activations.Identity, Activations.DerIdentity);
         /// <summary>
+        /// LeakyReLU
+        /// </summary>
+        public static readonly Activation LeakyReLU = new Activation(Activations.LeakyReLU, Activations.DerLeakyReLU);
+        /// <summary>
         /// シグモイド関数
         /// </summary>
         public static readonly Activation Sigmoid = new Activation(Activations.Sigmoid, Activations.DerSigmoid);
+        /// <summary>
+        /// ソフトプラス関数
+        /// </summary>
+        public static readonly Activation Softplus = new Activation(Activations.Softplus, Activations.DerSoftplus);
         /// <summary>
         /// 双曲線正接関数
         /// </summary>

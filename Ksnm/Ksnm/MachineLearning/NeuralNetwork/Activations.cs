@@ -98,5 +98,41 @@ namespace Ksnm.MachineLearning.NeuralNetwork
             }
             return 0;
         }
+        /// <summary>
+        /// 漏れている正規化線形関数
+        /// </summary>
+        public static double LeakyReLU(double x)
+        {
+            if (x >= 0)
+            {
+                return x;
+            }
+            return x * 0.01;
+        }
+        /// <summary>
+        /// 漏れている正規化線形関数の導関数
+        /// </summary>
+        public static double DerLeakyReLU(double x)
+        {
+            if (x >= 0)
+            {
+                return 1;
+            }
+            return 0.01;
+        }
+        /// <summary>
+        /// ソフトプラス関数
+        /// </summary>
+        public static double Softplus(double x)
+        {
+            return Log(1.0 + Exp(x));
+        }
+        /// <summary>
+        /// ソフトプラス関数の導関数
+        /// </summary>
+        public static double DerSoftplus(double x)
+        {
+            return 1.0 / (1.0 + Exp(-x));
+        }
     }
 }

@@ -84,5 +84,25 @@ namespace Ksnm.MachineLearning.NeuralNetwork.Tests
             Assert.AreEqual(0.4199, Activations.DerTanh(+0.7615942), 0.0001);
             Assert.AreEqual(0.0098, Activations.DerTanh(+0.9950547), 0.0001);
         }
+
+        [TestMethod()]
+        public void LeakyReLUTest()
+        {
+            Assert.AreEqual(-0.02, Activations.LeakyReLU(-2));
+            Assert.AreEqual(-0.01, Activations.LeakyReLU(-1));
+            Assert.AreEqual(0.000, Activations.LeakyReLU(+0));
+            Assert.AreEqual(+1.00, Activations.LeakyReLU(+1));
+            Assert.AreEqual(+2.00, Activations.LeakyReLU(+2));
+        }
+
+        [TestMethod()]
+        public void SoftplusTest()
+        {
+            Assert.AreEqual(2.0611537e-9, Activations.Softplus(-20), 0.0000001);
+            Assert.AreEqual(3.1326166e-1, Activations.Softplus(-01), 0.0000001);
+            Assert.AreEqual(6.9314718e-1, Activations.Softplus(+00), 0.0000001);
+            Assert.AreEqual(1.3132616e+0, Activations.Softplus(+01), 0.0000001);
+            Assert.AreEqual(2.0000000e+1, Activations.Softplus(+20), 0.0000001);
+        }
     }
 }
