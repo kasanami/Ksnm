@@ -192,6 +192,16 @@ namespace Ksnm.Tests
         }
 
         [TestMethod()]
+        public void UnitStepTest()
+        {
+            Assert.AreEqual(Math.UnitStep(+2), 1);
+            Assert.AreEqual(Math.UnitStep(+1), 1);
+            Assert.AreEqual(Math.UnitStep(00), 1);
+            Assert.AreEqual(Math.UnitStep(-1), 0);
+            Assert.AreEqual(Math.UnitStep(-2), 0);
+        }
+
+        [TestMethod()]
         public void HeavisideStepTest()
         {
             Assert.AreEqual(Math.HeavisideStep(+2), +1);

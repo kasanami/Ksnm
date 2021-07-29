@@ -27,7 +27,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
-using static System.Math;
 
 namespace Ksnm
 {
@@ -441,6 +440,35 @@ namespace Ksnm
 
         #endregion Ramp
 
+        #region UnitStep
+        /// <summary>
+        /// 単位ステップ関数
+        /// </summary>
+        /// <param name="x">入力</param>
+        /// <returns>0か1の値</returns>
+        public static float UnitStep(float x)
+        {
+            if (x < 0)
+            {
+                return 0;
+            }
+            return 1;
+        }
+        /// <summary>
+        /// 単位ステップ関数
+        /// </summary>
+        /// <param name="x">入力</param>
+        /// <returns>0か1の値</returns>
+        public static double UnitStep(double x)
+        {
+            if (x < 0)
+            {
+                return 0;
+            }
+            return 1;
+        }
+        #endregion UnitStep
+
         #region HeavisideStep
 
         /// <summary>
@@ -573,7 +601,7 @@ namespace Ksnm
         /// </summary>
         public static double ReLU(double x)
         {
-            return Max(0, x);
+            return System.Math.Max(0, x);
         }
         /// <summary>
         /// 正規化線形関数の導関数
@@ -634,7 +662,7 @@ namespace Ksnm
         /// </summary>
         public static double Softplus(double x)
         {
-            return Log(1.0 + System.Math.Exp(x));
+            return System.Math.Log(1.0 + System.Math.Exp(x));
         }
         /// <summary>
         /// ソフトプラス関数の導関数
