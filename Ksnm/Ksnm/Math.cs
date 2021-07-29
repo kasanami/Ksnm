@@ -27,6 +27,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using static System.Math;
 
 namespace Ksnm
 {
@@ -521,8 +522,128 @@ namespace Ksnm
         {
             return 1.0 / (1.0 + System.Math.Exp(-x));
         }
-
+        /// <summary>
+        /// シグモイド関数の導関数
+        /// </summary>
+        public static double DerSigmoid(double x)
+        {
+            return x * (1.0 - x);
+        }
         #endregion Sigmoid
+
+        #region Identity
+        /// <summary>
+        /// 恒等関数
+        /// </summary>
+        public static double Identity(double x)
+        {
+            return x;
+        }
+        /// <summary>
+        /// 恒等関数の導関数
+        /// </summary>
+        public static double DerIdentity(double x)
+        {
+            return 1;
+        }
+        #endregion Identity
+
+        #region Tanh
+        /// <summary>
+        /// 双曲線正接関数
+        /// </summary>
+        public static double Tanh(double x)
+        {
+            var ePlus = System.Math.Exp(x);
+            var eMinus = System.Math.Exp(-x);
+            return (ePlus - eMinus) / (ePlus + eMinus);
+        }
+        /// <summary>
+        /// 双曲線正接関数の導関数
+        /// </summary>
+        public static double DerTanh(double x)
+        {
+            return (1.0 - x * x);
+        }
+        #endregion Tanh
+
+        #region ReLU
+        /// <summary>
+        /// 正規化線形関数
+        /// </summary>
+        public static double ReLU(double x)
+        {
+            return Max(0, x);
+        }
+        /// <summary>
+        /// 正規化線形関数の導関数
+        /// </summary>
+        public static double DerReLU(double x)
+        {
+            if (x > 0)
+            {
+                return 1;
+            }
+            return 0;
+        }
+        #endregion ReLU
+
+        #region LeakyReLU
+        /// <summary>
+        /// 漏れている正規化線形関数
+        /// a=0.01
+        /// </summary>
+        public static double LeakyReLU(double x)
+        {
+            return LeakyReLU(x, 0.01);
+        }
+        /// <summary>
+        /// 漏れている正規化線形関数
+        /// </summary>
+        public static double LeakyReLU(double x, double a)
+        {
+            if (x >= 0)
+            {
+                return x;
+            }
+            return x * a;
+        }
+        /// <summary>
+        /// 漏れている正規化線形関数の導関数
+        /// </summary>
+        public static double DerLeakyReLU(double x)
+        {
+            return DerLeakyReLU(x, 0.01);
+        }
+        /// <summary>
+        /// 漏れている正規化線形関数の導関数
+        /// </summary>
+        public static double DerLeakyReLU(double x, double a)
+        {
+            if (x >= 0)
+            {
+                return 1;
+            }
+            return a;
+        }
+        #endregion LeakyReLU
+
+        #region Softplus
+        /// <summary>
+        /// ソフトプラス関数
+        /// </summary>
+        public static double Softplus(double x)
+        {
+            return Log(1.0 + System.Math.Exp(x));
+        }
+        /// <summary>
+        /// ソフトプラス関数の導関数
+        /// </summary>
+        public static double DerSoftplus(double x)
+        {
+            return 1.0 / (1.0 + System.Math.Exp(-x));
+        }
+        #endregion Softplus
 
         #region Lerp
 

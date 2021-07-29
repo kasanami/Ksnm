@@ -41,18 +41,18 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         /// <summary>
         /// 活性化関数
         /// </summary>
-        public Activations.Delegate Function { get; private set; }
+        public Func<double, double> Function { get; private set; }
         /// <summary>
         /// 導関数
         /// </summary>
-        public Activations.Delegate DerivativeFunction { get; private set; }
+        public Func<double, double> DerivativeFunction { get; private set; }
         /// <summary>
         /// 指定した値で初期化する。
         /// </summary>
         /// <param name="name">名前</param>
         /// <param name="function">活性化関数</param>
         /// <param name="derivativeFunction">導関数</param>
-        public Activation(string name, Activations.Delegate function, Activations.Delegate derivativeFunction)
+        public Activation(string name, Func<double, double> function, Func<double, double> derivativeFunction)
         {
             Name = name;
             Function = function;
@@ -62,27 +62,27 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         /// <summary>
         /// 恒等関数
         /// </summary>
-        public static readonly Activation Identity = new Activation("Identity", Activations.Identity, Activations.DerIdentity);
+        public static readonly Activation Identity = new Activation("Identity", Math.Identity, Math.DerIdentity);
         /// <summary>
         /// LeakyReLU
         /// </summary>
-        public static readonly Activation LeakyReLU = new Activation("LeakyReLU", Activations.LeakyReLU, Activations.DerLeakyReLU);
+        public static readonly Activation LeakyReLU = new Activation("LeakyReLU", Math.LeakyReLU, Math.DerLeakyReLU);
         /// <summary>
         /// シグモイド関数
         /// </summary>
-        public static readonly Activation Sigmoid = new Activation("Sigmoid", Activations.Sigmoid, Activations.DerSigmoid);
+        public static readonly Activation Sigmoid = new Activation("Sigmoid", Math.Sigmoid, Math.DerSigmoid);
         /// <summary>
         /// ソフトプラス関数
         /// </summary>
-        public static readonly Activation Softplus = new Activation("Softplus", Activations.Softplus, Activations.DerSoftplus);
+        public static readonly Activation Softplus = new Activation("Softplus", Math.Softplus, Math.DerSoftplus);
         /// <summary>
         /// 双曲線正接関数
         /// </summary>
-        public static readonly Activation Tanh = new Activation("Tanh", Activations.Tanh, Activations.DerTanh);
+        public static readonly Activation Tanh = new Activation("Tanh", Math.Tanh, Math.DerTanh);
         /// <summary>
         /// 正規化線形関数
         /// </summary>
-        public static readonly Activation ReLU = new Activation("ReLU", Activations.ReLU, Activations.DerReLU);
+        public static readonly Activation ReLU = new Activation("ReLU", Math.ReLU, Math.DerReLU);
         #endregion
         #region
         /// <summary>

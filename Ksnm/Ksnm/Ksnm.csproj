@@ -60,7 +60,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MachineLearning\NeuralNetwork\Activation.cs" />
-    <Compile Include="MachineLearning\NeuralNetwork\Activations.cs" />
     <Compile Include="MachineLearning\NeuralNetwork\ILayer.cs" />
     <Compile Include="MachineLearning\NeuralNetwork\INeuron.cs" />
     <Compile Include="MachineLearning\NeuralNetwork\Layer.cs" />
