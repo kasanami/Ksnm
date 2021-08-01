@@ -21,8 +21,10 @@ freely, subject to the following restrictions:
 
 3. This notice may not be removed or altered from any source distribution.
 */
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace Ksnm.ExtensionMethods.System.Collections.Generic.Dictionary
 {
@@ -147,6 +149,35 @@ namespace Ksnm.ExtensionMethods.System.Collections.Generic.Dictionary
                     return false;
                 }
             }
+        }
+        /// <summary>
+        /// デバッグ用文字列に変換します。
+        /// </summary>
+        public static string ToDebugString<TKey, TValue>(this IDictionary<TKey, TValue> self, string keyFormat, string valueFormat, bool isMultiLine = false) where TKey : IFormattable where TValue : IFormattable
+        {
+            var str = new StringBuilder();
+            str.Append("[" + self.Count() + "]={");
+            for (int i = 0; i < self.Count(); ++i)
+            {
+                if (i != 0)
+                {
+                    str.Append(",");
+                }
+                if (isMultiLine)
+                {
+                    str.AppendLine();
+                }
+                str.Append("[");
+                str.Append(self.ElementAt(i).Key.ToString(keyFormat, null));
+                str.Append("]=");
+                str.Append(self.ElementAt(i).Value.ToString(valueFormat, null));
+            }
+            if (isMultiLine)
+            {
+                str.AppendLine();
+            }
+            str.Append("}");
+            return str.ToString();
         }
     }
 }
