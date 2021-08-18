@@ -343,17 +343,7 @@ namespace Ksnm.Numerics
         /// <returns>d1 と d2 が等しい場合は true。それ以外の場合は false。</returns>
         public static bool Equals(BigDecimal d1, BigDecimal d2)
         {
-            // Exponent を一致させてから比較
-            if (d1.Exponent > d2.Exponent)
-            {
-                var diff = d1.Exponent - d2.Exponent;
-                d1.Mantissa *= Pow10(diff);
-            }
-            else if (d1.Exponent < d2.Exponent)
-            {
-                var diff = d2.Exponent - d1.Exponent;
-                d2.Mantissa *= Pow10(diff);
-            }
+            UniformExponent(ref d1, ref d2);
             return d1.Mantissa == d2.Mantissa;
         }
         /// <summary>
@@ -380,6 +370,25 @@ namespace Ksnm.Numerics
                 }
             }
             return temp;
+        }
+        /// <summary>
+        /// 2つの BigDecimal の Exponent を揃える
+        /// </summary>
+        public static void UniformExponent(ref BigDecimal d1, ref BigDecimal d2)
+        {
+            if (d1.Exponent > d2.Exponent)
+            {
+                var diff = d1.Exponent - d2.Exponent;
+                d1.Mantissa *= Pow10(diff);
+                d1.Exponent -= diff;
+            }
+            else if (d1.Exponent < d2.Exponent)
+            {
+                var diff = d2.Exponent - d1.Exponent;
+                d2.Mantissa *= Pow10(diff);
+                d2.Exponent -= diff;
+            }
+            Assert(d1.Exponent == d2.Exponent);
         }
         #endregion 独自メソッド
 
@@ -421,20 +430,7 @@ namespace Ksnm.Numerics
         /// <exception cref="System.DivideByZeroException">divisor が 0 (ゼロ) です。</exception>
         public static BigDecimal DivRem(BigDecimal dividend, BigDecimal divisor, out BigDecimal remainder)
         {
-            // 指数が小さい方に合わせる
-            if (dividend.Exponent > divisor.Exponent)
-            {
-                var diff = dividend.Exponent - divisor.Exponent;
-                dividend.Mantissa *= Pow10(diff);
-                dividend.Exponent -= diff;
-            }
-            else if (divisor.Exponent > dividend.Exponent)
-            {
-                var diff = divisor.Exponent - dividend.Exponent;
-                divisor.Mantissa *= Pow10(diff);
-                divisor.Exponent -= diff;
-            }
-            Assert(dividend.Exponent == divisor.Exponent);
+            UniformExponent(ref dividend, ref divisor);
             BigInteger remainderInt;
             var quotient = BigInteger.DivRem(dividend.Mantissa, divisor.Mantissa, out remainderInt);
             remainder = new BigDecimal(remainderInt, dividend.Exponent, System.Math.Min(dividend.MinExponent, divisor.MinExponent));
@@ -739,20 +735,7 @@ namespace Ksnm.Numerics
         /// </summary>
         public static BigDecimal operator +(BigDecimal valueL, BigDecimal valueR)
         {
-            // 指数が小さい方に合わせる
-            if (valueL.Exponent > valueR.Exponent)
-            {
-                var diff = valueL.Exponent - valueR.Exponent;
-                valueL.Mantissa *= Pow10(diff);
-                valueL.Exponent -= diff;
-            }
-            else if (valueR.Exponent > valueL.Exponent)
-            {
-                var diff = valueR.Exponent - valueL.Exponent;
-                valueR.Mantissa *= Pow10(diff);
-                valueR.Exponent -= diff;
-            }
-            Assert(valueR.Exponent == valueL.Exponent);
+            UniformExponent(ref valueL, ref valueR);
             return new BigDecimal(
                 valueL.Mantissa + valueR.Mantissa,
                 valueL.Exponent,
@@ -850,20 +833,7 @@ namespace Ksnm.Numerics
         /// <returns></returns>
         public static BigDecimal operator %(BigDecimal valueL, BigDecimal valueR)
         {
-            // 指数が小さい方に合わせる
-            if (valueL.Exponent > valueR.Exponent)
-            {
-                var diff = valueL.Exponent - valueR.Exponent;
-                valueL.Mantissa *= Pow10(diff);
-                valueL.Exponent -= diff;
-            }
-            else if (valueR.Exponent > valueL.Exponent)
-            {
-                var diff = valueR.Exponent - valueL.Exponent;
-                valueR.Mantissa *= Pow10(diff);
-                valueR.Exponent -= diff;
-            }
-            Assert(valueR.Exponent == valueL.Exponent);
+            UniformExponent(ref valueL, ref valueR);
             return new BigDecimal(
                 valueL.Mantissa % valueR.Mantissa,
                 valueL.Exponent,
