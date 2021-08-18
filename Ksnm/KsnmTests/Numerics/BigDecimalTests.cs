@@ -886,6 +886,41 @@ namespace Ksnm.Numerics.Tests
         }
 
         [TestMethod()]
+        public void GetHashCodeTest()
+        {
+            var random = new Ksnm.Randoms.Xorshift128();
+            for (int i = 0; i < 10; i++)
+            {
+                var m = random.Next();
+                var e = random.Next();
+                var sample1 = new BigDecimal(m, e);
+                var sample2 = new BigDecimal(m, e);
+                Assert.AreEqual(sample1.GetHashCode(), sample2.GetHashCode());
+                var sample3 = sample1;
+                Assert.AreEqual(sample3.GetHashCode(), sample2.GetHashCode());
+            }
+            // 内部値が不一致でも、表現する値が同じならハッシュコードも同じになる
+            {
+                // 0.1という値としては同じ
+                var decimal1 = new decimal(1, 0, 0, false, 1);
+                var decimal2 = new decimal(10, 0, 0, false, 2);
+                var bigDecimal1 = new BigDecimal(1, -1);
+                var bigDecimal2 = new BigDecimal(10, -2);
+                Assert.AreEqual(
+                    decimal1.GetHashCode() == decimal2.GetHashCode(),
+                    bigDecimal1.GetHashCode() == bigDecimal2.GetHashCode(),
+                    $"{bigDecimal1}:{bigDecimal2}");
+            }
+
+            {
+                // 100という値としては同じ
+                var bigDecimal1 = new BigDecimal(1, 2);
+                var bigDecimal2 = new BigDecimal(10, 1);
+                Assert.IsTrue(bigDecimal1.GetHashCode() == bigDecimal2.GetHashCode(), $"{bigDecimal1}:{bigDecimal2}");
+            }
+        }
+
+        [TestMethod()]
         public void ToStringTest()
         {
             var sample = new BigDecimal(1m);

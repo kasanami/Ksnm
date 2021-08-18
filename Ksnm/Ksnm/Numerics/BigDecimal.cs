@@ -258,7 +258,7 @@ namespace Ksnm.Numerics
         /// <summary>
         /// Mantissa が最小になるように変換します。
         /// * Exponent が大きくなります。
-        /// * 0 の場合は、Exponent は 0 になります。
+        /// * Mantissa が 0 の場合は、Exponent は 0 になります。
         /// </summary>
         public void MinimizeMantissa()
         {
@@ -1199,6 +1199,7 @@ namespace Ksnm.Numerics
         /// </summary>
         public override int GetHashCode()
         {
+            MinimizeMantissa();
             return Mantissa.GetHashCode() ^ Exponent.GetHashCode();
         }
         /// <summary>
