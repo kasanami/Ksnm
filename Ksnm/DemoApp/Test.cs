@@ -38,7 +38,7 @@ namespace DemoApp
             Numeric num = new Numeric(100m);
             num.Normalize();
             */
-            //AITest();
+            AITest();
         }
         public static void SingleTest()
         {
@@ -472,13 +472,17 @@ namespace DemoApp
         }
         public static void AITest()
         {
+#pragma warning disable CS0162 // 到達できないコードが検出されました
             Console.WriteLine("AITest()");
-#if false
+
+
+            if (false)
             {
                 var nn = new MultilayerPerceptron(1, 1, 1);
+                nn.ResetWeights(5);
                 var sample = new Sample();
-                sample.SourceValues = new double[] { 2 };
-                sample.ResultValues = new double[] { 1 };
+                sample.SourceValues = new double[] { 1 };
+                sample.ResultValues = new double[] { 0 };
                 nn.SetSourceValues(sample.SourceValues);
                 for (int i = 0; i < 500; i++)
                 {
@@ -493,19 +497,79 @@ namespace DemoApp
                     nn.Backpropagation(sample.ResultValues, 100);
                 }
             }
-#endif
-            #region 数字認識
+            #region 論理回路
+            if (true)
             {
-                var numbersNN = new MultilayerPerceptron(15, 15, 10, Activation.Sigmoid, Activation.Sigmoid);
-                numbersNN.Random = new Random(123456789);
-                numbersNN.Randomization(1);
+                var random = new Random();
+
+                var numbersNN = new MultilayerPerceptron(2, 2, 1, Activation.Sigmoid, Activation.Sigmoid);
+                Console.WriteLine($"{nameof(numbersNN)}={numbersNN}");
+
+                var XorSample = new List<Sample>
+                {
+                    new Sample(new [] {0d, 0d},new [] {0d}),
+                    new Sample(new [] {0d, 1d},new [] {1d}),
+                    new Sample(new [] {1d, 0d},new [] {1d}),
+                    new Sample(new [] {1d, 1d},new [] {0d}),
+                };
+
                 var learnParam = new MultilayerPerceptron.LearnParam();
-                learnParam.learningRate = 0.1;
+                learnParam.learningRate = 100;
                 learnParam.tryCount = 100;
-                learnParam.cloneCount = 1000;
+                learnParam.cloneCount = 1;
                 learnParam.cloneWeightRangeStart = 0;
-                learnParam.cloneWeightRangeDelta = 0.1;
-                learnParam.samples = new[]
+                learnParam.cloneWeightRangeDelta = 100.0 / learnParam.cloneCount;
+                learnParam.samples = XorSample;
+
+                Dictionary<int, double> seedErrorMap = new Dictionary<int, double>();
+
+                for (int j = 0; j < 1000; j++)
+                {
+                    var randomSeed = 123;//0x2BDFAEA2;// random.Next();
+                    learnParam.learningRate = j * 10;
+                    Console.WriteLine($"No.{j} {nameof(randomSeed)}={randomSeed} {nameof(learnParam.learningRate)}={learnParam.learningRate}");
+                    numbersNN.Random = new Random(randomSeed);
+                    numbersNN.ResetWeights(1);
+
+                    learnParam.learningRate = j / 1.0;
+                    // 学習
+                    for (int i = 0; i < 1; i++)
+                    {
+                        numbersNN = MultilayerPerceptron.Learn(numbersNN, learnParam);
+                    }
+                    // 結果
+                    Console.WriteLine("結果");
+                    for (int i = 0; i < learnParam.samples.Count; i++)
+                    {
+                        numbersNN.ForwardPropagation(learnParam.samples[i].SourceValues);
+                        // 数値調整
+                        var resultValues = numbersNN.ResultValues.Select(x => x > 0.5 ? 1 : 0).ToArray();
+                        Console.WriteLine($"NumbersSample[{i}]={resultValues.ToDebugString("0 ", null, false)}");
+                    }
+                    // 誤差
+                    var error = numbersNN.Error(learnParam.samples);
+                    Console.WriteLine($"error ={error.ToDecimalString()}");
+                    //seedErrorMap.Add(randomSeed, error);
+                }
+                seedErrorMap = seedErrorMap.OrderByValue();
+                Console.WriteLine($"seedErrorMap={seedErrorMap.ToDebugString("X8", "0.0000000000", true)}");
+            }
+            #endregion 論理回路
+            #region 数字認識
+            if (false)
+            {
+                var random = new Random();
+
+                var numbersNN = new MultilayerPerceptron(15, 1, 10, Activation.Sigmoid, Activation.Sigmoid);
+                Console.WriteLine($"{nameof(numbersNN)}={numbersNN}");
+
+                var learnParam = new MultilayerPerceptron.LearnParam();
+                learnParam.learningRate = 100;
+                learnParam.tryCount = 200;
+                learnParam.cloneCount = 1;
+                learnParam.cloneWeightRangeStart = 0;
+                learnParam.cloneWeightRangeDelta = 100.0 / learnParam.cloneCount;
+                var samples = new List<Sample>
                 {
                     new Sample() { SourceValues = new double[] {
                         1, 1, 1,
@@ -513,6 +577,7 @@ namespace DemoApp
                         1, 0, 1,
                         1, 0, 1,
                         1, 1, 1,}, ResultValues = new double[] { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 } },
+#if false
                     new Sample() { SourceValues = new double[] {
                         0, 1, 0,
                         0, 1, 0,
@@ -567,32 +632,58 @@ namespace DemoApp
                         1, 1, 1,
                         0, 0, 1,
                         1, 1, 1,}, ResultValues = new double[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 } },
+#endif
                 };
-                // 学習
-                for (int i = 0; i < 100; i++)
+                // サンプル数を増やす
+                if (false)
                 {
-                    Console.WriteLine($"i={i}");
-                    numbersNN = MultilayerPerceptron.Learn(numbersNN, learnParam);
-                    // 誤差
-                    var error = numbersNN.Error(learnParam.samples);
-                    Console.WriteLine($"error ={error.ToDecimalString()}");
-                }
-                // 結果
-                Console.WriteLine("結果");
-                Console.WriteLine($"{nameof(learnParam)}={learnParam.ToString()}");
-                for (int i = 0; i < learnParam.samples.Count; i++)
-                {
-                    numbersNN.ForwardPropagation(learnParam.samples[i].SourceValues);
-                    // 数値調整
-                    var resultValues = new List<double>();
-                    var max = numbersNN.ResultValues.Max();
-                    foreach (var value in numbersNN.ResultValues)
+                    // 元々の数
+                    var count = samples.Count;
+                    for (int i = 0; i < count; i++)
                     {
-                        resultValues.Add(value / max);
+                        // 10パターン追加
+                        for (int j = 0; j < 10; j++)
+                        {
+                            var sample = new Sample(samples[i]);
+                            sample.Randomization(random, 0.3);
+                            samples.Add(sample);
+                        }
                     }
-                    Console.WriteLine($"NumbersSample[{i}]={resultValues.ToDebugString("0.0 ", null, false)}");
                 }
-                Console.WriteLine($"{nameof(numbersNN)}={numbersNN.ToString()}");
+                //
+                learnParam.samples = samples;
+
+                for (int j = 0; j < 1; j++)
+                {
+                    var randomSeed = random.Next();
+                    Console.WriteLine($"{nameof(randomSeed)}={randomSeed}");
+                    numbersNN.Random = new Random(randomSeed);
+                    numbersNN.ResetWeights(1);
+                    // 学習
+                    for (int i = 0; i < 1; i++)
+                    {
+                        Console.WriteLine($"i={i}");
+                        numbersNN = MultilayerPerceptron.Learn(numbersNN, learnParam);
+                        // 誤差
+                        var error = numbersNN.Error(learnParam.samples);
+                        Console.WriteLine($"error ={error.ToDecimalString()}");
+                    }
+                    // 結果
+                    Console.WriteLine("結果");
+                    for (int i = 0; i < learnParam.samples.Count; i++)
+                    {
+                        numbersNN.ForwardPropagation(learnParam.samples[i].SourceValues);
+                        // 数値調整
+                        var resultValues = new List<double>();
+                        var max = numbersNN.ResultValues.Max();
+                        if (max == 0) { max = 1; }
+                        foreach (var value in numbersNN.ResultValues)
+                        {
+                            resultValues.Add(value / max);
+                        }
+                        Console.WriteLine($"NumbersSample[{i}]={resultValues.ToDebugString("0.0 ", null, false)}");
+                    }
+                }
             }
             #endregion 数字認識
 
@@ -601,6 +692,8 @@ namespace DemoApp
             //Console.WriteLine(Utility.DifferentiatedSigmoid(0));
             //Console.WriteLine(Utility.DifferentiatedSigmoid(+0.5));
             //Console.WriteLine(Utility.DifferentiatedSigmoid(+1));
+
+#pragma warning restore CS0162 // 到達できないコードが検出されました
         }
     }
 }

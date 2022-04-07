@@ -26,6 +26,7 @@ using System;
 using System.Collections.Generic;
 using Ksnm.ExtensionMethods.System.Array;
 using Ksnm.MachineLearning.NeuralNetwork;
+using Ksnm.ExtensionMethods.System.Random;
 
 namespace Ksnm.MachineLearning.NeuralNetwork
 {
@@ -34,6 +35,7 @@ namespace Ksnm.MachineLearning.NeuralNetwork
     /// </summary>
     public class Sample
     {
+        #region フィールド
         /// <summary>
         /// 入力ニューロンに設定する値
         /// </summary>
@@ -42,6 +44,33 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         /// 出力ニューロンに期待する値
         /// </summary>
         public double[] ResultValues;
+        #endregion フィールド
+
+        #region コンストラクタ
+        /// <summary>
+        /// デフォルトコンストラクタ
+        /// </summary>
+        public Sample()
+        {
+        }
+        /// <summary>
+        /// 指定した値で初期化
+        /// </summary>
+        public Sample(in double[] sourceValues, in double[] resultValues)
+        {
+            SourceValues = (double[])sourceValues.Clone();
+            ResultValues = (double[])resultValues.Clone();
+        }
+        /// <summary>
+        /// コピーコンストラクタ
+        /// </summary>
+        public Sample(in Sample source)
+        {
+            SourceValues = (double[])source.SourceValues.Clone();
+            ResultValues = (double[])source.ResultValues.Clone();
+        }
+        #endregion コンストラクタ
+
         #region Set
         /// <summary>
         /// 値設定
@@ -86,5 +115,15 @@ namespace Ksnm.MachineLearning.NeuralNetwork
             ResultValues.CopyFrom(values);
         }
         #endregion Set
+        /// <summary>
+        /// 乱数による調整
+        /// </summary>
+        public void Randomization(Random random, double range)
+        {
+            for (int i = 0; i < SourceValues.Length; i++)
+            {
+                SourceValues[i] += random.Range(-range, range);
+            }
+        }
     }
 }

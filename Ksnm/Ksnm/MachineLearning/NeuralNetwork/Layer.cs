@@ -54,6 +54,7 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         /// <param name="inputNeurons"></param>
         public Layer(Layer<T> layer, IReadOnlyList<INeuron> inputNeurons) : this(layer.neurons, inputNeurons)
         {
+            Activation = layer.Activation;
         }
         #endregion コンストラクタ
         /// <summary>
