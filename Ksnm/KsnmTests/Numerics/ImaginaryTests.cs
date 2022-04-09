@@ -40,6 +40,28 @@ namespace Ksnm.Numerics.Tests
                     }
                 }
             }
+
+            // 実数との演算
+            for (int i = -10; i <= 10; i++)
+            {
+                var i1 = new Imaginary(i);
+                var c1 = new Complex(0, i);
+                for (int j = -10; j <= 10; j++)
+                {
+                    double real = j;
+                    // 乗算
+                    var i3 = i1 * real;
+                    var c3 = c1 * real;
+                    Assert.AreEqual(c3.Imaginary, i3.Value, $"i={i} j={j}");
+                    // 除算
+                    if (real != 0)
+                    {
+                        i3 = i1 / real;
+                        c3 = c1 / real;
+                        Assert.AreEqual(c3.Imaginary, i3.Value, $"i={i} j={j}");
+                    }
+                }
+            }
         }
 
         [TestMethod()]

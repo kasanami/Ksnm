@@ -76,6 +76,20 @@ namespace Ksnm.Numerics
         {
             return (valueL.Value * valueR.Value) / (valueR.Value * valueR.Value);
         }
+        /// <summary>
+        /// 乗算
+        /// </summary>
+        public static Imaginary operator *(in Imaginary valueL, in double valueR)
+        {
+            return new Imaginary(valueL.Value * valueR);
+        }
+        /// <summary>
+        /// 除算
+        /// </summary>
+        public static Imaginary operator /(in Imaginary valueL, in double valueR)
+        {
+            return new Imaginary(valueL.Value / valueR);
+        }
         #endregion 2項演算子
 
 
