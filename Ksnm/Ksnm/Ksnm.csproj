@@ -87,6 +87,7 @@
     <Compile Include="Numerics\FloatingPointNumber16.cs" />
     <Compile Include="Numerics\Fraction32.cs" />
     <Compile Include="Numerics\IInteger.cs" />
+    <Compile Include="Numerics\Imaginary.cs" />
     <Compile Include="Numerics\IMath.cs" />
     <Compile Include="Numerics\Numeric.cs" />
     <Compile Include="Science\Electromagnetism\ElectricalResistance.cs" />
