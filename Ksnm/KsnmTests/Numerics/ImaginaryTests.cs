@@ -1,13 +1,8 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Ksnm.Numerics;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Ksnm.Numerics.Tests
 {
+    using Complex = System.Numerics.Complex;
     [TestClass()]
     public class ImaginaryTests
     {
