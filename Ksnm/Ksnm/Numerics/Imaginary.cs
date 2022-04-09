@@ -118,7 +118,7 @@ namespace Ksnm.Numerics
 
         #region IEquatable
         /// <summary>
-        /// 現在のインスタンスの値と指定した複素数の値が等しいかどうかを示す値を返します。
+        /// 現在のインスタンスの値と指定した値が等しいかどうかを示す値を返します。
         /// </summary>
         public bool Equals(Imaginary other)
         {
