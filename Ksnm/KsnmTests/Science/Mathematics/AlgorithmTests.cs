@@ -17,7 +17,7 @@ namespace Ksnm.Science.Mathematics.Tests
             }
             {
                 var pi = Algorithm.GaussLegendreForBigDecimal(7, 105);
-                pi.RoundByMinExponent(-100);
+                pi.SetMinExponentAndRound(-100);
                 Assert.AreEqual(
                     "3.1415926535897932384626433832795028841971693993751058209749445923078164062862089986280348253421170680",
                     pi.ToString());

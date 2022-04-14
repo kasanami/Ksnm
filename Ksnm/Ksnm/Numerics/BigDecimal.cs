@@ -569,12 +569,13 @@ namespace Ksnm.Numerics
             }
         }
         /// <summary>
-        /// 今の値が指定した MinExponent 以下の値の場合、MinExponent に収まるように丸めます。
-        /// 丸められた桁は 0 になります。
+        /// MinExponentを変更します。
+        /// * 今の値が MinExponent 以下の値の場合、MinExponent に収まるように丸めます。
+        /// * 丸められた桁は 0 になります。
         /// * 丸めの種類は DefaultMidpointRounding
         /// </summary>
         /// <param name="newMinExponent">新しい MinExponent</param>
-        public void RoundByMinExponent(int newMinExponent)
+        public void SetMinExponentAndRound(int newMinExponent)
         {
             MinExponent = newMinExponent;
             if (Exponent < MinExponent)

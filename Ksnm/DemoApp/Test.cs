@@ -34,6 +34,7 @@ namespace DemoApp
             //SinTest();
             //AsinTest();
             //AtanTest();
+            FormulaTest();
             /*
             Numeric num = new Numeric(100m);
             num.Normalize();
@@ -468,6 +469,23 @@ namespace DemoApp
                         break;
                     }
                 }
+            }
+        }
+        public static void FormulaTest()
+        {
+            Console.WriteLine("FormulaTest()");
+            for (int n = 0; n <= 10; n++)
+            {
+                Console.WriteLine($"n={n}");
+                var pi = Ksnm.Science.Mathematics.Formula.MachinsFormula(n) * 4;
+                Console.WriteLine(pi.ToString());
+            }
+            Console.WriteLine("For BigDecimal");
+            for (int n = 0; n <= 100; n++)
+            {
+                Console.WriteLine($"n={n}");
+                var pi = Ksnm.Science.Mathematics.Formula.MachinsFormula(n, 100) * 4;
+                Console.WriteLine(pi.ToString());
             }
         }
         public static void AITest()

@@ -79,7 +79,7 @@ namespace Ksnm.Science.Mathematics
         /// ライプニッツの公式
         /// </summary>
         /// <param name="count">計算回数</param>
-        /// <param name="decimals">戻り値の小数点以下の有効桁数 (精度)。</param>
+        /// <param name="decimals">精度(小数点以下の桁数)</param>
         /// <returns>PI/4(円周率の4分の1)</returns>
         public static BigDecimal LeibnizForBigDecimal(int count, int decimals)
         {
@@ -140,7 +140,7 @@ namespace Ksnm.Science.Mathematics
         /// ウォリスの公式
         /// </summary>
         /// <param name="count">計算回数</param>
-        /// <param name="decimals">戻り値の小数点以下の有効桁数 (精度)。</param>
+        /// <param name="decimals">精度(小数点以下の桁数)</param>
         /// <returns>PI/2(円周率の2分の1)</returns>
         public static BigDecimal WallisProductForBigDecimal(int count, int decimals)
         {
@@ -165,7 +165,7 @@ namespace Ksnm.Science.Mathematics
         /// NOTE:小数点以下100桁の場合、計算回数は 13 回で良い
         /// </summary>
         /// <param name="count">計算回数</param>
-        /// <param name="decimals">精度</param>
+        /// <param name="decimals">精度(小数点以下の桁数)</param>
         /// <returns></returns>
         public static BigDecimal PIByRamanujan(int count, int decimals)
         {
@@ -186,6 +186,55 @@ namespace Ksnm.Science.Mathematics
             BigDecimal multiplicand = (2 * SquareRootOfTwo) / 9801;
             var product = multiplicand * temp;
             return product;
+        }
+        /// <summary>
+        /// マチンの公式
+        /// </summary>
+        /// <param name="count">計算回数。1未満を設定すると0を返す。</param>
+        /// <returns>PI/4(円周率の4分の1)</returns>
+        public static double MachinsFormula(int count)
+        {
+            double sum = 0;
+            for (int k = 1; k <= count; k++)
+            {
+                sum +=
+                    4 *
+                    (System.Math.Pow(-1, k + 1) / (2 * k - 1)) *
+                    System.Math.Pow(1.0 / 5, 2 * k - 1) +
+                    (System.Math.Pow(-1, k) / (2 * k - 1)) *
+                    System.Math.Pow(1.0 / 239, 2 * k - 1);
+            }
+            return sum;
+        }
+        /// <summary>
+        /// マチンの公式
+        /// </summary>
+        /// <param name="count">計算回数。1未満を設定すると0を返す。</param>
+        /// <param name="decimals">精度(小数点以下の桁数)</param>
+        /// <returns>PI/4(円周率の4分の1)</returns>
+        public static BigDecimal MachinsFormula(int count, int decimals)
+        {
+            if (decimals < 0)
+            {
+                throw new ArgumentOutOfRangeException($"{nameof(decimals)}={decimals} 範囲を超えています。");
+            }
+            decimals += 1;
+            var sum = new BigDecimal(0, 0, -decimals);
+            var one = new BigDecimal(1, 0, -decimals);
+            var one_5 = one / 5;
+            var one_239 = one / 239;
+            for (int k = 1; k <= count; k++)
+            {
+                sum +=
+                    4 *
+                    (BigDecimal.Pow(-one, k + 1) / (2 * k - 1)) *
+                    BigDecimal.Pow(one_5, 2 * k - 1) +
+                    (BigDecimal.Pow(-one, k) / (2 * k - 1)) *
+                    BigDecimal.Pow(one_239, 2 * k - 1);
+            }
+            decimals -= 1;
+            sum.SetMinExponentAndRound(-decimals);
+            return sum;
         }
     }
 }
