@@ -1,7 +1,7 @@
 ﻿/*
 The zlib License
 
-Copyright (c) 2021 Takahiro Kasanami
+Copyright (c) 2021-2022 Takahiro Kasanami
 
 This software is provided 'as-is', without any express or implied
 warranty. In no event will the authors be held liable for any damages
@@ -132,6 +132,7 @@ namespace Ksnm.Numerics
         /// <para>精度とも言える</para>
         /// </summary>
         public int MinExponent { get; private set; }
+
         #endregion プロパティ
 
         #region コンストラクタ
@@ -543,15 +544,15 @@ namespace Ksnm.Numerics
         /// 10 進値を指定した精度に丸めます。 パラメーターは、値が他の 2 つの数値の中間にある場合にその値を丸める方法を指定します。
         /// </summary>
         /// <param name="value">丸め対象の 10 進数。</param>
-        /// <param name="decimals">戻り値の小数点以下の有効桁数 (精度)。</param>
+        /// <param name="precision">戻り値の精度（小数点以下の桁数）</param>
         /// <param name="mode">d が他の 2 つの数値の中間にある場合に丸める方法を指定する値。</param>
-        public static BigDecimal Round(BigDecimal value, int decimals, MidpointRounding mode)
+        public static BigDecimal Round(BigDecimal value, int precision, MidpointRounding mode)
         {
-            if (decimals < 0)
+            if (precision < 0)
             {
-                throw new ArgumentOutOfRangeException($"{nameof(decimals)}={decimals} 範囲を超えています。");
+                throw new ArgumentOutOfRangeException($"{nameof(precision)}={precision} 範囲を超えています。");
             }
-            var scale = Pow10(decimals);
+            var scale = Pow10(precision);
             value *= scale;
             return Round(value, mode) / scale;
         }
@@ -669,30 +670,30 @@ namespace Ksnm.Numerics
         /// 指定された数値の平方根を返します。
         /// </summary>
         /// <param name="value">平方根を求める対象の数値。</param>
-        /// <param name="decimals">小数点以下の有効桁数 (精度)。</param>
+        /// <param name="precision">(精度（小数点以下の桁数）</param>
         /// <returns>戻り値 0 または正 d の正の平方根。</returns>
-        public static BigDecimal Sqrt(BigDecimal value, int decimals)
+        public static BigDecimal Sqrt(BigDecimal value, int precision)
         {
             // 計算回数は仮
-            return Sqrt(value, decimals, decimals + 10);
+            return Sqrt(value, precision, precision + 10);
         }
         /// <summary>
         /// 指定された数値の平方根を返します。
         /// </summary>
         /// <param name="value">平方根を求める対象の数値。</param>
-        /// <param name="decimals">小数点以下の有効桁数 (精度)。</param>
+        /// <param name="precision">精度（小数点以下の桁数）</param>
         /// <param name="count">計算回数</param>
         /// <returns>戻り値 0 または正 d の正の平方根。</returns>
-        public static BigDecimal Sqrt(BigDecimal value, int decimals, int count)
+        public static BigDecimal Sqrt(BigDecimal value, int precision, int count)
         {
             if (value == 0)
             {
                 return 0;
             }
             // 精度を設定
-            if (value.MinExponent > -decimals)
+            if (value.MinExponent > -precision)
             {
-                value.MinExponent = -decimals;
+                value.MinExponent = -precision;
             }
             var temp = value;
             var prev = value;
@@ -700,7 +701,7 @@ namespace Ksnm.Numerics
             {
                 temp = (temp * temp + value) / (2 * temp);
                 // 精度を制限
-                temp = Round(temp, decimals, DefaultMidpointRounding);
+                temp = Round(temp, precision, DefaultMidpointRounding);
                 // 前回から値が変わっていないなら終了
                 if (prev == temp)
                 {
