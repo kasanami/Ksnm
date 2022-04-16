@@ -220,18 +220,31 @@ namespace Ksnm.Science.Mathematics
                 throw new ArgumentOutOfRangeException($"{nameof(precision)}={precision} 範囲を超えています。");
             }
             precision += 1;
-            var sum = new BigDecimal(0, 0, -precision);
-            var one = new BigDecimal(1, 0, -precision);
+            var sum = BigDecimal.MakeZero(precision);
+            var one = BigDecimal.MakeOne(precision);
             var one_5 = one / 5;
             var one_239 = one / 239;
-            for (int k = 1; k <= count; k++)
+            var dividend1 = BigDecimal.MakeOne(precision);// 分子：+1と-1を交互に繰り返す
+            var dividend2 = BigDecimal.MakeOne(precision);// 分子：dividend1の正負が逆の値
+            for (int k = 1; k <= count; k++, dividend1 *= -1)
             {
+#if false
                 sum +=
                     4 *
                     (BigDecimal.Pow(-one, k + 1) / (2 * k - 1)) *
                     BigDecimal.Pow(one_5, 2 * k - 1) +
                     (BigDecimal.Pow(-one, k) / (2 * k - 1)) *
                     BigDecimal.Pow(one_239, 2 * k - 1);
+#else
+                var divisor = 2 * k - 1;// 分母：奇数が順番に入る。
+                dividend2 = -dividend1;
+                sum +=
+                    4 *
+                    (dividend1 / divisor) *
+                    BigDecimal.Pow(one_5, divisor) +
+                    (dividend2 / divisor) *
+                    BigDecimal.Pow(one_239, divisor);
+#endif
             }
             precision -= 1;
             sum.SetMinExponentAndRound(-precision);
