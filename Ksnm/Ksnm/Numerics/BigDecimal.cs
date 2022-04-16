@@ -393,6 +393,35 @@ namespace Ksnm.Numerics
         }
         #endregion 独自メソッド
 
+        #region 生成
+        /// <summary>
+        /// 精度を指定して 0 を生成する。
+        /// </summary>
+        /// <param name="precision">精度(小数点以下の桁数)</param>
+        /// <returns>0 を表す BigDecimal</returns>
+        public static BigDecimal MakeZero(int precision)
+        {
+            if (precision < 0)
+            {
+                throw new ArgumentOutOfRangeException($"{nameof(precision)}={precision} 範囲を超えています。");
+            }
+            return new BigDecimal(0, 0, -precision);
+        }
+        /// <summary>
+        /// 精度を指定して 1 を生成する。
+        /// </summary>
+        /// <param name="precision">精度(小数点以下の桁数)</param>
+        /// <returns>1 を表す BigDecimal</returns>
+        public static BigDecimal MakeOne(int precision)
+        {
+            if (precision < 0)
+            {
+                throw new ArgumentOutOfRangeException($"{nameof(precision)}={precision} 範囲を超えています。");
+            }
+            return new BigDecimal(1, 0, -precision);
+        }
+        #endregion 生成
+
         #region Is*
         /// <summary>
         /// 偶数なら true を返す。
