@@ -113,7 +113,7 @@ namespace DemoApp
         {
             var count = Math_LeibnizFormula_CountNumericUpDown1.Value.ToClampedInt32();
             //Math_LeibnizFormulaLabel1.Text = (Formula.Leibniz(count) * 4).ToDecimalString();
-            Math_LeibnizFormulaLabel1.Text = (Formula.LeibnizForBigDecimal(count, 100) * 4).ToString();
+            Math_LeibnizFormulaLabel1.Text = (Formula.LeibnizFormula(count, 100) * 4).ToString();
         }
 
         private void Math_GaussLegendreButton_Click(object sender, EventArgs e)
@@ -125,7 +125,7 @@ namespace DemoApp
         private void Math_Ramanujan_Button_Click(object sender, EventArgs e)
         {
             var count = Math_Ramanujan_CountNumericUpDown.Value.ToClampedInt32();
-            Math_Ramanujan_Label.Text = (1 / Formula.PIByRamanujan(count, 100)).ToString();
+            Math_Ramanujan_Label.Text = (1 / Formula.RamanujansPiFormula(count, 100)).ToString();
         }
         private void Math_MachinsFormula_Button_Click(object sender, EventArgs e)
         {

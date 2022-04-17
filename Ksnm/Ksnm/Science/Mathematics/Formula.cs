@@ -38,7 +38,7 @@ namespace Ksnm.Science.Mathematics
         /// </summary>
         /// <param name="count">計算回数</param>
         /// <returns>PI/4(円周率の4分の1)</returns>
-        public static double Leibniz(int count)
+        public static double LeibnizFormula(int count)
         {
             double sum = 0.0;
             for (var i = 0; i < count; i++)
@@ -59,7 +59,7 @@ namespace Ksnm.Science.Mathematics
         /// </summary>
         /// <param name="count">計算回数</param>
         /// <returns>PI/4(円周率の4分の1)</returns>
-        public static decimal LeibnizForDecimal(int count)
+        public static decimal LeibnizFormulaForDecimal(int count)
         {
             decimal sum = 0;
             for (var i = 0; i < count; i++)
@@ -81,7 +81,7 @@ namespace Ksnm.Science.Mathematics
         /// <param name="count">計算回数</param>
         /// <param name="precision">精度(小数点以下の桁数)</param>
         /// <returns>PI/4(円周率の4分の1)</returns>
-        public static BigDecimal LeibnizForBigDecimal(int count, int precision)
+        public static BigDecimal LeibnizFormula(int count, int precision)
         {
             if (precision < 0)
             {
@@ -108,7 +108,7 @@ namespace Ksnm.Science.Mathematics
         /// </summary>
         /// <param name="count">計算回数</param>
         /// <returns>PI/2(円周率の2分の1)</returns>
-        public static double WallisProduct(int count)
+        public static double WallisFormula(int count)
         {
             count++;// 1から開始するのでインクリメント
             double product = 1;
@@ -125,7 +125,7 @@ namespace Ksnm.Science.Mathematics
         /// </summary>
         /// <param name="count">計算回数</param>
         /// <returns>PI/2(円周率の2分の1)</returns>
-        public static decimal WallisProductForDecimal(int count)
+        public static decimal WallisFormulaForDecimal(int count)
         {
             count++;// 1から開始するのでインクリメント
             decimal product = 1;
@@ -142,7 +142,7 @@ namespace Ksnm.Science.Mathematics
         /// <param name="count">計算回数</param>
         /// <param name="precision">精度(小数点以下の桁数)</param>
         /// <returns>PI/2(円周率の2分の1)</returns>
-        public static BigDecimal WallisProductForBigDecimal(int count, int precision)
+        public static BigDecimal WallisFormula(int count, int precision)
         {
             if (precision < 0)
             {
@@ -167,7 +167,7 @@ namespace Ksnm.Science.Mathematics
         /// <param name="count">計算回数</param>
         /// <param name="precision">精度(小数点以下の桁数)</param>
         /// <returns>円周率の逆数</returns>
-        public static BigDecimal PIByRamanujan(int count, int precision)
+        public static BigDecimal RamanujansPiFormula(int count, int precision)
         {
             if (precision < 0)
             {

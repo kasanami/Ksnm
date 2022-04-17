@@ -479,7 +479,7 @@ namespace DemoApp
             for (int n = 1; n <= 15; n++)
             {
                 Console.WriteLine($"n={n}");
-                var pi = 1 / Ksnm.Science.Mathematics.Formula.PIByRamanujan(n, 100);
+                var pi = 1 / Ksnm.Science.Mathematics.Formula.RamanujansPiFormula(n, 100);
                 Console.WriteLine(pi.ToString());
             }
 
