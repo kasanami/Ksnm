@@ -474,6 +474,16 @@ namespace DemoApp
         public static void FormulaTest()
         {
             Console.WriteLine("FormulaTest()");
+
+            Console.WriteLine("PIByRamanujan");
+            for (int n = 1; n <= 15; n++)
+            {
+                Console.WriteLine($"n={n}");
+                var pi = 1 / Ksnm.Science.Mathematics.Formula.PIByRamanujan(n, 100);
+                Console.WriteLine(pi.ToString());
+            }
+
+            Console.WriteLine("MachinsFormula");
             for (int n = 0; n <= 10; n++)
             {
                 Console.WriteLine($"n={n}");
@@ -481,7 +491,7 @@ namespace DemoApp
                 Console.WriteLine(pi.ToString());
             }
             Console.WriteLine("For BigDecimal");
-            for (int n = 0; n <= 100; n++)
+            for (int n = 0; n <= 80; n++)
             {
                 Console.WriteLine($"n={n}");
                 var pi = Ksnm.Science.Mathematics.Formula.MachinsFormula(n, 100) * 4;

@@ -66,7 +66,8 @@ namespace Ksnm.Science.Mathematics.Tests
             }
             // BigDecimal型
             {
-                var pi = Formula.MachinsFormula(71, 100) * 4;
+                var pi = Formula.MachinsFormula(71, 105) * 4;
+                pi.SetMinExponentAndRound(-100);
                 Assert.AreEqual(Pi100, pi.ToString());
             }
         }

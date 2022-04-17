@@ -162,11 +162,11 @@ namespace Ksnm.Science.Mathematics
         /// <summary>
         /// ラマヌジャンの円周率の公式
         /// ※最下位の桁は丸められるため意図しない値の可能性があります。
-        /// NOTE:小数点以下100桁の場合、計算回数は 13 回で良い
+        /// NOTE:小数点以下100桁の場合、計算回数は 13 回以上は結果が同じになる。
         /// </summary>
         /// <param name="count">計算回数</param>
         /// <param name="precision">精度(小数点以下の桁数)</param>
-        /// <returns></returns>
+        /// <returns>円周率の逆数</returns>
         public static BigDecimal PIByRamanujan(int count, int precision)
         {
             if (precision < 0)
@@ -208,7 +208,8 @@ namespace Ksnm.Science.Mathematics
         }
         /// <summary>
         /// マチンの公式
-        /// NOTE:小数点以下100桁の場合、計算回数は 71 回で良い
+        /// ※最下位の桁は丸められるため意図しない値の可能性があります。
+        /// NOTE:小数点以下100桁の場合、計算回数は 71 回以上は結果が同じになる。
         /// </summary>
         /// <param name="count">計算回数。1未満を設定すると0を返す。</param>
         /// <param name="precision">精度(小数点以下の桁数)</param>
@@ -219,7 +220,6 @@ namespace Ksnm.Science.Mathematics
             {
                 throw new ArgumentOutOfRangeException($"{nameof(precision)}={precision} 範囲を超えています。");
             }
-            precision += 1;
             var sum = BigDecimal.MakeZero(precision);
             var one = BigDecimal.MakeOne(precision);
             var one_5 = one / 5;
@@ -246,8 +246,6 @@ namespace Ksnm.Science.Mathematics
                     BigDecimal.Pow(one_239, divisor);
 #endif
             }
-            precision -= 1;
-            sum.SetMinExponentAndRound(-precision);
             return sum;
         }
     }
