@@ -28,15 +28,15 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea16 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend16 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series16 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea17 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend17 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series17 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea18 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend18 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series18 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea13 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend13 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series13 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea14 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend14 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series14 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea15 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend15 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series15 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.RandomTabControl = new System.Windows.Forms.TabControl();
             this.MathTabPage = new System.Windows.Forms.TabPage();
             this.tabControl1 = new System.Windows.Forms.TabControl();
@@ -145,6 +145,20 @@
             this.AITabPage = new System.Windows.Forms.TabPage();
             this.tabControl4 = new System.Windows.Forms.TabControl();
             this.tabPage12 = new System.Windows.Forms.TabPage();
+            this.label41 = new System.Windows.Forms.Label();
+            this.label40 = new System.Windows.Forms.Label();
+            this.label39 = new System.Windows.Forms.Label();
+            this.label38 = new System.Windows.Forms.Label();
+            this.label37 = new System.Windows.Forms.Label();
+            this.label36 = new System.Windows.Forms.Label();
+            this.label35 = new System.Windows.Forms.Label();
+            this.label34 = new System.Windows.Forms.Label();
+            this.label33 = new System.Windows.Forms.Label();
+            this.label32 = new System.Windows.Forms.Label();
+            this.label31 = new System.Windows.Forms.Label();
+            this.label30 = new System.Windows.Forms.Label();
+            this.label29 = new System.Windows.Forms.Label();
+            this.label28 = new System.Windows.Forms.Label();
             this.label27 = new System.Windows.Forms.Label();
             this.numericUpDown2 = new System.Windows.Forms.NumericUpDown();
             this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
@@ -155,20 +169,14 @@
             this.label23 = new System.Windows.Forms.Label();
             this.label22 = new System.Windows.Forms.Label();
             this.tabPage13 = new System.Windows.Forms.TabPage();
-            this.label28 = new System.Windows.Forms.Label();
-            this.label29 = new System.Windows.Forms.Label();
-            this.label30 = new System.Windows.Forms.Label();
-            this.label31 = new System.Windows.Forms.Label();
-            this.label32 = new System.Windows.Forms.Label();
-            this.label33 = new System.Windows.Forms.Label();
-            this.label34 = new System.Windows.Forms.Label();
-            this.label35 = new System.Windows.Forms.Label();
-            this.label36 = new System.Windows.Forms.Label();
-            this.label37 = new System.Windows.Forms.Label();
-            this.label38 = new System.Windows.Forms.Label();
-            this.label39 = new System.Windows.Forms.Label();
-            this.label40 = new System.Windows.Forms.Label();
-            this.label41 = new System.Windows.Forms.Label();
+            this.label42 = new System.Windows.Forms.Label();
+            this.label43 = new System.Windows.Forms.Label();
+            this.Math_Ramanujan_CountNumericUpDown = new System.Windows.Forms.NumericUpDown();
+            this.Math_MachinsFormula_CountNumericUpDown = new System.Windows.Forms.NumericUpDown();
+            this.Math_Ramanujan_Button = new System.Windows.Forms.Button();
+            this.Math_MachinsFormula_Button = new System.Windows.Forms.Button();
+            this.Math_Ramanujan_Label = new System.Windows.Forms.Label();
+            this.Math_MachinsFormula_Label = new System.Windows.Forms.Label();
             this.RandomTabControl.SuspendLayout();
             this.MathTabPage.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -222,6 +230,8 @@
             this.tabPage12.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Math_Ramanujan_CountNumericUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Math_MachinsFormula_CountNumericUpDown)).BeginInit();
             this.SuspendLayout();
             // 
             // RandomTabControl
@@ -468,6 +478,14 @@
             this.tableLayoutPanel8.Controls.Add(this.label19, 3, 1);
             this.tableLayoutPanel8.Controls.Add(this.label20, 0, 1);
             this.tableLayoutPanel8.Controls.Add(this.label21, 1, 1);
+            this.tableLayoutPanel8.Controls.Add(this.label42, 0, 4);
+            this.tableLayoutPanel8.Controls.Add(this.label43, 0, 5);
+            this.tableLayoutPanel8.Controls.Add(this.Math_Ramanujan_CountNumericUpDown, 1, 4);
+            this.tableLayoutPanel8.Controls.Add(this.Math_MachinsFormula_CountNumericUpDown, 1, 5);
+            this.tableLayoutPanel8.Controls.Add(this.Math_Ramanujan_Button, 2, 4);
+            this.tableLayoutPanel8.Controls.Add(this.Math_MachinsFormula_Button, 2, 5);
+            this.tableLayoutPanel8.Controls.Add(this.Math_Ramanujan_Label, 3, 4);
+            this.tableLayoutPanel8.Controls.Add(this.Math_MachinsFormula_Label, 3, 5);
             this.tableLayoutPanel8.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel8.Location = new System.Drawing.Point(4, 4);
             this.tableLayoutPanel8.Margin = new System.Windows.Forms.Padding(4);
@@ -618,7 +636,7 @@
             this.Math_GaussLegendre_CountNumericUpDown.Size = new System.Drawing.Size(192, 27);
             this.Math_GaussLegendre_CountNumericUpDown.TabIndex = 11;
             this.Math_GaussLegendre_CountNumericUpDown.Value = new decimal(new int[] {
-            3,
+            6,
             0,
             0,
             0});
@@ -720,18 +738,18 @@
             // 
             // Math_Chart
             // 
-            chartArea16.Name = "ChartArea1";
-            this.Math_Chart.ChartAreas.Add(chartArea16);
+            chartArea13.Name = "ChartArea1";
+            this.Math_Chart.ChartAreas.Add(chartArea13);
             this.Math_Chart.Dock = System.Windows.Forms.DockStyle.Fill;
-            legend16.Name = "Legend1";
-            this.Math_Chart.Legends.Add(legend16);
+            legend13.Name = "Legend1";
+            this.Math_Chart.Legends.Add(legend13);
             this.Math_Chart.Location = new System.Drawing.Point(31, 29);
             this.Math_Chart.Margin = new System.Windows.Forms.Padding(4);
             this.Math_Chart.Name = "Math_Chart";
-            series16.ChartArea = "ChartArea1";
-            series16.Legend = "Legend1";
-            series16.Name = "Series1";
-            this.Math_Chart.Series.Add(series16);
+            series13.ChartArea = "ChartArea1";
+            series13.Legend = "Legend1";
+            series13.Name = "Series1";
+            this.Math_Chart.Series.Add(series13);
             this.Math_Chart.Size = new System.Drawing.Size(929, 453);
             this.Math_Chart.TabIndex = 0;
             this.Math_Chart.Text = "chart1";
@@ -1053,20 +1071,20 @@
             // 
             // Random_Chart
             // 
-            chartArea17.AxisX.Title = "回目";
-            chartArea17.AxisY.Title = "生成値";
-            chartArea17.Name = "ChartArea1";
-            this.Random_Chart.ChartAreas.Add(chartArea17);
+            chartArea14.AxisX.Title = "回目";
+            chartArea14.AxisY.Title = "生成値";
+            chartArea14.Name = "ChartArea1";
+            this.Random_Chart.ChartAreas.Add(chartArea14);
             this.Random_Chart.Dock = System.Windows.Forms.DockStyle.Fill;
-            legend17.Name = "Legend1";
-            this.Random_Chart.Legends.Add(legend17);
+            legend14.Name = "Legend1";
+            this.Random_Chart.Legends.Add(legend14);
             this.Random_Chart.Location = new System.Drawing.Point(4, 19);
             this.Random_Chart.Margin = new System.Windows.Forms.Padding(4);
             this.Random_Chart.Name = "Random_Chart";
-            series17.ChartArea = "ChartArea1";
-            series17.Legend = "Legend1";
-            series17.Name = "Series1";
-            this.Random_Chart.Series.Add(series17);
+            series14.ChartArea = "ChartArea1";
+            series14.Legend = "Legend1";
+            series14.Name = "Series1";
+            this.Random_Chart.Series.Add(series14);
             this.Random_Chart.Size = new System.Drawing.Size(290, 148);
             this.Random_Chart.TabIndex = 0;
             this.Random_Chart.Text = "chart1";
@@ -1124,22 +1142,22 @@
             // 
             // Random_CountChart
             // 
-            chartArea18.AxisX.Title = "生成値";
-            chartArea18.AxisY.IntervalOffsetType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Number;
-            chartArea18.AxisY.IntervalType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Number;
-            chartArea18.AxisY.Title = "回数";
-            chartArea18.Name = "ChartArea1";
-            this.Random_CountChart.ChartAreas.Add(chartArea18);
+            chartArea15.AxisX.Title = "生成値";
+            chartArea15.AxisY.IntervalOffsetType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Number;
+            chartArea15.AxisY.IntervalType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Number;
+            chartArea15.AxisY.Title = "回数";
+            chartArea15.Name = "ChartArea1";
+            this.Random_CountChart.ChartAreas.Add(chartArea15);
             this.Random_CountChart.Dock = System.Windows.Forms.DockStyle.Fill;
-            legend18.Name = "Legend1";
-            this.Random_CountChart.Legends.Add(legend18);
+            legend15.Name = "Legend1";
+            this.Random_CountChart.Legends.Add(legend15);
             this.Random_CountChart.Location = new System.Drawing.Point(4, 19);
             this.Random_CountChart.Margin = new System.Windows.Forms.Padding(4);
             this.Random_CountChart.Name = "Random_CountChart";
-            series18.ChartArea = "ChartArea1";
-            series18.Legend = "Legend1";
-            series18.Name = "Series1";
-            this.Random_CountChart.Series.Add(series18);
+            series15.ChartArea = "ChartArea1";
+            series15.Legend = "Legend1";
+            series15.Name = "Series1";
+            this.Random_CountChart.Series.Add(series15);
             this.Random_CountChart.Size = new System.Drawing.Size(290, 148);
             this.Random_CountChart.TabIndex = 1;
             this.Random_CountChart.Text = "chart1";
@@ -1768,6 +1786,132 @@
             this.tabPage12.Text = "パーセプトロン";
             this.tabPage12.UseVisualStyleBackColor = true;
             // 
+            // label41
+            // 
+            this.label41.AutoSize = true;
+            this.label41.Location = new System.Drawing.Point(519, 163);
+            this.label41.Name = "label41";
+            this.label41.Size = new System.Drawing.Size(51, 15);
+            this.label41.TabIndex = 23;
+            this.label41.Text = "label41";
+            // 
+            // label40
+            // 
+            this.label40.AutoSize = true;
+            this.label40.Location = new System.Drawing.Point(400, 232);
+            this.label40.Name = "label40";
+            this.label40.Size = new System.Drawing.Size(51, 15);
+            this.label40.TabIndex = 22;
+            this.label40.Text = "label40";
+            // 
+            // label39
+            // 
+            this.label39.AutoSize = true;
+            this.label39.Location = new System.Drawing.Point(304, 247);
+            this.label39.Name = "label39";
+            this.label39.Size = new System.Drawing.Size(51, 15);
+            this.label39.TabIndex = 21;
+            this.label39.Text = "label39";
+            // 
+            // label38
+            // 
+            this.label38.AutoSize = true;
+            this.label38.Location = new System.Drawing.Point(304, 232);
+            this.label38.Name = "label38";
+            this.label38.Size = new System.Drawing.Size(51, 15);
+            this.label38.TabIndex = 20;
+            this.label38.Text = "label38";
+            // 
+            // label37
+            // 
+            this.label37.AutoSize = true;
+            this.label37.Location = new System.Drawing.Point(304, 217);
+            this.label37.Name = "label37";
+            this.label37.Size = new System.Drawing.Size(51, 15);
+            this.label37.TabIndex = 19;
+            this.label37.Text = "label37";
+            // 
+            // label36
+            // 
+            this.label36.AutoSize = true;
+            this.label36.Location = new System.Drawing.Point(519, 144);
+            this.label36.Name = "label36";
+            this.label36.Size = new System.Drawing.Size(51, 15);
+            this.label36.TabIndex = 18;
+            this.label36.Text = "label36";
+            // 
+            // label35
+            // 
+            this.label35.AutoSize = true;
+            this.label35.Location = new System.Drawing.Point(301, 178);
+            this.label35.Name = "label35";
+            this.label35.Size = new System.Drawing.Size(51, 15);
+            this.label35.TabIndex = 17;
+            this.label35.Text = "label35";
+            // 
+            // label34
+            // 
+            this.label34.AutoSize = true;
+            this.label34.Location = new System.Drawing.Point(301, 106);
+            this.label34.Name = "label34";
+            this.label34.Size = new System.Drawing.Size(51, 15);
+            this.label34.TabIndex = 16;
+            this.label34.Text = "label34";
+            // 
+            // label33
+            // 
+            this.label33.AutoSize = true;
+            this.label33.Location = new System.Drawing.Point(519, 126);
+            this.label33.Name = "label33";
+            this.label33.Size = new System.Drawing.Size(51, 15);
+            this.label33.TabIndex = 15;
+            this.label33.Text = "label33";
+            // 
+            // label32
+            // 
+            this.label32.AutoSize = true;
+            this.label32.Location = new System.Drawing.Point(519, 106);
+            this.label32.Name = "label32";
+            this.label32.Size = new System.Drawing.Size(51, 15);
+            this.label32.TabIndex = 14;
+            this.label32.Text = "label32";
+            // 
+            // label31
+            // 
+            this.label31.AutoSize = true;
+            this.label31.Location = new System.Drawing.Point(301, 163);
+            this.label31.Name = "label31";
+            this.label31.Size = new System.Drawing.Size(51, 15);
+            this.label31.TabIndex = 13;
+            this.label31.Text = "label31";
+            // 
+            // label30
+            // 
+            this.label30.AutoSize = true;
+            this.label30.Location = new System.Drawing.Point(301, 144);
+            this.label30.Name = "label30";
+            this.label30.Size = new System.Drawing.Size(51, 15);
+            this.label30.TabIndex = 12;
+            this.label30.Text = "label30";
+            // 
+            // label29
+            // 
+            this.label29.AutoSize = true;
+            this.label29.Location = new System.Drawing.Point(301, 81);
+            this.label29.Name = "label29";
+            this.label29.Size = new System.Drawing.Size(51, 15);
+            this.label29.TabIndex = 11;
+            this.label29.Text = "label29";
+            // 
+            // label28
+            // 
+            this.label28.AutoSize = true;
+            this.label28.Location = new System.Drawing.Point(301, 58);
+            this.label28.Name = "label28";
+            this.label28.Size = new System.Drawing.Size(51, 15);
+            this.label28.TabIndex = 10;
+            this.label28.Text = "label28";
+            // 
             // label27
             // 
             this.label27.AutoSize = true;
@@ -1868,131 +2012,121 @@
             this.tabPage13.Text = "tabPage13";
             this.tabPage13.UseVisualStyleBackColor = true;
             // 
-            // label28
+            // label42
             // 
-            this.label28.AutoSize = true;
-            this.label28.Location = new System.Drawing.Point(301, 58);
-            this.label28.Name = "label28";
-            this.label28.Size = new System.Drawing.Size(51, 15);
-            this.label28.TabIndex = 10;
-            this.label28.Text = "label28";
+            this.label42.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.label42.AutoSize = true;
+            this.label42.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.label42.Location = new System.Drawing.Point(4, 215);
+            this.label42.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label42.Name = "label42";
+            this.label42.Size = new System.Drawing.Size(259, 20);
+            this.label42.TabIndex = 17;
+            this.label42.Text = "ラマヌジャンの公式";
+            this.label42.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // label29
+            // label43
             // 
-            this.label29.AutoSize = true;
-            this.label29.Location = new System.Drawing.Point(301, 81);
-            this.label29.Name = "label29";
-            this.label29.Size = new System.Drawing.Size(51, 15);
-            this.label29.TabIndex = 11;
-            this.label29.Text = "label29";
+            this.label43.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.label43.AutoSize = true;
+            this.label43.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.label43.Location = new System.Drawing.Point(4, 265);
+            this.label43.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label43.Name = "label43";
+            this.label43.Size = new System.Drawing.Size(259, 20);
+            this.label43.TabIndex = 18;
+            this.label43.Text = "マチンの公式";
+            this.label43.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // label30
+            // Math_Ramanujan_CountNumericUpDown
             // 
-            this.label30.AutoSize = true;
-            this.label30.Location = new System.Drawing.Point(301, 144);
-            this.label30.Name = "label30";
-            this.label30.Size = new System.Drawing.Size(51, 15);
-            this.label30.TabIndex = 12;
-            this.label30.Text = "label30";
+            this.Math_Ramanujan_CountNumericUpDown.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.Math_Ramanujan_CountNumericUpDown.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.Math_Ramanujan_CountNumericUpDown.Location = new System.Drawing.Point(271, 211);
+            this.Math_Ramanujan_CountNumericUpDown.Margin = new System.Windows.Forms.Padding(4);
+            this.Math_Ramanujan_CountNumericUpDown.Maximum = new decimal(new int[] {
+            2147483647,
+            0,
+            0,
+            0});
+            this.Math_Ramanujan_CountNumericUpDown.Name = "Math_Ramanujan_CountNumericUpDown";
+            this.Math_Ramanujan_CountNumericUpDown.Size = new System.Drawing.Size(192, 27);
+            this.Math_Ramanujan_CountNumericUpDown.TabIndex = 19;
+            this.Math_Ramanujan_CountNumericUpDown.Value = new decimal(new int[] {
+            13,
+            0,
+            0,
+            0});
             // 
-            // label31
+            // Math_MachinsFormula_CountNumericUpDown
             // 
-            this.label31.AutoSize = true;
-            this.label31.Location = new System.Drawing.Point(301, 163);
-            this.label31.Name = "label31";
-            this.label31.Size = new System.Drawing.Size(51, 15);
-            this.label31.TabIndex = 13;
-            this.label31.Text = "label31";
+            this.Math_MachinsFormula_CountNumericUpDown.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.Math_MachinsFormula_CountNumericUpDown.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.Math_MachinsFormula_CountNumericUpDown.Location = new System.Drawing.Point(271, 261);
+            this.Math_MachinsFormula_CountNumericUpDown.Margin = new System.Windows.Forms.Padding(4);
+            this.Math_MachinsFormula_CountNumericUpDown.Maximum = new decimal(new int[] {
+            2147483647,
+            0,
+            0,
+            0});
+            this.Math_MachinsFormula_CountNumericUpDown.Name = "Math_MachinsFormula_CountNumericUpDown";
+            this.Math_MachinsFormula_CountNumericUpDown.Size = new System.Drawing.Size(192, 27);
+            this.Math_MachinsFormula_CountNumericUpDown.TabIndex = 20;
+            this.Math_MachinsFormula_CountNumericUpDown.Value = new decimal(new int[] {
+            71,
+            0,
+            0,
+            0});
             // 
-            // label32
+            // Math_Ramanujan_Button
             // 
-            this.label32.AutoSize = true;
-            this.label32.Location = new System.Drawing.Point(519, 106);
-            this.label32.Name = "label32";
-            this.label32.Size = new System.Drawing.Size(51, 15);
-            this.label32.TabIndex = 14;
-            this.label32.Text = "label32";
+            this.Math_Ramanujan_Button.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Math_Ramanujan_Button.Location = new System.Drawing.Point(471, 204);
+            this.Math_Ramanujan_Button.Margin = new System.Windows.Forms.Padding(4);
+            this.Math_Ramanujan_Button.Name = "Math_Ramanujan_Button";
+            this.Math_Ramanujan_Button.Size = new System.Drawing.Size(45, 42);
+            this.Math_Ramanujan_Button.TabIndex = 21;
+            this.Math_Ramanujan_Button.Text = "＝";
+            this.Math_Ramanujan_Button.UseVisualStyleBackColor = true;
+            this.Math_Ramanujan_Button.Click += new System.EventHandler(this.Math_Ramanujan_Button_Click);
             // 
-            // label33
+            // Math_MachinsFormula_Button
             // 
-            this.label33.AutoSize = true;
-            this.label33.Location = new System.Drawing.Point(519, 126);
-            this.label33.Name = "label33";
-            this.label33.Size = new System.Drawing.Size(51, 15);
-            this.label33.TabIndex = 15;
-            this.label33.Text = "label33";
+            this.Math_MachinsFormula_Button.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Math_MachinsFormula_Button.Location = new System.Drawing.Point(471, 254);
+            this.Math_MachinsFormula_Button.Margin = new System.Windows.Forms.Padding(4);
+            this.Math_MachinsFormula_Button.Name = "Math_MachinsFormula_Button";
+            this.Math_MachinsFormula_Button.Size = new System.Drawing.Size(45, 42);
+            this.Math_MachinsFormula_Button.TabIndex = 22;
+            this.Math_MachinsFormula_Button.Text = "＝";
+            this.Math_MachinsFormula_Button.UseVisualStyleBackColor = true;
+            this.Math_MachinsFormula_Button.Click += new System.EventHandler(this.Math_MachinsFormula_Button_Click);
             // 
-            // label34
+            // Math_Ramanujan_Label
             // 
-            this.label34.AutoSize = true;
-            this.label34.Location = new System.Drawing.Point(301, 106);
-            this.label34.Name = "label34";
-            this.label34.Size = new System.Drawing.Size(51, 15);
-            this.label34.TabIndex = 16;
-            this.label34.Text = "label34";
+            this.Math_Ramanujan_Label.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.Math_Ramanujan_Label.AutoSize = true;
+            this.Math_Ramanujan_Label.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.Math_Ramanujan_Label.Location = new System.Drawing.Point(524, 215);
+            this.Math_Ramanujan_Label.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.Math_Ramanujan_Label.Name = "Math_Ramanujan_Label";
+            this.Math_Ramanujan_Label.Size = new System.Drawing.Size(426, 20);
+            this.Math_Ramanujan_Label.TabIndex = 23;
+            this.Math_Ramanujan_Label.Text = "label4";
+            this.Math_Ramanujan_Label.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // label35
+            // Math_MachinsFormula_Label
             // 
-            this.label35.AutoSize = true;
-            this.label35.Location = new System.Drawing.Point(301, 178);
-            this.label35.Name = "label35";
-            this.label35.Size = new System.Drawing.Size(51, 15);
-            this.label35.TabIndex = 17;
-            this.label35.Text = "label35";
-            // 
-            // label36
-            // 
-            this.label36.AutoSize = true;
-            this.label36.Location = new System.Drawing.Point(519, 144);
-            this.label36.Name = "label36";
-            this.label36.Size = new System.Drawing.Size(51, 15);
-            this.label36.TabIndex = 18;
-            this.label36.Text = "label36";
-            // 
-            // label37
-            // 
-            this.label37.AutoSize = true;
-            this.label37.Location = new System.Drawing.Point(304, 217);
-            this.label37.Name = "label37";
-            this.label37.Size = new System.Drawing.Size(51, 15);
-            this.label37.TabIndex = 19;
-            this.label37.Text = "label37";
-            // 
-            // label38
-            // 
-            this.label38.AutoSize = true;
-            this.label38.Location = new System.Drawing.Point(304, 232);
-            this.label38.Name = "label38";
-            this.label38.Size = new System.Drawing.Size(51, 15);
-            this.label38.TabIndex = 20;
-            this.label38.Text = "label38";
-            // 
-            // label39
-            // 
-            this.label39.AutoSize = true;
-            this.label39.Location = new System.Drawing.Point(304, 247);
-            this.label39.Name = "label39";
-            this.label39.Size = new System.Drawing.Size(51, 15);
-            this.label39.TabIndex = 21;
-            this.label39.Text = "label39";
-            // 
-            // label40
-            // 
-            this.label40.AutoSize = true;
-            this.label40.Location = new System.Drawing.Point(400, 232);
-            this.label40.Name = "label40";
-            this.label40.Size = new System.Drawing.Size(51, 15);
-            this.label40.TabIndex = 22;
-            this.label40.Text = "label40";
-            // 
-            // label41
-            // 
-            this.label41.AutoSize = true;
-            this.label41.Location = new System.Drawing.Point(519, 163);
-            this.label41.Name = "label41";
-            this.label41.Size = new System.Drawing.Size(51, 15);
-            this.label41.TabIndex = 23;
-            this.label41.Text = "label41";
+            this.Math_MachinsFormula_Label.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.Math_MachinsFormula_Label.AutoSize = true;
+            this.Math_MachinsFormula_Label.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.Math_MachinsFormula_Label.Location = new System.Drawing.Point(524, 265);
+            this.Math_MachinsFormula_Label.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.Math_MachinsFormula_Label.Name = "Math_MachinsFormula_Label";
+            this.Math_MachinsFormula_Label.Size = new System.Drawing.Size(426, 20);
+            this.Math_MachinsFormula_Label.TabIndex = 24;
+            this.Math_MachinsFormula_Label.Text = "label4";
+            this.Math_MachinsFormula_Label.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // MainForm
             // 
@@ -2069,6 +2203,8 @@
             this.tabPage12.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Math_Ramanujan_CountNumericUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Math_MachinsFormula_CountNumericUpDown)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -2207,6 +2343,14 @@
         private System.Windows.Forms.Label label38;
         private System.Windows.Forms.Label label37;
         private System.Windows.Forms.Label label41;
+        private System.Windows.Forms.Label label42;
+        private System.Windows.Forms.Label label43;
+        private System.Windows.Forms.NumericUpDown Math_Ramanujan_CountNumericUpDown;
+        private System.Windows.Forms.NumericUpDown Math_MachinsFormula_CountNumericUpDown;
+        private System.Windows.Forms.Button Math_Ramanujan_Button;
+        private System.Windows.Forms.Button Math_MachinsFormula_Button;
+        private System.Windows.Forms.Label Math_Ramanujan_Label;
+        private System.Windows.Forms.Label Math_MachinsFormula_Label;
     }
 }
 

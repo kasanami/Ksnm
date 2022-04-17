@@ -122,6 +122,16 @@ namespace DemoApp
             //Math_GaussLegendreLabel1.Text = (Algorithm.GaussLegendre(count)).ToDecimalString();
             Math_GaussLegendreLabel1.Text = Algorithm.GaussLegendreForBigDecimal(count, 100).ToString();
         }
+        private void Math_Ramanujan_Button_Click(object sender, EventArgs e)
+        {
+            var count = Math_Ramanujan_CountNumericUpDown.Value.ToClampedInt32();
+            Math_Ramanujan_Label.Text = (1 / Formula.PIByRamanujan(count, 100)).ToString();
+        }
+        private void Math_MachinsFormula_Button_Click(object sender, EventArgs e)
+        {
+            var count = Math_MachinsFormula_CountNumericUpDown.Value.ToClampedInt32();
+            Math_MachinsFormula_Label.Text = (Formula.MachinsFormula(count, 100) * 4).ToString();
+        }
 
         private void Math_ChartUpdate()
         {
@@ -175,7 +185,6 @@ namespace DemoApp
         {
             Math_ChartUpdate();
         }
-
         #endregion Mathタブ
 
         #region Randomタブ
@@ -726,6 +735,7 @@ namespace DemoApp
         #endregion パーセプトロン タブ
 
         #endregion AI タブ
+
     }
-}
 #pragma warning restore CS0162 // 到達できないコードが検出されました
+}
