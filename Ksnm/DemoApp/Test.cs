@@ -39,7 +39,9 @@ namespace DemoApp
             Numeric num = new Numeric(100m);
             num.Normalize();
             */
-            AITest();
+            //AbcConjecture();
+            //FermatsLastTheorem();
+            //AITest();
         }
         public static void SingleTest()
         {
@@ -496,6 +498,62 @@ namespace DemoApp
                 Console.WriteLine($"n={n}");
                 var pi = Ksnm.Science.Mathematics.Formula.MachinsFormula(n, 100) * 4;
                 Console.WriteLine(pi.ToString());
+            }
+        }
+        /// <summary>
+        /// ABC予想
+        /// </summary>
+        public static void AbcConjecture()
+        {
+            Console.WriteLine("ABC予想");
+            var random = new Random();
+            int count = 1000;// 試行回数
+            checked
+            {
+                for (long a = 1; a < count; a++)
+                {
+                    for (long b = 1; b < count; b++)
+                    {
+                        long c = a + b;
+                        long d = Rad(a * b * c);
+                        var compare = c.CompareTo(d);
+                        if (compare >= 0)
+                        {
+                            Console.WriteLine($"a={a}\tb={b}\tc={c}\t{compare.ToString()}");
+                        }
+                    }
+                }
+            }
+        }
+        static long Rad(long product)
+        {
+            var primeNumbers = Ksnm.Math.PrimeFactorization(product);
+            primeNumbers = primeNumbers.Distinct();
+            return primeNumbers.Product();
+        }
+        /// <summary>
+        /// フェルマーの最終定理
+        /// </summary>
+        static void FermatsLastTheorem()
+        {
+            for (int n = 2; n <= 10; n++)
+            {
+                for (int x = 1; x < 100; x++)
+                {
+                    for (int y = 1; y < 100; y++)
+                    {
+                        double z2 = Math.Pow(x, n) + Math.Pow(y, n);
+                        for (int z = 1; z < 100; z++)
+                        {
+                            var z3 = Math.Pow(z, n);
+                            Console.WriteLine($"{x}^{n}+{y}^{n}={z2} == {z}^{n}={z3} → {(z2 == z3)}");
+                            if (z2 <= z3)
+                            {
+                                break;
+                            }
+                        }
+                    }
+                }
             }
         }
         public static void AITest()
