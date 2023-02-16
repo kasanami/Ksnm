@@ -46,6 +46,7 @@ namespace Ksnm.Units
         /// </summary>
         public virtual T Value { get; set; }
         #endregion プロパティ
+
         #region コンストラクタ
         /// <summary>
         /// 0 で初期化
@@ -70,11 +71,19 @@ namespace Ksnm.Units
         /// <summary>
         /// 指定した値で初期化
         /// </summary>
+        public Quantity(double value)
+        {
+            Value = Value.From(value);
+        }
+        /// <summary>
+        /// 指定した値で初期化
+        /// </summary>
         public Quantity(decimal value)
         {
             Value = Value.From(value);
         }
         #endregion コンストラクタ
+
         #region object
         /// <summary>
         /// 指定したオブジェクトが、現在のオブジェクトと等しいかどうかを判断します。
@@ -83,9 +92,9 @@ namespace Ksnm.Units
         /// <returns>指定したオブジェクトが現在のオブジェクトと等しい場合は true。それ以外の場合は false。</returns>
         public override bool Equals(object obj)
         {
-            if (obj is Quantity<T>)
+            if (obj is Quantity<T> quantity)
             {
-                return Equals((Quantity<T>)obj);
+                return Equals(quantity);
             }
             return false;
         }
@@ -106,6 +115,7 @@ namespace Ksnm.Units
             return Value.ToString() + Symbol;
         }
         #endregion object
+
         #region IEquatable
         /// <summary>
         /// 現在のオブジェクトが、同じ型の別のオブジェクトと等しいかどうかを示します。
@@ -117,6 +127,7 @@ namespace Ksnm.Units
             return Value.Equals(other.Value);
         }
         #endregion IEquatable
+
         #region 型変換
         /// <summary>
         /// T型への明示的な変換を定義します。
