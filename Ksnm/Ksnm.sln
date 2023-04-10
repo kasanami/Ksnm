@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29025.244
+# Visual Studio Version 17
+VisualStudioVersion = 17.6.33513.286
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ksnm", "Ksnm\Ksnm.csproj", "{FF2E2005-DE75-400D-A970-A0C6FA226823}"
 EndProject
@@ -9,7 +9,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KsnmTests", "KsnmTests\Ksnm
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DemoApp", "DemoApp\DemoApp.csproj", "{7DE3A7CB-68D1-489C-94B2-D8CA0352940A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DemoWpfApp", "DemoWpfApp\DemoWpfApp.csproj", "{81D57EA3-025A-4AA2-A357-211FFEFFE560}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DemoWpfApp", "DemoWpfApp\DemoWpfApp.csproj", "{81D57EA3-025A-4AA2-A357-211FFEFFE560}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ksnm2", "Ksnm2\Ksnm2.csproj", "{CC0983E2-F4BF-4161-A38C-EDA4D453A4B7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{81D57EA3-025A-4AA2-A357-211FFEFFE560}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{81D57EA3-025A-4AA2-A357-211FFEFFE560}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{81D57EA3-025A-4AA2-A357-211FFEFFE560}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CC0983E2-F4BF-4161-A38C-EDA4D453A4B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC0983E2-F4BF-4161-A38C-EDA4D453A4B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC0983E2-F4BF-4161-A38C-EDA4D453A4B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CC0983E2-F4BF-4161-A38C-EDA4D453A4B7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
