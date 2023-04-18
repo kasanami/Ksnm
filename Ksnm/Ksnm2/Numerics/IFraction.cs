@@ -10,7 +10,18 @@ namespace Ksnm2.Numerics
     /// <summary>
     /// 分数型インターフェイス
     /// </summary>
-    interface IFraction<T> where T : INumber<T>
+    interface IFraction<TSelf, TNumerator, TDenominator>
+        where TSelf : INumber<TSelf>
+        where TNumerator : INumber<TNumerator>
+        where TDenominator : INumber<TDenominator>
     {
+        /// <summary>
+        /// 分子
+        /// </summary>
+        public TNumerator Numerator { get; set; }
+        /// <summary>
+        /// 分母
+        /// </summary>
+        public TDenominator Denominator { get; set; }
     }
 }
