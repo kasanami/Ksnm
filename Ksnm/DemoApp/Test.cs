@@ -9,6 +9,7 @@ using System.Numerics;
 using Ksnm.Numerics;
 using static System.Math;
 using System.Collections.Generic;
+using DemoApp.Conjectures;
 
 namespace DemoApp
 {
@@ -30,12 +31,13 @@ namespace DemoApp
             //LogTest();
             //SqrtTest();
             //SinTest();
-            AsinTest();
-            AtanTest();
+            //AsinTest();
+            //AtanTest();
             /*
             Numeric num = new Numeric(100m);
             num.Normalize();
             */
+            AbcConjectureTest();
         }
         public static void SingleTest()
         {
@@ -466,6 +468,40 @@ namespace DemoApp
                     }
                 }
             }
+        }
+        /// <summary>
+        /// ABC予想を用いたテスト
+        /// </summary>
+        public static void AbcConjectureTest()
+        {
+            {
+                int a = 1;
+                int b = 8;
+                int c = a + b;
+                int d = AbcConjecture.Radical(a * b * c);
+            }
+            var trueCount = 0;
+            var random = new Random();
+            for (int j = 1; j < 100; j++)
+            {
+                for (int i = 1; i < 100; i++)
+                {
+                    int a = i;
+                    int b = j;
+                    int c = a + b;
+                    if (Ksnm.Math.GreatestCommonDivisor(a, b, c) == 1)
+                    {
+                        // 互いに素なら比較
+                        int d = AbcConjecture.Radical(a * b * c);
+                        Console.WriteLine($"{a},{b}\tc < d={c < d}");
+                        if (c < d)
+                        {
+                            trueCount++;
+                        }
+                    }
+                }
+            }
+            Console.WriteLine($"{nameof(trueCount)}={trueCount}");
         }
     }
 }
