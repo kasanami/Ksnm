@@ -279,6 +279,8 @@ namespace Ksnm.Tests
             Assert.AreEqual(Math.GreatestCommonDivisor(1071, 1029), 21);
             Assert.AreEqual(Math.GreatestCommonDivisor(-30, 42), 6);
             Assert.AreEqual(Math.GreatestCommonDivisor(-1071, 1029), 21);
+
+            Assert.AreEqual(Math.GreatestCommonDivisor(120, 156, 180), 12);
         }
 
         [TestMethod()]
@@ -288,6 +290,8 @@ namespace Ksnm.Tests
             Assert.AreEqual(Math.GreatestCommonDivisor(108u, 56u), 4u);
             Assert.AreEqual(Math.GreatestCommonDivisor(168u, 180u), 12u);
             Assert.AreEqual(Math.GreatestCommonDivisor(1071u, 1029u), 21u);
+
+            Assert.AreEqual(Math.GreatestCommonDivisor(120u, 156u, 180u), 12u);
         }
 
         [TestMethod()]

@@ -1,7 +1,7 @@
 ﻿/*
 The zlib License
 
-Copyright (c) 2014-2021 Takahiro Kasanami
+Copyright (c) 2014-2023 Takahiro Kasanami
 
 This software is provided 'as-is', without any express or implied
 warranty. In no event will the authors be held liable for any damages
@@ -1256,6 +1256,32 @@ namespace Ksnm
                 b = remainder;
             }
             return a;
+        }
+
+        /// <summary>
+        /// 最大公約数を計算する。
+        /// <para>負数は正数にされる。</para>
+        /// </summary>
+        /// <param name="a">整数</param>
+        /// <param name="b">整数</param>
+        /// <param name="c">整数</param>
+        /// <returns>最大公約数</returns>
+        public static int GreatestCommonDivisor(int a, int b, int c)
+        {
+            return GreatestCommonDivisor(GreatestCommonDivisor(a, b), c);
+        }
+
+        /// <summary>
+        /// 最大公約数を計算する。
+        /// <para>負数は正数にされる。</para>
+        /// </summary>
+        /// <param name="a">符号なし整数</param>
+        /// <param name="b">符号なし整数</param>
+        /// <param name="c">符号なし整数</param>
+        /// <returns>最大公約数</returns>
+        public static uint GreatestCommonDivisor(uint a, uint b, uint c)
+        {
+            return GreatestCommonDivisor(GreatestCommonDivisor(a, b), c);
         }
 
         #endregion 最大公約数 GreatestCommonDivisor
