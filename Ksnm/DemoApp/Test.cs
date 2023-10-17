@@ -37,7 +37,8 @@ namespace DemoApp
             Numeric num = new Numeric(100m);
             num.Normalize();
             */
-            AbcConjectureTest();
+            //AbcConjectureTest();
+            CollatzProblem();
         }
         public static void SingleTest()
         {
@@ -64,7 +65,7 @@ namespace DemoApp
                 for (int i = 0; i < 3; i++)
                 {
                     var value = i * i;
-                    Console.WriteLine($"{i} => { Math.Sqrt(value)}");
+                    Console.WriteLine($"{i} => {Math.Sqrt(value)}");
                 }
             }
 
@@ -502,6 +503,39 @@ namespace DemoApp
                 }
             }
             Console.WriteLine($"{nameof(trueCount)}={trueCount}");
+        }
+        /// <summary>
+        /// コラッツの問題
+        /// </summary>
+        public static void CollatzProblem()
+        {
+            // この数以下は1になる
+            int min = 1;
+            // どれくらいの数値までテストするか
+            for (int i = min + 1; i < 10000; i++)
+            {
+                var value = i;
+                // 試行回数
+                for (int j = 0; j < 100000; j++)
+                {
+                    if ((value & 1) == 0)
+                    {
+                        // 偶数
+                        value /= 2;
+                        // 1になったか？
+                        if (value <= min)
+                        {
+                            min = i;
+                            break;
+                        }
+                    }
+                    else
+                    {
+                        // 奇数
+                        value = value * 3 + 1;
+                    }
+                }
+            }
         }
     }
 }
