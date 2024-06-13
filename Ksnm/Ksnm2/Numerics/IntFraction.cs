@@ -14,15 +14,15 @@ namespace Ksnm2.Numerics
     /// </summary>
     public struct IntFraction : IFraction<IntFraction, int, int>, INumber<IntFraction>
     {
-        public static IntFraction One => throw new NotImplementedException();
+        public static IntFraction One => 1;
 
-        public static int Radix => throw new NotImplementedException();
+        public static int Radix => 2;
 
-        public static IntFraction Zero => throw new NotImplementedException();
+        public static IntFraction Zero => 0;
 
-        public static IntFraction AdditiveIdentity => throw new NotImplementedException();
+        public static IntFraction AdditiveIdentity => 0;
 
-        public static IntFraction MultiplicativeIdentity => throw new NotImplementedException();
+        public static IntFraction MultiplicativeIdentity => 1;
         /// <summary>
         /// 分子
         /// </summary>
@@ -32,159 +32,259 @@ namespace Ksnm2.Numerics
         /// </summary>
         public int Denominator { get; set; }
 
+        public IntFraction(int numerator,int denominator)
+        {
+            Numerator = numerator;
+            Denominator = denominator;
+        }
+        public IntFraction(int numerator)
+        {
+            Numerator = numerator;
+            Denominator = 1;
+        }
+
         public static IntFraction Abs(IntFraction value)
         {
-            throw new NotImplementedException();
+            return new IntFraction(int.Abs(value.Numerator));
         }
 
         public static bool IsCanonical(IntFraction value)
         {
-            throw new NotImplementedException();
+            return true;
         }
 
         public static bool IsComplexNumber(IntFraction value)
         {
-            throw new NotImplementedException();
+            return false;
         }
 
         public static bool IsEvenInteger(IntFraction value)
         {
-            throw new NotImplementedException();
+            if (IsInteger(value))
+            {
+                return int.IsEvenInteger(value.Numerator);
+            }
+            return false;
         }
-
+        /// <summary>
+        /// 有限値ならtrueを返す。
+        /// </summary>
         public static bool IsFinite(IntFraction value)
         {
-            throw new NotImplementedException();
+            return true;
         }
 
         public static bool IsImaginaryNumber(IntFraction value)
         {
-            throw new NotImplementedException();
+            return false;
         }
 
         public static bool IsInfinity(IntFraction value)
         {
-            throw new NotImplementedException();
+            return false;
         }
 
         public static bool IsInteger(IntFraction value)
         {
-            throw new NotImplementedException();
+            return value.Denominator == 1;
         }
 
         public static bool IsNaN(IntFraction value)
         {
-            throw new NotImplementedException();
+            return value.Denominator == 0;
         }
 
         public static bool IsNegative(IntFraction value)
         {
-            throw new NotImplementedException();
+            return int.IsNegative(value.Numerator);
         }
 
         public static bool IsNegativeInfinity(IntFraction value)
         {
-            throw new NotImplementedException();
+            return false;
         }
 
         public static bool IsNormal(IntFraction value)
         {
-            throw new NotImplementedException();
+            return true;
         }
 
         public static bool IsOddInteger(IntFraction value)
         {
-            throw new NotImplementedException();
+            if (IsInteger(value))
+            {
+                return int.IsOddInteger(value.Numerator);
+            }
+            return false;
         }
 
         public static bool IsPositive(IntFraction value)
         {
-            throw new NotImplementedException();
+            return int.IsPositive(value.Numerator);
         }
 
         public static bool IsPositiveInfinity(IntFraction value)
         {
-            throw new NotImplementedException();
+            return false;
         }
 
         public static bool IsRealNumber(IntFraction value)
         {
-            throw new NotImplementedException();
+            return true;
         }
 
         public static bool IsSubnormal(IntFraction value)
         {
-            throw new NotImplementedException();
+            return true;
         }
 
         public static bool IsZero(IntFraction value)
         {
-            throw new NotImplementedException();
+            return value.Numerator == 0;
         }
 
         public static IntFraction MaxMagnitude(IntFraction x, IntFraction y)
         {
-            throw new NotImplementedException();
+            long xNumerator = x.Numerator * y.Denominator;
+            long yNumerator = y.Numerator * x.Denominator;
+            if (xNumerator > yNumerator)
+            {
+                return x;
+            }
+            return y;
         }
 
         public static IntFraction MaxMagnitudeNumber(IntFraction x, IntFraction y)
         {
-            throw new NotImplementedException();
+            return MaxMagnitude(x, y);
         }
 
         public static IntFraction MinMagnitude(IntFraction x, IntFraction y)
         {
-            throw new NotImplementedException();
+            long xNumerator = x.Numerator * y.Denominator;
+            long yNumerator = y.Numerator * x.Denominator;
+            if (xNumerator < yNumerator)
+            {
+                return x;
+            }
+            return y;
         }
 
         public static IntFraction MinMagnitudeNumber(IntFraction x, IntFraction y)
         {
-            throw new NotImplementedException();
+            return MinMagnitude(x, y);
         }
 
         public static IntFraction Parse(ReadOnlySpan<char> s, NumberStyles style, IFormatProvider? provider)
         {
-            throw new NotImplementedException();
+            var slashIndex = s.IndexOf('/');
+            if (slashIndex == -1)
+            {
+                return new(int.Parse(s, style, provider));
+            }
+            else
+            {
+                return new(
+                    int.Parse(s[..slashIndex], style, provider),
+                    int.Parse(s[(slashIndex + 1)..], style, provider));
+            }
         }
 
         public static IntFraction Parse(string s, NumberStyles style, IFormatProvider? provider)
         {
-            throw new NotImplementedException();
+            return Parse(s.AsSpan(), style, provider);
         }
 
         public static IntFraction Parse(ReadOnlySpan<char> s, IFormatProvider? provider)
         {
-            throw new NotImplementedException();
+            var slashIndex = s.IndexOf('/');
+            if (slashIndex == -1)
+            {
+                return new(int.Parse(s, provider));
+            }
+            else
+            {
+                return new(
+                    int.Parse(s[..slashIndex], provider),
+                    int.Parse(s[(slashIndex + 1)..], provider));
+            }
         }
 
         public static IntFraction Parse(string s, IFormatProvider? provider)
         {
-            throw new NotImplementedException();
+            return Parse(s.AsSpan(), provider);
         }
 
         public static bool TryParse(ReadOnlySpan<char> s, NumberStyles style, IFormatProvider? provider, [MaybeNullWhen(false)] out IntFraction result)
         {
-            throw new NotImplementedException();
+            var slashIndex = s.IndexOf('/');
+
+            if (slashIndex == -1)
+            {
+                if (int.TryParse(s, style, provider, out var numerator))
+                {
+                    result = new(numerator);
+                    return true;
+                }
+            }
+            else if (
+                int.TryParse(s[..slashIndex], style, provider, out var numerator) &&
+                int.TryParse(s[(slashIndex + 1)..], style, provider, out var denominator))
+            {
+                result = new(numerator, denominator);
+                return true;
+            }
+
+            result = default;
+            return false;
         }
 
         public static bool TryParse([NotNullWhen(true)] string? s, NumberStyles style, IFormatProvider? provider, [MaybeNullWhen(false)] out IntFraction result)
         {
-            throw new NotImplementedException();
+            return TryParse(s.AsSpan(),style,provider,out result);
         }
 
         public static bool TryParse(ReadOnlySpan<char> s, IFormatProvider? provider, [MaybeNullWhen(false)] out IntFraction result)
         {
-            throw new NotImplementedException();
+            var slashIndex = s.IndexOf('/');
+
+            if (slashIndex == -1)
+            {
+                if (int.TryParse(s, provider, out var numerator))
+                {
+                    result = new(numerator);
+                    return true;
+                }
+            }
+            else if (
+                int.TryParse(s[..slashIndex], provider, out var numerator) &&
+                int.TryParse(s[(slashIndex + 1)..], provider, out var denominator))
+            {
+                result = new(numerator, denominator);
+                return true;
+            }
+
+            result = default;
+            return false;
         }
 
         public static bool TryParse([NotNullWhen(true)] string? s, IFormatProvider? provider, [MaybeNullWhen(false)] out IntFraction result)
         {
-            throw new NotImplementedException();
+            return TryParse(s.AsSpan(), provider, out result);
         }
 
         static bool INumberBase<IntFraction>.TryConvertFromChecked<TOther>(TOther value, out IntFraction result)
         {
-            throw new NotImplementedException();
+            if (TOther.TryConvertToChecked<int>(value, out var _result))
+            {
+                result = new(_result);
+                return true;
+            }
+            else
+            {
+                result = default;
+                return false;
+            }
         }
 
         static bool INumberBase<IntFraction>.TryConvertFromSaturating<TOther>(TOther value, out IntFraction result)
@@ -199,7 +299,17 @@ namespace Ksnm2.Numerics
 
         static bool INumberBase<IntFraction>.TryConvertToChecked<TOther>(IntFraction value, out TOther result)
         {
-            throw new NotImplementedException();
+            int.
+            if (int.TryConvertToSaturating(value.Numerator, out TOther numerator) &&
+                int.TryConvertToSaturating(value.Denominator, out TOther denominator))
+            {
+                return TOther.TryConvertFromChecked(numer / denom, out result);
+            }
+            else
+            {
+                result = default;
+                return false;
+            }
         }
 
         static bool INumberBase<IntFraction>.TryConvertToSaturating<TOther>(IntFraction value, out TOther result)
@@ -341,5 +451,15 @@ namespace Ksnm2.Numerics
         {
             throw new NotImplementedException();
         }
+
+        #region 型変換
+        /// <summary>
+        /// 暗黙的な変換を定義します。
+        /// </summary>
+        public static implicit operator IntFraction(int value)
+        {
+            return new IntFraction(value);
+        }
+        #endregion 型変換
     }
 }
