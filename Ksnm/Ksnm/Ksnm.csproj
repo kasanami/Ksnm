@@ -75,6 +75,7 @@
     <Compile Include="Numerics\FixedPointNumber64Q32.cs" />
     <Compile Include="Numerics\FloatingPointNumber16.cs" />
     <Compile Include="Numerics\Fraction16.cs" />
+    <Compile Include="Numerics\Fraction64.cs" />
     <Compile Include="Numerics\Fraction32.cs" />
     <Compile Include="Numerics\IInteger.cs" />
     <Compile Include="Numerics\IMath.cs" />

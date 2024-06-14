@@ -386,7 +386,7 @@ namespace Ksnm.Numerics
         /// </summary>
         public static explicit operator Fraction(float value)
         {
-            return (Fraction)(double)value;
+            return new Fraction((double)value);
         }
         /// <summary>
         /// double から 分数型 への明示的な変換を定義します。
