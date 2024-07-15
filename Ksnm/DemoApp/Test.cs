@@ -19,6 +19,7 @@ namespace DemoApp
 
         public static void RunAll()
         {
+            SizeTest();
             //SingleTest();
             //DoubleTest();
             //DecimalTest();
@@ -39,6 +40,15 @@ namespace DemoApp
             */
             //AbcConjectureTest();
             CollatzProblem();
+        }
+        public unsafe static void SizeTest()
+        {
+            Console.WriteLine($"{nameof(FixedPointNumber32Q16)}={sizeof(FixedPointNumber32Q16)}");
+            Console.WriteLine($"{nameof(FixedPointNumber64Q32)}={sizeof(FixedPointNumber64Q32)}");
+
+            Console.WriteLine($"{nameof(Fraction16)}={sizeof(Fraction16)}");
+            Console.WriteLine($"{nameof(Fraction32)}={sizeof(Fraction32)}");
+            Console.WriteLine($"{nameof(Fraction64)}={sizeof(Fraction64)}");
         }
         public static void SingleTest()
         {
