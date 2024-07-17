@@ -45,7 +45,7 @@ namespace Ksnm2.Numerics
 
         public static IntFraction Abs(IntFraction value)
         {
-            return new IntFraction(int.Abs(value.Numerator));
+            return new IntFraction(int.Abs(value.Numerator), int.Abs(value.Denominator));
         }
 
         public static bool IsCanonical(IntFraction value)
