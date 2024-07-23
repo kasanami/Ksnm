@@ -84,14 +84,5 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         /// </summary>
         public static readonly Activation ReLU = new Activation("ReLU", Math.ReLU, Math.DerReLU);
         #endregion
-        #region
-        /// <summary>
-        /// 
-        /// </summary>
-        public override string ToString()
-        {
-            return Name;
-        }
-        #endregion
     }
 }

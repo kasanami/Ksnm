@@ -77,7 +77,7 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         /// <summary>
         /// 重みをランダムに調整
         /// </summary>
-        void Randomization(Random random, double expectedValue, double learningRate);
+        void Randomization(Random random, double targetValue, double learningRate);
         /// <summary>
         /// フォワードプロパゲーション
         /// </summary>
@@ -85,7 +85,7 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         /// <summary>
         /// バックプロパゲーション
         /// </summary>
-        void Backpropagation(double expectedValue, double learningRate);
+        void Backpropagation(double targetValue, double learningRate);
         /// <summary>
         /// バックプロパゲーション
         /// </summary>

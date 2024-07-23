@@ -39,10 +39,15 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         public string Name { get; set; } = "";
         /// <summary>
         /// 現在の値
-        /// Update()で更新される。
+        /// ForwardPropagation()で更新される。
         /// 入力ニューロンの場合は、これに入力値を設定する。
         /// </summary>
         public double Value { get; set; }
+        /// <summary>
+        /// 現在の勾配
+        /// Backpropagation()で更新される。
+        /// </summary>
+        public double Delta { get; set; }
         /// <summary>
         /// バイアス
         /// </summary>
@@ -161,13 +166,13 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         /// 乱数による調整
         /// </summary>
         /// <param name="random"></param>
-        /// <param name="expectedValue">期待値</param>
+        /// <param name="targetValue">目標値</param>
         /// <param name="learningRate">学習係数</param>
-        public void Randomization(Random random, double expectedValue, double learningRate)
+        public void Randomization(Random random, double targetValue, double learningRate)
         {
             // 誤差
             // 期待値＞出力値なら+値　期待値＜出力値なら-値が得られる
-            var delta = (expectedValue - Value);
+            var delta = (targetValue - Value);
 
             // 重みを修正
             for (int i = 0; i < InputWeights.Count; i++)
@@ -187,15 +192,16 @@ namespace Ksnm.MachineLearning.NeuralNetwork
                 neuron.Randomization(random, neuron.Value + delta, learningRate * weight);
             }
         }
+
         /// <summary>
         /// バックプロパゲーション(出力層)
         /// </summary>
-        /// <param name="expectedValue">期待値</param>
+        /// <param name="targetValue">目標値</param>
         /// <param name="learningRate">学習係数</param>
-        public void Backpropagation(double expectedValue, double learningRate)
+        public void Backpropagation(double targetValue, double learningRate)
         {
             // δ = (期待値 - 出力値) × 出力の微分
-            var delta = (expectedValue - Value) * Activation.DerivativeFunction(Value);
+            var delta = (targetValue - Value) * Activation.DerivativeFunction(Value);
 
             // 重みを修正
             var oldInputWeights = new List<double>(InputWeights);

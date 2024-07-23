@@ -87,5 +87,153 @@ namespace Ksnm.MachineLearning.NeuralNetwork.Tests
             nn.SetSourceValues(new double[,,] { { { 0 }, { 1 }, { 2 } }, { { 3 }, { 4 }, { 5 }, }, { { 6 }, { 7 }, { 8 } }, { { 9 }, { 10 }, { 11 } } });
             Assert.IsTrue(values.SequenceEqual(nn.SourceValues));
         }
+
+        [TestMethod()]
+        public void Test()
+        {
+            var tolerance = 0.000000000000001;
+
+            var multilayerPerceptron = new MultilayerPerceptron(2, 2, 1, Activation.Sigmoid, Activation.Sigmoid);
+
+            multilayerPerceptron.SourceNeurons[0].Value = 0.5;
+            multilayerPerceptron.SourceNeurons[1].Value = 0.3;
+
+            multilayerPerceptron.HiddenNeurons[0].InputWeights[0] = 0.1;
+            multilayerPerceptron.HiddenNeurons[0].InputWeights[1] = -0.2;
+            multilayerPerceptron.HiddenNeurons[1].InputWeights[0] = 0.4;
+            multilayerPerceptron.HiddenNeurons[1].InputWeights[1] = 0.2;
+
+            multilayerPerceptron.ResultNeurons[0].InputWeights[0] = -0.3;
+            multilayerPerceptron.ResultNeurons[0].InputWeights[1] = 0.5;
+
+            // 目標値
+            var target = 0.8;
+            // 学習率
+            var learningRate = 0.1;
+
+            // 順伝播
+            multilayerPerceptron.ForwardPropagation();
+            var result = multilayerPerceptron.ResultNeurons[0].Value;
+            Assert.AreEqual(0.533218033037244, result, tolerance);
+
+            // 誤差の計算(二乗誤差)
+            {
+                var error = ((result - target) * (result - target)) / 2;
+                Assert.AreEqual(0.0355863089482584, error, tolerance);
+            }
+
+
+            // 各値へのショートカット
+            var result0Weight = multilayerPerceptron.ResultNeurons[0].InputWeights[0];
+            var result1Weight = multilayerPerceptron.ResultNeurons[0].InputWeights[1];
+            var resultDerFunc = multilayerPerceptron.ResultNeurons[0].Activation.DerivativeFunction;
+            var hidden0Value = multilayerPerceptron.HiddenNeurons[0].Value;
+            var hidden1Value = multilayerPerceptron.HiddenNeurons[1].Value;
+            var hidden00Weight = multilayerPerceptron.HiddenNeurons[0].InputWeights[0];
+            var hidden01Weight = multilayerPerceptron.HiddenNeurons[0].InputWeights[1];
+            var hidden10Weight = multilayerPerceptron.HiddenNeurons[1].InputWeights[0];
+            var hidden11Weight = multilayerPerceptron.HiddenNeurons[1].InputWeights[1];
+            var hidden0DerFunc = multilayerPerceptron.HiddenNeurons[0].Activation.DerivativeFunction;
+            var hidden1DerFunc = multilayerPerceptron.HiddenNeurons[1].Activation.DerivativeFunction;
+            var source0Value = multilayerPerceptron.SourceNeurons[0].Value;
+            var source1Value = multilayerPerceptron.SourceNeurons[1].Value;
+
+            // 誤差の逆伝播
+            {
+                // D・・・「∂」は偏微分を示す記号であり、多変数関数の一つの変数に関する微分を表します。
+                // Delta・・・「δ」（デルタ）は、ニューラルネットワークや誤差逆伝播（バックプロパゲーション）において、一般的に「誤差項」を表します。
+
+                // 出力層の誤差：
+                var errorD = result - target;
+                var resultD = resultDerFunc(result);
+                var resultDelta = errorD * resultD;
+                Assert.AreEqual(-0.266781966962756, errorD, tolerance);
+                Assert.AreEqual(+0.248896562281137, resultD, tolerance);
+                Assert.AreEqual(-0.066401114455629, resultDelta, tolerance);
+
+                // 出力層の重みの更新
+                var result0WeightDelta = resultDelta * hidden0Value;
+                var result1WeightDelta = resultDelta * hidden1Value;
+                Assert.AreEqual(-0.0330345558250185, result0WeightDelta, tolerance);
+                Assert.AreEqual(-0.0374924790378152, result1WeightDelta, tolerance);
+
+                // 隠れ層の各ノードに逆伝播される誤差：
+                var hidden0Delta = resultDelta * result0Weight * hidden0DerFunc(hidden0Value);
+                var hidden1Delta = resultDelta * result1Weight * hidden1DerFunc(hidden1Value);
+                Assert.AreEqual(+0.00497995908415762, hidden0Delta, tolerance);
+                Assert.AreEqual(-0.00816143235170022, hidden1Delta, tolerance);
+
+                // 隠れ層の重みに対する勾配
+                var hidden00WeightDelta = hidden0Delta * source0Value;
+                var hidden01WeightDelta = hidden0Delta * source1Value;
+                var hidden10WeightDelta = hidden1Delta * source0Value;
+                var hidden11WeightDelta = hidden1Delta * source1Value;
+                Assert.AreEqual(+0.00248997954207881, hidden00WeightDelta, tolerance);
+                Assert.AreEqual(+0.00149398772524729, hidden01WeightDelta, tolerance);
+                Assert.AreEqual(-0.00408071617585011, hidden10WeightDelta, tolerance);
+                Assert.AreEqual(-0.00244842970551007, hidden11WeightDelta, tolerance);
+
+                // 重みの更新
+                result0Weight = result0Weight - learningRate * result0WeightDelta;
+                result1Weight = result1Weight - learningRate * result1WeightDelta;
+                Assert.AreEqual(-0.296696544417498, result0Weight, tolerance);
+                Assert.AreEqual(+0.503749247903782, result1Weight, tolerance);
+                // 隠れ層の重みの更新
+                hidden00Weight = hidden00Weight - learningRate * hidden00WeightDelta;
+                hidden01Weight = hidden01Weight - learningRate * hidden01WeightDelta;
+                hidden10Weight = hidden10Weight - learningRate * hidden10WeightDelta;
+                hidden11Weight = hidden11Weight - learningRate * hidden11WeightDelta;
+                Assert.AreEqual(+0.099751002045792, hidden00Weight, tolerance);
+                Assert.AreEqual(-0.200149398772525, hidden01Weight, tolerance);
+                Assert.AreEqual(+0.400408071617585, hidden10Weight, tolerance);
+                Assert.AreEqual(+0.200244842970551, hidden11Weight, tolerance);
+
+                multilayerPerceptron.ResultNeurons[0].InputWeights[0] = result0Weight;
+                multilayerPerceptron.ResultNeurons[0].InputWeights[1] = result1Weight;
+                multilayerPerceptron.HiddenNeurons[0].InputWeights[0] = hidden00Weight;
+                multilayerPerceptron.HiddenNeurons[0].InputWeights[1] = hidden01Weight;
+                multilayerPerceptron.HiddenNeurons[1].InputWeights[0] = hidden10Weight;
+                multilayerPerceptron.HiddenNeurons[1].InputWeights[1] = hidden11Weight;
+            }
+            // 順伝播
+            multilayerPerceptron.ForwardPropagation();
+            result = multilayerPerceptron.ResultNeurons[0].Value;
+            //Assert.AreEqual(0.533218033037244, result, tolerance);
+            // 誤差の計算(二乗誤差)
+            {
+                var error = ((result - target) * (result - target)) / 2;
+                //Assert.AreEqual(0.0355863089482584, error, tolerance);
+            }
+        }
+        [TestMethod()]
+        public void Test2()
+        {
+            var tolerance = 0.000000000000001;
+
+            var multilayerPerceptron = new MultilayerPerceptron(2, 2, 1, Activation.Sigmoid, Activation.Sigmoid);
+
+            multilayerPerceptron.SourceNeurons[0].Value = 0.5;
+            multilayerPerceptron.SourceNeurons[1].Value = 0.3;
+
+            multilayerPerceptron.HiddenNeurons[0].InputWeights[0] = 0.1;
+            multilayerPerceptron.HiddenNeurons[0].InputWeights[1] = -0.2;
+            multilayerPerceptron.HiddenNeurons[1].InputWeights[0] = 0.4;
+            multilayerPerceptron.HiddenNeurons[1].InputWeights[1] = 0.2;
+
+            multilayerPerceptron.ResultNeurons[0].InputWeights[0] = -0.3;
+            multilayerPerceptron.ResultNeurons[0].InputWeights[1] = 0.5;
+
+            // 目標値
+            var target = 0.8;
+            // 学習率
+            var learningRate = 0.1;
+
+            // 順伝播
+            multilayerPerceptron.ForwardPropagation();
+            var result = multilayerPerceptron.ResultNeurons[0].Value;
+            Assert.AreEqual(0.533218033037244, result, tolerance);
+
+            multilayerPerceptron.Backpropagation(new[] { 0.8 }, learningRate);
+        }
     }
 }

@@ -23,6 +23,7 @@ freely, subject to the following restrictions:
 */
 using Ksnm.ExtensionMethods.System.Collections.Generic.Enumerable;
 using Ksnm.ExtensionMethods.System.Collections.Generic.List;
+using Ksnm.Units;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -207,6 +208,24 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         }
         #endregion ForwardPropagation
 
+        #region Backpropagation
+        /// <summary>
+        /// バックプロパゲーション
+        /// </summary>
+        /// <param name="targetValue">目標値</param>
+        /// <param name="learningRate">学習係数</param>
+        public void Backpropagation(IReadOnlyList<double> targetValue, double learningRate)
+        {
+            var count = ResultNeurons.Count;
+            System.Diagnostics.Debug.Assert(count == targetValue.Count());
+            for (int i = 0; i < count; i++)
+            {
+                var neuron = ResultNeurons[i];
+                neuron.Backpropagation(targetValue[i], learningRate);
+            }
+        }
+        #endregion Backpropagation
+
         /// <summary>
         /// 複製を作成
         /// </summary>
@@ -272,21 +291,6 @@ namespace Ksnm.MachineLearning.NeuralNetwork
             {
                 var neuron = ResultNeurons[i];
                 neuron.Randomization(Random, expectedValues[i], learningRate);
-            }
-        }
-        /// <summary>
-        /// バックプロパゲーション
-        /// </summary>
-        /// <param name="expectedValues">期待値</param>
-        /// <param name="learningRate">学習係数</param>
-        public void Backpropagation(IReadOnlyList<double> expectedValues, double learningRate)
-        {
-            var count = ResultNeurons.Count;
-            System.Diagnostics.Debug.Assert(count == expectedValues.Count());
-            for (int i = 0; i < count; i++)
-            {
-                var neuron = ResultNeurons[i];
-                neuron.Backpropagation(expectedValues[i], learningRate);
             }
         }
         #region Error
