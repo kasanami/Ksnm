@@ -7,7 +7,7 @@ using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Ksnm2.Numerics
+namespace Ksnm.Numerics
 {
     /// <summary>
     /// 整数の分数

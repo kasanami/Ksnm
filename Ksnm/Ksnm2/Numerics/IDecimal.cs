@@ -1,6 +1,6 @@
 ﻿using System.Numerics;
 
-namespace Ksnm2.Numerics
+namespace Ksnm.Numerics
 {
     /// <summary>
     /// 10進数型インターフェイス
