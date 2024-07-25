@@ -601,7 +601,7 @@ namespace DemoApp
                     new Sample(new [] {1d, 1d},new [] {0d}),
                 };
 
-                var learnParam = new MultilayerPerceptron.LearnParam();
+                var learnParam = new MultilayerPerceptron.GeneticAlgorithmParam();
                 learnParam.learningRate = 100;
                 learnParam.tryCount = 100;
                 learnParam.cloneCount = 1;
@@ -623,7 +623,7 @@ namespace DemoApp
                     // 学習
                     for (int i = 0; i < 1; i++)
                     {
-                        numbersNN = MultilayerPerceptron.Learn(numbersNN, learnParam);
+                        numbersNN = MultilayerPerceptron.LearnByGeneticAlgorithm(numbersNN, learnParam);
                     }
                     // 結果
                     Console.WriteLine("結果");
@@ -651,7 +651,7 @@ namespace DemoApp
                 var numbersNN = new MultilayerPerceptron(15, 1, 10, Activation.Sigmoid, Activation.Sigmoid);
                 Console.WriteLine($"{nameof(numbersNN)}={numbersNN}");
 
-                var learnParam = new MultilayerPerceptron.LearnParam();
+                var learnParam = new MultilayerPerceptron.GeneticAlgorithmParam();
                 learnParam.learningRate = 100;
                 learnParam.tryCount = 200;
                 learnParam.cloneCount = 1;
@@ -751,7 +751,7 @@ namespace DemoApp
                     for (int i = 0; i < 1; i++)
                     {
                         Console.WriteLine($"i={i}");
-                        numbersNN = MultilayerPerceptron.Learn(numbersNN, learnParam);
+                        numbersNN = MultilayerPerceptron.LearnByGeneticAlgorithm(numbersNN, learnParam);
                         // 誤差
                         var error = numbersNN.Error(learnParam.samples);
                         Console.WriteLine($"error ={error.ToDecimalString()}");

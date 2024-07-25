@@ -416,9 +416,9 @@ namespace Ksnm.MachineLearning.NeuralNetwork
 
         #region Learn
         /// <summary>
-        /// Learnのパラメータ
+        /// LearnByGeneticAlgorithmのパラメータ
         /// </summary>
-        public class LearnParam
+        public class GeneticAlgorithmParam
         {
             /// <summary>
             /// 学習係数
@@ -447,7 +447,7 @@ namespace Ksnm.MachineLearning.NeuralNetwork
             /// <summary>
             /// 
             /// </summary>
-            public LearnParam()
+            public GeneticAlgorithmParam()
             {
             }
             /// <summary>
@@ -504,17 +504,17 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         /// <summary>
         /// 学習
         /// </summary>
-        public static MultilayerPerceptron Learn(MultilayerPerceptron neuralNetwork, Sample sample, double learningRate)
+        public static MultilayerPerceptron LearnByGeneticAlgorithm(MultilayerPerceptron neuralNetwork, Sample sample, double learningRate)
         {
-            var learnParam = new LearnParam();
+            var learnParam = new GeneticAlgorithmParam();
             learnParam.samples = new[] { sample };
             learnParam.learningRate = learningRate;
-            return Learn(neuralNetwork, learnParam);
+            return LearnByGeneticAlgorithm(neuralNetwork, learnParam);
         }
         /// <summary>
         /// 学習
         /// </summary>
-        public static MultilayerPerceptron Learn(MultilayerPerceptron neuralNetwork, LearnParam learnParam)
+        public static MultilayerPerceptron LearnByGeneticAlgorithm(MultilayerPerceptron neuralNetwork, GeneticAlgorithmParam learnParam)
         {
             // 複製
             var children = neuralNetwork.Clones(learnParam.cloneCount).ToList();
