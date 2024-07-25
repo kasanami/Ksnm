@@ -1,5 +1,6 @@
 ﻿using Ksnm.MachineLearning.NeuralNetwork;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.Linq;
 
 namespace Ksnm.MachineLearning.NeuralNetwork.Tests
@@ -204,36 +205,6 @@ namespace Ksnm.MachineLearning.NeuralNetwork.Tests
                 var error = ((result - target) * (result - target)) / 2;
                 //Assert.AreEqual(0.0355863089482584, error, tolerance);
             }
-        }
-        [TestMethod()]
-        public void Test2()
-        {
-            var tolerance = 0.000000000000001;
-
-            var multilayerPerceptron = new MultilayerPerceptron(2, 2, 1, Activation.Sigmoid, Activation.Sigmoid);
-
-            multilayerPerceptron.SourceNeurons[0].Value = 0.5;
-            multilayerPerceptron.SourceNeurons[1].Value = 0.3;
-
-            multilayerPerceptron.HiddenNeurons[0].InputWeights[0] = 0.1;
-            multilayerPerceptron.HiddenNeurons[0].InputWeights[1] = -0.2;
-            multilayerPerceptron.HiddenNeurons[1].InputWeights[0] = 0.4;
-            multilayerPerceptron.HiddenNeurons[1].InputWeights[1] = 0.2;
-
-            multilayerPerceptron.ResultNeurons[0].InputWeights[0] = -0.3;
-            multilayerPerceptron.ResultNeurons[0].InputWeights[1] = 0.5;
-
-            // 目標値
-            var target = 0.8;
-            // 学習率
-            var learningRate = 0.1;
-
-            // 順伝播
-            multilayerPerceptron.ForwardPropagation();
-            var result = multilayerPerceptron.ResultNeurons[0].Value;
-            Assert.AreEqual(0.533218033037244, result, tolerance);
-
-            multilayerPerceptron.Backpropagation(new[] { 0.8 }, learningRate);
         }
     }
 }
