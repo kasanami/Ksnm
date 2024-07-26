@@ -467,6 +467,15 @@ namespace Ksnm
             }
             return 1;
         }
+        /// <summary>
+        /// 単位ステップ関数の導関数
+        /// </summary>
+        /// <param name="x">入力</param>
+        /// <returns>0の値</returns>
+        public static double DerUnitStep(double x)
+        {
+            return 0;
+        }
         #endregion UnitStep
 
         #region HeavisideStep
@@ -495,7 +504,7 @@ namespace Ksnm
         /// <param name="x">入力</param>
         /// <param name="c">x=0の時の返り値</param>
         /// <returns>0か1かcの値</returns>
-        public static double HeavisideStep(double x, double c = 0.5)
+        public static double HeavisideStep(double x, double c)
         {
             if (x < 0)
             {
@@ -506,6 +515,22 @@ namespace Ksnm
                 return 1;
             }
             return c;
+        }
+        /// <summary>
+        /// ヘヴィサイドの階段関数
+        /// </summary>
+        /// <param name="x">入力</param>
+        /// <param name="c">x=0の時の返り値</param>
+        /// <returns>0か1かcの値</returns>
+        public static double HeavisideStep(double x) => HeavisideStep(x, 0.5);
+        /// <summary>
+        /// 単位ステップ関数の導関数
+        /// </summary>
+        /// <param name="x">入力</param>
+        /// <returns>0の値</returns>
+        public static double DerHeavisideStep(double x)
+        {
+            return 0;
         }
 
         #endregion HeavisideStep
@@ -559,7 +584,7 @@ namespace Ksnm
         }
         #endregion Sigmoid
 
-        #region Identity
+        #region 恒等関数 Identity
         /// <summary>
         /// 恒等関数
         /// </summary>
@@ -574,7 +599,7 @@ namespace Ksnm
         {
             return 1;
         }
-        #endregion Identity
+        #endregion 恒等関数 Identity
 
         #region Tanh
         /// <summary>
@@ -874,7 +899,7 @@ namespace Ksnm
 
         #endregion Median
 
-        #region Factorial
+        #region 階乗 Factorial
         /// <summary>
         /// 階乗
         /// ※ long で表現できる整数の最大値は 9223372036854775807

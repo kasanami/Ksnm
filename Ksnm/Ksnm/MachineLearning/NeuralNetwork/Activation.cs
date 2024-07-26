@@ -64,6 +64,14 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         /// </summary>
         public static readonly Activation Identity = new Activation("Identity", Math.Identity, Math.DerIdentity);
         /// <summary>
+        /// 単位ステップ関数
+        /// </summary>
+        public static readonly Activation UnitStep = new Activation("UnitStep", Math.UnitStep, Math.DerUnitStep);
+        /// <summary>
+        /// ヘヴィサイドの階段関数
+        /// </summary>
+        public static readonly Activation HeavisideStep = new Activation("HeavisideStep", Math.HeavisideStep, Math.DerHeavisideStep);
+        /// <summary>
         /// LeakyReLU
         /// </summary>
         public static readonly Activation LeakyReLU = new Activation("LeakyReLU", Math.LeakyReLU, Math.DerLeakyReLU);
