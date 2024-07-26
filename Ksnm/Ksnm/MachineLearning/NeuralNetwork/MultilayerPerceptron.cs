@@ -95,13 +95,40 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         /// <summary>
         /// 中間レイヤー（1番目）のニューロン
         /// </summary>
-        public IReadOnlyList<Neuron> HiddenNeurons { get => Layers[1].Neurons.Select(x => x as Neuron).ToList(); }
+        public IReadOnlyList<Neuron> HiddenNeurons
+        {
+            get
+            {
+                if (Layers.Count < 3) { return null; }
+                return Layers[1].Neurons.Select(x => x as Neuron).ToList();
+            }
+        }
 
         /// <summary>
         /// 中間レイヤー（2番目）のニューロン
         /// </summary>
-        public IReadOnlyList<Neuron> Hidden2Neurons { get => Layers[2].Neurons.Select(x => x as Neuron).ToList(); }
+        public IReadOnlyList<Neuron> Hidden2Neurons
+        {
+            get
+            {
+                if (Layers.Count < 4) { return null; }
+                return Layers[2].Neurons.Select(x => x as Neuron).ToList();
+            }
+        }
 
+        /// <summary>
+        /// 中間レイヤー
+        /// </summary>
+        public IEnumerable<ILayer> HiddenLayers
+        {
+            get
+            {
+                for (int i = 1; i < Layers.Count-1; i++)
+                {
+                    yield return Layers[i];
+                }
+            }
+        }
         /// <summary>
         /// 出力レイヤーのニューロン
         /// </summary>
@@ -124,6 +151,36 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         /// </summary>
         public MultilayerPerceptron()
         {
+        }
+        /// <summary>
+        /// 2層のニューラルネットワーク
+        /// </summary>
+        public MultilayerPerceptron(int sourceCount, int resultCount, Activation resultActivation)
+        {
+            ILayer beforeLayer = null;
+            // 1層目
+            {
+                var layer = new Layer<SourceNeuron>();
+                for (int i = 0; i < sourceCount; i++)
+                {
+                    SourceNeuron neuron = new SourceNeuron();
+                    layer.neurons.Add(neuron);
+                }
+                layers.Add(layer);
+                beforeLayer = layer;
+            }
+            // 2層目
+            {
+                var layer = new Layer<Neuron>();
+                layer.Activation = resultActivation;
+                for (int i = 0; i < resultCount; i++)
+                {
+                    Neuron neuron = new Neuron(beforeLayer.Neurons);
+                    neuron.Activation = resultActivation;
+                    layer.neurons.Add(neuron);
+                }
+                layers.Add(layer);
+            }
         }
         /// <summary>
         /// 各レイヤーを指定したニューロン数で初期化
@@ -225,8 +282,16 @@ namespace Ksnm.MachineLearning.NeuralNetwork
             }
         }
         /// <summary>
+        /// 2層のニューラルネットワーク
+        /// 2層目の活性化関数はシグモイド関数
+        /// </summary>
+        public MultilayerPerceptron(int sourceCount, int resultCount) :
+            this(sourceCount, resultCount, Activation.Sigmoid)
+        {
+        }
+        /// <summary>
         /// 3層のニューラルネットワーク
-        /// 2層～3層の活性化関数はシグモイド関数
+        /// 2層目～3層目の活性化関数はシグモイド関数
         /// </summary>
         public MultilayerPerceptron(int sourceCount, int hiddenCount, int resultCount) :
             this(sourceCount, hiddenCount, resultCount, Activation.Sigmoid, Activation.Sigmoid)
@@ -234,7 +299,7 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         }
         /// <summary>
         /// 4層のニューラルネットワーク
-        /// 2層～4層の活性化関数はシグモイド関数
+        /// 2層目～4層目の活性化関数はシグモイド関数
         /// </summary>
         public MultilayerPerceptron(int sourceCount, int hidden1Count, int hidden2Count, int resultCount) :
             this(sourceCount, hidden1Count, hidden2Count, resultCount, Activation.Sigmoid, Activation.Sigmoid, Activation.Sigmoid)
@@ -312,7 +377,7 @@ namespace Ksnm.MachineLearning.NeuralNetwork
             }
         }
 
-
+        #region 設定
         /// <summary>
         /// 重みを指定した値に設定
         /// </summary>
@@ -367,6 +432,19 @@ namespace Ksnm.MachineLearning.NeuralNetwork
                 neuron.Randomization(Random, expectedValues[i], learningRate);
             }
         }
+        /// <summary>
+        /// 出力レイヤーの活性化関数を設定
+        /// </summary>
+        /// <param name="activation"></param>
+        public void SetResultActivation(Activation activation)
+        {
+            foreach (var neuron in ResultNeurons)
+            {
+                neuron.Activation = activation;
+            }
+        }
+        #endregion 設定
+
         #region Error
         /// <summary>
         /// 現在値と期待値との誤差を計算
