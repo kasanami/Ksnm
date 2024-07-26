@@ -13,6 +13,7 @@ using static System.Math;
 using System.Collections.Generic;
 using Ksnm.ExtensionMethods.System.Random;
 
+#pragma warning disable CS0162 // 到達できないコードが検出されました
 namespace DemoApp
 {
     public class Test
@@ -560,7 +561,6 @@ namespace DemoApp
         }
         public static void AITest()
         {
-#pragma warning disable CS0162 // 到達できないコードが検出されました
             Console.WriteLine("AITest()");
 
 
@@ -585,9 +585,10 @@ namespace DemoApp
                     nn.Backpropagation(sample.ResultValues, 100);
                 }
             }
-            #region 論理回路
+            
             if (false)
             {
+                #region 論理回路 GeneticAlgorithm
                 var random = new Random();
 
                 var numbersNN = new MultilayerPerceptron(2, 2, 1, Activation.Sigmoid, Activation.Sigmoid);
@@ -635,28 +636,19 @@ namespace DemoApp
                         Console.WriteLine($"NumbersSample[{i}]={resultValues.ToDebugString("0 ", null, false)}");
                     }
                     // 誤差
-                    var error = numbersNN.Error(learnParam.samples);
+                    var error = numbersNN.ErrorRecalculate(learnParam.samples);
                     Console.WriteLine($"error ={error.ToDecimalString()}");
                     //seedErrorMap.Add(randomSeed, error);
                 }
                 seedErrorMap = seedErrorMap.OrderByValue();
                 Console.WriteLine($"seedErrorMap={seedErrorMap.ToDebugString("X8", "0.0000000000", true)}");
+                #endregion 論理回路
             }
-            #endregion 論理回路
-            #region 数字認識
+
             if (false)
             {
+                #region 数字認識
                 var random = new Random();
-
-                var numbersNN = new MultilayerPerceptron(15, 1, 10, Activation.Sigmoid, Activation.Sigmoid);
-                Console.WriteLine($"{nameof(numbersNN)}={numbersNN}");
-
-                var learnParam = new MultilayerPerceptron.GeneticAlgorithmParam();
-                learnParam.learningRate = 100;
-                learnParam.tryCount = 200;
-                learnParam.cloneCount = 1;
-                learnParam.cloneWeightRangeStart = 0;
-                learnParam.cloneWeightRangeDelta = 100.0 / learnParam.cloneCount;
                 var samples = new List<Sample>
                 {
                     new Sample() { SourceValues = new double[] {
@@ -665,7 +657,7 @@ namespace DemoApp
                         1, 0, 1,
                         1, 0, 1,
                         1, 1, 1,}, ResultValues = new double[] { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 } },
-#if false
+#if true
                     new Sample() { SourceValues = new double[] {
                         0, 1, 0,
                         0, 1, 0,
@@ -723,7 +715,7 @@ namespace DemoApp
 #endif
                 };
                 // サンプル数を増やす
-                if (false)
+                if (true)
                 {
                     // 元々の数
                     var count = samples.Count;
@@ -739,41 +731,46 @@ namespace DemoApp
                     }
                 }
                 //
-                learnParam.samples = samples;
 
-                for (int j = 0; j < 1; j++)
+                var numbersNN = new MultilayerPerceptron(15, 10, 10, Activation.Sigmoid, Activation.Sigmoid);
+                Console.WriteLine($"{nameof(numbersNN)}={numbersNN}");
+                numbersNN.Random = new Random();
+                numbersNN.ResetWeights(0.5);
+
+                // 学習率
+                var learningRate = 1.0;
+                Console.WriteLine($"{nameof(learningRate)}={learningRate}");
+
+                for (int i = 0; i < 1000; i++)
                 {
-                    var randomSeed = random.Next();
-                    Console.WriteLine($"{nameof(randomSeed)}={randomSeed}");
-                    numbersNN.Random = new Random(randomSeed);
-                    numbersNN.ResetWeights(1);
-                    // 学習
-                    for (int i = 0; i < 1; i++)
+                    var errorSum = 0.0;
+                    foreach (Sample sample in samples)
                     {
-                        Console.WriteLine($"i={i}");
-                        numbersNN = MultilayerPerceptron.LearnByGeneticAlgorithm(numbersNN, learnParam);
-                        // 誤差
-                        var error = numbersNN.Error(learnParam.samples);
-                        Console.WriteLine($"error ={error.ToDecimalString()}");
-                    }
-                    // 結果
-                    Console.WriteLine("結果");
-                    for (int i = 0; i < learnParam.samples.Count; i++)
-                    {
-                        numbersNN.ForwardPropagation(learnParam.samples[i].SourceValues);
-                        // 数値調整
-                        var resultValues = new List<double>();
-                        var max = numbersNN.ResultValues.Max();
-                        if (max == 0) { max = 1; }
-                        foreach (var value in numbersNN.ResultValues)
+                        var targets = sample.ResultValues.ToList();
+                        numbersNN.SetSourceValues(sample.SourceValues);
+                        // 順伝播
+                        numbersNN.ForwardPropagation();
+                        var results = numbersNN.ResultValues;
+                        // 誤差の計算(二乗誤差)
+                        var error = numbersNN.Error(sample.ResultValues);
+                        if (i == 999)
                         {
-                            resultValues.Add(value / max);
+                            Console.WriteLine($"{i} {targets.ToJoinedString(",")} : {nameof(results)}={results.ToJoinedString(",")} {nameof(error)}={error}");
                         }
-                        Console.WriteLine($"NumbersSample[{i}]={resultValues.ToDebugString("0.0 ", null, false)}");
+                        if (error > 0)
+                        {
+                            AITest_Backpropagation(numbersNN, targets, learningRate);
+                        }
+                        errorSum += error;
+                    }
+                    Console.WriteLine($"{i} {nameof(errorSum)}={errorSum}");
+                    if (errorSum == 0)
+                    {
+                        break;
                     }
                 }
+                #endregion 数字認識
             }
-            #endregion 数字認識
 
             //Console.WriteLine(Utility.DifferentiatedSigmoid(-1));
             //Console.WriteLine(Utility.DifferentiatedSigmoid(0.5));
@@ -781,8 +778,9 @@ namespace DemoApp
             //Console.WriteLine(Utility.DifferentiatedSigmoid(+0.5));
             //Console.WriteLine(Utility.DifferentiatedSigmoid(+1));
 
-            // バックプロパゲーションテスト
+            if(false)
             {
+                #region 論理回路 バックプロパゲーションテスト
                 Console.WriteLine($"バックプロパゲーションテスト");
                 var random = new Random();
 
@@ -790,7 +788,7 @@ namespace DemoApp
                     new MultilayerPerceptron(2, 3, 1, Activation.Sigmoid, Activation.Sigmoid);
 
                 // 最初の重みはランダム
-                multilayerPerceptron.ResetWeightsWithRandom(10);
+                multilayerPerceptron.ResetWeightsWithRandom(2);
 
                 // 目標値
                 var XorSample = new List<Sample>
@@ -810,18 +808,17 @@ namespace DemoApp
                     var errorSum = 0d;
                     foreach (Sample sample in XorSample)
                     {
-                        var target = sample.ResultValues[0];
-                        multilayerPerceptron.SetSourceValue(0, sample.SourceValues[0]);
-                        multilayerPerceptron.SetSourceValue(1, sample.SourceValues[1]);
+                        var targets = sample.ResultValues;
+                        multilayerPerceptron.SetSourceValues(sample.SourceValues);
                         // 順伝播
                         multilayerPerceptron.ForwardPropagation();
                         var result = multilayerPerceptron.ResultNeurons[0].Value;
                         // 誤差の計算(二乗誤差)
-                        var error = ((result - target) * (result - target)) / 2;
-                        Console.WriteLine($"{sample.SourceValues[0]},{sample.SourceValues[1]}={target} : { nameof(result)}={result} {nameof(error)}={error}");
+                        var error = multilayerPerceptron.Error(targets);
+                        Console.WriteLine($"{sample.SourceValues[0]},{sample.SourceValues[1]}={targets[0]} : { nameof(result)}={result} {nameof(error)}={error}");
                         if (error > 0)
                         {
-                            AITest_Backpropagation(multilayerPerceptron, target, learningRate);
+                            AITest_Backpropagation(multilayerPerceptron, targets, learningRate);
                         }
                         errorSum += error;
                     }
@@ -831,51 +828,60 @@ namespace DemoApp
                         break;
                     }
                 }
+                #endregion 論理回路 バックプロパゲーションテスト
             }
-
-#pragma warning restore CS0162 // 到達できないコードが検出されました
         }
-        public static void AITest_Backpropagation(MultilayerPerceptron multilayerPerceptron, double target, double learningRate)
+        public static void AITest_Backpropagation(MultilayerPerceptron nn, IReadOnlyList<double> targetValues, double learningRate)
         {
             // D・・・「∂」は偏微分を示す記号であり、多変数関数の一つの変数に関する微分を表します。
             // Delta・・・「δ」（デルタ）は、ニューラルネットワークや誤差逆伝播（バックプロパゲーション）において、一般的に「誤差項」を表します。
 
             // 各値へのショートカット
-            var result = multilayerPerceptron.ResultNeurons[0].Value;
-            var resultWeights = multilayerPerceptron.ResultNeurons[0].InputWeights;
-            var resultDerFunc = multilayerPerceptron.ResultNeurons[0].Activation.DerivativeFunction;
-            var hiddens = multilayerPerceptron.HiddenNeurons;
-            var sources = multilayerPerceptron.SourceNeurons;
+            var results = nn.ResultValues.ToList();
+            var hiddens = nn.HiddenNeurons;
+            var sources = nn.SourceNeurons;
 
             // 出力層の誤差：
-            var errorD = result - target;
-            var resultD = resultDerFunc(result);
-            var resultDelta = errorD * resultD;
+            var resultDeltas = new double[results.Count];
+            for (var ri = 0; ri < results.Count; ri++)
+            {
+                var DerFunc = nn.ResultNeurons[ri].Activation.DerivativeFunction;
+                resultDeltas[ri] = (results[ri] - targetValues[ri]) * DerFunc(results[ri]);
+            }
 
             // 隠れ層の各ノードに逆伝播される誤差：
             var hiddenDeltas = new double[hiddens.Count];
-            for (var i = 0; i < hiddenDeltas.Length; i++)
+            for (var hi = 0; hi < hiddenDeltas.Length; hi++)
             {
-                var DerFunc = multilayerPerceptron.HiddenNeurons[i].Activation.DerivativeFunction;
-                hiddenDeltas[i] = resultDelta * resultWeights[i] * DerFunc(hiddens[i].Value);
+                hiddenDeltas[hi] = 1;
+                var DerFunc = nn.HiddenNeurons[hi].Activation.DerivativeFunction;
+                for (var ri = 0; ri < results.Count; ri++)
+                {
+                    hiddenDeltas[hi] *= resultDeltas[ri] * nn.ResultNeurons[ri].InputWeights[hi];
+                }
+                hiddenDeltas[hi] *= DerFunc(hiddens[hi].Value);
             }
 
             // 重みの更新
-            for (var i = 0; i < hiddens.Count; i++)
+            for (var ri = 0; ri < results.Count; ri++)
             {
-                resultWeights[i] -= learningRate * (resultDelta * hiddens[i].Value);
+                for (var hi = 0; hi < hiddens.Count; hi++)
+                {
+                    nn.ResultNeurons[ri].InputWeights[hi]
+                        -= learningRate * (resultDeltas[ri] * hiddens[hi].Value);
+                }
+                nn.ResultNeurons[ri].Bias -= learningRate * resultDeltas[ri];
             }
-            multilayerPerceptron.ResultNeurons[0].Bias -= learningRate * (resultDelta);
             // 隠れ層の重みの更新
-            for (var i = 0; i < hiddenDeltas.Length; i++)
+            for (var hi = 0; hi < hiddenDeltas.Length; hi++)
             {
-                for (var j = 0; j < sources.Count; j++)
+                for (var si = 0; si < sources.Count; si++)
                 {
                     // 隠れ層の重みに対する勾配=hiddenDeltas[i] * sources[j].Value
-                    multilayerPerceptron.HiddenNeurons[i].InputWeights[j] -=
-                        learningRate * (hiddenDeltas[i] * sources[j].Value);
-                    multilayerPerceptron.HiddenNeurons[i].Bias-=
-                        learningRate * hiddenDeltas[i];
+                    nn.HiddenNeurons[hi].InputWeights[si] -=
+                        learningRate * (hiddenDeltas[hi] * sources[si].Value);
+                    nn.HiddenNeurons[hi].Bias -=
+                        learningRate * hiddenDeltas[hi];
                 }
             }
         }
@@ -1012,3 +1018,5 @@ namespace DemoApp
         }
     }
 }
+
+#pragma warning restore CS0162 // 到達できないコードが検出されました

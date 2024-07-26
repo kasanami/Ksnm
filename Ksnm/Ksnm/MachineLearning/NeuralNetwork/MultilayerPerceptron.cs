@@ -256,6 +256,7 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         }
         #endregion コンストラクタ
 
+        #region 学習
         #region ForwardPropagation
         /// <summary>
         /// フォワードプロパゲーション
@@ -369,30 +370,28 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         #region Error
         /// <summary>
         /// 現在値と期待値との誤差を計算
+        /// 各値の差を2乗→合計→2で割る。
         /// </summary>
-        /// <param name="expectedValues">期待値</param>
+        /// <param name="targetValues">目標値</param>
         /// <returns>誤差</returns>
-        public double Error(IReadOnlyList<double> expectedValues)
+        public double Error(IReadOnlyList<double> targetValues)
         {
             var count = ResultNeurons.Count;
-            System.Diagnostics.Debug.Assert(count == expectedValues.Count());
+            System.Diagnostics.Debug.Assert(count == targetValues.Count());
             var errors = 0.0;
             for (int i = 0; i < count; i++)
             {
-                var error = expectedValues[i] - ResultNeurons[i].Value;
-                errors += System.Math.Abs(error);
-                //errors += error * error;
+                var error = ResultNeurons[i].Value - targetValues[i];
+                errors += error * error;
             }
-            //return errors * 3;
-            //return errors / 2;// 各値の差を2乗→合計→2で割る。
-            return errors;
+            return errors / 2;
         }
         /// <summary>
         /// 再計算し期待値との誤差を計算
         /// </summary>
         /// <param name="sample">サンプル</param>
         /// <returns>誤差</returns>
-        public double Error(Sample sample)
+        public double ErrorRecalculate(Sample sample)
         {
             SetSourceValues(sample.SourceValues);
             ForwardPropagation();
@@ -403,12 +402,12 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         /// </summary>
         /// <param name="samples">期待値を持っているSample</param>
         /// <returns>誤差の合計</returns>
-        public double Error(IReadOnlyList<Sample> samples)
+        public double ErrorRecalculate(IReadOnlyList<Sample> samples)
         {
             double error = 0;
             foreach (var sample in samples)
             {
-                error += Error(sample);
+                error += ErrorRecalculate(sample);
             }
             return error;
         }
@@ -534,7 +533,7 @@ namespace Ksnm.MachineLearning.NeuralNetwork
 #endif
             {
                 children[i].Learn(learnParam.samples, learnParam.learningRate, learnParam.tryCount);
-                errors[i] = children[i].Error(learnParam.samples);
+                errors[i] = children[i].ErrorRecalculate(learnParam.samples);
             }
 #if true// 並列処理
             );
@@ -544,6 +543,8 @@ namespace Ksnm.MachineLearning.NeuralNetwork
             return children[minErrorIndex];
         }
         #endregion Learn
+        #endregion 学習
+
         /// <summary>
         /// 
         /// </summary>

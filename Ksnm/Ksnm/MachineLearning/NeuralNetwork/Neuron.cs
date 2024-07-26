@@ -113,6 +113,7 @@ namespace Ksnm.MachineLearning.NeuralNetwork
             return new Neuron(this, inputNeurons);
         }
 
+        #region 学習
         /// <summary>
         /// Valueを更新
         /// </summary>
@@ -250,6 +251,8 @@ namespace Ksnm.MachineLearning.NeuralNetwork
                 neuron.Backpropagation(delta, oldInputWeights[i], learningRate);
             }
         }
+        #endregion 学習
+
         #region Object
         /// <summary>
         /// 
