@@ -59,6 +59,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ExtensionMethods\System\Collections\Generic\IReadOnlyList\IReadOnlyListExtensions.cs" />
     <Compile Include="ExtensionMethods\System\Enum\EnumExtensions.cs" />
     <Compile Include="MachineLearning\NeuralNetwork\Activation.cs" />
     <Compile Include="MachineLearning\NeuralNetwork\ILayer.cs" />

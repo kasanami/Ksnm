@@ -69,6 +69,7 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
+    <Compile Include="ExtensionMethods\System\Collections\Generic\IReadOnlyList\IReadOnlyListExtensionsTests.cs" />
     <Compile Include="ExtensionMethods\System\Enum\EnumExtensionsTests.cs" />
     <Compile Include="MachineLearning\NeuralNetwork\MultilayerPerceptronTests.cs" />
     <Compile Include="MachineLearning\NeuralNetwork\NeuronTests.cs" />
