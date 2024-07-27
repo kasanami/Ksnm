@@ -53,8 +53,18 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         /// 入力無し
         /// </summary>
         public IList<double> InputWeights { get; private set; } = new double[0];
+        /// <summary>
+        /// 活性化関数
+        /// </summary>
+        public Activation Activation { get; } = null;
+        /// <summary>
+        /// 誤差項
+        /// BackPropagation()で更新される
+        /// </summary>
+        public double Delta { get; set; }
         #endregion プロパティ
 
+        #region コンストラクタ
         /// <summary>
         /// デフォルト値で初期化
         /// </summary>
@@ -69,6 +79,18 @@ namespace Ksnm.MachineLearning.NeuralNetwork
             Name = source.Name;
             Value = source.Value;
         }
+        #endregion コンストラクタ
+
+        #region その他
+        /// <summary>
+        /// 指定したニューロンを入力に持っていれば、そのインデックスを返す。
+        /// 持っていなければ-1を返す。
+        /// </summary>
+        public int InputIndexOf(INeuron neuron)
+        {
+            return -1;
+        }
+        #endregion その他
 
         /// <summary>
         /// 複製を作成
@@ -98,12 +120,16 @@ namespace Ksnm.MachineLearning.NeuralNetwork
             // 何もしない
         }
 
-        public void Backpropagation(double expectedValue, double learningRate)
+        public void BackPropagationDelta(double targetValue)
         {
             // 何もしない
         }
 
-        public void Backpropagation(double nextDelta, double nextWeight, double learningRate)
+        public void BackPropagationDelta(ILayer beforeLayer)
+        {
+            // 何もしない
+        }
+        public void BackPropagationWeight(double learningRate)
         {
             // 何もしない
         }

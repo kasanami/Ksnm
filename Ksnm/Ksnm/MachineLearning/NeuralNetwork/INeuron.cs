@@ -38,6 +38,7 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         string Name { get; set; }
         /// <summary>
         /// 計算結果値
+        /// ForwardPropagation()で更新される
         /// </summary>
         double Value { get; set; }
         /// <summary>
@@ -52,7 +53,24 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         /// 入力ニューロン
         /// </summary>
         IList<double> InputWeights { get; }
+        /// <summary>
+        /// 活性化関数
+        /// </summary>
+        Activation Activation { get; }
+        /// <summary>
+        /// 誤差項
+        /// BackPropagation()で更新される
+        /// </summary>
+        double Delta { get; set; }
         #endregion プロパティ
+
+        #region その他
+        /// <summary>
+        /// 指定したニューロンを入力に持っていれば、そのインデックスを返す。
+        /// 持っていなければ-1を返す。
+        /// </summary>
+        int InputIndexOf(INeuron neuron);
+        #endregion その他
 
         #region インスタンス関係
         /// <summary>
@@ -83,13 +101,18 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         /// </summary>
         void ForwardPropagation();
         /// <summary>
-        /// バックプロパゲーション
+        /// バックプロパゲーションの誤差更新
         /// </summary>
-        void Backpropagation(double targetValue, double learningRate);
+        void BackPropagationDelta(double targetValue);
         /// <summary>
-        /// バックプロパゲーション
+        /// バックプロパゲーションの誤差更新
         /// </summary>
-        void Backpropagation(double nextDelta, double nextWeight, double learningRate);
+        void BackPropagationDelta(ILayer beforeLayer);
+        /// <summary>
+        /// バックプロパゲーションの重み更新
+        /// </summary>
+        /// <param name="learningRate">学習係数</param>
+        void BackPropagationWeight(double learningRate);
         #endregion 学習関係
     }
 }

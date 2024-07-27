@@ -135,6 +135,15 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         public IReadOnlyList<Neuron> ResultNeurons { get => Layers[Layers.Count - 1].Neurons.Select(x => x as Neuron).ToList(); }
 
         /// <summary>
+        /// 入力レイヤー
+        /// </summary>
+        public ILayer SourceLayer => Layers[0];
+        /// <summary>
+        /// 出力レイヤー
+        /// </summary>
+        public ILayer ResultLayer => Layers[Layers.Count - 1];
+
+        /// <summary>
         /// レイヤー一覧
         /// </summary>
         public IReadOnlyList<ILayer> Layers { get => layers; }
@@ -347,23 +356,49 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         }
         #endregion ForwardPropagation
 
-        #region Backpropagation
+        #region BackPropagation
         /// <summary>
         /// バックプロパゲーション
         /// </summary>
-        /// <param name="targetValue">目標値</param>
+        /// <param name="targetValues">目標値</param>
         /// <param name="learningRate">学習係数</param>
-        public void Backpropagation(IReadOnlyList<double> targetValue, double learningRate)
+        public void BackPropagation(IReadOnlyList<double> targetValues, double learningRate)
         {
-            var count = ResultNeurons.Count;
-            System.Diagnostics.Debug.Assert(count == targetValue.Count());
-            for (int i = 0; i < count; i++)
+            // D・・・「∂」は偏微分を示す記号であり、多変数関数の一つの変数に関する微分を表します。
+            // Delta・・・「δ」（デルタ）は、ニューラルネットワークや誤差逆伝播（バックプロパゲーション）において、一般的に「誤差項」を表します。
+
+            // 隠れ層の各ノードに逆伝播される誤差更新
+            // 最後のレイヤー（入力層）は更新しない
+            ILayer beforeLayer = null;
+            for (var li = Layers.Count - 1; li >= 1; li--)
             {
-                var neuron = ResultNeurons[i];
-                neuron.Backpropagation(targetValue[i], learningRate);
+                var layer = Layers[li];
+                var neurons = layer.Neurons;
+                for (var i = 0; i < neurons.Count; i++)
+                {
+                    var neuron = neurons[i];
+                    if (beforeLayer != null)
+                    {
+                        neuron.BackPropagationDelta(beforeLayer);
+                    }
+                    else
+                    {
+                        neuron.BackPropagationDelta(targetValues[i]);
+                    }
+                }
+                beforeLayer = layer;
+            }
+
+            // 重みの更新
+            foreach (var layer in Layers)
+            {
+                foreach (var neuron in layer.Neurons)
+                {
+                    neuron.BackPropagationWeight(learningRate);
+                }
             }
         }
-        #endregion Backpropagation
+        #endregion BackPropagation
 
         /// <summary>
         /// 複製を作成
@@ -555,7 +590,7 @@ namespace Ksnm.MachineLearning.NeuralNetwork
             // 更新
             ForwardPropagation();
             // バックプロパゲーション
-            Backpropagation(sample.ResultValues, learningRate);
+            BackPropagation(sample.ResultValues, learningRate);
             //Randomization(sample.ResultValues, learningRate);
         }
         /// <summary>
