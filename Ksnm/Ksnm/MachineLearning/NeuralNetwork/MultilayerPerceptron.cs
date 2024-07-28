@@ -169,7 +169,7 @@ namespace Ksnm.MachineLearning.NeuralNetwork
             ILayer beforeLayer = null;
             // 1層目
             {
-                var layer = new Layer<SourceNeuron>();
+                var layer = new Layer<SourceNeuron>("Source");
                 for (int i = 0; i < sourceCount; i++)
                 {
                     SourceNeuron neuron = new SourceNeuron();
@@ -180,7 +180,7 @@ namespace Ksnm.MachineLearning.NeuralNetwork
             }
             // 2層目
             {
-                var layer = new Layer<Neuron>();
+                var layer = new Layer<Neuron>("Result");
                 layer.Activation = resultActivation;
                 for (int i = 0; i < resultCount; i++)
                 {
@@ -199,7 +199,7 @@ namespace Ksnm.MachineLearning.NeuralNetwork
             ILayer beforeLayer = null;
             // 1層目
             {
-                var layer = new Layer<SourceNeuron>();
+                var layer = new Layer<SourceNeuron>("Source");
                 for (int i = 0; i < sourceCount; i++)
                 {
                     SourceNeuron neuron = new SourceNeuron();
@@ -210,7 +210,7 @@ namespace Ksnm.MachineLearning.NeuralNetwork
             }
             // 2層目
             {
-                var layer = new Layer<Neuron>();
+                var layer = new Layer<Neuron>("Hidden");
                 layer.Activation = hiddenActivation;
                 for (int i = 0; i < hiddenCount; i++)
                 {
@@ -223,7 +223,7 @@ namespace Ksnm.MachineLearning.NeuralNetwork
             }
             // 3層目
             {
-                var layer = new Layer<Neuron>();
+                var layer = new Layer<Neuron>("Result");
                 layer.Activation = resultActivation;
                 for (int i = 0; i < resultCount; i++)
                 {
@@ -242,7 +242,7 @@ namespace Ksnm.MachineLearning.NeuralNetwork
             ILayer beforeLayer = null;
             // 1層目
             {
-                var layer = new Layer<SourceNeuron>();
+                var layer = new Layer<SourceNeuron>("Source");
                 for (int i = 0; i < sourceCount; i++)
                 {
                     SourceNeuron neuron = new SourceNeuron();
@@ -253,7 +253,7 @@ namespace Ksnm.MachineLearning.NeuralNetwork
             }
             // 2層目
             {
-                var layer = new Layer<Neuron>();
+                var layer = new Layer<Neuron>("Hidden");
                 layer.Activation = hidden1Activation;
                 for (int i = 0; i < hidden1Count; i++)
                 {
@@ -266,7 +266,7 @@ namespace Ksnm.MachineLearning.NeuralNetwork
             }
             // 3層目
             {
-                var layer = new Layer<Neuron>();
+                var layer = new Layer<Neuron>("Hidden2");
                 layer.Activation = hidden2Activation;
                 for (int i = 0; i < hidden2Count; i++)
                 {
@@ -279,7 +279,7 @@ namespace Ksnm.MachineLearning.NeuralNetwork
             }
             // 4層目
             {
-                var layer = new Layer<Neuron>();
+                var layer = new Layer<Neuron>("Result");
                 layer.Activation = resultActivation;
                 for (int i = 0; i < resultCount; i++)
                 {
