@@ -358,9 +358,6 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         /// <param name="learningRate">学習係数</param>
         public void BackPropagation(IReadOnlyList<double> targetValues, double learningRate)
         {
-            // D・・・「∂」は偏微分を示す記号であり、多変数関数の一つの変数に関する微分を表します。
-            // Delta・・・「δ」（デルタ）は、ニューラルネットワークや誤差逆伝播（バックプロパゲーション）において、一般的に「誤差項」を表します。
-
             // 隠れ層の各ノードに逆伝播される誤差更新
             // 最後のレイヤー（入力層）は更新しない
             ILayer beforeLayer = null;

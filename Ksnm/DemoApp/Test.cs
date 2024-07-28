@@ -12,6 +12,7 @@ using Ksnm.Numerics;
 using static System.Math;
 using System.Collections.Generic;
 using Ksnm.ExtensionMethods.System.Random;
+using System.Drawing.Text;
 
 #pragma warning disable CS0162 // 到達できないコードが検出されました
 namespace DemoApp
@@ -564,7 +565,7 @@ namespace DemoApp
             Console.WriteLine("AITest()");
 
 
-            if (true)
+            if (false)
             {
                 #region NOTゲート
                 Console.WriteLine("NOTゲート");
@@ -575,11 +576,17 @@ namespace DemoApp
                     new Sample(new [] {1.0},new [] {0.0}),
                     new Sample(new [] {0.0},new [] {1.0}),
                 };
-                AITest_LogicGate(nn, NotSample, 1.0);
-                AITest_LogicGate(nn, NotSample, 1.0);
+                AITest_LogicGate(nn, NotSample, 1.0, true);
+                // はじめからほぼ正解を設定
+                if (true)
+                {
+                    nn.ResultNeurons[0].InputWeights[0] = -10;
+                    nn.ResultNeurons[0].Bias = 5;
+                    AITest_LogicGate(nn, NotSample, 1.0, false);
+                }
                 #endregion NOTゲート
             }
-            if (true)
+            if (false)
             {
                 #region ORゲート
                 Console.WriteLine("ORゲート");
@@ -592,11 +599,18 @@ namespace DemoApp
                     new Sample(new [] {1.0, 0.0},new [] {1.0}),
                     new Sample(new [] {1.0, 1.0},new [] {1.0}),
                 };
-                AITest_LogicGate(nn, OrSample, 1.0);
-                AITest_LogicGate(nn, OrSample, 1.0);
+                AITest_LogicGate(nn, OrSample, 1.0, true);
+                // はじめからほぼ正解を設定
+                if (true)
+                {
+                    nn.ResultNeurons[0].InputWeights[0] = 10;
+                    nn.ResultNeurons[0].InputWeights[1] = 10;
+                    nn.ResultNeurons[0].Bias = -5;
+                    AITest_LogicGate(nn, OrSample, 1.0, false);
+                }
                 #endregion ORゲート
             }
-            if (true)
+            if (false)
             {
                 #region ANDゲート
                 Console.WriteLine("ANDゲート");
@@ -609,15 +623,22 @@ namespace DemoApp
                     new Sample(new [] {1.0, 0.0},new [] {0.0}),
                     new Sample(new [] {1.0, 1.0},new [] {1.0}),
                 };
-                AITest_LogicGate(nn, AndSample, 1.0);
-                AITest_LogicGate(nn, AndSample, 1.0);
+                AITest_LogicGate(nn, AndSample, 1.0, true);
+                // はじめからほぼ正解を設定
+                if (true)
+                {
+                    nn.ResultNeurons[0].InputWeights[0] = 10;
+                    nn.ResultNeurons[0].InputWeights[1] = 10;
+                    nn.ResultNeurons[0].Bias = -15;
+                    AITest_LogicGate(nn, AndSample, 1.0, false);
+                }
                 #endregion ANDゲート
             }
-            if (true)
+            if (false)
             {
                 #region XORゲート
                 Console.WriteLine("XORゲート");
-                var nn = new MultilayerPerceptron(2, 3, 1);
+                var nn = new MultilayerPerceptron(2, 2, 1);
                 // 目標値
                 var XorSample = new List<Sample>
                 {
@@ -626,8 +647,21 @@ namespace DemoApp
                     new Sample(new [] {1d, 0d},new [] {1d}),
                     new Sample(new [] {1d, 1d},new [] {0d}),
                 };
-                AITest_LogicGate(nn, XorSample, 1.0);
-                AITest_LogicGate(nn, XorSample, 1.0);
+                AITest_LogicGate(nn, XorSample, 1.0, true);
+                // はじめからほぼ正解を設定
+                if (true)
+                {
+                    nn.HiddenNeurons[0].InputWeights[0] = 7;
+                    nn.HiddenNeurons[0].InputWeights[1] = -7;
+                    nn.HiddenNeurons[0].Bias = 4;
+                    nn.HiddenNeurons[1].InputWeights[0] = -7;
+                    nn.HiddenNeurons[1].InputWeights[1] = 7;
+                    nn.HiddenNeurons[1].Bias = 4;
+                    nn.ResultNeurons[0].InputWeights[0] = -10;
+                    nn.ResultNeurons[0].InputWeights[1] = -10;
+                    nn.ResultNeurons[0].Bias = 15;
+                    AITest_LogicGate(nn, XorSample, 1.0, false);
+                }
                 #endregion XORゲート
             }
             if (false)
@@ -689,7 +723,7 @@ namespace DemoApp
                 #endregion 論理回路
             }
 
-            if (false)
+            if (true)
             {
                 #region 数字認識
                 var random = new Random();
@@ -701,7 +735,6 @@ namespace DemoApp
                         1, 0, 1,
                         1, 0, 1,
                         1, 1, 1,}, ResultValues = new double[] { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 } },
-#if true
                     new Sample() { SourceValues = new double[] {
                         0, 1, 0,
                         0, 1, 0,
@@ -756,10 +789,9 @@ namespace DemoApp
                         1, 1, 1,
                         0, 0, 1,
                         1, 1, 1,}, ResultValues = new double[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 } },
-#endif
                 };
                 // サンプル数を増やす
-                if (true)
+                if (false)
                 {
                     // 元々の数
                     var count = samples.Count;
@@ -769,24 +801,24 @@ namespace DemoApp
                         for (int j = 0; j < 10; j++)
                         {
                             var sample = new Sample(samples[i]);
-                            sample.Randomization(random, 0.3);
+                            sample.Randomization(random, 0.1);
                             samples.Add(sample);
                         }
                     }
                 }
                 //
 
-                var numbersNN = new MultilayerPerceptron(15, 10, 10, Activation.Sigmoid, Activation.Sigmoid);
+                var numbersNN = new MultilayerPerceptron(15, 10, 10);
                 Console.WriteLine($"{nameof(numbersNN)}={numbersNN}");
-                numbersNN.Random = new Random();
-                numbersNN.ResetWeights(0.5);
+                numbersNN.ResetWeightsWithRandom(2);
 
                 // 学習率
                 var learningRate = 1.0;
                 Console.WriteLine($"{nameof(learningRate)}={learningRate}");
 
-                for (int i = 0; i < 1000; i++)
+                for (int i = 0; i < 10000; i++)
                 {
+                    var doWriteLine = i % 1000 == 0;
                     var errorSum = 0.0;
                     foreach (Sample sample in samples)
                     {
@@ -797,9 +829,9 @@ namespace DemoApp
                         var results = numbersNN.ResultValues;
                         // 誤差の計算(二乗誤差)
                         var error = numbersNN.Error(sample.ResultValues);
-                        if (i == 999)
+                        if (doWriteLine)
                         {
-                            Console.WriteLine($"{i} {targets.ToJoinedString(",")} : {nameof(results)}={results.ToJoinedString(",")} {nameof(error)}={error}");
+                            Console.WriteLine($"{i} {targets.ToJoinedString(",")} : {nameof(results)}={results.ToJoinedString(",","0.000")} {nameof(error)}={error}");
                         }
                         if (error > 0)
                         {
@@ -807,26 +839,45 @@ namespace DemoApp
                         }
                         errorSum += error;
                     }
-                    Console.WriteLine($"{i} {nameof(errorSum)}={errorSum}");
+                    if (doWriteLine)
+                    {
+                        Console.WriteLine($"{i} {nameof(errorSum)}={errorSum}");
+                    }
                     if (errorSum == 0)
                     {
                         break;
                     }
                 }
+                Console.WriteLine("--------------------------------");
+                Console.WriteLine("出力層の活性化関数を変更して出力を0と1に");
+                {
+                    numbersNN.SetResultActivation(Activation.HeavisideStep);
+                    foreach (var sample in samples)
+                    {
+                        numbersNN.SetSourceValues(sample.SourceValues);
+                        numbersNN.ForwardPropagation();
+                        //var error = nn.Error(sample.ResultValues);
+                        Console.WriteLine($"{sample.SourceValues.ToJoinedString(",")}→{numbersNN.ResultValues.ToJoinedString(",")}");
+                    }
+                    numbersNN.SetResultActivation(Activation.Sigmoid);// 戻す
+                }
+                Console.WriteLine("--------------------------------");
                 #endregion 数字認識
             }
 
         }
-        public static void AITest_LogicGate(MultilayerPerceptron nn, IReadOnlyList<Sample> samples, double learningRate)
+        public static void AITest_LogicGate(MultilayerPerceptron nn, IReadOnlyList<Sample> samples, double learningRate, bool isResetWeights)
         {
             Console.WriteLine("================================");
             // 最初の重みはランダム
-            nn.ResetWeightsWithRandom(3);
-            nn.SetResultActivation(Activation.Sigmoid);// 戻す
-
-            for (int i = 0; i < 1000; i++)
+            if (isResetWeights)
             {
-                var doWriteLine = i % 100 == 0;
+                nn.ResetWeightsWithRandom(3);
+            }
+
+            for (int i = 0; i < 10000; i++)
+            {
+                var doWriteLine = i % 1000 == 0;
                 if (doWriteLine) { Console.WriteLine($"{i}"); }
                 var errorSum = 0.0;
                 foreach (var sample in samples)
@@ -855,17 +906,17 @@ namespace DemoApp
                 }
             }
             Console.WriteLine("--------------------------------");
-            Console.WriteLine("出力を0と1に");
+            Console.WriteLine("出力層の活性化関数を変更して出力を0と1に");
             {
-                // 出力層の活性化関数を変更
                 nn.SetResultActivation(Activation.HeavisideStep);
                 foreach (var sample in samples)
                 {
                     nn.SetSourceValues(sample.SourceValues);
                     nn.ForwardPropagation();
-                    var error = nn.Error(sample.ResultValues);
-                    Console.WriteLine($"{sample.SourceValues.ToJoinedString(",")}→{nn.ResultValues.ElementAt(0)} {nameof(error)}={error}");
+                    //var error = nn.Error(sample.ResultValues);
+                    Console.WriteLine($"{sample.SourceValues.ToJoinedString(",")}→{nn.ResultValues.ElementAt(0)}");
                 }
+                nn.SetResultActivation(Activation.Sigmoid);// 戻す
             }
             Console.WriteLine("--------------------------------");
             Console.WriteLine("nn=");
