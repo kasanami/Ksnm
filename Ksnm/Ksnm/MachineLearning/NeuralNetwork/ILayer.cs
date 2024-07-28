@@ -25,10 +25,6 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         /// <param name="inputNeurons"></param>
         /// <returns></returns>
         ILayer Clone(IReadOnlyList<INeuron> inputNeurons);
-        /// <summary>
-        /// このレイヤーが使用する活性化関数
-        /// </summary>
-        Activation Activation { get; set; }
         #region Set
         /// <summary>
         /// 値設定

@@ -181,7 +181,6 @@ namespace Ksnm.MachineLearning.NeuralNetwork
             // 2層目
             {
                 var layer = new Layer<Neuron>("Result");
-                layer.Activation = resultActivation;
                 for (int i = 0; i < resultCount; i++)
                 {
                     Neuron neuron = new Neuron(beforeLayer.Neurons);
@@ -211,7 +210,6 @@ namespace Ksnm.MachineLearning.NeuralNetwork
             // 2層目
             {
                 var layer = new Layer<Neuron>("Hidden");
-                layer.Activation = hiddenActivation;
                 for (int i = 0; i < hiddenCount; i++)
                 {
                     Neuron neuron = new Neuron(beforeLayer.Neurons);
@@ -224,7 +222,6 @@ namespace Ksnm.MachineLearning.NeuralNetwork
             // 3層目
             {
                 var layer = new Layer<Neuron>("Result");
-                layer.Activation = resultActivation;
                 for (int i = 0; i < resultCount; i++)
                 {
                     Neuron neuron = new Neuron(beforeLayer.Neurons);
@@ -254,7 +251,6 @@ namespace Ksnm.MachineLearning.NeuralNetwork
             // 2層目
             {
                 var layer = new Layer<Neuron>("Hidden");
-                layer.Activation = hidden1Activation;
                 for (int i = 0; i < hidden1Count; i++)
                 {
                     Neuron neuron = new Neuron(beforeLayer.Neurons);
@@ -267,7 +263,6 @@ namespace Ksnm.MachineLearning.NeuralNetwork
             // 3層目
             {
                 var layer = new Layer<Neuron>("Hidden2");
-                layer.Activation = hidden2Activation;
                 for (int i = 0; i < hidden2Count; i++)
                 {
                     Neuron neuron = new Neuron(beforeLayer.Neurons);
@@ -280,7 +275,6 @@ namespace Ksnm.MachineLearning.NeuralNetwork
             // 4層目
             {
                 var layer = new Layer<Neuron>("Result");
-                layer.Activation = resultActivation;
                 for (int i = 0; i < resultCount; i++)
                 {
                     Neuron neuron = new Neuron(beforeLayer.Neurons);
@@ -664,13 +658,13 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         /// <returns></returns>
         public override string ToString()
         {
-            var str = new StringBuilder(256);
-            str.AppendLine("{");
+            var str = new StringBuilder();
+            str.AppendLine($"{nameof(Layers)}[{Layers.Count}]=[");
             for (int i = 0; i < Layers.Count; i++)
             {
-                str.AppendLine($"{nameof(Layers)}[{i}]={Layers[i]}");
+                str.AppendLine($"{Layers[i].ToString()},");
             }
-            str.AppendLine("}");
+            str.AppendLine("]");
             return str.ToString();
         }
     }

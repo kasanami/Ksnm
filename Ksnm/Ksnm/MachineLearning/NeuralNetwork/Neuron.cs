@@ -24,6 +24,8 @@ freely, subject to the following restrictions:
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using Ksnm.ExtensionMethods.System.Collections.Generic.Enumerable;
 using Ksnm.ExtensionMethods.System.Random;
 
 namespace Ksnm.MachineLearning.NeuralNetwork
@@ -256,7 +258,16 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         /// </summary>
         public override string ToString()
         {
-            return $"{Name}:{Value}";
+            var str = new StringBuilder();
+            str.AppendLine("  {");
+            str.AppendLine($"   {nameof(Name)}:{Name},");
+            str.AppendLine($"   {nameof(Value)}:{Value},");
+            str.AppendLine($"   {nameof(Delta)}:{Delta},");
+            str.AppendLine($"   {nameof(InputWeights)}:[{InputWeights.ToJoinedString(",")}],");
+            str.AppendLine($"   {nameof(Bias)}:{Bias},");
+            str.AppendLine($"   {nameof(Activation)}:{Activation.Name}");
+            str.AppendLine("  }");
+            return str.ToString();
         }
         #endregion Object
     }

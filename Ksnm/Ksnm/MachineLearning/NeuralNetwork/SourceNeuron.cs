@@ -141,7 +141,7 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         #region Object
         public override string ToString()
         {
-            return $"{Name}:{Value}";
+            return $"{{{nameof(Name)}:{Name},{nameof(Value)}:{Value}}}";
         }
         #endregion Object
     }

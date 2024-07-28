@@ -28,10 +28,6 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         {
             get => neurons.Select(x => (INeuron)x).ToList();
         }
-        /// <summary>
-        /// このレイヤーが使用する活性化関数
-        /// </summary>
-        public Activation Activation { get; set; }
         #endregion プロパティ
 
         #region コンストラクタ
@@ -70,7 +66,6 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         public Layer(Layer<T> layer, IReadOnlyList<INeuron> inputNeurons) : this(layer.neurons, inputNeurons)
         {
             Name = layer.Name;
-            Activation = layer.Activation;
         }
         #endregion コンストラクタ
         /// <summary>
@@ -143,18 +138,16 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         /// <returns></returns>
         public override string ToString()
         {
-            var str = new StringBuilder(512);
-            str.AppendLine("{");
-            str.AppendLine($"{nameof(neurons)}[{neurons.Count}]");
-            if (Activation == null)
+            var str = new StringBuilder();
+            str.AppendLine(" {");
+            str.AppendLine($"  {nameof(Name)}:{Name},");
+            str.AppendLine($"  {nameof(neurons)}[{neurons.Count}]=[");
+            foreach (var neuron in neurons)
             {
-                str.AppendLine($"{nameof(Activation)}=null");
+                str.AppendLine($"{neuron},");
             }
-            else
-            {
-                str.AppendLine($"{nameof(Activation)}={Activation}");
-            }
-            str.AppendLine("}");
+            str.AppendLine("  ]");
+            str.AppendLine(" }");
             return str.ToString();
         }
         #endregion
