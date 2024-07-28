@@ -12,6 +12,11 @@ namespace Ksnm.MachineLearning.NeuralNetwork
     /// <typeparam name="T"></typeparam>
     public class Layer<T> : ILayer where T : class, INeuron
     {
+        #region プロパティ
+        /// <summary>
+        /// 名前
+        /// </summary>
+        public string Name { get; set; } = "";
         /// <summary>
         /// 
         /// </summary>
@@ -27,12 +32,22 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         /// このレイヤーが使用する活性化関数
         /// </summary>
         public Activation Activation { get; set; }
+        #endregion プロパティ
+
         #region コンストラクタ
         /// <summary>
-        /// 
+        /// コンストラクタ
+        /// 名前は空白になる
         /// </summary>
         public Layer()
         {
+        }
+        /// <summary>
+        /// 名前を指定するコンストラクタ
+        /// </summary>
+        public Layer(string name)
+        {
+            Name = name;
         }
         /// <summary>
         /// コピーコンストラクタ
@@ -48,12 +63,13 @@ namespace Ksnm.MachineLearning.NeuralNetwork
             }
         }
         /// <summary>
-        /// 
+        /// コピーコンストラクタ
         /// </summary>
         /// <param name="layer"></param>
         /// <param name="inputNeurons"></param>
         public Layer(Layer<T> layer, IReadOnlyList<INeuron> inputNeurons) : this(layer.neurons, inputNeurons)
         {
+            Name = layer.Name;
             Activation = layer.Activation;
         }
         #endregion コンストラクタ

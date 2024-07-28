@@ -12,6 +12,10 @@ namespace Ksnm.MachineLearning.NeuralNetwork
     public interface ILayer
     {
         /// <summary>
+        /// 名前
+        /// </summary>
+        string Name { get; }
+        /// <summary>
         /// ニューロン一覧
         /// </summary>
         IReadOnlyList<INeuron> Neurons { get; }
