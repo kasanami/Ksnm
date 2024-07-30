@@ -9,8 +9,8 @@ namespace Ksnm.MachineLearning.NeuralNetwork
     /// <summary>
     /// 
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    public class Layer<T> : ILayer where T : class, INeuron
+    /// <typeparam name="TNeuron"></typeparam>
+    public class Layer<TNeuron> : ILayer where TNeuron : class, INeuron
     {
         #region プロパティ
         /// <summary>
@@ -20,7 +20,7 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         /// <summary>
         /// 
         /// </summary>
-        public List<T> neurons { get; private set; } = new List<T>();
+        public List<TNeuron> neurons { get; private set; } = new List<TNeuron>();
         /// <summary>
         /// 
         /// </summary>
@@ -50,12 +50,12 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         /// </summary>
         /// <param name="neurons">複製するニューロン</param>
         /// <param name="inputNeurons">入力ニューロン</param>
-        public Layer(IReadOnlyList<T> neurons, IReadOnlyList<INeuron> inputNeurons)
+        public Layer(IReadOnlyList<INeuron> neurons, IReadOnlyList<INeuron> inputNeurons)
         {
-            this.neurons = new List<T>();
+            this.neurons = new List<TNeuron>();
             foreach (var item in neurons)
             {
-                this.neurons.Add(item.Clone(inputNeurons) as T);
+                this.neurons.Add(item.Clone(inputNeurons) as TNeuron);
             }
         }
         /// <summary>
@@ -63,7 +63,7 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         /// </summary>
         /// <param name="layer"></param>
         /// <param name="inputNeurons"></param>
-        public Layer(Layer<T> layer, IReadOnlyList<INeuron> inputNeurons) : this(layer.neurons, inputNeurons)
+        public Layer(Layer<TNeuron> layer, IReadOnlyList<INeuron> inputNeurons) : this(layer.neurons, inputNeurons)
         {
             Name = layer.Name;
         }
@@ -75,7 +75,7 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         /// <returns></returns>
         public ILayer Clone(IReadOnlyList<INeuron> inputNeurons)
         {
-            return new Layer<T>(this, inputNeurons);
+            return new Layer<TNeuron>(this, inputNeurons);
         }
         #region Set
         /// <summary>

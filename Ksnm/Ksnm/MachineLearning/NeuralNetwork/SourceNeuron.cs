@@ -48,11 +48,15 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         /// <summary>
         /// 入力無し
         /// </summary>
-        public IReadOnlyList<INeuron> InputNeurons { get; private set; } = new SourceNeuron[0];
+        public IReadOnlyList<NeuronInput> Inputs { get; private set; } = new NeuronInput[0];
         /// <summary>
         /// 入力無し
         /// </summary>
-        public IList<double> InputWeights { get; private set; } = new double[0];
+        public IEnumerable<INeuron> InputNeurons { get; private set; } = new SourceNeuron[0];
+        /// <summary>
+        /// 入力無し
+        /// </summary>
+        public IEnumerable<double> InputWeights { get; private set; } = new double[0];
         /// <summary>
         /// 活性化関数
         /// </summary>
@@ -81,7 +85,15 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         }
         #endregion コンストラクタ
 
-        #region その他
+        #region Input
+        /// <summary>
+        /// 指定したニューロンを持つInputを返す。
+        /// 持っていなければnullを返す。
+        /// </summary>
+        public NeuronInput FindInput(INeuron neuron)
+        {
+            return null;
+        }
         /// <summary>
         /// 指定したニューロンを入力に持っていれば、そのインデックスを返す。
         /// 持っていなければ-1を返す。
@@ -90,7 +102,7 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         {
             return -1;
         }
-        #endregion その他
+        #endregion Input
 
         /// <summary>
         /// 複製を作成

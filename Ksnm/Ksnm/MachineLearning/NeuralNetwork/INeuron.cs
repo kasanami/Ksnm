@@ -46,13 +46,17 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         /// </summary>
         double Bias { get; set; }
         /// <summary>
-        /// 入力ニューロン
+        /// 入力情報
         /// </summary>
-        IReadOnlyList<INeuron> InputNeurons { get; }
+        IReadOnlyList<NeuronInput> Inputs { get; }
         /// <summary>
         /// 入力ニューロン
         /// </summary>
-        IList<double> InputWeights { get; }
+        IEnumerable<INeuron> InputNeurons { get; }
+        /// <summary>
+        /// 入力の重み
+        /// </summary>
+        IEnumerable<double> InputWeights { get; }
         /// <summary>
         /// 活性化関数
         /// </summary>
@@ -64,13 +68,18 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         double Delta { get; set; }
         #endregion プロパティ
 
-        #region その他
+        #region Input
         /// <summary>
-        /// 指定したニューロンを入力に持っていれば、そのインデックスを返す。
+        /// 指定したニューロンを持つInputを返す。
+        /// 持っていなければnullを返す。
+        /// </summary>
+        NeuronInput FindInput(INeuron neuron);
+        /// <summary>
+        /// 指定したニューロンをInputに持っていれば、そのインデックスを返す。
         /// 持っていなければ-1を返す。
         /// </summary>
         int InputIndexOf(INeuron neuron);
-        #endregion その他
+        #endregion Input
 
         #region インスタンス関係
         /// <summary>

@@ -78,7 +78,7 @@
     <Compile Include="ExtensionMethods\System\Numerics\BigInteger\BigIntegerExtensions.cs" />
     <Compile Include="ExtensionMethods\System\Single\SingleExtensions.cs" />
     <Compile Include="ExtensionMethods\System\Span\SpanExtensions.cs" />
-    <Compile Include="MachineLearning\NeuralNetwork\Synapse.cs" />
+    <Compile Include="MachineLearning\NeuralNetwork\NeuronInput.cs" />
     <Compile Include="MachineLearning\NeuralNetwork\Utility.cs" />
     <Compile Include="Numerics\BigDecimal.cs" />
     <Compile Include="Numerics\Complex.cs" />

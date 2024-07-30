@@ -565,7 +565,7 @@ namespace DemoApp
             Console.WriteLine("AITest()");
 
 
-            if (false)
+            if (true)
             {
                 #region NOTゲート
                 Console.WriteLine("NOTゲート");
@@ -580,13 +580,13 @@ namespace DemoApp
                 // はじめからほぼ正解を設定
                 if (true)
                 {
-                    nn.ResultNeurons[0].InputWeights[0] = -10;
+                    nn.ResultNeurons[0].Inputs[0].Weight = -10;
                     nn.ResultNeurons[0].Bias = 5;
                     AITest_LogicGate(nn, NotSample, 1.0, false);
                 }
                 #endregion NOTゲート
             }
-            if (false)
+            if (true)
             {
                 #region ORゲート
                 Console.WriteLine("ORゲート");
@@ -603,14 +603,14 @@ namespace DemoApp
                 // はじめからほぼ正解を設定
                 if (true)
                 {
-                    nn.ResultNeurons[0].InputWeights[0] = 10;
-                    nn.ResultNeurons[0].InputWeights[1] = 10;
+                    nn.ResultNeurons[0].Inputs[0].Weight = 10;
+                    nn.ResultNeurons[0].Inputs[1].Weight = 10;
                     nn.ResultNeurons[0].Bias = -5;
                     AITest_LogicGate(nn, OrSample, 1.0, false);
                 }
                 #endregion ORゲート
             }
-            if (false)
+            if (true)
             {
                 #region ANDゲート
                 Console.WriteLine("ANDゲート");
@@ -627,14 +627,14 @@ namespace DemoApp
                 // はじめからほぼ正解を設定
                 if (true)
                 {
-                    nn.ResultNeurons[0].InputWeights[0] = 10;
-                    nn.ResultNeurons[0].InputWeights[1] = 10;
+                    nn.ResultNeurons[0].Inputs[0].Weight = 10;
+                    nn.ResultNeurons[0].Inputs[1].Weight = 10;
                     nn.ResultNeurons[0].Bias = -15;
                     AITest_LogicGate(nn, AndSample, 1.0, false);
                 }
                 #endregion ANDゲート
             }
-            if (false)
+            if (true)
             {
                 #region XORゲート
                 Console.WriteLine("XORゲート");
@@ -651,20 +651,20 @@ namespace DemoApp
                 // はじめからほぼ正解を設定
                 if (true)
                 {
-                    nn.HiddenNeurons[0].InputWeights[0] = 7;
-                    nn.HiddenNeurons[0].InputWeights[1] = -7;
+                    nn.HiddenNeurons[0].Inputs[0].Weight = 7;
+                    nn.HiddenNeurons[0].Inputs[1].Weight = -7;
                     nn.HiddenNeurons[0].Bias = 4;
-                    nn.HiddenNeurons[1].InputWeights[0] = -7;
-                    nn.HiddenNeurons[1].InputWeights[1] = 7;
+                    nn.HiddenNeurons[1].Inputs[0].Weight = -7;
+                    nn.HiddenNeurons[1].Inputs[1].Weight = 7;
                     nn.HiddenNeurons[1].Bias = 4;
-                    nn.ResultNeurons[0].InputWeights[0] = -10;
-                    nn.ResultNeurons[0].InputWeights[1] = -10;
+                    nn.ResultNeurons[0].Inputs[0].Weight = -10;
+                    nn.ResultNeurons[0].Inputs[1].Weight = -10;
                     nn.ResultNeurons[0].Bias = 15;
                     AITest_LogicGate(nn, XorSample, 1.0, false);
                 }
                 #endregion XORゲート
             }
-            if (false)
+            if (true)
             {
                 #region 論理回路 GeneticAlgorithm
                 var random = new Random();
@@ -942,7 +942,7 @@ namespace DemoApp
             {
                 for (var hi = 0; hi < sources.Count; hi++)
                 {
-                    nn.ResultNeurons[ri].InputWeights[hi]
+                    nn.ResultNeurons[ri].Inputs[hi].Weight
                         -= learningRate * (resultDeltas[ri] * sources[hi].Value);
                 }
                 nn.ResultNeurons[ri].Bias -= learningRate * resultDeltas[ri];
@@ -959,18 +959,18 @@ namespace DemoApp
             multilayerPerceptron.SourceNeurons[1].Value = -1;
 
             // 重みの初期値
-            multilayerPerceptron.HiddenNeurons[0].InputWeights[0] = random.Range(-2.0, +2.0);
-            multilayerPerceptron.HiddenNeurons[0].InputWeights[1] = random.Range(-2.0, +2.0);
-            multilayerPerceptron.HiddenNeurons[1].InputWeights[0] = random.Range(-2.0, +2.0);
-            multilayerPerceptron.HiddenNeurons[1].InputWeights[1] = random.Range(-2.0, +2.0);
+            multilayerPerceptron.HiddenNeurons[0].Inputs[0].Weight = random.Range(-2.0, +2.0);
+            multilayerPerceptron.HiddenNeurons[0].Inputs[1].Weight = random.Range(-2.0, +2.0);
+            multilayerPerceptron.HiddenNeurons[1].Inputs[0].Weight = random.Range(-2.0, +2.0);
+            multilayerPerceptron.HiddenNeurons[1].Inputs[1].Weight = random.Range(-2.0, +2.0);
 
-            multilayerPerceptron.Hidden2Neurons[0].InputWeights[0] = random.Range(-2.0, +2.0);
-            multilayerPerceptron.Hidden2Neurons[0].InputWeights[1] = random.Range(-2.0, +2.0);
-            multilayerPerceptron.Hidden2Neurons[1].InputWeights[0] = random.Range(-2.0, +2.0);
-            multilayerPerceptron.Hidden2Neurons[1].InputWeights[1] = random.Range(-2.0, +2.0);
+            multilayerPerceptron.Hidden2Neurons[0].Inputs[0].Weight = random.Range(-2.0, +2.0);
+            multilayerPerceptron.Hidden2Neurons[0].Inputs[1].Weight = random.Range(-2.0, +2.0);
+            multilayerPerceptron.Hidden2Neurons[1].Inputs[0].Weight = random.Range(-2.0, +2.0);
+            multilayerPerceptron.Hidden2Neurons[1].Inputs[1].Weight = random.Range(-2.0, +2.0);
 
-            multilayerPerceptron.ResultNeurons[0].InputWeights[0] = random.Range(-2.0, +2.0);
-            multilayerPerceptron.ResultNeurons[0].InputWeights[1] = random.Range(-2.0, +2.0);
+            multilayerPerceptron.ResultNeurons[0].Inputs[0].Weight = random.Range(-2.0, +2.0);
+            multilayerPerceptron.ResultNeurons[0].Inputs[1].Weight = random.Range(-2.0, +2.0);
 
             // 目標値
             var target = 1;
@@ -1011,21 +1011,21 @@ namespace DemoApp
 
             var h1 = multilayerPerceptron.HiddenNeurons[0].Value;
             var h2 = multilayerPerceptron.HiddenNeurons[1].Value;
-            var w11 = multilayerPerceptron.HiddenNeurons[0].InputWeights[0];
-            var w12 = multilayerPerceptron.HiddenNeurons[0].InputWeights[1];
-            var w21 = multilayerPerceptron.HiddenNeurons[1].InputWeights[0];
-            var w22 = multilayerPerceptron.HiddenNeurons[1].InputWeights[1];
+            var w11 = multilayerPerceptron.HiddenNeurons[0].Inputs[0].Weight;
+            var w12 = multilayerPerceptron.HiddenNeurons[0].Inputs[1].Weight;
+            var w21 = multilayerPerceptron.HiddenNeurons[1].Inputs[0].Weight;
+            var w22 = multilayerPerceptron.HiddenNeurons[1].Inputs[1].Weight;
 
             var h3 = multilayerPerceptron.Hidden2Neurons[0].Value;
             var h4 = multilayerPerceptron.Hidden2Neurons[1].Value;
-            var w31 = multilayerPerceptron.Hidden2Neurons[0].InputWeights[0];
-            var w32 = multilayerPerceptron.Hidden2Neurons[0].InputWeights[1];
-            var w41 = multilayerPerceptron.Hidden2Neurons[1].InputWeights[0];
-            var w42 = multilayerPerceptron.Hidden2Neurons[1].InputWeights[1];
+            var w31 = multilayerPerceptron.Hidden2Neurons[0].Inputs[0].Weight;
+            var w32 = multilayerPerceptron.Hidden2Neurons[0].Inputs[1].Weight;
+            var w41 = multilayerPerceptron.Hidden2Neurons[1].Inputs[0].Weight;
+            var w42 = multilayerPerceptron.Hidden2Neurons[1].Inputs[1].Weight;
 
             var y = multilayerPerceptron.ResultNeurons[0].Value;
-            var w51 = multilayerPerceptron.ResultNeurons[0].InputWeights[0];
-            var w52 = multilayerPerceptron.ResultNeurons[0].InputWeights[1];
+            var w51 = multilayerPerceptron.ResultNeurons[0].Inputs[0].Weight;
+            var w52 = multilayerPerceptron.ResultNeurons[0].Inputs[1].Weight;
 
             // 出力層の誤差項の計算
             var δoutput = (y - t) * y * (1 - y);
@@ -1066,18 +1066,18 @@ namespace DemoApp
             w51 -= η * dE_dw51;
             w52 -= η * dE_dw52;
 
-            multilayerPerceptron.HiddenNeurons[0].InputWeights[0] = w11;
-            multilayerPerceptron.HiddenNeurons[0].InputWeights[1] = w12;
-            multilayerPerceptron.HiddenNeurons[1].InputWeights[0] = w21;
-            multilayerPerceptron.HiddenNeurons[1].InputWeights[1] = w22;
+            multilayerPerceptron.HiddenNeurons[0].Inputs[0].Weight = w11;
+            multilayerPerceptron.HiddenNeurons[0].Inputs[1].Weight = w12;
+            multilayerPerceptron.HiddenNeurons[1].Inputs[0].Weight = w21;
+            multilayerPerceptron.HiddenNeurons[1].Inputs[1].Weight = w22;
 
-            multilayerPerceptron.Hidden2Neurons[0].InputWeights[0] = w31;
-            multilayerPerceptron.Hidden2Neurons[0].InputWeights[1] = w32;
-            multilayerPerceptron.Hidden2Neurons[1].InputWeights[0] = w41;
-            multilayerPerceptron.Hidden2Neurons[1].InputWeights[1] = w42;
+            multilayerPerceptron.Hidden2Neurons[0].Inputs[0].Weight = w31;
+            multilayerPerceptron.Hidden2Neurons[0].Inputs[1].Weight = w32;
+            multilayerPerceptron.Hidden2Neurons[1].Inputs[0].Weight = w41;
+            multilayerPerceptron.Hidden2Neurons[1].Inputs[1].Weight = w42;
 
-            multilayerPerceptron.ResultNeurons[0].InputWeights[0] = w51;
-            multilayerPerceptron.ResultNeurons[0].InputWeights[1] = w52;
+            multilayerPerceptron.ResultNeurons[0].Inputs[0].Weight = w51;
+            multilayerPerceptron.ResultNeurons[0].Inputs[1].Weight = w52;
         }
     }
 }

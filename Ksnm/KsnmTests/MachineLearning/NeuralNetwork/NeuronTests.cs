@@ -33,7 +33,7 @@ namespace Ksnm.MachineLearning.NeuralNetwork.Tests
             neuron.ForwardPropagation();
             Assert.AreEqual(123, neuron.Value);
 
-            neuron.InputWeights[0] = 0;
+            neuron.Inputs[0].Weight = 0;
             neuron.ForwardPropagation();
             Assert.AreEqual(0, neuron.Value);
 
@@ -50,22 +50,22 @@ namespace Ksnm.MachineLearning.NeuralNetwork.Tests
 
             neuron1.Name = "neuron1";
             neuron2.Name = "neuron2";
-            neuron2.InputWeights[0] = 123;
+            neuron2.Inputs[0].Weight = 123;
 
             Neuron neuron1Clone = new Neuron(neuron1);
             Neuron neuron2Clone = new Neuron(neuron2, new[] { neuron1Clone });
 
             Assert.AreEqual(neuron1.Name, neuron1Clone.Name);
             Assert.AreEqual(neuron2.Name, neuron2Clone.Name);
-            Assert.AreEqual(neuron2.InputWeights[0], neuron2Clone.InputWeights[0]);
+            Assert.AreEqual(neuron2.Inputs[0].Weight, neuron2Clone.Inputs[0].Weight);
 
             // 元を変更しても、クローンには影響ない
             neuron1.Name = "NEURON1";
             neuron2.Name = "NEURON2";
-            neuron2.InputWeights[0] = 456;
+            neuron2.Inputs[0].Weight = 456;
             Assert.AreEqual("neuron1", neuron1Clone.Name);
             Assert.AreEqual("neuron2", neuron2Clone.Name);
-            Assert.AreEqual(123, neuron2Clone.InputWeights[0]);
+            Assert.AreEqual(123, neuron2Clone.Inputs[0].Weight);
         }
     }
 }

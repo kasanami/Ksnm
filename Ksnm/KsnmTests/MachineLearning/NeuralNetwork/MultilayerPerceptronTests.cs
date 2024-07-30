@@ -99,13 +99,13 @@ namespace Ksnm.MachineLearning.NeuralNetwork.Tests
             multilayerPerceptron.SourceNeurons[0].Value = 0.5;
             multilayerPerceptron.SourceNeurons[1].Value = 0.3;
 
-            multilayerPerceptron.HiddenNeurons[0].InputWeights[0] = 0.1;
-            multilayerPerceptron.HiddenNeurons[0].InputWeights[1] = -0.2;
-            multilayerPerceptron.HiddenNeurons[1].InputWeights[0] = 0.4;
-            multilayerPerceptron.HiddenNeurons[1].InputWeights[1] = 0.2;
+            multilayerPerceptron.HiddenNeurons[0].Inputs[0].Weight = 0.1;
+            multilayerPerceptron.HiddenNeurons[0].Inputs[1].Weight = -0.2;
+            multilayerPerceptron.HiddenNeurons[1].Inputs[0].Weight = 0.4;
+            multilayerPerceptron.HiddenNeurons[1].Inputs[1].Weight = 0.2;
 
-            multilayerPerceptron.ResultNeurons[0].InputWeights[0] = -0.3;
-            multilayerPerceptron.ResultNeurons[0].InputWeights[1] = 0.5;
+            multilayerPerceptron.ResultNeurons[0].Inputs[0].Weight = -0.3;
+            multilayerPerceptron.ResultNeurons[0].Inputs[1].Weight = 0.5;
 
             // 目標値
             var target = 0.8;
@@ -125,15 +125,15 @@ namespace Ksnm.MachineLearning.NeuralNetwork.Tests
 
 
             // 各値へのショートカット
-            var result0Weight = multilayerPerceptron.ResultNeurons[0].InputWeights[0];
-            var result1Weight = multilayerPerceptron.ResultNeurons[0].InputWeights[1];
+            var result0Weight = multilayerPerceptron.ResultNeurons[0].Inputs[0].Weight;
+            var result1Weight = multilayerPerceptron.ResultNeurons[0].Inputs[1].Weight;
             var resultDerFunc = multilayerPerceptron.ResultNeurons[0].Activation.DerivativeFunction;
             var hidden0Value = multilayerPerceptron.HiddenNeurons[0].Value;
             var hidden1Value = multilayerPerceptron.HiddenNeurons[1].Value;
-            var hidden00Weight = multilayerPerceptron.HiddenNeurons[0].InputWeights[0];
-            var hidden01Weight = multilayerPerceptron.HiddenNeurons[0].InputWeights[1];
-            var hidden10Weight = multilayerPerceptron.HiddenNeurons[1].InputWeights[0];
-            var hidden11Weight = multilayerPerceptron.HiddenNeurons[1].InputWeights[1];
+            var hidden00Weight = multilayerPerceptron.HiddenNeurons[0].Inputs[0].Weight;
+            var hidden01Weight = multilayerPerceptron.HiddenNeurons[0].Inputs[1].Weight;
+            var hidden10Weight = multilayerPerceptron.HiddenNeurons[1].Inputs[0].Weight;
+            var hidden11Weight = multilayerPerceptron.HiddenNeurons[1].Inputs[1].Weight;
             var hidden0DerFunc = multilayerPerceptron.HiddenNeurons[0].Activation.DerivativeFunction;
             var hidden1DerFunc = multilayerPerceptron.HiddenNeurons[1].Activation.DerivativeFunction;
             var source0Value = multilayerPerceptron.SourceNeurons[0].Value;
@@ -205,8 +205,8 @@ namespace Ksnm.MachineLearning.NeuralNetwork.Tests
                     var actual_resultDelta = multilayerPerceptron.ResultNeurons[0].Delta;
                     Assert.AreEqual(resultDelta, actual_resultDelta, tolerance);
 
-                    var actual_result0Weight = multilayerPerceptron.ResultNeurons[0].InputWeights[0];
-                    var actual_result1Weight = multilayerPerceptron.ResultNeurons[0].InputWeights[1];
+                    var actual_result0Weight = multilayerPerceptron.ResultNeurons[0].Inputs[0].Weight;
+                    var actual_result1Weight = multilayerPerceptron.ResultNeurons[0].Inputs[1].Weight;
                     Assert.AreEqual(result0Weight, actual_result0Weight, tolerance);
                     Assert.AreEqual(result1Weight, actual_result1Weight, tolerance);
 
@@ -215,10 +215,10 @@ namespace Ksnm.MachineLearning.NeuralNetwork.Tests
                     Assert.AreEqual(hidden0Delta, actual_hidden0Delta, tolerance);
                     Assert.AreEqual(hidden1Delta, actual_hidden1Delta, tolerance);
 
-                    var actual_hidden00Weight = multilayerPerceptron.HiddenNeurons[0].InputWeights[0];
-                    var actual_hidden01Weight = multilayerPerceptron.HiddenNeurons[0].InputWeights[1];
-                    var actual_hidden10Weight = multilayerPerceptron.HiddenNeurons[1].InputWeights[0];
-                    var actual_hidden11Weight = multilayerPerceptron.HiddenNeurons[1].InputWeights[1];
+                    var actual_hidden00Weight = multilayerPerceptron.HiddenNeurons[0].Inputs[0].Weight;
+                    var actual_hidden01Weight = multilayerPerceptron.HiddenNeurons[0].Inputs[1].Weight;
+                    var actual_hidden10Weight = multilayerPerceptron.HiddenNeurons[1].Inputs[0].Weight;
+                    var actual_hidden11Weight = multilayerPerceptron.HiddenNeurons[1].Inputs[1].Weight;
                     Assert.AreEqual(hidden00Weight, actual_hidden00Weight, tolerance);
                     Assert.AreEqual(hidden01Weight, actual_hidden01Weight, tolerance);
                     Assert.AreEqual(hidden10Weight, actual_hidden10Weight, tolerance);

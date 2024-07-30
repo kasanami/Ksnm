@@ -55,13 +55,21 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         /// </summary>
         public double Bias { get; set; }
         /// <summary>
+        /// 入力情報
+        /// </summary>
+        private List<NeuronInput> inputs = new List<NeuronInput>();
+        /// <summary>
+        /// 入力情報
+        /// </summary>
+        public IReadOnlyList<NeuronInput> Inputs => inputs;
+        /// <summary>
         /// 入力ニューロン
         /// </summary>
-        public IReadOnlyList<INeuron> InputNeurons { get; private set; } = new SourceNeuron[0];
+        public IEnumerable<INeuron> InputNeurons => inputs.Select(item => item.Neuron);
         /// <summary>
-        /// 重み
+        /// 入力の重み
         /// </summary>
-        public IList<double> InputWeights { get; private set; } = new double[0];
+        public IEnumerable<double> InputWeights => inputs.Select(item => item.Weight);
         /// <summary>
         /// 活性化関数
         /// </summary>
@@ -85,13 +93,16 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         }
         /// <summary>
         /// コピーコンストラクタ
-        /// ※inputNeuronsは、インスタンスを明確にするため指定する必要がある。source.inputNeuronsは使用されない。
+        /// ※inputNeuronsは、インスタンスを明確にするため指定する必要がある。source.Inputsは使用されない。
         /// </summary>
         public Neuron(Neuron source, IReadOnlyList<INeuron> inputNeurons) : this(inputNeurons)
         {
             Name = source.Name;
             Value = source.Value;
-            InputWeights = new List<double>(source.InputWeights);
+            for (int i = 0; i < inputNeurons.Count; i++)
+            {
+                inputs.Add(new NeuronInput(inputNeurons[i], source.Inputs[i].Weight));
+            }
             Activation = source.Activation;
         }
         /// <summary>
@@ -99,32 +110,41 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         /// </summary>
         public Neuron(IReadOnlyList<INeuron> inputNeurons)
         {
-            InputNeurons = inputNeurons;
-            InputWeights = new double[inputNeurons.Count()];
-            for (int i = 0; i < InputWeights.Count; i++)
+            inputs = new List<NeuronInput>();
+            foreach (var neuron in inputNeurons)
             {
-                InputWeights[i] = 1;
+                var input = new NeuronInput(neuron, 1.0);
+                inputs.Add(input);
             }
         }
         #endregion コンストラクタ
 
-        #region その他
+        #region Input
+        public NeuronInput FindInput(INeuron neuron)
+        {
+            var index = InputIndexOf(neuron);
+            if (index < 0)
+            {
+                return null;
+            }
+            return inputs[index];
+        }
         /// <summary>
         /// 指定したニューロンを入力に持っていれば、そのインデックスを返す。
         /// 持っていなければ-1を返す。
         /// </summary>
         public int InputIndexOf(INeuron neuron)
         {
-            for (int i = 0; i < InputNeurons.Count; i++)
+            for (int i = 0; i < Inputs.Count; i++)
             {
-                if (ReferenceEquals(InputNeurons[i], neuron))
+                if (ReferenceEquals(Inputs[i].Neuron, neuron))
                 {
                     return i;
                 }
             }
             return -1;
         }
-        #endregion その他
+        #endregion Input
 
         /// <summary>
         /// 複製を作成
@@ -140,13 +160,7 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         /// </summary>
         public void ForwardPropagation()
         {
-            double sum = 0.0;
-            System.Diagnostics.Debug.Assert(InputNeurons.Count() == InputWeights.Count());
-            var count = InputNeurons.Count();
-            for (int i = 0; i < count; i++)
-            {
-                sum += InputNeurons[i].Value * InputWeights[i];
-            }
+            double sum = Inputs.Sum(input => input.Value);
             Value = Activation.Function(sum + Bias);
         }
         /// <summary>
@@ -154,9 +168,9 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         /// </summary>
         public void ResetWeights(double weight)
         {
-            for (int i = 0; i < InputWeights.Count; i++)
+            foreach (var input in Inputs)
             {
-                InputWeights[i] = weight;
+                input.Weight = weight;
             }
             Bias = weight;
         }
@@ -165,9 +179,9 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         /// </summary>
         public void ResetWeights(Random random, double weightRange)
         {
-            for (int i = 0; i < InputWeights.Count; i++)
+            foreach (var input in Inputs)
             {
-                InputWeights[i] = random.Range(-weightRange, +weightRange);
+                input.Weight = random.Range(-weightRange, +weightRange);
             }
             Bias = random.Range(-weightRange, +weightRange);
         }
@@ -176,12 +190,12 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         /// </summary>
         public void Randomization(Random random, double weightRange)
         {
-            // 重みを修正
-            for (int i = 0; i < InputWeights.Count; i++)
+            // 重みを調整
+            foreach (var input in Inputs)
             {
-                InputWeights[i] += random.Range(-weightRange, +weightRange);
+                input.Weight += random.Range(-weightRange, +weightRange);
             }
-            // バイアスを修正
+            // バイアスを調整
             Bias += random.Range(-weightRange, +weightRange);
         }
         /// <summary>
@@ -197,20 +211,19 @@ namespace Ksnm.MachineLearning.NeuralNetwork
             var delta = (targetValue - Value);
 
             // 重みを修正
-            for (int i = 0; i < InputWeights.Count; i++)
+            foreach (var input in Inputs)
             {
-                InputWeights[i] += random.NextDouble() * InputNeurons[i].Value * delta * learningRate;
+                input.Weight += random.NextDouble() * input.Value * delta * learningRate;
             }
 
             // バイアスを修正
             Bias += random.NextDouble() * delta * learningRate;
 
             // 前の層へ
-            var count = InputNeurons.Count;
-            for (int i = 0; i < count; i++)
+            foreach (var input in Inputs)
             {
-                var neuron = InputNeurons[i];
-                var weight = InputWeights[i];
+                var neuron = input.Neuron;
+                var weight = input.Weight;
                 neuron.Randomization(random, neuron.Value + delta, learningRate * weight);
             }
         }
@@ -233,20 +246,19 @@ namespace Ksnm.MachineLearning.NeuralNetwork
             Delta = 1;
             foreach (var beforeNeuron in beforeLayer.Neurons)
             {
-                var index = beforeNeuron.InputIndexOf(this);
-                if (index >= 0)
+                var input = beforeNeuron.FindInput(this);
+                if (input != null)
                 {
-                    Delta *= beforeNeuron.Delta * beforeNeuron.InputWeights[index];
+                    Delta *= beforeNeuron.Delta * input.Weight;
                 }
             }
             Delta *= Activation.DerivativeFunction(Value);
         }
         public void BackPropagationWeight(double learningRate)
         {
-            var inputNeurons = InputNeurons;
-            for (var j = 0; j < inputNeurons.Count; j++)
+            foreach (var input in Inputs)
             {
-                InputWeights[j] -= learningRate * (Delta * inputNeurons[j].Value);
+                input.Weight -= learningRate * (Delta * input.Neuron.Value);
             }
             Bias -= learningRate * Delta;
         }
