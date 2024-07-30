@@ -1,7 +1,7 @@
 ﻿/*
 The zlib License
 
-Copyright (c) 2014-2019 Takahiro Kasanami
+Copyright (c) 2014-2021 Takahiro Kasanami
 
 This software is provided 'as-is', without any express or implied
 warranty. In no event will the authors be held liable for any damages
@@ -31,6 +31,89 @@ namespace Ksnm.ExtensionMethods.System.Collections.Generic.List
     /// </summary>
     public static class ListExtensions
     {
+        #region IndexOf
+        /// <summary>
+        /// 最大の要素のインデックスを返す。
+        /// 要素数が0なら-1を返す。
+        /// </summary>
+        public static int IndexOfMax(this IList<int> list)
+        {
+            long max = long.MinValue;
+            var index = 0;
+            var maxIndex = -1;
+            foreach (var item in list)
+            {
+                if (max < item)
+                {
+                    max = item;
+                    maxIndex = index;
+                }
+                index++;
+            }
+            return maxIndex;
+        }
+        /// <summary>
+        /// 最小の要素のインデックスを返す。
+        /// 要素数が0なら-1を返す。
+        /// </summary>
+        public static int IndexOfMin(this IList<int> list)
+        {
+            long min = long.MaxValue;
+            var index = 0;
+            var minIndex = -1;
+            foreach (var item in list)
+            {
+                if (min > item)
+                {
+                    min = item;
+                    minIndex = index;
+                }
+                index++;
+            }
+            return minIndex;
+        }
+        /// <summary>
+        /// 最大の要素のインデックスを返す。
+        /// 要素数が0なら-1を返す。
+        /// 全要素が無限大なら-1を返す。
+        /// </summary>
+        public static int IndexOfMax(this IList<double> list)
+        {
+            double max = double.NegativeInfinity;
+            var index = 0;
+            var maxIndex = -1;
+            foreach (var item in list)
+            {
+                if (max < item)
+                {
+                    max = item;
+                    maxIndex = index;
+                }
+                index++;
+            }
+            return maxIndex;
+        }
+        /// <summary>
+        /// 最小の要素のインデックスを返す。
+        /// 要素数が0なら-1を返す。
+        /// 全要素が無限大なら-1を返す。
+        /// </summary>
+        public static int IndexOfMin(this IList<double> list)
+        {
+            double min = double.PositiveInfinity;
+            var index = 0;
+            var minIndex = -1;
+            foreach (var item in list)
+            {
+                if (min > item)
+                {
+                    min = item;
+                    minIndex = index;
+                }
+                index++;
+            }
+            return minIndex;
+        }
         /// <summary>
         /// ランダムなindexを返します。
         /// </summary>
@@ -45,6 +128,7 @@ namespace Ksnm.ExtensionMethods.System.Collections.Generic.List
         {
             return list.IndexOfRandom(new global::System.Random());
         }
+        #endregion IndexOf
         /// <summary>
         /// 指定位置から最後までを削除
         /// </summary>

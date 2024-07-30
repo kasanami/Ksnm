@@ -27,6 +27,11 @@ namespace Ksnm.Units.SI
 {
     /// <summary>
     /// ルーメン
+    /// <para>記号:lm</para>
+    /// <para>系  :国際単位系 (SI)</para>
+    /// <para>種類:組立単位</para>
+    /// <para>量  :光束</para>
+    /// <para>定義:1カンデラの光源から1ステラジアン内に放射される光束</para>
     /// </summary>
     public class Lumen<T> : LuminousFlux<T> where T : IMath<T>
     {

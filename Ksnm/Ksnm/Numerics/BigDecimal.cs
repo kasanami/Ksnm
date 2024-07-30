@@ -1,7 +1,7 @@
 ﻿/*
 The zlib License
 
-Copyright (c) 2021 Takahiro Kasanami
+Copyright (c) 2021-2022 Takahiro Kasanami
 
 This software is provided 'as-is', without any express or implied
 warranty. In no event will the authors be held liable for any damages
@@ -132,6 +132,7 @@ namespace Ksnm.Numerics
         /// <para>精度とも言える</para>
         /// </summary>
         public int MinExponent { get; private set; }
+
         #endregion プロパティ
 
         #region コンストラクタ
@@ -258,7 +259,7 @@ namespace Ksnm.Numerics
         /// <summary>
         /// Mantissa が最小になるように変換します。
         /// * Exponent が大きくなります。
-        /// * 0 の場合は、Exponent は 0 になります。
+        /// * Mantissa が 0 の場合は、Exponent は 0 になります。
         /// </summary>
         public void MinimizeMantissa()
         {
@@ -343,17 +344,7 @@ namespace Ksnm.Numerics
         /// <returns>d1 と d2 が等しい場合は true。それ以外の場合は false。</returns>
         public static bool Equals(BigDecimal d1, BigDecimal d2)
         {
-            // Exponent を一致させてから比較
-            if (d1.Exponent > d2.Exponent)
-            {
-                var diff = d1.Exponent - d2.Exponent;
-                d1.Mantissa *= Pow10(diff);
-            }
-            else if (d1.Exponent < d2.Exponent)
-            {
-                var diff = d2.Exponent - d1.Exponent;
-                d2.Mantissa *= Pow10(diff);
-            }
+            UniformExponent(ref d1, ref d2);
             return d1.Mantissa == d2.Mantissa;
         }
         /// <summary>
@@ -381,7 +372,55 @@ namespace Ksnm.Numerics
             }
             return temp;
         }
+        /// <summary>
+        /// 2つの BigDecimal の Exponent を揃える
+        /// </summary>
+        public static void UniformExponent(ref BigDecimal d1, ref BigDecimal d2)
+        {
+            if (d1.Exponent > d2.Exponent)
+            {
+                var diff = d1.Exponent - d2.Exponent;
+                d1.Mantissa *= Pow10(diff);
+                d1.Exponent -= diff;
+            }
+            else if (d1.Exponent < d2.Exponent)
+            {
+                var diff = d2.Exponent - d1.Exponent;
+                d2.Mantissa *= Pow10(diff);
+                d2.Exponent -= diff;
+            }
+            Assert(d1.Exponent == d2.Exponent);
+        }
         #endregion 独自メソッド
+
+        #region 生成
+        /// <summary>
+        /// 精度を指定して 0 を生成する。
+        /// </summary>
+        /// <param name="precision">精度(小数点以下の桁数)</param>
+        /// <returns>0 を表す BigDecimal</returns>
+        public static BigDecimal MakeZero(int precision)
+        {
+            if (precision < 0)
+            {
+                throw new ArgumentOutOfRangeException($"{nameof(precision)}={precision} 範囲を超えています。");
+            }
+            return new BigDecimal(0, 0, -precision);
+        }
+        /// <summary>
+        /// 精度を指定して 1 を生成する。
+        /// </summary>
+        /// <param name="precision">精度(小数点以下の桁数)</param>
+        /// <returns>1 を表す BigDecimal</returns>
+        public static BigDecimal MakeOne(int precision)
+        {
+            if (precision < 0)
+            {
+                throw new ArgumentOutOfRangeException($"{nameof(precision)}={precision} 範囲を超えています。");
+            }
+            return new BigDecimal(1, 0, -precision);
+        }
+        #endregion 生成
 
         #region Is*
         /// <summary>
@@ -421,20 +460,7 @@ namespace Ksnm.Numerics
         /// <exception cref="System.DivideByZeroException">divisor が 0 (ゼロ) です。</exception>
         public static BigDecimal DivRem(BigDecimal dividend, BigDecimal divisor, out BigDecimal remainder)
         {
-            // 指数が小さい方に合わせる
-            if (dividend.Exponent > divisor.Exponent)
-            {
-                var diff = dividend.Exponent - divisor.Exponent;
-                dividend.Mantissa *= Pow10(diff);
-                dividend.Exponent -= diff;
-            }
-            else if (divisor.Exponent > dividend.Exponent)
-            {
-                var diff = divisor.Exponent - dividend.Exponent;
-                divisor.Mantissa *= Pow10(diff);
-                divisor.Exponent -= diff;
-            }
-            Assert(dividend.Exponent == divisor.Exponent);
+            UniformExponent(ref dividend, ref divisor);
             BigInteger remainderInt;
             var quotient = BigInteger.DivRem(dividend.Mantissa, divisor.Mantissa, out remainderInt);
             remainder = new BigDecimal(remainderInt, dividend.Exponent, System.Math.Min(dividend.MinExponent, divisor.MinExponent));
@@ -547,15 +573,15 @@ namespace Ksnm.Numerics
         /// 10 進値を指定した精度に丸めます。 パラメーターは、値が他の 2 つの数値の中間にある場合にその値を丸める方法を指定します。
         /// </summary>
         /// <param name="value">丸め対象の 10 進数。</param>
-        /// <param name="decimals">戻り値の小数点以下の有効桁数 (精度)。</param>
+        /// <param name="precision">戻り値の精度（小数点以下の桁数）</param>
         /// <param name="mode">d が他の 2 つの数値の中間にある場合に丸める方法を指定する値。</param>
-        public static BigDecimal Round(BigDecimal value, int decimals, MidpointRounding mode)
+        public static BigDecimal Round(BigDecimal value, int precision, MidpointRounding mode)
         {
-            if (decimals < 0)
+            if (precision < 0)
             {
-                throw new ArgumentOutOfRangeException($"{nameof(decimals)}={decimals} 範囲を超えています。");
+                throw new ArgumentOutOfRangeException($"{nameof(precision)}={precision} 範囲を超えています。");
             }
-            var scale = Pow10(decimals);
+            var scale = Pow10(precision);
             value *= scale;
             return Round(value, mode) / scale;
         }
@@ -573,12 +599,13 @@ namespace Ksnm.Numerics
             }
         }
         /// <summary>
-        /// 今の値が指定した MinExponent 以下の値の場合、MinExponent に収まるように丸めます。
-        /// 丸められた桁は 0 になります。
+        /// MinExponentを変更します。
+        /// * 今の値が MinExponent 以下の値の場合、MinExponent に収まるように丸めます。
+        /// * 丸められた桁は 0 になります。
         /// * 丸めの種類は DefaultMidpointRounding
         /// </summary>
         /// <param name="newMinExponent">新しい MinExponent</param>
-        public void RoundByMinExponent(int newMinExponent)
+        public void SetMinExponentAndRound(int newMinExponent)
         {
             MinExponent = newMinExponent;
             if (Exponent < MinExponent)
@@ -672,30 +699,30 @@ namespace Ksnm.Numerics
         /// 指定された数値の平方根を返します。
         /// </summary>
         /// <param name="value">平方根を求める対象の数値。</param>
-        /// <param name="decimals">小数点以下の有効桁数 (精度)。</param>
+        /// <param name="precision">(精度（小数点以下の桁数）</param>
         /// <returns>戻り値 0 または正 d の正の平方根。</returns>
-        public static BigDecimal Sqrt(BigDecimal value, int decimals)
+        public static BigDecimal Sqrt(BigDecimal value, int precision)
         {
             // 計算回数は仮
-            return Sqrt(value, decimals, decimals + 10);
+            return Sqrt(value, precision, precision + 10);
         }
         /// <summary>
         /// 指定された数値の平方根を返します。
         /// </summary>
         /// <param name="value">平方根を求める対象の数値。</param>
-        /// <param name="decimals">小数点以下の有効桁数 (精度)。</param>
+        /// <param name="precision">精度（小数点以下の桁数）</param>
         /// <param name="count">計算回数</param>
         /// <returns>戻り値 0 または正 d の正の平方根。</returns>
-        public static BigDecimal Sqrt(BigDecimal value, int decimals, int count)
+        public static BigDecimal Sqrt(BigDecimal value, int precision, int count)
         {
             if (value == 0)
             {
                 return 0;
             }
             // 精度を設定
-            if (value.MinExponent > -decimals)
+            if (value.MinExponent > -precision)
             {
-                value.MinExponent = -decimals;
+                value.MinExponent = -precision;
             }
             var temp = value;
             var prev = value;
@@ -703,7 +730,7 @@ namespace Ksnm.Numerics
             {
                 temp = (temp * temp + value) / (2 * temp);
                 // 精度を制限
-                temp = Round(temp, decimals, DefaultMidpointRounding);
+                temp = Round(temp, precision, DefaultMidpointRounding);
                 // 前回から値が変わっていないなら終了
                 if (prev == temp)
                 {
@@ -739,20 +766,7 @@ namespace Ksnm.Numerics
         /// </summary>
         public static BigDecimal operator +(BigDecimal valueL, BigDecimal valueR)
         {
-            // 指数が小さい方に合わせる
-            if (valueL.Exponent > valueR.Exponent)
-            {
-                var diff = valueL.Exponent - valueR.Exponent;
-                valueL.Mantissa *= Pow10(diff);
-                valueL.Exponent -= diff;
-            }
-            else if (valueR.Exponent > valueL.Exponent)
-            {
-                var diff = valueR.Exponent - valueL.Exponent;
-                valueR.Mantissa *= Pow10(diff);
-                valueR.Exponent -= diff;
-            }
-            Assert(valueR.Exponent == valueL.Exponent);
+            UniformExponent(ref valueL, ref valueR);
             return new BigDecimal(
                 valueL.Mantissa + valueR.Mantissa,
                 valueL.Exponent,
@@ -763,20 +777,7 @@ namespace Ksnm.Numerics
         /// </summary>
         public static BigDecimal operator -(BigDecimal valueL, BigDecimal valueR)
         {
-            // 指数が小さい方に合わせる
-            if (valueL.Exponent > valueR.Exponent)
-            {
-                var diff = valueL.Exponent - valueR.Exponent;
-                valueL.Mantissa *= Pow10(diff);
-                valueL.Exponent -= diff;
-            }
-            else if (valueR.Exponent > valueL.Exponent)
-            {
-                var diff = valueR.Exponent - valueL.Exponent;
-                valueR.Mantissa *= Pow10(diff);
-                valueR.Exponent -= diff;
-            }
-            Assert(valueR.Exponent == valueL.Exponent);
+            UniformExponent(ref valueL, ref valueR);
             return new BigDecimal(
                 valueL.Mantissa - valueR.Mantissa,
                 valueL.Exponent,
@@ -850,20 +851,7 @@ namespace Ksnm.Numerics
         /// <returns></returns>
         public static BigDecimal operator %(BigDecimal valueL, BigDecimal valueR)
         {
-            // 指数が小さい方に合わせる
-            if (valueL.Exponent > valueR.Exponent)
-            {
-                var diff = valueL.Exponent - valueR.Exponent;
-                valueL.Mantissa *= Pow10(diff);
-                valueL.Exponent -= diff;
-            }
-            else if (valueR.Exponent > valueL.Exponent)
-            {
-                var diff = valueR.Exponent - valueL.Exponent;
-                valueR.Mantissa *= Pow10(diff);
-                valueR.Exponent -= diff;
-            }
-            Assert(valueR.Exponent == valueL.Exponent);
+            UniformExponent(ref valueL, ref valueR);
             return new BigDecimal(
                 valueL.Mantissa % valueR.Mantissa,
                 valueL.Exponent,
@@ -1229,6 +1217,7 @@ namespace Ksnm.Numerics
         /// </summary>
         public override int GetHashCode()
         {
+            MinimizeMantissa();
             return Mantissa.GetHashCode() ^ Exponent.GetHashCode();
         }
         /// <summary>

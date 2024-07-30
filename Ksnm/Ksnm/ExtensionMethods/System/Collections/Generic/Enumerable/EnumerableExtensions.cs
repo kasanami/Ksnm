@@ -33,6 +33,7 @@ namespace Ksnm.ExtensionMethods.System.Collections.Generic.Enumerable
     /// </summary>
     public static class EnumerableExtensions
     {
+        #region Contains
         /// <summary>
         /// シーケンスが既定の等値比較子を使用して、指定した要素を含んでいるか判定します。
         /// </summary>
@@ -57,6 +58,46 @@ namespace Ksnm.ExtensionMethods.System.Collections.Generic.Enumerable
         {
             return self.SelectMany(item => item);
         }
+        #endregion Contains
+
+        #region For*
+        /// <summary>
+        /// 反復処理
+        /// </summary>
+        /// <param name="action">各要素に対するアクション　引数＝(インデックス,要素)</param>
+        public static void For<T>(this IEnumerable<T> self, Action<int, T> action)
+        {
+            var index = 0;
+            foreach (var item in self)
+            {
+                action(index, item);
+                index++;
+            }
+        }
+        /// <summary>
+        /// 反復処理
+        /// </summary>
+        /// <param name="action">各要素に対するアクション　引数＝(要素)</param>
+        public static void ForEach<T>(this IEnumerable<T> self, Action<T> action)
+        {
+            foreach (var item in self)
+            {
+                action(item);
+            }
+        }
+        #endregion For*
+
+        #region SequenceEqual
+        /// <summary>
+        /// System.Linq.Enumerable.SequenceEqual を可変長引数にしたもの。
+        /// </summary>
+        public static bool SequenceEqual<T>(this IEnumerable<T> self, params T[] values)
+        {
+            return global::System.Linq.Enumerable.SequenceEqual(self, values);
+        }
+        #endregion SequenceEqual
+
+        #region Product
         /// <summary>
         /// 総乗
         /// </summary>
@@ -106,6 +147,9 @@ namespace Ksnm.ExtensionMethods.System.Collections.Generic.Enumerable
         {
             return source.Aggregate((product, item) => product * item);
         }
+        #endregion Product
+
+        #region ToString
         /// <summary>
         /// コレクションのメンバーを連結します。各メンバーの間には、指定した区切り記号が挿入されます。
         /// </summary>
@@ -182,5 +226,6 @@ namespace Ksnm.ExtensionMethods.System.Collections.Generic.Enumerable
             str.Append("}");
             return str.ToString();
         }
+        #endregion ToString
     }
 }

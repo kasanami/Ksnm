@@ -82,5 +82,23 @@ namespace Ksnm.ExtensionMethods.System.Collections.Generic.Enumerable.Tests
             var actual = list.Concat();
             Assert.IsTrue(expected.SequenceEqual(actual));
         }
+
+        [TestMethod()]
+        public void ForTest()
+        {
+            var sample = new[] { 1, 2, 3 };
+            var sum = 0;
+            sample.For((i, x) => sum += x);
+            Assert.AreEqual(6, sum);
+        }
+
+        [TestMethod()]
+        public void ForEachTest()
+        {
+            var sample = new[] { 1, 2, 3 };
+            var sum = 0;
+            sample.ForEach((x) => sum += x);
+            Assert.AreEqual(6, sum);
+        }
     }
 }

@@ -27,6 +27,11 @@ namespace Ksnm.Units.SI
 {
     /// <summary>
     /// パスカル
+    /// <para>記号:Pa</para>
+    /// <para>系  :国際単位系 (SI)</para>
+    /// <para>種類:組立単位</para>
+    /// <para>量  :圧力</para>
+    /// <para>定義:1m^2につき1Nの圧力</para>
     /// </summary>
     public class Pascal<T> : Pressure<T> where T : IMath<T>
     {

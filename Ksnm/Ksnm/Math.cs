@@ -440,6 +440,44 @@ namespace Ksnm
 
         #endregion Ramp
 
+        #region UnitStep
+        /// <summary>
+        /// 単位ステップ関数
+        /// </summary>
+        /// <param name="x">入力</param>
+        /// <returns>0か1の値</returns>
+        public static float UnitStep(float x)
+        {
+            if (x < 0)
+            {
+                return 0;
+            }
+            return 1;
+        }
+        /// <summary>
+        /// 単位ステップ関数
+        /// </summary>
+        /// <param name="x">入力</param>
+        /// <returns>0か1の値</returns>
+        public static double UnitStep(double x)
+        {
+            if (x < 0)
+            {
+                return 0;
+            }
+            return 1;
+        }
+        /// <summary>
+        /// 単位ステップ関数の導関数
+        /// </summary>
+        /// <param name="x">入力</param>
+        /// <returns>0の値</returns>
+        public static double DerUnitStep(double x)
+        {
+            return 0;
+        }
+        #endregion UnitStep
+
         #region HeavisideStep
 
         /// <summary>
@@ -466,7 +504,7 @@ namespace Ksnm
         /// <param name="x">入力</param>
         /// <param name="c">x=0の時の返り値</param>
         /// <returns>0か1かcの値</returns>
-        public static double HeavisideStep(double x, double c = 0.5)
+        public static double HeavisideStep(double x, double c)
         {
             if (x < 0)
             {
@@ -477,6 +515,22 @@ namespace Ksnm
                 return 1;
             }
             return c;
+        }
+        /// <summary>
+        /// ヘヴィサイドの階段関数
+        /// </summary>
+        /// <param name="x">入力</param>
+        /// <param name="c">x=0の時の返り値</param>
+        /// <returns>0か1かcの値</returns>
+        public static double HeavisideStep(double x) => HeavisideStep(x, 0.5);
+        /// <summary>
+        /// 単位ステップ関数の導関数
+        /// </summary>
+        /// <param name="x">入力</param>
+        /// <returns>0の値</returns>
+        public static double DerHeavisideStep(double x)
+        {
+            return 0;
         }
 
         #endregion HeavisideStep
@@ -507,8 +561,142 @@ namespace Ksnm
         {
             return 1.0 / (1.0 + System.Math.Exp(-gain * x));
         }
-
+        /// <summary>
+        /// 標準シグモイド関数(ゲイン=1.0)
+        /// </summary>
+        public static float Sigmoid(float x)
+        {
+            return (float)Sigmoid((double)x);
+        }
+        /// <summary>
+        /// 標準シグモイド関数(ゲイン=1.0)
+        /// </summary>
+        public static double Sigmoid(double x)
+        {
+            return 1.0 / (1.0 + System.Math.Exp(-x));
+        }
+        /// <summary>
+        /// シグモイド関数の導関数
+        /// </summary>
+        public static double DerSigmoid(double x)
+        {
+            return x * (1.0 - x);
+        }
         #endregion Sigmoid
+
+        #region 恒等関数 Identity
+        /// <summary>
+        /// 恒等関数
+        /// </summary>
+        public static double Identity(double x)
+        {
+            return x;
+        }
+        /// <summary>
+        /// 恒等関数の導関数
+        /// </summary>
+        public static double DerIdentity(double x)
+        {
+            return 1;
+        }
+        #endregion 恒等関数 Identity
+
+        #region Tanh
+        /// <summary>
+        /// 双曲線正接関数
+        /// </summary>
+        public static double Tanh(double x)
+        {
+            var ePlus = System.Math.Exp(x);
+            var eMinus = System.Math.Exp(-x);
+            return (ePlus - eMinus) / (ePlus + eMinus);
+        }
+        /// <summary>
+        /// 双曲線正接関数の導関数
+        /// </summary>
+        public static double DerTanh(double x)
+        {
+            return (1.0 - x * x);
+        }
+        #endregion Tanh
+
+        #region ReLU
+        /// <summary>
+        /// 正規化線形関数
+        /// </summary>
+        public static double ReLU(double x)
+        {
+            return System.Math.Max(0, x);
+        }
+        /// <summary>
+        /// 正規化線形関数の導関数
+        /// </summary>
+        public static double DerReLU(double x)
+        {
+            if (x > 0)
+            {
+                return 1;
+            }
+            return 0;
+        }
+        #endregion ReLU
+
+        #region LeakyReLU
+        /// <summary>
+        /// 漏れている正規化線形関数
+        /// a=0.01
+        /// </summary>
+        public static double LeakyReLU(double x)
+        {
+            return LeakyReLU(x, 0.01);
+        }
+        /// <summary>
+        /// 漏れている正規化線形関数
+        /// </summary>
+        public static double LeakyReLU(double x, double a)
+        {
+            if (x >= 0)
+            {
+                return x;
+            }
+            return x * a;
+        }
+        /// <summary>
+        /// 漏れている正規化線形関数の導関数
+        /// </summary>
+        public static double DerLeakyReLU(double x)
+        {
+            return DerLeakyReLU(x, 0.01);
+        }
+        /// <summary>
+        /// 漏れている正規化線形関数の導関数
+        /// </summary>
+        public static double DerLeakyReLU(double x, double a)
+        {
+            if (x >= 0)
+            {
+                return 1;
+            }
+            return a;
+        }
+        #endregion LeakyReLU
+
+        #region Softplus
+        /// <summary>
+        /// ソフトプラス関数
+        /// </summary>
+        public static double Softplus(double x)
+        {
+            return System.Math.Log(1.0 + System.Math.Exp(x));
+        }
+        /// <summary>
+        /// ソフトプラス関数の導関数
+        /// </summary>
+        public static double DerSoftplus(double x)
+        {
+            return 1.0 / (1.0 + System.Math.Exp(-x));
+        }
+        #endregion Softplus
 
         #region Lerp
 
@@ -711,10 +899,42 @@ namespace Ksnm
 
         #endregion Median
 
-        #region Factorial
+        #region 階乗 Factorial
         /// <summary>
         /// 階乗
-        /// NOTE:21!以上は BigInteger でないと表現できないので BigInteger のみ用意
+        /// ※ long で表現できる整数の最大値は 9223372036854775807
+        /// よって、20!	までなら正確に計算できる。
+        /// </summary>
+        /// <param name="value">階乗する値</param>
+        /// <returns>階乗した値</returns>
+        public static long Factorial(long value)
+        {
+            long temp = 1;
+            for (long i = value; i > 0; i--)
+            {
+                temp *= i;
+            }
+            return temp;
+        }
+        /// <summary>
+        /// 階乗
+        /// ※ double で表現できる整数の最大値は 9007199254740992
+        /// よって、18!	までなら正確に計算できる。
+        /// </summary>
+        /// <param name="value">階乗する値</param>
+        /// <returns>階乗した値</returns>
+        public static double Factorial(double value)
+        {
+            double temp = 1;
+            for (double i = value; i > 0; i--)
+            {
+                temp *= i;
+            }
+            return temp;
+        }
+        /// <summary>
+        /// 階乗
+        /// NOTE:21!以上は BigInteger でないと表現できない
         /// </summary>
         /// <param name="value">階乗する整数</param>
         /// <returns>階乗した値</returns>

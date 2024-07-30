@@ -27,6 +27,11 @@ namespace Ksnm.Units.SI
 {
     /// <summary>
     /// ニュートン
+    /// <para>記号:N</para>
+    /// <para>系  :国際単位系 (SI)</para>
+    /// <para>種類:組立単位</para>
+    /// <para>量  :力</para>
+    /// <para>定義:1kgの質量を持つ物体に1m/s^2の加速度を生じさせる力</para>
     /// </summary>
     public class Newton<T> : Force<T> where T : IMath<T>
     {

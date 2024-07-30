@@ -1,4 +1,6 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Ksnm.ExtensionMethods.System.Array;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Linq;
 
 namespace Ksnm.ExtensionMethods.System.Array.Tests
 {
@@ -101,6 +103,36 @@ namespace Ksnm.ExtensionMethods.System.Array.Tests
                 {
                     Assert.AreEqual(i, ary.IndexOf(i.ToString(), 0));
                 }
+            }
+        }
+
+        [TestMethod()]
+        public void CopyFromTest()
+        {
+            {
+                var ary1 = new int[] { 0, 0, 0, 0 };
+                var ary2 = new int[] { 1, 2, 3, 4 };
+                ary1.CopyFrom(ary2);
+                Assert.IsTrue(ary1.SequenceEqual(ary2));
+            }
+            {
+                var ary1 = new double[] { 0, 0, 0, 0 };
+                var ary2 = new double[] { 1, 2, 3, 4 };
+                ary1.CopyFrom(ary2);
+                Assert.IsTrue(ary1.SequenceEqual(ary2));
+            }
+            var expected = new double[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 };
+            {
+                var ary1 = new double[12];
+                var ary2 = new double[,] { { 0, 1, 2 }, { 3, 4, 5, }, { 6, 7, 8 }, { 9, 10, 11 } };
+                ary1.CopyFrom(ary2);
+                Assert.IsTrue(ary1.SequenceEqual(expected));
+            }
+            {
+                var ary1 = new double[12];
+                var ary2 = new double[,,] { { { 0 }, { 1 }, { 2 } }, { { 3 }, { 4 }, { 5 }, }, { { 6 }, { 7 }, { 8 } }, { { 9 }, { 10 }, { 11 } } };
+                ary1.CopyFrom(ary2);
+                Assert.IsTrue(ary1.SequenceEqual(expected));
             }
         }
     }

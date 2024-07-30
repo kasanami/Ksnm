@@ -27,6 +27,11 @@ namespace Ksnm.Units.SI
 {
     /// <summary>
     /// カンデラ
+    /// <para>記号:cd</para>
+    /// <para>系  :国際単位系 (SI)</para>
+    /// <para>種類:基本単位</para>
+    /// <para>量  :光度</para>
+    /// <para>定義:放射強度683分の1ワット毎ステラジアンで540テラヘルツの単色光を放射する光源のその放射の方向における光度</para>
     /// </summary>
     public class Candela<T> : LuminousIntensity<T> where T : IMath<T>
     {

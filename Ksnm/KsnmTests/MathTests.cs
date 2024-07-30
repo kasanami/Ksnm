@@ -192,6 +192,16 @@ namespace Ksnm.Tests
         }
 
         [TestMethod()]
+        public void UnitStepTest()
+        {
+            Assert.AreEqual(Math.UnitStep(+2), 1);
+            Assert.AreEqual(Math.UnitStep(+1), 1);
+            Assert.AreEqual(Math.UnitStep(00), 1);
+            Assert.AreEqual(Math.UnitStep(-1), 0);
+            Assert.AreEqual(Math.UnitStep(-2), 0);
+        }
+
+        [TestMethod()]
         public void HeavisideStepTest()
         {
             Assert.AreEqual(Math.HeavisideStep(+2), +1);
@@ -204,7 +214,115 @@ namespace Ksnm.Tests
         [TestMethod()]
         public void SigmoidTest()
         {
-            Assert.AreEqual(Math.Sigmoid(0, 1), 0.5f);
+            // ゲインあり
+            Assert.AreEqual(0.0, Math.Sigmoid(-1.0, 5), 0.01);
+            Assert.AreEqual(0.5, Math.Sigmoid(0.0, 5));
+            Assert.AreEqual(1.0, Math.Sigmoid(1.0, 5), 0.01);
+            // float版のチェック
+            for (double i = -1; i < +1; i += 0.25)
+            {
+                var d = Math.Sigmoid(i, 0.5);
+                var f = Math.Sigmoid((float)i, 0.5f);
+                Assert.AreEqual(d, (double)f, 0.0000001);
+            }
+
+            // ゲインなしの標準版
+            Assert.AreEqual(0.0, Math.Sigmoid(-6.0), 0.01);
+            Assert.AreEqual(0.5, Math.Sigmoid(0.0));
+            Assert.AreEqual(1.0, Math.Sigmoid(+6.0), 0.01);
+            // float版のチェック
+            for (double i = -1; i < +1; i += 0.25)
+            {
+                var d = Math.Sigmoid(i);
+                var f = Math.Sigmoid((float)i);
+                Assert.AreEqual(d, (double)f, 0.0000001);
+            }
+        }
+
+        [TestMethod()]
+        public void DerSigmoidTest()
+        {
+            Assert.AreEqual(0.00, Math.DerSigmoid(Math.Sigmoid(-10)), 0.0001);
+            Assert.AreEqual(0.25, Math.DerSigmoid(Math.Sigmoid(0)), 0.0001);
+            Assert.AreEqual(0.00, Math.DerSigmoid(Math.Sigmoid(+10)), 0.0001);
+        }
+
+        [TestMethod()]
+        public void IdentityTest()
+        {
+            for (double i = -2; i <= +2; i++)
+            {
+                Assert.AreEqual(i, Math.Identity(i));
+            }
+        }
+
+        [TestMethod()]
+        public void DerIdentityTest()
+        {
+            for (double i = -2; i <= +2; i++)
+            {
+                Assert.AreEqual(1, Math.DerIdentity(i));
+            }
+        }
+
+        [TestMethod()]
+        public void ReLUTest()
+        {
+            Assert.AreEqual(0, Math.ReLU(-2));
+            Assert.AreEqual(0, Math.ReLU(-1));
+            Assert.AreEqual(0, Math.ReLU(0));
+            Assert.AreEqual(1, Math.ReLU(+1));
+            Assert.AreEqual(2, Math.ReLU(+2));
+        }
+
+        [TestMethod()]
+        public void DerReLUTest()
+        {
+            Assert.AreEqual(0, Math.DerReLU(-2));
+            Assert.AreEqual(0, Math.DerReLU(-1));
+            Assert.AreEqual(0, Math.DerReLU(0));
+            Assert.AreEqual(1, Math.DerReLU(+1));
+            Assert.AreEqual(1, Math.DerReLU(+2));
+        }
+
+        [TestMethod()]
+        public void TanhTest()
+        {
+            Assert.AreEqual(-0.9950547, Math.Tanh(-3), 0.0000001);
+            Assert.AreEqual(-0.7615942, Math.Tanh(-1), 0.0000001);
+            Assert.AreEqual(+0.0000000, Math.Tanh(+0), 0.0000001);
+            Assert.AreEqual(+0.7615942, Math.Tanh(+1), 0.0000001);
+            Assert.AreEqual(+0.9950547, Math.Tanh(+3), 0.0000001);
+        }
+
+        [TestMethod()]
+        public void DerTanhTest()
+        {
+            Assert.AreEqual(0.0098, Math.DerTanh(-0.9950547), 0.0001);
+            Assert.AreEqual(0.4199, Math.DerTanh(-0.7615942), 0.0001);
+            Assert.AreEqual(1.0000, Math.DerTanh(+0.0000000), 0.0001);
+            Assert.AreEqual(0.4199, Math.DerTanh(+0.7615942), 0.0001);
+            Assert.AreEqual(0.0098, Math.DerTanh(+0.9950547), 0.0001);
+        }
+
+        [TestMethod()]
+        public void LeakyReLUTest()
+        {
+            Assert.AreEqual(-0.02, Math.LeakyReLU(-2));
+            Assert.AreEqual(-0.01, Math.LeakyReLU(-1));
+            Assert.AreEqual(0.000, Math.LeakyReLU(+0));
+            Assert.AreEqual(+1.00, Math.LeakyReLU(+1));
+            Assert.AreEqual(+2.00, Math.LeakyReLU(+2));
+        }
+
+        [TestMethod()]
+        public void SoftplusTest()
+        {
+            Assert.AreEqual(2.0611537e-9, Math.Softplus(-20), 0.0000001);
+            Assert.AreEqual(3.1326166e-1, Math.Softplus(-01), 0.0000001);
+            Assert.AreEqual(6.9314718e-1, Math.Softplus(+00), 0.0000001);
+            Assert.AreEqual(1.3132616e+0, Math.Softplus(+01), 0.0000001);
+            Assert.AreEqual(2.0000000e+1, Math.Softplus(+20), 0.0000001);
         }
 
         [TestMethod()]
@@ -264,10 +382,34 @@ namespace Ksnm.Tests
             Assert.AreEqual(6, Math.Factorial(3));
             Assert.AreEqual(24, Math.Factorial(4));
             Assert.AreEqual(479_001_600, Math.Factorial(12));
-            Assert.AreEqual(6_227_020_800, Math.Factorial(13L));
-            Assert.AreEqual(87_178_291_200, Math.Factorial(14L));
-            Assert.AreEqual(1_307_674_368_000, Math.Factorial(15L));
-            Assert.AreEqual(2_432_902_008_176_640_000, Math.Factorial(20L));
+            Assert.AreEqual(6_227_020_800, Math.Factorial(13));
+            Assert.AreEqual(87_178_291_200, Math.Factorial(14));
+            Assert.AreEqual(1_307_674_368_000, Math.Factorial(15));
+            Assert.AreEqual(6_402_373_705_728_000, Math.Factorial(18));
+            Assert.AreEqual(2_432_902_008_176_640_000, Math.Factorial(20));
+
+            Assert.AreEqual(1, Math.Factorial(0.0));
+            Assert.AreEqual(1, Math.Factorial(1.0));
+            Assert.AreEqual(2, Math.Factorial(2.0));
+            Assert.AreEqual(6, Math.Factorial(3.0));
+            Assert.AreEqual(24, Math.Factorial(4.0));
+            Assert.AreEqual(479_001_600, Math.Factorial(12.0));
+            Assert.AreEqual(6_227_020_800, Math.Factorial(13.0));
+            Assert.AreEqual(87_178_291_200, Math.Factorial(14.0));
+            Assert.AreEqual(1_307_674_368_000, Math.Factorial(15.0));
+            Assert.AreEqual(6_402_373_705_728_000, Math.Factorial(18.0));
+
+            Assert.AreEqual(1, Math.Factorial((BigInteger)0));
+            Assert.AreEqual(1, Math.Factorial((BigInteger)1));
+            Assert.AreEqual(2, Math.Factorial((BigInteger)2));
+            Assert.AreEqual(6, Math.Factorial((BigInteger)3));
+            Assert.AreEqual(24, Math.Factorial((BigInteger)4));
+            Assert.AreEqual(479_001_600, Math.Factorial((BigInteger)12));
+            Assert.AreEqual(6_227_020_800, Math.Factorial((BigInteger)13));
+            Assert.AreEqual(87_178_291_200, Math.Factorial((BigInteger)14));
+            Assert.AreEqual(1_307_674_368_000, Math.Factorial((BigInteger)15));
+            Assert.AreEqual(6_402_373_705_728_000, Math.Factorial((BigInteger)18));
+            Assert.AreEqual(2_432_902_008_176_640_000, Math.Factorial((BigInteger)20));
         }
 
         [TestMethod()]

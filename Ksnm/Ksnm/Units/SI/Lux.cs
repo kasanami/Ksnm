@@ -27,6 +27,11 @@ namespace Ksnm.Units.SI
 {
     /// <summary>
     /// ルクス
+    /// <para>記号:lx</para>
+    /// <para>系  :国際単位系 (SI)</para>
+    /// <para>種類:組立単位</para>
+    /// <para>量  :照度</para>
+    /// <para>定義:1 m^2の面が1 lmの光束で照らされるときの照度</para>
     /// </summary>
     public class Lux<T> : Illuminance<T> where T : IMath<T>
     {

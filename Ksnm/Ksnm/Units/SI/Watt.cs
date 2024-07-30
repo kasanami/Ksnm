@@ -27,6 +27,11 @@ namespace Ksnm.Units.SI
 {
     /// <summary>
     /// ワット
+    /// <para>記号:W</para>
+    /// <para>系  :国際単位系 (SI)</para>
+    /// <para>種類:組立単位</para>
+    /// <para>量  :仕事率・工率・電力・放射束</para>
+    /// <para>定義:1秒間に1ジュールの仕事率</para>
     /// </summary>
     public class Watt<T> : Power<T> where T : IMath<T>
     {

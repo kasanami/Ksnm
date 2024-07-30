@@ -27,6 +27,11 @@ namespace Ksnm.Units.SI
 {
     /// <summary>
     /// クーロン
+    /// <para>記号:C</para>
+    /// <para>系  :国際単位系 (SI)</para>
+    /// <para>種類:組立単位</para>
+    /// <para>量  :電荷</para>
+    /// <para>定義:e / 1.602176634 * 10^−19</para>
     /// </summary>
     public class Coulomb<T> : ElectricCharge<T> where T : IMath<T>
     {

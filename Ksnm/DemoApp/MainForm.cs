@@ -13,6 +13,7 @@ using Ksnm.ExtensionMethods.System.Random;
 using Ksnm.ExtensionMethods.System.Decimal;
 using Ksnm.ExtensionMethods.System.Double;
 using Ksnm.Science.Mathematics;
+using Ksnm.MachineLearning.NeuralNetwork;
 
 #pragma warning disable CS0162 // 到達できないコードが検出されました
 namespace DemoApp
@@ -23,6 +24,8 @@ namespace DemoApp
         {
             InitializeComponent();
             Random_InitializeComponent();
+
+            MultilayerPerceptron_Initialize();
         }
 
         private void MainForm_Load(object sender, EventArgs e)
@@ -110,7 +113,7 @@ namespace DemoApp
         {
             var count = Math_LeibnizFormula_CountNumericUpDown1.Value.ToClampedInt32();
             //Math_LeibnizFormulaLabel1.Text = (Formula.Leibniz(count) * 4).ToDecimalString();
-            Math_LeibnizFormulaLabel1.Text = (Formula.LeibnizForBigDecimal(count, 100) * 4).ToString();
+            Math_LeibnizFormulaLabel1.Text = (Formula.LeibnizFormula(count, 100) * 4).ToString();
         }
 
         private void Math_GaussLegendreButton_Click(object sender, EventArgs e)
@@ -118,6 +121,16 @@ namespace DemoApp
             var count = Math_GaussLegendre_CountNumericUpDown.Value.ToClampedInt32();
             //Math_GaussLegendreLabel1.Text = (Algorithm.GaussLegendre(count)).ToDecimalString();
             Math_GaussLegendreLabel1.Text = Algorithm.GaussLegendreForBigDecimal(count, 100).ToString();
+        }
+        private void Math_Ramanujan_Button_Click(object sender, EventArgs e)
+        {
+            var count = Math_Ramanujan_CountNumericUpDown.Value.ToClampedInt32();
+            Math_Ramanujan_Label.Text = (1 / Formula.RamanujansPiFormula(count, 100)).ToString();
+        }
+        private void Math_MachinsFormula_Button_Click(object sender, EventArgs e)
+        {
+            var count = Math_MachinsFormula_CountNumericUpDown.Value.ToClampedInt32();
+            Math_MachinsFormula_Label.Text = (Formula.MachinsFormula(count, 100) * 4).ToString();
         }
 
         private void Math_ChartUpdate()
@@ -172,7 +185,6 @@ namespace DemoApp
         {
             Math_ChartUpdate();
         }
-
         #endregion Mathタブ
 
         #region Randomタブ
@@ -635,6 +647,99 @@ namespace DemoApp
         }
         #endregion Binaryタブ
 
+        #region AI タブ
+        MultilayerPerceptron.GeneticAlgorithmParam learnParam = new MultilayerPerceptron.GeneticAlgorithmParam();
+        MultilayerPerceptron neuralNetwork = new MultilayerPerceptron(2, 3, 1);
+        #region 論理式
+        Sample[] NotSample = new[]
+        {
+            new Sample() { SourceValues = new double[] { 0, 0 }, ResultValues = new double[] { 1 } },
+            new Sample() { SourceValues = new double[] { 0, 1 }, ResultValues = new double[] { 0 } },
+            new Sample() { SourceValues = new double[] { 0, 0 }, ResultValues = new double[] { 1 } },
+            new Sample() { SourceValues = new double[] { 0, 1 }, ResultValues = new double[] { 0 } },
+        };
+        Sample[] OrSample = new[]
+        {
+            new Sample() { SourceValues = new double[] { 0, 0 }, ResultValues = new double[] { 0 } },
+            new Sample() { SourceValues = new double[] { 0, 1 }, ResultValues = new double[] { 1 } },
+            new Sample() { SourceValues = new double[] { 1, 0 }, ResultValues = new double[] { 1 } },
+            new Sample() { SourceValues = new double[] { 1, 1 }, ResultValues = new double[] { 1 } },
+        };
+        Sample[] AndSample = new[]
+        {
+            new Sample() { SourceValues = new double[] { 0, 0 }, ResultValues = new double[] { 0 } },
+            new Sample() { SourceValues = new double[] { 0, 1 }, ResultValues = new double[] { 0 } },
+            new Sample() { SourceValues = new double[] { 1, 0 }, ResultValues = new double[] { 0 } },
+            new Sample() { SourceValues = new double[] { 1, 1 }, ResultValues = new double[] { 1 } },
+        };
+        Sample[] XorSample = new[]
+        {
+            new Sample() { SourceValues = new double[] { 0, 0 }, ResultValues = new double[] { 0 } },
+            new Sample() { SourceValues = new double[] { 0, 1 }, ResultValues = new double[] { 1 } },
+            new Sample() { SourceValues = new double[] { 1, 0 }, ResultValues = new double[] { 1 } },
+            new Sample() { SourceValues = new double[] { 1, 1 }, ResultValues = new double[] { 0 } },
+        };
+        #endregion 論理式
+        private void MultilayerPerceptron_Initialize()
+        {
+            learnParam.samples = XorSample;
+        }
+        private void MultilayerPerceptron_Update()
+        {
+            neuralNetwork.SourceNeurons[0].Value = ((double)numericUpDown1.Value);
+            neuralNetwork.SourceNeurons[1].Value = ((double)numericUpDown2.Value);
+            neuralNetwork.ForwardPropagation();
+            var hidden0InputWeights = neuralNetwork.HiddenNeurons[0].InputWeights.ToArray();
+            var hidden1InputWeights = neuralNetwork.HiddenNeurons[1].InputWeights.ToArray();
+            var hidden2InputWeights = neuralNetwork.HiddenNeurons[2].InputWeights.ToArray();
+            var resultInputWeights = neuralNetwork.ResultNeurons[0].InputWeights.ToArray();
+            label22.Text = "V:" + neuralNetwork.SourceNeurons[0].Value.ToString("0.000");
+            label23.Text = "V:" + neuralNetwork.SourceNeurons[1].Value.ToString("0.000");
+            label24.Text = "V:" + neuralNetwork.HiddenNeurons[0].Value.ToString("0.000");
+            label25.Text = "V:" + neuralNetwork.HiddenNeurons[1].Value.ToString("0.000");
+            label40.Text = "V:" + neuralNetwork.HiddenNeurons[2].Value.ToString("0.000");
+            label26.Text = "V:" + neuralNetwork.ResultNeurons[0].Value.ToString("0.000");
+            label28.Text = "W:" + hidden0InputWeights[0].ToString("0.000");
+            label29.Text = "W:" + hidden0InputWeights[1].ToString("0.000");
+            label30.Text = "W:" + hidden1InputWeights[0].ToString("0.000");
+            label31.Text = "W:" + hidden1InputWeights[1].ToString("0.000");
+            label37.Text = "W:" + hidden2InputWeights[0].ToString("0.000");
+            label38.Text = "W:" + hidden2InputWeights[1].ToString("0.000");
+            label32.Text = "W:" + resultInputWeights[0].ToString("0.000");
+            label33.Text = "W:" + resultInputWeights[1].ToString("0.000");
+            label36.Text = "W:" + resultInputWeights[2].ToString("0.000");
+            label34.Text = "B:" + neuralNetwork.HiddenNeurons[0].Bias.ToString("0.000");
+            label35.Text = "B:" + neuralNetwork.HiddenNeurons[1].Bias.ToString("0.000");
+            label39.Text = "B:" + neuralNetwork.HiddenNeurons[2].Bias.ToString("0.000");
+            label41.Text = "B:" + neuralNetwork.ResultNeurons[0].Bias.ToString("0.000");
+        }
+        #region パーセプトロン タブ
+        private void Perceptron_Click(object sender, EventArgs e)
+        {
+            label27.Text = $"{nameof(XorSample)}";
+            // 学習
+            for (int i = 0; i < 100; i++)
+            {
+                neuralNetwork = MultilayerPerceptron.LearnByGeneticAlgorithm(neuralNetwork, learnParam);
+            }
+            //neuralNetwork.Learn(AndSample, 0.1, 1000);
+            // UI更新
+            MultilayerPerceptron_Update();
+        }
+
+        private void numericUpDown1_ValueChanged(object sender, EventArgs e)
+        {
+            MultilayerPerceptron_Update();
+        }
+
+        private void numericUpDown2_ValueChanged(object sender, EventArgs e)
+        {
+            MultilayerPerceptron_Update();
+        }
+        #endregion パーセプトロン タブ
+
+        #endregion AI タブ
+
     }
-}
 #pragma warning restore CS0162 // 到達できないコードが検出されました
+}
