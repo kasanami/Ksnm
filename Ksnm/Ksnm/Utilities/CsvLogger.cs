@@ -58,7 +58,7 @@ namespace Ksnm.Utilities
         {
             FilePath = filePath;
             Encoding = encoding;
-            Directory.CreateParentDirectory(filePath);
+            Ksnm.IO.Directory.CreateParentDirectory(filePath);
         }
         /// <summary>
         /// ファイルにCSV形式の一行を追加します。

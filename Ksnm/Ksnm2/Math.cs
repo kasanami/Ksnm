@@ -1478,6 +1478,32 @@ namespace Ksnm
             return a;
         }
 
+        /// <summary>
+        /// 最大公約数を計算する。
+        /// <para>負数は正数にされる。</para>
+        /// </summary>
+        /// <param name="a">整数</param>
+        /// <param name="b">整数</param>
+        /// <param name="c">整数</param>
+        /// <returns>最大公約数</returns>
+        public static int GreatestCommonDivisor(int a, int b, int c)
+        {
+            return GreatestCommonDivisor(GreatestCommonDivisor(a, b), c);
+        }
+
+        /// <summary>
+        /// 最大公約数を計算する。
+        /// <para>負数は正数にされる。</para>
+        /// </summary>
+        /// <param name="a">符号なし整数</param>
+        /// <param name="b">符号なし整数</param>
+        /// <param name="c">符号なし整数</param>
+        /// <returns>最大公約数</returns>
+        public static uint GreatestCommonDivisor(uint a, uint b, uint c)
+        {
+            return GreatestCommonDivisor(GreatestCommonDivisor(a, b), c);
+        }
+
         #endregion 最大公約数 GreatestCommonDivisor
 
         #region 最小公倍数

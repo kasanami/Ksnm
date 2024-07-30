@@ -67,6 +67,16 @@
     <Compile Include="ExtensionMethods\System\Numerics\BigInteger\BigIntegerExtensions.cs" />
     <Compile Include="ExtensionMethods\System\Single\SingleExtensions.cs" />
     <Compile Include="ExtensionMethods\System\Span\SpanExtensions.cs" />
+    <Compile Include="MachineLearning\NeuralNetwork\Activation.cs" />
+    <Compile Include="MachineLearning\NeuralNetwork\ILayer.cs" />
+    <Compile Include="MachineLearning\NeuralNetwork\INeuron.cs" />
+    <Compile Include="MachineLearning\NeuralNetwork\Layer.cs" />
+    <Compile Include="MachineLearning\NeuralNetwork\MultilayerPerceptron.cs" />
+    <Compile Include="MachineLearning\NeuralNetwork\Neuron.cs" />
+    <Compile Include="MachineLearning\NeuralNetwork\NeuronInput.cs" />
+    <Compile Include="MachineLearning\NeuralNetwork\Sample.cs" />
+    <Compile Include="MachineLearning\NeuralNetwork\SourceNeuron.cs" />
+    <Compile Include="MachineLearning\NeuralNetwork\Utility.cs" />
     <Compile Include="Numerics\BigDecimal.cs" />
     <Compile Include="Numerics\Complex.cs" />
     <Compile Include="Numerics\Decimal.cs" />
@@ -81,6 +91,7 @@
     <Compile Include="Numerics\IMath.cs" />
     <Compile Include="Numerics\Numeric.cs" />
     <Compile Include="Science\Electromagnetism\ElectricalResistance.cs" />
+    <Compile Include="Science\Mathematics\Theorem.cs" />
     <Compile Include="Text\Encoding.cs" />
     <Compile Include="Units\Acceleration.cs" />
     <Compile Include="Units\AmountOfSubstance.cs" />
