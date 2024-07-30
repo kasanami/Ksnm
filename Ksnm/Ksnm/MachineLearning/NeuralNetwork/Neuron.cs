@@ -95,7 +95,7 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         /// コピーコンストラクタ
         /// ※inputNeuronsは、インスタンスを明確にするため指定する必要がある。source.Inputsは使用されない。
         /// </summary>
-        public Neuron(Neuron source, IReadOnlyList<INeuron> inputNeurons) : this(inputNeurons)
+        public Neuron(Neuron source, IReadOnlyList<INeuron> inputNeurons)
         {
             Name = source.Name;
             Value = source.Value;
