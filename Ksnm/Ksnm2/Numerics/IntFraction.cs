@@ -299,17 +299,7 @@ namespace Ksnm.Numerics
 
         static bool INumberBase<IntFraction>.TryConvertToChecked<TOther>(IntFraction value, out TOther result)
         {
-            int.
-            if (int.TryConvertToSaturating(value.Numerator, out TOther numerator) &&
-                int.TryConvertToSaturating(value.Denominator, out TOther denominator))
-            {
-                return TOther.TryConvertFromChecked(numer / denom, out result);
-            }
-            else
-            {
-                result = default;
-                return false;
-            }
+            throw new NotImplementedException();
         }
 
         static bool INumberBase<IntFraction>.TryConvertToSaturating<TOther>(IntFraction value, out TOther result)
