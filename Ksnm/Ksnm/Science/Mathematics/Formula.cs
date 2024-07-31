@@ -190,26 +190,6 @@ namespace Ksnm.Science.Mathematics
         /// <summary>
         /// マチンの公式
         /// </summary>
-        /// <param name="count">計算回数。1未満を設定すると0を返す。</param>
-        /// <returns>PI/4(円周率の4分の1)</returns>
-        public static double MachinsFormula(int count)
-        {
-            double sum = 0;
-            for (int k = 1; k <= count; k++)
-            {
-                sum +=
-                    4 *
-                    (System.Math.Pow(-1, k + 1) / (2 * k - 1)) *
-                    System.Math.Pow(1.0 / 5, 2 * k - 1) +
-                    (System.Math.Pow(-1, k) / (2 * k - 1)) *
-                    System.Math.Pow(1.0 / 239, 2 * k - 1);
-            }
-            return sum;
-        }
-
-        /// <summary>
-        /// マチンの公式
-        /// </summary>
         /// <param name="tolerance">許容値</param>
         /// <param name="terms">単項式数。1未満を設定すると0を返す。</param>
         /// <returns>PI/4(円周率の4分の1)</returns>
@@ -241,6 +221,15 @@ namespace Ksnm.Science.Mathematics
                 }
             }
             return sum;
+        }
+        /// <summary>
+        /// マチンの公式
+        /// </summary>
+        /// <param name="count">計算回数。1未満を設定すると0を返す。</param>
+        /// <returns>PI/4(円周率の4分の1)</returns>
+        public static T MachinsFormula<T>()where T:IFloatingPointIeee754<T>
+        {
+            return MachinsFormula(T.Epsilon);
         }
     }
 }

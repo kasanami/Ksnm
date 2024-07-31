@@ -61,12 +61,13 @@ namespace Ksnm.Science.Mathematics.Tests
         {
             // double型
             {
-                var pi = Formula.MachinsFormula(10) * 4;
+                var pi = Formula.MachinsFormula<double>() * 4;
                 Assert.AreEqual(3.14159265358979, pi, 0.000001);
             }
             // BigDecimal型
             {
-                var tolerance = new BigDecimal(1, -101);
+                BigDecimal.DefaultMinExponent = -102;// 四捨五入のため-100に更に-2
+                var tolerance = new BigDecimal(1, -100);
                 var pi = Formula.MachinsFormula<BigDecimal>(tolerance) * 4;
                 pi.SetMinExponentAndRound(-100);
                 Assert.AreEqual(Pi100, pi.ToString());
