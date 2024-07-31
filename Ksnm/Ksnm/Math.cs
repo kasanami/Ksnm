@@ -1,7 +1,7 @@
 ﻿/*
 The zlib License
 
-Copyright (c) 2014-2021 Takahiro Kasanami
+Copyright (c) 2014-2024 Takahiro Kasanami
 
 This software is provided 'as-is', without any express or implied
 warranty. In no event will the authors be held liable for any damages
@@ -1122,6 +1122,10 @@ namespace Ksnm
         #endregion Exp
 
         #region Sqrt
+        public static T Sqrt<T>(T value)
+        {
+            throw new NotImplementedException();
+        }
         /// <summary>
         /// 指定された数値の平方根を返します。
         /// ※最下位桁は丸められます。
@@ -1423,6 +1427,36 @@ namespace Ksnm
         #endregion 三角関数
 
         #region 最大公約数 GreatestCommonDivisor
+        /// <summary>
+        /// 最大公約数
+        /// </summary>
+        public static T GreatestCommonDivisor<T>(T a, T b) where T : INumber<T>
+        {
+            if (a < b)
+            {
+                // 引数を入替えて自分を呼び出す
+                return GreatestCommonDivisor(b, a);
+            }
+            while (T.IsZero(b) == false)
+            {
+                var remainder = a % b;
+                a = b;
+                b = remainder;
+            }
+            return T.Abs(a);
+        }
+        /// <summary>
+        /// 最大公約数を計算する。
+        /// <para>負数は正数にされる。</para>
+        /// </summary>
+        /// <param name="a">整数</param>
+        /// <param name="b">整数</param>
+        /// <param name="c">整数</param>
+        /// <returns>最大公約数</returns>
+        public static T GreatestCommonDivisor<T>(T a, T b, T c) where T : INumber<T>
+        {
+            return GreatestCommonDivisor(GreatestCommonDivisor(a, b), c);
+        }
 
         /// <summary>
         /// 最大公約数を計算する。
@@ -1717,17 +1751,17 @@ namespace Ksnm
         /// <param name="a"></param>
         /// <param name="args">args[i].Item1=分子。args[i].Item2=分母</param>
         /// <returns>計算結果</returns>
-        public static T ContinuedFraction<T>(T a, IReadOnlyList<Tuple<T, T>> args) where T : IMath<T>
+        public static T ContinuedFraction<T>(T a, IReadOnlyList<Tuple<T, T>> args) where T : INumber<T>
         {
-            T temp = a.Zero;
+            T temp = T.Zero;
             var reversed = args.Reverse();
             foreach (var item in reversed)
             {
                 var numerator = item.Item1;
                 var denominator = item.Item2;
-                temp = numerator.Divide(denominator.Add(temp));
+                temp = numerator / (denominator + temp);
             }
-            return a.Add(temp);
+            return a + temp;
         }
         /// <summary>
         /// 正則連分数を計算する。
@@ -1751,15 +1785,15 @@ namespace Ksnm
         /// <param name="a">[a; args[0], args[1], args[2], ...]</param>
         /// <param name="args">[a; args[0], args[1], args[2], ...]</param>
         /// <returns>計算結果</returns>
-        public static T RegularContinuedFraction<T>(T a, params T[] args) where T : IMath<T>
+        public static T RegularContinuedFraction<T>(T a, params T[] args) where T : INumber<T>
         {
-            T temp = a.Zero;
+            T temp = T.Zero;
             var reversed = args.Reverse();
             foreach (var item in reversed)
             {
-                temp = a.One.Divide(item.Add(temp));
+                temp = T.One / (item + temp);
             }
-            return a.Add(temp);
+            return a + temp;
         }
         #endregion 連分数
 
@@ -1778,11 +1812,11 @@ namespace Ksnm
         /// </summary>
         /// <param name="n">自然数</param>
         /// <returns>貴金属数</returns>
-        public static T MetallicNumber<T>(T n) where T : IMath<T>
+        public static T MetallicNumber<T>(T n) where T : INumber<T>
         {
-            var two = n.From(2);
-            var four = n.From(4);
-            return n.Add(n.Multiply(n).Add(four).Sqrt()).Divide(two);
+            var _2 = T.CreateChecked(2);
+            var _4 = T.CreateChecked(4);
+            return (n + Sqrt(n * n + _4)) / _2;
         }
         #endregion 貴金属数
     }

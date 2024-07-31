@@ -774,7 +774,7 @@ namespace Ksnm.Tests
                     var item = new Tuple<BigDecimal, BigDecimal>(a * a, 6);
                     list.Add(item);
                 }
-                var expected = BigDecimal.PI_100;
+                var expected = BigDecimal.Pi;
                 var actual = Math.ContinuedFraction<BigDecimal>(3, list);
                 expected = BigDecimal.Round(expected, 4, MidpointRounding.AwayFromZero);
                 actual = BigDecimal.Round(actual, 4, MidpointRounding.AwayFromZero);
@@ -845,7 +845,7 @@ namespace Ksnm.Tests
 
             // 黄金数
             {
-                var expected = BigDecimal.GoldenNumber_100;
+                var expected = BigDecimal.GoldenNumber;
                 var actual = Math.MetallicNumber(BigDecimal.One);
 
                 expected = BigDecimal.Round(expected, 20, MidpointRounding.AwayFromZero);
