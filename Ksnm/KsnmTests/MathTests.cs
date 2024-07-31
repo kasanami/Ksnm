@@ -803,6 +803,24 @@ namespace Ksnm.Tests
         }
 
         [TestMethod()]
+        public void LogTest()
+        {
+            for (double i = 1; i <= 5; i += 0.5)
+            {
+                var expected = SMath.Log(i);
+                var actual = Math.Log(i);
+                Assert.AreEqual(expected, actual, 0.00000000001, $"i={i}");
+            }
+            decimal tolerance = 0.00000000000000000000001m;
+            for (decimal i = 1; i <= 5; i += 0.5m)
+            {
+                var expected = SMath.Log((double)i);
+                var actual = Math.Log(i, tolerance);
+                Assert.AreEqual((decimal)expected, actual, 0.00000000001m, $"i={i}");
+            }
+        }
+
+        [TestMethod()]
         public void BigIntegerPow10Test()
         {
             Assert.AreEqual(1, Math.BigIntegerPow10(0));

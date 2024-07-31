@@ -23,6 +23,7 @@ freely, subject to the following restrictions:
 */
 using Ksnm.ExtensionMethods.System.Decimal;
 using Ksnm.Numerics;
+using Ksnm.Units;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -961,7 +962,7 @@ namespace Ksnm
         /// <param name="terms">単項式数</param>
         /// <returns></returns>
         public static T Pow<T>(T baseValue, T exponent, T tolerance, int terms = DefaultTerms)
-            where T : INumber<T>,IFloatingPoint<T>
+            where T : INumber<T>, IFloatingPoint<T>
         {
             // 冪級数展開
 
@@ -1180,6 +1181,42 @@ namespace Ksnm
             return Exp(x, T.Epsilon);
         }
         #endregion Exp
+
+        #region Log
+        public static T Log<T>(T value, T tolerance) where T : INumber<T>
+        {
+            if (value <= T.Zero)
+            {
+                throw new ArgumentOutOfRangeException("x", "1以上の値でなければならない。");
+            }
+            if (value == T.One)
+            {
+                return T.Zero;
+            }
+
+            T oldSum = T.Zero;
+            T newSum = T.Zero;
+            T term = (value - T.One) / (value + T.One);
+            T termSquared = term * term;
+            T numerator = term;
+            T k = T.One;
+            T _2 = T.CreateChecked(2);
+
+            do
+            {
+                oldSum = newSum;
+                newSum += numerator / k;
+                numerator *= termSquared;
+                k += _2;
+            } while (T.Abs(newSum - oldSum) > tolerance);
+
+            return _2 * newSum;
+        }
+        public static T Log<T>(T x) where T : IFloatingPointIeee754<T>
+        {
+            return Log(x, T.Epsilon);
+        }
+        #endregion Log
 
         #region Sqrt
         /// <summary>
