@@ -22,13 +22,14 @@ freely, subject to the following restrictions:
 3. This notice may not be removed or altered from any source distribution.
 */
 using Ksnm.Numerics;
+using System.Numerics;
 
 namespace Ksnm.Units.SI
 {
     /// <summary>
     /// メートル毎秒
     /// </summary>
-    public class MetrePerSecond<T> : Velocity<T> where T : IMath<T>
+    public class MetrePerSecond<T> : Velocity<T> where T : INumber<T>
     {
         #region 定数
         /// <summary>
@@ -70,11 +71,14 @@ namespace Ksnm.Units.SI
         /// <summary>
         /// 別の速度から初期化
         /// </summary>
-        public MetrePerSecond(KiloMetrePerHour<T> velocity) : this(velocity.Value.Divide(3.6m)) { }
+        public MetrePerSecond(KiloMetrePerHour<T> velocity) : this(velocity.Value / T.CreateChecked(3.6m)) { }
         /// <summary>
         /// 別の速度から初期化
         /// </summary>
-        public MetrePerSecond(NonSI.Knot<T> velocity) : this(velocity.Value.Multiply(1852).Divide(3600)) { }
+        public MetrePerSecond(NonSI.Knot<T> velocity) :
+            this(velocity.Value * T.CreateChecked(1852) / T.CreateChecked(3600))
+        {
+        }
         #endregion コンストラクタ
         #region 演算子
         /// <summary>
@@ -87,16 +91,16 @@ namespace Ksnm.Units.SI
         /// <summary>
         /// 乗算
         /// </summary>
-        public static MetrePerSecond<T> operator *(int value, MetrePerSecond<T> quantity)
+        public static MetrePerSecond<T> operator *(T value, MetrePerSecond<T> quantity)
         {
-            return new MetrePerSecond<T>(quantity.Value.Multiply(value));
+            return new MetrePerSecond<T>(value * quantity.Value);
         }
         /// <summary>
         /// 乗算
         /// </summary>
-        public static MetrePerSecond<T> operator *(decimal value, MetrePerSecond<T> quantity)
+        public static MetrePerSecond<T> operator *(MetrePerSecond<T> quantity, T value)
         {
-            return new MetrePerSecond<T>(quantity.Value.Multiply(value));
+            return new MetrePerSecond<T>(quantity.Value * value);
         }
         #endregion 演算子
         #region 型変換

@@ -22,6 +22,7 @@ freely, subject to the following restrictions:
 3. This notice may not be removed or altered from any source distribution.
 */
 using Ksnm.Numerics;
+using System.Numerics;
 
 namespace Ksnm.Units.SI
 {
@@ -33,7 +34,7 @@ namespace Ksnm.Units.SI
     /// <para>量  :電荷</para>
     /// <para>定義:e / 1.602176634 * 10^−19</para>
     /// </summary>
-    public class Coulomb<T> : ElectricCharge<T> where T : IMath<T>
+    public class Coulomb<T> : ElectricCharge<T> where T : INumber<T>
     {
         #region プロパティ
         /// <summary>
@@ -75,16 +76,16 @@ namespace Ksnm.Units.SI
         /// <summary>
         /// 乗算
         /// </summary>
-        public static Coulomb<T> operator *(int value, Coulomb<T> quantity)
+        public static Coulomb<T> operator *(T value, Coulomb<T> quantity)
         {
-            return new Coulomb<T>(quantity.Value.Multiply(value));
+            return new Coulomb<T>(value * quantity.Value);
         }
         /// <summary>
         /// 乗算
         /// </summary>
-        public static Coulomb<T> operator *(decimal value, Coulomb<T> quantity)
+        public static Coulomb<T> operator *(Coulomb<T> quantity, T value)
         {
-            return new Coulomb<T>(quantity.Value.Multiply(value));
+            return new Coulomb<T>(quantity.Value * value);
         }
         #endregion 演算子
     }

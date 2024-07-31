@@ -22,13 +22,14 @@ freely, subject to the following restrictions:
 3. This notice may not be removed or altered from any source distribution.
 */
 using Ksnm.Numerics;
+using System.Numerics;
 
 namespace Ksnm.Units
 {
     /// <summary>
     /// 照度
     /// </summary>
-    public class Illuminance<T> : Quantity<T> where T : IMath<T>
+    public class Illuminance<T> : Quantity<T> where T : INumber<T>
     {
         #region コンストラクタ
         /// <summary>
@@ -54,7 +55,7 @@ namespace Ksnm.Units
         /// <param name="area">面積</param>
         public Illuminance(LuminousFlux<T> luminousFlux, Area<T> area)
         {
-            Value = luminousFlux.Value.Divide(area.Value);
+            Value = luminousFlux.Value / area.Value;
             Symbol = luminousFlux.Symbol + "/" + area.Symbol;
         }
         #endregion コンストラクタ

@@ -206,45 +206,39 @@ namespace Ksnm.Science.Mathematics
             }
             return sum;
         }
+
         /// <summary>
         /// マチンの公式
-        /// ※最下位の桁は丸められるため意図しない値の可能性があります。
-        /// NOTE:小数点以下100桁の場合、計算回数は 71 回以上は結果が同じになる。
         /// </summary>
-        /// <param name="count">計算回数。1未満を設定すると0を返す。</param>
-        /// <param name="precision">精度(小数点以下の桁数)</param>
+        /// <param name="tolerance">許容値</param>
+        /// <param name="terms">単項式数。1未満を設定すると0を返す。</param>
         /// <returns>PI/4(円周率の4分の1)</returns>
-        public static BigDecimal MachinsFormula(int count, int precision)
+        public static T MachinsFormula<T>(T tolerance, int terms = 1000)
+            where T : INumber<T>, ISignedNumber<T>
         {
-            if (precision < 0)
+            T _1 = T.One;
+            T _2 = T.CreateChecked(2);
+            T _4 = T.CreateChecked(4);
+            T _5 = T.CreateChecked(5);
+            T _239 = T.CreateChecked(239);
+            T sum = T.Zero;
+            T before = T.Zero;
+            for (int k = 1; k <= terms; k++)
             {
-                throw new ArgumentOutOfRangeException($"{nameof(precision)}={precision} 範囲を超えています。");
-            }
-            var sum = BigDecimal.MakeZero(precision);
-            var one = BigDecimal.MakeOne(precision);
-            var one_5 = one / 5;
-            var one_239 = one / 239;
-            var dividend1 = BigDecimal.MakeOne(precision);// 分子：+1と-1を交互に繰り返す
-            var dividend2 = BigDecimal.MakeOne(precision);// 分子：dividend1の正負が逆の値
-            for (int k = 1; k <= count; k++, dividend1 *= -1)
-            {
-#if false
-                sum +=
-                    4 *
-                    (BigDecimal.Pow(-one, k + 1) / (2 * k - 1)) *
-                    BigDecimal.Pow(one_5, 2 * k - 1) +
-                    (BigDecimal.Pow(-one, k) / (2 * k - 1)) *
-                    BigDecimal.Pow(one_239, 2 * k - 1);
-#else
-                var divisor = 2 * k - 1;// 分母：奇数が順番に入る。
-                dividend2 = -dividend1;
-                sum +=
-                    4 *
-                    (dividend1 / divisor) *
-                    BigDecimal.Pow(one_5, divisor) +
-                    (dividend2 / divisor) *
-                    BigDecimal.Pow(one_239, divisor);
-#endif
+                var _k = T.CreateChecked(k);
+                var odd = 2 * k - 1;
+                var _odd = T.CreateChecked(odd);
+                var add =
+                    _4 *
+                    (Pow<T>(T.NegativeOne, k + 1) / _odd) *
+                    Pow<T>(_1 / _5, odd) +
+                    (Pow<T>(T.NegativeOne, k) / _odd) *
+                    Pow<T>(_1 / _239, odd);
+                sum += add;
+                if (T.Abs(add) < tolerance)
+                {
+                    break;
+                }
             }
             return sum;
         }

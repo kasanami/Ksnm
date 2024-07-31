@@ -22,13 +22,14 @@ freely, subject to the following restrictions:
 3. This notice may not be removed or altered from any source distribution.
 */
 using Ksnm.Numerics;
+using System.Numerics;
 
 namespace Ksnm.Units
 {
     /// <summary>
     /// 光束
     /// </summary>
-    public class LuminousFlux<T> : Quantity<T> where T : IMath<T>
+    public class LuminousFlux<T> : Quantity<T> where T : INumber<T>
     {
         #region コンストラクタ
         /// <summary>
@@ -54,7 +55,7 @@ namespace Ksnm.Units
         /// <param name="solidAngle">立体角</param>
         public LuminousFlux(LuminousIntensity<T> luminousIntensity, SolidAngle<T> solidAngle)
         {
-            Value = luminousIntensity.Value.Multiply(solidAngle.Value);
+            Value = luminousIntensity.Value * solidAngle.Value;
             Symbol = luminousIntensity.Symbol + "*" + solidAngle.Symbol;
         }
         #endregion コンストラクタ

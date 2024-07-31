@@ -26,10 +26,10 @@ namespace Ksnm.Units.SI.Tests
             // 単位付きで計算
             double actual = 0;
             {
-                var mass = new Kilogram<Ksnm.Numerics.Double>(1.0);
-                var time = new Second<Ksnm.Numerics.Double>(2.0);
-                var length = new Metre<Ksnm.Numerics.Double>(3.0);
-                var acceleration = new MetrePerSecondSquared<Ksnm.Numerics.Double>(4);
+                var mass = new Kilogram<double>(1.0);
+                var time = new Second<double>(2.0);
+                var length = new Metre<double>(3.0);
+                var acceleration = new MetrePerSecondSquared<double>(4);
 
                 var force = mass * acceleration;
                 var energy = force * length;

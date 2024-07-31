@@ -22,6 +22,7 @@ freely, subject to the following restrictions:
 3. This notice may not be removed or altered from any source distribution.
 */
 using Ksnm.Numerics;
+using System.Numerics;
 
 namespace Ksnm.Units.SI
 {
@@ -33,7 +34,7 @@ namespace Ksnm.Units.SI
     /// <para>量  :仕事率・工率・電力・放射束</para>
     /// <para>定義:1秒間に1ジュールの仕事率</para>
     /// </summary>
-    public class Watt<T> : Power<T> where T : IMath<T>
+    public class Watt<T> : Power<T> where T : INumber<T>
     {
         #region プロパティ
         /// <summary>
@@ -75,16 +76,16 @@ namespace Ksnm.Units.SI
         /// <summary>
         /// 乗算
         /// </summary>
-        public static Watt<T> operator *(int value, Watt<T> quantity)
+        public static Watt<T> operator *(T value, Watt<T> quantity)
         {
-            return new Watt<T>(quantity.Value.Multiply(value));
+            return new Watt<T>(value * quantity.Value);
         }
         /// <summary>
         /// 乗算
         /// </summary>
-        public static Watt<T> operator *(decimal value, Watt<T> quantity)
+        public static Watt<T> operator *(Watt<T> quantity, T value)
         {
-            return new Watt<T>(quantity.Value.Multiply(value));
+            return new Watt<T>(quantity.Value * value);
         }
         #endregion 演算子
     }

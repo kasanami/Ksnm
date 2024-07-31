@@ -23,6 +23,7 @@ freely, subject to the following restrictions:
 */
 using Ksnm.Numerics;
 using System;
+using System.Numerics;
 
 namespace Ksnm.Units
 {
@@ -30,7 +31,7 @@ namespace Ksnm.Units
     /// 何らかの量
     /// </summary>
     /// <typeparam name="T">値型</typeparam>
-    public abstract class Quantity<T> : IQuantity<T>, IEquatable<Quantity<T>> where T : IMath<T>
+    public abstract class Quantity<T> : IQuantity<T>, IEquatable<Quantity<T>> where T : INumber<T>
     {
         #region プロパティ
         /// <summary>
@@ -44,7 +45,7 @@ namespace Ksnm.Units
         /// <summary>
         /// 値
         /// </summary>
-        public virtual T Value { get; set; }
+        public virtual T Value { get; set; } = T.Zero;
         #endregion プロパティ
 
         #region コンストラクタ
@@ -66,21 +67,21 @@ namespace Ksnm.Units
         /// </summary>
         public Quantity(int value)
         {
-            Value = Value.From(value);
+            Value = T.CreateChecked(value);
         }
         /// <summary>
         /// 指定した値で初期化
         /// </summary>
         public Quantity(double value)
         {
-            Value = Value.From(value);
+            Value = T.CreateChecked(value);
         }
         /// <summary>
         /// 指定した値で初期化
         /// </summary>
         public Quantity(decimal value)
         {
-            Value = Value.From(value);
+            Value = T.CreateChecked(value);
         }
         #endregion コンストラクタ
 

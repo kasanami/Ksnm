@@ -22,6 +22,7 @@ freely, subject to the following restrictions:
 3. This notice may not be removed or altered from any source distribution.
 */
 using Ksnm.Numerics;
+using System.Numerics;
 
 namespace Ksnm.Units.NonSI
 {
@@ -33,7 +34,7 @@ namespace Ksnm.Units.NonSI
     /// <para>定義:正確に1852 m（国際海里）</para>
     /// <para>由来:地球の大円上における弧1分の長さ</para>
     /// </summary>
-    public class NauticalMile<T> : Length<T> where T : IMath<T>
+    public class NauticalMile<T> : Length<T> where T : INumber<T>
     {
         #region プロパティ
         /// <summary>
@@ -67,16 +68,16 @@ namespace Ksnm.Units.NonSI
         /// <summary>
         /// 乗算
         /// </summary>
-        public static NauticalMile<T> operator *(int value, NauticalMile<T> quantity)
+        public static NauticalMile<T> operator *(T value, NauticalMile<T> quantity)
         {
-            return new NauticalMile<T>(quantity.Value.Multiply(value));
+            return new NauticalMile<T>(value * quantity.Value);
         }
         /// <summary>
         /// 乗算
         /// </summary>
-        public static NauticalMile<T> operator *(decimal value, NauticalMile<T> quantity)
+        public static NauticalMile<T> operator *(NauticalMile<T> quantity, T value)
         {
-            return new NauticalMile<T>(quantity.Value.Multiply(value));
+            return new NauticalMile<T>(quantity.Value * value);
         }
         /// <summary>
         /// 距離と時間から速度を計算する
@@ -99,7 +100,8 @@ namespace Ksnm.Units.NonSI
         /// </summary>
         public static explicit operator SI.Metre<T>(NauticalMile<T> nauticalMile)
         {
-            return new SI.Metre<T>(nauticalMile.Value.Multiply(1852));
+            var _1852 = T.CreateChecked(1852);
+            return new SI.Metre<T>(nauticalMile.Value * _1852);
         }
         #endregion 型変換
     }

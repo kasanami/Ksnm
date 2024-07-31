@@ -22,13 +22,14 @@ freely, subject to the following restrictions:
 3. This notice may not be removed or altered from any source distribution.
 */
 using Ksnm.Numerics;
+using System.Numerics;
 
 namespace Ksnm.Units
 {
     /// <summary>
     /// 電位差
     /// </summary>
-    public class ElectricPotential<T> : Quantity<T> where T : IMath<T>
+    public class ElectricPotential<T> : Quantity<T> where T : INumber<T>
     {
         #region コンストラクタ
         /// <summary>
@@ -52,7 +53,7 @@ namespace Ksnm.Units
         /// </summary>
         public ElectricPotential(Energy<T> energy, ElectricCharge<T> charge)
         {
-            Value = energy.Value.Divide(charge.Value);
+            Value = energy.Value / charge.Value;
             Symbol = energy.Symbol + "/" + charge.Symbol;
         }
         #endregion コンストラクタ

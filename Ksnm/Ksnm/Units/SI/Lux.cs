@@ -22,6 +22,7 @@ freely, subject to the following restrictions:
 3. This notice may not be removed or altered from any source distribution.
 */
 using Ksnm.Numerics;
+using System.Numerics;
 
 namespace Ksnm.Units.SI
 {
@@ -33,7 +34,7 @@ namespace Ksnm.Units.SI
     /// <para>量  :照度</para>
     /// <para>定義:1 m^2の面が1 lmの光束で照らされるときの照度</para>
     /// </summary>
-    public class Lux<T> : Illuminance<T> where T : IMath<T>
+    public class Lux<T> : Illuminance<T> where T : INumber<T>
     {
         #region プロパティ
         /// <summary>
@@ -77,16 +78,16 @@ namespace Ksnm.Units.SI
         /// <summary>
         /// 乗算
         /// </summary>
-        public static Lux<T> operator *(int value, Lux<T> quantity)
+        public static Lux<T> operator *(T value, Lux<T> quantity)
         {
-            return new Lux<T>(quantity.Value.Multiply(value));
+            return new Lux<T>(value * quantity.Value);
         }
         /// <summary>
         /// 乗算
         /// </summary>
-        public static Lux<T> operator *(decimal value, Lux<T> quantity)
+        public static Lux<T> operator *(Lux<T> quantity, T value)
         {
-            return new Lux<T>(quantity.Value.Multiply(value));
+            return new Lux<T>(quantity.Value * value);
         }
         #endregion 演算子
     }

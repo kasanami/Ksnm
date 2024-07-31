@@ -22,13 +22,14 @@ freely, subject to the following restrictions:
 3. This notice may not be removed or altered from any source distribution.
 */
 using Ksnm.Numerics;
+using System.Numerics;
 
 namespace Ksnm.Units
 {
     /// <summary>
     /// 面積
     /// </summary>
-    public class Area<T> : Quantity<T> where T : IMath<T>
+    public class Area<T> : Quantity<T> where T : INumber<T>
     {
         #region コンストラクタ
         /// <summary>
@@ -52,7 +53,7 @@ namespace Ksnm.Units
         /// </summary>
         public Area(Length<T> length1, Length<T> length2)
         {
-            Value = length1.Value.Multiply(length2.Value);
+            Value = length1.Value * length2.Value;
             if (length1.Symbol == length2.Symbol)
             {
                 Symbol = length1.Symbol + "^2";

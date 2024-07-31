@@ -22,6 +22,7 @@ freely, subject to the following restrictions:
 3. This notice may not be removed or altered from any source distribution.
 */
 using Ksnm.Numerics;
+using System.Numerics;
 
 namespace Ksnm.Units.SI
 {
@@ -33,7 +34,7 @@ namespace Ksnm.Units.SI
     /// <para>量  :平面角</para>
     /// <para>組立:m/m</para>
     /// </summary>
-    public class Radian<T> : PlaneAngle<T> where T : IMath<T>
+    public class Radian<T> : PlaneAngle<T> where T : INumber<T>
     {
         #region プロパティ
         /// <summary>
@@ -71,7 +72,7 @@ namespace Ksnm.Units.SI
         /// <param name="arc">円弧</param>
         public Radian(Metre<T> radius, Metre<T> arc)
         {
-            Value = arc.Value.Divide(radius.Value);
+            Value = arc.Value / radius.Value;
         }
         #endregion コンストラクタ
         #region 演算子
@@ -80,21 +81,21 @@ namespace Ksnm.Units.SI
         /// </summary>
         public static Metre<T> operator *(Metre<T> radius, Radian<T> radian)
         {
-            return new Metre<T>(radius.Value.Multiply(radian.Value));
+            return new Metre<T>(radius.Value * radian.Value);
         }
         /// <summary>
         /// 乗算
         /// </summary>
-        public static Radian<T> operator *(int value, Radian<T> quantity)
+        public static Radian<T> operator *(T value, Radian<T> quantity)
         {
-            return new Radian<T>(quantity.Value.Multiply(value));
+            return new Radian<T>(value * quantity.Value);
         }
         /// <summary>
         /// 乗算
         /// </summary>
-        public static Radian<T> operator *(decimal value, Radian<T> quantity)
+        public static Radian<T> operator *(Radian<T> quantity, T value)
         {
-            return new Radian<T>(quantity.Value.Multiply(value));
+            return new Radian<T>(quantity.Value * value);
         }
         #endregion 演算子
     }

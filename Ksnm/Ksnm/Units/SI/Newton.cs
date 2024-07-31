@@ -22,6 +22,7 @@ freely, subject to the following restrictions:
 3. This notice may not be removed or altered from any source distribution.
 */
 using Ksnm.Numerics;
+using System.Numerics;
 
 namespace Ksnm.Units.SI
 {
@@ -33,7 +34,7 @@ namespace Ksnm.Units.SI
     /// <para>量  :力</para>
     /// <para>定義:1kgの質量を持つ物体に1m/s^2の加速度を生じさせる力</para>
     /// </summary>
-    public class Newton<T> : Force<T> where T : IMath<T>
+    public class Newton<T> : Force<T> where T : INumber<T>
     {
         #region プロパティ
         /// <summary>
@@ -75,7 +76,7 @@ namespace Ksnm.Units.SI
         /// </summary>
         public Newton(GS.KilogramForce<T> kgf)
         {
-            Value = kgf.Value.Divide(GS.KilogramForce<T>.StandardGravity);
+            Value = kgf.Value / GS.KilogramForce<T>.StandardGravity;
         }
         #endregion コンストラクタ
         #region 演算子
@@ -96,16 +97,16 @@ namespace Ksnm.Units.SI
         /// <summary>
         /// 乗算
         /// </summary>
-        public static Newton<T> operator *(int value, Newton<T> quantity)
+        public static Newton<T> operator *(T value, Newton<T> quantity)
         {
-            return new Newton<T>(quantity.Value.Multiply(value));
+            return new Newton<T>(value * quantity.Value);
         }
         /// <summary>
         /// 乗算
         /// </summary>
-        public static Newton<T> operator *(decimal value, Newton<T> quantity)
+        public static Newton<T> operator *(Newton<T> quantity, T value)
         {
-            return new Newton<T>(quantity.Value.Multiply(value));
+            return new Newton<T>(quantity.Value * value);
         }
         #endregion 演算子
         #region 型変換

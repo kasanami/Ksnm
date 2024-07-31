@@ -22,13 +22,14 @@ freely, subject to the following restrictions:
 3. This notice may not be removed or altered from any source distribution.
 */
 using Ksnm.Numerics;
+using System.Numerics;
 
 namespace Ksnm.Units.SI
 {
     /// <summary>
     /// 立法メートル
     /// </summary>
-    public class CubicMetre<T> : Volume<T> where T : IMath<T>
+    public class CubicMetre<T> : Volume<T> where T : INumber<T>
     {
         #region プロパティ
         /// <summary>
@@ -68,22 +69,25 @@ namespace Ksnm.Units.SI
         /// <summary>
         /// 別の体積から初期化
         /// </summary>
-        public CubicMetre(Litre<T> litre) : base(litre.Value.Multiply(0.001m)) { }
+        public CubicMetre(Litre<T> litre) :
+            base(litre.Value * T.CreateChecked(0.001m))
+        {
+        }
         #endregion コンストラクタ
         #region 演算子
         /// <summary>
         /// 乗算
         /// </summary>
-        public static CubicMetre<T> operator *(int value, CubicMetre<T> quantity)
+        public static CubicMetre<T> operator *(T value, CubicMetre<T> quantity)
         {
-            return new CubicMetre<T>(quantity.Value.Multiply(value));
+            return new CubicMetre<T>(value * quantity.Value);
         }
         /// <summary>
         /// 乗算
         /// </summary>
-        public static CubicMetre<T> operator *(decimal value, CubicMetre<T> quantity)
+        public static CubicMetre<T> operator *(CubicMetre<T> quantity, T value)
         {
-            return new CubicMetre<T>(quantity.Value.Multiply(value));
+            return new CubicMetre<T>(quantity.Value * value);
         }
         #endregion 演算子
         #region 型変換

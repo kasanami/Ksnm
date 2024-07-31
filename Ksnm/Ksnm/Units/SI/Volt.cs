@@ -22,6 +22,7 @@ freely, subject to the following restrictions:
 3. This notice may not be removed or altered from any source distribution.
 */
 using Ksnm.Numerics;
+using System.Numerics;
 
 namespace Ksnm.Units.SI
 {
@@ -33,7 +34,7 @@ namespace Ksnm.Units.SI
     /// <para>量  :電圧・起電力</para>
     /// <para>定義:1Aの電流が流れる導体の2点間において消費される電力が1Wであるときの、その2点間の電圧</para>
     /// </summary>
-    public class Volt<T> : ElectricPotential<T> where T : IMath<T>
+    public class Volt<T> : ElectricPotential<T> where T : INumber<T>
     {
         #region プロパティ
         /// <summary>
@@ -75,16 +76,16 @@ namespace Ksnm.Units.SI
         /// <summary>
         /// 乗算
         /// </summary>
-        public static Volt<T> operator *(int value, Volt<T> quantity)
+        public static Volt<T> operator *(T value, Volt<T> quantity)
         {
-            return new Volt<T>(quantity.Value.Multiply(value));
+            return new Volt<T>(value * quantity.Value);
         }
         /// <summary>
         /// 乗算
         /// </summary>
-        public static Volt<T> operator *(decimal value, Volt<T> quantity)
+        public static Volt<T> operator *(Volt<T> quantity, T value)
         {
-            return new Volt<T>(quantity.Value.Multiply(value));
+            return new Volt<T>(quantity.Value * value);
         }
         #endregion 演算子
     }

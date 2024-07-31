@@ -22,6 +22,7 @@ freely, subject to the following restrictions:
 3. This notice may not be removed or altered from any source distribution.
 */
 using Ksnm.Numerics;
+using System.Numerics;
 
 namespace Ksnm.Units.NonSI
 {
@@ -33,7 +34,7 @@ namespace Ksnm.Units.NonSI
     /// <para>SI  :4.184 J</para>
     /// <para>由来:1gの水の温度を標準大気圧下で1℃上げる熱量</para>
     /// </summary>
-    public class Calorie<T> : Energy<T> where T : IMath<T>
+    public class Calorie<T> : Energy<T> where T : INumber<T>
     {
         #region プロパティ
         /// <summary>
@@ -65,22 +66,22 @@ namespace Ksnm.Units.NonSI
         /// <summary>
         /// 別のエネルギーから初期化
         /// </summary>
-        public Calorie(SI.Joule<T> energy) : this(energy.Value.Divide(4.184m)) { }
+        public Calorie(SI.Joule<T> energy) : this(energy.Value / T.CreateChecked(4.184m)) { }
         #endregion コンストラクタ
         #region 演算子
         /// <summary>
         /// 乗算
         /// </summary>
-        public static Calorie<T> operator *(int value, Calorie<T> quantity)
+        public static Calorie<T> operator *(T value, Calorie<T> quantity)
         {
-            return new Calorie<T>(quantity.Value.Multiply(value));
+            return new Calorie<T>(value * quantity.Value);
         }
         /// <summary>
         /// 乗算
         /// </summary>
-        public static Calorie<T> operator *(decimal value, Calorie<T> quantity)
+        public static Calorie<T> operator *(Calorie<T> quantity, T value)
         {
-            return new Calorie<T>(quantity.Value.Multiply(value));
+            return new Calorie<T>(quantity.Value * value);
         }
         #endregion 演算子
         #region 型変換

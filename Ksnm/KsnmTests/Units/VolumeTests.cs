@@ -1,7 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Ksnm.Numerics;
 using Ksnm.Units.SI;
-using static Ksnm.Units.Constants<Ksnm.Numerics.Decimal>;
+using static Ksnm.Units.Constants<decimal>;
 using static Ksnm.Units.SIPrefixes;
 
 namespace Ksnm.Units.Tests
@@ -12,13 +12,15 @@ namespace Ksnm.Units.Tests
         [TestMethod()]
         public void VolumeTest()
         {
-            var cubicMetre = 123 * CubicMetre;
-            var litre = (Litre<Ksnm.Numerics.Decimal>)cubicMetre;
-            Assert.AreEqual("123000L", litre.ToString());
+            // 立方メートル→リットル
+            var volume1 = 123 * cubicMetre;
+            var volume2 = (Litre<decimal>)volume1;
+            Assert.AreEqual("123000L", volume2.ToString());
 
-            litre = 123 * Litre;
-            cubicMetre = (CubicMetre<Ksnm.Numerics.Decimal>)litre;
-            Assert.AreEqual("0.123m^3", cubicMetre.ToString());
+            // リットル→立方メートル
+            var volume3 = 123 * litre;
+            var volume4 = (CubicMetre<decimal>)volume3;
+            Assert.AreEqual("0.123m^3", volume4.ToString());
         }
     }
 }

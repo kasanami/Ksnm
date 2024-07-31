@@ -22,6 +22,7 @@ freely, subject to the following restrictions:
 3. This notice may not be removed or altered from any source distribution.
 */
 using Ksnm.Numerics;
+using System.Numerics;
 
 namespace Ksnm.Units.GS
 {
@@ -31,7 +32,7 @@ namespace Ksnm.Units.GS
     /// <para>量  :加速度</para>
     /// <para>定義:9.80665 m/s^2</para>
     /// </summary>
-    public class StandardGravity<T> : Acceleration<T> where T : IMath<T>
+    public class StandardGravity<T> : Acceleration<T> where T : INumber<T>
     {
         #region 定数
         #endregion 定数
@@ -65,22 +66,25 @@ namespace Ksnm.Units.GS
         /// <summary>
         /// 他の加速度から初期化
         /// </summary>
-        public StandardGravity(SI.MetrePerSecondSquared<T> acceleration) : this(acceleration.Value.Divide(9.80665m)) { }
+        public StandardGravity(SI.MetrePerSecondSquared<T> acceleration) :
+            this(acceleration.Value / T.CreateChecked(9.80665m))
+        {
+        }
         #endregion コンストラクタ
         #region 演算子
         /// <summary>
         /// 乗算
         /// </summary>
-        public static StandardGravity<T> operator *(int value, StandardGravity<T> quantity)
+        public static StandardGravity<T> operator *(T value, StandardGravity<T> quantity)
         {
-            return new StandardGravity<T>(quantity.Value.Multiply(value));
+            return new StandardGravity<T>(value * quantity.Value);
         }
         /// <summary>
         /// 乗算
         /// </summary>
-        public static StandardGravity<T> operator *(decimal value, StandardGravity<T> quantity)
+        public static StandardGravity<T> operator *(StandardGravity<T> quantity, T value)
         {
-            return new StandardGravity<T>(quantity.Value.Multiply(value));
+            return new StandardGravity<T>(quantity.Value * value);
         }
         #endregion 演算子
         #region 型変換

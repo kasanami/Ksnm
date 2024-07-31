@@ -22,6 +22,7 @@ freely, subject to the following restrictions:
 3. This notice may not be removed or altered from any source distribution.
 */
 using Ksnm.Numerics;
+using System.Numerics;
 
 namespace Ksnm.Units.SI
 {
@@ -33,7 +34,7 @@ namespace Ksnm.Units.SI
     /// <para>量  :質量</para>
     /// <para>定義:10^−3 kg</para>
     /// </summary>
-    public class Gram<T> : Mass<T> where T : IMath<T>
+    public class Gram<T> : Mass<T> where T : INumber<T>
     {
         #region プロパティ
         /// <summary>
@@ -69,23 +70,23 @@ namespace Ksnm.Units.SI
         /// </summary>
         public Gram(Kilogram<T> kilogram)
         {
-            Value = kilogram.Value.Multiply(1000m);
+            Value = kilogram.Value * T.CreateChecked(1000m);
         }
         #endregion コンストラクタ
         #region 演算子
         /// <summary>
         /// 乗算
         /// </summary>
-        public static Gram<T> operator *(int value, Gram<T> quantity)
+        public static Gram<T> operator *(T value, Gram<T> quantity)
         {
-            return new Gram<T>(quantity.Value.Multiply(value));
+            return new Gram<T>(value * quantity.Value);
         }
         /// <summary>
         /// 乗算
         /// </summary>
-        public static Gram<T> operator *(decimal value, Gram<T> quantity)
+        public static Gram<T> operator *(Gram<T> quantity, T value)
         {
-            return new Gram<T>(quantity.Value.Multiply(value));
+            return new Gram<T>(quantity.Value * value);
         }
         #endregion 演算子
         #region 型変換

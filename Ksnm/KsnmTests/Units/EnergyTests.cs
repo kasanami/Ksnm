@@ -2,7 +2,7 @@
 using Ksnm.Units.NonSI;
 using Ksnm.Units.SI;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using static Ksnm.Units.Constants<Ksnm.Numerics.Decimal>;
+using static Ksnm.Units.Constants<decimal>;
 
 namespace Ksnm.Units.Tests
 {
@@ -14,22 +14,22 @@ namespace Ksnm.Units.Tests
         {
             // 質量←→エネルギー　変換
             {
-                var mass = 123 * Kilogram;
-                var energy = (Joule<Ksnm.Numerics.Decimal>)mass;
-                var mass2 = (Kilogram<Ksnm.Numerics.Decimal>)energy;
+                var mass = 123 * kilogram;
+                var energy = (Joule<decimal>)mass;
+                var mass2 = (Kilogram<decimal>)energy;
 
                 Assert.AreEqual(mass.Value, mass2.Value);
             }
 
             // ジュール←→カロリー　変換
             {
-                var calorie = 1 * Calorie;
-                var joule = (Joule<Ksnm.Numerics.Decimal>)calorie;
+                var cal = 1 * calorie;
+                var joule = (Joule<decimal>)cal;
                 Assert.AreEqual("4.184J", joule.ToString());
 
-                var calorie2 = (Calorie<Ksnm.Numerics.Decimal>)joule;
+                var cal2 = (Calorie<decimal>)joule;
 
-                Assert.AreEqual(calorie.Value, calorie2.Value);
+                Assert.AreEqual(cal, cal2);
             }
         }
     }

@@ -1,5 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using static Ksnm.Units.Constants<Ksnm.Numerics.Decimal>;
+using static Ksnm.Units.Constants<decimal>;
 
 namespace Ksnm.Units.Tests
 {

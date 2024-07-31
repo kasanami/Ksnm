@@ -22,13 +22,14 @@ freely, subject to the following restrictions:
 3. This notice may not be removed or altered from any source distribution.
 */
 using Ksnm.Numerics;
+using System.Numerics;
 
 namespace Ksnm.Units
 {
     /// <summary>
     /// エネルギー
     /// </summary>
-    public class Energy<T> : Quantity<T> where T : IMath<T>
+    public class Energy<T> : Quantity<T> where T : INumber<T>
     {
         #region コンストラクタ
         /// <summary>
@@ -52,7 +53,7 @@ namespace Ksnm.Units
         /// </summary>
         public Energy(Force<T> force, Length<T> length)
         {
-            Value = force.Value.Multiply(length.Value);
+            Value = force.Value * length.Value;
             Symbol = force.Symbol + "*" + length.Symbol;
         }
         /// <summary>
@@ -60,7 +61,7 @@ namespace Ksnm.Units
         /// </summary>
         public Energy(Mass<T> mass, Velocity<T> speedOfLight)
         {
-            Value = mass.Value.Multiply(speedOfLight.Value.Multiply(speedOfLight.Value));
+            Value = mass.Value * (speedOfLight.Value * speedOfLight.Value);
             Symbol = mass.Symbol + "*" + speedOfLight.Symbol + "^2";
         }
         #endregion コンストラクタ

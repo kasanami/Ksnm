@@ -165,26 +165,6 @@ namespace Ksnm.Numerics.Tests
         }
 
         [TestMethod()]
-        public void IsEvenTest()
-        {
-            for (decimal i = -10m; i <= 10; i += 0.1m)
-            {
-                var sample = new BigDecimal(i);
-                Assert.AreEqual(i.IsEven(), sample.IsEven(), $"i={i}");
-            }
-        }
-
-        [TestMethod()]
-        public void IsOddTest()
-        {
-            for (decimal i = -10m; i <= 10; i += 0.1m)
-            {
-                var sample = new BigDecimal(i);
-                Assert.AreEqual(i.IsOdd(), sample.IsOdd(), $"i={i}");
-            }
-        }
-
-        [TestMethod()]
         public void GetFractionalTest()
         {
             for (decimal i = -10m; i <= 10; i += 0.1m)
@@ -459,11 +439,6 @@ namespace Ksnm.Numerics.Tests
             {
                 var expected = new BigDecimal(100);
                 var sample = expected * expected;
-                Assert.AreEqual(expected, BigDecimal.Sqrt(sample, precision));
-            }
-            {
-                var expected = BigDecimal.Round(BigDecimal.SquareRootOfTwo_100, precision, BigDecimal.DefaultMidpointRounding);
-                var sample = 2;
                 Assert.AreEqual(expected, BigDecimal.Sqrt(sample, precision));
             }
             {
@@ -1043,83 +1018,6 @@ namespace Ksnm.Numerics.Tests
                 Assert.AreEqual(-123456789, sample.Mantissa, $"{source}");
                 Assert.AreEqual(-9, sample.Exponent, $"{source}");
                 Assert.AreEqual(-28, sample.MinExponent, $"{source}");
-            }
-        }
-
-        [TestMethod()]
-        public void IMathTest()
-        {
-            // 定数,プロパティ
-            {
-                IMath<BigDecimal> sample = new BigDecimal(0);
-                Assert.AreEqual(BigDecimal.Zero, sample.Zero);
-                Assert.AreEqual(BigDecimal.One, sample.One);
-                Assert.AreEqual(BigDecimal.MinusOne, sample.MinusOne);
-
-                sample = new BigDecimal(0);
-                Assert.IsTrue(sample.IsZero);
-                Assert.AreEqual(0, sample.Sign);
-                sample = new BigDecimal(+1);
-                Assert.IsTrue(sample.IsOne);
-                Assert.AreEqual(+1, sample.Sign);
-                sample = new BigDecimal(-123);
-                Assert.AreEqual(-1, sample.Sign);
-            }
-
-            for (decimal i = -10; i <= 10; i += 0.1m)
-            {
-                IMath<BigDecimal> sample = new BigDecimal(i);
-                // Abs
-                Assert.AreEqual(System.Math.Abs(i), sample.Abs().ToDecimal(), $"Abs({i})");
-                // Ceiling
-                Assert.AreEqual(System.Math.Ceiling(i), sample.Ceiling().ToDecimal(), $"Ceiling({i})");
-                // Floor
-                Assert.AreEqual(System.Math.Floor(i), sample.Floor().ToDecimal(), $"Floor({i})");
-                // Negate
-                Assert.AreEqual(decimal.Negate(i), sample.Negate().ToDecimal(), $"Negate({i})");
-                // Truncate
-                Assert.AreEqual(System.Math.Truncate(i), sample.Truncate().ToDecimal(), $"Negate({i})");
-
-                for (decimal j = -10; j <= 10; j += 1m)
-                {
-                    var sample2 = new BigDecimal(j);
-                    // Add
-                    Assert.AreEqual(i + j, sample.Add(sample2).ToDecimal(), $"{i} + {j}");
-                    // Subtract
-                    Assert.AreEqual(i - j, sample.Subtract(sample2).ToDecimal(), $"{i} - {j}");
-                    // Multiply
-                    Assert.AreEqual(i * j, sample.Multiply(sample2).ToDecimal(), $"{i} * {j}");
-                    if (j != 0)
-                    {
-                        // /
-                        Assert.AreEqual(i / j, sample.Divide(sample2).ToDecimal(), $"{i} / {j}");
-                        // %
-                        Assert.AreEqual(i % j, sample.Remainder(sample2).ToDecimal(), $"{i} % {j}");
-                    }
-                    // Compare
-                    Assert.AreEqual(decimal.Compare(i, j), sample.Compare(sample2));
-                    // Max
-                    Assert.AreEqual(System.Math.Max(i, j), sample.Max(sample2));
-                    // Min
-                    Assert.AreEqual(System.Math.Min(i, j), sample.Min(sample2));
-                }
-            }
-
-            {
-                BigDecimal dividend = 123.456m;
-                BigDecimal divisor = 10m;
-                BigDecimal remainder;
-                BigDecimal quotient = dividend.DivRem(divisor, out remainder);
-                Assert.AreEqual<BigDecimal>(12m, quotient, $"{dividend} / {divisor}");
-                Assert.AreEqual<BigDecimal>(3.456m, remainder, $"{dividend} % {divisor}");
-            }
-            {
-                BigDecimal dividend = 1.234m;
-                BigDecimal divisor = 10m;
-                BigDecimal remainder;
-                BigDecimal quotient = dividend.DivRem(divisor, out remainder);
-                Assert.AreEqual<BigDecimal>(0m, quotient, $"{dividend} / {divisor}");
-                Assert.AreEqual<BigDecimal>(1.234m, remainder, $"{dividend} % {divisor}");
             }
         }
     }

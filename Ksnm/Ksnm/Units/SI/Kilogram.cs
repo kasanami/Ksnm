@@ -22,6 +22,7 @@ freely, subject to the following restrictions:
 3. This notice may not be removed or altered from any source distribution.
 */
 using Ksnm.Numerics;
+using System.Numerics;
 
 namespace Ksnm.Units.SI
 {
@@ -32,7 +33,7 @@ namespace Ksnm.Units.SI
     /// <para>種類:基本単位</para>
     /// <para>量  :質量</para>
     /// </summary>
-    public class Kilogram<T> : Mass<T> where T : IMath<T>
+    public class Kilogram<T> : Mass<T> where T : INumber<T>
     {
         #region プロパティ
         /// <summary>
@@ -74,7 +75,7 @@ namespace Ksnm.Units.SI
         /// </summary>
         public Kilogram(Gram<T> gram)
         {
-            Value = gram.Value.Divide(1000m);
+            Value = gram.Value / T.CreateChecked(1000m);
         }
         #endregion コンストラクタ
         #region 演算子
@@ -88,16 +89,16 @@ namespace Ksnm.Units.SI
         /// <summary>
         /// 乗算
         /// </summary>
-        public static Kilogram<T> operator *(int value, Kilogram<T> quantity)
+        public static Kilogram<T> operator *(T value, Kilogram<T> quantity)
         {
-            return new Kilogram<T>(quantity.Value.Multiply(value));
+            return new Kilogram<T>(value * quantity.Value);
         }
         /// <summary>
         /// 乗算
         /// </summary>
-        public static Kilogram<T> operator *(decimal value, Kilogram<T> quantity)
+        public static Kilogram<T> operator *(Kilogram<T> quantity, T value)
         {
-            return new Kilogram<T>(quantity.Value.Multiply(value));
+            return new Kilogram<T>(quantity.Value * value);
         }
         #endregion 演算子
         #region 型変換

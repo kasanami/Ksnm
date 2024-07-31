@@ -22,13 +22,14 @@ freely, subject to the following restrictions:
 3. This notice may not be removed or altered from any source distribution.
 */
 using Ksnm.Numerics;
+using System.Numerics;
 
 namespace Ksnm.Units.SI
 {
     /// <summary>
     /// メートル毎秒毎秒
     /// </summary>
-    public class MetrePerSecondSquared<T> : Acceleration<T> where T : IMath<T>
+    public class MetrePerSecondSquared<T> : Acceleration<T> where T : INumber<T>
     {
         #region プロパティ
         /// <summary>
@@ -64,7 +65,8 @@ namespace Ksnm.Units.SI
         /// <summary>
         /// 他の加速度から初期化
         /// </summary>
-        public MetrePerSecondSquared(GS.StandardGravity<T> acceleration) : this(acceleration.Value.Multiply(9.80665m)) { }
+        public MetrePerSecondSquared(GS.StandardGravity<T> acceleration) :
+            this(acceleration.Value * T.CreateChecked(9.80665m)) { }
         #endregion コンストラクタ
         #region 演算子
         /// <summary>
@@ -72,21 +74,21 @@ namespace Ksnm.Units.SI
         /// </summary>
         public static MetrePerSecond<T> operator *(MetrePerSecondSquared<T> velocity, Second<T> time)
         {
-            return new MetrePerSecond<T>(velocity.Value.Multiply(time.Value));
+            return new MetrePerSecond<T>(velocity.Value * time.Value);
         }
         /// <summary>
         /// 乗算
         /// </summary>
-        public static MetrePerSecondSquared<T> operator *(int value, MetrePerSecondSquared<T> quantity)
+        public static MetrePerSecondSquared<T> operator *(T value, MetrePerSecondSquared<T> quantity)
         {
-            return new MetrePerSecondSquared<T>(quantity.Value.Multiply(value));
+            return new MetrePerSecondSquared<T>(value * quantity.Value);
         }
         /// <summary>
         /// 乗算
         /// </summary>
-        public static MetrePerSecondSquared<T> operator *(decimal value, MetrePerSecondSquared<T> quantity)
+        public static MetrePerSecondSquared<T> operator *(MetrePerSecondSquared<T> quantity, T value)
         {
-            return new MetrePerSecondSquared<T>(quantity.Value.Multiply(value));
+            return new MetrePerSecondSquared<T>(quantity.Value * value);
         }
         #endregion 演算子
         #region 型変換

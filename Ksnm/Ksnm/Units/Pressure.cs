@@ -22,13 +22,14 @@ freely, subject to the following restrictions:
 3. This notice may not be removed or altered from any source distribution.
 */
 using Ksnm.Numerics;
+using System.Numerics;
 
 namespace Ksnm.Units
 {
     /// <summary>
     /// 圧力
     /// </summary>
-    public class Pressure<T> : Quantity<T> where T : IMath<T>
+    public class Pressure<T> : Quantity<T> where T : INumber<T>
     {
         #region コンストラクタ
         /// <summary>
@@ -52,7 +53,7 @@ namespace Ksnm.Units
         /// </summary>
         public Pressure(Force<T> force, Area<T> area)
         {
-            Value = force.Value.Divide(area.Value);
+            Value = force.Value / area.Value;
             Symbol = force.Symbol + "/" + area.Symbol;
         }
         #endregion コンストラクタ

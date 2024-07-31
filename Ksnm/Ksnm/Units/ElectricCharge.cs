@@ -22,13 +22,14 @@ freely, subject to the following restrictions:
 3. This notice may not be removed or altered from any source distribution.
 */
 using Ksnm.Numerics;
+using System.Numerics;
 
 namespace Ksnm.Units
 {
     /// <summary>
     /// 電荷
     /// </summary>
-    public class ElectricCharge<T> : Quantity<T> where T : IMath<T>
+    public class ElectricCharge<T> : Quantity<T> where T : INumber<T>
     {
         #region コンストラクタ
         /// <summary>
@@ -52,7 +53,7 @@ namespace Ksnm.Units
         /// </summary>
         public ElectricCharge(ElectricCurrent<T> current, Time<T> time)
         {
-            Value = current.Value.Multiply(time.Value);
+            Value = current.Value * time.Value;
             Symbol = current.Symbol + "*" + time.Symbol;
         }
         #endregion コンストラクタ

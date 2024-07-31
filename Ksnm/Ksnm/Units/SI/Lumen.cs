@@ -22,6 +22,7 @@ freely, subject to the following restrictions:
 3. This notice may not be removed or altered from any source distribution.
 */
 using Ksnm.Numerics;
+using System.Numerics;
 
 namespace Ksnm.Units.SI
 {
@@ -33,7 +34,7 @@ namespace Ksnm.Units.SI
     /// <para>量  :光束</para>
     /// <para>定義:1カンデラの光源から1ステラジアン内に放射される光束</para>
     /// </summary>
-    public class Lumen<T> : LuminousFlux<T> where T : IMath<T>
+    public class Lumen<T> : LuminousFlux<T> where T : INumber<T>
     {
         #region プロパティ
         /// <summary>
@@ -77,16 +78,16 @@ namespace Ksnm.Units.SI
         /// <summary>
         /// 乗算
         /// </summary>
-        public static Lumen<T> operator *(int value, Lumen<T> quantity)
+        public static Lumen<T> operator *(T value, Lumen<T> quantity)
         {
-            return new Lumen<T>(quantity.Value.Multiply(value));
+            return new Lumen<T>(value * quantity.Value);
         }
         /// <summary>
         /// 乗算
         /// </summary>
-        public static Lumen<T> operator *(decimal value, Lumen<T> quantity)
+        public static Lumen<T> operator *(Lumen<T> quantity, T value)
         {
-            return new Lumen<T>(quantity.Value.Multiply(value));
+            return new Lumen<T>(quantity.Value * value);
         }
         #endregion 演算子
     }

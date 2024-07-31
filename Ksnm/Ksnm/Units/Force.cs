@@ -22,13 +22,14 @@ freely, subject to the following restrictions:
 3. This notice may not be removed or altered from any source distribution.
 */
 using Ksnm.Numerics;
+using System.Numerics;
 
 namespace Ksnm.Units
 {
     /// <summary>
     /// 力
     /// </summary>
-    public class Force<T> : Quantity<T> where T : IMath<T>
+    public class Force<T> : Quantity<T> where T : INumber<T>
     {
         #region コンストラクタ
         /// <summary>
@@ -52,7 +53,7 @@ namespace Ksnm.Units
         /// </summary>
         public Force(Mass<T> mass, Acceleration<T> acceleration)
         {
-            Value = mass.Value.Multiply(acceleration.Value);
+            Value = mass.Value * acceleration.Value;
             if (mass.Symbol == acceleration.Symbol)
             {
                 Symbol = mass.Symbol + "^2";

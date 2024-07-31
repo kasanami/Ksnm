@@ -22,6 +22,7 @@ freely, subject to the following restrictions:
 3. This notice may not be removed or altered from any source distribution.
 */
 using Ksnm.Numerics;
+using System.Numerics;
 
 namespace Ksnm.Units.SI
 {
@@ -32,7 +33,7 @@ namespace Ksnm.Units.SI
     /// <para>種類:固有の名称と記号を持つ SI 単位</para>
     /// <para>量  :温度</para>
     /// </summary>
-    public class DegreeCelsius<T> : Temperature<T> where T : IMath<T>
+    public class DegreeCelsius<T> : Temperature<T> where T : INumber<T>
     {
         #region プロパティ
         /// <summary>
@@ -68,23 +69,23 @@ namespace Ksnm.Units.SI
         /// </summary>
         public DegreeCelsius(Kelvin<T> kelvin)
         {
-            Value = kelvin.Value.Subtract(273.15m);
+            Value = kelvin.Value - T.CreateChecked(273.15m);
         }
         #endregion コンストラクタ
         #region 演算子
         /// <summary>
         /// 乗算
         /// </summary>
-        public static DegreeCelsius<T> operator *(int value, DegreeCelsius<T> quantity)
+        public static DegreeCelsius<T> operator *(T value, DegreeCelsius<T> quantity)
         {
-            return new DegreeCelsius<T>(quantity.Value.Multiply(value));
+            return new DegreeCelsius<T>(value * quantity.Value);
         }
         /// <summary>
         /// 乗算
         /// </summary>
-        public static DegreeCelsius<T> operator *(decimal value, DegreeCelsius<T> quantity)
+        public static DegreeCelsius<T> operator *(DegreeCelsius<T> quantity, T value)
         {
-            return new DegreeCelsius<T>(quantity.Value.Multiply(value));
+            return new DegreeCelsius<T>(quantity.Value * value);
         }
         #endregion 演算子
     }

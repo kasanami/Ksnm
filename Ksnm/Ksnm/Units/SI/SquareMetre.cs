@@ -22,13 +22,14 @@ freely, subject to the following restrictions:
 3. This notice may not be removed or altered from any source distribution.
 */
 using Ksnm.Numerics;
+using System.Numerics;
 
 namespace Ksnm.Units.SI
 {
     /// <summary>
     /// 平方メートル
     /// </summary>
-    public class SquareMetre<T> : Area<T> where T : IMath<T>
+    public class SquareMetre<T> : Area<T> where T : INumber<T>
     {
         #region プロパティ
         /// <summary>
@@ -77,16 +78,16 @@ namespace Ksnm.Units.SI
         /// <summary>
         /// 乗算
         /// </summary>
-        public static SquareMetre<T> operator *(int value, SquareMetre<T> quantity)
+        public static SquareMetre<T> operator *(T value, SquareMetre<T> quantity)
         {
-            return new SquareMetre<T>(quantity.Value.Multiply(value));
+            return new SquareMetre<T>(value * quantity.Value);
         }
         /// <summary>
         /// 乗算
         /// </summary>
-        public static SquareMetre<T> operator *(decimal value, SquareMetre<T> quantity)
+        public static SquareMetre<T> operator *(SquareMetre<T> quantity, T value)
         {
-            return new SquareMetre<T>(quantity.Value.Multiply(value));
+            return new SquareMetre<T>(quantity.Value * value);
         }
         #endregion 演算子
     }

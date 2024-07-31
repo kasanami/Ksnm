@@ -22,6 +22,7 @@ freely, subject to the following restrictions:
 3. This notice may not be removed or altered from any source distribution.
 */
 using Ksnm.Numerics;
+using System.Numerics;
 
 namespace Ksnm.Units.GS
 {
@@ -34,13 +35,13 @@ namespace Ksnm.Units.GS
     /// <para>組立:g·kg</para>
     /// <para>定義:1 kg の質量が標準重力加速度下で受ける重力</para>
     /// </summary>
-    public class KilogramForce<T> : Force<T> where T : IMath<T>
+    public class KilogramForce<T> : Force<T> where T : INumber<T>
     {
         #region 定数
         /// <summary>
         /// 標準重力
         /// </summary>
-        public const decimal StandardGravity = 9.80665m;
+        public static readonly T StandardGravity = T.CreateChecked(9.80665m);
         #endregion 定数
         #region プロパティ
         /// <summary>
@@ -74,23 +75,23 @@ namespace Ksnm.Units.GS
         /// </summary>
         public KilogramForce(SI.Newton<T> newton)
         {
-            Value = newton.Value.Multiply(StandardGravity);
+            Value = newton.Value * StandardGravity;
         }
         #endregion コンストラクタ
         #region 演算子
         /// <summary>
         /// 乗算
         /// </summary>
-        public static KilogramForce<T> operator *(int value, KilogramForce<T> quantity)
+        public static KilogramForce<T> operator *(T value, KilogramForce<T> quantity)
         {
-            return new KilogramForce<T>(quantity.Value.Multiply(value));
+            return new KilogramForce<T>(value * quantity.Value);
         }
         /// <summary>
         /// 乗算
         /// </summary>
-        public static KilogramForce<T> operator *(decimal value, KilogramForce<T> quantity)
+        public static KilogramForce<T> operator *(KilogramForce<T> quantity, T value)
         {
-            return new KilogramForce<T>(quantity.Value.Multiply(value));
+            return new KilogramForce<T>(quantity.Value * value);
         }
         #endregion 演算子
         #region 型変換

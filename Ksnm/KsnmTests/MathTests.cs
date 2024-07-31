@@ -788,19 +788,19 @@ namespace Ksnm.Tests
             // 黄金数
             {
                 var expected = Math.GoldenNumber;
-                var actual = Math.RegularContinuedFraction(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1);
+                var actual = Math.RegularContinuedFraction<double>(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1);
                 Assert.AreEqual(expected, actual, 0.00000001);
             }
             // √2
             {
                 var expected = SMath.Sqrt(2);
-                var actual = Math.RegularContinuedFraction(1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2);
+                var actual = Math.RegularContinuedFraction<double>(1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2);
                 Assert.AreEqual(expected, actual, 0.0000000001);
             }
             // √3
             {
                 var expected = SMath.Sqrt(3);
-                var actual = Math.RegularContinuedFraction(1, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2);
+                var actual = Math.RegularContinuedFraction<double>(1, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2);
                 Assert.AreEqual(expected, actual, 0.0000000001);
             }
 
@@ -845,8 +845,9 @@ namespace Ksnm.Tests
 
             // 黄金数
             {
+                var tolerance = new BigDecimal(1, -100);
                 var expected = BigDecimal.GoldenNumber;
-                var actual = Math.MetallicNumber(BigDecimal.One);
+                var actual = Math.MetallicNumber(BigDecimal.One, tolerance);
 
                 expected = BigDecimal.Round(expected, 20, MidpointRounding.AwayFromZero);
                 actual = BigDecimal.Round(actual, 20, MidpointRounding.AwayFromZero);

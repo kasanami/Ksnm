@@ -22,6 +22,7 @@ freely, subject to the following restrictions:
 3. This notice may not be removed or altered from any source distribution.
 */
 using Ksnm.Numerics;
+using System.Numerics;
 
 namespace Ksnm.Units.SI
 {
@@ -32,7 +33,7 @@ namespace Ksnm.Units.SI
     /// <para>種類:基本単位</para>
     /// <para>量  :物質量</para>
     /// </summary>
-    public class Mole<T> : AmountOfSubstance<T> where T : IMath<T>
+    public class Mole<T> : AmountOfSubstance<T> where T : INumber<T>
     {
         #region プロパティ
         /// <summary>
@@ -68,16 +69,16 @@ namespace Ksnm.Units.SI
         /// <summary>
         /// 乗算
         /// </summary>
-        public static Mole<T> operator *(int value, Mole<T> quantity)
+        public static Mole<T> operator *(T value, Mole<T> quantity)
         {
-            return new Mole<T>(quantity.Value.Multiply(value));
+            return new Mole<T>(value * quantity.Value);
         }
         /// <summary>
         /// 乗算
         /// </summary>
-        public static Mole<T> operator *(decimal value, Mole<T> quantity)
+        public static Mole<T> operator *(Mole<T> quantity, T value)
         {
-            return new Mole<T>(quantity.Value.Multiply(value));
+            return new Mole<T>(quantity.Value * value);
         }
         #endregion 演算子
     }

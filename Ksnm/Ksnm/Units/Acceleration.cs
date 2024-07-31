@@ -22,13 +22,14 @@ freely, subject to the following restrictions:
 3. This notice may not be removed or altered from any source distribution.
 */
 using Ksnm.Numerics;
+using System.Numerics;
 
 namespace Ksnm.Units
 {
     /// <summary>
     /// 加速度
     /// </summary>
-    public class Acceleration<T> : Quantity<T> where T : IMath<T>
+    public class Acceleration<T> : Quantity<T> where T : INumber<T>
     {
         #region コンストラクタ
         /// <summary>
@@ -52,7 +53,7 @@ namespace Ksnm.Units
         /// </summary>
         public Acceleration(Velocity<T> velocity, Time<T> time)
         {
-            Value = velocity.Value.Divide(time.Value);
+            Value = velocity.Value / time.Value;
             Symbol = velocity.Symbol + "/" + time.Symbol;
         }
         #endregion コンストラクタ

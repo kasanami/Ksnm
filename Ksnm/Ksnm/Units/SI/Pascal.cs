@@ -22,6 +22,7 @@ freely, subject to the following restrictions:
 3. This notice may not be removed or altered from any source distribution.
 */
 using Ksnm.Numerics;
+using System.Numerics;
 
 namespace Ksnm.Units.SI
 {
@@ -33,7 +34,7 @@ namespace Ksnm.Units.SI
     /// <para>量  :圧力</para>
     /// <para>定義:1m^2につき1Nの圧力</para>
     /// </summary>
-    public class Pascal<T> : Pressure<T> where T : IMath<T>
+    public class Pascal<T> : Pressure<T> where T : INumber<T>
     {
         #region プロパティ
         /// <summary>
@@ -75,16 +76,16 @@ namespace Ksnm.Units.SI
         /// <summary>
         /// 乗算
         /// </summary>
-        public static Pascal<T> operator *(int value, Pascal<T> quantity)
+        public static Pascal<T> operator *(T value, Pascal<T> quantity)
         {
-            return new Pascal<T>(quantity.Value.Multiply(value));
+            return new Pascal<T>(value * quantity.Value);
         }
         /// <summary>
         /// 乗算
         /// </summary>
-        public static Pascal<T> operator *(decimal value, Pascal<T> quantity)
+        public static Pascal<T> operator *(Pascal<T> quantity, T value)
         {
-            return new Pascal<T>(quantity.Value.Multiply(value));
+            return new Pascal<T>(quantity.Value * value);
         }
         #endregion 演算子
     }

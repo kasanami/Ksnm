@@ -22,6 +22,7 @@ freely, subject to the following restrictions:
 3. This notice may not be removed or altered from any source distribution.
 */
 using Ksnm.Numerics;
+using System.Numerics;
 
 namespace Ksnm.Units.NonSI
 {
@@ -33,7 +34,7 @@ namespace Ksnm.Units.NonSI
     /// <para>SI  :約 0.514 444 m/s</para>
     /// <para>定義:(1852/3600)m/s = 1時間に1海里進む速さ</para>
     /// </summary>
-    public class Knot<T> : Velocity<T> where T : IMath<T>
+    public class Knot<T> : Velocity<T> where T : INumber<T>
     {
         #region プロパティ
         /// <summary>
@@ -77,22 +78,22 @@ namespace Ksnm.Units.NonSI
         /// <summary>
         /// 別の速度から初期化
         /// </summary>
-        public Knot(SI.KiloMetrePerHour<T> velocity) : this(velocity.Value.Divide(1.852m)) { }
+        public Knot(SI.KiloMetrePerHour<T> velocity) : this(velocity.Value / T.CreateChecked(1.852m)) { }
         #endregion コンストラクタ
         #region 演算子
         /// <summary>
         /// 乗算
         /// </summary>
-        public static Knot<T> operator *(int value, Knot<T> quantity)
+        public static Knot<T> operator *(T value, Knot<T> quantity)
         {
-            return new Knot<T>(quantity.Value.Multiply(value));
+            return new Knot<T>(value * quantity.Value);
         }
         /// <summary>
         /// 乗算
         /// </summary>
-        public static Knot<T> operator *(decimal value, Knot<T> quantity)
+        public static Knot<T> operator *(Knot<T> quantity, T value)
         {
-            return new Knot<T>(quantity.Value.Multiply(value));
+            return new Knot<T>(quantity.Value * value);
         }
         #endregion 演算子
         #region 型変換

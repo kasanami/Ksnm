@@ -22,6 +22,7 @@ freely, subject to the following restrictions:
 3. This notice may not be removed or altered from any source distribution.
 */
 using Ksnm.Numerics;
+using System.Numerics;
 
 namespace Ksnm.Units.SI
 {
@@ -31,7 +32,7 @@ namespace Ksnm.Units.SI
     /// <para>種類:SI併用単位</para>
     /// <para>量  :時間</para>
     /// </summary>
-    public class Minute<T> : Time<T> where T : IMath<T>
+    public class Minute<T> : Time<T> where T : INumber<T>
     {
         #region プロパティ
         /// <summary>
@@ -64,33 +65,35 @@ namespace Ksnm.Units.SI
         public Minute(decimal value) : base(value) { }
         /// <summary>
         /// 指定した値で初期化
+        /// 秒→分
         /// </summary>
         public Minute(Second<T> time)
         {
-            Value = time.Value.Divide(60);
+            Value = time.Value / T.CreateChecked(60);
         }
         /// <summary>
         /// 指定した値で初期化
+        /// 時→分
         /// </summary>
         public Minute(Hour<T> time)
         {
-            Value = time.Value.Multiply(60);
+            Value = time.Value * T.CreateChecked(60);
         }
         #endregion コンストラクタ
         #region 演算子
         /// <summary>
         /// 乗算
         /// </summary>
-        public static Minute<T> operator *(int value, Minute<T> quantity)
+        public static Minute<T> operator *(T value, Minute<T> quantity)
         {
-            return new Minute<T>(quantity.Value.Multiply(value));
+            return new Minute<T>(value * quantity.Value);
         }
         /// <summary>
         /// 乗算
         /// </summary>
-        public static Minute<T> operator *(decimal value, Minute<T> quantity)
+        public static Minute<T> operator *(Minute<T> quantity, T value)
         {
-            return new Minute<T>(quantity.Value.Multiply(value));
+            return new Minute<T>(quantity.Value * value);
         }
         #endregion 演算子
         #region 型変換

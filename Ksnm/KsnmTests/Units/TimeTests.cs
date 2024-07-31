@@ -11,30 +11,30 @@ namespace Ksnm.Units.Tests
         public void TimeTest()
         {
             {
-                var hour = new Hour<Ksnm.Numerics.Double>(1);
+                var hour = new Hour<double>(1);
                 Assert.AreEqual(1, hour.Value);
-                Minute<Ksnm.Numerics.Double> minute = hour;
+                Minute<double> minute = hour;
                 Assert.AreEqual(60, minute.Value);
-                Second<Ksnm.Numerics.Double> second = minute;
+                Second<double> second = minute;
                 Assert.AreEqual(3600, second.Value);
             }
 
             {
-                var hour = new Hour<Ksnm.Numerics.Double>(2);
+                var hour = new Hour<double>(2);
                 Assert.AreEqual(2, hour.Value);
-                Minute<Ksnm.Numerics.Double> minute = hour;
+                Minute<double> minute = hour;
                 Assert.AreEqual(120, minute.Value);
-                Second<Ksnm.Numerics.Double> second = minute;
+                Second<double> second = minute;
                 Assert.AreEqual(7200, second.Value);
             }
 
             {
-                var second = new Second<Ksnm.Numerics.Double>(30);
+                var second = new Second<double>(30);
                 Assert.AreEqual<double>(30, second.Value);
-                Minute<Ksnm.Numerics.Double> minute = second;
+                Minute<double> minute = second;
                 Assert.AreEqual<double>(0.5, minute.Value);
                 minute.Value = 30;
-                Hour<Ksnm.Numerics.Double> hour = minute;
+                Hour<double> hour = minute;
                 Assert.AreEqual<double>(0.5, hour.Value);
             }
         }

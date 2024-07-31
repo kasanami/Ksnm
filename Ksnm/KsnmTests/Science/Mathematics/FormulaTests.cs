@@ -66,12 +66,11 @@ namespace Ksnm.Science.Mathematics.Tests
             }
             // BigDecimal型
             {
-                var pi = Formula.MachinsFormula(71, 105) * 4;
+                var tolerance = new BigDecimal(1, -101);
+                var pi = Formula.MachinsFormula<BigDecimal>(tolerance) * 4;
                 pi.SetMinExponentAndRound(-100);
                 Assert.AreEqual(Pi100, pi.ToString());
             }
         }
-
-        
     }
 }

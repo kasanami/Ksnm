@@ -22,6 +22,7 @@ freely, subject to the following restrictions:
 3. This notice may not be removed or altered from any source distribution.
 */
 using Ksnm.Numerics;
+using System.Numerics;
 
 namespace Ksnm.Units.SI
 {
@@ -32,7 +33,7 @@ namespace Ksnm.Units.SI
     /// <para>量  :エネルギー・仕事・熱量・電力量</para>
     /// <para>由来:1ニュートンの力がその力の方向に物体を1メートル動かすときの仕事</para>
     /// </summary>
-    public class Joule<T> : Energy<T> where T : IMath<T>
+    public class Joule<T> : Energy<T> where T : INumber<T>
     {
         #region プロパティ
         /// <summary>
@@ -72,7 +73,7 @@ namespace Ksnm.Units.SI
         /// <summary>
         /// 別のエネルギーから初期化
         /// </summary>
-        public Joule(NonSI.Calorie<T> energy) : this(energy.Value.Multiply(4.184m)) { }
+        public Joule(NonSI.Calorie<T> energy) : this(energy.Value * T.CreateChecked(4.184m)) { }
         #endregion コンストラクタ
         #region 演算子
         /// <summary>
@@ -85,16 +86,16 @@ namespace Ksnm.Units.SI
         /// <summary>
         /// 乗算
         /// </summary>
-        public static Joule<T> operator *(int value, Joule<T> quantity)
+        public static Joule<T> operator *(T value, Joule<T> quantity)
         {
-            return new Joule<T>(quantity.Value.Multiply(value));
+            return new Joule<T>(value * quantity.Value);
         }
         /// <summary>
         /// 乗算
         /// </summary>
-        public static Joule<T> operator *(decimal value, Joule<T> quantity)
+        public static Joule<T> operator *(Joule<T> quantity, T value)
         {
-            return new Joule<T>(quantity.Value.Multiply(value));
+            return new Joule<T>(quantity.Value * value);
         }
         #endregion 演算子
         #region 型変換

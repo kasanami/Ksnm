@@ -22,13 +22,14 @@ freely, subject to the following restrictions:
 3. This notice may not be removed or altered from any source distribution.
 */
 using Ksnm.Numerics;
+using System.Numerics;
 
 namespace Ksnm.Units
 {
     /// <summary>
     /// 体積
     /// </summary>
-    public class Volume<T> : Quantity<T> where T : IMath<T>
+    public class Volume<T> : Quantity<T> where T : INumber<T>
     {
         #region コンストラクタ
         /// <summary>
@@ -52,7 +53,7 @@ namespace Ksnm.Units
         /// </summary>
         public Volume(Length<T> length1, Length<T> length2, Length<T> length3)
         {
-            Value = length1.Value.Multiply(length2.Value).Multiply(length3.Value);
+            Value = length1.Value * length2.Value * length3.Value;
             if (length1.Symbol == length2.Symbol && length1.Symbol == length3.Symbol)
             {
                 Symbol = length1.Symbol + "^3";
@@ -67,7 +68,7 @@ namespace Ksnm.Units
         /// </summary>
         public Volume(Area<T> area, Length<T> length)
         {
-            Value = area.Value.Multiply(length.Value);
+            Value = area.Value * length.Value;
             Symbol = area.Symbol + "*" + length.Symbol;
         }
         #endregion コンストラクタ

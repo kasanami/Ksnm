@@ -1605,7 +1605,7 @@ public struct BigDecimal :
         /// <summary>
         /// MinExponentの初期値
         /// </summary>
-        public static int DefaultMinExponent = -28;
+        public static int DefaultMinExponent = -100;
         /// <summary>
         /// 精度の初期値(DefaultMinExponentの反数)
         /// </summary>
@@ -3617,6 +3617,7 @@ public struct BigDecimal :
         /// </summary>
         public override int GetHashCode()
         {
+            MinimizeMantissa();
             return Mantissa.GetHashCode() ^ Exponent.GetHashCode();
         }
         /// <summary>

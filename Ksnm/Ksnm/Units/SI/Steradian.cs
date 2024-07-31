@@ -22,6 +22,7 @@ freely, subject to the following restrictions:
 3. This notice may not be removed or altered from any source distribution.
 */
 using Ksnm.Numerics;
+using System.Numerics;
 
 namespace Ksnm.Units.SI
 {
@@ -33,7 +34,7 @@ namespace Ksnm.Units.SI
     /// <para>量  :立体角</para>
     /// <para>組立:m^2/m^2</para>
     /// </summary>
-    public class Steradian<T> : SolidAngle<T> where T : IMath<T>
+    public class Steradian<T> : SolidAngle<T> where T : INumber<T>
     {
         #region プロパティ
         /// <summary>
@@ -71,23 +72,23 @@ namespace Ksnm.Units.SI
         /// <param name="area">表面積</param>
         public Steradian(Metre<T> radius, SquareMetre<T> area)
         {
-            Value = area.Value.Divide(radius.Value.Multiply(radius.Value));
+            Value = area.Value / radius.Value * radius.Value;
         }
         #endregion コンストラクタ
         #region 演算子
         /// <summary>
         /// 乗算
         /// </summary>
-        public static Steradian<T> operator *(int value, Steradian<T> quantity)
+        public static Steradian<T> operator *(T value, Steradian<T> quantity)
         {
-            return new Steradian<T>(quantity.Value.Multiply(value));
+            return new Steradian<T>(value * quantity.Value);
         }
         /// <summary>
         /// 乗算
         /// </summary>
-        public static Steradian<T> operator *(decimal value, Steradian<T> quantity)
+        public static Steradian<T> operator *(Steradian<T> quantity, T value)
         {
-            return new Steradian<T>(quantity.Value.Multiply(value));
+            return new Steradian<T>(quantity.Value * value);
         }
         #endregion 演算子
     }

@@ -22,6 +22,7 @@ freely, subject to the following restrictions:
 3. This notice may not be removed or altered from any source distribution.
 */
 using Ksnm.Numerics;
+using System.Numerics;
 
 namespace Ksnm.Units.SI
 {
@@ -33,7 +34,7 @@ namespace Ksnm.Units.SI
     /// <para>量  :光度</para>
     /// <para>定義:放射強度683分の1ワット毎ステラジアンで540テラヘルツの単色光を放射する光源のその放射の方向における光度</para>
     /// </summary>
-    public class Candela<T> : LuminousIntensity<T> where T : IMath<T>
+    public class Candela<T> : LuminousIntensity<T> where T : INumber<T>
     {
         #region プロパティ
         /// <summary>
@@ -69,16 +70,16 @@ namespace Ksnm.Units.SI
         /// <summary>
         /// 乗算
         /// </summary>
-        public static Candela<T> operator *(int value, Candela<T> quantity)
+        public static Candela<T> operator *(T value, Candela<T> quantity)
         {
-            return new Candela<T>(quantity.Value.Multiply(value));
+            return new Candela<T>(value * quantity.Value);
         }
         /// <summary>
         /// 乗算
         /// </summary>
-        public static Candela<T> operator *(decimal value, Candela<T> quantity)
+        public static Candela<T> operator *(Candela<T> quantity, T value)
         {
-            return new Candela<T>(quantity.Value.Multiply(value));
+            return new Candela<T>(quantity.Value * value);
         }
         #endregion 演算子
     }

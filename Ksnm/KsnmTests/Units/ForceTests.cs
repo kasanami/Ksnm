@@ -1,7 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Ksnm.Units;
 using Ksnm.Numerics;
-using static Ksnm.Units.Constants<Ksnm.Numerics.Decimal>;
+using static Ksnm.Units.Constants<decimal>;
 
 namespace Ksnm.Units.Tests
 {
@@ -11,10 +11,10 @@ namespace Ksnm.Units.Tests
         [TestMethod()]
         public void ForceTest()
         {
-            var newton = 123 * Newton;
-            var kilogramForce = (GS.KilogramForce<Ksnm.Numerics.Decimal>)newton;
-            var newton2 = (SI.Newton<Ksnm.Numerics.Decimal>)kilogramForce;
-            Assert.AreEqual(newton, newton2);
+            var force1 = 123 * newton;
+            var force2 = (GS.KilogramForce<decimal>)force1;
+            var force3 = (SI.Newton<decimal>)force2;
+            Assert.AreEqual(force1, force3);
         }
     }
 }

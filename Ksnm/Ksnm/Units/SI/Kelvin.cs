@@ -22,6 +22,7 @@ freely, subject to the following restrictions:
 3. This notice may not be removed or altered from any source distribution.
 */
 using Ksnm.Numerics;
+using System.Numerics;
 
 namespace Ksnm.Units.SI
 {
@@ -32,7 +33,7 @@ namespace Ksnm.Units.SI
     /// <para>種類:基本単位</para>
     /// <para>量  :熱力学温度</para>
     /// </summary>
-    public class Kelvin<T> : Temperature<T> where T : IMath<T>
+    public class Kelvin<T> : Temperature<T> where T : INumber<T>
     {
         #region プロパティ
         /// <summary>
@@ -68,23 +69,23 @@ namespace Ksnm.Units.SI
         /// </summary>
         public Kelvin(DegreeCelsius<T> degreeCelsius)
         {
-            Value = degreeCelsius.Value.Add(273.15m);
+            Value = degreeCelsius.Value + T.CreateChecked(273.15m);
         }
         #endregion コンストラクタ
         #region 演算子
         /// <summary>
         /// 乗算
         /// </summary>
-        public static Kelvin<T> operator *(int value, Kelvin<T> quantity)
+        public static Kelvin<T> operator *(T value, Kelvin<T> quantity)
         {
-            return new Kelvin<T>(quantity.Value.Multiply(value));
+            return new Kelvin<T>(value * quantity.Value);
         }
         /// <summary>
         /// 乗算
         /// </summary>
-        public static Kelvin<T> operator *(decimal value, Kelvin<T> quantity)
+        public static Kelvin<T> operator *(Kelvin<T> quantity, T value)
         {
-            return new Kelvin<T>(quantity.Value.Multiply(value));
+            return new Kelvin<T>(quantity.Value * value);
         }
         #endregion 演算子
     }

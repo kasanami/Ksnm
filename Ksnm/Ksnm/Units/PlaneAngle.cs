@@ -22,13 +22,14 @@ freely, subject to the following restrictions:
 3. This notice may not be removed or altered from any source distribution.
 */
 using Ksnm.Numerics;
+using System.Numerics;
 
 namespace Ksnm.Units
 {
     /// <summary>
     /// 平面角
     /// </summary>
-    public class PlaneAngle<T> : Quantity<T> where T : IMath<T>
+    public class PlaneAngle<T> : Quantity<T> where T : INumber<T>
     {
         #region コンストラクタ
         /// <summary>
