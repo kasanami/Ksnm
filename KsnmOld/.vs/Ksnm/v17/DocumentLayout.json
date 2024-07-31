@@ -1,0 +1,653 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\Develop\\Projects\\Ksnm\\KsnmOld\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{7DE3A7CB-68D1-489C-94B2-D8CA0352940A}|DemoApp\\DemoApp.csproj|D:\\Develop\\Projects\\Ksnm\\KsnmOld\\demoapp\\test.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7DE3A7CB-68D1-489C-94B2-D8CA0352940A}|DemoApp\\DemoApp.csproj|solutionrelative:demoapp\\test.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CC0983E2-F4BF-4161-A38C-EDA4D453A4B7}|Ksnm2\\Ksnm2.csproj|d:\\develop\\projects\\ksnm\\ksnmold\\ksnm2\\math.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CC0983E2-F4BF-4161-A38C-EDA4D453A4B7}|Ksnm2\\Ksnm2.csproj|solutionrelative:ksnm2\\math.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FF2E2005-DE75-400D-A970-A0C6FA226823}|Ksnm\\Ksnm.csproj|D:\\Develop\\Projects\\Ksnm\\KsnmOld\\Ksnm\\Math.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FF2E2005-DE75-400D-A970-A0C6FA226823}|Ksnm\\Ksnm.csproj|solutionrelative:Ksnm\\Math.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7DE3A7CB-68D1-489C-94B2-D8CA0352940A}|DemoApp\\DemoApp.csproj|D:\\Develop\\Projects\\Ksnm\\KsnmOld\\demoapp\\mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7DE3A7CB-68D1-489C-94B2-D8CA0352940A}|DemoApp\\DemoApp.csproj|solutionrelative:demoapp\\mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FF2E2005-DE75-400D-A970-A0C6FA226823}|Ksnm\\Ksnm.csproj|D:\\Develop\\Projects\\Ksnm\\KsnmOld\\Ksnm\\Science\\Mathematics\\Formula.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FF2E2005-DE75-400D-A970-A0C6FA226823}|Ksnm\\Ksnm.csproj|solutionrelative:Ksnm\\Science\\Mathematics\\Formula.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FF2E2005-DE75-400D-A970-A0C6FA226823}|Ksnm\\Ksnm.csproj|D:\\Develop\\Projects\\Ksnm\\KsnmOld\\Ksnm\\Science\\Mathematics\\Algorithm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FF2E2005-DE75-400D-A970-A0C6FA226823}|Ksnm\\Ksnm.csproj|solutionrelative:Ksnm\\Science\\Mathematics\\Algorithm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CC0983E2-F4BF-4161-A38C-EDA4D453A4B7}|Ksnm2\\Ksnm2.csproj|d:\\develop\\projects\\ksnm\\ksnmold\\ksnm2\\science\\mathematics\\formula.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CC0983E2-F4BF-4161-A38C-EDA4D453A4B7}|Ksnm2\\Ksnm2.csproj|solutionrelative:ksnm2\\science\\mathematics\\formula.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A6F0AE99-CDE5-4B7C-BFA4-CAA55F9B0997}|KsnmTests\\KsnmTests.csproj|D:\\Develop\\Projects\\Ksnm\\KsnmOld\\ksnmtests\\mathtests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A6F0AE99-CDE5-4B7C-BFA4-CAA55F9B0997}|KsnmTests\\KsnmTests.csproj|solutionrelative:ksnmtests\\mathtests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Program Files\\dotnet\\sdk\\8.0.302\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.Sdk.FrameworkReferenceResolution.targets||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FF2E2005-DE75-400D-A970-A0C6FA226823}|Ksnm\\Ksnm.csproj|D:\\Develop\\Projects\\Ksnm\\KsnmOld\\ksnm\\numerics\\fraction16.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FF2E2005-DE75-400D-A970-A0C6FA226823}|Ksnm\\Ksnm.csproj|solutionrelative:ksnm\\numerics\\fraction16.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\bigta\\Downloads\\Math.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FF2E2005-DE75-400D-A970-A0C6FA226823}|Ksnm\\Ksnm.csproj|D:\\Develop\\Projects\\Ksnm\\KsnmOld\\Ksnm\\ExtensionMethods\\System\\Collections\\Generic\\Enumerable\\EnumerableExtensions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FF2E2005-DE75-400D-A970-A0C6FA226823}|Ksnm\\Ksnm.csproj|solutionrelative:Ksnm\\ExtensionMethods\\System\\Collections\\Generic\\Enumerable\\EnumerableExtensions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FF2E2005-DE75-400D-A970-A0C6FA226823}|Ksnm\\Ksnm.csproj|D:\\Develop\\Projects\\Ksnm\\KsnmOld\\Ksnm\\ExtensionMethods\\System\\Collections\\Generic\\List\\ListExtensions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FF2E2005-DE75-400D-A970-A0C6FA226823}|Ksnm\\Ksnm.csproj|solutionrelative:Ksnm\\ExtensionMethods\\System\\Collections\\Generic\\List\\ListExtensions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FF2E2005-DE75-400D-A970-A0C6FA226823}|Ksnm\\Ksnm.csproj|D:\\Develop\\Projects\\Ksnm\\KsnmOld\\Ksnm\\Numerics\\BigDecimal.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FF2E2005-DE75-400D-A970-A0C6FA226823}|Ksnm\\Ksnm.csproj|solutionrelative:Ksnm\\Numerics\\BigDecimal.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FF2E2005-DE75-400D-A970-A0C6FA226823}|Ksnm\\Ksnm.csproj|D:\\Develop\\Projects\\Ksnm\\KsnmOld\\Ksnm\\ExtensionMethods\\System\\Numerics\\BigInteger\\BigIntegerExtensions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FF2E2005-DE75-400D-A970-A0C6FA226823}|Ksnm\\Ksnm.csproj|solutionrelative:Ksnm\\ExtensionMethods\\System\\Numerics\\BigInteger\\BigIntegerExtensions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7DE3A7CB-68D1-489C-94B2-D8CA0352940A}|DemoApp\\DemoApp.csproj|D:\\Develop\\Projects\\Ksnm\\KsnmOld\\DemoApp\\Program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7DE3A7CB-68D1-489C-94B2-D8CA0352940A}|DemoApp\\DemoApp.csproj|solutionrelative:DemoApp\\Program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A6F0AE99-CDE5-4B7C-BFA4-CAA55F9B0997}|KsnmTests\\KsnmTests.csproj|D:\\Develop\\Projects\\Ksnm\\KsnmOld\\KsnmTests\\Numerics\\BigDecimalTests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A6F0AE99-CDE5-4B7C-BFA4-CAA55F9B0997}|KsnmTests\\KsnmTests.csproj|solutionrelative:KsnmTests\\Numerics\\BigDecimalTests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FF2E2005-DE75-400D-A970-A0C6FA226823}|Ksnm\\Ksnm.csproj|D:\\Develop\\Projects\\Ksnm\\KsnmOld\\Ksnm\\Algorithm\\Crc16.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FF2E2005-DE75-400D-A970-A0C6FA226823}|Ksnm\\Ksnm.csproj|solutionrelative:Ksnm\\Algorithm\\Crc16.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A6F0AE99-CDE5-4B7C-BFA4-CAA55F9B0997}|KsnmTests\\KsnmTests.csproj|D:\\Develop\\Projects\\Ksnm\\KsnmOld\\KsnmTests\\Randoms\\FixedRandomTests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A6F0AE99-CDE5-4B7C-BFA4-CAA55F9B0997}|KsnmTests\\KsnmTests.csproj|solutionrelative:KsnmTests\\Randoms\\FixedRandomTests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A6F0AE99-CDE5-4B7C-BFA4-CAA55F9B0997}|KsnmTests\\KsnmTests.csproj|D:\\Develop\\Projects\\Ksnm\\KsnmOld\\KsnmTests\\Science\\Mathematics\\AlgorithmTests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A6F0AE99-CDE5-4B7C-BFA4-CAA55F9B0997}|KsnmTests\\KsnmTests.csproj|solutionrelative:KsnmTests\\Science\\Mathematics\\AlgorithmTests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A6F0AE99-CDE5-4B7C-BFA4-CAA55F9B0997}|KsnmTests\\KsnmTests.csproj|D:\\Develop\\Projects\\Ksnm\\KsnmOld\\KsnmTests\\Science\\Mathematics\\FormulaTests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A6F0AE99-CDE5-4B7C-BFA4-CAA55F9B0997}|KsnmTests\\KsnmTests.csproj|solutionrelative:KsnmTests\\Science\\Mathematics\\FormulaTests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A6F0AE99-CDE5-4B7C-BFA4-CAA55F9B0997}|KsnmTests\\KsnmTests.csproj|D:\\Develop\\Projects\\Ksnm\\KsnmOld\\KsnmTests\\Randoms\\Base.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A6F0AE99-CDE5-4B7C-BFA4-CAA55F9B0997}|KsnmTests\\KsnmTests.csproj|solutionrelative:KsnmTests\\Randoms\\Base.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A6F0AE99-CDE5-4B7C-BFA4-CAA55F9B0997}|KsnmTests\\KsnmTests.csproj|D:\\Develop\\Projects\\Ksnm\\KsnmOld\\KsnmTests\\Randoms\\Xorshift128Tests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A6F0AE99-CDE5-4B7C-BFA4-CAA55F9B0997}|KsnmTests\\KsnmTests.csproj|solutionrelative:KsnmTests\\Randoms\\Xorshift128Tests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FF2E2005-DE75-400D-A970-A0C6FA226823}|Ksnm\\Ksnm.csproj|D:\\Develop\\Projects\\Ksnm\\KsnmOld\\Ksnm\\Numerics\\FixedPointNumber32Q16.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FF2E2005-DE75-400D-A970-A0C6FA226823}|Ksnm\\Ksnm.csproj|solutionrelative:Ksnm\\Numerics\\FixedPointNumber32Q16.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FF2E2005-DE75-400D-A970-A0C6FA226823}|Ksnm\\Ksnm.csproj|D:\\Develop\\Projects\\Ksnm\\KsnmOld\\Ksnm\\Numerics\\Complex.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FF2E2005-DE75-400D-A970-A0C6FA226823}|Ksnm\\Ksnm.csproj|solutionrelative:Ksnm\\Numerics\\Complex.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FF2E2005-DE75-400D-A970-A0C6FA226823}|Ksnm\\Ksnm.csproj|D:\\Develop\\Projects\\Ksnm\\KsnmOld\\Ksnm\\IO\\File.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FF2E2005-DE75-400D-A970-A0C6FA226823}|Ksnm\\Ksnm.csproj|solutionrelative:Ksnm\\IO\\File.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FF2E2005-DE75-400D-A970-A0C6FA226823}|Ksnm\\Ksnm.csproj|D:\\Develop\\Projects\\Ksnm\\KsnmOld\\Ksnm\\Numerics\\Fraction64.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FF2E2005-DE75-400D-A970-A0C6FA226823}|Ksnm\\Ksnm.csproj|solutionrelative:Ksnm\\Numerics\\Fraction64.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FF2E2005-DE75-400D-A970-A0C6FA226823}|Ksnm\\Ksnm.csproj|D:\\Develop\\Projects\\Ksnm\\KsnmOld\\Ksnm\\Numerics\\IInteger.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FF2E2005-DE75-400D-A970-A0C6FA226823}|Ksnm\\Ksnm.csproj|solutionrelative:Ksnm\\Numerics\\IInteger.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FF2E2005-DE75-400D-A970-A0C6FA226823}|Ksnm\\Ksnm.csproj|D:\\Develop\\Projects\\Ksnm\\KsnmOld\\Ksnm\\Numerics\\Numeric.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FF2E2005-DE75-400D-A970-A0C6FA226823}|Ksnm\\Ksnm.csproj|solutionrelative:Ksnm\\Numerics\\Numeric.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FF2E2005-DE75-400D-A970-A0C6FA226823}|Ksnm\\Ksnm.csproj|D:\\Develop\\Projects\\Ksnm\\KsnmOld\\Ksnm\\IO\\DeflateFile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FF2E2005-DE75-400D-A970-A0C6FA226823}|Ksnm\\Ksnm.csproj|solutionrelative:Ksnm\\IO\\DeflateFile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FF2E2005-DE75-400D-A970-A0C6FA226823}|Ksnm\\Ksnm.csproj|D:\\Develop\\Projects\\Ksnm\\KsnmOld\\Ksnm\\Algorithm\\Crc16Polynomial.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FF2E2005-DE75-400D-A970-A0C6FA226823}|Ksnm\\Ksnm.csproj|solutionrelative:Ksnm\\Algorithm\\Crc16Polynomial.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FF2E2005-DE75-400D-A970-A0C6FA226823}|Ksnm\\Ksnm.csproj|D:\\Develop\\Projects\\Ksnm\\KsnmOld\\Ksnm\\Science\\Electromagnetism\\ElectricalResistance.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FF2E2005-DE75-400D-A970-A0C6FA226823}|Ksnm\\Ksnm.csproj|solutionrelative:Ksnm\\Science\\Electromagnetism\\ElectricalResistance.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FF2E2005-DE75-400D-A970-A0C6FA226823}|Ksnm\\Ksnm.csproj|D:\\Develop\\Projects\\Ksnm\\KsnmOld\\Ksnm\\ExtensionMethods\\System\\Double\\DoubleExtensions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FF2E2005-DE75-400D-A970-A0C6FA226823}|Ksnm\\Ksnm.csproj|solutionrelative:Ksnm\\ExtensionMethods\\System\\Double\\DoubleExtensions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A6F0AE99-CDE5-4B7C-BFA4-CAA55F9B0997}|KsnmTests\\KsnmTests.csproj|D:\\Develop\\Projects\\Ksnm\\KsnmOld\\KsnmTests\\Numerics\\Fraction64Tests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A6F0AE99-CDE5-4B7C-BFA4-CAA55F9B0997}|KsnmTests\\KsnmTests.csproj|solutionrelative:KsnmTests\\Numerics\\Fraction64Tests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FF2E2005-DE75-400D-A970-A0C6FA226823}|Ksnm\\Ksnm.csproj|D:\\Develop\\Projects\\Ksnm\\KsnmOld\\Ksnm\\ExtensionMethods\\System\\Decimal\\DecimalExtensions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FF2E2005-DE75-400D-A970-A0C6FA226823}|Ksnm\\Ksnm.csproj|solutionrelative:Ksnm\\ExtensionMethods\\System\\Decimal\\DecimalExtensions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FF2E2005-DE75-400D-A970-A0C6FA226823}|Ksnm\\Ksnm.csproj|D:\\Develop\\Projects\\Ksnm\\KsnmOld\\Ksnm\\Units\\NonSI\\NauticalMile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FF2E2005-DE75-400D-A970-A0C6FA226823}|Ksnm\\Ksnm.csproj|solutionrelative:Ksnm\\Units\\NonSI\\NauticalMile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FF2E2005-DE75-400D-A970-A0C6FA226823}|Ksnm\\Ksnm.csproj|D:\\Develop\\Projects\\Ksnm\\KsnmOld\\Ksnm\\Units\\SI\\Minute.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FF2E2005-DE75-400D-A970-A0C6FA226823}|Ksnm\\Ksnm.csproj|solutionrelative:Ksnm\\Units\\SI\\Minute.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FF2E2005-DE75-400D-A970-A0C6FA226823}|Ksnm\\Ksnm.csproj|D:\\Develop\\Projects\\Ksnm\\KsnmOld\\Ksnm\\Units\\SI\\Kilogram.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FF2E2005-DE75-400D-A970-A0C6FA226823}|Ksnm\\Ksnm.csproj|solutionrelative:Ksnm\\Units\\SI\\Kilogram.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FF2E2005-DE75-400D-A970-A0C6FA226823}|Ksnm\\Ksnm.csproj|D:\\Develop\\Projects\\Ksnm\\KsnmOld\\Ksnm\\Units\\SI\\Hour.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FF2E2005-DE75-400D-A970-A0C6FA226823}|Ksnm\\Ksnm.csproj|solutionrelative:Ksnm\\Units\\SI\\Hour.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{e1b7d1f8-9b3c-49b1-8f4f-bfc63a88835d}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Test.cs",
+              "DocumentMoniker": "D:\\Develop\\Projects\\Ksnm\\KsnmOld\\DemoApp\\Test.cs",
+              "RelativeDocumentMoniker": "DemoApp\\Test.cs",
+              "ToolTip": "D:\\Develop\\Projects\\Ksnm\\KsnmOld\\DemoApp\\Test.cs",
+              "RelativeToolTip": "DemoApp\\Test.cs",
+              "ViewState": "AQIAAOEBAAAAAAAAAAAzwOkBAAAaAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-13T13:44:12.792Z",
+              "IsPinned": true
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "Fraction16.cs",
+              "DocumentMoniker": "D:\\Develop\\Projects\\Ksnm\\KsnmOld\\Ksnm\\Numerics\\Fraction16.cs",
+              "RelativeDocumentMoniker": "Ksnm\\Numerics\\Fraction16.cs",
+              "ToolTip": "D:\\Develop\\Projects\\Ksnm\\KsnmOld\\Ksnm\\Numerics\\Fraction16.cs",
+              "RelativeToolTip": "Ksnm\\Numerics\\Fraction16.cs",
+              "ViewState": "AQIAAJsAAAAAAAAAAAAswK4AAAAJAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-13T14:36:06.36Z",
+              "IsPinned": true
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Algorithm.cs",
+              "DocumentMoniker": "D:\\Develop\\Projects\\Ksnm\\KsnmOld\\Ksnm\\Science\\Mathematics\\Algorithm.cs",
+              "RelativeDocumentMoniker": "Ksnm\\Science\\Mathematics\\Algorithm.cs",
+              "ToolTip": "D:\\Develop\\Projects\\Ksnm\\KsnmOld\\Ksnm\\Science\\Mathematics\\Algorithm.cs",
+              "RelativeToolTip": "Ksnm\\Science\\Mathematics\\Algorithm.cs",
+              "ViewState": "AQIAABUAAAAAAAAAAAAAAJYAAAAQAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-07-03T12:54:50.49Z",
+              "IsPinned": true
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Math.cs",
+              "DocumentMoniker": "D:\\Develop\\Projects\\Ksnm\\KsnmOld\\Ksnm2\\Math.cs",
+              "RelativeDocumentMoniker": "Ksnm2\\Math.cs",
+              "ToolTip": "D:\\Develop\\Projects\\Ksnm\\KsnmOld\\Ksnm2\\Math.cs",
+              "RelativeToolTip": "Ksnm2\\Math.cs",
+              "ViewState": "AQIAAMkFAAAAAAAAAAAowOAFAAAJAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-07-30T14:32:15.956Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "MathTests.cs",
+              "DocumentMoniker": "D:\\Develop\\Projects\\Ksnm\\KsnmOld\\KsnmTests\\MathTests.cs",
+              "RelativeDocumentMoniker": "KsnmTests\\MathTests.cs",
+              "ToolTip": "D:\\Develop\\Projects\\Ksnm\\KsnmOld\\KsnmTests\\MathTests.cs",
+              "RelativeToolTip": "KsnmTests\\MathTests.cs",
+              "ViewState": "AQIAAHoBAAAAAAAAAAAYwIYBAAAuAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-07-30T14:18:07.743Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Formula.cs",
+              "DocumentMoniker": "D:\\Develop\\Projects\\Ksnm\\KsnmOld\\Ksnm\\Science\\Mathematics\\Formula.cs",
+              "RelativeDocumentMoniker": "Ksnm\\Science\\Mathematics\\Formula.cs",
+              "ToolTip": "D:\\Develop\\Projects\\Ksnm\\KsnmOld\\Ksnm\\Science\\Mathematics\\Formula.cs",
+              "RelativeToolTip": "Ksnm\\Science\\Mathematics\\Formula.cs",
+              "ViewState": "AQIAAKkAAAAAAAAAAAA7wD0AAAAvAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-07-03T12:55:12.123Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "MainForm.cs",
+              "DocumentMoniker": "D:\\Develop\\Projects\\Ksnm\\KsnmOld\\DemoApp\\MainForm.cs",
+              "RelativeDocumentMoniker": "DemoApp\\MainForm.cs",
+              "ToolTip": "D:\\Develop\\Projects\\Ksnm\\KsnmOld\\DemoApp\\MainForm.cs",
+              "RelativeToolTip": "DemoApp\\MainForm.cs",
+              "ViewState": "AQIAAMYCAAAAAAAAAAAzwNECAAANAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-07-03T13:34:25.456Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Math.cs",
+              "DocumentMoniker": "D:\\Develop\\Projects\\Ksnm\\KsnmOld\\Ksnm\\Math.cs",
+              "RelativeDocumentMoniker": "Ksnm\\Math.cs",
+              "ToolTip": "D:\\Develop\\Projects\\Ksnm\\KsnmOld\\Ksnm\\Math.cs",
+              "RelativeToolTip": "Ksnm\\Math.cs",
+              "ViewState": "AQIAANEFAAAAAAAAAAA0wOAFAAAJAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-07-03T12:54:38.78Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Formula.cs",
+              "DocumentMoniker": "D:\\Develop\\Projects\\Ksnm\\KsnmOld\\Ksnm2\\Science\\Mathematics\\Formula.cs",
+              "RelativeDocumentMoniker": "Ksnm2\\Science\\Mathematics\\Formula.cs",
+              "ToolTip": "D:\\Develop\\Projects\\Ksnm\\KsnmOld\\Ksnm2\\Science\\Mathematics\\Formula.cs",
+              "RelativeToolTip": "Ksnm2\\Science\\Mathematics\\Formula.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAADwvwAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-07-30T14:22:41.498Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "Microsoft.NET.Sdk.FrameworkReferenceResolution.targets",
+              "DocumentMoniker": "C:\\Program Files\\dotnet\\sdk\\8.0.302\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.Sdk.FrameworkReferenceResolution.targets",
+              "ToolTip": "C:\\Program Files\\dotnet\\sdk\\8.0.302\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.Sdk.FrameworkReferenceResolution.targets",
+              "ViewState": "AQIAAIYBAAAAAAAAAAAuwJMBAAAEAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003801|",
+              "WhenOpened": "2024-07-30T03:53:55.066Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "ListExtensions.cs",
+              "DocumentMoniker": "D:\\Develop\\Projects\\Ksnm\\KsnmOld\\Ksnm\\ExtensionMethods\\System\\Collections\\Generic\\List\\ListExtensions.cs",
+              "RelativeDocumentMoniker": "Ksnm\\ExtensionMethods\\System\\Collections\\Generic\\List\\ListExtensions.cs",
+              "ToolTip": "D:\\Develop\\Projects\\Ksnm\\KsnmOld\\Ksnm\\ExtensionMethods\\System\\Collections\\Generic\\List\\ListExtensions.cs",
+              "RelativeToolTip": "Ksnm\\ExtensionMethods\\System\\Collections\\Generic\\List\\ListExtensions.cs",
+              "ViewState": "AQIAAHgAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-07-21T00:31:46.584Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "BigDecimal.cs",
+              "DocumentMoniker": "D:\\Develop\\Projects\\Ksnm\\KsnmOld\\Ksnm\\Numerics\\BigDecimal.cs",
+              "RelativeDocumentMoniker": "Ksnm\\Numerics\\BigDecimal.cs",
+              "ToolTip": "D:\\Develop\\Projects\\Ksnm\\KsnmOld\\Ksnm\\Numerics\\BigDecimal.cs",
+              "RelativeToolTip": "Ksnm\\Numerics\\BigDecimal.cs",
+              "ViewState": "AQIAAAgGAAAAAAAAAAA0wB0GAAAdAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-27T11:18:13.771Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "EnumerableExtensions.cs",
+              "DocumentMoniker": "D:\\Develop\\Projects\\Ksnm\\KsnmOld\\Ksnm\\ExtensionMethods\\System\\Collections\\Generic\\Enumerable\\EnumerableExtensions.cs",
+              "RelativeDocumentMoniker": "Ksnm\\ExtensionMethods\\System\\Collections\\Generic\\Enumerable\\EnumerableExtensions.cs",
+              "ToolTip": "D:\\Develop\\Projects\\Ksnm\\KsnmOld\\Ksnm\\ExtensionMethods\\System\\Collections\\Generic\\Enumerable\\EnumerableExtensions.cs",
+              "RelativeToolTip": "Ksnm\\ExtensionMethods\\System\\Collections\\Generic\\Enumerable\\EnumerableExtensions.cs",
+              "ViewState": "AQIAADoAAAAAAAAAAAAIwEQAAAAWAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-07-21T00:31:52.893Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "Math.cs",
+              "DocumentMoniker": "C:\\Users\\bigta\\Downloads\\Math.cs",
+              "ToolTip": "C:\\Users\\bigta\\Downloads\\Math.cs",
+              "ViewState": "AQIAABQBAAAAAAAAAIBPwAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-07-17T15:16:34.393Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "BigIntegerExtensions.cs",
+              "DocumentMoniker": "D:\\Develop\\Projects\\Ksnm\\KsnmOld\\Ksnm\\ExtensionMethods\\System\\Numerics\\BigInteger\\BigIntegerExtensions.cs",
+              "RelativeDocumentMoniker": "Ksnm\\ExtensionMethods\\System\\Numerics\\BigInteger\\BigIntegerExtensions.cs",
+              "ToolTip": "D:\\Develop\\Projects\\Ksnm\\KsnmOld\\Ksnm\\ExtensionMethods\\System\\Numerics\\BigInteger\\BigIntegerExtensions.cs",
+              "RelativeToolTip": "Ksnm\\ExtensionMethods\\System\\Numerics\\BigInteger\\BigIntegerExtensions.cs",
+              "ViewState": "AQIAABUAAAAAAAAAAAAAADQAAAAsAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-07-17T13:57:44.611Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "Program.cs",
+              "DocumentMoniker": "D:\\Develop\\Projects\\Ksnm\\KsnmOld\\DemoApp\\Program.cs",
+              "RelativeDocumentMoniker": "DemoApp\\Program.cs",
+              "ToolTip": "D:\\Develop\\Projects\\Ksnm\\KsnmOld\\DemoApp\\Program.cs",
+              "RelativeToolTip": "DemoApp\\Program.cs",
+              "ViewState": "AQIAAAoAAAAAAAAAAAAnwA4AAAAaAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-07-03T13:34:19.243Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "BigDecimalTests.cs",
+              "DocumentMoniker": "D:\\Develop\\Projects\\Ksnm\\KsnmOld\\KsnmTests\\Numerics\\BigDecimalTests.cs",
+              "RelativeDocumentMoniker": "KsnmTests\\Numerics\\BigDecimalTests.cs",
+              "ToolTip": "D:\\Develop\\Projects\\Ksnm\\KsnmOld\\KsnmTests\\Numerics\\BigDecimalTests.cs",
+              "RelativeToolTip": "KsnmTests\\Numerics\\BigDecimalTests.cs",
+              "ViewState": "AQIAAPQDAAAAAAAAAAAAAPQDAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-27T13:00:15.314Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "Crc16.cs",
+              "DocumentMoniker": "D:\\Develop\\Projects\\Ksnm\\KsnmOld\\Ksnm\\Algorithm\\Crc16.cs",
+              "RelativeDocumentMoniker": "Ksnm\\Algorithm\\Crc16.cs",
+              "ToolTip": "D:\\Develop\\Projects\\Ksnm\\KsnmOld\\Ksnm\\Algorithm\\Crc16.cs",
+              "RelativeToolTip": "Ksnm\\Algorithm\\Crc16.cs",
+              "ViewState": "AQIAABsAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-07-03T13:10:22.589Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "FixedRandomTests.cs",
+              "DocumentMoniker": "D:\\Develop\\Projects\\Ksnm\\KsnmOld\\KsnmTests\\Randoms\\FixedRandomTests.cs",
+              "RelativeDocumentMoniker": "KsnmTests\\Randoms\\FixedRandomTests.cs",
+              "ToolTip": "D:\\Develop\\Projects\\Ksnm\\KsnmOld\\KsnmTests\\Randoms\\FixedRandomTests.cs",
+              "RelativeToolTip": "KsnmTests\\Randoms\\FixedRandomTests.cs",
+              "ViewState": "AQIAABYAAAAAAAAAAAAwwAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-07-03T22:41:32.939Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "AlgorithmTests.cs",
+              "DocumentMoniker": "D:\\Develop\\Projects\\Ksnm\\KsnmOld\\KsnmTests\\Science\\Mathematics\\AlgorithmTests.cs",
+              "RelativeDocumentMoniker": "KsnmTests\\Science\\Mathematics\\AlgorithmTests.cs",
+              "ToolTip": "D:\\Develop\\Projects\\Ksnm\\KsnmOld\\KsnmTests\\Science\\Mathematics\\AlgorithmTests.cs",
+              "RelativeToolTip": "KsnmTests\\Science\\Mathematics\\AlgorithmTests.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-07-03T13:35:36.282Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "FormulaTests.cs",
+              "DocumentMoniker": "D:\\Develop\\Projects\\Ksnm\\KsnmOld\\KsnmTests\\Science\\Mathematics\\FormulaTests.cs",
+              "RelativeDocumentMoniker": "KsnmTests\\Science\\Mathematics\\FormulaTests.cs",
+              "ToolTip": "D:\\Develop\\Projects\\Ksnm\\KsnmOld\\KsnmTests\\Science\\Mathematics\\FormulaTests.cs",
+              "RelativeToolTip": "KsnmTests\\Science\\Mathematics\\FormulaTests.cs",
+              "ViewState": "AQIAABkAAAAAAAAAAAAwwAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-07-03T13:38:31.009Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "Base.cs",
+              "DocumentMoniker": "D:\\Develop\\Projects\\Ksnm\\KsnmOld\\KsnmTests\\Randoms\\Base.cs",
+              "RelativeDocumentMoniker": "KsnmTests\\Randoms\\Base.cs",
+              "ToolTip": "D:\\Develop\\Projects\\Ksnm\\KsnmOld\\KsnmTests\\Randoms\\Base.cs",
+              "RelativeToolTip": "KsnmTests\\Randoms\\Base.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-07-03T22:41:30.388Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 22,
+              "Title": "Xorshift128Tests.cs",
+              "DocumentMoniker": "D:\\Develop\\Projects\\Ksnm\\KsnmOld\\KsnmTests\\Randoms\\Xorshift128Tests.cs",
+              "RelativeDocumentMoniker": "KsnmTests\\Randoms\\Xorshift128Tests.cs",
+              "ToolTip": "D:\\Develop\\Projects\\Ksnm\\KsnmOld\\KsnmTests\\Randoms\\Xorshift128Tests.cs",
+              "RelativeToolTip": "KsnmTests\\Randoms\\Xorshift128Tests.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-07-03T22:41:45.865Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 23,
+              "Title": "FixedPointNumber32Q16.cs",
+              "DocumentMoniker": "D:\\Develop\\Projects\\Ksnm\\KsnmOld\\Ksnm\\Numerics\\FixedPointNumber32Q16.cs",
+              "RelativeDocumentMoniker": "Ksnm\\Numerics\\FixedPointNumber32Q16.cs",
+              "ToolTip": "D:\\Develop\\Projects\\Ksnm\\KsnmOld\\Ksnm\\Numerics\\FixedPointNumber32Q16.cs",
+              "RelativeToolTip": "Ksnm\\Numerics\\FixedPointNumber32Q16.cs",
+              "ViewState": "AQIAABsAAAAAAAAAAAAAACYAAAAnAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-07-03T13:10:58.644Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 24,
+              "Title": "Complex.cs",
+              "DocumentMoniker": "D:\\Develop\\Projects\\Ksnm\\KsnmOld\\Ksnm\\Numerics\\Complex.cs",
+              "RelativeDocumentMoniker": "Ksnm\\Numerics\\Complex.cs",
+              "ToolTip": "D:\\Develop\\Projects\\Ksnm\\KsnmOld\\Ksnm\\Numerics\\Complex.cs",
+              "RelativeToolTip": "Ksnm\\Numerics\\Complex.cs",
+              "ViewState": "AQIAAAkAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-07-03T13:10:51.723Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 25,
+              "Title": "File.cs",
+              "DocumentMoniker": "D:\\Develop\\Projects\\Ksnm\\KsnmOld\\Ksnm\\IO\\File.cs",
+              "RelativeDocumentMoniker": "Ksnm\\IO\\File.cs",
+              "ToolTip": "D:\\Develop\\Projects\\Ksnm\\KsnmOld\\Ksnm\\IO\\File.cs",
+              "RelativeToolTip": "Ksnm\\IO\\File.cs",
+              "ViewState": "AQIAAEIAAAAAAAAAAAAmwAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-07-03T13:10:41.727Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 26,
+              "Title": "Fraction64.cs",
+              "DocumentMoniker": "D:\\Develop\\Projects\\Ksnm\\KsnmOld\\Ksnm\\Numerics\\Fraction64.cs",
+              "RelativeDocumentMoniker": "Ksnm\\Numerics\\Fraction64.cs",
+              "ToolTip": "D:\\Develop\\Projects\\Ksnm\\KsnmOld\\Ksnm\\Numerics\\Fraction64.cs",
+              "RelativeToolTip": "Ksnm\\Numerics\\Fraction64.cs",
+              "ViewState": "AQIAANMAAAAAAAAAAAAqwNMAAAAIAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-29T14:23:02.406Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 27,
+              "Title": "IInteger.cs",
+              "DocumentMoniker": "D:\\Develop\\Projects\\Ksnm\\KsnmOld\\Ksnm\\Numerics\\IInteger.cs",
+              "RelativeDocumentMoniker": "Ksnm\\Numerics\\IInteger.cs",
+              "ToolTip": "D:\\Develop\\Projects\\Ksnm\\KsnmOld\\Ksnm\\Numerics\\IInteger.cs",
+              "RelativeToolTip": "Ksnm\\Numerics\\IInteger.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-29T14:23:01.161Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 28,
+              "Title": "Numeric.cs",
+              "DocumentMoniker": "D:\\Develop\\Projects\\Ksnm\\KsnmOld\\Ksnm\\Numerics\\Numeric.cs",
+              "RelativeDocumentMoniker": "Ksnm\\Numerics\\Numeric.cs",
+              "ToolTip": "D:\\Develop\\Projects\\Ksnm\\KsnmOld\\Ksnm\\Numerics\\Numeric.cs",
+              "RelativeToolTip": "Ksnm\\Numerics\\Numeric.cs",
+              "ViewState": "AQIAAAkAAAAAAAAAAAAAAA4AAAAYAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-29T14:22:51.451Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 29,
+              "Title": "DeflateFile.cs",
+              "DocumentMoniker": "D:\\Develop\\Projects\\Ksnm\\KsnmOld\\Ksnm\\IO\\DeflateFile.cs",
+              "RelativeDocumentMoniker": "Ksnm\\IO\\DeflateFile.cs",
+              "ToolTip": "D:\\Develop\\Projects\\Ksnm\\KsnmOld\\Ksnm\\IO\\DeflateFile.cs",
+              "RelativeToolTip": "Ksnm\\IO\\DeflateFile.cs",
+              "ViewState": "AQIAADQAAAAAAAAAAAAwwAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-07-03T13:10:33.279Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 30,
+              "Title": "Crc16Polynomial.cs",
+              "DocumentMoniker": "D:\\Develop\\Projects\\Ksnm\\KsnmOld\\Ksnm\\Algorithm\\Crc16Polynomial.cs",
+              "RelativeDocumentMoniker": "Ksnm\\Algorithm\\Crc16Polynomial.cs",
+              "ToolTip": "D:\\Develop\\Projects\\Ksnm\\KsnmOld\\Ksnm\\Algorithm\\Crc16Polynomial.cs",
+              "RelativeToolTip": "Ksnm\\Algorithm\\Crc16Polynomial.cs",
+              "ViewState": "AQIAABUAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-07-03T13:10:28.143Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 31,
+              "Title": "ElectricalResistance.cs",
+              "DocumentMoniker": "D:\\Develop\\Projects\\Ksnm\\KsnmOld\\Ksnm\\Science\\Electromagnetism\\ElectricalResistance.cs",
+              "RelativeDocumentMoniker": "Ksnm\\Science\\Electromagnetism\\ElectricalResistance.cs",
+              "ToolTip": "D:\\Develop\\Projects\\Ksnm\\KsnmOld\\Ksnm\\Science\\Electromagnetism\\ElectricalResistance.cs",
+              "RelativeToolTip": "Ksnm\\Science\\Electromagnetism\\ElectricalResistance.cs",
+              "ViewState": "AQIAACUAAAAAAAAAAAAwwAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-07-03T13:01:15.603Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 32,
+              "Title": "DoubleExtensions.cs",
+              "DocumentMoniker": "D:\\Develop\\Projects\\Ksnm\\KsnmOld\\Ksnm\\ExtensionMethods\\System\\Double\\DoubleExtensions.cs",
+              "RelativeDocumentMoniker": "Ksnm\\ExtensionMethods\\System\\Double\\DoubleExtensions.cs",
+              "ToolTip": "D:\\Develop\\Projects\\Ksnm\\KsnmOld\\Ksnm\\ExtensionMethods\\System\\Double\\DoubleExtensions.cs",
+              "RelativeToolTip": "Ksnm\\ExtensionMethods\\System\\Double\\DoubleExtensions.cs",
+              "ViewState": "AQIAABYAAAAAAAAAAAA0wIIAAAAmAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-07-01T04:56:46.08Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 33,
+              "Title": "Fraction64Tests.cs",
+              "DocumentMoniker": "D:\\Develop\\Projects\\Ksnm\\KsnmOld\\KsnmTests\\Numerics\\Fraction64Tests.cs",
+              "RelativeDocumentMoniker": "KsnmTests\\Numerics\\Fraction64Tests.cs",
+              "ToolTip": "D:\\Develop\\Projects\\Ksnm\\KsnmOld\\KsnmTests\\Numerics\\Fraction64Tests.cs",
+              "RelativeToolTip": "KsnmTests\\Numerics\\Fraction64Tests.cs",
+              "ViewState": "AQIAAGYBAAAAAAAAAAAvwGQBAAAJAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-07-02T12:48:14.986Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 34,
+              "Title": "DecimalExtensions.cs",
+              "DocumentMoniker": "D:\\Develop\\Projects\\Ksnm\\KsnmOld\\Ksnm\\ExtensionMethods\\System\\Decimal\\DecimalExtensions.cs",
+              "RelativeDocumentMoniker": "Ksnm\\ExtensionMethods\\System\\Decimal\\DecimalExtensions.cs",
+              "ToolTip": "D:\\Develop\\Projects\\Ksnm\\KsnmOld\\Ksnm\\ExtensionMethods\\System\\Decimal\\DecimalExtensions.cs",
+              "RelativeToolTip": "Ksnm\\ExtensionMethods\\System\\Decimal\\DecimalExtensions.cs",
+              "ViewState": "AQIAAAABAAAAAAAAAAAwwP8AAAAUAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-07-01T08:44:07.692Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 35,
+              "Title": "NauticalMile.cs",
+              "DocumentMoniker": "D:\\Develop\\Projects\\Ksnm\\KsnmOld\\Ksnm\\Units\\NonSI\\NauticalMile.cs",
+              "RelativeDocumentMoniker": "Ksnm\\Units\\NonSI\\NauticalMile.cs",
+              "ToolTip": "D:\\Develop\\Projects\\Ksnm\\KsnmOld\\Ksnm\\Units\\NonSI\\NauticalMile.cs",
+              "RelativeToolTip": "Ksnm\\Units\\NonSI\\NauticalMile.cs",
+              "ViewState": "AQIAABUAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-29T14:22:33.164Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 36,
+              "Title": "Minute.cs",
+              "DocumentMoniker": "D:\\Develop\\Projects\\Ksnm\\KsnmOld\\Ksnm\\Units\\SI\\Minute.cs",
+              "RelativeDocumentMoniker": "Ksnm\\Units\\SI\\Minute.cs",
+              "ToolTip": "D:\\Develop\\Projects\\Ksnm\\KsnmOld\\Ksnm\\Units\\SI\\Minute.cs",
+              "RelativeToolTip": "Ksnm\\Units\\SI\\Minute.cs",
+              "ViewState": "AQIAAAoAAAAAAAAAAAA0wB8AAAAbAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-22T11:18:09.706Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 37,
+              "Title": "Kilogram.cs",
+              "DocumentMoniker": "D:\\Develop\\Projects\\Ksnm\\KsnmOld\\Ksnm\\Units\\SI\\Kilogram.cs",
+              "RelativeDocumentMoniker": "Ksnm\\Units\\SI\\Kilogram.cs",
+              "ToolTip": "D:\\Develop\\Projects\\Ksnm\\KsnmOld\\Ksnm\\Units\\SI\\Kilogram.cs",
+              "RelativeToolTip": "Ksnm\\Units\\SI\\Kilogram.cs",
+              "ViewState": "AQIAAB4AAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-22T11:18:02.434Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 38,
+              "Title": "Hour.cs",
+              "DocumentMoniker": "D:\\Develop\\Projects\\Ksnm\\KsnmOld\\Ksnm\\Units\\SI\\Hour.cs",
+              "RelativeDocumentMoniker": "Ksnm\\Units\\SI\\Hour.cs",
+              "ToolTip": "D:\\Develop\\Projects\\Ksnm\\KsnmOld\\Ksnm\\Units\\SI\\Hour.cs",
+              "RelativeToolTip": "Ksnm\\Units\\SI\\Hour.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-22T11:06:10.231Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

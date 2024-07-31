@@ -1,0 +1,173 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\MSTest.TestAdapter.1.2.0\build\net45\MSTest.TestAdapter.props" Condition="Exists('..\packages\MSTest.TestAdapter.1.2.0\build\net45\MSTest.TestAdapter.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{A6F0AE99-CDE5-4B7C-BFA4-CAA55F9B0997}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>KsnmTests</RootNamespace>
+    <AssemblyName>KsnmTests</AssemblyName>
+    <TargetFrameworkVersion>v4.8.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+    <ReferencePath>$(ProgramFiles)\Common Files\microsoft shared\VSTT\$(VisualStudioVersion)\UITestExtensionPackages</ReferencePath>
+    <IsCodedUITest>False</IsCodedUITest>
+    <TestProjectType>UnitTest</TestProjectType>
+    <TargetFrameworkProfile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.VisualStudio.TestPlatform.TestFramework, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MSTest.TestFramework.1.2.0\lib\net45\Microsoft.VisualStudio.TestPlatform.TestFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MSTest.TestFramework.1.2.0\lib\net45\Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Buffers, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.4.0\lib\netstandard2.0\System.Buffers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Memory, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Memory.4.5.3\lib\netstandard2.0\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Numerics.Vectors.4.4.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.5.2\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <Choose>
+    <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
+      <ItemGroup>
+        <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+      </ItemGroup>
+    </When>
+    <Otherwise />
+  </Choose>
+  <ItemGroup>
+    <Compile Include="Algorithm\Crc16Tests.cs" />
+    <Compile Include="BinaryTests.cs" />
+    <Compile Include="EnumTests.cs" />
+    <Compile Include="ExtensionMethods\System\Array\ArrayExtensionsTests.cs" />
+    <Compile Include="ExtensionMethods\System\Collections\Generic\Dictionary\DictionaryExtensionsTests.cs" />
+    <Compile Include="ExtensionMethods\System\Collections\Generic\Enumerable\EnumerableExtensionsTests.cs" />
+    <Compile Include="ExtensionMethods\System\Collections\Generic\List\ListExtensionsTests.cs" />
+    <Compile Include="ExtensionMethods\System\Collections\ObjectModel\ReadOnlyCollection\ReadOnlyCollectionExtensionsTests.cs" />
+    <Compile Include="ExtensionMethods\System\Comparable\ComparableExtensionsTests.cs" />
+    <Compile Include="ExtensionMethods\System\Complex\ComplexExtensionsTests.cs" />
+    <Compile Include="ExtensionMethods\System\Decimal\DecimalExtensionsTests.cs" />
+    <Compile Include="ExtensionMethods\System\Double\DoubleExtensionsTests.cs" />
+    <Compile Include="ExtensionMethods\System\IO\Stream\StreamExtensionsTests.cs" />
+    <Compile Include="ExtensionMethods\System\Numerics\BigInteger\BigIntegerExtensionsTests.cs" />
+    <Compile Include="ExtensionMethods\System\Single\SingleExtensionsTests.cs" />
+    <Compile Include="ExtensionMethods\System\Span\SpanExtensionsTests.cs" />
+    <Compile Include="ExtensionMethods\System\Random\RandomExtensionsTests.cs" />
+    <Compile Include="ExtensionMethods\System\String\StringExtensionsTests.cs" />
+    <Compile Include="Numerics\BigDecimalTests.cs" />
+    <Compile Include="Numerics\DoubleTests.cs" />
+    <Compile Include="Numerics\ComplexTests.cs" />
+    <Compile Include="Numerics\FixedPointNumber64Q32Tests.cs" />
+    <Compile Include="Numerics\FixedPointNumber32Q16Tests.cs" />
+    <Compile Include="IO\PathTests.cs" />
+    <Compile Include="LitJson\JsonMapperTests.cs" />
+    <Compile Include="Numerics\Fraction64Tests.cs" />
+    <Compile Include="Numerics\Fraction16Tests.cs" />
+    <Compile Include="Science\Mathematics\AlgorithmTests.cs" />
+    <Compile Include="Science\Mathematics\FormulaTests.cs" />
+    <Compile Include="MathTests.cs" />
+    <Compile Include="Numerics\FloatingPointNumber16Tests.cs" />
+    <Compile Include="Numerics\Fraction32Tests.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Randoms\Base.cs" />
+    <Compile Include="Randoms\FixedRandomTests.cs" />
+    <Compile Include="Randoms\PrototypeTests.cs" />
+    <Compile Include="Randoms\Sample.cs" />
+    <Compile Include="Randoms\SampleTests.cs" />
+    <Compile Include="Randoms\Xorshift128Tests.cs" />
+    <Compile Include="Science\Electromagnetism\ElectricalResistanceTests.cs" />
+    <Compile Include="Text\EncodingTests.cs" />
+    <Compile Include="Units\AccelerationTests.cs" />
+    <Compile Include="Units\EnergyTests.cs" />
+    <Compile Include="Units\ForceTests.cs" />
+    <Compile Include="Units\LengthTests.cs" />
+    <Compile Include="Units\MassTests.cs" />
+    <Compile Include="Units\QuantityTests.cs" />
+    <Compile Include="Units\SI\WattTests.cs" />
+    <Compile Include="Units\TemperatureTests.cs" />
+    <Compile Include="Units\TimeTests.cs" />
+    <Compile Include="Units\SIPrefixesTests.cs" />
+    <Compile Include="Units\VelocityTests.cs" />
+    <Compile Include="Units\AreaTests.cs" />
+    <Compile Include="Units\VolumeTests.cs" />
+    <Compile Include="Utilities\CsvLoggerTests.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Ksnm\Ksnm.csproj">
+      <Project>{FF2E2005-DE75-400D-A970-A0C6FA226823}</Project>
+      <Name>Ksnm</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Choose>
+    <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
+      <ItemGroup>
+        <Reference Include="Microsoft.VisualStudio.QualityTools.CodedUITestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+          <Private>False</Private>
+        </Reference>
+        <Reference Include="Microsoft.VisualStudio.TestTools.UITest.Common, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+          <Private>False</Private>
+        </Reference>
+        <Reference Include="Microsoft.VisualStudio.TestTools.UITest.Extension, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+          <Private>False</Private>
+        </Reference>
+        <Reference Include="Microsoft.VisualStudio.TestTools.UITesting, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+          <Private>False</Private>
+        </Reference>
+      </ItemGroup>
+    </When>
+  </Choose>
+  <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>このプロジェクトは、このコンピューター上にない NuGet パッケージを参照しています。それらのパッケージをダウンロードするには、[NuGet パッケージの復元] を使用します。詳細については、http://go.microsoft.com/fwlink/?LinkID=322105 を参照してください。見つからないファイルは {0} です。</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\MSTest.TestAdapter.1.2.0\build\net45\MSTest.TestAdapter.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\MSTest.TestAdapter.1.2.0\build\net45\MSTest.TestAdapter.props'))" />
+    <Error Condition="!Exists('..\packages\MSTest.TestAdapter.1.2.0\build\net45\MSTest.TestAdapter.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\MSTest.TestAdapter.1.2.0\build\net45\MSTest.TestAdapter.targets'))" />
+  </Target>
+  <Import Project="..\packages\MSTest.TestAdapter.1.2.0\build\net45\MSTest.TestAdapter.targets" Condition="Exists('..\packages\MSTest.TestAdapter.1.2.0\build\net45\MSTest.TestAdapter.targets')" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
