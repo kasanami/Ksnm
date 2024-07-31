@@ -37,6 +37,8 @@ namespace Ksnm
     {
         #region 定数
 
+        const int DefaultTerms = 1000;
+
         /// <summary>
         /// 黄金数
         /// </summary>
@@ -955,8 +957,77 @@ namespace Ksnm
         /// </summary>
         /// <param name="baseValue">底</param>
         /// <param name="exponent">指数</param>
-        public static T Pow<T>(T baseValue, int exponent) where T : INumber<T>
+        /// <param name="tolerance">許容値</param>
+        /// <param name="terms">単項式数</param>
+        /// <returns></returns>
+        public static T Pow<T>(T baseValue, T exponent, T tolerance, int terms = DefaultTerms)
+            where T : INumber<T>,IFloatingPoint<T>
         {
+            // 冪級数展開
+
+#if true
+            // exponentが負数に対応していない
+            // baseValue が2より大きい場合は、1 に近くなるように変換
+            var _2 = T.CreateChecked(2);
+            if (baseValue > _2)
+            {
+                T factor = T.Zero;
+                while (baseValue > _2)
+                {
+                    baseValue /= _2;
+                    factor++;
+                }
+                T partialResult = Pow(baseValue, exponent, tolerance, terms);
+                return Pow(_2, factor * exponent, tolerance) * partialResult;
+            }
+            // baseValue を 1 + x に変換
+            T x = baseValue - T.One;
+            T result = T.One;
+            T term = T.One;
+            for (int n = 1; n <= terms; n++)
+            {
+                term *= (exponent - T.CreateChecked(n - 1)) / T.CreateChecked(n) * x;
+                result += term;
+                if (T.Abs(term) < tolerance)
+                {
+                    break;
+                }
+            }
+            return result;
+#endif
+        }
+        /// <summary>
+        /// 指定の整数を指定した値で累乗した値を返します。
+        /// <para>整数限定ですが、System.Math.Powより高速</para>
+        /// </summary>
+        /// <param name="baseValue">累乗対象の底</param>
+        /// <param name="exponent">冪指数</param>
+        /// <returns>累乗した値
+        /// <para>baseValue==0,exponent&lt;0 のときは int.MinValue(無限大の代わり)</para>
+        /// <para>baseValue&gt;+1,exponent&lt;0 のときは 0</para>
+        /// <para>baseValue&lt;-1,exponent&lt;0 のときは 0</para>
+        /// </returns>
+        public static T Pow<T>(T baseValue, int exponent)
+            where T : INumber<T>, ISignedNumber<T>
+        {
+            // exponent がマイナスのときは、1未満になるので0にする。
+            if (exponent < 0)
+            {
+                // baseValueが0なら無限大の代わりに int.MinValue を返す。
+                if (baseValue == T.Zero)
+                {
+                    return T.Zero;
+                }
+                // baseValue が -1 か 1 のときは、exponent を正にして継続
+                if (baseValue == T.NegativeOne || baseValue == T.One)
+                {
+                    exponent = -exponent;
+                }
+                else
+                {
+                    return T.Zero;
+                }
+            }
             T temp = T.One;
             if (exponent < 0)
             {
@@ -976,53 +1047,15 @@ namespace Ksnm
             return temp;
         }
         /// <summary>
-        /// 指定の整数を指定した値で累乗した値を返します。
-        /// <para>整数限定ですが、System.Math.Powより高速</para>
-        /// </summary>
-        /// <param name="baseValue">累乗対象の底</param>
-        /// <param name="exponent">冪指数</param>
-        /// <returns>累乗した値
-        /// <para>baseValue==0,exponent&lt;0 のときは int.MinValue(無限大の代わり)</para>
-        /// <para>baseValue&gt;+1,exponent&lt;0 のときは 0</para>
-        /// <para>baseValue&lt;-1,exponent&lt;0 のときは 0</para>
-        /// </returns>
-        public static int Pow(int baseValue, int exponent)
-        {
-            // exponent がマイナスのときは、1未満になるので0にする。
-            if (exponent < 0)
-            {
-                // baseValueが0なら無限大の代わりに int.MinValue を返す。
-                if (baseValue == 0)
-                {
-                    return int.MinValue;
-                }
-                // baseValue が -1 か 1 のときは、exponent を正にして継続
-                if (baseValue == -1 || baseValue == 1)
-                {
-                    exponent = -exponent;
-                }
-                else
-                {
-                    return 0;
-                }
-            }
-            int value = 1;
-            for (int i = 0; i < exponent; i++)
-            {
-                value *= baseValue;
-            }
-            return value;
-        }
-        /// <summary>
         /// 指定の符号なし整数を指定した値で累乗した値を返します。
         /// <para>符号なし整数限定ですが、System.Math.Powより高速</para>
         /// </summary>
         /// <param name="baseValue">累乗対象の底</param>
         /// <param name="exponent">冪指数</param>
         /// <returns>累乗した値</returns>
-        public static uint Pow(uint baseValue, uint exponent)
+        public static T Pow<T>(T baseValue, uint exponent) where T : INumber<T>
         {
-            uint value = 1;
+            T value = T.One;
             for (uint i = 0; i < exponent; i++)
             {
                 value *= baseValue;
@@ -1119,30 +1152,32 @@ namespace Ksnm
 
         #region Exp
         /// <summary>
-        /// 指定した値で e を累乗した値を返します。
+        /// ネイピア数を指定した値で累乗した値を返します。
         /// </summary>
-        /// <param name="exponent">累乗を指定する数値。</param>
-        /// <returns>数値 e を d で累乗した値。</returns>
-        public static decimal Exp(decimal exponent)
+        /// <param name="exponent">冪指数</param>
+        /// <param name="tolerance">許容値</param>
+        /// <returns>ネイピア数を exponent で冪乗した値。</returns>
+        public static T Exp<T>(T exponent, T tolerance) where T : INumber<T>
         {
-            return Exp(exponent, 28);
-        }
-        /// <summary>
-        /// 指定した値で e を累乗した値を返します。
-        /// </summary>
-        /// <param name="exponent">累乗を指定する数値。</param>
-        /// <param name="count">計算回数。2 以下は結果が変化しません。29 以上はオーバーフローを起こす。</param>
-        /// <returns>数値 e を d で累乗した値。</returns>
-        public static decimal Exp(decimal exponent, int count)
-        {
-            decimal sum = 1 + exponent;// ループの2回目までは省略
-            decimal factorial = 1;// 階乗された値
-            for (int i = 2; i < count; i++)
+            T sum = T.One;
+            T term = T.One;
+            T n = T.One;
+            while (T.Abs(term) > tolerance)
             {
-                factorial *= i;
-                sum += Pow(exponent, i) / factorial;
+                term *= exponent / n;
+                sum += term;
+                n++;
             }
             return sum;
+        }
+        /// <summary>
+        /// ネイピア数を指定した値で冪乗した値を返します。
+        /// </summary>
+        /// <param name="exponent">冪指数</param>
+        /// <returns>ネイピア数を exponent で冪乗した値。</returns>
+        public static T Exp<T>(T x) where T : IFloatingPointIeee754<T>
+        {
+            return Exp(x, T.Epsilon);
         }
         #endregion Exp
 
@@ -1154,7 +1189,7 @@ namespace Ksnm
         /// <param name="tolerance">許容値</param>
         /// <param name="terms">単項式数</param>
         /// <returns>0 または value の平方根。</returns>
-        public static T Sqrt<T>(T value, T tolerance, int terms = 1000) where T : INumber<T>
+        public static T Sqrt<T>(T value, T tolerance, int terms = DefaultTerms) where T : INumber<T>
         {
             if (T.IsZero(value))
             {
@@ -1821,7 +1856,7 @@ namespace Ksnm
         /// <param name="tolerance">許容値</param>
         /// <param name="terms">単項式数</param>
         /// <returns>貴金属数</returns>
-        public static T MetallicNumber<T>(T n, T tolerance, int terms = 1000) where T : INumber<T>
+        public static T MetallicNumber<T>(T n, T tolerance, int terms = DefaultTerms) where T : INumber<T>
         {
             var _2 = T.CreateChecked(2);
             var _4 = T.CreateChecked(4);

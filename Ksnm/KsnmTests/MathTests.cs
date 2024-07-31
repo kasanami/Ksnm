@@ -633,6 +633,7 @@ namespace Ksnm.Tests
             {
                 for (int e = -9; e <= 9; e++)
                 {
+                    if (n == 0) { continue; }
                     Assert.AreEqual((int)System.Math.Pow(n, e), Math.Pow(n, e), $"{n}^{e}");
                 }
             }
@@ -677,6 +678,62 @@ namespace Ksnm.Tests
                     Assert.AreEqual((uint)System.Math.Pow(n, e), Math.Pow(n, e), $"{n}^{e}");
                 }
             }
+        }
+
+        [TestMethod()]
+        public void PowTest_double()
+        {
+            double baseValue = 0;
+            Assert.AreEqual(1, Math.Pow(baseValue, 0u));
+            Assert.AreEqual(0, Math.Pow(baseValue, 1u));
+            Assert.AreEqual(0, Math.Pow(baseValue, 2u));
+            Assert.AreEqual(0, Math.Pow(baseValue, 3u));
+            Assert.AreEqual(0, Math.Pow(baseValue, 4u));
+            Assert.AreEqual(0, Math.Pow(baseValue, 5u));
+            baseValue = 10;
+            Assert.AreEqual(1, Math.Pow(baseValue, 0u));
+            Assert.AreEqual(10, Math.Pow(baseValue, 1u));
+            Assert.AreEqual(100, Math.Pow(baseValue, 2u));
+            Assert.AreEqual(1000, Math.Pow(baseValue, 3u));
+            Assert.AreEqual(10000, Math.Pow(baseValue, 4u));
+            Assert.AreEqual(100000, Math.Pow(baseValue, 5u));
+            baseValue = 0b10;
+            Assert.AreEqual(0b1, Math.Pow(baseValue, 0u));
+            Assert.AreEqual(0b10, Math.Pow(baseValue, 1u));
+            Assert.AreEqual(0b100, Math.Pow(baseValue, 2u));
+            Assert.AreEqual(0b1000, Math.Pow(baseValue, 3u));
+            Assert.AreEqual(0b10000, Math.Pow(baseValue, 4u));
+            Assert.AreEqual(0b100000, Math.Pow(baseValue, 5u));
+            baseValue = 0x10;
+            Assert.AreEqual(0x1, Math.Pow(baseValue, 0u));
+            Assert.AreEqual(0x10, Math.Pow(baseValue, 1u));
+            Assert.AreEqual(0x100, Math.Pow(baseValue, 2u));
+            Assert.AreEqual(0x1000, Math.Pow(baseValue, 3u));
+            Assert.AreEqual(0x10000, Math.Pow(baseValue, 4u));
+            Assert.AreEqual(0x100000, Math.Pow(baseValue, 5u));
+
+            for (int n = -10; n <= 10; n++)
+            {
+                for (int e = 0; e <= 9; e++)
+                {
+                    Assert.AreEqual(System.Math.Pow(n, e), Math.Pow((double)n, e), $"{n}^{e}");
+                }
+            }
+            for (int n = -10; n <= 10; n++)
+            {
+                for (uint e = 0; e <= 9; e++)
+                {
+                    Assert.AreEqual(System.Math.Pow(n, e), Math.Pow((double)n, e), $"{n}^{e}");
+                }
+            }
+            //double tolerance = 0.000000000001;
+            //for (double n = -10; n <= 10; n += 0.5)
+            //{
+            //    for (double e = -5; e <= 5; e += 0.5)
+            //    {
+            //        Assert.AreEqual(System.Math.Pow(n, e), Math.Pow(n, e, tolerance), $"{n}^{e}", tolerance);
+            //    }
+            //}
         }
 
         [TestMethod()]
@@ -730,11 +787,18 @@ namespace Ksnm.Tests
         [TestMethod()]
         public void ExpTest()
         {
-            for (int i = 0; i < 5; i++)
+            for (double i = -5; i <= 5; i += 0.5)
             {
                 var expected = SMath.Exp(i);
-                var actual = (double)Math.Exp(i);
-                Assert.AreEqual(expected, actual, 0.000000001, $"i={i}");
+                var actual = Math.Exp(i);
+                Assert.AreEqual(expected, actual, 0.00000000001, $"i={i}");
+            }
+            decimal tolerance = 0.00000000000000000000001m;
+            for (decimal i = -5; i <= 5; i += 0.5m)
+            {
+                var expected = SMath.Exp((double)i);
+                var actual = Math.Exp(i, tolerance);
+                Assert.AreEqual((decimal)expected, actual, 0.00000000001m, $"i={i}");
             }
         }
 
