@@ -3,16 +3,20 @@
   "WorkspaceRootPath": "D:\\Develop\\Projects\\Ksnm\\KsnmOld\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{7DE3A7CB-68D1-489C-94B2-D8CA0352940A}|DemoApp\\DemoApp.csproj|D:\\Develop\\Projects\\Ksnm\\KsnmOld\\demoapp\\test.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{7DE3A7CB-68D1-489C-94B2-D8CA0352940A}|DemoApp\\DemoApp.csproj|solutionrelative:demoapp\\test.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{CC0983E2-F4BF-4161-A38C-EDA4D453A4B7}|Ksnm2\\Ksnm2.csproj|d:\\develop\\projects\\ksnm\\ksnmold\\ksnm2\\math.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{CC0983E2-F4BF-4161-A38C-EDA4D453A4B7}|Ksnm2\\Ksnm2.csproj|solutionrelative:ksnm2\\math.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{FF2E2005-DE75-400D-A970-A0C6FA226823}|Ksnm\\Ksnm.csproj|D:\\Develop\\Projects\\Ksnm\\KsnmOld\\Ksnm\\Math.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{FF2E2005-DE75-400D-A970-A0C6FA226823}|Ksnm\\Ksnm.csproj|solutionrelative:Ksnm\\Math.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FF2E2005-DE75-400D-A970-A0C6FA226823}|Ksnm\\Ksnm.csproj|d:\\develop\\projects\\ksnm\\ksnmold\\ksnm\\debug.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FF2E2005-DE75-400D-A970-A0C6FA226823}|Ksnm\\Ksnm.csproj|solutionrelative:ksnm\\debug.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7DE3A7CB-68D1-489C-94B2-D8CA0352940A}|DemoApp\\DemoApp.csproj|d:\\develop\\projects\\ksnm\\ksnmold\\demoapp\\test.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7DE3A7CB-68D1-489C-94B2-D8CA0352940A}|DemoApp\\DemoApp.csproj|solutionrelative:demoapp\\test.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{7DE3A7CB-68D1-489C-94B2-D8CA0352940A}|DemoApp\\DemoApp.csproj|D:\\Develop\\Projects\\Ksnm\\KsnmOld\\demoapp\\mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -164,7 +168,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 7,
           "Children": [
             {
               "$type": "Bookmark",
@@ -172,7 +176,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 3,
               "Title": "Test.cs",
               "DocumentMoniker": "D:\\Develop\\Projects\\Ksnm\\KsnmOld\\DemoApp\\Test.cs",
               "RelativeDocumentMoniker": "DemoApp\\Test.cs",
@@ -181,11 +185,12 @@
               "ViewState": "AQIAAOEBAAAAAAAAAAAzwOkBAAAaAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-06-13T13:44:12.792Z",
-              "IsPinned": true
+              "IsPinned": true,
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 10,
               "Title": "Fraction16.cs",
               "DocumentMoniker": "D:\\Develop\\Projects\\Ksnm\\KsnmOld\\Ksnm\\Numerics\\Fraction16.cs",
               "RelativeDocumentMoniker": "Ksnm\\Numerics\\Fraction16.cs",
@@ -198,7 +203,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 6,
               "Title": "Algorithm.cs",
               "DocumentMoniker": "D:\\Develop\\Projects\\Ksnm\\KsnmOld\\Ksnm\\Science\\Mathematics\\Algorithm.cs",
               "RelativeDocumentMoniker": "Ksnm\\Science\\Mathematics\\Algorithm.cs",
@@ -210,6 +215,19 @@
               "IsPinned": true
             },
             {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Debug.cs",
+              "DocumentMoniker": "D:\\Develop\\Projects\\Ksnm\\KsnmOld\\Ksnm\\Debug.cs",
+              "RelativeDocumentMoniker": "Ksnm\\Debug.cs",
+              "ToolTip": "D:\\Develop\\Projects\\Ksnm\\KsnmOld\\Ksnm\\Debug.cs",
+              "RelativeToolTip": "Ksnm\\Debug.cs",
+              "ViewState": "AQIAACUAAAAAAAAAAAAwwB8AAAAWAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-07-31T04:12:37.038Z",
+              "EditorCaption": ""
+            },
+            {
               "$type": "Bookmark",
               "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
             },
@@ -219,19 +237,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
               "Title": "Math.cs",
               "DocumentMoniker": "D:\\Develop\\Projects\\Ksnm\\KsnmOld\\Ksnm2\\Math.cs",
               "RelativeDocumentMoniker": "Ksnm2\\Math.cs",
               "ToolTip": "D:\\Develop\\Projects\\Ksnm\\KsnmOld\\Ksnm2\\Math.cs",
               "RelativeToolTip": "Ksnm2\\Math.cs",
-              "ViewState": "AQIAAMkFAAAAAAAAAAAowOAFAAAJAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAJAFAAAIAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-07-30T14:32:15.956Z"
+              "WhenOpened": "2024-07-30T14:32:15.956Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 8,
               "Title": "MathTests.cs",
               "DocumentMoniker": "D:\\Develop\\Projects\\Ksnm\\KsnmOld\\KsnmTests\\MathTests.cs",
               "RelativeDocumentMoniker": "KsnmTests\\MathTests.cs",
@@ -243,7 +262,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 5,
               "Title": "Formula.cs",
               "DocumentMoniker": "D:\\Develop\\Projects\\Ksnm\\KsnmOld\\Ksnm\\Science\\Mathematics\\Formula.cs",
               "RelativeDocumentMoniker": "Ksnm\\Science\\Mathematics\\Formula.cs",
@@ -255,7 +274,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "MainForm.cs",
               "DocumentMoniker": "D:\\Develop\\Projects\\Ksnm\\KsnmOld\\DemoApp\\MainForm.cs",
               "RelativeDocumentMoniker": "DemoApp\\MainForm.cs",
@@ -267,19 +286,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 1,
               "Title": "Math.cs",
               "DocumentMoniker": "D:\\Develop\\Projects\\Ksnm\\KsnmOld\\Ksnm\\Math.cs",
               "RelativeDocumentMoniker": "Ksnm\\Math.cs",
               "ToolTip": "D:\\Develop\\Projects\\Ksnm\\KsnmOld\\Ksnm\\Math.cs",
               "RelativeToolTip": "Ksnm\\Math.cs",
-              "ViewState": "AQIAANEFAAAAAAAAAAA0wOAFAAAJAAAA",
+              "ViewState": "AQIAABwAAAAAAAAAAAAqwCMAAAAkAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-07-03T12:54:38.78Z"
+              "WhenOpened": "2024-07-03T12:54:38.78Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 7,
               "Title": "Formula.cs",
               "DocumentMoniker": "D:\\Develop\\Projects\\Ksnm\\KsnmOld\\Ksnm2\\Science\\Mathematics\\Formula.cs",
               "RelativeDocumentMoniker": "Ksnm2\\Science\\Mathematics\\Formula.cs",
@@ -291,7 +311,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 9,
               "Title": "Microsoft.NET.Sdk.FrameworkReferenceResolution.targets",
               "DocumentMoniker": "C:\\Program Files\\dotnet\\sdk\\8.0.302\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.Sdk.FrameworkReferenceResolution.targets",
               "ToolTip": "C:\\Program Files\\dotnet\\sdk\\8.0.302\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.Sdk.FrameworkReferenceResolution.targets",
@@ -301,7 +321,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 13,
               "Title": "ListExtensions.cs",
               "DocumentMoniker": "D:\\Develop\\Projects\\Ksnm\\KsnmOld\\Ksnm\\ExtensionMethods\\System\\Collections\\Generic\\List\\ListExtensions.cs",
               "RelativeDocumentMoniker": "Ksnm\\ExtensionMethods\\System\\Collections\\Generic\\List\\ListExtensions.cs",
@@ -313,7 +333,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 14,
               "Title": "BigDecimal.cs",
               "DocumentMoniker": "D:\\Develop\\Projects\\Ksnm\\KsnmOld\\Ksnm\\Numerics\\BigDecimal.cs",
               "RelativeDocumentMoniker": "Ksnm\\Numerics\\BigDecimal.cs",
@@ -325,7 +345,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 12,
               "Title": "EnumerableExtensions.cs",
               "DocumentMoniker": "D:\\Develop\\Projects\\Ksnm\\KsnmOld\\Ksnm\\ExtensionMethods\\System\\Collections\\Generic\\Enumerable\\EnumerableExtensions.cs",
               "RelativeDocumentMoniker": "Ksnm\\ExtensionMethods\\System\\Collections\\Generic\\Enumerable\\EnumerableExtensions.cs",
@@ -337,7 +357,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 11,
               "Title": "Math.cs",
               "DocumentMoniker": "C:\\Users\\bigta\\Downloads\\Math.cs",
               "ToolTip": "C:\\Users\\bigta\\Downloads\\Math.cs",
@@ -347,7 +367,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 15,
               "Title": "BigIntegerExtensions.cs",
               "DocumentMoniker": "D:\\Develop\\Projects\\Ksnm\\KsnmOld\\Ksnm\\ExtensionMethods\\System\\Numerics\\BigInteger\\BigIntegerExtensions.cs",
               "RelativeDocumentMoniker": "Ksnm\\ExtensionMethods\\System\\Numerics\\BigInteger\\BigIntegerExtensions.cs",
@@ -359,7 +379,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 16,
               "Title": "Program.cs",
               "DocumentMoniker": "D:\\Develop\\Projects\\Ksnm\\KsnmOld\\DemoApp\\Program.cs",
               "RelativeDocumentMoniker": "DemoApp\\Program.cs",
@@ -371,7 +391,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
+              "DocumentIndex": 17,
               "Title": "BigDecimalTests.cs",
               "DocumentMoniker": "D:\\Develop\\Projects\\Ksnm\\KsnmOld\\KsnmTests\\Numerics\\BigDecimalTests.cs",
               "RelativeDocumentMoniker": "KsnmTests\\Numerics\\BigDecimalTests.cs",
@@ -383,7 +403,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 17,
+              "DocumentIndex": 18,
               "Title": "Crc16.cs",
               "DocumentMoniker": "D:\\Develop\\Projects\\Ksnm\\KsnmOld\\Ksnm\\Algorithm\\Crc16.cs",
               "RelativeDocumentMoniker": "Ksnm\\Algorithm\\Crc16.cs",
@@ -395,7 +415,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 18,
+              "DocumentIndex": 19,
               "Title": "FixedRandomTests.cs",
               "DocumentMoniker": "D:\\Develop\\Projects\\Ksnm\\KsnmOld\\KsnmTests\\Randoms\\FixedRandomTests.cs",
               "RelativeDocumentMoniker": "KsnmTests\\Randoms\\FixedRandomTests.cs",
@@ -407,7 +427,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 19,
+              "DocumentIndex": 20,
               "Title": "AlgorithmTests.cs",
               "DocumentMoniker": "D:\\Develop\\Projects\\Ksnm\\KsnmOld\\KsnmTests\\Science\\Mathematics\\AlgorithmTests.cs",
               "RelativeDocumentMoniker": "KsnmTests\\Science\\Mathematics\\AlgorithmTests.cs",
@@ -419,7 +439,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 20,
+              "DocumentIndex": 21,
               "Title": "FormulaTests.cs",
               "DocumentMoniker": "D:\\Develop\\Projects\\Ksnm\\KsnmOld\\KsnmTests\\Science\\Mathematics\\FormulaTests.cs",
               "RelativeDocumentMoniker": "KsnmTests\\Science\\Mathematics\\FormulaTests.cs",
@@ -431,7 +451,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 21,
+              "DocumentIndex": 22,
               "Title": "Base.cs",
               "DocumentMoniker": "D:\\Develop\\Projects\\Ksnm\\KsnmOld\\KsnmTests\\Randoms\\Base.cs",
               "RelativeDocumentMoniker": "KsnmTests\\Randoms\\Base.cs",
@@ -443,7 +463,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 22,
+              "DocumentIndex": 23,
               "Title": "Xorshift128Tests.cs",
               "DocumentMoniker": "D:\\Develop\\Projects\\Ksnm\\KsnmOld\\KsnmTests\\Randoms\\Xorshift128Tests.cs",
               "RelativeDocumentMoniker": "KsnmTests\\Randoms\\Xorshift128Tests.cs",
@@ -455,7 +475,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 23,
+              "DocumentIndex": 24,
               "Title": "FixedPointNumber32Q16.cs",
               "DocumentMoniker": "D:\\Develop\\Projects\\Ksnm\\KsnmOld\\Ksnm\\Numerics\\FixedPointNumber32Q16.cs",
               "RelativeDocumentMoniker": "Ksnm\\Numerics\\FixedPointNumber32Q16.cs",
@@ -467,7 +487,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 24,
+              "DocumentIndex": 25,
               "Title": "Complex.cs",
               "DocumentMoniker": "D:\\Develop\\Projects\\Ksnm\\KsnmOld\\Ksnm\\Numerics\\Complex.cs",
               "RelativeDocumentMoniker": "Ksnm\\Numerics\\Complex.cs",
@@ -479,7 +499,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 25,
+              "DocumentIndex": 26,
               "Title": "File.cs",
               "DocumentMoniker": "D:\\Develop\\Projects\\Ksnm\\KsnmOld\\Ksnm\\IO\\File.cs",
               "RelativeDocumentMoniker": "Ksnm\\IO\\File.cs",
@@ -491,7 +511,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 26,
+              "DocumentIndex": 27,
               "Title": "Fraction64.cs",
               "DocumentMoniker": "D:\\Develop\\Projects\\Ksnm\\KsnmOld\\Ksnm\\Numerics\\Fraction64.cs",
               "RelativeDocumentMoniker": "Ksnm\\Numerics\\Fraction64.cs",
@@ -503,7 +523,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 27,
+              "DocumentIndex": 28,
               "Title": "IInteger.cs",
               "DocumentMoniker": "D:\\Develop\\Projects\\Ksnm\\KsnmOld\\Ksnm\\Numerics\\IInteger.cs",
               "RelativeDocumentMoniker": "Ksnm\\Numerics\\IInteger.cs",
@@ -515,7 +535,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 28,
+              "DocumentIndex": 29,
               "Title": "Numeric.cs",
               "DocumentMoniker": "D:\\Develop\\Projects\\Ksnm\\KsnmOld\\Ksnm\\Numerics\\Numeric.cs",
               "RelativeDocumentMoniker": "Ksnm\\Numerics\\Numeric.cs",
@@ -527,7 +547,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 29,
+              "DocumentIndex": 30,
               "Title": "DeflateFile.cs",
               "DocumentMoniker": "D:\\Develop\\Projects\\Ksnm\\KsnmOld\\Ksnm\\IO\\DeflateFile.cs",
               "RelativeDocumentMoniker": "Ksnm\\IO\\DeflateFile.cs",
@@ -539,7 +559,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 30,
+              "DocumentIndex": 31,
               "Title": "Crc16Polynomial.cs",
               "DocumentMoniker": "D:\\Develop\\Projects\\Ksnm\\KsnmOld\\Ksnm\\Algorithm\\Crc16Polynomial.cs",
               "RelativeDocumentMoniker": "Ksnm\\Algorithm\\Crc16Polynomial.cs",
@@ -551,7 +571,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 31,
+              "DocumentIndex": 32,
               "Title": "ElectricalResistance.cs",
               "DocumentMoniker": "D:\\Develop\\Projects\\Ksnm\\KsnmOld\\Ksnm\\Science\\Electromagnetism\\ElectricalResistance.cs",
               "RelativeDocumentMoniker": "Ksnm\\Science\\Electromagnetism\\ElectricalResistance.cs",
@@ -563,7 +583,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 32,
+              "DocumentIndex": 33,
               "Title": "DoubleExtensions.cs",
               "DocumentMoniker": "D:\\Develop\\Projects\\Ksnm\\KsnmOld\\Ksnm\\ExtensionMethods\\System\\Double\\DoubleExtensions.cs",
               "RelativeDocumentMoniker": "Ksnm\\ExtensionMethods\\System\\Double\\DoubleExtensions.cs",
@@ -575,7 +595,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 33,
+              "DocumentIndex": 34,
               "Title": "Fraction64Tests.cs",
               "DocumentMoniker": "D:\\Develop\\Projects\\Ksnm\\KsnmOld\\KsnmTests\\Numerics\\Fraction64Tests.cs",
               "RelativeDocumentMoniker": "KsnmTests\\Numerics\\Fraction64Tests.cs",
@@ -587,7 +607,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 34,
+              "DocumentIndex": 35,
               "Title": "DecimalExtensions.cs",
               "DocumentMoniker": "D:\\Develop\\Projects\\Ksnm\\KsnmOld\\Ksnm\\ExtensionMethods\\System\\Decimal\\DecimalExtensions.cs",
               "RelativeDocumentMoniker": "Ksnm\\ExtensionMethods\\System\\Decimal\\DecimalExtensions.cs",
@@ -599,7 +619,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 35,
+              "DocumentIndex": 36,
               "Title": "NauticalMile.cs",
               "DocumentMoniker": "D:\\Develop\\Projects\\Ksnm\\KsnmOld\\Ksnm\\Units\\NonSI\\NauticalMile.cs",
               "RelativeDocumentMoniker": "Ksnm\\Units\\NonSI\\NauticalMile.cs",
@@ -611,7 +631,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 36,
+              "DocumentIndex": 37,
               "Title": "Minute.cs",
               "DocumentMoniker": "D:\\Develop\\Projects\\Ksnm\\KsnmOld\\Ksnm\\Units\\SI\\Minute.cs",
               "RelativeDocumentMoniker": "Ksnm\\Units\\SI\\Minute.cs",
@@ -623,7 +643,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 37,
+              "DocumentIndex": 38,
               "Title": "Kilogram.cs",
               "DocumentMoniker": "D:\\Develop\\Projects\\Ksnm\\KsnmOld\\Ksnm\\Units\\SI\\Kilogram.cs",
               "RelativeDocumentMoniker": "Ksnm\\Units\\SI\\Kilogram.cs",
@@ -635,7 +655,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 38,
+              "DocumentIndex": 39,
               "Title": "Hour.cs",
               "DocumentMoniker": "D:\\Develop\\Projects\\Ksnm\\KsnmOld\\Ksnm\\Units\\SI\\Hour.cs",
               "RelativeDocumentMoniker": "Ksnm\\Units\\SI\\Hour.cs",
