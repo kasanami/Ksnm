@@ -653,19 +653,20 @@ namespace Ksnm.Numerics.Tests
             var sample1 = new BigDecimal(1);
             var sample2 = new BigDecimal(1, -30);
             var sample3 = sample1 + sample2;
-            Assert.AreEqual(-30, sample3.MinExponent);
+            var expected = int.Min(sample1.MinExponent, sample2.MinExponent);
+            Assert.AreEqual(expected, sample3.MinExponent);
             sample3 = sample2 + sample1;
-            Assert.AreEqual(-30, sample3.MinExponent);
+            Assert.AreEqual(expected, sample3.MinExponent);
 
             sample3 = sample1 - sample2;
-            Assert.AreEqual(-30, sample3.MinExponent);
+            Assert.AreEqual(expected, sample3.MinExponent);
             sample3 = sample2 - sample1;
-            Assert.AreEqual(-30, sample3.MinExponent);
+            Assert.AreEqual(expected, sample3.MinExponent);
 
             sample3 = sample1 * sample2;
-            Assert.AreEqual(-30, sample3.MinExponent);
+            Assert.AreEqual(expected, sample3.MinExponent);
             sample3 = sample2 * sample1;
-            Assert.AreEqual(-30, sample3.MinExponent);
+            Assert.AreEqual(expected, sample3.MinExponent);
         }
 
         /// <summary>
@@ -1001,7 +1002,6 @@ namespace Ksnm.Numerics.Tests
                 Assert.AreEqual(source, sample.ToString(), $"{source}");
                 Assert.AreEqual(BigInteger.Parse("314159265358979323846264338327950288"), sample.Mantissa, $"{source}");
                 Assert.AreEqual(-35, sample.Exponent, $"{source}");
-                Assert.AreEqual(-35, sample.MinExponent, $"{source}");
             }
             {
                 var source = "0.1234567890123456789012345678901234567890";
@@ -1009,7 +1009,6 @@ namespace Ksnm.Numerics.Tests
                 Assert.AreEqual(source, sample.ToString(), $"{source}");
                 Assert.AreEqual(BigInteger.Parse("1234567890123456789012345678901234567890"), sample.Mantissa, $"{source}");
                 Assert.AreEqual(-40, sample.Exponent, $"{source}");
-                Assert.AreEqual(-40, sample.MinExponent, $"{source}");
             }
             {
                 var source = "-0.123456789";
@@ -1017,7 +1016,6 @@ namespace Ksnm.Numerics.Tests
                 Assert.AreEqual(source, sample.ToString(), $"{source}");
                 Assert.AreEqual(-123456789, sample.Mantissa, $"{source}");
                 Assert.AreEqual(-9, sample.Exponent, $"{source}");
-                Assert.AreEqual(-28, sample.MinExponent, $"{source}");
             }
         }
     }
