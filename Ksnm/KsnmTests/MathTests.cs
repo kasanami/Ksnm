@@ -789,14 +789,36 @@ namespace Ksnm.Tests
             {
                 for (int e = 0; e <= 9; e++)
                 {
-                    Assert.AreEqual((decimal)System.Math.Pow((double)n, e), Math.Pow((decimal)n, e), $"{n}^{e}");
+                    var expected = (decimal)System.Math.Pow(n, e);
+                    var actual = Math.Pow((decimal)n, e);
+                    Assert.AreEqual(expected, actual, $"{n}^{e}");
                 }
             }
             for (int n = -10; n <= 10; n++)
             {
                 for (uint e = 0; e <= 9; e++)
                 {
-                    Assert.AreEqual((decimal)System.Math.Pow((double)n, e), Math.Pow((decimal)n, e), $"{n}^{e}");
+                    var expected = (decimal)System.Math.Pow(n, e);
+                    var actual = Math.Pow((decimal)n, e);
+                    Assert.AreEqual(expected, actual, $"{n}^{e}");
+                }
+            }
+            decimal tolerance = 0.00000_00000_00000_00000_00000_1m;
+            for (decimal n = -10; n <= 10; n += 0.25m)
+            {
+                for (decimal e = -10; e <= 10; e += 0.25m)
+                {
+                    var expected = System.Math.Pow((double)n, (double)e);
+                    if (double.IsNaN(expected))
+                    {
+                        continue;
+                    }
+                    if (double.IsInfinity(expected))
+                    {
+                        continue;
+                    }
+                    var actual = Math.Pow(n, e, tolerance);
+                    Assert.AreEqual((decimal)expected, actual, 0.00001m, $"{n}^{e}");
                 }
             }
         }
