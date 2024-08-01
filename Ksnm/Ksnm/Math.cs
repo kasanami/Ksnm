@@ -964,15 +964,80 @@ namespace Ksnm
         /// <param name="terms">単項式数</param>
         /// <returns></returns>
         public static T Pow<T>(T baseValue, T exponent, T tolerance, int terms = DefaultTerms)
-            where T : INumber<T>, IFloatingPoint<T>
+            where T : INumber<T>
         {
+            // 0乗は1
+            if (exponent == T.Zero)
+            {
+                return T.One;
+            }
             // 1に何をかけても1
             if (baseValue == T.One)
             {
                 return T.One;
             }
-#if true// 繰り返し二乗法
-            int n = 1000000;// 大きな整数 n を設定
+#if true
+            if (baseValue < T.Zero)
+            {
+                if (T.IsInteger(exponent))
+                {
+                    return IntegerPow(baseValue, exponent);
+                }
+                throw new ArgumentException("Negative base with non-integer exponent is not real.");
+            }
+
+            if (baseValue == T.Zero)
+            {
+                if (exponent < T.Zero)
+                {
+                    throw new ArgumentException("Zero base with negative exponent is not defined.");
+                }
+                return T.Zero;
+            }
+            T _2 = T.CreateChecked(2);
+
+            if (baseValue < T.Zero)
+            {
+                var log = Log(-baseValue, tolerance);
+                // 負の基数の場合、指数が整数かどうかを確認
+                if (exponent % _2 == T.Zero)
+                {
+                    return Exp(exponent * log, tolerance);
+                }
+                else
+                {
+                    return -Exp(exponent * log, tolerance);
+                }
+            }
+            else
+            {
+                // 正の基数の場合、通常の計算
+                var log = Log(baseValue, tolerance);
+                return Exp(exponent * log, tolerance);
+            }
+#elif true// 繰り返し二乗法
+            if (baseValue < T.Zero && T.IsInteger(exponent) == false)
+            {
+                throw new ArgumentException("指数が整数でない負の底は実数ではない。");
+            }
+
+            T result = T.One;
+            T currentMultiplier = baseValue;
+            T currentExponent = exponent;
+            T _2 = T.CreateChecked(2);
+
+            while (T.Abs(currentExponent) > tolerance)
+            {
+                if (currentExponent % _2 != T.Zero)
+                {
+                    result *= currentMultiplier;
+                }
+                currentMultiplier *= currentMultiplier;
+                currentExponent /= _2;
+            }
+            return result;
+#elif false
+            int n = 55;// 大きな整数 n を設定
             T root = Root(baseValue, n, tolerance);
             return Pow(root, int.CreateTruncating(T.CreateChecked(n) * exponent));
 #elif false// 誤差が大きいのでOFF
@@ -1033,34 +1098,58 @@ namespace Ksnm
         {
             return Pow<T>(baseValue, exponent, T.Epsilon);
         }
+        public static T IntegerPow<T, TExponent>(T baseValue, TExponent exponent)
+            where T : INumber<T>
+            where TExponent : INumber<TExponent>
+        {
+            if (exponent == TExponent.Zero)
+            {
+                return T.One;
+            }
+            if (exponent < TExponent.Zero)
+            {
+                return T.One / IntegerPow(baseValue, -exponent);
+            }
+            T result = T.One;
+#if true
+            for (TExponent i = TExponent.Zero; i < exponent; i++)
+            {
+                result *= baseValue;
+            }
+#else
+            if (baseValue < T.Zero)
+            {
+                if (TExponent.IsEvenInteger(exponent))
+                {
+                    return IntegerPow(-baseValue, exponent);
+                }
+                if (TExponent.IsOddInteger(exponent))
+                {
+                    return -IntegerPow(-baseValue, exponent);
+                }
+            }
+            var _2 = TExponent.CreateChecked(2);
+            while (exponent > TExponent.Zero)
+            {
+                if ((exponent % _2) == TExponent.One)
+                {
+                    result *= baseValue;
+                }
+                baseValue *= baseValue;
+                exponent /= _2;
+            }
+#endif
+            return result;
+        }
         /// <summary>
         /// 指定の整数を指定した値で累乗した値を返します。
         /// <para>整数限定ですが、System.Math.Powより高速</para>
         /// </summary>
         /// <param name="baseValue">累乗対象の底</param>
         /// <param name="exponent">冪指数</param>
-        public static T Pow<T>(T baseValue, int exponent)
-            where T : INumber<T>
+        public static T Pow<T>(T baseValue, int exponent) where T : INumber<T>
         {
-            if (exponent == 0)
-            {
-                return T.One;
-            }
-            if (exponent < 0)
-            {
-                return T.One / Pow(baseValue, -exponent);
-            }
-            T result = T.One;
-            while (exponent > 0)
-            {
-                if ((exponent % 2) == 1)
-                {
-                    result *= baseValue;
-                }
-                baseValue *= baseValue;
-                exponent /= 2;
-            }
-            return result;
+            return IntegerPow(baseValue, exponent);
         }
         /// <summary>
         /// 指定の符号なし整数を指定した値で累乗した値を返します。
@@ -1327,15 +1416,23 @@ namespace Ksnm
         static T _Root<T>(T x, int n, T epsilon) where T : INumber<T>
         {
 #if true
+            if (x == T.Zero)
+            {
+                return T.Zero;
+            }
             // ニュートン法による反復計算
             T _n = T.CreateChecked(n);
             // 初期推定値
             T guess = x / _n;
             T before = T.Zero;
-            while (T.Abs(before - guess) > epsilon)
+            for (int i = 0; i < 1000; i++)
             {
                 before = guess;
                 guess = ((_n - T.One) * guess + x / Pow(guess, n - 1)) / _n;
+                if (T.Abs(before - guess) <= epsilon)
+                {
+                    break;
+                }
             }
             return guess;
 #else

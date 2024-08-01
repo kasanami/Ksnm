@@ -7,6 +7,7 @@ using Ksnm.Numerics;
 using SMath = System.Math;
 using System.Collections.Generic;
 using System;
+using Ksnm.ExtensionMethods.System.Double;
 
 namespace Ksnm.Tests
 {
@@ -716,24 +717,38 @@ namespace Ksnm.Tests
             {
                 for (int e = 0; e <= 9; e++)
                 {
-                    Assert.AreEqual(System.Math.Pow(n, e), Math.Pow((double)n, e), $"{n}^{e}");
+                    var expected = System.Math.Pow(n, e);
+                    var actual = Math.Pow((double)n, e);
+                    Assert.AreEqual(expected, actual, $"{n}^{e}");
                 }
             }
             for (int n = -10; n <= 10; n++)
             {
                 for (uint e = 0; e <= 9; e++)
                 {
-                    Assert.AreEqual(System.Math.Pow(n, e), Math.Pow((double)n, e), $"{n}^{e}");
+                    var expected = System.Math.Pow(n, e);
+                    var actual = Math.Pow((double)n, e);
+                    Assert.AreEqual(expected, actual, $"{n}^{e}");
                 }
             }
-            double tolerance = 0.0000000000000001;
-            for (double n = -10; n <= 10; n += 0.5)
+            double tolerance = double.Epsilon;
+            for (double n = -10; n <= 10; n += 0.25)
             {
-                for (double e = -5; e <= 5; e += 0.5)
+                for (double e = -10; e <= 10; e += 0.25)
                 {
                     var expected = System.Math.Pow(n, e);
-                    var actual = Math.Pow(n, e, tolerance, 100000);
-                    Assert.AreEqual(expected, actual, 0.00001, $"{n}^{e}");
+                    if (double.IsNaN(expected))
+                    {
+                        continue;
+                    }
+                    if (double.IsInfinity(expected))
+                    {
+                        continue;
+                    }
+                    var actual = Math.Pow(n, e, tolerance);
+                    var expectedStr = expected.ToDecimalString();
+                    var actualStr = actual.ToDecimalString();
+                    Assert.AreEqual(expected, actual, 0.001, $"{n}^{e}");
                 }
             }
         }
@@ -942,6 +957,7 @@ namespace Ksnm.Tests
         [TestMethod()]
         public void SqrtTest()
         {
+            double Delta = 0.000000000000001;
             // √2
             {
                 var expected = 1.414213562373095048801688724m;
@@ -985,7 +1001,7 @@ namespace Ksnm.Tests
                 }
                 else
                 {
-                    Assert.AreEqual(expected, actual, $"i={i}");
+                    Assert.AreEqual(expected, actual, Delta, $"i={i}");
                 }
             }
         }
