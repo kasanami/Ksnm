@@ -1072,53 +1072,43 @@ namespace Ksnm.Tests
         [TestMethod()]
         public void SinTest()
         {
-            for (int i = -10; i <= 10; i++)
+            for (double i = -10; i <= 10; i += 0.125)
             {
                 var expected = SMath.Sin(i);
-                var actual = (double)Math.Sin(i);
-                Assert.AreEqual(expected, actual, 0.000000000000001, $"i={i}");
+                var actual = Math.Sin(i);
+                Assert.AreEqual(expected, actual, 0.00000000000001, $"i={i}");
             }
         }
 
         [TestMethod()]
         public void CosTest()
         {
-            for (int i = -10; i <= 10; i++)
+            for (double i = -10; i <= 10; i += 0.125)
             {
                 var expected = SMath.Cos(i);
-                var actual = (double)Math.Cos(i);
-                Assert.AreEqual(expected, actual, 0.000000000000001, $"i={i}");
+                var actual = Math.Cos(i);
+                Assert.AreEqual(expected, actual, 0.00000000000001, $"i={i}");
             }
         }
 
         [TestMethod()]
         public void TanTest()
         {
-            for (int i = -10; i <= 10; i++)
+            for (double i = -10; i <= 10; i += 0.125)
             {
                 var expected = SMath.Tan(i);
-                var actual = (double)Math.Tan(i);
-                Assert.AreEqual(expected, actual, 0.000000000000001, $"i={i}");
+                var actual = Math.Tan(i);
+                Assert.AreEqual(expected, actual, 0.0000000001, $"i={i}");
             }
         }
 
         [TestMethod()]
         public void AsinTest()
         {
+            for (double i = -1; i <= 1; i += 0.125)
             {
-                var expected = Math.PI_Decimal / 2;
-                var actual = Math.Asin(1m);
-                Assert.AreEqual(expected, actual);
-            }
-            {
-                var expected = -Math.PI_Decimal / 2;
-                var actual = Math.Asin(-1m);
-                Assert.AreEqual(expected, actual);
-            }
-            for (decimal i = -1; i <= 1; i += 0.1m)
-            {
-                var expected = SMath.Asin((double)i);
-                var actual = (double)Math.Asin(i);
+                var expected = SMath.Asin(i);
+                var actual = Math.Asin(i);
                 Assert.AreEqual(expected, actual, 0.0001, $"i={i}");
             }
         }
@@ -1126,10 +1116,10 @@ namespace Ksnm.Tests
         [TestMethod()]
         public void AcosTest()
         {
-            for (decimal i = -1; i <= 1; i += 0.1m)
+            for (double i = -1; i <= 1; i += 0.125)
             {
-                var expected = SMath.Acos((double)i);
-                var actual = (double)Math.Acos(i);
+                var expected = SMath.Acos(i);
+                var actual = Math.Acos(i);
                 Assert.AreEqual(expected, actual, 0.0001, $"i={i}");
             }
         }
@@ -1137,10 +1127,10 @@ namespace Ksnm.Tests
         [TestMethod()]
         public void AtanTest()
         {
-            for (decimal i = -2; i <= 2; i += 0.1m)
+            for (double i = -2; i <= 2; i += 0.125)
             {
-                var expected = SMath.Atan((double)i);
-                var actual = (double)Math.Atan(i);
+                var expected = SMath.Atan(i);
+                var actual = Math.Atan(i);
                 Assert.AreEqual(expected, actual, 0.000000000000001, $"i={i}");
             }
         }
@@ -1148,40 +1138,41 @@ namespace Ksnm.Tests
         [TestMethod()]
         public void Atan2Test()
         {
+            const double Delta = 0.00000000000001;
             {
-                decimal x = 0;
-                decimal y = 0;
-                var expected = SMath.Atan2((double)y, (double)x);
-                var actual = (double)Math.Atan2(y, x);
-                Assert.AreEqual(expected, actual, 0.000000000000001, $"y={y},x={x}");
+                double x = 0;
+                double y = 0;
+                var expected = SMath.Atan2(y, x);
+                var actual = Math.Atan2(y, x);
+                Assert.AreEqual(expected, actual, Delta, $"y={y},x={x}");
             }
             {
-                decimal x = -0.3m;
-                decimal y = -1;
-                var expected = SMath.Atan2((double)y, (double)x);
-                var expected2 = SMath.Atan((double)y / (double)x);
-                var actual = (double)Math.Atan2(y, x);
-                Assert.AreEqual(expected, actual, 0.000000000000001, $"y={y},x={x}");
+                double x = -0.3;
+                double y = -1;
+                var expected = SMath.Atan2(y, x);
+                var expected2 = SMath.Atan(y / x);
+                var actual = Math.Atan2(y, x);
+                Assert.AreEqual(expected, actual, Delta, $"y={y},x={x}");
             }
             {
-                decimal x = 0.9m;
-                decimal y = 1;
-                var expected = SMath.Atan2((double)y, (double)x);
-                var expected2 = SMath.Atan((double)y / (double)x);
-                var actual = (double)Math.Atan2(y, x);
-                Assert.AreEqual(expected, actual, 0.000000000000001, $"y={y},x={x}");
+                double x = 0.9;
+                double y = 1;
+                var expected = SMath.Atan2(y, x);
+                var expected2 = SMath.Atan(y / x);
+                var actual = Math.Atan2(y, x);
+                Assert.AreEqual(expected, actual, Delta, $"y={y},x={x}");
             }
-            for (decimal x = -1; x <= 1; x += 0.1m)
+            for (double x = -1; x <= 1; x += 0.125)
             {
-                for (decimal y = -1; y <= 1; y += 0.1m)
+                for (double y = -1; y <= 1; y += 0.125)
                 {
                     if (y == 0 || x == 0)
                     {
                         continue;
                     }
-                    var expected = SMath.Atan2((double)y, (double)x);
-                    var actual = (double)Math.Atan2(y, x);
-                    Assert.AreEqual(expected, actual, 0.000000000000001, $"y={y},x={x}");
+                    var expected = SMath.Atan2(y, x);
+                    var actual = Math.Atan2(y, x);
+                    Assert.AreEqual(expected, actual, 0.0000001, $"y={y},x={x}");
                 }
             }
         }

@@ -28,6 +28,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using System.Reflection.Metadata;
 using System.Security.Cryptography;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
@@ -1463,138 +1464,149 @@ namespace Ksnm
         /// 指定された角度のサインを返します。
         /// </summary>
         /// <param name="x">ラジアンで表した角度。</param>
-        public static decimal Sin(decimal x)
-        {
-            // すべての組み合わせをテストしていないが、概ね25回目以降は結果が変わらない
-            return Sin(x, 25);
-        }
-        /// <summary>
-        /// 指定された角度のサインを返します。
-        /// </summary>
-        /// <param name="x">ラジアンで表した角度。</param>
-        /// <param name="count">計算回数。</param>
-        public static decimal Sin(decimal x, int count)
+        /// <param name="tolerance">許容値</param>
+        /// <param name="terms">単項式数</param>
+        public static T Sin<T>(T angle, T tolerance, int terms = DefaultTerms)
+            where T : INumber<T>, IFloatingPointConstants<T>, IFloatingPoint<T>
         {
             // -2π～2πにする
-            x -= (int)(x / (2 * PI_Decimal)) * 2 * PI_Decimal;
-            decimal sum = x;
-            decimal t = x;
-            for (int n = 1; n <= count; n++)
+            if (angle < T.Tau || angle > T.Tau)
             {
-                t *= -(x * x) / ((2 * n + 1) * (2 * n));
-                sum += t;
+                angle -= T.Floor(angle / (T.Tau)) * T.Tau;
+            }
+            T sum = angle;
+            T add = angle;
+            for (int n = 1; n <= terms; n++)
+            {
+                var d = (n + n + 1) * (n + n);
+                add *= -(angle * angle) / T.CreateChecked(d);
+                sum += add;
+                if (T.Abs(add) < tolerance)
+                {
+                    break;
+                }
             }
             return sum;
+        }
+        public static T Sin<T>(T angle)
+            where T : IFloatingPointIeee754<T>
+        {
+            return Sin(angle, T.Epsilon);
         }
         /// <summary>
         /// 指定された角度のコサインを返します。
         /// </summary>
-        /// <param name="x">ラジアンで表した角度。</param>
-        public static decimal Cos(decimal x)
+        /// <param name="angle">ラジアンで表した角度。</param>
+        /// <param name="tolerance">許容値</param>
+        /// <param name="terms">単項式数</param>
+        public static T Cos<T>(T angle, T tolerance, int terms = DefaultTerms)
+            where T : INumber<T>, IFloatingPointConstants<T>, IFloatingPoint<T>
         {
-            return Sin(PI_Decimal / 2 - x);
+            return Sin(T.Pi / T.CreateChecked(2) - angle, tolerance, terms);
+        }
+        public static T Cos<T>(T angle)
+            where T : IFloatingPointIeee754<T>
+        {
+            return Cos(angle, T.Epsilon);
         }
         /// <summary>
         /// 指定された角度のタンジェントを返します。
         /// </summary>
-        /// <param name="x">ラジアンで表した角度。</param>
-        public static decimal Tan(decimal x)
+        /// <param name="angle">ラジアンで表した角度。</param>
+        /// <param name="tolerance">許容値</param>
+        /// <param name="terms">単項式数</param>
+        public static T Tan<T>(T angle, T tolerance, int terms = DefaultTerms)
+            where T : INumber<T>, IFloatingPointConstants<T>, IFloatingPoint<T>
         {
-            return Sin(x) / Cos(x);
+            return Sin(angle, tolerance, terms) / Cos(angle, tolerance, terms);
+        }
+        public static T Tan<T>(T angle)
+            where T : IFloatingPointIeee754<T>
+        {
+            return Tan(angle, T.Epsilon);
         }
         #region Asin
         /// <summary>
         /// サインが指定数となる角度を返します。
         /// </summary>
-        /// <param name="z">サインを表す数で、-1 以上 1 以下である必要があります。</param>
-        /// <returns>-π/2 ≤θ≤π/2 の、ラジアンで表した角度 θ。</returns>
-        public static decimal Asin(decimal z)
-        {
-            // 23を超えるとオーバーフローとなる。
-            return Asin(z, 23);
-        }
-        /// <summary>
-        /// サインが指定数となる角度を返します。
-        /// </summary>
         /// <param name="x">サインを表す数で、-1 以上 1 以下である必要があります。</param>
-        /// <param name="count">計算回数。</param>
+        /// <param name="tolerance">許容値</param>
+        /// <param name="terms">単項式数</param>
         /// <returns>-π/2 ≤θ≤π/2 の、ラジアンで表した角度 θ。</returns>
-        public static decimal Asin(decimal x, int count)
+        public static T Asin<T>(T x, T tolerance, int terms = DefaultTerms)
+            where T : INumber<T>, IFloatingPointConstants<T>
         {
-            if (x < -1 || x > 1)
+            if (x < -T.One || x > T.One)
             {
                 throw new ArgumentOutOfRangeException($"{nameof(x)}={x} が範囲外の値です。");
             }
-            if (x == 1)
+            var _2 = T.CreateChecked(2);
+            if (x == T.One)
             {
-                return PI_Decimal / 2;
+                return T.Pi / _2;
             }
-            if (x == -1)
+            if (x == -T.One)
             {
-                return -PI_Decimal / 2;
+                return -T.Pi / _2;
             }
-            decimal sum = x;// ループ一回目は省略
-            for (int n = 1; n < count; n++)
+            terms *= 2;// 2ずつカウントしていくので2倍する
+            T sum = x;// 1回目のループは省略
+            var x2 = x * x;// 前回のに2乗ずつかけていく。
+            var x2Product = x;
+            var numerator = T.One;
+            var denominator = T.One;
+            for (int odd = 1; odd < terms; odd += 2)
             {
-                var n2 = (2 * n + 1);
-                sum += _Asin_(n) * (Pow(x, n2) / n2);
+                var even = odd + 1;
+                numerator *= T.CreateChecked(odd);
+                denominator *= T.CreateChecked(even);
+                if (T.IsInfinity(numerator) || T.IsInfinity(denominator))
+                {
+                    break;
+                }
+                x2Product *= x2;
+                var odd2 = T.CreateChecked(odd + 2);// 次の奇数
+                var add = (numerator / denominator) * (x2Product / odd2);
+                sum += add;
+                if (T.Abs(add) < tolerance)
+                {
+                    break;
+                }
             }
             return sum;
         }
-        /// <summary>
-        /// _Asin_の計算結果のキャッシュ
-        /// </summary>
-        private static Dictionary<int, decimal> _Asin_Cache = new Dictionary<int, decimal>();
-        /// <summary>
-        /// Asin で使用する内部用関数
-        /// </summary>
-        private static decimal _Asin_(int count)
+        public static T Asin<T>(T x)
+            where T : IFloatingPointIeee754<T>
         {
-            int key = count;
-            if (_Asin_Cache.ContainsKey(key))
-            {
-                return _Asin_Cache[key];
-            }
-            decimal numerator = 1;
-            decimal denominator = 1;
-            count *= 2;// 2つずつ増やすので2倍
-            for (int n = 1; n < count; n += 2)
-            {
-                numerator *= n;
-                denominator *= n + 1;
-            }
-            _Asin_Cache[key] = numerator / denominator;
-            return _Asin_Cache[key];
+            return Asin(x, T.Epsilon);
         }
         #endregion Asin
         /// <summary>
         /// コサインが指定数となる角度を返します。
         /// </summary>
         /// <param name="x">コサインを表す数で、-1 以上 1 以下である必要があります。</param>
+        /// <param name="tolerance">許容値</param>
+        /// <param name="terms">単項式数</param>
         /// <returns>0 ≤θ≤π の、ラジアンで表した角度 θ。</returns>
-        public static decimal Acos(decimal x)
+        public static T Acos<T>(T x, T tolerance, int terms = DefaultTerms)
+            where T : INumber<T>, IFloatingPointConstants<T>
         {
-            return PI_Decimal / 2 - Asin(x);
+            return T.Pi / T.CreateChecked(2) - Asin(x, tolerance, terms);
+        }
+        public static T Acos<T>(T x)
+            where T : IFloatingPointIeee754<T>
+        {
+            return Acos(x, T.Epsilon);
         }
         /// <summary>
         /// タンジェントが指定数となる角度を返します。
         /// </summary>
         /// <param name="x">タンジェントを表す数。</param>
+        /// <param name="tolerance">許容値</param>
+        /// <param name="terms">単項式数</param>
         /// <returns>-π/2 ≤θ≤π/2 の、ラジアンで表した角度 θ。</returns>
-        public static decimal Atan(decimal x)
-        {
-            // x=1のときで91回以上は結果がおなじになる。
-            // x=1未満のときは90回より少ない回数で十分
-            // x=が大きいと10000回でも結果が収束しない
-            return Atan(x, 10000);
-        }
-        /// <summary>
-        /// タンジェントが指定数となる角度を返します。
-        /// </summary>
-        /// <param name="x">タンジェントを表す数。</param>
-        /// <param name="count">計算回数。</param>
-        /// <returns>-π/2 ≤θ≤π/2 の、ラジアンで表した角度 θ。</returns>
-        public static decimal Atan(decimal x, int count)
+        public static T Atan<T>(T x, T tolerance, int terms = DefaultTerms)
+            where T : INumber<T>, IFloatingPointConstants<T>
         {
 #if false
             // TODO:x の値によっては、count=100では足りない。
@@ -1624,13 +1636,15 @@ namespace Ksnm
             }
             return sum;
 #else
+            var _1 = T.One;
+            var _2 = T.CreateChecked(2);
             // 過去の積を再利用する
-            decimal product = 1;
+            T product = _1;
             int k = 1;
             /// ｘ の2乗
             var x2 = (x * x);
-            decimal sum = 1;// n=0のときは1なのでループ１回目は省略
-            for (int n = 1; n < count; n++)
+            T sum = _1;// n=0のときは1なのでループ１回目は省略
+            for (int n = 1; n < terms; n++)
             {
 #if false
                 decimal product = 1;
@@ -1642,22 +1656,34 @@ namespace Ksnm
 #else
                 if (k <= n)
                 {
-                    decimal multiplier = (2m * k * x2) / ((2m * k + 1) * (1 + x2));
+                    var _k = T.CreateChecked(k);
+                    T multiplier = (_2 * _k * x2) / ((_2 * _k + _1) * (_1 + x2));
                     product *= multiplier;
                     k++;
                 }
 #endif
                 sum += product;
+                if (T.Abs(product) < tolerance)
+                {
+                    break;
+                }
             }
-            var temp = x / (1 + x * x);
+            var temp = x / (_1 + x * x);
             return temp * sum;
 #endif
+        }
+        public static T Atan<T>(T x)
+            where T : IFloatingPointIeee754<T>
+        {
+            return Atan(x, T.Epsilon);
         }
         /// <summary>
         /// タンジェントが 2 つの指定された数の商である角度を返します。
         /// </summary>
         /// <param name="y">点の y 座標。</param>
         /// <param name="x">点の x 座標。</param>
+        /// <param name="tolerance">許容値</param>
+        /// <param name="terms">単項式数</param>
         /// <returns>-π≤θ≤π および tan(θ) = y / x の、ラジアンで示した角度 θ。(x, y) は、デカルト座標の点を示します。
         /// 次の点に注意してください。
         /// クワドラント 1 の (x, y) の場合は、0 < θ < π/2。
@@ -1670,36 +1696,43 @@ namespace Ksnm
         /// y が正で x が 0 の場合は、θ = π/2。
         /// y が負数で x が 0 の場合は、θ = -π/2。
         /// y が 0 かつ x が 0 の場合は、θ = 0。</returns>
-        public static decimal Atan2(decimal y, decimal x)
+        public static T Atan2<T>(T y, T x, T tolerance, int terms = DefaultTerms)
+            where T : INumber<T>, IFloatingPointConstants<T>
         {
-            if (x > 0)
+            if (x > T.Zero)
             {
-                return Atan(y / x);
+                return Atan(y / x, tolerance, terms);
             }
-            else if (x < 0)
+            else if (x < T.Zero)
             {
-                if (y > 0)
+                if (y > T.Zero)
                 {
-                    return Atan(y / x) + PI_Decimal;
+                    return Atan(y / x, tolerance, terms) + T.Pi;
                 }
                 else
                 {
-                    return Atan(y / x) - PI_Decimal;
+                    return Atan(y / x, tolerance, terms) - T.Pi;
                 }
             }
             else// x==0
             {
-                if (y > 0)
+                var _2 = T.CreateChecked(2);
+                if (y > T.Zero)
                 {
-                    return +(PI_Decimal / 2);
+                    return +(T.Pi / _2);
                 }
-                else if (y < 0)
+                else if (y < T.Zero)
                 {
-                    return -(PI_Decimal / 2);
+                    return -(T.Pi / _2);
                 }
                 // y==0
-                return 0;
+                return T.Zero;
             }
+        }
+        public static T Atan2<T>(T y, T x)
+            where T : IFloatingPointIeee754<T>
+        {
+            return Atan2(y, x, T.Epsilon);
         }
         #endregion 三角関数
 
