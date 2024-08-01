@@ -28,6 +28,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using System.Security.Cryptography;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Ksnm
 {
@@ -964,10 +966,36 @@ namespace Ksnm
         public static T Pow<T>(T baseValue, T exponent, T tolerance, int terms = DefaultTerms)
             where T : INumber<T>, IFloatingPoint<T>
         {
+            // 1に何をかけても1
+            if (baseValue == T.One)
+            {
+                return T.One;
+            }
+#if true// 繰り返し二乗法
+            int n = 1000000;// 大きな整数 n を設定
+            T root = Root(baseValue, n, tolerance);
+            return Pow(root, int.CreateTruncating(T.CreateChecked(n) * exponent));
+#elif false// 誤差が大きいのでOFF
+            // LogとExpを使う方法
+            if (baseValue < T.Zero)
+            {
+                T lnBase = Log(-baseValue, tolerance);
+                T result = Exp(exponent * lnBase, tolerance);
+                return -result;
+            }
+            else
+            {
+                T lnBase = Log(baseValue, tolerance);
+                T result = Exp(exponent * lnBase, tolerance);
+                return result;
+            }
+#else
             // 冪級数展開
-
-#if true
-            // exponentが負数に対応していない
+            if (baseValue < T.Zero)
+            {
+                // 負数の場合 一旦正数にする
+                return -Pow<T>(-baseValue, exponent, tolerance, terms);
+            }
             // baseValue が2より大きい場合は、1 に近くなるように変換
             var _2 = T.CreateChecked(2);
             if (baseValue > _2)
@@ -978,24 +1006,32 @@ namespace Ksnm
                     baseValue /= _2;
                     factor++;
                 }
+#if DEBUG
+                var test = System.Math.Pow(double.CreateChecked(baseValue), double.CreateChecked(exponent));
+#endif
                 T partialResult = Pow(baseValue, exponent, tolerance, terms);
-                return Pow(_2, factor * exponent, tolerance) * partialResult;
+                return Pow(_2, factor * exponent, tolerance, terms) * partialResult;
             }
             // baseValue を 1 + x に変換
             T x = baseValue - T.One;
-            T result = T.One;
+            T sum = T.One;
             T term = T.One;
             for (int n = 1; n <= terms; n++)
             {
                 term *= (exponent - T.CreateChecked(n - 1)) / T.CreateChecked(n) * x;
-                result += term;
+                sum += term;
                 if (T.Abs(term) < tolerance)
                 {
                     break;
                 }
             }
-            return result;
+            return sum;
 #endif
+        }
+        public static T Pow<T>(T baseValue, T exponent)
+            where T : INumber<T>, IFloatingPointIeee754<T>
+        {
+            return Pow<T>(baseValue, exponent, T.Epsilon);
         }
         /// <summary>
         /// 指定の整数を指定した値で累乗した値を返します。
@@ -1003,49 +1039,28 @@ namespace Ksnm
         /// </summary>
         /// <param name="baseValue">累乗対象の底</param>
         /// <param name="exponent">冪指数</param>
-        /// <returns>累乗した値
-        /// <para>baseValue==0,exponent&lt;0 のときは int.MinValue(無限大の代わり)</para>
-        /// <para>baseValue&gt;+1,exponent&lt;0 のときは 0</para>
-        /// <para>baseValue&lt;-1,exponent&lt;0 のときは 0</para>
-        /// </returns>
         public static T Pow<T>(T baseValue, int exponent)
-            where T : INumber<T>, ISignedNumber<T>
+            where T : INumber<T>
         {
-            // exponent がマイナスのときは、1未満になるので0にする。
+            if (exponent == 0)
+            {
+                return T.One;
+            }
             if (exponent < 0)
             {
-                // baseValueが0なら無限大の代わりに int.MinValue を返す。
-                if (baseValue == T.Zero)
-                {
-                    return T.Zero;
-                }
-                // baseValue が -1 か 1 のときは、exponent を正にして継続
-                if (baseValue == T.NegativeOne || baseValue == T.One)
-                {
-                    exponent = -exponent;
-                }
-                else
-                {
-                    return T.Zero;
-                }
+                return T.One / Pow(baseValue, -exponent);
             }
-            T temp = T.One;
-            if (exponent < 0)
+            T result = T.One;
+            while (exponent > 0)
             {
-                exponent = -exponent;
-                for (int i = 0; i < exponent; i++)
+                if ((exponent % 2) == 1)
                 {
-                    temp /= baseValue;
+                    result *= baseValue;
                 }
+                baseValue *= baseValue;
+                exponent /= 2;
             }
-            else if (exponent > 0)
-            {
-                for (int i = 0; i < exponent; i++)
-                {
-                    temp *= baseValue;
-                }
-            }
-            return temp;
+            return result;
         }
         /// <summary>
         /// 指定の符号なし整数を指定した値で累乗した値を返します。
@@ -1218,6 +1233,7 @@ namespace Ksnm
         }
         #endregion Log
 
+        #region Root 根
         #region Sqrt
         /// <summary>
         /// 指定された数値の平方根を返します。
@@ -1258,7 +1274,92 @@ namespace Ksnm
             var result = Sqrt(value, tolerance);
             return result.RoundBottom();// 丸める
         }
+        public static T Sqrt<T>(T value) where T : IFloatingPointIeee754<T>
+        {
+            if (value < T.Zero)
+            {
+                return T.NaN;
+            }
+            return Sqrt(value, T.Epsilon);
+        }
         #endregion Sqrt
+        /// <summary>
+        /// n乗根をバイナリサーチで求める
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="x"></param>
+        /// <param name="n"></param>
+        /// <param name="epsilon"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException"></exception>
+        public static T Root<T>(T x, int n, T epsilon) where T : INumber<T>
+        {
+            bool isNegative = x < T.Zero;
+            // 負数の偶数乗根を求めようとするとエラー
+            if (isNegative && int.IsEvenInteger(n))
+            {
+                throw new ArgumentException("負の数の偶数根は実在しない。");
+            }
+            x = T.Abs(x);
+            var root = _Root(x, n, epsilon);
+            if (isNegative)
+            {
+                return -root;
+            }
+            return root;
+        }
+        public static T Root<T>(T x, int n) where T : IFloatingPointIeee754<T>
+        {
+            bool isNegative = x < T.Zero;
+            // 負数の偶数乗根を求めようとすると非数を返す
+            if (isNegative && int.IsEvenInteger(n))
+            {
+                return T.NaN;
+            }
+            x = T.Abs(x);
+            var root = _Root(x, n, T.Epsilon);
+            if (isNegative)
+            {
+                return -root;
+            }
+            return root;
+        }
+        static T _Root<T>(T x, int n, T epsilon) where T : INumber<T>
+        {
+#if true
+            // ニュートン法による反復計算
+            T _n = T.CreateChecked(n);
+            // 初期推定値
+            T guess = x / _n;
+            T before = T.Zero;
+            while (T.Abs(before - guess) > epsilon)
+            {
+                before = guess;
+                guess = ((_n - T.One) * guess + x / Pow(guess, n - 1)) / _n;
+            }
+            return guess;
+#else
+            T low = T.Zero;
+            T high = x;
+            T mid = T.Zero;
+            T _2 = T.CreateChecked(2);
+
+            while (high - low > epsilon)
+            {
+                mid = (low + high) / _2;
+                if (Pow<T>(mid, n) < x)
+                {
+                    low = mid;
+                }
+                else
+                {
+                    high = mid;
+                }
+            }
+            return mid;
+#endif
+        }
+        #endregion Root 根
 
         #region 三角関数
         /// <summary>

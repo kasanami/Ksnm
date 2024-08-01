@@ -726,14 +726,16 @@ namespace Ksnm.Tests
                     Assert.AreEqual(System.Math.Pow(n, e), Math.Pow((double)n, e), $"{n}^{e}");
                 }
             }
-            //double tolerance = 0.000000000001;
-            //for (double n = -10; n <= 10; n += 0.5)
-            //{
-            //    for (double e = -5; e <= 5; e += 0.5)
-            //    {
-            //        Assert.AreEqual(System.Math.Pow(n, e), Math.Pow(n, e, tolerance), $"{n}^{e}", tolerance);
-            //    }
-            //}
+            double tolerance = 0.0000000000000001;
+            for (double n = -10; n <= 10; n += 0.5)
+            {
+                for (double e = -5; e <= 5; e += 0.5)
+                {
+                    var expected = System.Math.Pow(n, e);
+                    var actual = Math.Pow(n, e, tolerance, 100000);
+                    Assert.AreEqual(expected, actual, 0.00001, $"{n}^{e}");
+                }
+            }
         }
 
         [TestMethod()]
@@ -971,6 +973,61 @@ namespace Ksnm.Tests
                 var expected = i;
                 var actual = Math.Sqrt(value);
                 Assert.AreEqual(expected, actual, $"i={i}");
+            }
+            // System.Math.Sqrtと比較
+            for (double i = -10; i <= 10; i++)
+            {
+                var expected = SMath.Sqrt(i);
+                var actual = Math.Sqrt(i);
+                if (double.IsNaN(expected))
+                {
+                    Assert.IsTrue(double.IsNaN(actual));
+                }
+                else
+                {
+                    Assert.AreEqual(expected, actual, $"i={i}");
+                }
+            }
+        }
+
+        [TestMethod()]
+        public void RootTest()
+        {
+            double Delta = 0.000000000000001;
+            // System.Math.Sqrtと比較
+            for (double i = 0; i <= 10; i++)
+            {
+                var expected = SMath.Sqrt(i);
+                var actual = Math.Root(i, 2);
+                Assert.AreEqual(expected, actual, Delta, $"i={i}");
+            }
+            // 2乗根
+            for (double i = -10; i <= 10; i += 0.5)
+            {
+                var expected = SMath.Sqrt(i);
+                var actual = Math.Root(i, 2);
+                if (double.IsNaN(expected))
+                {
+                    Assert.IsTrue(double.IsNaN(actual));
+                }
+                else
+                {
+                    Assert.AreEqual(expected, actual, Delta, $"i={i}");
+                }
+            }
+            // 3乗根
+            for (double i = -10; i <= 10; i += 0.5)
+            {
+                var expected = SMath.Cbrt(i);
+                var actual = Math.Root(i, 3);
+                if (double.IsNaN(expected))
+                {
+                    Assert.IsTrue(double.IsNaN(actual));
+                }
+                else
+                {
+                    Assert.AreEqual(expected, actual, Delta, $"i={i}");
+                }
             }
         }
 
