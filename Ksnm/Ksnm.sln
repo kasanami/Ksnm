@@ -5,7 +5,11 @@ VisualStudioVersion = 17.10.35122.118
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ksnm", "Ksnm\Ksnm.csproj", "{C3B87937-2C54-4DBE-9FE8-5ABE2B05069B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KsnmTests", "KsnmTests\KsnmTests.csproj", "{15AC88BF-C6D2-4DD8-A763-B0214CBCBF46}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KsnmTests", "KsnmTests\KsnmTests.csproj", "{15AC88BF-C6D2-4DD8-A763-B0214CBCBF46}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinFormsApp", "WinFormsApp\WinFormsApp.csproj", "{2C091005-B2B4-423B-8406-2C351F72779F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApp", "ConsoleApp\ConsoleApp.csproj", "{5F3BEBA2-D67F-4BF7-8E35-513832232885}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +25,14 @@ Global
 		{15AC88BF-C6D2-4DD8-A763-B0214CBCBF46}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{15AC88BF-C6D2-4DD8-A763-B0214CBCBF46}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{15AC88BF-C6D2-4DD8-A763-B0214CBCBF46}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2C091005-B2B4-423B-8406-2C351F72779F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2C091005-B2B4-423B-8406-2C351F72779F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2C091005-B2B4-423B-8406-2C351F72779F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2C091005-B2B4-423B-8406-2C351F72779F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5F3BEBA2-D67F-4BF7-8E35-513832232885}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5F3BEBA2-D67F-4BF7-8E35-513832232885}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5F3BEBA2-D67F-4BF7-8E35-513832232885}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5F3BEBA2-D67F-4BF7-8E35-513832232885}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
