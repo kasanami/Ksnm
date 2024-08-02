@@ -826,6 +826,18 @@ namespace Ksnm.Tests
         [TestMethod()]
         public void ExpTest()
         {
+            for (Half i = -5; i <= (Half)5; i += (Half)0.5)
+            {
+                var expected = SMath.Exp((double)i);
+                var actual = (double)Math.Exp(i);
+                Assert.AreEqual(expected, actual, 0.5, $"i={i}");
+            }
+            for (float i = -5; i <= 5; i += 0.5f)
+            {
+                var expected = SMath.Exp(i);
+                var actual = Math.Exp(i);
+                Assert.AreEqual(expected, actual, 0.00001, $"i={i}");
+            }
             for (double i = -5; i <= 5; i += 0.5)
             {
                 var expected = SMath.Exp(i);
