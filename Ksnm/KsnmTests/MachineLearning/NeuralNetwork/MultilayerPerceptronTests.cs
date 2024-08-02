@@ -36,18 +36,35 @@ namespace Ksnm.MachineLearning.NeuralNetwork.Tests
         [TestMethod()]
         public void ForwardPropagationTest()
         {
-            var nn = new MultilayerPerceptron<double>(3, 2, 1);
-            nn.SourceNeurons[0].Value = 0;
-            nn.SourceNeurons[1].Value = 1;
-            nn.SourceNeurons[2].Value = 2;
-            nn.HiddenNeurons[0].Activation = Activation<double>.Identity;
-            nn.HiddenNeurons[1].Activation = Activation<double>.Identity;
-            nn.HiddenNeurons[0].Bias = 0;
-            nn.HiddenNeurons[1].Bias = 1;
-            nn.ResultNeurons[0].Activation = Activation<double>.Identity;
-            nn.ResultNeurons[0].Bias = 0;
-            nn.ForwardPropagation();
-            Assert.AreEqual(7, nn.ResultValues[0]);
+            {
+                var nn = new MultilayerPerceptron<double>(3, 2, 1);
+                nn.SourceNeurons[0].Value = 0;
+                nn.SourceNeurons[1].Value = 1;
+                nn.SourceNeurons[2].Value = 2;
+                nn.HiddenNeurons[0].Activation = Activation<double>.Identity;
+                nn.HiddenNeurons[1].Activation = Activation<double>.Identity;
+                nn.HiddenNeurons[0].Bias = 0;
+                nn.HiddenNeurons[1].Bias = 1;
+                nn.ResultNeurons[0].Activation = Activation<double>.Identity;
+                nn.ResultNeurons[0].Bias = 0;
+                nn.ForwardPropagation();
+                Assert.AreEqual(7, nn.ResultValues[0]);
+            }
+
+            {
+                var nn = new MultilayerPerceptron<Half>(3, 2, 1);
+                nn.SourceNeurons[0].Value = (Half)0;
+                nn.SourceNeurons[1].Value = (Half)1;
+                nn.SourceNeurons[2].Value = (Half)2;
+                nn.HiddenNeurons[0].Activation = Activation<Half>.Identity;
+                nn.HiddenNeurons[1].Activation = Activation<Half>.Identity;
+                nn.HiddenNeurons[0].Bias = (Half)0;
+                nn.HiddenNeurons[1].Bias = (Half)1;
+                nn.ResultNeurons[0].Activation = Activation<Half>.Identity;
+                nn.ResultNeurons[0].Bias = (Half)0;
+                nn.ForwardPropagation();
+                Assert.AreEqual((Half)7, nn.ResultValues[0]);
+            }
         }
 
         [TestMethod()]
