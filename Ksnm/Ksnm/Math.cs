@@ -1244,6 +1244,10 @@ namespace Ksnm
             while (T.Abs(term) > tolerance)
             {
                 term *= exponent / n;
+                if (T.IsInfinity(term))
+                {
+                    break;
+                }
                 sum += term;
                 n++;
             }
