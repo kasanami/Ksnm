@@ -1,22 +1,25 @@
 ﻿
+using System.Numerics;
+
 namespace Ksnm.MachineLearning.NeuralNetwork
 {
     /// <summary>
     /// 入力情報
     /// </summary>
-    public class NeuronInput
+    public class NeuronInput<TValue>
+        where TValue : INumber<TValue>, IFloatingPointIeee754<TValue>
     {
         /// <summary>
         /// 結合先のニューロン
         /// </summary>
-        public INeuron Neuron;
+        public INeuron<TValue> Neuron;
         /// <summary>
         /// 結合強度
         /// </summary>
-        public double Weight;
+        public TValue Weight;
 
 
-        public double Value
+        public TValue Value
         {
             get
             {
@@ -24,9 +27,9 @@ namespace Ksnm.MachineLearning.NeuralNetwork
             }
         }
         /// <summary>
-        /// 
+        /// コンストラクタ
         /// </summary>
-        public NeuronInput(INeuron neuron, double weight)
+        public NeuronInput(INeuron<TValue> neuron, TValue weight)
         {
             Neuron = neuron;
             Weight = weight;

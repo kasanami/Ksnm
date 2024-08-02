@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -10,7 +11,9 @@ namespace Ksnm.MachineLearning.NeuralNetwork
     /// 
     /// </summary>
     /// <typeparam name="TNeuron"></typeparam>
-    public class Layer<TNeuron> : ILayer where TNeuron : class, INeuron
+    public class Layer<TNeuron, TValue> : ILayer<TValue>
+        where TNeuron : class, INeuron<TValue>
+        where TValue : INumber<TValue>, IFloatingPointIeee754<TValue>
     {
         #region プロパティ
         /// <summary>
@@ -20,13 +23,13 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         /// <summary>
         /// 
         /// </summary>
-        public List<TNeuron> neurons { get; private set; } = new List<TNeuron>();
+        public List<TNeuron> neurons { get; private set; } = [];
         /// <summary>
         /// 
         /// </summary>
-        public IReadOnlyList<INeuron> Neurons
+        public IReadOnlyList<INeuron<TValue>> Neurons
         {
-            get => neurons.Select(x => (INeuron)x).ToList();
+            get => neurons.Select(x => (INeuron<TValue>)x).ToList();
         }
         #endregion プロパティ
 
@@ -50,7 +53,7 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         /// </summary>
         /// <param name="neurons">複製するニューロン</param>
         /// <param name="inputNeurons">入力ニューロン</param>
-        public Layer(IReadOnlyList<INeuron> neurons, IReadOnlyList<INeuron> inputNeurons)
+        public Layer(IReadOnlyList<INeuron<TValue>> neurons, IReadOnlyList<INeuron<TValue>> inputNeurons)
         {
             this.neurons = new List<TNeuron>();
             foreach (var item in neurons)
@@ -63,7 +66,7 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         /// </summary>
         /// <param name="layer"></param>
         /// <param name="inputNeurons"></param>
-        public Layer(Layer<TNeuron> layer, IReadOnlyList<INeuron> inputNeurons) : this(layer.neurons, inputNeurons)
+        public Layer(Layer<TNeuron,TValue> layer, IReadOnlyList<INeuron<TValue>> inputNeurons) : this(layer.neurons, inputNeurons)
         {
             Name = layer.Name;
         }
@@ -73,15 +76,15 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         /// </summary>
         /// <param name="inputNeurons"></param>
         /// <returns></returns>
-        public ILayer Clone(IReadOnlyList<INeuron> inputNeurons)
+        public ILayer<TValue> Clone(IReadOnlyList<INeuron<TValue>> inputNeurons)
         {
-            return new Layer<TNeuron>(this, inputNeurons);
+            return new Layer<TNeuron,TValue> (this, inputNeurons);
         }
         #region Set
         /// <summary>
         /// 値設定
         /// </summary>
-        public void SetValues(IReadOnlyList<double> values)
+        public void SetValues(IReadOnlyList<TValue> values)
         {
             System.Diagnostics.Debug.Assert(neurons.Count() == values.Count());
             for (int i = 0; i < neurons.Count(); i++)
@@ -92,7 +95,7 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         /// <summary>
         /// 値設定
         /// </summary>
-        public void SetValues(in double[,] values)
+        public void SetValues(in TValue[,] values)
         {
             int index = 0;
             var length0 = values.GetLength(0);
@@ -110,7 +113,7 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         /// <summary>
         /// 値設定
         /// </summary>
-        public void SetValues(in double[,,] values)
+        public void SetValues(in TValue[,,] values)
         {
             int index = 0;
             var length0 = values.GetLength(0);

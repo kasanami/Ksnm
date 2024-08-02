@@ -14,8 +14,8 @@ namespace Ksnm.MachineLearning.NeuralNetwork.Tests
         [TestMethod()]
         public void NeuronTest()
         {
-            var inputNeuron = new Neuron();
-            var neuron = new Neuron(new[] { inputNeuron, inputNeuron });
+            var inputNeuron = new Neuron<double>();
+            var neuron = new Neuron<double>(new[] { inputNeuron, inputNeuron });
 
             Assert.AreEqual(2, neuron.InputNeurons.Count());
             Assert.AreEqual(2, neuron.InputWeights.Count());
@@ -24,8 +24,8 @@ namespace Ksnm.MachineLearning.NeuralNetwork.Tests
         [TestMethod()]
         public void UpdateTest()
         {
-            var inputNeuron = new Neuron();
-            var neuron = new Neuron(new[] { inputNeuron });
+            var inputNeuron = new Neuron<double>();
+            var neuron = new Neuron<double>(new[] { inputNeuron });
             neuron.ForwardPropagation();
             Assert.AreEqual(0, neuron.Value);
 
@@ -45,15 +45,15 @@ namespace Ksnm.MachineLearning.NeuralNetwork.Tests
         [TestMethod()]
         public void CloneTest()
         {
-            Neuron neuron1 = new Neuron();
-            Neuron neuron2 = new Neuron(new[] { neuron1 });
+            var neuron1 = new Neuron<double>();
+            var neuron2 = new Neuron<double>(new[] { neuron1 });
 
             neuron1.Name = "neuron1";
             neuron2.Name = "neuron2";
             neuron2.Inputs[0].Weight = 123;
 
-            Neuron neuron1Clone = new Neuron(neuron1);
-            Neuron neuron2Clone = new Neuron(neuron2, new[] { neuron1Clone });
+            var neuron1Clone = new Neuron<double>(neuron1);
+            var neuron2Clone = new Neuron<double>(neuron2, new[] { neuron1Clone });
 
             Assert.AreEqual(neuron1.Name, neuron1Clone.Name);
             Assert.AreEqual(neuron2.Name, neuron2Clone.Name);

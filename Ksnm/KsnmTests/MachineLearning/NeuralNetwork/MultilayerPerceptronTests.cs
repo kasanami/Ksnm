@@ -11,7 +11,7 @@ namespace Ksnm.MachineLearning.NeuralNetwork.Tests
         [TestMethod()]
         public void NeuralNetworkTest()
         {
-            var nn = new MultilayerPerceptron(3, 2, 1);
+            var nn = new MultilayerPerceptron<double>(3, 2, 1);
             Assert.AreEqual(3, nn.SourceNeurons.Count());
             Assert.AreEqual(2, nn.HiddenNeurons.Count());
             Assert.AreEqual(1, nn.ResultNeurons.Count());
@@ -34,32 +34,32 @@ namespace Ksnm.MachineLearning.NeuralNetwork.Tests
         }
 
         [TestMethod()]
-        public void UpdateTest()
+        public void ForwardPropagationTest()
         {
-            var nn = new MultilayerPerceptron(3, 2, 1);
+            var nn = new MultilayerPerceptron<double>(3, 2, 1);
             nn.SourceNeurons[0].Value = 0;
             nn.SourceNeurons[1].Value = 1;
             nn.SourceNeurons[2].Value = 2;
-            nn.HiddenNeurons[0].Activation = Activation.Identity;
-            nn.HiddenNeurons[1].Activation = Activation.Identity;
+            nn.HiddenNeurons[0].Activation = Activation<double>.Identity;
+            nn.HiddenNeurons[1].Activation = Activation<double>.Identity;
             nn.HiddenNeurons[0].Bias = 0;
             nn.HiddenNeurons[1].Bias = 1;
-            nn.ResultNeurons[0].Activation = Activation.Identity;
+            nn.ResultNeurons[0].Activation = Activation<double>.Identity;
             nn.ResultNeurons[0].Bias = 0;
             nn.ForwardPropagation();
-            Assert.AreEqual(7, nn.ResultNeurons.ElementAt(0).Value);
+            Assert.AreEqual(7, nn.ResultValues[0]);
         }
 
         [TestMethod()]
         public void CloneTest()
         {
-            var nn = new MultilayerPerceptron(1, 1, 1);
+            var nn = new MultilayerPerceptron<double>(1, 1, 1);
 
             nn.SourceNeurons[0].Name = "SourceNeuron";
             nn.HiddenNeurons[0].Name = "HiddenNeuron";
             nn.ResultNeurons[0].Name = "ResultNeuron";
 
-            var nn2 = new MultilayerPerceptron(nn);
+            var nn2 = new MultilayerPerceptron<double>(nn);
 
             Assert.AreEqual(nn.SourceNeurons[0].Name, nn2.SourceNeurons[0].Name);
             Assert.AreEqual(nn.HiddenNeurons[0].Name, nn2.HiddenNeurons[0].Name);
@@ -78,7 +78,7 @@ namespace Ksnm.MachineLearning.NeuralNetwork.Tests
         [TestMethod()]
         public void SetSourceValuesTest()
         {
-            var nn = new MultilayerPerceptron(12, 1, 1);
+            var nn = new MultilayerPerceptron<double>(12, 1, 1);
 
             var values = new double[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 };
             nn.SetSourceValues(values);
@@ -94,7 +94,7 @@ namespace Ksnm.MachineLearning.NeuralNetwork.Tests
         {
             var tolerance = 0.000000000000001;
 
-            var multilayerPerceptron = new MultilayerPerceptron(2, 2, 1, Activation.Sigmoid, Activation.Sigmoid);
+            var multilayerPerceptron = new MultilayerPerceptron<double>(2, 2, 1, Activation<double>.Sigmoid, Activation<double>.Sigmoid);
 
             multilayerPerceptron.SourceNeurons[0].Value = 0.5;
             multilayerPerceptron.SourceNeurons[1].Value = 0.3;

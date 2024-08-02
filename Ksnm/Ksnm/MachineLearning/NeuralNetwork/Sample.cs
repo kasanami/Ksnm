@@ -1,7 +1,7 @@
 ﻿/*
 The zlib License
 
-Copyright (c) 2021 Takahiro Kasanami
+Copyright (c) 2021-2024 Takahiro Kasanami
 
 This software is provided 'as-is', without any express or implied
 warranty. In no event will the authors be held liable for any damages
@@ -27,23 +27,25 @@ using System.Collections.Generic;
 using Ksnm.ExtensionMethods.System.Array;
 using Ksnm.MachineLearning.NeuralNetwork;
 using Ksnm.ExtensionMethods.System.Random;
+using System.Numerics;
 
 namespace Ksnm.MachineLearning.NeuralNetwork
 {
     /// <summary>
     /// AIを学習に使用するサンプルデータ
     /// </summary>
-    public class Sample
+    public class Sample<TValue>
+        where TValue : INumber<TValue>, IFloatingPointIeee754<TValue>
     {
         #region フィールド
         /// <summary>
         /// 入力ニューロンに設定する値
         /// </summary>
-        public double[] SourceValues;
+        public TValue[] SourceValues;
         /// <summary>
         /// 出力ニューロンに期待する値
         /// </summary>
-        public double[] ResultValues;
+        public TValue[] ResultValues;
         #endregion フィールド
 
         #region コンストラクタ
@@ -56,18 +58,18 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         /// <summary>
         /// 指定した値で初期化
         /// </summary>
-        public Sample(in double[] sourceValues, in double[] resultValues)
+        public Sample(in TValue[] sourceValues, in TValue[] resultValues)
         {
-            SourceValues = (double[])sourceValues.Clone();
-            ResultValues = (double[])resultValues.Clone();
+            SourceValues = (TValue[])sourceValues.Clone();
+            ResultValues = (TValue[])resultValues.Clone();
         }
         /// <summary>
         /// コピーコンストラクタ
         /// </summary>
-        public Sample(in Sample source)
+        public Sample(in Sample<TValue> source)
         {
-            SourceValues = (double[])source.SourceValues.Clone();
-            ResultValues = (double[])source.ResultValues.Clone();
+            SourceValues = (TValue[])source.SourceValues.Clone();
+            ResultValues = (TValue[])source.ResultValues.Clone();
         }
         #endregion コンストラクタ
 
@@ -75,42 +77,42 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         /// <summary>
         /// 値設定
         /// </summary>
-        public void SetSourceValues(IReadOnlyList<double> values)
+        public void SetSourceValues(IReadOnlyList<TValue> values)
         {
             SourceValues.CopyFrom(values);
         }
         /// <summary>
         /// 値設定
         /// </summary>
-        public void SetSourceValues(in double[,] values)
+        public void SetSourceValues(in TValue[,] values)
         {
             SourceValues.CopyFrom(values);
         }
         /// <summary>
         /// 値設定
         /// </summary>
-        public void SetSourceValues(in double[,,] values)
+        public void SetSourceValues(in TValue[,,] values)
         {
             SourceValues.CopyFrom(values);
         }
         /// <summary>
         /// 値設定
         /// </summary>
-        public void SetResultValues(IReadOnlyList<double> values)
+        public void SetResultValues(IReadOnlyList<TValue> values)
         {
             ResultValues.CopyFrom(values);
         }
         /// <summary>
         /// 値設定
         /// </summary>
-        public void SetResultValues(in double[,] values)
+        public void SetResultValues(in TValue[,] values)
         {
             ResultValues.CopyFrom(values);
         }
         /// <summary>
         /// 値設定
         /// </summary>
-        public void SetResultValues(in double[,,] values)
+        public void SetResultValues(in TValue[,,] values)
         {
             ResultValues.CopyFrom(values);
         }
@@ -118,7 +120,7 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         /// <summary>
         /// 乱数による調整
         /// </summary>
-        public void Randomization(Random random, double range)
+        public void Randomization(Random random, TValue range)
         {
             for (int i = 0; i < SourceValues.Length; i++)
             {

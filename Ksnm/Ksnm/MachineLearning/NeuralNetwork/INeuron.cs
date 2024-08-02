@@ -1,7 +1,7 @@
 ﻿/*
 The zlib License
 
-Copyright (c) 2021 Takahiro Kasanami
+Copyright (c) 2021-2024 Takahiro Kasanami
 
 This software is provided 'as-is', without any express or implied
 warranty. In no event will the authors be held liable for any damages
@@ -23,13 +23,15 @@ freely, subject to the following restrictions:
 */
 using System;
 using System.Collections.Generic;
+using System.Numerics;
 
 namespace Ksnm.MachineLearning.NeuralNetwork
 {
     /// <summary>
     /// ニューロンインターフェイス
     /// </summary>
-    public interface INeuron
+    public interface INeuron<TValue>
+        where TValue : INumber<TValue>, IFloatingPointIeee754<TValue>
     {
         #region プロパティ
         /// <summary>
@@ -40,32 +42,32 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         /// 計算結果値
         /// ForwardPropagation()で更新される
         /// </summary>
-        double Value { get; set; }
+        TValue Value { get; set; }
         /// <summary>
         /// バイアス
         /// </summary>
-        double Bias { get; set; }
+        TValue Bias { get; set; }
         /// <summary>
         /// 入力情報
         /// </summary>
-        IReadOnlyList<NeuronInput> Inputs { get; }
+        IReadOnlyList<NeuronInput<TValue>> Inputs { get; }
         /// <summary>
         /// 入力ニューロン
         /// </summary>
-        IEnumerable<INeuron> InputNeurons { get; }
+        IEnumerable<INeuron<TValue>> InputNeurons { get; }
         /// <summary>
         /// 入力の重み
         /// </summary>
-        IEnumerable<double> InputWeights { get; }
+        IEnumerable<TValue> InputWeights { get; }
         /// <summary>
         /// 活性化関数
         /// </summary>
-        Activation Activation { get; }
+        Activation<TValue> Activation { get; }
         /// <summary>
         /// 誤差項
         /// BackPropagation()で更新される
         /// </summary>
-        double Delta { get; set; }
+        TValue Delta { get; set; }
         #endregion プロパティ
 
         #region Input
@@ -73,38 +75,38 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         /// 指定したニューロンを持つInputを返す。
         /// 持っていなければnullを返す。
         /// </summary>
-        NeuronInput FindInput(INeuron neuron);
+        NeuronInput<TValue> FindInput(INeuron<TValue> neuron);
         /// <summary>
         /// 指定したニューロンをInputに持っていれば、そのインデックスを返す。
         /// 持っていなければ-1を返す。
         /// </summary>
-        int InputIndexOf(INeuron neuron);
+        int InputIndexOf(INeuron<TValue> neuron);
         #endregion Input
 
         #region インスタンス関係
         /// <summary>
         /// 複製を作成
         /// </summary>
-        INeuron Clone(IReadOnlyList<INeuron> inputNeurons);
+        INeuron<TValue> Clone(IReadOnlyList<INeuron<TValue>> inputNeurons);
         #endregion インスタンス関係
 
         #region 学習関係
         /// <summary>
         /// 重みを指定した値に設定
         /// </summary>
-        void ResetWeights(double weight);
+        void ResetWeights(TValue weight);
         /// <summary>
         /// 重みをランダムに設定
         /// </summary>
-        void ResetWeights(Random random, double weightRange);
+        void ResetWeights(Random random, TValue weightRange);
         /// <summary>
         /// 重みをランダムに調整
         /// </summary>
-        void Randomization(Random random, double weightRange);
+        void Randomization(Random random, TValue weightRange);
         /// <summary>
         /// 重みをランダムに調整
         /// </summary>
-        void Randomization(Random random, double targetValue, double learningRate);
+        void Randomization(Random random, TValue targetValue, TValue learningRate);
         /// <summary>
         /// フォワードプロパゲーション
         /// </summary>
@@ -112,16 +114,16 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         /// <summary>
         /// バックプロパゲーションの誤差更新
         /// </summary>
-        void BackPropagationDelta(double targetValue);
+        void BackPropagationDelta(TValue targetValue);
         /// <summary>
         /// バックプロパゲーションの誤差更新
         /// </summary>
-        void BackPropagationDelta(ILayer beforeLayer);
+        void BackPropagationDelta(ILayer<TValue> beforeLayer);
         /// <summary>
         /// バックプロパゲーションの重み更新
         /// </summary>
         /// <param name="learningRate">学習係数</param>
-        void BackPropagationWeight(double learningRate);
+        void BackPropagationWeight(TValue learningRate);
         #endregion 学習関係
     }
 }

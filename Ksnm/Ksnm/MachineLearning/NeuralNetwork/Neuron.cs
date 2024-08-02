@@ -1,7 +1,7 @@
 ﻿/*
 The zlib License
 
-Copyright (c) 2021 Takahiro Kasanami
+Copyright (c) 2021-2024 Takahiro Kasanami
 
 This software is provided 'as-is', without any express or implied
 warranty. In no event will the authors be held liable for any damages
@@ -24,16 +24,19 @@ freely, subject to the following restrictions:
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using Ksnm.ExtensionMethods.System.Collections.Generic.Enumerable;
 using Ksnm.ExtensionMethods.System.Random;
+using static System.Formats.Asn1.AsnWriter;
 
 namespace Ksnm.MachineLearning.NeuralNetwork
 {
     /// <summary>
     /// ニューロン
     /// </summary>
-    public class Neuron : INeuron
+    public class Neuron<TValue> : INeuron<TValue>
+        where TValue : INumber<TValue>, IFloatingPointIeee754<TValue>
     {
         /// <summary>
         /// 名前
@@ -44,36 +47,36 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         /// ForwardPropagation()で更新される。
         /// 入力ニューロンの場合は、これに入力値を設定する。
         /// </summary>
-        public double Value { get; set; }
+        public TValue Value { get; set; } = TValue.Zero;
         /// <summary>
         /// 現在の勾配
         /// BackPropagation()で更新される。
         /// </summary>
-        public double Delta { get; set; }
+        public TValue Delta { get; set; } = TValue.Zero;
         /// <summary>
         /// バイアス
         /// </summary>
-        public double Bias { get; set; }
+        public TValue Bias { get; set; } = TValue.Zero;
         /// <summary>
         /// 入力情報
         /// </summary>
-        private List<NeuronInput> inputs = new List<NeuronInput>();
+        private List<NeuronInput<TValue>> inputs = [];
         /// <summary>
         /// 入力情報
         /// </summary>
-        public IReadOnlyList<NeuronInput> Inputs => inputs;
+        public IReadOnlyList<NeuronInput<TValue>> Inputs => inputs;
         /// <summary>
         /// 入力ニューロン
         /// </summary>
-        public IEnumerable<INeuron> InputNeurons => inputs.Select(item => item.Neuron);
+        public IEnumerable<INeuron<TValue>> InputNeurons => inputs.Select(item => item.Neuron);
         /// <summary>
         /// 入力の重み
         /// </summary>
-        public IEnumerable<double> InputWeights => inputs.Select(item => item.Weight);
+        public IEnumerable<TValue> InputWeights => inputs.Select(item => item.Weight);
         /// <summary>
         /// 活性化関数
         /// </summary>
-        public Activation Activation { get; set; } = Activation.Identity;
+        public Activation<TValue> Activation { get; set; } = Activation<TValue>.Identity;
 
         #region コンストラクタ
         /// <summary>
@@ -85,7 +88,7 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         /// <summary>
         /// コピーコンストラクタ
         /// </summary>
-        public Neuron(Neuron source)
+        public Neuron(Neuron<TValue> source)
         {
             Name = source.Name;
             Value = source.Value;
@@ -95,32 +98,32 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         /// コピーコンストラクタ
         /// ※inputNeuronsは、インスタンスを明確にするため指定する必要がある。source.Inputsは使用されない。
         /// </summary>
-        public Neuron(Neuron source, IReadOnlyList<INeuron> inputNeurons)
+        public Neuron(Neuron<TValue> source, IReadOnlyList<INeuron<TValue>> inputNeurons)
         {
             Name = source.Name;
             Value = source.Value;
             for (int i = 0; i < inputNeurons.Count; i++)
             {
-                inputs.Add(new NeuronInput(inputNeurons[i], source.Inputs[i].Weight));
+                inputs.Add(new NeuronInput<TValue>(inputNeurons[i], source.Inputs[i].Weight));
             }
             Activation = source.Activation;
         }
         /// <summary>
         /// 入力ニューロンを指定して初期化
         /// </summary>
-        public Neuron(IReadOnlyList<INeuron> inputNeurons)
+        public Neuron(IReadOnlyList<INeuron<TValue>> inputNeurons)
         {
-            inputs = new List<NeuronInput>();
+            inputs = new List<NeuronInput<TValue>>();
             foreach (var neuron in inputNeurons)
             {
-                var input = new NeuronInput(neuron, 1.0);
+                var input = new NeuronInput<TValue>(neuron, TValue.One);
                 inputs.Add(input);
             }
         }
         #endregion コンストラクタ
 
         #region Input
-        public NeuronInput FindInput(INeuron neuron)
+        public NeuronInput<TValue> FindInput(INeuron<TValue> neuron)
         {
             var index = InputIndexOf(neuron);
             if (index < 0)
@@ -133,7 +136,7 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         /// 指定したニューロンを入力に持っていれば、そのインデックスを返す。
         /// 持っていなければ-1を返す。
         /// </summary>
-        public int InputIndexOf(INeuron neuron)
+        public int InputIndexOf(INeuron<TValue> neuron)
         {
             for (int i = 0; i < Inputs.Count; i++)
             {
@@ -149,9 +152,9 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         /// <summary>
         /// 複製を作成
         /// </summary>
-        public INeuron Clone(IReadOnlyList<INeuron> inputNeurons)
+        public INeuron<TValue> Clone(IReadOnlyList<INeuron<TValue>> inputNeurons)
         {
-            return new Neuron(this, inputNeurons);
+            return new Neuron<TValue>(this, inputNeurons);
         }
 
         #region 学習
@@ -160,13 +163,17 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         /// </summary>
         public void ForwardPropagation()
         {
-            double sum = Inputs.Sum(input => input.Value);
+            TValue sum = TValue.Zero;
+            foreach (var item in inputs)
+            {
+                sum += item.Value;
+            }
             Value = Activation.Function(sum + Bias);
         }
         /// <summary>
         /// 重みを指定した値に設定
         /// </summary>
-        public void ResetWeights(double weight)
+        public void ResetWeights(TValue weight)
         {
             foreach (var input in Inputs)
             {
@@ -177,7 +184,7 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         /// <summary>
         /// 重みをランダムに設定
         /// </summary>
-        public void ResetWeights(Random random, double weightRange)
+        public void ResetWeights(Random random, TValue weightRange)
         {
             foreach (var input in Inputs)
             {
@@ -188,7 +195,7 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         /// <summary>
         /// 乱数による調整
         /// </summary>
-        public void Randomization(Random random, double weightRange)
+        public void Randomization(Random random, TValue weightRange)
         {
             // 重みを調整
             foreach (var input in Inputs)
@@ -204,7 +211,7 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         /// <param name="random"></param>
         /// <param name="targetValue">目標値</param>
         /// <param name="learningRate">学習係数</param>
-        public void Randomization(Random random, double targetValue, double learningRate)
+        public void Randomization(Random random, TValue targetValue, TValue learningRate)
         {
             // 誤差
             // 期待値＞出力値なら+値　期待値＜出力値なら-値が得られる
@@ -213,11 +220,15 @@ namespace Ksnm.MachineLearning.NeuralNetwork
             // 重みを修正
             foreach (var input in Inputs)
             {
-                input.Weight += random.NextDouble() * input.Value * delta * learningRate;
+                var scale = TValue.CreateChecked(random.UnitInterval());
+                input.Weight += scale * input.Value * delta * learningRate;
             }
 
             // バイアスを修正
-            Bias += random.NextDouble() * delta * learningRate;
+            {
+                var scale = TValue.CreateChecked(random.UnitInterval());
+                Bias += scale * delta * learningRate;
+            }
 
             // 前の層へ
             foreach (var input in Inputs)
@@ -232,7 +243,7 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         /// バックプロパゲーション(出力層)
         /// </summary>
         /// <param name="targetValue">目標値</param>
-        public void BackPropagationDelta(double targetValue)
+        public void BackPropagationDelta(TValue targetValue)
         {
             // 出力層の誤差
             Delta = (Value - targetValue) * Activation.DerivativeFunction(Value);
@@ -241,9 +252,9 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         /// バックプロパゲーション(中間層)
         /// </summary>
         /// <param name="beforeLayer">前の層（中間層のときは、出力層を渡す）</param>
-        public void BackPropagationDelta(ILayer beforeLayer)
+        public void BackPropagationDelta(ILayer<TValue> beforeLayer)
         {
-            Delta = 1;
+            Delta = TValue.One;
             foreach (var beforeNeuron in beforeLayer.Neurons)
             {
                 var input = beforeNeuron.FindInput(this);
@@ -254,7 +265,7 @@ namespace Ksnm.MachineLearning.NeuralNetwork
             }
             Delta *= Activation.DerivativeFunction(Value);
         }
-        public void BackPropagationWeight(double learningRate)
+        public void BackPropagationWeight(TValue learningRate)
         {
             foreach (var input in Inputs)
             {

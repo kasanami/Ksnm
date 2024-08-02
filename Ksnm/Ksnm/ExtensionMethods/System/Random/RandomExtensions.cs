@@ -21,6 +21,7 @@ freely, subject to the following restrictions:
 
 3. This notice may not be removed or altered from any source distribution.
 */
+using System.Numerics;
 using Original = System;
 
 namespace Ksnm.ExtensionMethods.System.Random
@@ -136,6 +137,21 @@ namespace Ksnm.ExtensionMethods.System.Random
             // t=0.0以上1.0以下の値
             // メモ:NextDouble()は1.0"未満"なので使用できない。
             var t = random.UnitInterval();
+            return Math.Lerp(min, max, t);
+        }
+
+        /// <summary>
+        /// 指定した範囲内のランダムな浮動小数点数を返します。
+        /// </summary>
+        /// <param name="random">インスタンス</param>
+        /// <param name="min">返される乱数の包括的下限値。</param>
+        /// <param name="max">返される乱数の包括的上限値。</param>
+        public static T Range<T>(this Original.Random random, T min, T max)
+            where T : INumber<T>
+        {
+            // t=0.0以上1.0以下の値
+            // メモ:NextDouble()は1.0"未満"なので使用できない。
+            var t = T.CreateChecked(random.UnitInterval());
             return Math.Lerp(min, max, t);
         }
     }

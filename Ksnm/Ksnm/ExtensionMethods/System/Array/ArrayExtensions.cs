@@ -22,6 +22,7 @@ freely, subject to the following restrictions:
 3. This notice may not be removed or altered from any source distribution.
 */
 using System.Collections.Generic;
+using System.Numerics;
 using _Debug = System.Diagnostics.Debug;
 using Original = System;
 
@@ -58,6 +59,27 @@ namespace Ksnm.ExtensionMethods.System.Array
         public static int IndexOf<T>(this T[] array, T value, int startIndex)
         {
             return Original.Array.IndexOf(array, value, startIndex);
+        }
+        /// <summary>
+        /// 最小の要素のインデックスを返す。
+        /// 要素数が0なら-1を返す。
+        /// </summary>
+        public static int IndexOfMin<T>(this T[] array)
+            where T : INumber<T>, IMinMaxValue<T>
+        {
+            T min = T.MaxValue;
+            var index = 0;
+            var minIndex = -1;
+            foreach (var item in array)
+            {
+                if (min > item)
+                {
+                    min = item;
+                    minIndex = index;
+                }
+                index++;
+            }
+            return minIndex;
         }
         /// <summary>
         /// <para>２つの配列の要素の大きさを比較します。</para>
@@ -125,7 +147,7 @@ namespace Ksnm.ExtensionMethods.System.Array
         /// <summary>
         /// コレクションの要素を配列へコピーする。
         /// </summary>
-        public static void CopyFrom(this int[] self, IReadOnlyList<int> values)
+        public static void CopyFrom<T>(this T[] self, IReadOnlyList<T> values)
         {
             Original.Diagnostics.Debug.Assert(self.Length == values.Count);
             for (int i = 0; i < self.Length; i++)
@@ -134,20 +156,9 @@ namespace Ksnm.ExtensionMethods.System.Array
             }
         }
         /// <summary>
-        /// コレクションの要素を配列へコピーする。
-        /// </summary>
-        public static void CopyFrom(this double[] self, IReadOnlyList<double> values)
-        {
-            _Debug.Assert(self.Length == values.Count);
-            for (int i = 0; i < self.Length; i++)
-            {
-                self[i] = values[i];
-            }
-        }
-        /// <summary>
         /// 2次元配列の要素を1次元配列へコピーする。
         /// </summary>
-        public static void CopyFrom(this double[] self, in double[,] values)
+        public static void CopyFrom<T>(this T[] self, in T[,] values)
         {
             int index = 0;
             var length0 = values.GetLength(0);
@@ -165,7 +176,7 @@ namespace Ksnm.ExtensionMethods.System.Array
         /// <summary>
         /// 3次元配列の要素を1次元配列へコピーする。
         /// </summary>
-        public static void CopyFrom(this double[] self, in double[,,] values)
+        public static void CopyFrom<T>(this T[] self, in T[,,] values)
         {
             int index = 0;
             var length0 = values.GetLength(0);

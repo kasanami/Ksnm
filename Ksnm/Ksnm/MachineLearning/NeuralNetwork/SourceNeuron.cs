@@ -1,7 +1,7 @@
 ﻿/*
 The zlib License
 
-Copyright (c) 2021 Takahiro Kasanami
+Copyright (c) 2021-2024 Takahiro Kasanami
 
 This software is provided 'as-is', without any express or implied
 warranty. In no event will the authors be held liable for any damages
@@ -23,13 +23,15 @@ freely, subject to the following restrictions:
 */
 using System;
 using System.Collections.Generic;
+using System.Numerics;
 
 namespace Ksnm.MachineLearning.NeuralNetwork
 {
     /// <summary>
     /// 情報元のニューロン　Valueは設定後は変化しない。
     /// </summary>
-    public class SourceNeuron : INeuron
+    public class SourceNeuron<TValue> : INeuron<TValue>
+        where TValue : INumber<TValue>, IFloatingPointIeee754<TValue>
     {
         #region プロパティ
         /// <summary>
@@ -40,32 +42,32 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         /// 現在の値
         /// Update()で更新されない。
         /// </summary>
-        public double Value { get; set; }
+        public TValue Value { get; set; } = TValue.Zero;
         /// <summary>
         /// バイアス
         /// </summary>
-        public double Bias { get; set; }
+        public TValue Bias { get; set; } = TValue.Zero;
         /// <summary>
         /// 入力無し
         /// </summary>
-        public IReadOnlyList<NeuronInput> Inputs { get; private set; } = new NeuronInput[0];
+        public IReadOnlyList<NeuronInput<TValue>> Inputs { get; private set; } = [];
         /// <summary>
         /// 入力無し
         /// </summary>
-        public IEnumerable<INeuron> InputNeurons { get; private set; } = new SourceNeuron[0];
+        public IEnumerable<INeuron<TValue>> InputNeurons { get; private set; } = [];
         /// <summary>
         /// 入力無し
         /// </summary>
-        public IEnumerable<double> InputWeights { get; private set; } = new double[0];
+        public IEnumerable<TValue> InputWeights { get; private set; } = [];
         /// <summary>
         /// 活性化関数
         /// </summary>
-        public Activation Activation { get; } = null;
+        public Activation<TValue> Activation { get; } = null;
         /// <summary>
         /// 誤差項
         /// BackPropagation()で更新される
         /// </summary>
-        public double Delta { get; set; }
+        public TValue Delta { get; set; }
         #endregion プロパティ
 
         #region コンストラクタ
@@ -78,7 +80,7 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         /// <summary>
         /// コピーコンストラクタ
         /// </summary>
-        public SourceNeuron(SourceNeuron source)
+        public SourceNeuron(SourceNeuron<TValue> source)
         {
             Name = source.Name;
             Value = source.Value;
@@ -90,7 +92,7 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         /// 指定したニューロンを持つInputを返す。
         /// 持っていなければnullを返す。
         /// </summary>
-        public NeuronInput FindInput(INeuron neuron)
+        public NeuronInput<TValue> FindInput(INeuron<TValue> neuron)
         {
             return null;
         }
@@ -98,7 +100,7 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         /// 指定したニューロンを入力に持っていれば、そのインデックスを返す。
         /// 持っていなければ-1を返す。
         /// </summary>
-        public int InputIndexOf(INeuron neuron)
+        public int InputIndexOf(INeuron<TValue> neuron)
         {
             return -1;
         }
@@ -107,41 +109,41 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         /// <summary>
         /// 複製を作成
         /// </summary>
-        public INeuron Clone(IReadOnlyList<INeuron> inputNeurons)
+        public INeuron<TValue> Clone(IReadOnlyList<INeuron<TValue>> inputNeurons)
         {
-            return new SourceNeuron(this);
+            return new SourceNeuron<TValue>(this);
         }
 
-        public void ResetWeights(double weight)
+        public void ResetWeights(TValue weight)
         {
             // 何もしない
         }
 
-        public void ResetWeights(Random random, double weightRange)
+        public void ResetWeights(Random random, TValue weightRange)
         {
             // 何もしない
         }
 
-        public void Randomization(Random random, double weightRange)
+        public void Randomization(Random random, TValue weightRange)
         {
             // 何もしない
         }
 
-        public void Randomization(Random random, double expectedValue, double learningRate)
+        public void Randomization(Random random, TValue expectedValue, TValue learningRate)
         {
             // 何もしない
         }
 
-        public void BackPropagationDelta(double targetValue)
+        public void BackPropagationDelta(TValue targetValue)
         {
             // 何もしない
         }
 
-        public void BackPropagationDelta(ILayer beforeLayer)
+        public void BackPropagationDelta(ILayer<TValue> beforeLayer)
         {
             // 何もしない
         }
-        public void BackPropagationWeight(double learningRate)
+        public void BackPropagationWeight(TValue learningRate)
         {
             // 何もしない
         }

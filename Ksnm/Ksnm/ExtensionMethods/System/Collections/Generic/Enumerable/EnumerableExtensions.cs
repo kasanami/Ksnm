@@ -24,6 +24,7 @@ freely, subject to the following restrictions:
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 
 namespace Ksnm.ExtensionMethods.System.Collections.Generic.Enumerable

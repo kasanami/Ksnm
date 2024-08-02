@@ -23,6 +23,7 @@ freely, subject to the following restrictions:
 */
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 
 namespace Ksnm.ExtensionMethods.System.Collections.Generic.List
 {
@@ -36,9 +37,10 @@ namespace Ksnm.ExtensionMethods.System.Collections.Generic.List
         /// 最大の要素のインデックスを返す。
         /// 要素数が0なら-1を返す。
         /// </summary>
-        public static int IndexOfMax(this IList<int> list)
+        public static int IndexOfMax<T>(this IList<T> list)
+            where T : INumber<T>,IMinMaxValue<T>
         {
-            long max = long.MinValue;
+            T max = T.MinValue;
             var index = 0;
             var maxIndex = -1;
             foreach (var item in list)
@@ -56,9 +58,10 @@ namespace Ksnm.ExtensionMethods.System.Collections.Generic.List
         /// 最小の要素のインデックスを返す。
         /// 要素数が0なら-1を返す。
         /// </summary>
-        public static int IndexOfMin(this IList<int> list)
+        public static int IndexOfMin<T>(this IList<T> list)
+            where T : INumber<T>, IMinMaxValue<T>
         {
-            long min = long.MaxValue;
+            T min = T.MaxValue;
             var index = 0;
             var minIndex = -1;
             foreach (var item in list)
@@ -72,48 +75,7 @@ namespace Ksnm.ExtensionMethods.System.Collections.Generic.List
             }
             return minIndex;
         }
-        /// <summary>
-        /// 最大の要素のインデックスを返す。
-        /// 要素数が0なら-1を返す。
-        /// 全要素が無限大なら-1を返す。
-        /// </summary>
-        public static int IndexOfMax(this IList<double> list)
-        {
-            double max = double.NegativeInfinity;
-            var index = 0;
-            var maxIndex = -1;
-            foreach (var item in list)
-            {
-                if (max < item)
-                {
-                    max = item;
-                    maxIndex = index;
-                }
-                index++;
-            }
-            return maxIndex;
-        }
-        /// <summary>
-        /// 最小の要素のインデックスを返す。
-        /// 要素数が0なら-1を返す。
-        /// 全要素が無限大なら-1を返す。
-        /// </summary>
-        public static int IndexOfMin(this IList<double> list)
-        {
-            double min = double.PositiveInfinity;
-            var index = 0;
-            var minIndex = -1;
-            foreach (var item in list)
-            {
-                if (min > item)
-                {
-                    min = item;
-                    minIndex = index;
-                }
-                index++;
-            }
-            return minIndex;
-        }
+
         /// <summary>
         /// ランダムなindexを返します。
         /// </summary>

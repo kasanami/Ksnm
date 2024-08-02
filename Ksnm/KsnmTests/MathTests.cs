@@ -228,14 +228,14 @@ namespace Ksnm.Tests
             }
 
             // ゲインなしの標準版
-            Assert.AreEqual(0.0, Math.Sigmoid(-6.0), 0.01);
-            Assert.AreEqual(0.5, Math.Sigmoid(0.0));
-            Assert.AreEqual(1.0, Math.Sigmoid(+6.0), 0.01);
+            Assert.AreEqual(0.0, Math.StandardSigmoid(-6.0), 0.01);
+            Assert.AreEqual(0.5, Math.StandardSigmoid(0.0));
+            Assert.AreEqual(1.0, Math.StandardSigmoid(+6.0), 0.01);
             // float版のチェック
             for (double i = -1; i < +1; i += 0.25)
             {
-                var d = Math.Sigmoid(i);
-                var f = Math.Sigmoid((float)i);
+                var d = Math.StandardSigmoid(i);
+                var f = Math.StandardSigmoid((float)i);
                 Assert.AreEqual(d, (double)f, 0.0000001);
             }
         }
@@ -243,9 +243,9 @@ namespace Ksnm.Tests
         [TestMethod()]
         public void DerSigmoidTest()
         {
-            Assert.AreEqual(0.00, Math.DerSigmoid(Math.Sigmoid(-10)), 0.0001);
-            Assert.AreEqual(0.25, Math.DerSigmoid(Math.Sigmoid(0)), 0.0001);
-            Assert.AreEqual(0.00, Math.DerSigmoid(Math.Sigmoid(+10)), 0.0001);
+            Assert.AreEqual(0.00, Math.DerStandardSigmoid(Math.StandardSigmoid(-10.0)), 0.0001);
+            Assert.AreEqual(0.25, Math.DerStandardSigmoid(Math.StandardSigmoid(0.0)), 0.0001);
+            Assert.AreEqual(0.00, Math.DerStandardSigmoid(Math.StandardSigmoid(+10.0)), 0.0001);
         }
 
         [TestMethod()]
@@ -289,11 +289,11 @@ namespace Ksnm.Tests
         [TestMethod()]
         public void TanhTest()
         {
-            Assert.AreEqual(-0.9950547, Math.Tanh(-3), 0.0000001);
-            Assert.AreEqual(-0.7615942, Math.Tanh(-1), 0.0000001);
-            Assert.AreEqual(+0.0000000, Math.Tanh(+0), 0.0000001);
-            Assert.AreEqual(+0.7615942, Math.Tanh(+1), 0.0000001);
-            Assert.AreEqual(+0.9950547, Math.Tanh(+3), 0.0000001);
+            Assert.AreEqual(-0.9950547, Math.Tanh(-3.0), 0.0000001);
+            Assert.AreEqual(-0.7615942, Math.Tanh(-1.0), 0.0000001);
+            Assert.AreEqual(+0.0000000, Math.Tanh(+0.0), 0.0000001);
+            Assert.AreEqual(+0.7615942, Math.Tanh(+1.0), 0.0000001);
+            Assert.AreEqual(+0.9950547, Math.Tanh(+3.0), 0.0000001);
         }
 
         [TestMethod()]
@@ -309,21 +309,21 @@ namespace Ksnm.Tests
         [TestMethod()]
         public void LeakyReLUTest()
         {
-            Assert.AreEqual(-0.02, Math.LeakyReLU(-2));
-            Assert.AreEqual(-0.01, Math.LeakyReLU(-1));
-            Assert.AreEqual(0.000, Math.LeakyReLU(+0));
-            Assert.AreEqual(+1.00, Math.LeakyReLU(+1));
-            Assert.AreEqual(+2.00, Math.LeakyReLU(+2));
+            Assert.AreEqual(-0.02, Math.LeakyReLU(-2.0));
+            Assert.AreEqual(-0.01, Math.LeakyReLU(-1.0));
+            Assert.AreEqual(0.000, Math.LeakyReLU(+0.0));
+            Assert.AreEqual(+1.00, Math.LeakyReLU(+1.0));
+            Assert.AreEqual(+2.00, Math.LeakyReLU(+2.0));
         }
 
         [TestMethod()]
         public void SoftplusTest()
         {
-            Assert.AreEqual(2.0611537e-9, Math.Softplus(-20), 0.0000001);
-            Assert.AreEqual(3.1326166e-1, Math.Softplus(-01), 0.0000001);
-            Assert.AreEqual(6.9314718e-1, Math.Softplus(+00), 0.0000001);
-            Assert.AreEqual(1.3132616e+0, Math.Softplus(+01), 0.0000001);
-            Assert.AreEqual(2.0000000e+1, Math.Softplus(+20), 0.0000001);
+            Assert.AreEqual(2.0611537e-9, Math.Softplus(-20.0), 0.000001);
+            Assert.AreEqual(3.1326166e-1, Math.Softplus(-01.0), 0.000001);
+            Assert.AreEqual(6.9314718e-1, Math.Softplus(+00.0), 0.000001);
+            Assert.AreEqual(1.3132616e+0, Math.Softplus(+01.0), 0.000001);
+            Assert.AreEqual(2.0000000e+1, Math.Softplus(+20.0), 0.000001);
         }
 
         [TestMethod()]
