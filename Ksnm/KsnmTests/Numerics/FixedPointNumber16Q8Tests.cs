@@ -1,4 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
+using System.Numerics;
 
 namespace Ksnm.Numerics.Tests
 {
@@ -335,5 +338,194 @@ namespace Ksnm.Numerics.Tests
                 Assert.AreEqual((int)System.Math.Truncate(f), (int)Fixed.Truncate(fx), $"f={f} fx={fx}");
             }
         }
+
+        #region INumberBase
+
+        [TestMethod()]
+        public void IsCanonicalTest()
+        {
+        }
+
+        [TestMethod()]
+        public void IsComplexNumberTest()
+        {
+
+        }
+
+        [TestMethod()]
+        public void IsEvenIntegerTest()
+        {
+        }
+
+        [TestMethod()]
+        public void IsFiniteTest()
+        {
+        }
+
+        [TestMethod()]
+        public void IsImaginaryNumberTest()
+        {
+            var fx = (Fixed)1.0;
+            Assert.IsFalse(Fixed.IsImaginaryNumber(fx));
+        }
+
+        [TestMethod()]
+        public void IsInfinityTest()
+        {
+            var fx = (Fixed)1.0;
+            Assert.IsFalse(Fixed.IsInfinity(fx));
+        }
+
+        [TestMethod()]
+        public void IsIntegerTest()
+        {
+        }
+
+        [TestMethod()]
+        public void IsNaNTest()
+        {
+            var fx = (Fixed)1.0;
+            Assert.IsFalse(Fixed.IsNaN(fx));
+        }
+
+        [TestMethod()]
+        public void IsNegativeTest()
+        {
+        }
+
+        [TestMethod()]
+        public void IsNegativeInfinityTest()
+        {
+            var fx = (Fixed)1.0;
+            Assert.IsFalse(Fixed.IsNegativeInfinity(fx));
+        }
+
+        [TestMethod()]
+        public void IsNormalTest()
+        {
+        }
+
+        [TestMethod()]
+        public void IsOddIntegerTest()
+        {
+        }
+
+        [TestMethod()]
+        public void IsPositiveTest()
+        {
+        }
+
+        [TestMethod()]
+        public void IsPositiveInfinityTest()
+        {
+            var fx = (Fixed)1.0;
+            Assert.IsFalse(Fixed.IsPositiveInfinity(fx));
+        }
+
+        [TestMethod()]
+        public void IsRealNumberTest()
+        {
+            var fx = (Fixed)1.0;
+            Assert.IsTrue(Fixed.IsRealNumber(fx));
+        }
+
+        [TestMethod()]
+        public void IsSubnormalTest()
+        {
+        }
+
+        [TestMethod()]
+        public void IsZeroTest()
+        {
+            var _0 = (Fixed)0.0;
+            Assert.IsTrue(Fixed.IsZero(_0));
+            var _1 = (Fixed)1.0;
+            Assert.IsFalse(Fixed.IsZero(_1));
+            var _2 = (Fixed)2.0;
+            Assert.IsFalse(Fixed.IsZero(_2));
+        }
+
+        [TestMethod()]
+        public void MaxMagnitudeTest()
+        {
+        }
+
+        [TestMethod()]
+        public void MaxMagnitudeNumberTest()
+        {
+        }
+
+        [TestMethod()]
+        public void MinMagnitudeTest()
+        {
+        }
+
+        [TestMethod()]
+        public void MinMagnitudeNumberTest()
+        {
+        }
+
+        [TestMethod()]
+        public void ParseTest()
+        {
+            for (int i = -10; i <= 10; i++)
+            {
+                var str = i.ToString();
+                var fx = Fixed.Parse(str, null);
+                Assert.AreEqual(i, (int)fx);
+            }
+            for (double i = -10; i <= 10; i+=0.5)
+            {
+                var str = i.ToString();
+                var fx = Fixed.Parse(str, null);
+                Assert.AreEqual(i, (double)fx);
+            }
+        }
+
+        [TestMethod()]
+        public void TryParseTest()
+        {
+        }
+
+        [TestMethod()]
+        public void TryFormatTest()
+        {
+        }
+
+        [TestMethod()]
+        public void ToStringTest()
+        {
+        }
+
+        [TestMethod()]
+        public void TryConvertFromCheckedTest()
+        {
+        }
+
+        [TestMethod()]
+        public void TryConvertFromSaturatingTest()
+        {
+        }
+
+        [TestMethod()]
+        public void TryConvertFromTruncatingTest()
+        {
+        }
+
+        [TestMethod()]
+        public void TryConvertToCheckedTest()
+        {
+        }
+
+        [TestMethod()]
+        public void TryConvertToSaturatingTest()
+        {
+        }
+
+        [TestMethod()]
+        public void TryConvertToTruncatingTest()
+        {
+        }
+        #endregion INumberBase
     }
 }

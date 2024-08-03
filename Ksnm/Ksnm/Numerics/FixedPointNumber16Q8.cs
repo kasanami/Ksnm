@@ -22,11 +22,14 @@ freely, subject to the following restrictions:
 3. This notice may not be removed or altered from any source distribution.
 */
 using System;
+using System.Numerics;
 using System.Runtime.InteropServices;
 using Ksnm.ExtensionMethods.System.Double;
 using BitsType = System.Int16;// 固定小数点数 全体のビットを表す型
 using IntegerType = System.SByte;// 固定小数点数 整数部分のビットを表す型
-using FractionalType = System.Byte;// 固定小数点数 小数部分のビットを表す型
+using FractionalType = System.Byte;
+using System.Globalization;
+using System.Diagnostics.CodeAnalysis;// 固定小数点数 小数部分のビットを表す型
 
 namespace Ksnm.Numerics
 {
@@ -36,9 +39,11 @@ namespace Ksnm.Numerics
     /// 固定小数点数(全体のビット数16、小数部分のビット数8)
     /// </summary>
     [StructLayout(LayoutKind.Explicit)]
-    public struct FixedPointNumber16Q8 : IComparable, IComparable<FixedPointNumber>, IEquatable<FixedPointNumber>
+    public struct FixedPointNumber16Q8 :
+        IFloatingPointConstants<FixedPointNumber>,
+        IComparable, IComparable<FixedPointNumber>, IEquatable<FixedPointNumber>
     {
-        #region 定数
+        #region 定数,static
         /// <summary>
         /// 小数部分のビット数
         /// </summary>
@@ -76,6 +81,26 @@ namespace Ksnm.Numerics
         /// </summary>
         const BitsType HalfBits = 1 << QBits - 1;
         #endregion 定数
+
+        #region 
+        static FixedPointNumber INumberBase<FixedPointNumber>.One => One;
+
+        public static int Radix => 2;
+
+        static FixedPointNumber INumberBase<FixedPointNumber>.Zero => Zero;
+
+        public static FixedPointNumber AdditiveIdentity => Zero;
+
+        public static FixedPointNumber MultiplicativeIdentity => One;
+        #endregion
+
+        #region IFloatingPointConstants
+        public static FixedPointNumber E => (FixedPointNumber)double.E;
+
+        public static FixedPointNumber Pi => (FixedPointNumber)double.Pi;
+
+        public static FixedPointNumber Tau => (FixedPointNumber)double.Tau;
+        #endregion IFloatingPointConstants
 
         #region フィールド
         /// <summary>
@@ -652,6 +677,16 @@ namespace Ksnm.Numerics
             temp /= OneBits;
             return temp;
         }
+
+        public static FixedPointNumber operator --(FixedPointNumber value)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static FixedPointNumber operator ++(FixedPointNumber value)
+        {
+            throw new NotImplementedException();
+        }
         #endregion 固定小数点数型→他の型
         #endregion 型変換
 
@@ -720,5 +755,196 @@ namespace Ksnm.Numerics
             return temp.ToString();
         }
         #endregion object
+
+        #region INumberBase
+
+        public static bool IsCanonical(FixedPointNumber value)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static bool IsComplexNumber(FixedPointNumber value) => false;
+
+        public static bool IsEvenInteger(FixedPointNumber value) => value.IsEven();
+
+        public static bool IsFinite(FixedPointNumber value)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static bool IsImaginaryNumber(FixedPointNumber value) => false;
+
+        public static bool IsInfinity(FixedPointNumber value) => false;
+
+        public static bool IsInteger(FixedPointNumber value)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static bool IsNaN(FixedPointNumber value) => false;
+
+        public static bool IsNegative(FixedPointNumber value)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static bool IsNegativeInfinity(FixedPointNumber value) => false;
+
+        public static bool IsNormal(FixedPointNumber value)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static bool IsOddInteger(FixedPointNumber value) => value.IsOdd();
+
+        public static bool IsPositive(FixedPointNumber value)
+        {
+            return BitsType.IsPositive(value.bits);
+        }
+
+        public static bool IsPositiveInfinity(FixedPointNumber value) => false;
+
+        public static bool IsRealNumber(FixedPointNumber value) => true;
+
+        public static bool IsSubnormal(FixedPointNumber value)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static bool IsZero(FixedPointNumber value)
+        {
+            return value.bits == 0;
+        }
+
+        public static FixedPointNumber MaxMagnitude(FixedPointNumber x, FixedPointNumber y)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static FixedPointNumber MaxMagnitudeNumber(FixedPointNumber x, FixedPointNumber y)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static FixedPointNumber MinMagnitude(FixedPointNumber x, FixedPointNumber y)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static FixedPointNumber MinMagnitudeNumber(FixedPointNumber x, FixedPointNumber y)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static FixedPointNumber Parse(ReadOnlySpan<char> s, NumberStyles style, IFormatProvider? provider)
+        {
+            return (FixedPointNumber)double.Parse(s, style, provider);
+        }
+
+        public static FixedPointNumber Parse(string s, NumberStyles style, IFormatProvider? provider)
+        {
+            return (FixedPointNumber)double.Parse(s, style, provider);
+        }
+
+        public static bool TryParse(ReadOnlySpan<char> s, NumberStyles style, IFormatProvider? provider, [MaybeNullWhen(false)] out FixedPointNumber result)
+        {
+            double doubleResult;
+            if (double.TryParse(s, style, provider, out doubleResult))
+            {
+                result = (FixedPointNumber)doubleResult;
+                return true;
+            }
+            result = 0;
+            return false;
+        }
+
+        public static bool TryParse([NotNullWhen(true)] string? s, NumberStyles style, IFormatProvider? provider, [MaybeNullWhen(false)] out FixedPointNumber result)
+        {
+            double doubleResult;
+            if (double.TryParse(s, style, provider, out doubleResult))
+            {
+                result = (FixedPointNumber)doubleResult;
+                return true;
+            }
+            result = 0;
+            return false;
+        }
+
+        public bool TryFormat(Span<char> destination, out int charsWritten, ReadOnlySpan<char> format, IFormatProvider? provider)
+        {
+            double temp = this;
+            return temp.TryFormat(destination, out charsWritten, format, provider);
+        }
+
+        public string ToString(string? format, IFormatProvider? formatProvider)
+        {
+            double temp = this;
+            return temp.ToString(format, formatProvider);
+        }
+
+        public static FixedPointNumber Parse(ReadOnlySpan<char> s, IFormatProvider? provider)
+        {
+            return (FixedPointNumber)double.Parse(s, provider);
+        }
+
+        public static bool TryParse(ReadOnlySpan<char> s, IFormatProvider? provider, [MaybeNullWhen(false)] out FixedPointNumber result)
+        {
+            double doubleResult;
+            if (double.TryParse(s, provider, out doubleResult))
+            {
+                result = (FixedPointNumber)doubleResult;
+                return true;
+            }
+            result = 0;
+            return false;
+        }
+
+        public static FixedPointNumber Parse(string s, IFormatProvider? provider)
+        {
+            return (FixedPointNumber)double.Parse(s, provider);
+        }
+
+        public static bool TryParse([NotNullWhen(true)] string? s, IFormatProvider? provider, [MaybeNullWhen(false)] out FixedPointNumber result)
+        {
+            double doubleResult;
+            if (double.TryParse(s, provider, out doubleResult))
+            {
+                result = (FixedPointNumber)doubleResult;
+                return true;
+            }
+            result = 0;
+            return false;
+        }
+
+        static bool INumberBase<FixedPointNumber>.TryConvertFromChecked<TOther>(TOther value, out FixedPointNumber result)
+        {
+            throw new NotImplementedException();
+        }
+
+        static bool INumberBase<FixedPointNumber>.TryConvertFromSaturating<TOther>(TOther value, out FixedPointNumber result)
+        {
+            throw new NotImplementedException();
+        }
+
+        static bool INumberBase<FixedPointNumber>.TryConvertFromTruncating<TOther>(TOther value, out FixedPointNumber result)
+        {
+            throw new NotImplementedException();
+        }
+
+        static bool INumberBase<FixedPointNumber>.TryConvertToChecked<TOther>(FixedPointNumber value, out TOther result)
+        {
+            throw new NotImplementedException();
+        }
+
+        static bool INumberBase<FixedPointNumber>.TryConvertToSaturating<TOther>(FixedPointNumber value, out TOther result)
+        {
+            throw new NotImplementedException();
+        }
+
+        static bool INumberBase<FixedPointNumber>.TryConvertToTruncating<TOther>(FixedPointNumber value, out TOther result)
+        {
+            throw new NotImplementedException();
+        }
+        #endregion INumberBase
     }
 }
