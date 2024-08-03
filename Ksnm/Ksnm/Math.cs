@@ -31,6 +31,7 @@ using System.Numerics;
 using System.Reflection.Metadata;
 using System.Security.Cryptography;
 using static System.Runtime.InteropServices.JavaScript.JSType;
+using SMath = System.Math;
 
 namespace Ksnm
 {
@@ -675,6 +676,13 @@ namespace Ksnm
         /// <summary>
         /// ソフトプラス関数
         /// </summary>
+        public static double Softplus(double x)
+        {
+            return SMath.Log(1 + SMath.Exp(x));
+        }
+        /// <summary>
+        /// ソフトプラス関数
+        /// </summary>
         public static T Softplus<T>(T x)
             where T : INumber<T>, IFloatingPointIeee754<T>
         {
@@ -686,6 +694,13 @@ namespace Ksnm
         public static T DerSoftplus<T>(T x, T tolerance) where T : INumber<T>
         {
             return T.One / (T.One + Exp(-x, tolerance));
+        }
+        /// <summary>
+        /// ソフトプラス関数の導関数
+        /// </summary>
+        public static double DerSoftplus(double x)
+        {
+            return 1 / (1 + SMath.Exp(-x));
         }
         /// <summary>
         /// ソフトプラス関数の導関数
@@ -1235,13 +1250,14 @@ namespace Ksnm
         /// </summary>
         /// <param name="exponent">冪指数</param>
         /// <param name="tolerance">許容値</param>
+        /// <param name="terms">単項式数</param>
         /// <returns>ネイピア数を exponent で冪乗した値。</returns>
-        public static T Exp<T>(T exponent, T tolerance) where T : INumber<T>
+        public static T Exp<T>(T exponent, T tolerance, int terms = DefaultTerms) where T : INumber<T>
         {
             T sum = T.One;
             T term = T.One;
             T n = T.One;
-            while (T.Abs(term) > tolerance)
+            for (int i = 0; i < terms; i++)
             {
                 term *= exponent / n;
                 if (T.IsInfinity(term))
@@ -1249,6 +1265,10 @@ namespace Ksnm
                     break;
                 }
                 sum += term;
+                if (T.Abs(term) < tolerance)
+                {
+                    break;
+                }
                 n++;
             }
             return sum;
@@ -1264,8 +1284,16 @@ namespace Ksnm
         }
         #endregion Exp
 
-        #region Log
-        public static T Log<T>(T value, T tolerance) where T : INumber<T>
+        #region Log 対数
+        /// <summary>
+        /// 指定した数の自然対数を返します。 (底=e) 
+        /// </summary>
+        /// <param name="value">対数を求める対象の数値</param>
+        /// <param name="tolerance">許容値</param>
+        /// <param name="terms">単項式数</param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        public static T Log<T>(T value, T tolerance, int terms = DefaultTerms) where T : INumber<T>
         {
             if (value <= T.Zero)
             {
@@ -1276,23 +1304,25 @@ namespace Ksnm
                 return T.Zero;
             }
 
-            T oldSum = T.Zero;
-            T newSum = T.Zero;
-            T term = (value - T.One) / (value + T.One);
-            T termSquared = term * term;
-            T numerator = term;
+            T sum = T.Zero;
+            T numerator = (value - T.One) / (value + T.One);
+            T termSquared = numerator * numerator;
+            T term;
             T k = T.One;
             T _2 = T.CreateChecked(2);
 
-            do
+            for (int i = 0; i < terms; i++)
             {
-                oldSum = newSum;
-                newSum += numerator / k;
+                term = numerator / k;
+                sum += term;
+                if (T.Abs(term) < tolerance)
+                {
+                    break;
+                }
                 numerator *= termSquared;
                 k += _2;
-            } while (T.Abs(newSum - oldSum) > tolerance);
-
-            return _2 * newSum;
+            }
+            return _2 * sum;
         }
         public static T Log<T>(T x) where T : IFloatingPointIeee754<T>
         {
