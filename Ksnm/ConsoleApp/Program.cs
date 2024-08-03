@@ -5,6 +5,7 @@ namespace ConsoleApp
     {
         private static void Main(string[] args)
         {
+            NumericsTest.Run();
             AITest.Run();
         }
     }

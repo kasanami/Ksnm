@@ -169,7 +169,7 @@ namespace Ksnm.ExtensionMethods.System.Double
         /// </summary>
         public static int GetSign(this Float value)
         {
-            if (value.IsNegative())
+            if (value < 0)
             {
                 return -1;
             }
@@ -187,7 +187,7 @@ namespace Ksnm.ExtensionMethods.System.Double
         /// </summary>
         public static int GetExponent(this Float value)
         {
-            return _GetExponent(value._ToBits());
+            return _GetExponent(value._ToBits()) - MantissaLength;
         }
         /// <summary>
         /// 仮数部を取得
@@ -264,8 +264,9 @@ namespace Ksnm.ExtensionMethods.System.Double
         /// </summary>
         private static UInt _GetMantissa(UInt bits)
         {
+            var mantissaBits = _GetMantissaBits(bits);
             // ((UInt)1 << MantissaLength)は"1."を意味する
-            return _GetMantissaBits(bits) | ((UInt)1 << MantissaLength);
+            return mantissaBits | ((UInt)1 << MantissaLength);
         }
         /// <summary>
         /// 少数部を取得

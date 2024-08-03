@@ -87,7 +87,7 @@ namespace Ksnm.ExtensionMethods.System.Decimal
         /// <returns>正なら +1 を返す。負なら -1 を返す。</returns>
         public static int GetSign(this decimal value)
         {
-            if (value.IsNegative())
+            if (value < 0)
             {
                 return -1;
             }
