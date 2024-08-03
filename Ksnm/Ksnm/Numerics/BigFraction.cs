@@ -1,5 +1,6 @@
 ﻿using Ksnm.ExtensionMethods.System.Decimal;
 using Ksnm.ExtensionMethods.System.Double;
+using Ksnm.Units;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Numerics;
@@ -21,8 +22,17 @@ namespace Ksnm.Numerics
     public struct BigFraction :
         INumber<Fraction>,
         ISignedNumber<Fraction>,
-        IFloatingPointConstants<Fraction>
+        IFloatingPointConstants<Fraction>,
+        IExponentialFunctions<Fraction>,
+        IPowerFunctions<Fraction>
     {
+        #region 定数・静的プロパティ
+        /// <summary>
+        /// 実数を出力する際のデフォルトの精度
+        /// </summary>
+        public static BigFraction DefaultPrecision = 0.00000_000001m;
+        #endregion 定数・静的プロパティ
+
         #region フィールド
         #endregion フィールド
 
@@ -1102,5 +1112,31 @@ namespace Ksnm.Numerics
         {
             return Numerator.GetHashCode() ^ Denominator.GetHashCode();
         }
+
+        #region IExponentialFunctions
+        public static Fraction Exp(Fraction x)
+        {
+            throw new NotImplementedException();
+            //return Math.Exp(x, DefaultPrecision);
+        }
+
+        public static Fraction Exp10(Fraction x)
+        {
+            return Pow(10, x);
+        }
+
+        public static Fraction Exp2(Fraction x)
+        {
+            return Pow(2, x);
+        }
+        #endregion IExponentialFunctions
+
+        #region IPowerFunctions
+        public static Fraction Pow(Fraction x, Fraction y)
+        {
+            throw new NotImplementedException();
+            //return Math.Pow(x, y, DefaultPrecision);
+        }
+        #endregion IPowerFunctions
     }
 }

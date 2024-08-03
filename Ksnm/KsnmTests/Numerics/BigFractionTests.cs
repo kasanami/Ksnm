@@ -1,4 +1,5 @@
-﻿using Ksnm.Numerics;
+﻿using Ksnm.ExtensionMethods.System.Double;
+using Ksnm.Numerics;
 using System.Numerics;
 
 namespace Ksnm.Numerics.Tests
@@ -576,5 +577,29 @@ namespace Ksnm.Numerics.Tests
                 Assert.AreEqual(a.GetHashCode(), b.GetHashCode());
             }
         }
+
+        #region IExponentialFunctions
+        [TestMethod()]
+        public void ExpTest()
+        {
+        }
+
+        [TestMethod()]
+        public void Exp10Test()
+        {
+        }
+
+        [TestMethod()]
+        public void Exp2Test()
+        {
+        }
+        #endregion IExponentialFunctions
+
+        #region IPowerFunctions
+        [TestMethod()]
+        public void PowTest()
+        {
+        }
+        #endregion IPowerFunctions
     }
 }
