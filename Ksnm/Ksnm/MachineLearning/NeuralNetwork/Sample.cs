@@ -41,11 +41,11 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         /// <summary>
         /// 入力ニューロンに設定する値
         /// </summary>
-        public TValue[] SourceValues;
+        public TValue[] SourceValues = [];
         /// <summary>
         /// 出力ニューロンに期待する値
         /// </summary>
-        public TValue[] ResultValues;
+        public TValue[] ResultValues = [];
         #endregion フィールド
 
         #region コンストラクタ
