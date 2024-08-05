@@ -273,6 +273,14 @@ namespace Ksnm.MachineLearning.NeuralNetwork
             }
             Bias -= learningRate * Delta;
         }
+        public void Reduce(TValue threshold)
+        {
+            var reduces = Inputs.Where(item => (TValue.Abs(item.Weight) < threshold)).ToArray();
+            foreach (var item in reduces)
+            {
+                inputs.Remove(item);
+            }
+        }
         #endregion 学習
 
         #region Object

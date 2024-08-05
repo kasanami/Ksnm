@@ -653,6 +653,23 @@ namespace Ksnm.MachineLearning.NeuralNetwork
             return children[minErrorIndex];
         }
         #endregion Learn
+
+        #region Reduce 削減
+        /// <summary>
+        /// 弱い結合を削除
+        /// </summary>
+        /// <param name="threshold">Weightの絶対値がこの値以下なら削除</param>
+        public void Reduce(TValue threshold)
+        {
+            foreach (var layer in layers)
+            {
+                foreach (var neuron in layer.Neurons)
+                {
+                    neuron.Reduce(threshold);
+                }
+            }
+        }
+        #endregion Reduce 削減
         #endregion 学習
 
         /// <summary>

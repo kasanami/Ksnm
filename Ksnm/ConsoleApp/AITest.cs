@@ -2,6 +2,9 @@
 using Ksnm.ExtensionMethods.System.Collections.Generic.Enumerable;
 using System.Numerics;
 using System;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.PixelFormats;
+using SixLabors.ImageSharp.Processing;
 
 #pragma warning disable CS0162 // 到達できないコードが検出されました
 namespace ConsoleApp
@@ -12,9 +15,11 @@ namespace ConsoleApp
         {
             Console.WriteLine(Ksnm.Debug.GetFilePathAndLineNumber());
 
-            TestLogicGate<double>();
+            //TestLogicGate<double>();
             //TestLogicGate<float>();
             //TestLogicGate<Half>();
+            TestNumericRecognition<double>();
+            //TestNumericRecognition2<double>();
         }
         static void TestLogicGate<T>()
             where T : INumber<T>, IFloatingPointIeee754<T>, IMinMaxValue<T>
@@ -195,6 +200,7 @@ namespace ConsoleApp
             var _1 = T.One;
             var _2 = T.CreateChecked(2);
             var _10 = T.CreateChecked(10);
+            var _0_001 = T.CreateChecked(0.001);
 
             if (true)
             {
@@ -330,6 +336,7 @@ namespace ConsoleApp
                     {
                         break;
                     }
+                    numbersNN.Reduce(_0_001);
                 }
                 Console.WriteLine("--------------------------------");
                 Console.WriteLine("出力層の活性化関数を変更して出力を0と1に");
@@ -408,6 +415,128 @@ namespace ConsoleApp
             Console.WriteLine("nn=");
             Console.WriteLine(nn.ToString());
             Console.WriteLine("================================");
+        }
+
+        static void TestNumericRecognition2<T>()
+            where T : INumber<T>, IFloatingPointIeee754<T>, IMinMaxValue<T>
+        {
+            var _0 = T.Zero;
+            var _1 = T.One;
+            var _2 = T.CreateChecked(2);
+            var _10 = T.CreateChecked(10);
+            var _0_001 = T.CreateChecked(0.001);
+            // サンプル画像からSampleを生成
+            var samples = new List<Sample<T>>();
+            {
+                var SampleDataPath = @"D:\Develop\Projects\Ksnm\Ksnm\ConsoleApp\Data\NumericCharacterSamples";
+                int[] digits = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+                foreach (var digit in digits)
+                {
+                    var numericDir = SampleDataPath + @"\" + digit;
+                    var files = Directory.GetFiles(numericDir, "*.png");
+                    foreach (var file in files)
+                    {
+                        var sample = ImageToSample<T>(digit, file);
+                        if(sample == null) { continue; }
+                        samples.Add(sample);
+                    }
+                }
+            }
+            {
+                var numbersNN = new MultilayerPerceptron<T>(1024, 256, 16, 10);
+                numbersNN.ResetWeightsWithRandom(_2);
+                var learningRate = _1;// 学習率
+
+                for (int i = 0; i < 10000; i++)
+                {
+                    var doWriteLine = i % 1000 == 0;
+                    var errorSum = _0;
+                    foreach (Sample<T> sample in samples)
+                    {
+                        var targets = sample.ResultValues.ToList();
+                        numbersNN.SetSourceValues(sample.SourceValues);
+                        // 順伝播
+                        numbersNN.ForwardPropagation();
+                        var results = numbersNN.ResultValues;
+                        // 誤差の計算(二乗誤差)
+                        var error = numbersNN.Error(sample.ResultValues);
+                        if (doWriteLine)
+                        {
+                            Console.WriteLine($"{i} {targets.ToJoinedString(",")} : {nameof(results)}={results.ToJoinedString(",", "0.000")} {nameof(error)}={error}");
+                        }
+                        if (error > _0)
+                        {
+                            numbersNN.BackPropagation(targets, learningRate);
+                        }
+                        errorSum += error;
+                    }
+                    if (doWriteLine)
+                    {
+                        Console.WriteLine($"{i} {nameof(errorSum)}={errorSum}");
+                    }
+                    if (errorSum == _0)
+                    {
+                        break;
+                    }
+                }
+                Console.WriteLine("--------------------------------");
+                Console.WriteLine("出力層の活性化関数を変更して出力を0と1に");
+                {
+                    numbersNN.SetResultActivation(Activation<T>.HeavisideStep);
+                    foreach (var sample in samples)
+                    {
+                        numbersNN.SetSourceValues(sample.SourceValues);
+                        numbersNN.ForwardPropagation();
+                        //var error = nn.Error(sample.ResultValues);
+                        Console.WriteLine($"{sample.ResultValues.ToJoinedString(",")}→{numbersNN.ResultValues.ToJoinedString(",")}");
+                    }
+                    numbersNN.SetResultActivation(Activation<T>.Sigmoid);// 戻す
+                }
+                Console.WriteLine("--------------------------------");
+            }
+        }
+
+        static Sample<T> ImageToSample<T>(int digit, string file)
+            where T : INumber<T>, IFloatingPointIeee754<T>, IMinMaxValue<T>
+        {
+            var sample = new Sample<T>();
+            sample.ResultValues = new T[10];
+            sample.ResultValues[digit] = T.One;
+            sample.SourceValues = new T[1024];
+#if true
+            using (Image<Rgba32> image = Image.Load<Rgba32>(file))
+            {
+                if(image.Width != 32 || image.Height!=32)
+                {
+                    return null;
+                }
+                for (var y = 0; y < image.Height; y++)
+                {
+                    var yOffset = y * image.Height;
+                    for (var x = 0; x < image.Width; x++)
+                    {
+                        sample.SourceValues[yOffset + x] = ColorToScale<T>(image[x, y]);
+                    }
+                }
+            }
+#else
+            var bitmap = new Bitmap(file);
+            for (var x = 0; x < bitmap.Width; x++)
+            {
+                for (var y = 0; y < bitmap.Height; y++)
+                {
+                    sample.SourceValues[x * bitmap.Height + y] = ColorToScale<T>(bitmap.GetPixel(x, y));
+                }
+            }
+#endif
+            return sample;
+        }
+
+        static T ColorToScale<T>(in Rgba32 color)
+            where T : INumber<T>, IFloatingPointIeee754<T>, IMinMaxValue<T>
+        {
+            double scale = (color.R + color.G + color.B) / (255.0 * 3);
+            return T.CreateChecked(scale);
         }
     }
 }

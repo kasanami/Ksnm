@@ -152,6 +152,10 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         {
             // 何もしない
         }
+        public void Reduce(TValue threshold)
+        {
+            // 何もしない
+        }
         #region Object
         public override string ToString()
         {

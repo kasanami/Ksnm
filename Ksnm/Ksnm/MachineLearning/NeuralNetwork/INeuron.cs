@@ -124,6 +124,11 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         /// </summary>
         /// <param name="learningRate">学習係数</param>
         void BackPropagationWeight(TValue learningRate);
+        /// <summary>
+        /// 弱い結合を削除
+        /// </summary>
+        /// <param name="threshold">Weightの絶対値がこの値以下なら削除</param>
+        void Reduce(TValue threshold);
         #endregion 学習関係
     }
 }
