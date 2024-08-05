@@ -3,6 +3,7 @@ using Ksnm.ExtensionMethods.System.Collections.Generic.Enumerable;
 using System.Numerics;
 using System;
 
+#pragma warning disable CS0162 // 到達できないコードが検出されました
 namespace ConsoleApp
 {
     internal class AITest
@@ -410,3 +411,4 @@ namespace ConsoleApp
         }
     }
 }
+#pragma warning restore CS0162 // 到達できないコードが検出されました
