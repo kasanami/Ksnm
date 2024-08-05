@@ -175,22 +175,20 @@ namespace Ksnm.ExtensionMethods.System.Double.Tests
         public void GetExponentTest()
         {
             Float sample = 1;
-            Assert.AreEqual(0, sample.GetExponent());
+            Assert.AreEqual(-52, sample.GetExponent());
             sample = 2;
-            Assert.AreEqual(1, sample.GetExponent());
+            Assert.AreEqual(1 - 52, sample.GetExponent());
             sample = 4;
-            Assert.AreEqual(2, sample.GetExponent());
+            Assert.AreEqual(2 - 52, sample.GetExponent());
             sample = 8;
-            Assert.AreEqual(3, sample.GetExponent());
+            Assert.AreEqual(3 - 52, sample.GetExponent());
 
-            sample = 1;
-            Assert.AreEqual(0, sample.GetExponent());
             sample = 0.5;
-            Assert.AreEqual(-1, sample.GetExponent());
+            Assert.AreEqual(-1 - 52, sample.GetExponent());
             sample = 0.25;
-            Assert.AreEqual(-2, sample.GetExponent());
+            Assert.AreEqual(-2 - 52, sample.GetExponent());
             sample = 0.125;
-            Assert.AreEqual(-3, sample.GetExponent());
+            Assert.AreEqual(-3 - 52, sample.GetExponent());
         }
 
         [TestMethod()]

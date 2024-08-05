@@ -398,8 +398,18 @@ namespace Ksnm
 
         #endregion Sign
 
-        #region Ramp
-
+        #region Ramp ランプ関数
+        /// <summary>
+        /// ランプ関数
+        /// </summary>
+        public static T Ramp<T>(T x) where T : INumber<T>
+        {
+            if (x < T.Zero)
+            {
+                return T.Zero;
+            }
+            return x;
+        }
         /// <summary>
         /// ランプ関数
         /// </summary>
@@ -444,10 +454,9 @@ namespace Ksnm
             }
             return x;
         }
-
         #endregion Ramp
 
-        #region UnitStep
+        #region UnitStep 単位ステップ関数
         /// <summary>
         /// 単位ステップ関数
         /// </summary>
@@ -462,6 +471,19 @@ namespace Ksnm
             return T.One;
         }
         /// <summary>
+        /// 単位ステップ関数
+        /// </summary>
+        /// <param name="x">入力</param>
+        /// <returns>0か1の値</returns>
+        public static double UnitStep(double x)
+        {
+            if (x < 0.0)
+            {
+                return 0.0;
+            }
+            return 1.0;
+        }
+        /// <summary>
         /// 単位ステップ関数の導関数
         /// </summary>
         /// <param name="x">入力</param>
@@ -470,9 +492,18 @@ namespace Ksnm
         {
             return T.Zero;
         }
+        /// <summary>
+        /// 単位ステップ関数の導関数
+        /// </summary>
+        /// <param name="x">入力</param>
+        /// <returns>0の値</returns>
+        public static double DerUnitStep(double x)
+        {
+            return 0.0;
+        }
         #endregion UnitStep
 
-        #region HeavisideStep
+        #region HeavisideStep ヘヴィサイドの階段関数
         /// <summary>
         /// ヘヴィサイドの階段関数
         /// </summary>
@@ -497,9 +528,34 @@ namespace Ksnm
         /// <param name="x">入力</param>
         /// <param name="c">x=0の時の返り値</param>
         /// <returns>0か1かcの値</returns>
+        public static double HeavisideStep(double x, double c)
+        {
+            if (x < 0.0)
+            {
+                return 0.0;
+            }
+            else if (x > 0.0)
+            {
+                return 1.0;
+            }
+            return c;
+        }
+        /// <summary>
+        /// ヘヴィサイドの階段関数
+        /// </summary>
+        /// <param name="x">入力</param>
+        /// <param name="c">x=0の時の返り値</param>
+        /// <returns>0か1かcの値</returns>
         public static T HeavisideStep<T>(T x) where T : INumber<T> => HeavisideStep(x, T.CreateChecked(0.5));
         /// <summary>
-        /// 単位ステップ関数の導関数
+        /// ヘヴィサイドの階段関数
+        /// </summary>
+        /// <param name="x">入力</param>
+        /// <param name="c">x=0の時の返り値</param>
+        /// <returns>0か1かcの値</returns>
+        public static double HeavisideStep(double x) => HeavisideStep(x, 0.5);
+        /// <summary>
+        /// ヘヴィサイドの階段関数の導関数
         /// </summary>
         /// <param name="x">入力</param>
         /// <returns>0の値</returns>
@@ -507,7 +563,15 @@ namespace Ksnm
         {
             return T.Zero;
         }
-
+        /// <summary>
+        /// ヘヴィサイドの階段関数の導関数
+        /// </summary>
+        /// <param name="x">入力</param>
+        /// <returns>0の値</returns>
+        public static double DerHeavisideStep(double x)
+        {
+            return 0.0;
+        }
         #endregion HeavisideStep
 
         #region Sigmoid
@@ -537,6 +601,18 @@ namespace Ksnm
             return T.One / (T.One + Exp<T>(-gain * x));
         }
         /// <summary>
+        /// シグモイド関数
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="gain">ゲイン
+        /// 1.0(標準)の場合、xに6.0を与えると約1.0になる。
+        /// 5.0の場合、xに1.0を与えると約1.0になる。</param>
+        /// <returns></returns>
+        public static double Sigmoid(double x, double gain)
+        {
+            return 1.0 / (1.0 + SMath.Exp(-gain * x));
+        }
+        /// <summary>
         /// 標準シグモイド関数(ゲイン=1.0)
         /// </summary>
         public static T StandardSigmoid<T>(T x, T tolerance) where T : INumber<T>
@@ -552,19 +628,40 @@ namespace Ksnm
             return T.One / (T.One + Exp(-x));
         }
         /// <summary>
+        /// 標準シグモイド関数(ゲイン=1.0)
+        /// </summary>
+        public static double StandardSigmoid(double x)
+        {
+            return 1.0 / (1.0 + SMath.Exp(-x));
+        }
+        /// <summary>
         /// シグモイド関数の導関数
         /// </summary>
         public static T DerStandardSigmoid<T>(T x) where T : INumber<T>
         {
             return x * (T.One - x);
         }
+        /// <summary>
+        /// シグモイド関数の導関数
+        /// </summary>
+        public static double DerStandardSigmoid(double x)
+        {
+            return x * (1.0 - x);
+        }
         #endregion Sigmoid
 
-        #region 恒等関数 Identity
+        #region Identity 恒等関数
         /// <summary>
         /// 恒等関数
         /// </summary>
         public static T Identity<T>(T x) where T : INumber<T>
+        {
+            return x;
+        }
+        /// <summary>
+        /// 恒等関数
+        /// </summary>
+        public static double Identity(double x)
         {
             return x;
         }
@@ -575,9 +672,16 @@ namespace Ksnm
         {
             return T.One;
         }
+        /// <summary>
+        /// 恒等関数の導関数
+        /// </summary>
+        public static double DerIdentity(double x)
+        {
+            return 1.0;
+        }
         #endregion 恒等関数 Identity
 
-        #region Tanh
+        #region Tanh 双曲線正接関数
         /// <summary>
         /// 双曲線正接関数
         /// </summary>
@@ -596,21 +700,44 @@ namespace Ksnm
             return Tanh(x, T.Epsilon);
         }
         /// <summary>
+        /// 双曲線正接関数
+        /// </summary>
+        public static double Tanh(double x)
+        {
+            var ePlus = SMath.Exp(x);
+            var eMinus = SMath.Exp(-x);
+            return (ePlus - eMinus) / (ePlus + eMinus);
+        }
+        /// <summary>
         /// 双曲線正接関数の導関数
         /// </summary>
         public static T DerTanh<T>(T x) where T : INumber<T>
         {
             return (T.One - x * x);
         }
+        /// <summary>
+        /// 双曲線正接関数の導関数
+        /// </summary>
+        public static double DerTanh(double x)
+        {
+            return (1.0 - x * x);
+        }
         #endregion Tanh
 
-        #region ReLU
+        #region ReLU 正規化線形関数
         /// <summary>
         /// 正規化線形関数
         /// </summary>
         public static T ReLU<T>(T x) where T : INumber<T>
         {
             return T.Max(T.Zero, x);
+        }
+        /// <summary>
+        /// 正規化線形関数
+        /// </summary>
+        public static double ReLU(double x)
+        {
+            return double.Max(0.0, x);
         }
         /// <summary>
         /// 正規化線形関数の導関数
@@ -622,6 +749,17 @@ namespace Ksnm
                 return T.One;
             }
             return T.Zero;
+        }
+        /// <summary>
+        /// 正規化線形関数の導関数
+        /// </summary>
+        public static double DerReLU(double x)
+        {
+            if (x > 0.0)
+            {
+                return 1.0;
+            }
+            return 0.0;
         }
         #endregion ReLU
 
@@ -636,10 +774,29 @@ namespace Ksnm
         }
         /// <summary>
         /// 漏れている正規化線形関数
+        /// a=0.01
+        /// </summary>
+        public static double LeakyReLU(double x)
+        {
+            return LeakyReLU(x, 0.01);
+        }
+        /// <summary>
+        /// 漏れている正規化線形関数
         /// </summary>
         public static T LeakyReLU<T>(T x, T a) where T : INumber<T>
         {
             if (x >= T.Zero)
+            {
+                return x;
+            }
+            return x * a;
+        }
+        /// <summary>
+        /// 漏れている正規化線形関数
+        /// </summary>
+        public static double LeakyReLU(double x, double a)
+        {
+            if (x >= 0.0)
             {
                 return x;
             }
@@ -655,11 +812,29 @@ namespace Ksnm
         /// <summary>
         /// 漏れている正規化線形関数の導関数
         /// </summary>
+        public static double DerLeakyReLU(double x)
+        {
+            return DerLeakyReLU(x, 0.01);
+        }
+        /// <summary>
+        /// 漏れている正規化線形関数の導関数
+        /// </summary>
         public static T DerLeakyReLU<T>(T x, T a) where T : INumber<T>
         {
             if (x >= T.Zero)
             {
                 return T.One;
+            }
+            return a;
+        }
+        /// <summary>
+        /// 漏れている正規化線形関数の導関数
+        /// </summary>
+        public static double DerLeakyReLU(double x, double a)
+        {
+            if (x >= 0.0)
+            {
+                return 1.0;
             }
             return a;
         }
@@ -676,17 +851,17 @@ namespace Ksnm
         /// <summary>
         /// ソフトプラス関数
         /// </summary>
-        public static double Softplus(double x)
-        {
-            return SMath.Log(1 + SMath.Exp(x));
-        }
-        /// <summary>
-        /// ソフトプラス関数
-        /// </summary>
         public static T Softplus<T>(T x)
             where T : INumber<T>, IFloatingPointIeee754<T>
         {
             return Softplus(x, T.Epsilon);
+        }
+        /// <summary>
+        /// ソフトプラス関数
+        /// </summary>
+        public static double Softplus(double x)
+        {
+            return SMath.Log(1.0 + SMath.Exp(x));
         }
         /// <summary>
         /// ソフトプラス関数の導関数
@@ -698,22 +873,21 @@ namespace Ksnm
         /// <summary>
         /// ソフトプラス関数の導関数
         /// </summary>
-        public static double DerSoftplus(double x)
-        {
-            return 1 / (1 + SMath.Exp(-x));
-        }
-        /// <summary>
-        /// ソフトプラス関数の導関数
-        /// </summary>
         public static T DerSoftplus<T>(T x)
             where T : INumber<T>, IFloatingPointIeee754<T>
         {
             return DerSoftplus(x, T.Epsilon);
         }
+        /// <summary>
+        /// ソフトプラス関数の導関数
+        /// </summary>
+        public static double DerSoftplus(double x)
+        {
+            return 1 / (1 + SMath.Exp(-x));
+        }
         #endregion Softplus
 
-        #region Lerp
-
+        #region Lerp 線形補間
         /// <summary>
         /// 線形補間
         /// </summary>
@@ -724,7 +898,16 @@ namespace Ksnm
         {
             return from + ((to - from) * t);
         }
-
+        /// <summary>
+        /// 線形補間
+        /// </summary>
+        /// <param name="from">tが0のときの値</param>
+        /// <param name="to">tが1のときの値</param>
+        /// <param name="t">補間係数</param>
+        public static double Lerp(double from, double to, double t)
+        {
+            return from + ((to - from) * t);
+        }
         /// <summary>
         /// 線形補間(整数出力版)
         /// </summary>

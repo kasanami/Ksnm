@@ -14,6 +14,12 @@ namespace Ksnm.Tests
     [TestClass()]
     public class MathTests
     {
+        /// <summary>
+        /// 許容値
+        /// AreEqualのdelta
+        /// </summary>
+        double Tolerance = 0.00000_00000_1;
+
         [TestMethod()]
         public void IsEvenTest()
         {
@@ -190,6 +196,13 @@ namespace Ksnm.Tests
             Assert.AreEqual(Math.Ramp(0), 0);
             Assert.AreEqual(Math.Ramp(-1), 0);
             Assert.AreEqual(Math.Ramp(-2), 0);
+
+            for (double x = -10; x <= 10; x += 0.25)
+            {
+                var expected = Math.Ramp(x);
+                var actual = Math.Ramp<double>(x);
+                Assert.AreEqual(expected, actual, Tolerance, $"{nameof(x)}={x}");
+            }
         }
 
         [TestMethod()]
@@ -200,6 +213,13 @@ namespace Ksnm.Tests
             Assert.AreEqual(Math.UnitStep(00), 1);
             Assert.AreEqual(Math.UnitStep(-1), 0);
             Assert.AreEqual(Math.UnitStep(-2), 0);
+
+            for (double x = -10; x <= 10; x += 0.25)
+            {
+                var expected = Math.UnitStep(x);
+                var actual = Math.UnitStep<double>(x);
+                Assert.AreEqual(expected, actual, Tolerance, $"{nameof(x)}={x}");
+            }
         }
 
         [TestMethod()]
@@ -208,8 +228,16 @@ namespace Ksnm.Tests
             Assert.AreEqual(Math.HeavisideStep(+2), +1);
             Assert.AreEqual(Math.HeavisideStep(+1), +1);
             Assert.AreEqual(Math.HeavisideStep(0f), 0.5f);
+            Assert.AreEqual(Math.HeavisideStep(0f, 0.1f), 0.1f);
             Assert.AreEqual(Math.HeavisideStep(-1), 0);
             Assert.AreEqual(Math.HeavisideStep(-2), 0);
+
+            for (double x = -10; x <= 10; x += 0.25)
+            {
+                var expected = Math.HeavisideStep(x);
+                var actual = Math.HeavisideStep<double>(x);
+                Assert.AreEqual(expected, actual, Tolerance, $"{nameof(x)}={x}");
+            }
         }
 
         [TestMethod()]
@@ -223,10 +251,14 @@ namespace Ksnm.Tests
             for (double i = -1; i < +1; i += 0.25)
             {
                 var d = Math.Sigmoid(i, 0.5);
-                var f = Math.Sigmoid((float)i, 0.5f);
+                var f = Math.Sigmoid((float)i, 0.5f, double.Epsilon);
                 Assert.AreEqual(d, (double)f, 0.0000001);
             }
+        }
 
+        [TestMethod()]
+        public void StandardSigmoidTest()
+        {
             // ゲインなしの標準版
             Assert.AreEqual(0.0, Math.StandardSigmoid(-6.0), 0.01);
             Assert.AreEqual(0.5, Math.StandardSigmoid(0.0));
@@ -237,6 +269,19 @@ namespace Ksnm.Tests
                 var d = Math.StandardSigmoid(i);
                 var f = Math.StandardSigmoid((float)i);
                 Assert.AreEqual(d, (double)f, 0.0000001);
+            }
+
+            Assert.AreEqual(Math.StandardSigmoid(+2), +1);
+            Assert.AreEqual(Math.StandardSigmoid(+1), +1);
+            Assert.AreEqual(Math.StandardSigmoid(0f), 0.5f);
+            Assert.AreEqual(Math.StandardSigmoid(-1), 0);
+            Assert.AreEqual(Math.StandardSigmoid(-2), 0);
+
+            for (double x = -10; x <= 10; x += 0.25)
+            {
+                var expected = Math.StandardSigmoid(x);
+                var actual = Math.StandardSigmoid<double>(x, double.Epsilon);
+                Assert.AreEqual(expected, actual, Tolerance, $"{nameof(x)}={x}");
             }
         }
 
@@ -274,6 +319,13 @@ namespace Ksnm.Tests
             Assert.AreEqual(0, Math.ReLU(0));
             Assert.AreEqual(1, Math.ReLU(+1));
             Assert.AreEqual(2, Math.ReLU(+2));
+
+            for (double x = -10; x <= 10; x += 0.25)
+            {
+                var expected = Math.ReLU(x);
+                var actual = Math.ReLU<double>(x);
+                Assert.AreEqual(expected, actual, Tolerance, $"{nameof(x)}={x}");
+            }
         }
 
         [TestMethod()]
@@ -284,6 +336,13 @@ namespace Ksnm.Tests
             Assert.AreEqual(0, Math.DerReLU(0));
             Assert.AreEqual(1, Math.DerReLU(+1));
             Assert.AreEqual(1, Math.DerReLU(+2));
+
+            for (double x = -10; x <= 10; x += 0.25)
+            {
+                var expected = Math.DerReLU(x);
+                var actual = Math.DerReLU<double>(x);
+                Assert.AreEqual(expected, actual, Tolerance, $"{nameof(x)}={x}");
+            }
         }
 
         [TestMethod()]
@@ -294,6 +353,13 @@ namespace Ksnm.Tests
             Assert.AreEqual(+0.0000000, Math.Tanh(+0.0), 0.0000001);
             Assert.AreEqual(+0.7615942, Math.Tanh(+1.0), 0.0000001);
             Assert.AreEqual(+0.9950547, Math.Tanh(+3.0), 0.0000001);
+
+            for (double x = -10; x <= 10; x += 0.25)
+            {
+                var expected = Math.Tanh(x);
+                var actual = Math.Tanh<double>(x, double.Epsilon);
+                Assert.AreEqual(expected, actual, Tolerance, $"{nameof(x)}={x}");
+            }
         }
 
         [TestMethod()]
@@ -304,6 +370,13 @@ namespace Ksnm.Tests
             Assert.AreEqual(1.0000, Math.DerTanh(+0.0000000), 0.0001);
             Assert.AreEqual(0.4199, Math.DerTanh(+0.7615942), 0.0001);
             Assert.AreEqual(0.0098, Math.DerTanh(+0.9950547), 0.0001);
+
+            for (double x = -10; x <= 10; x += 0.25)
+            {
+                var expected = Math.DerTanh(x);
+                var actual = Math.DerTanh<double>(x);
+                Assert.AreEqual(expected, actual, Tolerance, $"{nameof(x)}={x}");
+            }
         }
 
         [TestMethod()]
@@ -314,6 +387,13 @@ namespace Ksnm.Tests
             Assert.AreEqual(0.000, Math.LeakyReLU(+0.0));
             Assert.AreEqual(+1.00, Math.LeakyReLU(+1.0));
             Assert.AreEqual(+2.00, Math.LeakyReLU(+2.0));
+
+            for (double x = -10; x <= 10; x += 0.25)
+            {
+                var expected = Math.LeakyReLU(x);
+                var actual = Math.LeakyReLU<double>(x);
+                Assert.AreEqual(expected, actual, Tolerance, $"{nameof(x)}={x}");
+            }
         }
 
         [TestMethod()]
@@ -324,6 +404,24 @@ namespace Ksnm.Tests
             Assert.AreEqual(6.9314718e-1, Math.Softplus(+00.0), 0.000001);
             Assert.AreEqual(1.3132616e+0, Math.Softplus(+01.0), 0.000001);
             Assert.AreEqual(2.0000000e+1, Math.Softplus(+20.0), 0.000001);
+
+            for (double x = -10; x <= 10; x += 0.25)
+            {
+                var expected = Math.Softplus(x);
+                var actual = Math.Softplus<double>(x, double.Epsilon);
+                Assert.AreEqual(expected, actual, Tolerance, $"{nameof(x)}={x}");
+            }
+        }
+
+        [TestMethod()]
+        public void DerSoftplusTest()
+        {
+            for (double x = -10; x <= 10; x += 0.25)
+            {
+                var expected = Math.DerSoftplus(x);
+                var actual = Math.DerSoftplus<double>(x, double.Epsilon);
+                Assert.AreEqual(expected, actual, Tolerance, $"{nameof(x)}={x}");
+            }
         }
 
         [TestMethod()]
@@ -731,7 +829,6 @@ namespace Ksnm.Tests
                     Assert.AreEqual(expected, actual, $"{n}^{e}");
                 }
             }
-            double tolerance = double.Epsilon;
             for (double n = -10; n <= 10; n += 0.25)
             {
                 for (double e = -10; e <= 10; e += 0.25)
@@ -745,10 +842,10 @@ namespace Ksnm.Tests
                     {
                         continue;
                     }
-                    var actual = Math.Pow(n, e, tolerance);
+                    var actual = Math.Pow(n, e, double.Epsilon);
                     var expectedStr = expected.ToDecimalString();
                     var actualStr = actual.ToDecimalString();
-                    Assert.AreEqual(expected, actual, 0.001, $"{n}^{e}");
+                    Assert.AreEqual(expected, actual, Tolerance, $"{n}^{e}");
                 }
             }
         }
