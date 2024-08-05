@@ -6,9 +6,9 @@ using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
 
-#pragma warning disable CS0162 // 到達できないコードが検出されました
 namespace ConsoleApp
 {
+#pragma warning disable CS0162 // 到達できないコードが検出されました
     internal class AITest
     {
         public static void Run()
@@ -18,8 +18,8 @@ namespace ConsoleApp
             //TestLogicGate<double>();
             //TestLogicGate<float>();
             //TestLogicGate<Half>();
-            TestNumericRecognition<double>();
-            //TestNumericRecognition2<double>();
+            //TestNumericRecognition<double>();
+            TestNumericRecognition2<double>();
         }
         static void TestLogicGate<T>()
             where T : INumber<T>, IFloatingPointIeee754<T>, IMinMaxValue<T>
@@ -437,13 +437,13 @@ namespace ConsoleApp
                     foreach (var file in files)
                     {
                         var sample = ImageToSample<T>(digit, file);
-                        if(sample == null) { continue; }
+                        if (sample == null) { continue; }
                         samples.Add(sample);
                     }
                 }
             }
             {
-                var numbersNN = new MultilayerPerceptron<T>(1024, 256, 16, 10);
+                var numbersNN = new MultilayerPerceptron<T>(16 * 16, 8 * 8, 4 * 4, 10);
                 numbersNN.ResetWeightsWithRandom(_2);
                 var learningRate = _1;// 学習率
 
@@ -502,11 +502,15 @@ namespace ConsoleApp
             var sample = new Sample<T>();
             sample.ResultValues = new T[10];
             sample.ResultValues[digit] = T.One;
-            sample.SourceValues = new T[1024];
+            sample.SourceValues = new T[16 * 16];
 #if true
             using (Image<Rgba32> image = Image.Load<Rgba32>(file))
             {
-                if(image.Width != 32 || image.Height!=32)
+                if (image.Width == 32 && image.Height == 32)
+                {
+                    image.Mutate(x => x.Resize(image.Width / 2, image.Height / 2));
+                }
+                if (image.Width != 16 || image.Height != 16)
                 {
                     return null;
                 }
@@ -539,5 +543,5 @@ namespace ConsoleApp
             return T.CreateChecked(scale);
         }
     }
-}
 #pragma warning restore CS0162 // 到達できないコードが検出されました
+}
