@@ -67,7 +67,7 @@ namespace Ksnm.MachineLearning.NeuralNetwork
         /// 誤差項
         /// BackPropagation()で更新される
         /// </summary>
-        public TValue Delta { get; set; }
+        public TValue Delta { get; set; } = TValue.Zero;
         #endregion プロパティ
 
         #region コンストラクタ
