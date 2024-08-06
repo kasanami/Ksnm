@@ -127,5 +127,12 @@ namespace Ksnm.MachineLearning.NeuralNetwork
                 SourceValues[i] += random.Range(-range, range);
             }
         }
+        /// <summary>
+        /// 乱数による調整
+        /// </summary>
+        public void Randomization(TValue range)
+        {
+            Randomization(Random.Shared, range);
+        }
     }
 }

@@ -5,6 +5,8 @@ using System;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
+using System.Reflection;
+using System.Reflection.Metadata;
 
 namespace ConsoleApp
 {
@@ -436,15 +438,71 @@ namespace ConsoleApp
                     var files = Directory.GetFiles(numericDir, "*.png");
                     foreach (var file in files)
                     {
-                        var sample = ImageToSample<T>(digit, file);
+                        var sample = ImageToSamples<T>(digit, file);
                         if (sample == null) { continue; }
-                        samples.Add(sample);
+                        samples.AddRange(sample);
+                    }
+                }
+                // サンプル数を増やす
+                //if (false)
+                {
+                    // 元々の数
+                    var count = samples.Count;
+                    for (int i = 0; i < count; i++)
+                    {
+                        // 10パターン追加
+                        for (int j = 0; j < 10; j++)
+                        {
+                            var sample = new Sample<T>(samples[i]);
+                            sample.Randomization(_1 / _10);
+                            samples.Add(sample);
+                        }
                     }
                 }
             }
             {
-                var numbersNN = new MultilayerPerceptron<T>(16 * 16, 8 * 8, 4 * 4, 10);
-                numbersNN.ResetWeightsWithRandom(_2);
+                var numbersNN = new MultilayerPerceptron<T>(16 * 16, 8 * 8, 10);
+                // 最初の重み設定
+                if(false)
+                {
+                    // 0初期化
+                    foreach (var neuron in numbersNN.HiddenNeurons)
+                    {
+                        foreach (var input in neuron.Inputs)
+                        {
+                            input.Weight = _0;
+                        }
+                    }
+                    // 16分割したグループが4個
+                    for (var y = 0; y < 4; y++)
+                    {
+                        for (var x = 0; x < 4; x++)
+                        {
+                            var g = y * 4 + x;
+                            var offsetY = y * 4;
+                            var offsetX = x * 4;
+                            for (var n = 0; n < 4; n++)
+                            {
+                                var inputs = numbersNN.HiddenNeurons[g + n].Inputs;
+                                var count = inputs.Count();
+                                for (var iy = 0; iy < 4; iy++)
+                                {
+                                    for (var ix = 0; ix < 4; ix++)
+                                    {
+                                        var index = (offsetY + iy) * 16 + (offsetX + ix);
+                                        inputs[index].Weight = _1;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    // ランダム
+                    numbersNN.Randomization(_0_001);
+                }
+                else
+                {
+                    numbersNN.ResetWeightsWithRandom(_2);
+                }
                 var learningRate = _1;// 学習率
 
                 for (int i = 0; i < 10000; i++)
@@ -457,11 +515,11 @@ namespace ConsoleApp
                         numbersNN.SetSourceValues(sample.SourceValues);
                         // 順伝播
                         numbersNN.ForwardPropagation();
-                        var results = numbersNN.ResultValues;
                         // 誤差の計算(二乗誤差)
                         var error = numbersNN.Error(sample.ResultValues);
                         if (doWriteLine)
                         {
+                            var results = numbersNN.ResultValues;
                             Console.WriteLine($"{i} {targets.ToJoinedString(",")} : {nameof(results)}={results.ToJoinedString(",", "0.000")} {nameof(error)}={error}");
                         }
                         if (error > _0)
@@ -496,7 +554,20 @@ namespace ConsoleApp
             }
         }
 
-        static Sample<T> ImageToSample<T>(int digit, string file)
+        static List<Sample<T>> ImageToSamples<T>(int digit, string file)
+            where T : INumber<T>, IFloatingPointIeee754<T>, IMinMaxValue<T>
+        {
+            var samples = new List<Sample<T>>();
+            using (Image<Rgba32> image = Image.Load<Rgba32>(file))
+            {
+                samples.Add(ImageToSample<T>(digit, image, 0));
+                samples.Add(ImageToSample<T>(digit, image.Clone(), +10));
+                samples.Add(ImageToSample<T>(digit, image.Clone(), -10));
+            }
+            return samples;
+        }
+
+        static Sample<T> ImageToSample<T>(int digit, Image<Rgba32> image, float angle)
             where T : INumber<T>, IFloatingPointIeee754<T>, IMinMaxValue<T>
         {
             var sample = new Sample<T>();
@@ -504,15 +575,16 @@ namespace ConsoleApp
             sample.ResultValues[digit] = T.One;
             sample.SourceValues = new T[16 * 16];
 #if true
-            using (Image<Rgba32> image = Image.Load<Rgba32>(file))
             {
-                if (image.Width == 32 && image.Height == 32)
+                // 回転
+                if (angle != 0)
                 {
-                    image.Mutate(x => x.Resize(image.Width / 2, image.Height / 2));
+                    image.Mutate(x => x.Rotate(angle));
                 }
-                if (image.Width != 16 || image.Height != 16)
+                // サイズを一定に
+                if (image.Width != 16 && image.Height != 16)
                 {
-                    return null;
+                    image.Mutate(x => x.Resize(16, 16));
                 }
                 for (var y = 0; y < image.Height; y++)
                 {
