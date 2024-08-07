@@ -444,7 +444,7 @@ namespace ConsoleApp
                     }
                 }
                 // サンプル数を増やす
-                //if (false)
+                if (false)
                 {
                     // 元々の数
                     var count = samples.Count;
@@ -463,7 +463,7 @@ namespace ConsoleApp
             {
                 var numbersNN = new MultilayerPerceptron<T>(16 * 16, 8 * 8, 10);
                 // 最初の重み設定
-                if(false)
+                if (false)
                 {
                     // 0初期化
                     foreach (var neuron in numbersNN.HiddenNeurons)
@@ -560,7 +560,7 @@ namespace ConsoleApp
             var samples = new List<Sample<T>>();
             using (Image<Rgba32> image = Image.Load<Rgba32>(file))
             {
-                samples.Add(ImageToSample<T>(digit, image, 0));
+                samples.Add(ImageToSample<T>(digit, image.Clone(), 0));
                 samples.Add(ImageToSample<T>(digit, image.Clone(), +10));
                 samples.Add(ImageToSample<T>(digit, image.Clone(), -10));
             }
