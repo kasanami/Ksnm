@@ -2286,5 +2286,30 @@ namespace Ksnm
             return (n + Sqrt(n * n + _4, tolerance, terms)) / _2;
         }
         #endregion 貴金属数
+
+        #region ネイピア数
+        /// <summary>
+        /// ネイピア数を計算します
+        /// </summary>
+        /// <param name="tolerance">許容値</param>
+        /// <param name="terms">単項式数</param>
+        /// <returns>ネイピア数</returns>
+        public static T NapiersConstant<T>(T tolerance, int terms = DefaultTerms)
+            where T : INumber<T>
+        {
+            T sum = T.One;
+            T term = T.One;
+            for (int n = 1; n <= terms; n++)
+            {
+                term /= T.CreateChecked(n);
+                sum += term;
+                if (term < tolerance)
+                {
+                    break;
+                }
+            }
+            return sum;
+        }
+        #endregion ネイピア数
     }
 }

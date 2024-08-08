@@ -1285,5 +1285,15 @@ namespace Ksnm.Tests
                 }
             }
         }
+
+        [TestMethod()]
+        public void NapiersConstantTest()
+        {
+            {
+                var expected = SMath.E;
+                var actual = Math.NapiersConstant(0.00000_00000_1);
+                Assert.AreEqual(expected, actual, 0.00000_00000_1);
+            }
+        }
     }
 }
