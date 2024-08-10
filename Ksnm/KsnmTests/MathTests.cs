@@ -480,35 +480,61 @@ namespace Ksnm.Tests
             Assert.AreEqual(2, Math.Factorial(2));
             Assert.AreEqual(6, Math.Factorial(3));
             Assert.AreEqual(24, Math.Factorial(4));
+            Assert.AreEqual(120, Math.Factorial(5));
             Assert.AreEqual(479_001_600, Math.Factorial(12));
-            Assert.AreEqual(6_227_020_800, Math.Factorial(13));
-            Assert.AreEqual(87_178_291_200, Math.Factorial(14));
-            Assert.AreEqual(1_307_674_368_000, Math.Factorial(15));
-            Assert.AreEqual(6_402_373_705_728_000, Math.Factorial(18));
-            Assert.AreEqual(2_432_902_008_176_640_000, Math.Factorial(20));
 
-            Assert.AreEqual(1, Math.Factorial(0.0));
-            Assert.AreEqual(1, Math.Factorial(1.0));
-            Assert.AreEqual(2, Math.Factorial(2.0));
-            Assert.AreEqual(6, Math.Factorial(3.0));
-            Assert.AreEqual(24, Math.Factorial(4.0));
-            Assert.AreEqual(479_001_600, Math.Factorial(12.0));
-            Assert.AreEqual(6_227_020_800, Math.Factorial(13.0));
-            Assert.AreEqual(87_178_291_200, Math.Factorial(14.0));
-            Assert.AreEqual(1_307_674_368_000, Math.Factorial(15.0));
-            Assert.AreEqual(6_402_373_705_728_000, Math.Factorial(18.0));
+            Assert.AreEqual(1, Math.Factorial<long>(0));
+            Assert.AreEqual(1, Math.Factorial<long>(1));
+            Assert.AreEqual(2, Math.Factorial<long>(2));
+            Assert.AreEqual(6, Math.Factorial<long>(3));
+            Assert.AreEqual(24, Math.Factorial<long>(4));
+            Assert.AreEqual(120, Math.Factorial<long>(5));
+            Assert.AreEqual(479_001_600, Math.Factorial<long>(12));
+            Assert.AreEqual(6_227_020_800, Math.Factorial<long>(13));
+            Assert.AreEqual(87_178_291_200, Math.Factorial<long>(14));
+            Assert.AreEqual(1_307_674_368_000, Math.Factorial<long>(15));
+            Assert.AreEqual(6_402_373_705_728_000, Math.Factorial<long>(18));
 
             Assert.AreEqual(1, Math.Factorial((BigInteger)0));
             Assert.AreEqual(1, Math.Factorial((BigInteger)1));
             Assert.AreEqual(2, Math.Factorial((BigInteger)2));
             Assert.AreEqual(6, Math.Factorial((BigInteger)3));
             Assert.AreEqual(24, Math.Factorial((BigInteger)4));
+            Assert.AreEqual(120, Math.Factorial((BigInteger)5));
             Assert.AreEqual(479_001_600, Math.Factorial((BigInteger)12));
             Assert.AreEqual(6_227_020_800, Math.Factorial((BigInteger)13));
             Assert.AreEqual(87_178_291_200, Math.Factorial((BigInteger)14));
             Assert.AreEqual(1_307_674_368_000, Math.Factorial((BigInteger)15));
             Assert.AreEqual(6_402_373_705_728_000, Math.Factorial((BigInteger)18));
             Assert.AreEqual(2_432_902_008_176_640_000, Math.Factorial((BigInteger)20));
+
+            Assert.AreEqual(1.0, Math.Factorial(0.0));
+            Assert.AreEqual(1.0, Math.Factorial(1.0));
+            Assert.AreEqual(2.0, Math.Factorial(2.0));
+            Assert.AreEqual(6.0, Math.Factorial(3.0));
+            Assert.AreEqual(24.0, Math.Factorial(4.0));
+            Assert.AreEqual(120.0, Math.Factorial(5.0));
+            Assert.AreEqual(479_001_600.0, Math.Factorial(12.0));
+        }
+
+        [TestMethod()]
+        public void RangeFactorialTest()
+        {
+            Assert.AreEqual(1, Math.RangeFactorial(0, 0));
+            Assert.AreEqual(1, Math.RangeFactorial(0, 1));
+            Assert.AreEqual(2, Math.RangeFactorial(1, 2));
+            Assert.AreEqual(2 * 3, Math.RangeFactorial(2, 3));
+            Assert.AreEqual(2 * 3 * 4, Math.RangeFactorial(2, 4));
+            Assert.AreEqual(2 * 3 * 4 * 5, Math.RangeFactorial(2, 5));
+            Assert.AreEqual(3 * 4 * 5 * 6, Math.RangeFactorial(3, 6));
+
+            Assert.AreEqual(1.0, Math.RangeFactorial(0.0, 0.0));
+            Assert.AreEqual(1.0, Math.RangeFactorial(0.0, 1.0));
+            Assert.AreEqual(2.0, Math.RangeFactorial(1.0, 2.0));
+            Assert.AreEqual(2 * 3 , Math.RangeFactorial(2.0, 3.0));
+            Assert.AreEqual(2 * 3 * 4, Math.RangeFactorial(2.0, 4.0));
+            Assert.AreEqual(2 * 3 * 4 * 5, Math.RangeFactorial(2.0, 5.0));
+            Assert.AreEqual(3 * 4 * 5 * 6, Math.RangeFactorial(3.0, 6.0));
         }
 
         [TestMethod()]

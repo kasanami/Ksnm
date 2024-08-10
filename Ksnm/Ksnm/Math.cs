@@ -1079,6 +1079,20 @@ namespace Ksnm
         #region 階乗 Factorial
         /// <summary>
         /// 階乗
+        /// </summary>
+        /// <param name="value">階乗する値</param>
+        /// <returns>階乗した値</returns>
+        public static T Factorial<T>(T value) where T : INumber<T>
+        {
+            T temp = T.One;
+            for (T i = T.One; i <= value; i++)
+            {
+                temp *= i;
+            }
+            return temp;
+        }
+        /// <summary>
+        /// 階乗
         /// ※ long で表現できる整数の最大値は 9223372036854775807
         /// よって、20!	までなら正確に計算できる。
         /// </summary>
@@ -1123,6 +1137,26 @@ namespace Ksnm
                 temp *= i;
             }
             return temp;
+        }
+        /// <summary>
+        /// 範囲を指定した階乗
+        /// </summary>
+        public static T RangeFactorial<T>(T from, T to) where T : INumber<T>
+        {
+            if (from < T.One)
+            {
+                from = T.One;
+            }
+            if (from > to)
+            {
+                return RangeFactorial(to, from);
+            }
+            T result = T.One;
+            for (T i = from; i <= to; i++)
+            {
+                result *= i;
+            }
+            return result;
         }
         #endregion Factorial
 
