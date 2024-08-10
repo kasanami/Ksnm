@@ -85,13 +85,13 @@ namespace Ksnm.Science.Mathematics.Tests
             }
             // decimal型
             {
-                var pi = 1 / Formula.ChudnovskySeries<decimal>(0.00000_00000_00000_1m);
+                var pi = 1 / Formula.ChudnovskySeries<decimal>(0.00000_00000_00000_1m, 1);
                 Assert.AreEqual(3.14159265358979m, pi, 0.00000_00000_1m);
             }
             // BigDecimal型
             if (false)
             {
-                BigDecimal.DefaultMinExponent = -102;// 四捨五入のため-100に更に-2
+                BigDecimal.DefaultMinExponent = -105;// 四捨五入のため-100に更に-5
                 var tolerance = new BigDecimal(1, -100);
                 var pi = 1 / Formula.ChudnovskySeries<BigDecimal>(tolerance);
                 pi.SetMinExponentAndRound(-100);

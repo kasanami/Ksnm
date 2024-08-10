@@ -245,14 +245,14 @@ namespace Ksnm.Science.Mathematics
             {
                 var add = ChudnovskyTerm<T>(k);
                 sum += add;
-                if (add < tolerance)
+                if (T.Abs(add) < tolerance)
                 {
                     break;
                 }
             }
             return T.CreateChecked(12) * sum;
         }
-        public static T ChudnovskySeries<T>(int terms = 10)
+        public static T ChudnovskySeries<T>(int terms = 100)
             where T : INumber<T>, IFloatingPointIeee754<T>
         {
             return ChudnovskySeries<T>(T.Epsilon, terms);
@@ -265,13 +265,13 @@ namespace Ksnm.Science.Mathematics
             where T : INumber<T>
         {
             BigInteger n1 = BigInteger.Pow(-1, k);
-            BigInteger n2 = Factorial(6 * k);
+            BigInteger n2 = Factorial<BigInteger>(6 * k);
             BigInteger n3 = new BigInteger(545140134) * k + new BigInteger(13591409);
 
             T numerator = T.CreateChecked(n1 * n2 * n3);
 
-            BigInteger d1 = Factorial(3 * k);
-            BigInteger d2 = BigInteger.Pow(Factorial(k), 3);
+            BigInteger d1 = Factorial<BigInteger>(3 * k);
+            BigInteger d2 = BigInteger.Pow(Factorial<BigInteger>(k), 3);
             T d3 = T.CreateChecked(System.Math.Pow(640320.0, 3.0 * k + 3.0 / 2.0));
 
             T denominator = T.CreateChecked(d1 * d2) * d3;
