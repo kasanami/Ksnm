@@ -227,9 +227,56 @@ namespace Ksnm.Science.Mathematics
         /// </summary>
         /// <param name="count">計算回数。1未満を設定すると0を返す。</param>
         /// <returns>PI/4(円周率の4分の1)</returns>
-        public static T MachinsFormula<T>()where T:IFloatingPointIeee754<T>
+        public static T MachinsFormula<T>() where T : IFloatingPointIeee754<T>
         {
             return MachinsFormula(T.Epsilon);
+        }
+        /// <summary>
+        /// チュドノフスキー(Chudnovsky)級数
+        /// </summary>
+        /// <param name="tolerance">許容値</param>
+        /// <param name="terms">単項式数</param>
+        /// <returns>1/PI(円周率の逆数)</returns>
+        public static T ChudnovskySeries<T>(T tolerance, int terms = 100)
+            where T : INumber<T>
+        {
+            var sum = T.Zero;
+            for (int k = 0; k < terms; k++)
+            {
+                var add = ChudnovskyTerm<T>(k);
+                sum += add;
+                if (add < tolerance)
+                {
+                    break;
+                }
+            }
+            return T.CreateChecked(12) * sum;
+        }
+        public static T ChudnovskySeries<T>(int terms = 10)
+            where T : INumber<T>, IFloatingPointIeee754<T>
+        {
+            return ChudnovskySeries<T>(T.Epsilon, terms);
+        }
+        /// <summary>
+        /// チュドノフスキー級数の項を計算する
+        /// </summary>
+        /// <param name="k">0から始まる項の番号</param>
+        static T ChudnovskyTerm<T>(int k)
+            where T : INumber<T>
+        {
+            BigInteger n1 = BigInteger.Pow(-1, k);
+            BigInteger n2 = Factorial(6 * k);
+            BigInteger n3 = new BigInteger(545140134) * k + new BigInteger(13591409);
+
+            T numerator = T.CreateChecked(n1 * n2 * n3);
+
+            BigInteger d1 = Factorial(3 * k);
+            BigInteger d2 = BigInteger.Pow(Factorial(k), 3);
+            T d3 = T.CreateChecked(System.Math.Pow(640320.0, 3.0 * k + 3.0 / 2.0));
+
+            T denominator = T.CreateChecked(d1 * d2) * d3;
+
+            return numerator / denominator;
         }
     }
 }

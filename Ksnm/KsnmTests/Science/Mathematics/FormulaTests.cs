@@ -1,6 +1,7 @@
 ﻿using Ksnm.Numerics;
 using Ksnm.Science.Mathematics;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Numerics;
 
 namespace Ksnm.Science.Mathematics.Tests
 {
@@ -69,6 +70,30 @@ namespace Ksnm.Science.Mathematics.Tests
                 BigDecimal.DefaultMinExponent = -102;// 四捨五入のため-100に更に-2
                 var tolerance = new BigDecimal(1, -100);
                 var pi = Formula.MachinsFormula<BigDecimal>(tolerance) * 4;
+                pi.SetMinExponentAndRound(-100);
+                Assert.AreEqual(Pi100, pi.ToString());
+            }
+        }
+
+        [TestMethod()]
+        public void ChudnovskySeriesTest()
+        {
+            // double型
+            {
+                var pi = 1 / Formula.ChudnovskySeries<double>();
+                Assert.AreEqual(3.14159265358979, pi, 0.00000_00000_1);
+            }
+            // decimal型
+            {
+                var pi = 1 / Formula.ChudnovskySeries<decimal>(0.00000_00000_00000_1m);
+                Assert.AreEqual(3.14159265358979m, pi, 0.00000_00000_1m);
+            }
+            // BigDecimal型
+            if (false)
+            {
+                BigDecimal.DefaultMinExponent = -102;// 四捨五入のため-100に更に-2
+                var tolerance = new BigDecimal(1, -100);
+                var pi = 1 / Formula.ChudnovskySeries<BigDecimal>(tolerance);
                 pi.SetMinExponentAndRound(-100);
                 Assert.AreEqual(Pi100, pi.ToString());
             }
