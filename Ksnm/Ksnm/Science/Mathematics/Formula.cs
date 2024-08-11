@@ -75,56 +75,19 @@ namespace Ksnm.Science.Mathematics
         /// <summary>
         /// ウォリスの公式
         /// </summary>
-        /// <param name="count">計算回数</param>
+        /// <param name="tolerance">許容値</param>
+        /// <param name="terms">単項式数。1未満を設定すると1を返す。</param>
         /// <returns>PI/2(円周率の2分の1)</returns>
-        public static double WallisFormula(int count)
+        public static T WallisFormula<T>(int terms = 10000000) where T : INumber<T>
         {
-            count++;// 1から開始するのでインクリメント
-            double product = 1;
-            for (var i = 1; i < count; i++)
+            T product = T.One;
+            for (var i = 1; i <= terms; i++)
             {
-                product *= (2.0 * i) / (2.0 * i - 1);
-                product *= (2.0 * i) / (2.0 * i + 1);
-            }
-            return product;
-        }
-        /// <summary>
-        /// ウォリスの公式
-        /// NOTE:10000000回計算した結果:3.1415925750499818074560633566
-        /// </summary>
-        /// <param name="count">計算回数</param>
-        /// <returns>PI/2(円周率の2分の1)</returns>
-        public static decimal WallisFormulaForDecimal(int count)
-        {
-            count++;// 1から開始するのでインクリメント
-            decimal product = 1;
-            for (var i = 1; i < count; i++)
-            {
-                product *= (2m * i) / (2m * i - 1);
-                product *= (2m * i) / (2m * i + 1);
-            }
-            return product;
-        }
-        /// <summary>
-        /// ウォリスの公式
-        /// </summary>
-        /// <param name="count">計算回数</param>
-        /// <param name="precision">精度(小数点以下の桁数)</param>
-        /// <returns>PI/2(円周率の2分の1)</returns>
-        public static BigDecimal WallisFormula(int count, int precision)
-        {
-            if (precision < 0)
-            {
-                throw new ArgumentOutOfRangeException($"{nameof(precision)}={precision} 範囲を超えています。");
-            }
-            BigDecimal one = new BigDecimal(1, 0, -precision);
-            BigDecimal two = new BigDecimal(2, 0, -precision);
-            count++;// 1から開始するのでインクリメント
-            BigDecimal product = one;
-            for (var i = 1; i < count; i++)
-            {
-                product *= (two * i) / (two * i - one);
-                product *= (two * i) / (two * i + one);
+                T numerator = T.CreateChecked(2 * i);
+                T denominator = T.CreateChecked(2 * i - 1);
+                product *= numerator / denominator;
+                denominator = T.CreateChecked(2 * i + 1);
+                product *= numerator / denominator;
             }
             return product;
         }
