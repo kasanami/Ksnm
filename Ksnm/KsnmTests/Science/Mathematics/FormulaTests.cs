@@ -11,7 +11,7 @@ namespace Ksnm.Science.Mathematics.Tests
         /// <summary>
         /// 小数点以下100桁の円周率の文字列
         /// </summary>
-        static readonly string Pi100 = "3.1415926535897932384626433832795028841971693993751058209749445923078164062862089986280348253421170680";
+        static readonly string Pi100 = "3.141592653589793238462643383279502884197169399375105820974944592307816406286208998628034825342117068";
 
         [TestMethod()]
         public void LeibnizFormulaTest()
@@ -56,9 +56,22 @@ namespace Ksnm.Science.Mathematics.Tests
         [TestMethod()]
         public void RamanujansPiFormulaTest()
         {
-            var pi = 1 / Formula.RamanujansPiFormula(13, 105);
-            pi.SetMinExponentAndRound(-100);
-            Assert.AreEqual(Pi100, pi.ToString());
+            {
+                var pi = 1 / Formula.RamanujansPiFormula<double>();
+                Assert.AreEqual(System.Math.PI, pi, 0.000000000000001);
+            }
+            {
+                // オーバーフローするため制度が悪い
+                var pi = 1 / Formula.RamanujansPiFormula<decimal>(0.00000_00000_00000_1m, 3);
+                Assert.AreEqual(3.14159265358979323846m, pi, 0.0001m);
+            }
+            {
+                BigDecimal.DefaultMinExponent = -105;
+                var tolerance = new BigDecimal(1, -100);
+                var pi = 1 / Formula.RamanujansPiFormula<BigDecimal>(tolerance);
+                pi = BigDecimal.Round(pi, 100, System.MidpointRounding.AwayFromZero);
+                Assert.AreEqual(Pi100, pi.ToString());
+            }
         }
 
         [TestMethod()]

@@ -96,28 +96,35 @@ namespace Ksnm.Science.Mathematics
         /// ※最下位の桁は丸められるため意図しない値の可能性があります。
         /// NOTE:小数点以下100桁の場合、計算回数は 13 回以上は結果が同じになる。
         /// </summary>
-        /// <param name="count">計算回数</param>
-        /// <param name="precision">精度(小数点以下の桁数)</param>
+        /// <param name="tolerance">許容値</param>
+        /// <param name="terms">単項式数。1未満を設定すると0を返す。</param>
         /// <returns>円周率の逆数</returns>
-        public static BigDecimal RamanujansPiFormula(int count, int precision)
+        public static T RamanujansPiFormula<T>(T tolerance, int terms = 20)
+            where T : INumber<T>
         {
-            if (precision < 0)
+            T sum = T.Zero;
+            for (int i = 0; i < terms; i++)
             {
-                throw new ArgumentOutOfRangeException($"{nameof(precision)}={precision} 範囲を超えています。");
-            }
-            BigDecimal temp = 0;
-            for (int i = 0; i < count; i++)
-            {
-                var bi = (BigInteger)i;
-                var anumerator = new BigDecimal(Factorial(4 * bi) * (1103 + 26390 * i), 0, -precision);
-                var denominator = BigInteger.Pow(BigInteger.Pow(4, i) * BigInteger.Pow(99, i) * Factorial(bi), 4);
-                temp += anumerator / denominator;
+                var numerator = T.CreateChecked(Factorial<BigInteger>(4 * i) * (1103 + 26390 * i));
+                var denominator = T.CreateChecked(BigInteger.Pow(BigInteger.Pow(4, i) * BigInteger.Pow(99, i) * Factorial<BigInteger>(i), 4));
+                var add = numerator / denominator;
+                sum += add;
+                if (T.Abs(add) < tolerance)
+                {
+                    break;
+                }
             }
             // 2√2/99^2 の結果
-            BigDecimal SquareRootOfTwo = BigDecimal.Sqrt(2, precision);
-            BigDecimal multiplicand = (2 * SquareRootOfTwo) / 9801;
-            var product = multiplicand * temp;
+            var _2 = T.CreateChecked(2);
+            T SquareRootOfTwo = Math.Sqrt<T>(_2, tolerance, terms);
+            T multiplicand = (_2 * SquareRootOfTwo) / T.CreateChecked(99 * 99);
+            var product = multiplicand * sum;
             return product;
+        }
+        public static T RamanujansPiFormula<T>(int terms = 20)
+            where T : INumber<T>, IFloatingPointIeee754<T>
+        {
+            return RamanujansPiFormula(T.Epsilon, terms);
         }
         /// <summary>
         /// マチンの公式
