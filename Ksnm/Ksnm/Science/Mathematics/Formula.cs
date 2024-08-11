@@ -36,20 +36,28 @@ namespace Ksnm.Science.Mathematics
         /// <summary>
         /// ライプニッツの公式
         /// </summary>
-        /// <param name="count">計算回数</param>
+        /// <param name="tolerance">許容値</param>
+        /// <param name="terms">単項式数。1未満を設定すると0を返す。</param>
         /// <returns>PI/4(円周率の4分の1)</returns>
-        public static double LeibnizFormula(int count)
+        public static T LeibnizFormula<T>(T tolerance, int terms = 100000000) where T : INumber<T>
         {
-            double sum = 0.0;
-            for (var i = 0; i < count; i++)
+            T sum = T.Zero;
+            for (var i = 0; i < terms; i++)
             {
+                T odd = T.CreateChecked(2 * i + 1);
+                T add = T.Zero;
                 if (IsEven(i))
                 {
-                    sum += 1.0 / (2.0 * i + 1);
+                    add = T.One / odd;
                 }
                 else
                 {
-                    sum -= 1.0 / (2.0 * i + 1);
+                    add = -T.One / odd;
+                }
+                sum += add;
+                if (T.Abs(add) < tolerance)
+                {
+                    break;
                 }
             }
             return sum;
@@ -57,51 +65,12 @@ namespace Ksnm.Science.Mathematics
         /// <summary>
         /// ライプニッツの公式
         /// </summary>
-        /// <param name="count">計算回数</param>
+        /// <param name="terms">単項式数。1未満を設定すると0を返す。</param>
         /// <returns>PI/4(円周率の4分の1)</returns>
-        public static decimal LeibnizFormulaForDecimal(int count)
+        public static T LeibnizFormula<T>(int terms = 100000000)
+            where T : INumber<T>, IFloatingPointIeee754<T>
         {
-            decimal sum = 0;
-            for (var i = 0; i < count; i++)
-            {
-                if (IsEven(i))
-                {
-                    sum += 1m / (2m * i + 1);
-                }
-                else
-                {
-                    sum -= 1m / (2m * i + 1);
-                }
-            }
-            return sum;
-        }
-        /// <summary>
-        /// ライプニッツの公式
-        /// </summary>
-        /// <param name="count">計算回数</param>
-        /// <param name="precision">精度(小数点以下の桁数)</param>
-        /// <returns>PI/4(円周率の4分の1)</returns>
-        public static BigDecimal LeibnizFormula(int count, int precision)
-        {
-            if (precision < 0)
-            {
-                throw new ArgumentOutOfRangeException($"{nameof(precision)}={precision} 範囲を超えています。");
-            }
-            BigDecimal sum = new BigDecimal(0, 0, -precision);
-            BigDecimal one = new BigDecimal(1, 0, -precision);
-            BigDecimal two = new BigDecimal(2, 0, -precision);
-            for (var i = 0; i < count; i++)
-            {
-                if (IsEven(i))
-                {
-                    sum += one / (two * i + one);
-                }
-                else
-                {
-                    sum -= one / (two * i + one);
-                }
-            }
-            return sum;
+            return LeibnizFormula<T>(T.Epsilon, terms);
         }
         /// <summary>
         /// ウォリスの公式

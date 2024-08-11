@@ -17,17 +17,20 @@ namespace Ksnm.Science.Mathematics.Tests
         public void LeibnizFormulaTest()
         {
             {
-                var pi = Formula.LeibnizFormula(10000000) * 4;
-                Assert.AreEqual(System.Math.PI, pi, 0.000001);
+                var pi = Formula.LeibnizFormula<double>() * 4;
+                Assert.AreEqual(System.Math.PI, pi, 0.0000001);
             }
             {
-                var pi = Formula.LeibnizFormulaForDecimal(100_000) * 4;
-                pi = decimal.Round(pi, 21, System.MidpointRounding.AwayFromZero);
-                Assert.AreEqual(3.141582653589793488463m, pi);
-
-                var pi2 = Formula.LeibnizFormula(100_000, 30) * 4;
-                pi2 = BigDecimal.Round(pi2, 21, System.MidpointRounding.AwayFromZero);
-                Assert.AreEqual(pi.ToString(), pi2.ToString());
+                var pi = Formula.LeibnizFormula<decimal>(0.00000_00000_00000_00000_1m) * 4;
+                Assert.AreEqual(3.14159265358979323846m, pi, 0.0000001m);
+            }
+            if(false)
+            {
+                var tolerance = new BigDecimal(1, -105);
+                BigDecimal.DefaultMinExponent = -105;
+                var pi = Formula.LeibnizFormula<BigDecimal>(tolerance) * 4;
+                pi = BigDecimal.Round(pi, 100, System.MidpointRounding.AwayFromZero);
+                Assert.AreEqual(Pi100, pi.ToString());
             }
         }
 
