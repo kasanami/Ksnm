@@ -78,7 +78,7 @@ namespace Ksnm.Science.Mathematics
         /// <param name="tolerance">許容値</param>
         /// <param name="terms">単項式数。1未満を設定すると1を返す。</param>
         /// <returns>PI/2(円周率の2分の1)</returns>
-        public static T WallisFormula<T>(int terms = 10000000) where T : INumber<T>
+        public static T WallisFormula<T>(int terms = 100000) where T : INumber<T>
         {
             T product = T.One;
             for (var i = 1; i <= terms; i++)

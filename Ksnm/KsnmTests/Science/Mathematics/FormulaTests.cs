@@ -66,7 +66,7 @@ namespace Ksnm.Science.Mathematics.Tests
                 Assert.AreEqual(3.14159265358979323846m, pi, 0.0001m);
             }
             {
-                BigDecimal.DefaultMinExponent = -105;
+                BigDecimal.DefaultMinExponent = -105;// 四捨五入のため調整
                 var tolerance = new BigDecimal(1, -100);
                 var pi = 1 / Formula.RamanujansPiFormula<BigDecimal>(tolerance);
                 pi = BigDecimal.Round(pi, 100, System.MidpointRounding.AwayFromZero);
@@ -84,10 +84,10 @@ namespace Ksnm.Science.Mathematics.Tests
             }
             // BigDecimal型
             {
-                BigDecimal.DefaultMinExponent = -102;// 四捨五入のため-100に更に-2
+                BigDecimal.DefaultMinExponent = -105;// 四捨五入のため調整
                 var tolerance = new BigDecimal(1, -100);
                 var pi = Formula.MachinsFormula<BigDecimal>(tolerance) * 4;
-                pi.SetMinExponentAndRound(-100);
+                pi = BigDecimal.Round(pi, 100, System.MidpointRounding.AwayFromZero);
                 Assert.AreEqual(Pi100, pi.ToString());
             }
         }
@@ -111,7 +111,7 @@ namespace Ksnm.Science.Mathematics.Tests
                 BigDecimal.DefaultMinExponent = -105;// 四捨五入のため-100に更に-5
                 var tolerance = new BigDecimal(1, -100);
                 var pi = 1 / Formula.ChudnovskySeries<BigDecimal>(tolerance);
-                pi.SetMinExponentAndRound(-100);
+                pi = BigDecimal.Round(pi, 100, System.MidpointRounding.AwayFromZero);
                 Assert.AreEqual(Pi100, pi.ToString());
             }
         }

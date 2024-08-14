@@ -1185,24 +1185,26 @@ namespace Ksnm
         #endregion Factorial
 
         #region Gamma ガンマ関数
-        public static T Gamma<T>(T z, T pi, T tolerance, int terms = DefaultTerms)
+#if false
+        public static T Gamma<T>(T z)
             where T : INumber<T>
         {
 #if true
-            if (z == T.Zero)
+            if (z < T.One)
             {
                 return T.One;
             }
             // 乗法公式
-            var _terms = T.CreateChecked(terms);
-            var numerator = Pow<T>(_terms, z, tolerance, terms);
-            var denominator = T.One;
-            for (T n = T.Zero; n < _terms; n++)
+            var product = T.One;
+            var n = z - T.One;
+            for (; z > T.Zero; z -= T.One)
             {
-                if (n != T.Zero) { numerator *= n; }
-                denominator *= z + n;
+                for (T i = T.One; i < n; i++)
+                {
+                    product *= z - i;
+                }
             }
-            return numerator / denominator;
+            return product;
 #elif false
             var e = NapiersConstant(tolerance, terms);
             return Science.Mathematics.Formula.StirlingsFormula(x, pi,e, tolerance, terms);
@@ -1230,7 +1232,8 @@ namespace Ksnm
         {
             return Gamma<T>(x, T.Pi, T.Epsilon, terms);
         }
-#endregion Gamma ガンマ関数
+#endif
+        #endregion Gamma ガンマ関数
 
         #region Pow
         /// <summary>
