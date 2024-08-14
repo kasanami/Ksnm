@@ -1,7 +1,7 @@
 ﻿/*
 The zlib License
 
-Copyright (c) 2021 Takahiro Kasanami
+Copyright (c) 2021-2024 Takahiro Kasanami
 
 This software is provided 'as-is', without any express or implied
 warranty. In no event will the authors be held liable for any damages
@@ -39,6 +39,18 @@ namespace Ksnm.Science.Mathematics
         public static bool Wilsons(int p)
         {
             return (Math.Factorial((BigInteger)p - 1) + 1) % p == 0;
+        }
+        /// <summary>
+        /// 素数定理
+        /// 自然数の中に素数がどのくらいの「割合」で含まれているか近似値を返す
+        /// </summary>
+        public static int PrimeNumberTheorem(int x)
+        {
+            if (x <= 1)
+            {
+                return 0;
+            }
+            return (int)(x / System.Math.Log(x));
         }
     }
 }

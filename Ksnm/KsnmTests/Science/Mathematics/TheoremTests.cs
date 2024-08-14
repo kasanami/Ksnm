@@ -26,5 +26,20 @@ namespace Ksnm.Science.Mathematics.Tests
             Assert.IsFalse(Theorem.Wilsons(10));
             Assert.IsTrue(Theorem.Wilsons(11));
         }
+
+        [TestMethod()]
+        public void PrimeNumberTheoremTest()
+        {
+            Assert.AreEqual(0, Theorem.PrimeNumberTheorem(1));
+            //Assert.AreEqual(1, Theorem.PrimeNumberTheorem(2));
+            Assert.AreEqual(2, Theorem.PrimeNumberTheorem(3));
+            Assert.AreEqual(2, Theorem.PrimeNumberTheorem(4));
+            Assert.AreEqual(3, Theorem.PrimeNumberTheorem(5));
+            Assert.AreEqual(3, Theorem.PrimeNumberTheorem(6));
+            //Assert.AreEqual(4, Theorem.PrimeNumberTheorem(7));
+            //Assert.AreEqual(4, Theorem.PrimeNumberTheorem(8));
+            Assert.AreEqual(4, Theorem.PrimeNumberTheorem(9));
+            Assert.AreEqual(4, Theorem.PrimeNumberTheorem(10));
+        }
     }
 }
