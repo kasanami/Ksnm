@@ -1160,6 +1160,39 @@ namespace Ksnm
         }
         #endregion Factorial
 
+        #region Gamma ガンマ関数
+        public static T Gamma<T>(T x, T pi, T tolerance, int terms = DefaultTerms)
+            where T : INumber<T>
+        {
+#if true
+            var e = NapiersConstant(tolerance, terms);
+            return Science.Mathematics.Formula.StirlingsFormula(x, pi,e, tolerance, terms);
+#else
+            if (x <= T.Zero)
+            {
+                throw new ArgumentOutOfRangeException("x", "x must be greater than 0.");
+            }
+            T sqrtTwoPi = Sqrt<T>(pi + pi, tolerance, terms);
+            T t = x - T.CreateChecked(0.5);
+            T _12 = T.CreateChecked(12);
+            return sqrtTwoPi
+                * Pow<T>(t, t, tolerance, terms)
+                * Exp<T>(-t, tolerance, terms)
+                * (T.One + T.One / (_12 * t));
+#endif
+        }
+        public static T Gamma<T>(T x, T tolerance, int terms = DefaultTerms)
+            where T : INumber<T>, IFloatingPointConstants<T>
+        {
+            return Gamma<T>(x, T.Pi, tolerance, terms);
+        }
+        public static T Gamma<T>(T x, int terms = DefaultTerms)
+            where T : IFloatingPointIeee754<T>
+        {
+            return Gamma<T>(x, T.Pi, T.Epsilon, terms);
+        }
+#endregion Gamma ガンマ関数
+
         #region Pow
         /// <summary>
         /// べき乗

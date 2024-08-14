@@ -1,7 +1,7 @@
 ﻿/*
 The zlib License
 
-Copyright (c) 2019-2021 Takahiro Kasanami
+Copyright (c) 2019-2024 Takahiro Kasanami
 
 This software is provided 'as-is', without any express or implied
 warranty. In no event will the authors be held liable for any damages
@@ -216,6 +216,33 @@ namespace Ksnm.Science.Mathematics
             T denominator = T.CreateChecked(d1 * d2) * d3;
 
             return numerator / denominator;
+        }
+
+        /// <summary>
+        /// スターリングの公式,スターリングの近似
+        /// ガンマ関数の漸近近似
+        /// </summary>
+        /// <param name="n"></param>
+        /// <param name="pi">円周率</param>
+        /// <param name="e">ネイピア数</param>
+        /// <param name="tolerance">許容値</param>
+        /// <param name="terms">単項式数</param>
+        public static T StirlingsFormula<T>(T n, T pi, T e, T tolerance, int terms = 1000)
+            where T : INumber<T>
+        {
+            return Sqrt<T>((pi + pi) * n, tolerance, terms) * Pow<T>(n / e, n, tolerance, terms);
+        }
+        /// <summary>
+        /// スターリングの公式,スターリングの近似
+        /// ガンマ関数の漸近近似
+        /// </summary>
+        /// <param name="n"></param>
+        /// <param name="terms">単項式数</param>
+        public static T StirlingsFormula<T>(T n)
+            where T : IFloatingPointIeee754<T>
+        {
+            return T.Sqrt((T.Pi + T.Pi) * n) * T.Pow(n / T.E, n);
+            //return StirlingsFormula(n, T.Pi, T.E, T.Epsilon, terms);
         }
     }
 }

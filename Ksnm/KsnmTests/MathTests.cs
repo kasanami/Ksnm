@@ -531,10 +531,21 @@ namespace Ksnm.Tests
             Assert.AreEqual(1.0, Math.RangeFactorial(0.0, 0.0));
             Assert.AreEqual(1.0, Math.RangeFactorial(0.0, 1.0));
             Assert.AreEqual(2.0, Math.RangeFactorial(1.0, 2.0));
-            Assert.AreEqual(2 * 3 , Math.RangeFactorial(2.0, 3.0));
+            Assert.AreEqual(2 * 3, Math.RangeFactorial(2.0, 3.0));
             Assert.AreEqual(2 * 3 * 4, Math.RangeFactorial(2.0, 4.0));
             Assert.AreEqual(2 * 3 * 4 * 5, Math.RangeFactorial(2.0, 5.0));
             Assert.AreEqual(3 * 4 * 5 * 6, Math.RangeFactorial(3.0, 6.0));
+        }
+
+        [TestMethod()]
+        public void GammaTest()
+        {
+            //Assert.AreEqual(Math.Factorial<double>(0), Math.Gamma<double>(1), 0.1);
+            //Assert.AreEqual(Math.Factorial<double>(1), Math.Gamma<double>(2), 0.1);
+            //Assert.AreEqual(Math.Factorial<double>(2), Math.Gamma<double>(3), 0.1);
+            //Assert.AreEqual(Math.Factorial<double>(3), Math.Gamma<double>(4), 0.1);
+            //Assert.AreEqual(Math.Factorial<double>(4), Math.Gamma<double>(5), 0.1);
+            //Assert.AreEqual(Math.Factorial<double>(11), Math.Gamma<double>(12), 0.1);
         }
 
         [TestMethod()]
