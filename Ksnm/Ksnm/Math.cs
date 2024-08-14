@@ -1076,6 +1076,30 @@ namespace Ksnm
 
         #endregion Median
 
+        #region Integral 積分
+        /// <summary>
+        /// 台形公式を使った数値積分
+        /// </summary>
+        /// <param name="min">積分区間の下限</param>
+        /// <param name="max">積分区間の上限</param>
+        /// <param name="divisions">分割数</param>
+        /// <param name="func">積分する関数</param>
+        public static T TrapezoidalRule<T>(T min, T max, T divisions, Func<T, T> func) where T : INumber<T>
+        {
+            T _2 = T.CreateChecked(2);
+            T h = (max - min) / divisions; // 各区間の幅
+            T sum = (func(min) + func(max)) / _2;// 端点の評価
+            // 中間点の評価
+            for (T i = T.One; i < divisions; i++)
+            {
+                T x = min + i * h;
+                sum += func(x);
+            }
+            // 面積を計算
+            return sum * h;
+        }
+        #endregion Integral 積分
+
         #region 階乗 Factorial
         /// <summary>
         /// 階乗
@@ -1161,10 +1185,25 @@ namespace Ksnm
         #endregion Factorial
 
         #region Gamma ガンマ関数
-        public static T Gamma<T>(T x, T pi, T tolerance, int terms = DefaultTerms)
+        public static T Gamma<T>(T z, T pi, T tolerance, int terms = DefaultTerms)
             where T : INumber<T>
         {
 #if true
+            if (z == T.Zero)
+            {
+                return T.One;
+            }
+            // 乗法公式
+            var _terms = T.CreateChecked(terms);
+            var numerator = Pow<T>(_terms, z, tolerance, terms);
+            var denominator = T.One;
+            for (T n = T.Zero; n < _terms; n++)
+            {
+                if (n != T.Zero) { numerator *= n; }
+                denominator *= z + n;
+            }
+            return numerator / denominator;
+#elif false
             var e = NapiersConstant(tolerance, terms);
             return Science.Mathematics.Formula.StirlingsFormula(x, pi,e, tolerance, terms);
 #else

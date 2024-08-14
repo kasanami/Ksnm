@@ -1332,5 +1332,18 @@ namespace Ksnm.Tests
                 Assert.AreEqual(expected, actual, 0.00000_00000_1);
             }
         }
+
+        [TestMethod()]
+        public void TrapezoidalRuleTest()
+        {
+            // double
+            {
+                double a = 0.0;// 積分区間の下限
+                double b = double.Pi;// 積分区間の上限
+                int n = 10000;// 分割数
+                double result = Math.TrapezoidalRule(a, b, n, SMath.Sin);
+                Assert.AreEqual(2.0, result, 0.0000001);
+            }
+        }
     }
 }
