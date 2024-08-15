@@ -348,16 +348,35 @@ namespace Ksnm.Tests
         [TestMethod()]
         public void TanhTest()
         {
-            Assert.AreEqual(-0.9950547, Math.Tanh(-3.0), 0.0000001);
-            Assert.AreEqual(-0.7615942, Math.Tanh(-1.0), 0.0000001);
-            Assert.AreEqual(+0.0000000, Math.Tanh(+0.0), 0.0000001);
-            Assert.AreEqual(+0.7615942, Math.Tanh(+1.0), 0.0000001);
-            Assert.AreEqual(+0.9950547, Math.Tanh(+3.0), 0.0000001);
-
+            // Half
+            {
+                Assert.AreEqual(-0.9950547, (double)Math.Tanh((Half)(-3.0)), 0.001);
+                Assert.AreEqual(-0.7615942, (double)Math.Tanh((Half)(-1.0)), 0.001);
+                Assert.AreEqual(+0.0000000, (double)Math.Tanh((Half)(+0.0)), 0.001);
+                Assert.AreEqual(+0.7615942, (double)Math.Tanh((Half)(+1.0)), 0.001);
+                Assert.AreEqual(+0.9950547, (double)Math.Tanh((Half)(+3.0)), 0.001);
+            }
+            // float
+            {
+                Assert.AreEqual(-0.9950547, Math.Tanh(-3.0f), 0.0000001);
+                Assert.AreEqual(-0.7615942, Math.Tanh(-1.0f), 0.0000001);
+                Assert.AreEqual(+0.0000000, Math.Tanh(+0.0f), 0.0000001);
+                Assert.AreEqual(+0.7615942, Math.Tanh(+1.0f), 0.0000001);
+                Assert.AreEqual(+0.9950547, Math.Tanh(+3.0f), 0.0000001);
+            }
+            // double
+            {
+                Assert.AreEqual(-0.9950547, Math.Tanh(-3.0), 0.0000001);
+                Assert.AreEqual(-0.7615942, Math.Tanh(-1.0), 0.0000001);
+                Assert.AreEqual(+0.0000000, Math.Tanh(+0.0), 0.0000001);
+                Assert.AreEqual(+0.7615942, Math.Tanh(+1.0), 0.0000001);
+                Assert.AreEqual(+0.9950547, Math.Tanh(+3.0), 0.0000001);
+            }
+            // decimal
             for (double x = -10; x <= 10; x += 0.25)
             {
                 var expected = Math.Tanh(x);
-                var actual = Math.Tanh<double>(x, double.Epsilon);
+                var actual = (double)Math.Tanh<decimal>((decimal)x, (decimal)Tolerance);
                 Assert.AreEqual(expected, actual, Tolerance, $"{nameof(x)}={x}");
             }
         }

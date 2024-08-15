@@ -697,15 +697,8 @@ namespace Ksnm
         public static T Tanh<T>(T x)
             where T : INumber<T>, IFloatingPointIeee754<T>
         {
-            return Tanh(x, T.Epsilon);
-        }
-        /// <summary>
-        /// 双曲線正接関数
-        /// </summary>
-        public static double Tanh(double x)
-        {
-            var ePlus = SMath.Exp(x);
-            var eMinus = SMath.Exp(-x);
+            var ePlus = T.Exp(x);
+            var eMinus = T.Exp(-x);
             return (ePlus - eMinus) / (ePlus + eMinus);
         }
         /// <summary>
