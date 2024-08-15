@@ -334,7 +334,6 @@ namespace Ksnm
         #endregion Abs
 
         #region Sign
-
         /// <summary>
         /// 符号関数
         /// </summary>
@@ -410,50 +409,6 @@ namespace Ksnm
             }
             return x;
         }
-        /// <summary>
-        /// ランプ関数
-        /// </summary>
-        public static int Ramp(int x)
-        {
-            if (x < 0)
-            {
-                return 0;
-            }
-            return x;
-        }
-        /// <summary>
-        /// ランプ関数
-        /// </summary>
-        public static float Ramp(float x)
-        {
-            if (x < 0)
-            {
-                return 0;
-            }
-            return x;
-        }
-        /// <summary>
-        /// ランプ関数
-        /// </summary>
-        public static double Ramp(double x)
-        {
-            if (x < 0)
-            {
-                return 0;
-            }
-            return x;
-        }
-        /// <summary>
-        /// ランプ関数
-        /// </summary>
-        public static decimal Ramp(decimal x)
-        {
-            if (x < 0)
-            {
-                return 0;
-            }
-            return x;
-        }
         #endregion Ramp
 
         #region UnitStep 単位ステップ関数
@@ -471,19 +426,6 @@ namespace Ksnm
             return T.One;
         }
         /// <summary>
-        /// 単位ステップ関数
-        /// </summary>
-        /// <param name="x">入力</param>
-        /// <returns>0か1の値</returns>
-        public static double UnitStep(double x)
-        {
-            if (x < 0.0)
-            {
-                return 0.0;
-            }
-            return 1.0;
-        }
-        /// <summary>
         /// 単位ステップ関数の導関数
         /// </summary>
         /// <param name="x">入力</param>
@@ -491,15 +433,6 @@ namespace Ksnm
         public static T DerUnitStep<T>(T x) where T : INumber<T>
         {
             return T.Zero;
-        }
-        /// <summary>
-        /// 単位ステップ関数の導関数
-        /// </summary>
-        /// <param name="x">入力</param>
-        /// <returns>0の値</returns>
-        public static double DerUnitStep(double x)
-        {
-            return 0.0;
         }
         #endregion UnitStep
 
@@ -596,21 +529,9 @@ namespace Ksnm
         /// 5.0の場合、xに1.0を与えると約1.0になる。</param>
         /// <returns></returns>
         public static T Sigmoid<T>(T x, T gain)
-            where T : INumber<T>, IFloatingPointIeee754<T>
+            where T : INumber<T>, IExponentialFunctions<T>
         {
-            return T.One / (T.One + Exp<T>(-gain * x));
-        }
-        /// <summary>
-        /// シグモイド関数
-        /// </summary>
-        /// <param name="x"></param>
-        /// <param name="gain">ゲイン
-        /// 1.0(標準)の場合、xに6.0を与えると約1.0になる。
-        /// 5.0の場合、xに1.0を与えると約1.0になる。</param>
-        /// <returns></returns>
-        public static double Sigmoid(double x, double gain)
-        {
-            return 1.0 / (1.0 + SMath.Exp(-gain * x));
+            return T.One / (T.One + T.Exp(-gain * x));
         }
         /// <summary>
         /// 標準シグモイド関数(ゲイン=1.0)
@@ -623,9 +544,9 @@ namespace Ksnm
         /// 標準シグモイド関数(ゲイン=1.0)
         /// </summary>
         public static T StandardSigmoid<T>(T x)
-            where T : INumber<T>, IFloatingPointIeee754<T>
+            where T : INumber<T>, IExponentialFunctions<T>
         {
-            return T.One / (T.One + Exp(-x));
+            return T.One / (T.One + T.Exp(-x));
         }
         /// <summary>
         /// 標準シグモイド関数(ゲイン=1.0)
@@ -695,7 +616,7 @@ namespace Ksnm
         /// 双曲線正接関数
         /// </summary>
         public static T Tanh<T>(T x)
-            where T : INumber<T>, IFloatingPointIeee754<T>
+            where T : INumber<T>, IExponentialFunctions<T>
         {
             var ePlus = T.Exp(x);
             var eMinus = T.Exp(-x);
@@ -726,13 +647,6 @@ namespace Ksnm
             return T.Max(T.Zero, x);
         }
         /// <summary>
-        /// 正規化線形関数
-        /// </summary>
-        public static double ReLU(double x)
-        {
-            return double.Max(0.0, x);
-        }
-        /// <summary>
         /// 正規化線形関数の導関数
         /// </summary>
         public static T DerReLU<T>(T x) where T : INumber<T>
@@ -742,17 +656,6 @@ namespace Ksnm
                 return T.One;
             }
             return T.Zero;
-        }
-        /// <summary>
-        /// 正規化線形関数の導関数
-        /// </summary>
-        public static double DerReLU(double x)
-        {
-            if (x > 0.0)
-            {
-                return 1.0;
-            }
-            return 0.0;
         }
         #endregion ReLU
 
@@ -845,16 +748,9 @@ namespace Ksnm
         /// ソフトプラス関数
         /// </summary>
         public static T Softplus<T>(T x)
-            where T : INumber<T>, IFloatingPointIeee754<T>
+            where T : INumber<T>, ILogarithmicFunctions<T>, IExponentialFunctions<T>
         {
-            return Softplus(x, T.Epsilon);
-        }
-        /// <summary>
-        /// ソフトプラス関数
-        /// </summary>
-        public static double Softplus(double x)
-        {
-            return SMath.Log(1.0 + SMath.Exp(x));
+            return T.Log(T.One + T.Exp(x));
         }
         /// <summary>
         /// ソフトプラス関数の導関数
@@ -867,16 +763,9 @@ namespace Ksnm
         /// ソフトプラス関数の導関数
         /// </summary>
         public static T DerSoftplus<T>(T x)
-            where T : INumber<T>, IFloatingPointIeee754<T>
+            where T : INumber<T>, IExponentialFunctions<T>
         {
-            return DerSoftplus(x, T.Epsilon);
-        }
-        /// <summary>
-        /// ソフトプラス関数の導関数
-        /// </summary>
-        public static double DerSoftplus(double x)
-        {
-            return 1 / (1 + SMath.Exp(-x));
+            return T.One / (T.One + T.Exp(-x));
         }
         #endregion Softplus
 
@@ -892,27 +781,6 @@ namespace Ksnm
             return from + ((to - from) * t);
         }
         /// <summary>
-        /// 線形補間
-        /// </summary>
-        /// <param name="from">tが0のときの値</param>
-        /// <param name="to">tが1のときの値</param>
-        /// <param name="t">補間係数</param>
-        public static double Lerp(double from, double to, double t)
-        {
-            return from + ((to - from) * t);
-        }
-        /// <summary>
-        /// 線形補間(整数出力版)
-        /// </summary>
-        /// <param name="from">tが0のときの値</param>
-        /// <param name="to">tが1のときの値</param>
-        /// <param name="t">補間係数</param>
-        public static int LerpInteger(int from, int to, float t)
-        {
-            return (int)Lerp(from, to, (double)t);
-        }
-
-        /// <summary>
         /// 線形補間(整数出力版)
         /// </summary>
         /// <param name="from">tが0のときの値</param>
@@ -922,46 +790,22 @@ namespace Ksnm
         {
             return (int)Lerp(from, to, t);
         }
-
         #endregion Lerp
 
         #region InverseLerp
-
         /// <summary>
         /// 補間係数
         /// </summary>
         /// <param name="from">valueがこの値とき、0を返す。</param>
         /// <param name="to">valueがこの値とき、1を返す。</param>
         /// <param name="value">任意の値</param>
-        public static float InverseLerp(float from, float to, float value)
+        public static T InverseLerp<T>(T from, T to, T value) where T : INumber<T>
         {
             return (value - from) / (to - from);
         }
-        /// <summary>
-        /// 補間係数
-        /// </summary>
-        /// <param name="from">valueがこの値とき、0を返す。</param>
-        /// <param name="to">valueがこの値とき、1を返す。</param>
-        /// <param name="value">任意の値</param>
-        public static double InverseLerp(double from, double to, double value)
-        {
-            return (value - from) / (to - from);
-        }
-        /// <summary>
-        /// 補間係数
-        /// </summary>
-        /// <param name="from">valueがこの値とき、0を返す。</param>
-        /// <param name="to">valueがこの値とき、1を返す。</param>
-        /// <param name="value">任意の値</param>
-        public static decimal InverseLerp(decimal from, decimal to, decimal value)
-        {
-            return (value - from) / (to - from);
-        }
-
         #endregion InverseLerp
 
         #region Average
-
         /// <summary>
         /// 平均値
         /// </summary>
@@ -1077,7 +921,7 @@ namespace Ksnm
         /// <param name="max">積分区間の上限</param>
         /// <param name="divisions">分割数</param>
         /// <param name="func">積分する関数</param>
-        public static T TrapezoidalRule<T>(T min, T max, T divisions, Func<T, T> func) where T : INumber<T>
+        public static T TrapezoidalIntegral<T>(T min, T max, T divisions, Func<T, T> func) where T : INumber<T>
         {
             T _2 = T.CreateChecked(2);
             T h = (max - min) / divisions; // 各区間の幅
@@ -1093,7 +937,7 @@ namespace Ksnm
         }
         #endregion Integral 積分
 
-        #region 階乗 Factorial
+        #region Factorial 階乗
         /// <summary>
         /// 階乗
         /// </summary>
@@ -1128,7 +972,7 @@ namespace Ksnm
             }
             return result;
         }
-        #endregion Factorial
+        #endregion Factorial 階乗
 
         #region Gamma ガンマ関数
 #if false
@@ -1193,6 +1037,11 @@ namespace Ksnm
         public static T Pow<T>(T baseValue, T exponent, T tolerance, int terms = DefaultTerms)
             where T : INumber<T>
         {
+            return _Pow(baseValue, exponent, tolerance, terms, Log, Exp);
+        }
+        public static T _Pow<T>(T baseValue, T exponent, T tolerance, int terms ,Func<T, T,int, T> Log , Func<T, T, int, T> Exp)
+            where T : INumber<T>
+        {
             // 0乗は1
             if (exponent == T.Zero)
             {
@@ -1225,22 +1074,22 @@ namespace Ksnm
 
             if (baseValue < T.Zero)
             {
-                var log = Log(-baseValue, tolerance);
+                var log = Log(-baseValue, tolerance, terms);
                 // 負の基数の場合、指数が整数かどうかを確認
                 if (exponent % _2 == T.Zero)
                 {
-                    return Exp(exponent * log, tolerance);
+                    return Exp(exponent * log, tolerance, terms);
                 }
                 else
                 {
-                    return -Exp(exponent * log, tolerance);
+                    return -Exp(exponent * log, tolerance, terms);
                 }
             }
             else
             {
                 // 正の基数の場合、通常の計算
-                var log = Log(baseValue, tolerance);
-                return Exp(exponent * log, tolerance);
+                var log = Log(baseValue, tolerance, terms);
+                return Exp(exponent * log, tolerance, terms);
             }
 #elif true// 繰り返し二乗法
             if (baseValue < T.Zero && T.IsInteger(exponent) == false)
@@ -1321,9 +1170,55 @@ namespace Ksnm
 #endif
         }
         public static T Pow<T>(T baseValue, T exponent)
-            where T : INumber<T>, IFloatingPointIeee754<T>
+            where T : INumber<T>, IExponentialFunctions<T>, ILogarithmicFunctions<T>
         {
-            return Pow<T>(baseValue, exponent, T.Epsilon);
+            // 0乗は1
+            if (exponent == T.Zero)
+            {
+                return T.One;
+            }
+            // 1に何をかけても1
+            if (baseValue == T.One)
+            {
+                return T.One;
+            }
+            if (baseValue < T.Zero)
+            {
+                if (T.IsInteger(exponent))
+                {
+                    return IntegerPow(baseValue, exponent);
+                }
+                throw new ArgumentException("Negative base with non-integer exponent is not real.");
+            }
+            if (baseValue == T.Zero)
+            {
+                if (exponent < T.Zero)
+                {
+                    throw new ArgumentException("Zero base with negative exponent is not defined.");
+                }
+                return T.Zero;
+            }
+            T _2 = T.CreateChecked(2);
+
+            if (baseValue < T.Zero)
+            {
+                var log = T.Log(-baseValue);
+                // 負の基数の場合、指数が整数かどうかを確認
+                if (exponent % _2 == T.Zero)
+                {
+                    return T.Exp(exponent * log);
+                }
+                else
+                {
+                    return -T.Exp(exponent * log);
+                }
+            }
+            else
+            {
+                // 正の基数の場合、通常の計算
+                var log = T.Log(baseValue);
+                return T.Exp(exponent * log);
+            }
         }
         public static T IntegerPow<T, TExponent>(T baseValue, TExponent exponent)
             where T : INumber<T>
@@ -1394,92 +1289,28 @@ namespace Ksnm
             }
             return value;
         }
+        #region CachedPow10
         /// <summary>
-        /// 指定の decimal を指定した値で累乗した値を返します。
-        /// </summary>
-        /// <param name="baseValue">累乗対象の底</param>
-        /// <param name="exponent">冪指数</param>
-        /// <returns>累乗した値</returns>
-        public static decimal Pow(decimal baseValue, int exponent)
-        {
-            if (exponent == 0)
-            {
-                return 1;
-            }
-            if (baseValue == 0)
-            {
-                return 0;
-            }
-            if (baseValue == 1)
-            {
-                return 1;
-            }
-            decimal value = 1;
-            if (exponent > 0)
-            {
-                for (int i = 0; i < exponent; i++)
-                {
-                    value *= baseValue;
-                }
-            }
-            else if (exponent < 0)
-            {
-                exponent = -exponent;
-                for (int i = 0; i < exponent; i++)
-                {
-                    value /= baseValue;
-                }
-            }
-            return value;
-        }
-        /// <summary>
-        /// 指定の decimal を指定した値で累乗した値を返します。
-        /// </summary>
-        /// <param name="baseValue">累乗対象の底</param>
-        /// <param name="exponent">冪指数</param>
-        /// <returns>累乗した値</returns>
-        public static decimal Pow(decimal baseValue, uint exponent)
-        {
-            if (exponent == 0)
-            {
-                return 1;
-            }
-            if (baseValue == 0)
-            {
-                return 0;
-            }
-            if (baseValue == 1)
-            {
-                return 1;
-            }
-            decimal value = 1;
-            for (uint i = 0; i < exponent; i++)
-            {
-                value *= baseValue;
-            }
-            return value;
-        }
-        #region BigInteger
-        /// <summary>
-        /// 指定された値を指数として 10 を累乗します。
+        /// Pow10の計算結果をキャッシュします。
+        /// 過去に計算されていたらキャッシュから返す。
         /// </summary>
         /// <param name="exponent">指数</param>
         /// <returns>baseValue を exponent で累乗した結果。</returns>
-        public static BigInteger BigIntegerPow10(int exponent)
+        public static BigInteger CachedPow10(int exponent)
         {
-            if (BigIntegerPow10Results.ContainsKey(exponent))
+            if (Pow10Caches.ContainsKey(exponent))
             {
-                return BigIntegerPow10Results[exponent];
+                return Pow10Caches[exponent];
             }
             var result = BigInteger.Pow(10, exponent);
-            BigIntegerPow10Results[exponent] = result;
+            Pow10Caches[exponent] = result;
             return result;
         }
         /// <summary>
         /// BigIntegerPow10() の結果を保存しておき、2回目以降はこちらを使用する。
         /// </summary>
-        private static readonly Dictionary<int, BigInteger> BigIntegerPow10Results = new Dictionary<int, BigInteger>();
-        #endregion BigInteger
+        private static readonly Dictionary<int, BigInteger> Pow10Caches = new Dictionary<int, BigInteger>();
+        #endregion CachedPow10
         #endregion Pow
 
         #region Exp

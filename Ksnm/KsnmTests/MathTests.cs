@@ -1025,14 +1025,14 @@ namespace Ksnm.Tests
         }
 
         [TestMethod()]
-        public void BigIntegerPow10Test()
+        public void CachedPow10Test()
         {
-            Assert.AreEqual(1, Math.BigIntegerPow10(0));
-            Assert.AreEqual(10, Math.BigIntegerPow10(1));
-            Assert.AreEqual(100, Math.BigIntegerPow10(2));
-            Assert.AreEqual(1000, Math.BigIntegerPow10(3));
-            Assert.AreEqual(10000, Math.BigIntegerPow10(4));
-            Assert.AreEqual(100000, Math.BigIntegerPow10(5));
+            Assert.AreEqual(1, Math.CachedPow10(0));
+            Assert.AreEqual(10, Math.CachedPow10(1));
+            Assert.AreEqual(100, Math.CachedPow10(2));
+            Assert.AreEqual(1000, Math.CachedPow10(3));
+            Assert.AreEqual(10000, Math.CachedPow10(4));
+            Assert.AreEqual(100000, Math.CachedPow10(5));
         }
 
         [TestMethod()]
@@ -1360,7 +1360,7 @@ namespace Ksnm.Tests
                 double a = 0.0;// 積分区間の下限
                 double b = double.Pi;// 積分区間の上限
                 int n = 10000;// 分割数
-                double result = Math.TrapezoidalRule(a, b, n, SMath.Sin);
+                double result = Math.TrapezoidalIntegral(a, b, n, SMath.Sin);
                 Assert.AreEqual(2.0, result, 0.0000001);
             }
         }
