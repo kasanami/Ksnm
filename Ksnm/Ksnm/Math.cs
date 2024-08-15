@@ -1116,53 +1116,6 @@ namespace Ksnm
             return temp;
         }
         /// <summary>
-        /// 階乗
-        /// ※ long で表現できる整数の最大値は 9223372036854775807
-        /// よって、20!	までなら正確に計算できる。
-        /// </summary>
-        /// <param name="value">階乗する値</param>
-        /// <returns>階乗した値</returns>
-        public static long Factorial(long value)
-        {
-            long temp = 1;
-            for (long i = value; i > 0; i--)
-            {
-                temp *= i;
-            }
-            return temp;
-        }
-        /// <summary>
-        /// 階乗
-        /// ※ double で表現できる整数の最大値は 9007199254740992
-        /// よって、18!	までなら正確に計算できる。
-        /// </summary>
-        /// <param name="value">階乗する値</param>
-        /// <returns>階乗した値</returns>
-        public static double Factorial(double value)
-        {
-            double temp = 1;
-            for (double i = value; i > 0; i--)
-            {
-                temp *= i;
-            }
-            return temp;
-        }
-        /// <summary>
-        /// 階乗
-        /// NOTE:21!以上は BigInteger でないと表現できない
-        /// </summary>
-        /// <param name="value">階乗する整数</param>
-        /// <returns>階乗した値</returns>
-        public static BigInteger Factorial(BigInteger value)
-        {
-            BigInteger temp = 1;
-            for (BigInteger i = value; i > 0; i--)
-            {
-                temp *= i;
-            }
-            return temp;
-        }
-        /// <summary>
         /// 範囲を指定した階乗
         /// </summary>
         public static T RangeFactorial<T>(T from, T to) where T : INumber<T>
@@ -2420,5 +2373,28 @@ namespace Ksnm
             return sum;
         }
         #endregion ネイピア数
+
+        #region 順列・組合せ
+        /// <summary>
+        /// 順列の総数
+        /// </summary>
+        /// <param name="n">選ぶことのできる元の種類</param>
+        /// <param name="r">nから選ぶ数</param>
+        /// <returns>n個のものからr個とった順列の総数</returns>
+        public static BigInteger Permutation(int n, int r)
+        {
+            return Factorial<BigInteger>(n) / Factorial<BigInteger>(n - r);
+        }
+        /// <summary>
+        /// 組合せの総数
+        /// </summary>
+        /// <param name="n">選ぶことのできる元の種類</param>
+        /// <param name="r">nから選ぶ数</param>
+        /// <returns>n個のものからr個とった組合せの総数</returns>
+        public static BigInteger Combination(int n, int r)
+        {
+            return Factorial<BigInteger>(n) / (Factorial<BigInteger>(r) * Factorial<BigInteger>(n - r));
+        }
+        #endregion 順列・組合せ
     }
 }

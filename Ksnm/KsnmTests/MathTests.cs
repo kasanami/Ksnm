@@ -1345,5 +1345,24 @@ namespace Ksnm.Tests
                 Assert.AreEqual(2.0, result, 0.0000001);
             }
         }
+
+        [TestMethod()]
+        public void PermutationTest()
+        {
+            Assert.AreEqual(20, Math.Permutation(5, 2));
+            Assert.AreEqual(120, Math.Permutation(6, 3));
+            Assert.AreEqual(210, Math.Permutation(7, 3));
+            Assert.AreEqual(720, Math.Permutation(6, 6));
+            Assert.AreEqual(720, Math.Permutation(10, 3));
+            Assert.AreEqual(1680, Math.Permutation(8, 4));
+        }
+
+        [TestMethod()]
+        public void CombinationTest()
+        {
+            Assert.AreEqual(10, Math.Combination(5, 3));
+            Assert.AreEqual(20, Math.Combination(6, 3));
+            Assert.AreEqual(56, Math.Combination(8, 3));
+        }
     }
 }
