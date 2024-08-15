@@ -1349,6 +1349,8 @@ namespace Ksnm.Tests
         [TestMethod()]
         public void PermutationTest()
         {
+            Assert.AreEqual(1, Math.Permutation(0, 0));
+            Assert.AreEqual(1, Math.Permutation(1, 1));
             Assert.AreEqual(20, Math.Permutation(5, 2));
             Assert.AreEqual(120, Math.Permutation(6, 3));
             Assert.AreEqual(210, Math.Permutation(7, 3));
@@ -1360,6 +1362,8 @@ namespace Ksnm.Tests
         [TestMethod()]
         public void CombinationTest()
         {
+            Assert.AreEqual(1, Math.Combination(0, 0));
+            Assert.AreEqual(1, Math.Combination(1, 1));
             Assert.AreEqual(10, Math.Combination(5, 3));
             Assert.AreEqual(20, Math.Combination(6, 3));
             Assert.AreEqual(56, Math.Combination(8, 3));
