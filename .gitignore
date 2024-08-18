@@ -497,3 +497,9 @@ net5.0-windows
 /Ksnm/ConsoleApp/bin/Release/net8.0/MessagePack.Annotations.dll
 /Ksnm/ConsoleApp/bin/Release/net8.0/MessagePack.dll
 /Ksnm/ConsoleApp/bin/Release/net8.0/Microsoft.NET.StringTools.dll
+/Ksnm/ConsoleApp/bin/Debug/net8.0/MessagePack.Annotations.dll
+/Ksnm/ConsoleApp/bin/Debug/net8.0/MessagePack.dll
+/Ksnm/ConsoleApp/bin/Debug/net8.0/Microsoft.NET.StringTools.dll
+/Ksnm/WinFormsApp/bin/Debug/net8.0-windows/MessagePack.Annotations.dll
+/Ksnm/WinFormsApp/bin/Debug/net8.0-windows/MessagePack.dll
+/Ksnm/WinFormsApp/bin/Debug/net8.0-windows/Microsoft.NET.StringTools.dll

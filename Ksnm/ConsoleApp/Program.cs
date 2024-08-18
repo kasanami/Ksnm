@@ -1,12 +1,13 @@
-﻿
-namespace ConsoleApp
+﻿namespace ConsoleApp
 {
     internal class Program
     {
         private static void Main(string[] args)
         {
-            NumericsTest.Run();
-            AITest.Run();
+            //MathTest.Run();
+            GenericMathTest.Run();
+            //NumericsTest.Run();
+            //AITest.Run();
         }
     }
 }
