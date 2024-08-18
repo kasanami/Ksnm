@@ -60,7 +60,7 @@ namespace Ksnm.ExtensionMethods.System.Numerics.BigInteger
             {
                 return value;
             }
-            var divisor = Math.BigIntegerPow10(digits);
+            var divisor = Math.CachedPow10(digits);
             var half = divisor / 2;
             var remainder = value % divisor;
             // 中間を超えている時
