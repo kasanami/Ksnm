@@ -57,5 +57,51 @@ namespace Ksnm.Numerics.Tests
                 Assert.AreEqual(0b10000000000000000000000000000000000000000000000000000ul, extendedDouble.Mantissa);
             }
         }
+        [TestMethod()]
+        public void SetTest()
+        {
+            ExtendedDouble extendedDouble = new ExtendedDouble();
+            extendedDouble.Value = 0;
+
+            extendedDouble.SignBit = 0;
+            Assert.AreEqual(0, extendedDouble.SignBit);
+            Assert.AreEqual(0, extendedDouble.ExponentBits);
+            Assert.AreEqual(0ul, extendedDouble.MantissaBits);
+            extendedDouble.SignBit = 1;
+            Assert.AreEqual(1, extendedDouble.SignBit);
+            Assert.AreEqual(0, extendedDouble.ExponentBits);
+            Assert.AreEqual(0ul, extendedDouble.MantissaBits);
+
+            extendedDouble.ExponentBits = 0;
+            Assert.AreEqual(1, extendedDouble.SignBit);
+            Assert.AreEqual(0, extendedDouble.ExponentBits);
+            Assert.AreEqual(0ul, extendedDouble.MantissaBits);
+            extendedDouble.ExponentBits = 0b11111111111;
+            Assert.AreEqual(1, extendedDouble.SignBit);
+            Assert.AreEqual(0b11111111111, extendedDouble.ExponentBits);
+            Assert.AreEqual(0ul, extendedDouble.MantissaBits);
+
+            extendedDouble.MantissaBits = 0;
+            Assert.AreEqual(1, extendedDouble.SignBit);
+            Assert.AreEqual(0b11111111111, extendedDouble.ExponentBits);
+            Assert.AreEqual(0ul, extendedDouble.MantissaBits);
+            extendedDouble.MantissaBits = 0b1111_1111111111111111_1111111111111111_1111111111111111;
+            Assert.AreEqual(1, extendedDouble.SignBit);
+            Assert.AreEqual(0b11111111111, extendedDouble.ExponentBits);
+            Assert.AreEqual(0b1111_1111111111111111_1111111111111111_1111111111111111ul, extendedDouble.MantissaBits);
+
+            extendedDouble.SignBit = 0;
+            Assert.AreEqual(0, extendedDouble.SignBit);
+            Assert.AreEqual(0b11111111111, extendedDouble.ExponentBits);
+            Assert.AreEqual(0b1111_1111111111111111_1111111111111111_1111111111111111ul, extendedDouble.MantissaBits);
+            extendedDouble.ExponentBits = 0;
+            Assert.AreEqual(0, extendedDouble.SignBit);
+            Assert.AreEqual(0, extendedDouble.ExponentBits);
+            Assert.AreEqual(0b1111_1111111111111111_1111111111111111_1111111111111111ul, extendedDouble.MantissaBits);
+            extendedDouble.MantissaBits = 0;
+            Assert.AreEqual(0, extendedDouble.SignBit);
+            Assert.AreEqual(0, extendedDouble.ExponentBits);
+            Assert.AreEqual(0ul, extendedDouble.MantissaBits);
+        }
     }
 }
