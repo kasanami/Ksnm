@@ -25,7 +25,7 @@ namespace Ksnm.Numerics
         /// <summary>
         /// 符号部のビットマスク(実際のビット位置)
         /// </summary>
-        public const UInt SignShiftedBitMask = SignBitMask<<SignBitShift;
+        public const UInt SignShiftedBitMask = SignBitMask << SignBitShift;
 
         /// <summary>
         /// 指数部のビット数
@@ -42,7 +42,7 @@ namespace Ksnm.Numerics
         /// <summary>
         /// 指数部のビットマスク(実際のビット位置)
         /// </summary>
-        public const UInt ExponentShiftedBitMask = ExponentBitMask<< ExponentBitShift;
+        public const UInt ExponentShiftedBitMask = ExponentBitMask << ExponentBitShift;
         /// <summary>
         /// 指数部バイアス
         /// </summary>
