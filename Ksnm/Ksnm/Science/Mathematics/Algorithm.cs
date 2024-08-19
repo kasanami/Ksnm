@@ -24,6 +24,7 @@ freely, subject to the following restrictions:
 using Ksnm.Numerics;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using static System.Math;
 
 namespace Ksnm.Science.Mathematics
@@ -35,48 +36,42 @@ namespace Ksnm.Science.Mathematics
     {
         /// <summary>
         /// ガウス＝ルジャンドルのアルゴリズム
+        /// NOTE:小数点以下100桁の場合、計算回数は 7 回で良い
         /// </summary>
-        /// <param name="count">計算回数(3以降は同じ結果になる。)</param>
+        /// <param name="count">計算回数 (doubleなら3以上は変化なし)</param>
         /// <returns>円周率</returns>
-        public static double GaussLegendre(int count)
+        public static T GaussLegendre<T>(T tolerance,int count, Func<T, T> Sqrt) where T : INumber<T>
         {
-            double a = 1.0;
-            double b = 1.0 / Sqrt(2.0);
-            double t = 1.0 / 4;
-            double p = 1.0;
+            T _2 = T.CreateChecked(2);
+            T _4 = T.CreateChecked(4);
+            T a = T.One;
+            T b = T.One / Sqrt(_2);
+            T t = T.One / _4;
+            T p = T.One;
             for (var i = 0; i < count; i++)
             {
                 var beforeA = a;
-                a = (a + b) / 2;
+                a = (a + b) / _2;
+                var a2 =  beforeA-a;
                 b = Sqrt(beforeA * b);
-                t -= (p * (a - beforeA) * (a - beforeA));
-                p = 2 * p;
+                t -= p * (a2 * a2);
+                p *= _2;
+                if (a2 < tolerance)
+                {
+                    break;
+                }
             }
-            return (a + b) * (a + b) / (4 * t);
+            return (a + b) * (a + b) / (_4 * t);
         }
         /// <summary>
         /// ガウス＝ルジャンドルのアルゴリズム
-        /// ※最下位桁周辺は意図しない値の可能性があります。
-        /// NOTE:小数点以下100桁の場合、計算回数は 7 回で良い
         /// </summary>
-        /// <param name="count">計算回数</param>
-        /// <param name="decimals">精度</param>
+        /// <param name="count">計算回数 (doubleなら3以上は変化なし)</param>
         /// <returns>円周率</returns>
-        public static BigDecimal GaussLegendreForBigDecimal(int count, int decimals)
+        public static T GaussLegendre<T>(int count)
+            where T : IFloatingPointIeee754<T>
         {
-            BigDecimal a = 1;
-            BigDecimal b = 1 / BigDecimal.Sqrt(2, decimals);
-            BigDecimal t = 1 / (BigDecimal)4;
-            BigDecimal p = 1;
-            for (var i = 0; i < count; i++)
-            {
-                var beforeA = a;
-                a = (a + b) / 2;
-                b = BigDecimal.Sqrt(beforeA * b, decimals);
-                t -= (p * (a - beforeA) * (a - beforeA));
-                p = 2 * p;
-            }
-            return (a + b) * (a + b) / (4 * t);
+            return GaussLegendre<T>(T.Epsilon, count, T.Sqrt);
         }
         /// <summary>
         /// エラトステネスの篩

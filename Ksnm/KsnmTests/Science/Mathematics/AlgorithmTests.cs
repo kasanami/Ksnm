@@ -2,25 +2,39 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Ksnm.ExtensionMethods.System.Collections.Generic.Enumerable;
 using System.Linq;
+using Ksnm.Numerics;
 
 namespace Ksnm.Science.Mathematics.Tests
 {
     [TestClass()]
     public class AlgorithmTests
     {
+        /// <summary>
+        /// 小数点以下100桁の円周率の文字列
+        /// </summary>
+        static readonly string Pi100 = "3.141592653589793238462643383279502884197169399375105820974944592307816406286208998628034825342117068";
+
+
         [TestMethod()]
         public void GaussLegendreTest()
         {
+            // double
             {
-                var pi = Algorithm.GaussLegendre(3);
-                Assert.AreEqual(System.Math.PI, pi, 0.00000000000000089);
+                var pi = Algorithm.GaussLegendre<double>(3);
+                Assert.AreEqual(double.Pi, pi, 0.00000000000000089);
             }
+            // decimal
             {
-                var pi = Algorithm.GaussLegendreForBigDecimal(7, 105);
-                pi.SetMinExponentAndRound(-100);
-                Assert.AreEqual(
-                    "3.1415926535897932384626433832795028841971693993751058209749445923078164062862089986280348253421170680",
-                    pi.ToString());
+                var pi = Algorithm.GaussLegendre<decimal>(Math.DecimalEpsilon, 3, Math.Sqrt);
+                Assert.AreEqual(Math.DecimalPi, pi, 0.000000000000000001m);
+            }
+            // BigDecimal
+            {
+                BigDecimal.DefaultMinExponent = -105;
+                var t = new BigDecimal(1, -100);
+                var pi = Algorithm.GaussLegendre<BigDecimal>(t, 7, BigDecimal.Sqrt);
+                pi = BigDecimal.Round(pi, 100, System.MidpointRounding.AwayFromZero);
+                Assert.AreEqual(Pi100, pi.ToString());
             }
         }
 

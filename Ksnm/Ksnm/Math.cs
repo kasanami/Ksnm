@@ -54,13 +54,19 @@ namespace Ksnm
         /// </summary>
         public const double SilverNumber = 2.41421356237309504880;
         /// <summary>
-        /// 円周率
+        /// decimal の円周率(四捨五入している)
+        /// 3.1415926535897932384626433832 79 
         /// </summary>
-        public const decimal PI_Decimal = 3.141592653589793238462643383279m;
+        public const decimal DecimalPi = 3.1415926535897932384626433833m;
         /// <summary>
-        /// ネイピア数
+        /// decimal のネイピア数(四捨五入している)
+        /// 2.7182818284590452353602874713 52
         /// </summary>
-        public const decimal E_Decimal = 2.718281828459045235360287471352m;
+        public const decimal DecimalE = 2.7182818284590452353602874714m;
+        /// <summary>
+        /// decimal の0以上の最小値
+        /// </summary>
+        public const decimal DecimalEpsilon = 0.00000_00000_00000_00000_00000_001m;
         #endregion 定数
 
         #region ネイピア数
@@ -97,11 +103,37 @@ namespace Ksnm
         }
         #endregion ネイピア数
 
-            #region IsEven
+        #region 円周率
+        /// <summary>
+        /// 円周率を計算する
+        /// </summary>
+        /// <param name="tolerance">許容値</param>
+        /// <param name="terms">単項式数</param>
+        /// <returns>円周率 3.1415...</returns>
+        public static T CalculatePi<T>(T tolerance, int terms = DefaultTerms)
+            where T : INumber<T>
+        {
+            Func<T, T> Sqrt = (T value) =>
+            {
+                return Math.Sqrt(value, tolerance, terms);
+            };
+            return Ksnm.Science.Mathematics.Algorithm.GaussLegendre<T>(tolerance, terms, Sqrt);
+        }
+        /// <summary>
+        /// 円周率を計算する
+        /// </summary>
+        /// <param name="terms">単項式数</param>
+        /// <returns>円周率 3.1415...</returns>
+        public static T CalculatePi<T>(int terms = DefaultTerms)where T : IFloatingPointIeee754<T>
+        {
+            return Ksnm.Science.Mathematics.Algorithm.GaussLegendre<T>(terms);
+        }
+        #endregion 円周率
 
-            /// <summary>
-            /// 偶数ならtrueを返す。
-            /// </summary>
+        #region IsEven
+        /// <summary>
+        /// 偶数ならtrueを返す。
+        /// </summary>
         public static bool IsEven(int value)
         {
             return (value & 1) == 0;
@@ -1073,7 +1105,7 @@ namespace Ksnm
         {
             return _Pow(baseValue, exponent, tolerance, terms, Log, Exp);
         }
-        public static T _Pow<T>(T baseValue, T exponent, T tolerance, int terms ,Func<T, T,int, T> Log , Func<T, T, int, T> Exp)
+        public static T _Pow<T>(T baseValue, T exponent, T tolerance, int terms, Func<T, T, int, T> Log, Func<T, T, int, T> Exp)
             where T : INumber<T>
         {
             // 0乗は1

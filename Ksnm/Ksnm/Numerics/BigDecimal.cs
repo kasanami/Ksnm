@@ -1575,7 +1575,8 @@ public struct BigDecimal :
         ITrigonometricFunctions<BigDecimal>,
         IPowerFunctions<BigDecimal>,
         ILogarithmicFunctions<BigDecimal>,
-        IExponentialFunctions<BigDecimal>
+        IExponentialFunctions<BigDecimal>,
+        IRootFunctions<BigDecimal>
     {
         #region 定数
         /// <summary>
@@ -2619,6 +2620,27 @@ public struct BigDecimal :
 
         #region INumber<BigDecimal>
 
+        #region 静的プロパティの更新
+        public static void UpdateE(BigDecimal tolerance)
+        {
+            e = Math.CalculateE(tolerance);
+        }
+        public static void UpdateE()
+        {
+            var tolerance = new BigDecimal(1, DefaultMinExponent);
+            UpdateE(tolerance);
+        }
+        public static void UpdatePi(BigDecimal tolerance)
+        {
+            pi = One / Ksnm.Science.Mathematics.Formula.RamanujansPiFormula(tolerance);
+        }
+        public static void UpdatePi()
+        {
+            var tolerance = new BigDecimal(1, DefaultMinExponent);
+            UpdatePi(tolerance);
+        }
+        #endregion 静的プロパティの更新
+
         public static BigDecimal AdditiveIdentity => Zero;
 
         public static BigDecimal MultiplicativeIdentity => One;
@@ -2626,17 +2648,20 @@ public struct BigDecimal :
         /// ネイピア数・自然対数の底（四捨五入済み小数点以下100桁）
         /// * 105桁の場合:2.7182818284590452353602874713526624977572470936999595749669676277240766303535475945713821785251664274_27466
         /// </summary>
-        public static BigDecimal E => BigDecimal.Parse("2.7182818284590452353602874713526624977572470936999595749669676277240766303535475945713821785251664274");
+        public static BigDecimal E => e;
+        private static BigDecimal e = BigDecimal.Parse("2.7182818284590452353602874713526624977572470936999595749669676277240766303535475945713821785251664274");
         /// <summary>
         /// 円周率（四捨五入済み小数点以下100桁）
         /// * 105桁の場合:3.1415926535897932384626433832795028841971693993751058209749445923078164062862089986280348253421170679_82148
         /// </summary>
-        public static BigDecimal Pi => BigDecimal.Parse("3.1415926535897932384626433832795028841971693993751058209749445923078164062862089986280348253421170680");
+        public static BigDecimal Pi => pi;
+        private static BigDecimal pi = BigDecimal.Parse("3.1415926535897932384626433832795028841971693993751058209749445923078164062862089986280348253421170680");
         /// <summary>
         /// 円周率*2（四捨五入済み小数点以下100桁）
         /// * 105桁の場合:6.2831853071795864769252867665590057683943387987502116419498891846156328125724179972560696506842341359_64296
         /// </summary>
-        public static BigDecimal Tau => BigDecimal.Parse("6.2831853071795864769252867665590057683943387987502116419498891846156328125724179972560696506842341360");
+        public static BigDecimal Tau => tau;
+        private static BigDecimal tau = BigDecimal.Parse("6.2831853071795864769252867665590057683943387987502116419498891846156328125724179972560696506842341360");
         /// <summary>
         /// 黄金数（四捨五入済み小数点以下100桁）
         /// * 105桁の場合:1.618033988749894848204586834365638117720309179805762862135448622705260462818902449707207204189391137484754
@@ -3693,19 +3718,21 @@ public struct BigDecimal :
 
         #region ITrigonometricFunctions
 
+        /// <inheritdoc cref="ITrigonometricFunctions{TSelf}.Acos(TSelf)" />
         public static BigDecimal Acos(BigDecimal x)
         {
-            throw new NotImplementedException();
+            return Math.Acos(x, x.Epsilon);
         }
 
+        /// <inheritdoc cref="ITrigonometricFunctions{TSelf}.AcosPi(TSelf)" />
         public static BigDecimal AcosPi(BigDecimal x)
         {
-            throw new NotImplementedException();
+            return Acos(x) / Pi;
         }
 
         public static BigDecimal Asin(BigDecimal x)
         {
-            throw new NotImplementedException();
+            return Math.Asin(x, x.Epsilon);
         }
 
         public static BigDecimal AsinPi(BigDecimal x)
@@ -3869,6 +3896,23 @@ public struct BigDecimal :
             throw new NotImplementedException();
         }
         #endregion IFloatingPoint
+
+        #region IRootFunctions
+        public static BigDecimal Cbrt(BigDecimal x)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static BigDecimal Hypot(BigDecimal x, BigDecimal y)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static BigDecimal RootN(BigDecimal x, int n)
+        {
+            throw new NotImplementedException();
+        }
+        #endregion IRootFunctions
     }
 #endif
 }

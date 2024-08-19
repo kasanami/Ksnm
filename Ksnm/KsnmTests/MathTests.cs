@@ -20,13 +20,14 @@ namespace Ksnm.Tests
         /// AreEqualのdelta
         /// </summary>
         double Tolerance = 0.00000_00001;
-
-        decimal DecimalEpsilon = 0.00000_00000_00000_00000_00000_001m;
         /// <summary>
         /// 小数点以下100桁の円周率の文字列
         /// </summary>
         static readonly string E100 = "2.7182818284590452353602874713526624977572470936999595749669676277240766303535475945713821785251664274";
-
+        /// <summary>
+        /// 小数点以下100桁の円周率の文字列
+        /// </summary>
+        static readonly string Pi100 = "3.141592653589793238462643383279502884197169399375105820974944592307816406286208998628034825342117068";
 
         [TestMethod()]
         public void CalculateETest()
@@ -34,7 +35,7 @@ namespace Ksnm.Tests
             // double
             Assert.AreEqual(double.E, Math.CalculateE<double>(), 0.000000000000001);
             // decimal
-            Assert.AreEqual(2.71828182845904523536028747135m, Math.CalculateE(DecimalEpsilon, 27));
+            Assert.AreEqual(2.71828182845904523536028747135m, Math.CalculateE(Math.DecimalEpsilon, 27));
             // BigDecimal
             {
                 BigDecimal.DefaultMinExponent = -105;// 四捨五入のため調整
@@ -42,6 +43,22 @@ namespace Ksnm.Tests
                 var e = Math.CalculateE<BigDecimal>(tolerance);
                 e = BigDecimal.Round(e, 100, System.MidpointRounding.AwayFromZero);
                 Assert.AreEqual(E100, e.ToString());
+            }
+        }
+        [TestMethod()]
+        public void CalculatePiTest()
+        {
+            // double
+            Assert.AreEqual(double.Pi, Math.CalculatePi<double>(), 0.000000000000001);
+            // decimal
+            Assert.AreEqual(Math.DecimalPi, Math.CalculatePi<decimal>(Math.DecimalEpsilon, 30), 0.00000000000000000000000001m);
+            // BigDecimal
+            {
+                BigDecimal.DefaultMinExponent = -105;// 四捨五入のため調整
+                var tolerance = new BigDecimal(1, -100);
+                var e = Math.CalculatePi<BigDecimal>(tolerance);
+                e = BigDecimal.Round(e, 100, System.MidpointRounding.AwayFromZero);
+                Assert.AreEqual(Pi100, e.ToString());
             }
         }
 
