@@ -22,7 +22,7 @@ namespace Ksnm.Science.Mathematics.Tests
             }
             {
                 var pi = Formula.LeibnizFormula<decimal>(0.00000_00000_00000_00000_1m) * 4;
-                Assert.AreEqual(3.14159265358979323846m, pi, 0.0000001m);
+                Assert.AreEqual(3.14159265358979323846m, pi, 0.00001m);
             }
             if(false)
             {

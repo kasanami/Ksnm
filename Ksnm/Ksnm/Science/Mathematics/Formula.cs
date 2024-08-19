@@ -39,7 +39,7 @@ namespace Ksnm.Science.Mathematics
         /// <param name="tolerance">許容値</param>
         /// <param name="terms">単項式数。1未満を設定すると0を返す。</param>
         /// <returns>PI/4(円周率の4分の1)</returns>
-        public static T LeibnizFormula<T>(T tolerance, int terms = 100000000) where T : INumber<T>
+        public static T LeibnizFormula<T>(T tolerance, int terms = 1000000) where T : INumber<T>
         {
             T sum = T.Zero;
             for (var i = 0; i < terms; i++)
