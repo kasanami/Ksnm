@@ -20,6 +20,17 @@ namespace Ksnm.Tests
         /// </summary>
         double Tolerance = 0.00000_00001;
 
+        decimal DecimalEpsilon = 0.00000_00000_00000_00000_00000_001m;
+
+        [TestMethod()]
+        public void CalculateETest()
+        {
+            // double
+            Assert.AreEqual(double.E, Math.CalculateE<double>(), 0.000000000000001);
+            // decimal
+            Assert.AreEqual(2.71828182845904523536028747135m, Math.CalculateE(DecimalEpsilon, 27));
+        }
+
         [TestMethod()]
         public void IsEvenTest()
         {

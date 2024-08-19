@@ -63,11 +63,45 @@ namespace Ksnm
         public const decimal E_Decimal = 2.718281828459045235360287471352m;
         #endregion 定数
 
-        #region IsEven
-
+        #region ネイピア数
         /// <summary>
-        /// 偶数ならtrueを返す。
+        /// ネイピア数を計算する
         /// </summary>
+        /// <param name="tolerance">許容値</param>
+        /// <param name="terms">単項式数 ※decimalの場合28以上でオーバーフローする</param>
+        /// <returns>ネイピア数 2.7182...</returns>
+        public static T CalculateE<T>(T tolerance, int terms = DefaultTerms) where T : INumber<T>
+        {
+            T e = T.One;
+            T factorial = T.One;
+            T n = T.One;
+            for (int i = 1; i <= terms; i++, n++)
+            {
+                factorial *= n;
+                var add = T.One / factorial;
+                e += add;
+                if (add < tolerance)
+                {
+                    break;
+                }
+            }
+            return e;
+        }
+        /// <summary>
+        /// ネイピア数を計算する
+        /// </summary>
+        /// <returns>ネイピア数 2.7182...</returns>
+        public static T CalculateE<T>() where T : IFloatingPointIeee754<T>
+        {
+            return CalculateE(T.Epsilon);
+        }
+        #endregion ネイピア数
+
+            #region IsEven
+
+            /// <summary>
+            /// 偶数ならtrueを返す。
+            /// </summary>
         public static bool IsEven(int value)
         {
             return (value & 1) == 0;
