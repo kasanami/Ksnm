@@ -38,9 +38,10 @@ namespace Ksnm.Science.Mathematics
         /// ガウス＝ルジャンドルのアルゴリズム
         /// NOTE:小数点以下100桁の場合、計算回数は 7 回で良い
         /// </summary>
+        /// <param name="tolerance">許容値</param>
         /// <param name="count">計算回数 (doubleなら3以上は変化なし)</param>
         /// <returns>円周率</returns>
-        public static T GaussLegendre<T>(T tolerance,int count, Func<T, T> Sqrt) where T : INumber<T>
+        public static T GaussLegendre<T>(T tolerance, int count, Func<T, T> Sqrt) where T : INumber<T>
         {
             T _2 = T.CreateChecked(2);
             T _4 = T.CreateChecked(4);
@@ -52,7 +53,7 @@ namespace Ksnm.Science.Mathematics
             {
                 var beforeA = a;
                 a = (a + b) / _2;
-                var a2 =  beforeA-a;
+                var a2 = beforeA - a;
                 b = Sqrt(beforeA * b);
                 t -= p * (a2 * a2);
                 p *= _2;
