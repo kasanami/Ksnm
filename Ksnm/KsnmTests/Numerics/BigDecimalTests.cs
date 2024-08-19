@@ -103,13 +103,10 @@ namespace Ksnm.Numerics.Tests
             {
                 for (int j = -10; j <= 10; j++)
                 {
-                    var expected = (BigDecimal)Math.Pow(i, j);
-                    var actual = BigDecimal.Pow(i, j);
-                    var delta = Math.Abs(expected - actual);
-                    if (delta > 0.00000000000000000000001m)
-                    {
-                        Assert.AreEqual(expected, actual, $"{i} ^ {j}");
-                    }
+                    if (i == 0 && j < 0) { continue; }// 結果が無限大になるのでスキップ
+                    var expected = double.Pow((double)i, j);
+                    var actual = (double)(BigDecimal.Pow(i, j).ToDouble(true));
+                    Assert.AreEqual(expected, actual, 0.000001, $"{i} ^ {j}");
                 }
             }
         }

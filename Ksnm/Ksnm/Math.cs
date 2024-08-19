@@ -1220,6 +1220,14 @@ namespace Ksnm
                 return T.Exp(exponent * log);
             }
         }
+        /// <summary>
+        /// exponentが整数のPow関数。
+        /// baseValueが0,exponentが負数のときは0除算エラーが発生します。
+        /// </summary>
+        /// <typeparam name="T">実数型</typeparam>
+        /// <typeparam name="TExponent">整数型</typeparam>
+        /// <param name="baseValue">累乗対象</param>
+        /// <param name="exponent">指数</param>
         public static T IntegerPow<T, TExponent>(T baseValue, TExponent exponent)
             where T : INumber<T>
             where TExponent : INumber<TExponent>

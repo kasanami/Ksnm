@@ -1656,7 +1656,13 @@ public struct BigDecimal :
             get => -MinExponent;
             set => MinExponent = -value;
         }
-
+        /// <summary>
+        /// 現在の精度による、0より大きい最小の値。
+        /// </summary>
+        public BigDecimal Epsilon
+        {
+            get => new BigDecimal(1, MinExponent);
+        }
         #endregion プロパティ
 
         #region コンストラクタ
@@ -2230,14 +2236,45 @@ public struct BigDecimal :
             return (UInt128)ToBigInteger();
         }
         /// <summary>
+        /// double へ変換します。
+        /// </summary>
+        public double ToDouble(bool isSaturating = true)
+        {
+            if (isSaturating)
+            {
+                if (this > (BigDecimal)double.MaxValue)
+                {
+                    return double.MaxValue;
+                }
+                else if (this < (BigDecimal)double.MinValue)
+                {
+                    return double.MinValue;
+                }
+            }
+            var mantissa = (double)Mantissa;
+            var exponent = double.Pow(10, Exponent);
+            return mantissa * exponent;
+        }
+        /// <summary>
         /// decimal へ変換します。
         /// </summary>
-        public decimal ToDecimal()
+        public decimal ToDecimal(bool isSaturating = true)
         {
+            if (isSaturating)
+            {
+                if (this > decimal.MaxValue)
+                {
+                    return decimal.MaxValue;
+                }
+                else if (this < decimal.MinValue)
+                {
+                    return decimal.MinValue;
+                }
+            }
             // mantissa は正の数にする
             var mantissa = BigInteger.Abs(Mantissa);
             byte scale = 0;
-            // decimal は正の Exponent に対応していないので、mantissa を変換
+            // decimal は正の Exponent に対応していないので、mantissa を大きくする
             if (Exponent > 0)
             {
                 mantissa *= Pow10(Exponent);
@@ -2258,9 +2295,7 @@ public struct BigDecimal :
             var bytes = mantissa.ToByteArray().ToList();
             if (bytes.Count > (4 * 3))
             {
-                //return decimal.MaxValue;
                 throw new OverflowException($"{nameof(Mantissa)}={Mantissa}");
-                //throw new InvalidCastException($"{nameof(Mantissa)}({Mantissa})が decimal の最大値より大きい");
             }
             while (bytes.Count < (4 * 3))
             {
@@ -2330,30 +2365,7 @@ public struct BigDecimal :
         /// <returns>value を exponent で累乗した結果。</returns>
         public static BigDecimal Pow(BigDecimal value, int exponent)
         {
-            if (exponent == 0)
-            {
-                return 1;
-            }
-            if (value == 0)
-            {
-                return 0;
-            }
-            if (exponent < 0)
-            {
-                exponent = -exponent;
-                var temp = Pow(value, exponent);
-                return 1 / temp;
-            }
-            else
-            {
-                var temp = One;
-                for (int i = 0; i < exponent; i++)
-                {
-                    temp *= value;
-                }
-                //temp.Mantissa = BigInteger.Pow(temp.Mantissa, exponent);
-                return temp;
-            }
+            return Math.Pow(value, exponent);
         }
         /// <summary>
         /// 指定された値を指数として 10 を累乗します。
@@ -3802,7 +3814,7 @@ public struct BigDecimal :
         #region IExponentialFunctions
         public static BigDecimal Exp(BigDecimal x)
         {
-            throw new NotImplementedException();
+            return Math.Exp(x, x.Epsilon);
         }
 
         public static BigDecimal Exp10(BigDecimal x)
