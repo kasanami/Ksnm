@@ -124,7 +124,7 @@ namespace Ksnm
         /// </summary>
         /// <param name="terms">単項式数</param>
         /// <returns>円周率 3.1415...</returns>
-        public static T CalculatePi<T>(int terms = DefaultTerms)where T : IFloatingPointIeee754<T>
+        public static T CalculatePi<T>(int terms = DefaultTerms) where T : IFloatingPointIeee754<T>
         {
             return Ksnm.Science.Mathematics.Algorithm.GaussLegendre<T>(terms);
         }
@@ -1425,6 +1425,50 @@ namespace Ksnm
         {
             return Exp(x, T.Epsilon);
         }
+        /// <summary>
+        /// 10を指定した値で累乗した値を返します。
+        /// </summary>
+        /// <param name="exponent">冪指数</param>
+        /// <param name="tolerance">許容値</param>
+        /// <param name="terms">単項式数</param>
+        /// <returns>10を exponent で冪乗した値。</returns>
+        public static T Exp10<T>(T exponent, T tolerance, int terms = DefaultTerms) where T : INumber<T>
+        {
+            var _10 = T.CreateChecked(10);
+            return Pow(_10, exponent, tolerance, terms);
+        }
+        /// <summary>
+        /// 10を指定した値で累乗した値を返します。
+        /// </summary>
+        /// <param name="exponent">冪指数</param>
+        /// <returns>10を exponent で冪乗した値。</returns>
+        public static T Exp10<T>(T exponent) where T : IFloatingPointIeee754<T>
+        {
+            var _10 = T.CreateChecked(10);
+            return Pow(_10, exponent);
+        }
+        /// <summary>
+        /// 10を指定した値で累乗した値を返します。
+        /// </summary>
+        /// <param name="exponent">冪指数</param>
+        /// <param name="tolerance">許容値</param>
+        /// <param name="terms">単項式数</param>
+        /// <returns>10を exponent で冪乗した値。</returns>
+        public static T Exp2<T>(T exponent, T tolerance, int terms = DefaultTerms) where T : INumber<T>
+        {
+            var _2 = T.CreateChecked(2);
+            return Pow(_2, exponent, tolerance, terms);
+        }
+        /// <summary>
+        /// 2を指定した値で累乗した値を返します。
+        /// </summary>
+        /// <param name="exponent">冪指数</param>
+        /// <returns>2を exponent で冪乗した値。</returns>
+        public static T Exp2<T>(T exponent) where T : IFloatingPointIeee754<T>
+        {
+            var _2 = T.CreateChecked(2);
+            return Pow(_2, exponent);
+        }
         #endregion Exp
 
         #region Log 対数
@@ -1470,6 +1514,26 @@ namespace Ksnm
         public static T Log<T>(T x) where T : IFloatingPointIeee754<T>
         {
             return Log(x, T.Epsilon);
+        }
+        public static T Log10<T>(T x, T tolerance, int terms = DefaultTerms) where T : INumber<T>
+        {
+            var _10 = T.CreateChecked(10);
+            return Log(x, tolerance, terms) / Log(_10, tolerance, terms);
+        }
+        public static T Log10<T>(T x) where T : IFloatingPointIeee754<T>
+        {
+            var _10 = T.CreateChecked(10);
+            return Log(x) / Log(_10);
+        }
+        public static T Log2<T>(T x, T tolerance, int terms = DefaultTerms) where T : INumber<T>
+        {
+            var _2 = T.CreateChecked(2);
+            return Log(x, tolerance, terms) / Log(_2, tolerance, terms);
+        }
+        public static T Log2<T>(T x) where T : IFloatingPointIeee754<T>
+        {
+            var _2 = T.CreateChecked(2);
+            return Log(x) / Log(_2);
         }
         #endregion Log
 

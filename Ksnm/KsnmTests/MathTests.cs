@@ -1039,11 +1039,44 @@ namespace Ksnm.Tests
                 var actual = Math.Exp(i);
                 Assert.AreEqual(expected, actual, 0.00000000001, $"i={i}");
             }
-            decimal tolerance = 0.00000000000000000000001m;
             for (decimal i = -5; i <= 5; i += 0.5m)
             {
                 var expected = SMath.Exp((double)i);
-                var actual = Math.Exp(i, tolerance);
+                var actual = Math.Exp(i, Math.DecimalEpsilon);
+                Assert.AreEqual((decimal)expected, actual, 0.00000000001m, $"i={i}");
+            }
+        }
+
+        [TestMethod()]
+        public void Exp10Test()
+        {
+            for (double i = -5; i <= 5; i += 0.5)
+            {
+                var expected = SMath.Pow(10, i);
+                var actual = Math.Exp10(i);
+                Assert.AreEqual(expected, actual, 0.000000001, $"i={i}");
+            }
+            for (decimal i = -5; i <= 5; i += 0.5m)
+            {
+                var expected = SMath.Pow(10, (double)i);
+                var actual = Math.Exp10(i, Math.DecimalEpsilon);
+                Assert.AreEqual((decimal)expected, actual, 0.00000000001m, $"i={i}");
+            }
+        }
+
+        [TestMethod()]
+        public void Exp2Test()
+        {
+            for (double i = -5; i <= 5; i += 0.5)
+            {
+                var expected = SMath.Pow(2, i);
+                var actual = Math.Exp2(i);
+                Assert.AreEqual(expected, actual, 0.00000000001, $"i={i}");
+            }
+            for (decimal i = -5; i <= 5; i += 0.5m)
+            {
+                var expected = SMath.Pow(2, (double)i);
+                var actual = Math.Exp2(i, Math.DecimalEpsilon);
                 Assert.AreEqual((decimal)expected, actual, 0.00000000001m, $"i={i}");
             }
         }
@@ -1057,11 +1090,44 @@ namespace Ksnm.Tests
                 var actual = Math.Log(i);
                 Assert.AreEqual(expected, actual, 0.00000000001, $"i={i}");
             }
-            decimal tolerance = 0.00000000000000000000001m;
             for (decimal i = 1; i <= 5; i += 0.5m)
             {
                 var expected = SMath.Log((double)i);
-                var actual = Math.Log(i, tolerance);
+                var actual = Math.Log(i, Math.DecimalEpsilon);
+                Assert.AreEqual((decimal)expected, actual, 0.00000000001m, $"i={i}");
+            }
+        }
+
+        [TestMethod()]
+        public void Log10Test()
+        {
+            for (double i = 1; i <= 5; i += 0.5)
+            {
+                var expected = SMath.Log10(i);
+                var actual = Math.Log10(i);
+                Assert.AreEqual(expected, actual, 0.00000000001, $"i={i}");
+            }
+            for (decimal i = 1; i <= 5; i += 0.5m)
+            {
+                var expected = SMath.Log10((double)i);
+                var actual = Math.Log10(i, Math.DecimalEpsilon);
+                Assert.AreEqual((decimal)expected, actual, 0.00000000001m, $"i={i}");
+            }
+        }
+
+        [TestMethod()]
+        public void Log2Test()
+        {
+            for (double i = 1; i <= 5; i += 0.5)
+            {
+                var expected = SMath.Log2(i);
+                var actual = Math.Log2(i);
+                Assert.AreEqual(expected, actual, 0.00000000001, $"i={i}");
+            }
+            for (decimal i = 1; i <= 5; i += 0.5m)
+            {
+                var expected = SMath.Log2((double)i);
+                var actual = Math.Log2(i, Math.DecimalEpsilon);
                 Assert.AreEqual((decimal)expected, actual, 0.00000000001m, $"i={i}");
             }
         }
