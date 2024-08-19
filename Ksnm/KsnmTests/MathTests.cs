@@ -8,6 +8,7 @@ using SMath = System.Math;
 using System.Collections.Generic;
 using System;
 using Ksnm.ExtensionMethods.System.Double;
+using Ksnm.Science.Mathematics;
 
 namespace Ksnm.Tests
 {
@@ -21,6 +22,11 @@ namespace Ksnm.Tests
         double Tolerance = 0.00000_00001;
 
         decimal DecimalEpsilon = 0.00000_00000_00000_00000_00000_001m;
+        /// <summary>
+        /// 小数点以下100桁の円周率の文字列
+        /// </summary>
+        static readonly string E100 = "2.7182818284590452353602874713526624977572470936999595749669676277240766303535475945713821785251664274";
+
 
         [TestMethod()]
         public void CalculateETest()
@@ -29,6 +35,14 @@ namespace Ksnm.Tests
             Assert.AreEqual(double.E, Math.CalculateE<double>(), 0.000000000000001);
             // decimal
             Assert.AreEqual(2.71828182845904523536028747135m, Math.CalculateE(DecimalEpsilon, 27));
+            // BigDecimal
+            {
+                BigDecimal.DefaultMinExponent = -105;// 四捨五入のため調整
+                var tolerance = new BigDecimal(1, -100);
+                var e = Math.CalculateE<BigDecimal>(tolerance);
+                e = BigDecimal.Round(e, 100, System.MidpointRounding.AwayFromZero);
+                Assert.AreEqual(E100, e.ToString());
+            }
         }
 
         [TestMethod()]
