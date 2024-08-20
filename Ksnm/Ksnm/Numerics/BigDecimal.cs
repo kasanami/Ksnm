@@ -1608,14 +1608,6 @@ public struct BigDecimal :
         /// </summary>
         public static int DefaultMinExponent = -100;
         /// <summary>
-        /// 精度の初期値(DefaultMinExponentの反数)
-        /// </summary>
-        public static int DefaultPrecision
-        {
-            get => -DefaultMinExponent;
-            set => DefaultMinExponent = -value;
-        }
-        /// <summary>
         /// System.Decimal の指数の最小値
         /// ※System.Decimal 内では正数で保持しているが、この値は指数のため負の値とする。
         /// </summary>
@@ -1628,6 +1620,14 @@ public struct BigDecimal :
         /// デフォルトの丸め処理方法
         /// </summary>
         public const MidpointRounding DefaultMidpointRounding = MidpointRounding.ToEven;
+
+        /// <summary>
+        /// 現在の精度による、0より大きい最小の値。
+        /// </summary>
+        public static BigDecimal Epsilon
+        {
+            get => new BigDecimal(1, DefaultMinExponent);
+        }
         #endregion 定数
 
         #region フィールド
@@ -1656,13 +1656,6 @@ public struct BigDecimal :
         {
             get => -MinExponent;
             set => MinExponent = -value;
-        }
-        /// <summary>
-        /// 現在の精度による、0より大きい最小の値。
-        /// </summary>
-        public BigDecimal Epsilon
-        {
-            get => new BigDecimal(1, MinExponent);
         }
         #endregion プロパティ
 
@@ -1969,6 +1962,7 @@ public struct BigDecimal :
             return Mantissa == 0;
         }
         #endregion　Is*
+
         #endregion 独自メソッド
 
         #region 型変換
@@ -2627,17 +2621,15 @@ public struct BigDecimal :
         }
         public static void UpdateE()
         {
-            var tolerance = new BigDecimal(1, DefaultMinExponent);
-            UpdateE(tolerance);
+            UpdateE(Epsilon);
         }
         public static void UpdatePi(BigDecimal tolerance)
         {
-            pi = One / Ksnm.Science.Mathematics.Formula.RamanujansPiFormula(tolerance);
+            pi = Ksnm.Science.Mathematics.Algorithm.GaussLegendre(tolerance, 1000, Sqrt);
         }
         public static void UpdatePi()
         {
-            var tolerance = new BigDecimal(1, DefaultMinExponent);
-            UpdatePi(tolerance);
+            UpdatePi(Epsilon);
         }
         #endregion 静的プロパティの更新
 
@@ -3721,7 +3713,7 @@ public struct BigDecimal :
         /// <inheritdoc cref="ITrigonometricFunctions{TSelf}.Acos(TSelf)" />
         public static BigDecimal Acos(BigDecimal x)
         {
-            return Math.Acos(x, x.Epsilon);
+            return Math.Acos(x, Epsilon);
         }
 
         /// <inheritdoc cref="ITrigonometricFunctions{TSelf}.AcosPi(TSelf)" />
@@ -3732,7 +3724,7 @@ public struct BigDecimal :
 
         public static BigDecimal Asin(BigDecimal x)
         {
-            return Math.Asin(x, x.Epsilon);
+            return Math.Asin(x, Epsilon);
         }
 
         public static BigDecimal AsinPi(BigDecimal x)
@@ -3792,26 +3784,9 @@ public struct BigDecimal :
         #endregion ITrigonometricFunctions
 
         #region IPowerFunctions
-        public static BigDecimal Pow(BigDecimal value, BigDecimal exponent)
+        public static BigDecimal Pow(BigDecimal baseValue, BigDecimal exponent)
         {
-            return Pow(value, exponent, DefaultPrecision);
-        }
-        public static BigDecimal Pow(BigDecimal value, BigDecimal exponent, int precision)
-        {
-            BigDecimal result = new BigDecimal(1, 0, -precision);
-            BigDecimal x = value - 1;
-            x.MinExponent = -precision;
-            BigDecimal term = 1;
-            int terms = int.CreateChecked(exponent);
-
-            for (int i = 1; i <= terms; i++)
-            {
-                term *= exponent * x / i;
-                exponent -= 1;
-                result += term;
-                if (exponent <= 0) { break; }
-            }
-            return result;
+            return Math.Pow(baseValue, exponent);
         }
         #endregion IPowerFunctions
 
@@ -3841,7 +3816,7 @@ public struct BigDecimal :
         #region IExponentialFunctions
         public static BigDecimal Exp(BigDecimal x)
         {
-            return Math.Exp(x, x.Epsilon);
+            return Math.Exp(x, Epsilon);
         }
 
         public static BigDecimal Exp10(BigDecimal x)
