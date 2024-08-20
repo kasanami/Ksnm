@@ -29,7 +29,7 @@ using static Ksnm.Math;
 namespace Ksnm.Science.Mathematics
 {
     /// <summary>
-    /// 公式
+    /// 数学の公式
     /// </summary>
     public static class Formula
     {

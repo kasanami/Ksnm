@@ -1,4 +1,6 @@
-﻿using System.Numerics;
+﻿using Ksnm.Numerics;
+using Ksnm.Science.Mathematics;
+using System.Numerics;
 using static Ksnm.Math;
 using static Ksnm.Science.Mathematics.Formula;
 
@@ -8,6 +10,16 @@ namespace ConsoleApp
     {
         public static void Run()
         {
+            Console.WriteLine("ゴールドバッハ予想");
+            if (Conjecture.GoldbachsConjecture(4, 100))
+            {
+                Console.WriteLine("→2～100の範囲では成り立つ");
+            }
+            {
+                Console.WriteLine("ガウス＝ルジャンドルのアルゴリズム");
+                var pi = Algorithm.GaussLegendre<double>(3);
+                Console.WriteLine($"→{pi}");
+            }
             GammaTest();
             StirlingsFormulaTest();
         }

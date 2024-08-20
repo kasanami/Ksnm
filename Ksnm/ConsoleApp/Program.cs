@@ -4,7 +4,7 @@
     {
         private static void Main(string[] args)
         {
-            //MathTest.Run();
+            MathTest.Run();
             GenericMathTest.Run();
             //NumericsTest.Run();
             //AITest.Run();
