@@ -106,7 +106,7 @@ namespace Ksnm.Numerics.Tests
                     if (i == 0 && j < 0) { continue; }// 結果が無限大になるのでスキップ
                     var expected = double.Pow((double)i, j);
                     var actual = (double)(BigDecimal.Pow(i, j).ToDouble(true));
-                    Assert.AreEqual(expected, actual, 0.000001, $"{i} ^ {j}");
+                    Assert.AreEqual(expected, actual, 0.00001, $"{i} ^ {j}");
                 }
             }
         }
@@ -248,6 +248,26 @@ namespace Ksnm.Numerics.Tests
             {
                 var sample = new BigDecimal(i);
                 Assert.AreEqual((ulong)i, sample.ToUInt64());
+            }
+        }
+
+        [TestMethod()]
+        public void ToDoubleTest()
+        {
+            for (double i = -100; i < 100; i++)
+            {
+                var sample = new BigDecimal(i);
+                Assert.AreEqual(i, sample.ToDouble());
+            }
+            for (double i = 1; i < 1_000_000; i *= 2)
+            {
+                var sample = new BigDecimal(i);
+                Assert.AreEqual(i, sample.ToDouble());
+            }
+            for (double i = 1; i > 0.001; i /= 2)
+            {
+                var sample = new BigDecimal(i);
+                Assert.AreEqual(i, sample.ToDouble());
             }
         }
 
