@@ -45,6 +45,14 @@ namespace Ksnm.Tests
                 Assert.AreEqual(E100, e.ToString());
             }
         }
+
+        [TestMethod()]
+        public void CalculateEForDecimalTest()
+        {
+            // decimal
+            Assert.AreEqual(2.71828182845904523536028747135m, Math.CalculateEForDecimal());
+        }
+ 
         [TestMethod()]
         public void CalculatePiTest()
         {

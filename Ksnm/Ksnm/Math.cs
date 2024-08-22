@@ -101,6 +101,14 @@ namespace Ksnm
         {
             return CalculateE(T.Epsilon);
         }
+        /// <summary>
+        /// ネイピア数を計算する
+        /// </summary>
+        /// <returns>ネイピア数 2.7182...</returns>
+        public static decimal CalculateEForDecimal()
+        {
+            return CalculateE(DecimalEpsilon, 27);
+        }
         #endregion ネイピア数
 
         #region 円周率
