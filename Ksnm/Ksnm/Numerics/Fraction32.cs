@@ -28,9 +28,10 @@ using System;
 namespace Ksnm.Numerics
 {
     // コードを再利用するためのエイリアスを定義
+    using Int = Int16;
     using Fraction = Fraction32;
     /// <summary>
-    /// 分数
+    /// 符号付き32ビット分数(16ビット×2)
     /// </summary>
     public struct Fraction32 : IComparable, IComparable<Fraction>, IEquatable<Fraction>
     {
@@ -50,26 +51,26 @@ namespace Ksnm.Numerics
         /// <summary>
         /// 最小有効値を表します。
         /// </summary>
-        public readonly static Fraction MinValue = new Fraction(int.MinValue);
+        public readonly static Fraction MinValue = new Fraction(Int.MinValue);
         /// <summary>
         /// 最大有効値を表します。
         /// </summary>
-        public readonly static Fraction MaxValue = new Fraction(int.MaxValue);
+        public readonly static Fraction MaxValue = new Fraction(Int.MaxValue);
         /// <summary>
         /// ゼロより大きい最小の値を表します。
         /// </summary>
-        public readonly static Fraction Epsilon = new Fraction(1, int.MaxValue);
+        public readonly static Fraction Epsilon = new Fraction(1, Int.MaxValue);
         #endregion 定数
 
         #region プロパティ
         /// <summary>
         /// 分子
         /// </summary>
-        public int Numerator { get; private set; }
+        public Int Numerator { get; private set; }
         /// <summary>
         /// 分母
         /// </summary>
-        public int Denominator { get; private set; }
+        public Int Denominator { get; private set; }
         #endregion プロパティ
 
         #region コンストラクタ
@@ -78,7 +79,7 @@ namespace Ksnm.Numerics
         /// </summary>
         /// <param name="numerator">分子</param>
         /// <param name="denominator">分母</param>
-        public Fraction32(int numerator, int denominator)
+        public Fraction32(Int numerator, Int denominator)
         {
             Numerator = numerator;
             Denominator = denominator;
@@ -88,7 +89,7 @@ namespace Ksnm.Numerics
         /// 分子を指定して初期化
         /// </summary>
         /// <param name="numerator">分子</param>
-        public Fraction32(int numerator) : this(numerator, 1)
+        public Fraction32(Int numerator) : this(numerator, 1)
         {
         }
         /// <summary>
@@ -148,14 +149,15 @@ namespace Ksnm.Numerics
             var mantissa = value.GetMantissa();
             var exponent = value.GetExponentBits();
             var denominator = Math.Pow(10u, (uint)exponent);
-            Numerator = (int)mantissa;
-            Denominator = (int)denominator;
+            Numerator = (Int)mantissa;
+            Denominator = (Int)denominator;
             if (value < 0)
             {
-                Numerator = -Numerator;
+                Numerator = (Int)(-Numerator);
             }
         }
         #endregion コンストラクタ
+
         /// <summary>
         /// 約分する。
         /// <para>可約でない場合は何もしません。</para>
@@ -200,14 +202,14 @@ namespace Ksnm.Numerics
         /// </summary>
         public static Fraction operator -(in Fraction value)
         {
-            return new Fraction(-value.Numerator, value.Denominator);
+            return new Fraction((Int)(-value.Numerator), value.Denominator);
         }
         /// <summary>
         /// valueの補数を返す
         /// </summary>
         public static Fraction operator ~(in Fraction value)
         {
-            return new Fraction(~value.Numerator, ~value.Denominator);
+            return new Fraction((Int)(~value.Numerator), (Int)(~value.Denominator));
         }
         #endregion 単項演算子
 
@@ -220,13 +222,13 @@ namespace Ksnm.Numerics
             var temp = new Fraction();
             if (valueR.Denominator == valueL.Denominator)
             {
-                temp.Numerator = valueL.Numerator + valueR.Numerator;
+                temp.Numerator = (Int)(valueL.Numerator + valueR.Numerator);
                 temp.Denominator = valueL.Denominator;
             }
             else
             {
-                temp.Numerator = valueL.Numerator * valueR.Denominator + valueR.Numerator * valueL.Denominator;
-                temp.Denominator = valueL.Denominator * valueR.Denominator;
+                temp.Numerator = (Int)(valueL.Numerator * valueR.Denominator + valueR.Numerator * valueL.Denominator);
+                temp.Denominator = (Int)(valueL.Denominator * valueR.Denominator);
             }
             temp.Reduce();
             return temp;
@@ -239,13 +241,13 @@ namespace Ksnm.Numerics
             var temp = new Fraction();
             if (valueR.Denominator == valueL.Denominator)
             {
-                temp.Numerator = valueL.Numerator - valueR.Numerator;
+                temp.Numerator = (Int)(valueL.Numerator - valueR.Numerator);
                 temp.Denominator = valueL.Denominator;
             }
             else
             {
-                temp.Numerator = valueL.Numerator * valueR.Denominator - valueR.Numerator * valueL.Denominator;
-                temp.Denominator = valueL.Denominator * valueR.Denominator;
+                temp.Numerator = (Int)(valueL.Numerator * valueR.Denominator - valueR.Numerator * valueL.Denominator);
+                temp.Denominator = (Int)(valueL.Denominator * valueR.Denominator);
             }
             temp.Reduce();
             return temp;
@@ -256,8 +258,8 @@ namespace Ksnm.Numerics
         public static Fraction operator *(in Fraction valueL, in Fraction valueR)
         {
             var temp = new Fraction();
-            temp.Numerator = valueL.Numerator * valueR.Numerator;
-            temp.Denominator = valueL.Denominator * valueR.Denominator;
+            temp.Numerator = (Int)(valueL.Numerator * valueR.Numerator);
+            temp.Denominator = (Int)(valueL.Denominator * valueR.Denominator);
             temp.Reduce();
             return temp;
         }
@@ -267,8 +269,8 @@ namespace Ksnm.Numerics
         public static Fraction operator /(in Fraction valueL, in Fraction valueR)
         {
             var temp = new Fraction();
-            temp.Numerator = valueL.Numerator * valueR.Denominator;
-            temp.Denominator = valueL.Denominator * valueR.Numerator;
+            temp.Numerator = (Int)(valueL.Numerator * valueR.Denominator);
+            temp.Denominator = (Int)(valueL.Denominator * valueR.Numerator);
             temp.Reduce();
             return temp;
         }
@@ -347,42 +349,42 @@ namespace Ksnm.Numerics
         /// </summary>
         public static implicit operator Fraction(ushort value)
         {
-            return new Fraction(value);
+            return new Fraction((Int)value);
         }
         /// <summary>
         /// int から 分数型 への暗黙的な変換を定義します。
         /// </summary>
         public static implicit operator Fraction(int value)
         {
-            return new Fraction(value);
+            return new Fraction((Int)value);
         }
         /// <summary>
         /// uint から 分数型 への明示的な変換を定義します。
         /// </summary>
         public static explicit operator Fraction(uint value)
         {
-            return new Fraction((int)value);
+            return new Fraction((Int)value);
         }
         /// <summary>
         /// long から 分数型 への明示的な変換を定義します。
         /// </summary>
         public static explicit operator Fraction(long value)
         {
-            return new Fraction((int)value);
+            return new Fraction((Int)value);
         }
         /// <summary>
         /// ulong から 分数型 への明示的な変換を定義します。
         /// </summary>
         public static explicit operator Fraction(ulong value)
         {
-            return new Fraction((int)value);
+            return new Fraction((Int)value);
         }
         /// <summary>
         /// float から 分数型 への明示的な変換を定義します。
         /// </summary>
         public static explicit operator Fraction(float value)
         {
-            return (Fraction)(double)value;
+            return new Fraction(value);
         }
         /// <summary>
         /// double から 分数型 への明示的な変換を定義します。
