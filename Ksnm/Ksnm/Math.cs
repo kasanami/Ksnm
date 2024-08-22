@@ -1046,6 +1046,19 @@ namespace Ksnm
             }
             return result;
         }
+        /// <summary>
+        /// 二重階乗
+        /// </summary>
+        public static T DoubleFactorial<T>(T value) where T : INumber<T>
+        {
+            T _2 = T.CreateChecked(2);
+            T temp = T.One;
+            for (T i = value; i > T.One; i -= _2)
+            {
+                temp *= i;
+            }
+            return temp;
+        }
         #endregion Factorial 階乗
 
         #region Gamma ガンマ関数

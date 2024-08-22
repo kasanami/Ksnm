@@ -52,7 +52,7 @@ namespace Ksnm.Tests
             // decimal
             Assert.AreEqual(2.71828182845904523536028747135m, Math.CalculateEForDecimal());
         }
- 
+
         [TestMethod()]
         public void CalculatePiTest()
         {
@@ -604,6 +604,19 @@ namespace Ksnm.Tests
             Assert.AreEqual(2 * 3 * 4, Math.RangeFactorial(2.0, 4.0));
             Assert.AreEqual(2 * 3 * 4 * 5, Math.RangeFactorial(2.0, 5.0));
             Assert.AreEqual(3 * 4 * 5 * 6, Math.RangeFactorial(3.0, 6.0));
+        }
+
+        [TestMethod()]
+        public void DoubleFactorialTest()
+        {
+            Assert.AreEqual(1.0, Math.DoubleFactorial(0.0));
+            Assert.AreEqual(1.0, Math.DoubleFactorial(1.0));
+            Assert.AreEqual(2.0, Math.DoubleFactorial(2.0));
+            Assert.AreEqual(3.0, Math.DoubleFactorial(3.0));
+            Assert.AreEqual(8.0, Math.DoubleFactorial(4.0));
+            Assert.AreEqual(15.0, Math.DoubleFactorial(5.0));
+            Assert.AreEqual(48.0, Math.DoubleFactorial(6.0));
+            Assert.AreEqual(105.0, Math.DoubleFactorial(7.0));
         }
 
         [TestMethod()]
