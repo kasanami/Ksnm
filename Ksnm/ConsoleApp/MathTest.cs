@@ -13,7 +13,7 @@ namespace ConsoleApp
             Console.WriteLine("ゴールドバッハ予想");
             if (Conjecture.GoldbachsConjecture(4, 100))
             {
-                Console.WriteLine("→2～100の範囲では成り立つ");
+                Console.WriteLine("→4～100の範囲では成り立つ");
             }
             {
                 Console.WriteLine("ガウス＝ルジャンドルのアルゴリズム");
