@@ -1536,25 +1536,33 @@ namespace Ksnm
         {
             return Log(x, T.Epsilon);
         }
+        public static T Log<T>(T x, T baseValue, T tolerance, int terms = DefaultTerms) where T : INumber<T>
+        {
+            return Log(x, tolerance, terms) / Log(baseValue, tolerance, terms);
+        }
+        public static T Log<T>(T x, T baseValue) where T : IFloatingPointIeee754<T>
+        {
+            return Log(x) / Log(baseValue);
+        }
         public static T Log10<T>(T x, T tolerance, int terms = DefaultTerms) where T : INumber<T>
         {
             var _10 = T.CreateChecked(10);
-            return Log(x, tolerance, terms) / Log(_10, tolerance, terms);
+            return Log(x, _10, tolerance, terms);
         }
         public static T Log10<T>(T x) where T : IFloatingPointIeee754<T>
         {
             var _10 = T.CreateChecked(10);
-            return Log(x) / Log(_10);
+            return Log(x, _10);
         }
         public static T Log2<T>(T x, T tolerance, int terms = DefaultTerms) where T : INumber<T>
         {
             var _2 = T.CreateChecked(2);
-            return Log(x, tolerance, terms) / Log(_2, tolerance, terms);
+            return Log(x, _2, tolerance, terms);
         }
         public static T Log2<T>(T x) where T : IFloatingPointIeee754<T>
         {
             var _2 = T.CreateChecked(2);
-            return Log(x) / Log(_2);
+            return Log(x, _2);
         }
         #endregion Log
 
