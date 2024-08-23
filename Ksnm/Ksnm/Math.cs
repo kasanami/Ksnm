@@ -1505,7 +1505,7 @@ namespace Ksnm
         {
             if (value <= T.Zero)
             {
-                throw new ArgumentOutOfRangeException("x", "1以上の値でなければならない。");
+                throw new ArgumentOutOfRangeException(nameof(value), "1以上の値でなければならない。");
             }
             if (value == T.One)
             {

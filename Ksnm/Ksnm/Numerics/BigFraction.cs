@@ -24,7 +24,8 @@ namespace Ksnm.Numerics
         ISignedNumber<Fraction>,
         IFloatingPointConstants<Fraction>,
         IExponentialFunctions<Fraction>,
-        IPowerFunctions<Fraction>
+        IPowerFunctions<Fraction>,
+        ILogarithmicFunctions<Fraction>
     {
         #region 定数・静的プロパティ
         /// <summary>
@@ -40,11 +41,12 @@ namespace Ksnm.Numerics
         /// <summary>
         /// 分子
         /// </summary>
-        public Integer Numerator { get; private set; }
+        public Integer Numerator { get; set; }
         /// <summary>
         /// 分母
         /// </summary>
-        public Integer Denominator { get; private set; }
+        public Integer Denominator { get; set; }
+        //public Fraction DecimalLike => ToDecimalLike();
         #endregion プロパティ
 
         #region コンストラクタ
@@ -167,6 +169,20 @@ namespace Ksnm.Numerics
         public Fraction GetReciprocal()
         {
             return new Fraction(Denominator, Numerator);
+        }
+        /// <summary>
+        /// 分母を１０のべき乗にした分数に変換し、少数表記に近い状態にします。
+        /// 分子が分母で割り切れない場合は値がこわれます。
+        /// </summary>
+        public Fraction ToDecimalLike()
+        {
+            var log10 = (int)BigInteger.Log10(Denominator);
+            var scale = BigInteger.Pow(10, log10 + 5);
+            var result = new Fraction();
+            // 約分されるのでコンストラクタ外で初期化する。
+            result.Numerator = (Numerator * scale) / Denominator;
+            result.Denominator = scale;
+            return result;
         }
         #endregion 独自関数
 
@@ -297,7 +313,7 @@ namespace Ksnm.Numerics
         /// <param name="value">平方根を求める対象の数値。</param>
         /// <param name="count">計算回数</param>
         /// <returns>戻り値 0 または正 d の正の平方根。</returns>
-        public static Fraction Sqrt(Fraction value, int count)
+        public static Fraction Sqrt(Fraction value, int count = 10)
         {
             if (value == 0)
             {
@@ -1138,5 +1154,12 @@ namespace Ksnm.Numerics
             //return Math.Pow(x, y, DefaultPrecision);
         }
         #endregion IPowerFunctions
+
+        #region ILogarithmicFunctions
+        public static Fraction Log(Fraction x) => Math.Log<Fraction>(x, 0, 50);
+        public static Fraction Log(Fraction x, Fraction newBase) => Math.Log<Fraction>(x, newBase, 0, 50);
+        public static Fraction Log10(Fraction x) => Math.Log10<Fraction>(x, 0, 50);
+        public static Fraction Log2(Fraction x) => Math.Log2<Fraction>(x, 0, 50);
+        #endregion ILogarithmicFunctions
     }
 }

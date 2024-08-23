@@ -601,5 +601,44 @@ namespace Ksnm.Numerics.Tests
         {
         }
         #endregion IPowerFunctions
+
+        #region ILogarithmicFunctions
+        [TestMethod()]
+        public void LogTest()
+        {
+            var f = new Fraction(10, 1);
+            var expected = Fraction.Parse("22821139246284507470100853447796110172676806772145341214886793671030209345841607309400284539984273663241161600995003721166609428164020574776/9911094845798824726150037687986098022268314530700298331182263035595906228051940230890319477732301612441627783564568992980327712571495155225");
+            var result = Fraction.Log(f);
+            Assert.AreEqual(expected, result);
+        }
+        [TestMethod()]
+        public void Log10Test()
+        {
+            // 精度悪いし遅い
+            //var f10 = new Fraction(10, 1);
+            //var f100 = new Fraction(100, 1);
+            //var f1000 = new Fraction(1000, 1);
+            //var log10_10 = Fraction.Log10(f10);
+            //var log10_100 = Fraction.Log10(f100);
+            //var log10_1000 = Fraction.Log10(f1000);
+            //Assert.AreEqual(1, log10_10);
+            //Assert.AreEqual(2, log10_100);
+            //Assert.AreEqual(3, log10_1000);
+        }
+        [TestMethod()]
+        public void Log2Test()
+        {
+            // 精度悪いし遅い
+            //var f2 = new Fraction(2, 1);
+            //var f4 = new Fraction(4, 1);
+            //var f8 = new Fraction(8, 1);
+            //var log2_2 = Fraction.Log2(f2);
+            //var log2_4 = Fraction.Log2(f4);
+            //var log2_8 = Fraction.Log2(f8);
+            //Assert.AreEqual(1, log2_2);
+            //Assert.AreEqual(2, log2_4);
+            //Assert.AreEqual(3, log2_8);
+        }
+        #endregion ILogarithmicFunctions
     }
 }
