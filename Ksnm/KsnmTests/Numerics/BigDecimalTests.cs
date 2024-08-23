@@ -3,6 +3,7 @@ using Ksnm.ExtensionMethods.System.Decimal;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Numerics;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Ksnm.Numerics.Tests
 {
@@ -126,6 +127,45 @@ namespace Ksnm.Numerics.Tests
                 Assert.AreEqual((System.Numerics.BigInteger)1000, sample);
             }
         }
+
+        #region ILogarithmicFunctions
+        [TestMethod()]
+        public void LogTest()
+        {
+            var f = new BigDecimal(10);
+            var expected = 2.3025850929940456840179914547m;
+            var result = BigDecimal.Log(f).ToDecimal();
+            var delta = 0.00000_00000_00000_00000_00000_001m;
+            Assert.AreEqual(expected, result, delta);
+        }
+        [TestMethod()]
+        public void Log10Test()
+        {
+            var f10 = new BigDecimal(10);
+            var f100 = new BigDecimal(100);
+            var f1000 = new BigDecimal(1000);
+            var log10_10 = BigDecimal.Log10(f10);
+            var log10_100 = BigDecimal.Log10(f100);
+            var log10_1000 = BigDecimal.Log10(f1000);
+            Assert.AreEqual(1, log10_10.ToDecimal());
+            Assert.AreEqual(2, log10_100.ToDecimal(), 0.00000_00000_00000_00000_00000_001m);
+            Assert.AreEqual(3, log10_1000.ToDecimal(), 0.00000_00000_00000_0001m);
+        }
+        [TestMethod()]
+        public void Log2Test()
+        {
+            var delta = 0.00000_00000_00000_00000_00000_001m;
+            var f2 = new BigDecimal(2);
+            var f4 = new BigDecimal(4);
+            var f8 = new BigDecimal(8);
+            var log2_2 = BigDecimal.Log2(f2);
+            var log2_4 = BigDecimal.Log2(f4);
+            var log2_8 = BigDecimal.Log2(f8);
+            Assert.AreEqual(1, log2_2.ToDecimal(), delta);
+            Assert.AreEqual(2, log2_4.ToDecimal(), delta);
+            Assert.AreEqual(3, log2_8.ToDecimal(), delta);
+        }
+        #endregion ILogarithmicFunctions
 
         [TestMethod()]
         public void MaxExponentTest()

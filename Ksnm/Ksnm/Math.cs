@@ -1499,7 +1499,6 @@ namespace Ksnm
         /// <param name="value">対数を求める対象の数値</param>
         /// <param name="tolerance">許容値</param>
         /// <param name="terms">単項式数</param>
-        /// <returns></returns>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         public static T Log<T>(T value, T tolerance, int terms = DefaultTerms) where T : INumber<T>
         {
@@ -1532,37 +1531,64 @@ namespace Ksnm
             }
             return _2 * sum;
         }
+        /// <summary>
+        /// 自然対数
+        /// </summary>
         public static T Log<T>(T x) where T : IFloatingPointIeee754<T>
         {
             return Log(x, T.Epsilon);
         }
-        public static T Log<T>(T x, T baseValue, T tolerance, int terms = DefaultTerms) where T : INumber<T>
+        /// <summary>
+        /// 対数
+        /// </summary>
+        /// <param name="x">対数を求める値</param>
+        /// <param name="baseValue">対象の低</param>
+        /// <param name="tolerance">許容値</param>
+        /// <param name="terms">単項式数</param>
+        public static T LogB<T>(T x, T baseValue, T tolerance, int terms = DefaultTerms) where T : INumber<T>
         {
             return Log(x, tolerance, terms) / Log(baseValue, tolerance, terms);
         }
-        public static T Log<T>(T x, T baseValue) where T : IFloatingPointIeee754<T>
+        /// <summary>
+        /// 対数
+        /// </summary>
+        /// <param name="x">対数を求める値</param>
+        /// <param name="baseValue">対象の低</param>
+        public static T LogB<T>(T x, T baseValue) where T : IFloatingPointIeee754<T>
         {
             return Log(x) / Log(baseValue);
         }
+        /// <summary>
+        /// 常用対数
+        /// </summary>
         public static T Log10<T>(T x, T tolerance, int terms = DefaultTerms) where T : INumber<T>
         {
             var _10 = T.CreateChecked(10);
-            return Log(x, _10, tolerance, terms);
+            return LogB(x, _10, tolerance, terms);
         }
+        /// <summary>
+        /// 常用対数
+        /// </summary>
         public static T Log10<T>(T x) where T : IFloatingPointIeee754<T>
         {
             var _10 = T.CreateChecked(10);
-            return Log(x, _10);
+            return LogB(x, _10);
         }
+        /// <summary>
+        /// 二進対数
+        /// </summary>
         public static T Log2<T>(T x, T tolerance, int terms = DefaultTerms) where T : INumber<T>
         {
             var _2 = T.CreateChecked(2);
-            return Log(x, _2, tolerance, terms);
+            return LogB(x, _2, tolerance, terms);
         }
+        /// <summary>
+        /// 二進対数
+        /// </summary>
         public static T Log2<T>(T x) where T : IFloatingPointIeee754<T>
         {
             var _2 = T.CreateChecked(2);
-            return Log(x, _2);
+            return LogB(x, _2);
         }
         #endregion Log
 

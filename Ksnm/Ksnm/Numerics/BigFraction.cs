@@ -1157,7 +1157,7 @@ namespace Ksnm.Numerics
 
         #region ILogarithmicFunctions
         public static Fraction Log(Fraction x) => Math.Log<Fraction>(x, 0, 50);
-        public static Fraction Log(Fraction x, Fraction newBase) => Math.Log<Fraction>(x, newBase, 0, 50);
+        public static Fraction Log(Fraction x, Fraction newBase) => Math.LogB<Fraction>(x, newBase, 0, 50);
         public static Fraction Log10(Fraction x) => Math.Log10<Fraction>(x, 0, 50);
         public static Fraction Log2(Fraction x) => Math.Log2<Fraction>(x, 0, 50);
         #endregion ILogarithmicFunctions

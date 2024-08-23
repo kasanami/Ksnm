@@ -3791,26 +3791,10 @@ public struct BigDecimal :
         #endregion IPowerFunctions
 
         #region ILogarithmicFunctions
-
-        public static BigDecimal Log(BigDecimal x)
-        {
-            throw new NotImplementedException();
-        }
-
-        public static BigDecimal Log(BigDecimal x, BigDecimal newBase)
-        {
-            throw new NotImplementedException();
-        }
-
-        public static BigDecimal Log10(BigDecimal x)
-        {
-            throw new NotImplementedException();
-        }
-
-        public static BigDecimal Log2(BigDecimal x)
-        {
-            throw new NotImplementedException();
-        }
+        public static BigDecimal Log(BigDecimal x) => Math.Log(x, Epsilon, 10000);
+        public static BigDecimal Log(BigDecimal x, BigDecimal newBase) => Math.LogB(x, newBase, Epsilon, 10000);
+        public static BigDecimal Log10(BigDecimal x) => Math.Log10(x, Epsilon, 10000);
+        public static BigDecimal Log2(BigDecimal x) => Math.Log2(x, Epsilon, 10000);
         #endregion ILogarithmicFunctions
 
         #region IExponentialFunctions
