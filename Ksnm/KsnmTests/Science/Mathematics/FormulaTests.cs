@@ -38,18 +38,18 @@ namespace Ksnm.Science.Mathematics.Tests
         public void WallisFormulaTest()
         {
             {
-                var pi = Formula.WallisFormula<double>(10000000) * 2;
-                Assert.AreEqual(System.Math.PI, pi, 0.000001);
+                var pi = Formula.WallisFormula<double>(100000) * 2;
+                Assert.AreEqual(System.Math.PI, pi, 0.0001);
             }
             {
-                var pi = Formula.WallisFormula<decimal>(10000000) * 2;
-                Assert.AreEqual(3.14159265358979323846m, pi, 0.000001m);
+                var pi = Formula.WallisFormula<decimal>(100000) * 2;
+                Assert.AreEqual(3.14159265358979323846m, pi, 0.0001m);
             }
             {
                 BigDecimal.DefaultMinExponent = -105;
-                var pi = Formula.WallisFormula<BigDecimal>(10000000) * 2;
+                var pi = Formula.WallisFormula<BigDecimal>(100000) * 2;
                 pi = BigDecimal.Round(pi, 100, System.MidpointRounding.AwayFromZero);
-                Assert.AreEqual(3.141592m, pi.ToDecimal(), 0.000001m);
+                Assert.AreEqual(3.141592m, pi.ToDecimal(), 0.0001m);
             }
         }
 

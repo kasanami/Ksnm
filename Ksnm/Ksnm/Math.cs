@@ -42,7 +42,7 @@ namespace Ksnm
     {
         #region 定数
 
-        const int DefaultTerms = 1000;
+        const int DefaultTerms = 10000;
 
         /// <summary>
         /// 黄金数
