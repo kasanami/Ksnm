@@ -75,7 +75,7 @@ namespace Ksnm.Numerics
         /// </summary>
         public byte SignBit
         {
-            get => (byte)(Bits >> (ExponentLength + MantissaLength));
+            get => (byte)(Bits >> SignBitShift);
             set => Bits = (Bits & ~SignShiftedBitMask) | ((value & 1ul) << SignBitShift);
         }
         /// <summary>

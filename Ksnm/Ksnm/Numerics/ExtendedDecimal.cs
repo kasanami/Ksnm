@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Ksnm.ExtensionMethods.System.Decimal;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
@@ -44,12 +45,115 @@ namespace Ksnm.Numerics
         public static ExtendedDecimal Tau => 6.2831853071795864769252867666m;
         #endregion IFloatingPointConstants
 
+        #region 定数
+        /// <summary>
+        /// 符号部のビット数
+        /// </summary>
+        public const int SignLength = 1;
+        /// <summary>
+        /// 符号部のビットマスク
+        /// </summary>
+        public static readonly UInt SignBitMask = 1;
+
+        /// <summary>
+        /// 指数部のビット数
+        /// </summary>
+        public const int ExponentLength = 7;
+        /// <summary>
+        /// 指数部のビットマスク
+        /// </summary>
+        public static readonly UInt ExponentBitMask = ((UInt)1 << ExponentLength) - 1;
+
+        /// <summary>
+        /// 仮数部のビット数
+        /// </summary>
+        public const int MantissaLength = 32 * 3;
+        /// <summary>
+        /// 仮数部のビットマスク
+        /// </summary>
+        public static readonly UInt MantissaBitMask = ((UInt)1 << MantissaLength) - 1;
+        #endregion 定数
+
         #region フィールド
-        [FieldOffset(0)]
-        public Decimal Value;
-        [FieldOffset(0)]
-        public UInt Bits;
+        [FieldOffset(0)] public Decimal Value;
+        [FieldOffset(0)] private UInt _bits;
+        [FieldOffset(4 * 0)] private UInt32 _bits0;
+        [FieldOffset(4 * 1)] private UInt32 _bits1;
+        [FieldOffset(4 * 2)] private UInt32 _bits3;
+        [FieldOffset(4 * 3)] private UInt32 _bits2;
+
+        [FieldOffset(2)] private byte _exponentBits;
+        [FieldOffset(3)] private byte _signBits;
         #endregion フィールド
+
+        #region プロパティ
+        public UInt Bits
+        {
+            get
+            {
+                return
+                    ((UInt)_bits0 << 96) |
+                    ((UInt)_bits1 << 64) |
+                    ((UInt)_bits2 << 32) |
+                    ((UInt)_bits3);
+            }
+            set
+            {
+                _bits0 = (UInt32)((value >> 96) & UInt.MaxValue);
+                _bits1 = (UInt32)((value >> 64) & UInt.MaxValue); ;
+                _bits2 = (UInt32)((value >> 32) & UInt.MaxValue);
+                _bits3 = (UInt32)((value) & UInt.MaxValue);
+            }
+        }
+        /// <summary>
+        /// 符号ビットを取得/設定
+        /// </summary>
+        public byte SignBit
+        {
+            get => (byte)(_signBits >> 7);
+            set => _signBits = (byte)(value << 7);
+        }
+        /// <summary>
+        /// 符号を取得/設定
+        /// </summary>
+        public int Sign
+        {
+            get => SignBit == 1 ? -1 : +1;
+            set => SignBit = value < 0 ? (byte)1 : (byte)0;
+        }
+
+        /// <summary>
+        /// 指数部を取得/設定
+        /// </summary>
+        public byte ExponentBits
+        {
+            get => _exponentBits;
+            set => _exponentBits = (byte)(value & ExponentBitMask);
+        }
+        /// <summary>
+        /// 指数を取得/設定
+        /// 0.1の場合は-1。
+        /// </summary>
+        public int Exponent => -ExponentBits;
+        /// <summary>
+        /// 10 進数の小数点以下桁数を表す 0 から 28 までの数値を取得します。
+        /// </summary>
+        public byte Scale => Value.Scale;
+
+        /// <summary>
+        /// 仮数部を取得/設定
+        /// </summary>
+        public UInt MantissaBits
+        {
+            get => Bits & MantissaBitMask;
+            set => Bits = (Bits & ~MantissaBitMask) | (value & MantissaBitMask);
+        }
+        /// <summary>
+        /// 仮数を取得/設定
+        /// </summary>
+        public UInt Mantissa => MantissaBits;
+        #endregion プロパティ
+
 
         #region 型変換
         /// <summary>

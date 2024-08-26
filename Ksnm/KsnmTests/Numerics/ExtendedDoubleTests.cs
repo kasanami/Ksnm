@@ -20,7 +20,7 @@ namespace Ksnm.Numerics.Tests
                 Assert.AreEqual(0b0000000000000000000000000000000000000000000000000000ul, extendedDouble.MantissaBits);
                 Assert.AreEqual(0b10000000000000000000000000000000000000000000000000000ul, extendedDouble.Mantissa);
             }
-            // 1.00
+            // -1.00
             {
                 ExtendedDouble extendedDouble = new ExtendedDouble();
                 extendedDouble.Value = -1.0;

@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Ksnm.ExtensionMethods.System.Decimal;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Ksnm.Numerics.Tests
 {
@@ -8,7 +9,62 @@ namespace Ksnm.Numerics.Tests
         [TestMethod()]
         public void PropertyTest()
         {
-            ExtendedDecimal extendedDecimal = new ExtendedDecimal();
+            // 
+            {
+                ExtendedDecimal extendedDecimal = new ExtendedDecimal();
+                extendedDecimal = new decimal(0x03020100, 0x07060504, 0x0B0A0908, true, 0);
+                var str = extendedDecimal.Bits.ToString("X32");
+                Assert.AreEqual(1, extendedDecimal.SignBit);
+                Assert.AreEqual(-1, extendedDecimal.Sign);
+                Assert.AreEqual(0, extendedDecimal.ExponentBits);
+                Assert.AreEqual(0, extendedDecimal.Exponent);
+                Assert.AreEqual("0B0A09080706050403020100", extendedDecimal.MantissaBits.ToString("X24"));
+                Assert.AreEqual("0B0A09080706050403020100", extendedDecimal.Mantissa.ToString("X24"));
+            }
+            // 1
+            {
+                ExtendedDecimal extendedDecimal = new ExtendedDecimal();
+                extendedDecimal = 1m;
+                Assert.AreEqual(0, extendedDecimal.SignBit);
+                Assert.AreEqual(+1, extendedDecimal.Sign);
+                Assert.AreEqual(0, extendedDecimal.ExponentBits);
+                Assert.AreEqual(0, extendedDecimal.Exponent);
+                Assert.AreEqual<UInt128>(1, extendedDecimal.MantissaBits);
+                Assert.AreEqual<UInt128>(1, extendedDecimal.Mantissa);
+            }
+            // 1.0
+            {
+                ExtendedDecimal extendedDecimal = new ExtendedDecimal();
+                extendedDecimal = 1.0m;
+                Assert.AreEqual(0, extendedDecimal.SignBit);
+                Assert.AreEqual(+1, extendedDecimal.Sign);
+                Assert.AreEqual(1, extendedDecimal.ExponentBits);
+                Assert.AreEqual(-1, extendedDecimal.Exponent);
+                Assert.AreEqual<UInt128>(10, extendedDecimal.MantissaBits);
+                Assert.AreEqual<UInt128>(10, extendedDecimal.Mantissa);
+            }
+            // -1.0
+            {
+                ExtendedDecimal extendedDecimal = new ExtendedDecimal();
+                extendedDecimal = -1.0m;
+                Assert.AreEqual(1, extendedDecimal.SignBit);
+                Assert.AreEqual(-1, extendedDecimal.Sign);
+                Assert.AreEqual(1, extendedDecimal.ExponentBits);
+                Assert.AreEqual(-1, extendedDecimal.Exponent);
+                Assert.AreEqual<UInt128>(10, extendedDecimal.MantissaBits);
+                Assert.AreEqual<UInt128>(10, extendedDecimal.Mantissa);
+            }
+            // 1.23
+            {
+                ExtendedDecimal extendedDecimal = new ExtendedDecimal();
+                extendedDecimal = 1.23m;
+                Assert.AreEqual(0, extendedDecimal.SignBit);
+                Assert.AreEqual(+1, extendedDecimal.Sign);
+                Assert.AreEqual(2, extendedDecimal.ExponentBits);
+                Assert.AreEqual(-2, extendedDecimal.Exponent);
+                Assert.AreEqual<UInt128>(123, extendedDecimal.MantissaBits);
+                Assert.AreEqual<UInt128>(123, extendedDecimal.Mantissa);
+            }
         }
         [TestMethod()]
         public void AbsTest()
