@@ -33,7 +33,8 @@ namespace Ksnm.Numerics
     /// <summary>
     /// 符号付き32ビット分数(16ビット×2)
     /// </summary>
-    public struct Fraction32 : IComparable, IComparable<Fraction>, IEquatable<Fraction>
+    public struct Fraction32 :
+        IComparable, IComparable<Fraction>, IEquatable<Fraction>
     {
         #region 定数
         /// <summary>
@@ -66,11 +67,11 @@ namespace Ksnm.Numerics
         /// <summary>
         /// 分子
         /// </summary>
-        public Int Numerator { get; private set; }
+        public Int Numerator { get; set; }
         /// <summary>
         /// 分母
         /// </summary>
-        public Int Denominator { get; private set; }
+        public Int Denominator { get; set; }
         #endregion プロパティ
 
         #region コンストラクタ
@@ -144,14 +145,14 @@ namespace Ksnm.Numerics
         /// 実数を分数に変換して初期化
         /// </summary>
         /// <param name="value">実数</param>
-        public Fraction32(decimal value)
+        public Fraction32(ExtendedDecimal value)
         {
-            var mantissa = value.GetMantissa();
-            var exponent = value.GetExponentBits();
-            var denominator = Math.Pow(10u, (uint)exponent);
+            var mantissa = value.Mantissa;
+            var exponent = value.Scale;
+            var denominator = Math.Pow(10, exponent);
             Numerator = (Int)mantissa;
             Denominator = (Int)denominator;
-            if (value < 0)
+            if (value.SignBit == 1)
             {
                 Numerator = (Int)(-Numerator);
             }
