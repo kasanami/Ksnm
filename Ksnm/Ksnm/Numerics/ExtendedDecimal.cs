@@ -74,13 +74,18 @@ namespace Ksnm.Numerics
         public static readonly UInt MantissaBitMask = ((UInt)1 << MantissaLength) - 1;
         #endregion 定数
 
-        #region フィールド
+        #region フィールド オフセットの位置がイメージと違う
         [FieldOffset(0)] public Decimal Value;
+        [FieldOffset(4 * 0)] public UInt32 Flags;
+        [FieldOffset(4 * 1)] public UInt32 HiBits;
+        [FieldOffset(4 * 3)] public UInt32 MidBits;
+        [FieldOffset(4 * 2)] public UInt32 LoBits;
+
         [FieldOffset(0)] private UInt _bits;
         [FieldOffset(4 * 0)] private UInt32 _bits0;
         [FieldOffset(4 * 1)] private UInt32 _bits1;
-        [FieldOffset(4 * 2)] private UInt32 _bits3;
         [FieldOffset(4 * 3)] private UInt32 _bits2;
+        [FieldOffset(4 * 2)] private UInt32 _bits3;
 
         [FieldOffset(2)] private byte _exponentBits;
         [FieldOffset(3)] private byte _signBits;
@@ -194,7 +199,7 @@ namespace Ksnm.Numerics
 
         public static ExtendedDecimal MultiplicativeIdentity => Decimal.One;
 
-        public static ExtendedDecimal Epsilon => 0.0000000000000000000000000001m;
+        public static ExtendedDecimal Epsilon => new Decimal(1, 0, 0, false, 28);
 
         public static ExtendedDecimal NaN => throw new NotImplementedException();
 

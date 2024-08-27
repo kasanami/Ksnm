@@ -7,6 +7,14 @@ namespace Ksnm.Numerics.Tests
     public class ExtendedDecimalTests
     {
         [TestMethod()]
+        public void ConstantTest()
+        {
+            Assert.AreEqual<decimal>(1, ExtendedDecimal.One);
+            Assert.AreEqual<decimal>(0, ExtendedDecimal.Zero);
+            Assert.AreEqual<decimal>(0.0000000000_0000000000_00000001m, ExtendedDecimal.Epsilon);
+        }
+
+        [TestMethod()]
         public void PropertyTest()
         {
             // 
@@ -14,6 +22,10 @@ namespace Ksnm.Numerics.Tests
                 ExtendedDecimal extendedDecimal = new ExtendedDecimal();
                 extendedDecimal = new decimal(0x03020100, 0x07060504, 0x0B0A0908, true, 0);
                 var str = extendedDecimal.Bits.ToString("X32");
+                Assert.AreEqual<uint>(0x80000000, extendedDecimal.Flags);
+                Assert.AreEqual<uint>(0x0B0A0908, extendedDecimal.HiBits);
+                Assert.AreEqual<uint>(0x07060504, extendedDecimal.MidBits);
+                Assert.AreEqual<uint>(0x03020100, extendedDecimal.LoBits);
                 Assert.AreEqual(1, extendedDecimal.SignBit);
                 Assert.AreEqual(-1, extendedDecimal.Sign);
                 Assert.AreEqual(0, extendedDecimal.ExponentBits);
