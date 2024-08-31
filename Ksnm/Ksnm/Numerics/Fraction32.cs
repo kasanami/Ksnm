@@ -24,6 +24,9 @@ freely, subject to the following restrictions:
 using Ksnm.ExtensionMethods.System.Decimal;
 using Ksnm.ExtensionMethods.System.Double;
 using System;
+using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
+using System.Numerics;
 
 namespace Ksnm.Numerics
 {
@@ -34,33 +37,82 @@ namespace Ksnm.Numerics
     /// 符号付き32ビット分数(16ビット×2)
     /// </summary>
     public struct Fraction32 :
-        IComparable, IComparable<Fraction>, IEquatable<Fraction>
+        IComparable, IComparable<Fraction>, IEquatable<Fraction>,
+        IFloatingPointIeee754<Fraction>
     {
         #region 定数
         /// <summary>
         /// 数値 0 を表します。
         /// </summary>
-        public readonly static Fraction Zero = new Fraction(0);
+        public static Fraction Zero => new Fraction(0);
         /// <summary>
         /// 数値 1 を表します。
         /// </summary>
-        public readonly static Fraction One = new Fraction(1);
+        public static Fraction One => new Fraction(1);
         /// <summary>
         /// 負の 1 (-1) を表します。
         /// </summary>
-        public readonly static Fraction MinusOne = new Fraction(-1);
+        public static Fraction MinusOne => new Fraction(-1);
         /// <summary>
         /// 最小有効値を表します。
         /// </summary>
-        public readonly static Fraction MinValue = new Fraction(Int.MinValue);
+        public static Fraction MinValue => new Fraction(Int.MinValue);
         /// <summary>
         /// 最大有効値を表します。
         /// </summary>
-        public readonly static Fraction MaxValue = new Fraction(Int.MaxValue);
+        public static Fraction MaxValue => new Fraction(Int.MaxValue);
         /// <summary>
         /// ゼロより大きい最小の値を表します。
         /// </summary>
-        public readonly static Fraction Epsilon = new Fraction(1, Int.MaxValue);
+        public static Fraction Epsilon => new Fraction(1, Int.MaxValue);
+
+        public static Fraction NaN => new Fraction(0, 0);
+
+        public static Fraction NegativeInfinity => new Fraction(-1, 0);
+
+        public static Fraction NegativeZero => new Fraction(-0, 0);
+
+        public static Fraction PositiveInfinity => new Fraction(1, 0);
+
+        public static Fraction NegativeOne => new Fraction(-1);
+
+        public static Fraction E => throw new NotImplementedException();
+
+        public static Fraction Pi => throw new NotImplementedException();
+
+        public static Fraction Tau => throw new NotImplementedException();
+
+        static Fraction INumberBase<Fraction>.One => One;
+
+        public static int Radix => 2;
+
+        static Fraction INumberBase<Fraction>.Zero => Zero;
+
+        public static Fraction AdditiveIdentity => Zero;
+
+        public static Fraction MultiplicativeIdentity => One;
+
+        static Fraction IFloatingPointIeee754<Fraction>.NaN => NaN;
+
+        static Fraction IFloatingPointIeee754<Fraction>.NegativeInfinity => throw new NotImplementedException();
+
+        static Fraction IFloatingPointIeee754<Fraction>.NegativeZero => throw new NotImplementedException();
+
+        static Fraction IFloatingPointIeee754<Fraction>.PositiveInfinity => throw new NotImplementedException();
+
+        static Fraction ISignedNumber<Fraction>.NegativeOne => throw new NotImplementedException();
+
+        static Fraction IFloatingPointConstants<Fraction>.E => throw new NotImplementedException();
+
+        static Fraction IFloatingPointConstants<Fraction>.Pi => throw new NotImplementedException();
+
+        static Fraction IFloatingPointConstants<Fraction>.Tau => throw new NotImplementedException();
+
+        static int INumberBase<Fraction>.Radix => 2;
+
+        static Fraction IAdditiveIdentity<Fraction, Fraction>.AdditiveIdentity => AdditiveIdentity;
+
+        static Fraction IMultiplicativeIdentity<Fraction, Fraction>.MultiplicativeIdentity => MultiplicativeIdentity;
         #endregion 定数
 
         #region プロパティ
@@ -193,7 +245,7 @@ namespace Ksnm.Numerics
         /// <summary>
         /// 符号維持
         /// </summary>
-        public static Fraction operator +(in Fraction value)
+        public static Fraction operator +(Fraction value)
         {
             return value;
         }
@@ -201,16 +253,24 @@ namespace Ksnm.Numerics
         /// 符号反転
         /// <para>変更されるのは Numerator</para>
         /// </summary>
-        public static Fraction operator -(in Fraction value)
+        public static Fraction operator -(Fraction value)
         {
             return new Fraction((Int)(-value.Numerator), value.Denominator);
         }
         /// <summary>
         /// valueの補数を返す
         /// </summary>
-        public static Fraction operator ~(in Fraction value)
+        public static Fraction operator ~(Fraction value)
         {
             return new Fraction((Int)(~value.Numerator), (Int)(~value.Denominator));
+        }
+        public static Fraction operator --(Fraction value)
+        {
+            return value - 1;
+        }
+        public static Fraction operator ++(Fraction value)
+        {
+            return value + 1;
         }
         #endregion 単項演算子
 
@@ -218,17 +278,17 @@ namespace Ksnm.Numerics
         /// <summary>
         /// 加算
         /// </summary>
-        public static Fraction operator +(in Fraction valueL, in Fraction valueR)
+        public static Fraction operator +(Fraction valueL, Fraction valueR)
         {
             var temp = new Fraction();
             if (valueR.Denominator == valueL.Denominator)
             {
-                temp.Numerator = (Int)(valueL.Numerator + valueR.Numerator);
+                temp.Numerator = Int.CreateChecked(valueL.Numerator + valueR.Numerator);
                 temp.Denominator = valueL.Denominator;
             }
             else
             {
-                temp.Numerator = (Int)(valueL.Numerator * valueR.Denominator + valueR.Numerator * valueL.Denominator);
+                temp.Numerator = Int.CreateChecked(valueL.Numerator * valueR.Denominator + valueR.Numerator * valueL.Denominator);
                 temp.Denominator = (Int)(valueL.Denominator * valueR.Denominator);
             }
             temp.Reduce();
@@ -237,18 +297,18 @@ namespace Ksnm.Numerics
         /// <summary>
         /// 減算
         /// </summary>
-        public static Fraction operator -(in Fraction valueL, in Fraction valueR)
+        public static Fraction operator -(Fraction valueL, Fraction valueR)
         {
             var temp = new Fraction();
             if (valueR.Denominator == valueL.Denominator)
             {
-                temp.Numerator = (Int)(valueL.Numerator - valueR.Numerator);
+                temp.Numerator = Int.CreateChecked(valueL.Numerator - valueR.Numerator);
                 temp.Denominator = valueL.Denominator;
             }
             else
             {
-                temp.Numerator = (Int)(valueL.Numerator * valueR.Denominator - valueR.Numerator * valueL.Denominator);
-                temp.Denominator = (Int)(valueL.Denominator * valueR.Denominator);
+                temp.Numerator = Int.CreateChecked(valueL.Numerator * valueR.Denominator - valueR.Numerator * valueL.Denominator);
+                temp.Denominator = Int.CreateChecked(valueL.Denominator * valueR.Denominator);
             }
             temp.Reduce();
             return temp;
@@ -256,24 +316,29 @@ namespace Ksnm.Numerics
         /// <summary>
         /// 乗算
         /// </summary>
-        public static Fraction operator *(in Fraction valueL, in Fraction valueR)
+        public static Fraction operator *(Fraction valueL, Fraction valueR)
         {
             var temp = new Fraction();
-            temp.Numerator = (Int)(valueL.Numerator * valueR.Numerator);
-            temp.Denominator = (Int)(valueL.Denominator * valueR.Denominator);
+            temp.Numerator = Int.CreateChecked(valueL.Numerator * valueR.Numerator);
+            temp.Denominator = Int.CreateChecked(valueL.Denominator * valueR.Denominator);
             temp.Reduce();
             return temp;
         }
         /// <summary>
         /// 除算
         /// </summary>
-        public static Fraction operator /(in Fraction valueL, in Fraction valueR)
+        public static Fraction operator /(Fraction valueL, Fraction valueR)
         {
             var temp = new Fraction();
-            temp.Numerator = (Int)(valueL.Numerator * valueR.Denominator);
-            temp.Denominator = (Int)(valueL.Denominator * valueR.Numerator);
+            temp.Numerator = Int.CreateChecked(valueL.Numerator * valueR.Denominator);
+            temp.Denominator = Int.CreateChecked(valueL.Denominator * valueR.Numerator);
             temp.Reduce();
             return temp;
+        }
+
+        public static Fraction operator %(Fraction left, Fraction right)
+        {
+            throw new NotImplementedException();
         }
         #endregion 2項演算子
 
@@ -281,42 +346,42 @@ namespace Ksnm.Numerics
         /// <summary>
         /// 等しい場合は true。それ以外の場合は false。
         /// </summary>
-        public static bool operator ==(in Fraction valueL, in Fraction valueR)
+        public static bool operator ==(Fraction valueL, Fraction valueR)
         {
             return valueL.Numerator == valueR.Numerator && valueL.Denominator == valueR.Denominator;
         }
         /// <summary>
         /// 等しくない場合は true。それ以外の場合は false。
         /// </summary>
-        public static bool operator !=(in Fraction valueL, in Fraction valueR)
+        public static bool operator !=(Fraction valueL, Fraction valueR)
         {
             return valueL.Numerator != valueR.Numerator || valueL.Denominator != valueR.Denominator;
         }
         /// <summary>
         /// 大なり演算子
         /// </summary>
-        public static bool operator >(in Fraction valueL, in Fraction valueR)
+        public static bool operator >(Fraction valueL, Fraction valueR)
         {
             return valueL.Numerator * valueR.Denominator > valueR.Numerator * valueL.Denominator;
         }
         /// <summary>
         /// 小なり演算子
         /// </summary>
-        public static bool operator <(in Fraction valueL, in Fraction valueR)
+        public static bool operator <(Fraction valueL, Fraction valueR)
         {
             return valueL.Numerator * valueR.Denominator < valueR.Numerator * valueL.Denominator;
         }
         /// <summary>
         /// 以上演算子
         /// </summary>
-        public static bool operator >=(in Fraction valueL, in Fraction valueR)
+        public static bool operator >=(Fraction valueL, Fraction valueR)
         {
             return valueL.Numerator * valueR.Denominator >= valueR.Numerator * valueL.Denominator;
         }
         /// <summary>
         /// 以下演算子
         /// </summary>
-        public static bool operator <=(in Fraction valueL, in Fraction valueR)
+        public static bool operator <=(Fraction valueL, Fraction valueR)
         {
             return valueL.Numerator * valueR.Denominator <= valueR.Numerator * valueL.Denominator;
         }
@@ -406,70 +471,70 @@ namespace Ksnm.Numerics
         /// <summary>
         /// 分数型 から byte への明示的な変換を定義します。
         /// </summary>
-        public static explicit operator byte(in Fraction value)
+        public static explicit operator byte(Fraction value)
         {
             return (byte)(int)value;
         }
         /// <summary>
         /// 分数型 から sbyte への明示的な変換を定義します。
         /// </summary>
-        public static explicit operator sbyte(in Fraction value)
+        public static explicit operator sbyte(Fraction value)
         {
             return (sbyte)(int)value;
         }
         /// <summary>
         /// 分数型 から short への明示的な変換を定義します。
         /// </summary>
-        public static explicit operator short(in Fraction value)
+        public static explicit operator short(Fraction value)
         {
             return (short)(int)value;
         }
         /// <summary>
         /// 分数型 から ushort への明示的な変換を定義します。
         /// </summary>
-        public static explicit operator ushort(in Fraction value)
+        public static explicit operator ushort(Fraction value)
         {
             return (ushort)(int)value;
         }
         /// <summary>
         /// 分数型 から int への明示的な変換を定義します。
         /// </summary>
-        public static explicit operator int(in Fraction value)
+        public static explicit operator int(Fraction value)
         {
             return value.Numerator / value.Denominator;
         }
         /// <summary>
         /// 分数型 から uint への明示的な変換を定義します。
         /// </summary>
-        public static explicit operator uint(in Fraction value)
+        public static explicit operator uint(Fraction value)
         {
             return (uint)(int)value;
         }
         /// <summary>
         /// 分数型 から long への明示的な変換を定義します。
         /// </summary>
-        public static explicit operator long(in Fraction value)
+        public static explicit operator long(Fraction value)
         {
             return (int)value;
         }
         /// <summary>
         /// 分数型 から ulong への明示的な変換を定義します。
         /// </summary>
-        public static explicit operator ulong(in Fraction value)
+        public static explicit operator ulong(Fraction value)
         {
             return (ulong)(int)value;
         }
         /// <summary>
         /// 分数型 から float への明示的な変換を定義します。
         /// </summary>
-        public static explicit operator float(in Fraction value)
+        public static explicit operator float(Fraction value)
         {
             return (float)(double)value;
         }
         /// <summary>
         /// 分数型 から double への明示的な変換を定義します。
         /// </summary>
-        public static explicit operator double(in Fraction value)
+        public static explicit operator double(Fraction value)
         {
             double temp = value.Numerator;
             temp /= value.Denominator;
@@ -478,7 +543,7 @@ namespace Ksnm.Numerics
         /// <summary>
         /// 分数型 から decimal への明示的な変換を定義します。
         /// </summary>
-        public static explicit operator decimal(in Fraction value)
+        public static explicit operator decimal(Fraction value)
         {
             decimal temp = value.Numerator;
             temp /= value.Denominator;
@@ -549,6 +614,1081 @@ namespace Ksnm.Numerics
         public override string ToString()
         {
             return $"{Numerator}/{Denominator}";
+        }
+
+        public static Fraction Atan2(Fraction y, Fraction x)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static Fraction Atan2Pi(Fraction y, Fraction x)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static Fraction BitDecrement(Fraction x)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static Fraction BitIncrement(Fraction x)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static Fraction FusedMultiplyAdd(Fraction left, Fraction right, Fraction addend)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static Fraction Ieee754Remainder(Fraction left, Fraction right)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static int ILogB(Fraction x)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static Fraction ScaleB(Fraction x, int n)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static Fraction Exp(Fraction x)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static Fraction Exp10(Fraction x)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static Fraction Exp2(Fraction x)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int GetExponentByteCount()
+        {
+            throw new NotImplementedException();
+        }
+
+        public int GetExponentShortestBitLength()
+        {
+            throw new NotImplementedException();
+        }
+
+        public int GetSignificandBitLength()
+        {
+            throw new NotImplementedException();
+        }
+
+        public int GetSignificandByteCount()
+        {
+            throw new NotImplementedException();
+        }
+
+        public static Fraction Round(Fraction x, int digits, MidpointRounding mode)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool TryWriteExponentBigEndian(Span<byte> destination, out int bytesWritten)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool TryWriteExponentLittleEndian(Span<byte> destination, out int bytesWritten)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool TryWriteSignificandBigEndian(Span<byte> destination, out int bytesWritten)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool TryWriteSignificandLittleEndian(Span<byte> destination, out int bytesWritten)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static Fraction Acosh(Fraction x)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static Fraction Asinh(Fraction x)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static Fraction Atanh(Fraction x)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static Fraction Cosh(Fraction x)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static Fraction Sinh(Fraction x)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static Fraction Tanh(Fraction x)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static Fraction Log(Fraction x)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static Fraction Log(Fraction x, Fraction newBase)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static Fraction Log10(Fraction x)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static Fraction Log2(Fraction x)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static Fraction Pow(Fraction x, Fraction y)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static Fraction Cbrt(Fraction x)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static Fraction Hypot(Fraction x, Fraction y)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static Fraction RootN(Fraction x, int n)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static Fraction Sqrt(Fraction x)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static Fraction Acos(Fraction x)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static Fraction AcosPi(Fraction x)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static Fraction Asin(Fraction x)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static Fraction AsinPi(Fraction x)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static Fraction Atan(Fraction x)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static Fraction AtanPi(Fraction x)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static Fraction Cos(Fraction x)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static Fraction CosPi(Fraction x)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static Fraction Sin(Fraction x)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static (Fraction Sin, Fraction Cos) SinCos(Fraction x)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static (Fraction SinPi, Fraction CosPi) SinCosPi(Fraction x)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static Fraction SinPi(Fraction x)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static Fraction Tan(Fraction x)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static Fraction TanPi(Fraction x)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static Fraction Abs(Fraction value)
+        {
+            if (IsNegative(value))
+            {
+                return -value;
+            }
+            return value;
+        }
+
+        public static bool IsCanonical(Fraction value)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static bool IsComplexNumber(Fraction value)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static bool IsEvenInteger(Fraction value)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static bool IsFinite(Fraction value)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static bool IsImaginaryNumber(Fraction value)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static bool IsInfinity(Fraction value)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static bool IsInteger(Fraction value)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static bool IsNaN(Fraction value)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static bool IsNegative(Fraction value) => value < 0;
+
+        public static bool IsNegativeInfinity(Fraction value)
+        {
+            return value.Numerator < 0 && value.Denominator == 0;
+        }
+
+        public static bool IsNormal(Fraction value)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static bool IsOddInteger(Fraction value)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static bool IsPositive(Fraction value)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static bool IsPositiveInfinity(Fraction value)
+        {
+            return value.Numerator > 0 && value.Denominator == 0;
+        }
+
+        public static bool IsRealNumber(Fraction value)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static bool IsSubnormal(Fraction value)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static bool IsZero(Fraction value)
+        {
+            return value == 0;
+        }
+
+        public static Fraction MaxMagnitude(Fraction x, Fraction y)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static Fraction MaxMagnitudeNumber(Fraction x, Fraction y)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static Fraction MinMagnitude(Fraction x, Fraction y)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static Fraction MinMagnitudeNumber(Fraction x, Fraction y)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static Fraction Parse(ReadOnlySpan<char> s, NumberStyles style, IFormatProvider? provider)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static Fraction Parse(string s, NumberStyles style, IFormatProvider? provider)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static bool TryParse(ReadOnlySpan<char> s, NumberStyles style, IFormatProvider? provider, [MaybeNullWhen(false)] out Fraction result)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static bool TryParse([NotNullWhen(true)] string? s, NumberStyles style, IFormatProvider? provider, [MaybeNullWhen(false)] out Fraction result)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool TryFormat(Span<char> destination, out int charsWritten, ReadOnlySpan<char> format, IFormatProvider? provider)
+        {
+            throw new NotImplementedException();
+        }
+
+        public string ToString(string? format, IFormatProvider? formatProvider)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static Fraction Parse(ReadOnlySpan<char> s, IFormatProvider? provider)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static bool TryParse(ReadOnlySpan<char> s, IFormatProvider? provider, [MaybeNullWhen(false)] out Fraction result)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static Fraction Parse(string s, IFormatProvider? provider)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static bool TryParse([NotNullWhen(true)] string? s, IFormatProvider? provider, [MaybeNullWhen(false)] out Fraction result)
+        {
+            throw new NotImplementedException();
+        }
+
+        static Fraction IFloatingPointIeee754<Fraction>.Atan2(Fraction y, Fraction x)
+        {
+            throw new NotImplementedException();
+        }
+
+        static Fraction IFloatingPointIeee754<Fraction>.Atan2Pi(Fraction y, Fraction x)
+        {
+            throw new NotImplementedException();
+        }
+
+        static Fraction IFloatingPointIeee754<Fraction>.BitDecrement(Fraction x)
+        {
+            throw new NotImplementedException();
+        }
+
+        static Fraction IFloatingPointIeee754<Fraction>.BitIncrement(Fraction x)
+        {
+            throw new NotImplementedException();
+        }
+
+        static Fraction IFloatingPointIeee754<Fraction>.FusedMultiplyAdd(Fraction left, Fraction right, Fraction addend)
+        {
+            throw new NotImplementedException();
+        }
+
+        static Fraction IFloatingPointIeee754<Fraction>.Ieee754Remainder(Fraction left, Fraction right)
+        {
+            throw new NotImplementedException();
+        }
+
+        static int IFloatingPointIeee754<Fraction>.ILogB(Fraction x)
+        {
+            throw new NotImplementedException();
+        }
+
+        static Fraction IFloatingPointIeee754<Fraction>.ScaleB(Fraction x, int n)
+        {
+            throw new NotImplementedException();
+        }
+
+        static Fraction IExponentialFunctions<Fraction>.Exp(Fraction x)
+        {
+            throw new NotImplementedException();
+        }
+
+        static Fraction IExponentialFunctions<Fraction>.Exp10(Fraction x)
+        {
+            throw new NotImplementedException();
+        }
+
+        static Fraction IExponentialFunctions<Fraction>.Exp2(Fraction x)
+        {
+            throw new NotImplementedException();
+        }
+
+        int IFloatingPoint<Fraction>.GetExponentByteCount()
+        {
+            throw new NotImplementedException();
+        }
+
+        int IFloatingPoint<Fraction>.GetExponentShortestBitLength()
+        {
+            throw new NotImplementedException();
+        }
+
+        int IFloatingPoint<Fraction>.GetSignificandBitLength()
+        {
+            throw new NotImplementedException();
+        }
+
+        int IFloatingPoint<Fraction>.GetSignificandByteCount()
+        {
+            throw new NotImplementedException();
+        }
+
+        static Fraction IFloatingPoint<Fraction>.Round(Fraction x, int digits, MidpointRounding mode)
+        {
+            throw new NotImplementedException();
+        }
+
+        bool IFloatingPoint<Fraction>.TryWriteExponentBigEndian(Span<byte> destination, out int bytesWritten)
+        {
+            throw new NotImplementedException();
+        }
+
+        bool IFloatingPoint<Fraction>.TryWriteExponentLittleEndian(Span<byte> destination, out int bytesWritten)
+        {
+            throw new NotImplementedException();
+        }
+
+        bool IFloatingPoint<Fraction>.TryWriteSignificandBigEndian(Span<byte> destination, out int bytesWritten)
+        {
+            throw new NotImplementedException();
+        }
+
+        bool IFloatingPoint<Fraction>.TryWriteSignificandLittleEndian(Span<byte> destination, out int bytesWritten)
+        {
+            throw new NotImplementedException();
+        }
+
+        int IComparable.CompareTo(object? obj)
+        {
+            throw new NotImplementedException();
+        }
+
+        int IComparable<Fraction>.CompareTo(Fraction other)
+        {
+            throw new NotImplementedException();
+        }
+
+        static Fraction IHyperbolicFunctions<Fraction>.Acosh(Fraction x)
+        {
+            throw new NotImplementedException();
+        }
+
+        static Fraction IHyperbolicFunctions<Fraction>.Asinh(Fraction x)
+        {
+            throw new NotImplementedException();
+        }
+
+        static Fraction IHyperbolicFunctions<Fraction>.Atanh(Fraction x)
+        {
+            throw new NotImplementedException();
+        }
+
+        static Fraction IHyperbolicFunctions<Fraction>.Cosh(Fraction x)
+        {
+            throw new NotImplementedException();
+        }
+
+        static Fraction IHyperbolicFunctions<Fraction>.Sinh(Fraction x)
+        {
+            throw new NotImplementedException();
+        }
+
+        static Fraction IHyperbolicFunctions<Fraction>.Tanh(Fraction x)
+        {
+            throw new NotImplementedException();
+        }
+
+        static Fraction ILogarithmicFunctions<Fraction>.Log(Fraction x)
+        {
+            throw new NotImplementedException();
+        }
+
+        static Fraction ILogarithmicFunctions<Fraction>.Log(Fraction x, Fraction newBase)
+        {
+            throw new NotImplementedException();
+        }
+
+        static Fraction ILogarithmicFunctions<Fraction>.Log10(Fraction x)
+        {
+            throw new NotImplementedException();
+        }
+
+        static Fraction ILogarithmicFunctions<Fraction>.Log2(Fraction x)
+        {
+            throw new NotImplementedException();
+        }
+
+        static Fraction IPowerFunctions<Fraction>.Pow(Fraction x, Fraction y)
+        {
+            throw new NotImplementedException();
+        }
+
+        static Fraction IRootFunctions<Fraction>.Cbrt(Fraction x)
+        {
+            throw new NotImplementedException();
+        }
+
+        static Fraction IRootFunctions<Fraction>.Hypot(Fraction x, Fraction y)
+        {
+            throw new NotImplementedException();
+        }
+
+        static Fraction IRootFunctions<Fraction>.RootN(Fraction x, int n)
+        {
+            throw new NotImplementedException();
+        }
+
+        static Fraction IRootFunctions<Fraction>.Sqrt(Fraction x)
+        {
+            throw new NotImplementedException();
+        }
+
+        static Fraction ITrigonometricFunctions<Fraction>.Acos(Fraction x)
+        {
+            throw new NotImplementedException();
+        }
+
+        static Fraction ITrigonometricFunctions<Fraction>.AcosPi(Fraction x)
+        {
+            throw new NotImplementedException();
+        }
+
+        static Fraction ITrigonometricFunctions<Fraction>.Asin(Fraction x)
+        {
+            throw new NotImplementedException();
+        }
+
+        static Fraction ITrigonometricFunctions<Fraction>.AsinPi(Fraction x)
+        {
+            throw new NotImplementedException();
+        }
+
+        static Fraction ITrigonometricFunctions<Fraction>.Atan(Fraction x)
+        {
+            throw new NotImplementedException();
+        }
+
+        static Fraction ITrigonometricFunctions<Fraction>.AtanPi(Fraction x)
+        {
+            throw new NotImplementedException();
+        }
+
+        static Fraction ITrigonometricFunctions<Fraction>.Cos(Fraction x)
+        {
+            throw new NotImplementedException();
+        }
+
+        static Fraction ITrigonometricFunctions<Fraction>.CosPi(Fraction x)
+        {
+            throw new NotImplementedException();
+        }
+
+        static Fraction ITrigonometricFunctions<Fraction>.Sin(Fraction x)
+        {
+            throw new NotImplementedException();
+        }
+
+        static (Fraction Sin, Fraction Cos) ITrigonometricFunctions<Fraction>.SinCos(Fraction x)
+        {
+            throw new NotImplementedException();
+        }
+
+        static (Fraction SinPi, Fraction CosPi) ITrigonometricFunctions<Fraction>.SinCosPi(Fraction x)
+        {
+            throw new NotImplementedException();
+        }
+
+        static Fraction ITrigonometricFunctions<Fraction>.SinPi(Fraction x)
+        {
+            throw new NotImplementedException();
+        }
+
+        static Fraction ITrigonometricFunctions<Fraction>.Tan(Fraction x)
+        {
+            throw new NotImplementedException();
+        }
+
+        static Fraction ITrigonometricFunctions<Fraction>.TanPi(Fraction x)
+        {
+            throw new NotImplementedException();
+        }
+
+        static bool INumberBase<Fraction>.IsCanonical(Fraction value)
+        {
+            throw new NotImplementedException();
+        }
+
+        static bool INumberBase<Fraction>.IsComplexNumber(Fraction value)
+        {
+            throw new NotImplementedException();
+        }
+
+        static bool INumberBase<Fraction>.IsEvenInteger(Fraction value)
+        {
+            throw new NotImplementedException();
+        }
+
+        static bool INumberBase<Fraction>.IsFinite(Fraction value)
+        {
+            throw new NotImplementedException();
+        }
+
+        static bool INumberBase<Fraction>.IsImaginaryNumber(Fraction value)
+        {
+            throw new NotImplementedException();
+        }
+
+        static bool INumberBase<Fraction>.IsInfinity(Fraction value)
+        {
+            return value.Numerator != 0 && value.Denominator == 0;
+        }
+
+        static bool INumberBase<Fraction>.IsInteger(Fraction value)
+        {
+            throw new NotImplementedException();
+        }
+
+        static bool INumberBase<Fraction>.IsNaN(Fraction value)
+        {
+            return value.Numerator == 0 && value.Denominator == 0;
+        }
+
+        static bool INumberBase<Fraction>.IsNegative(Fraction value)
+        {
+            return value.Numerator == 0 && value.Denominator == 0;
+        }
+
+        static bool INumberBase<Fraction>.IsNegativeInfinity(Fraction value)
+        {
+            throw new NotImplementedException();
+        }
+
+        static bool INumberBase<Fraction>.IsNormal(Fraction value)
+        {
+            throw new NotImplementedException();
+        }
+
+        static bool INumberBase<Fraction>.IsOddInteger(Fraction value)
+        {
+            throw new NotImplementedException();
+        }
+
+        static bool INumberBase<Fraction>.IsPositive(Fraction value)
+        {
+            throw new NotImplementedException();
+        }
+
+        static bool INumberBase<Fraction>.IsPositiveInfinity(Fraction value)
+        {
+            throw new NotImplementedException();
+        }
+
+        static bool INumberBase<Fraction>.IsRealNumber(Fraction value)
+        {
+            throw new NotImplementedException();
+        }
+
+        static bool INumberBase<Fraction>.IsSubnormal(Fraction value)
+        {
+            throw new NotImplementedException();
+        }
+
+        static bool INumberBase<Fraction>.IsZero(Fraction value)
+        {
+            return value.Numerator == 0;
+        }
+
+        static Fraction INumberBase<Fraction>.MaxMagnitude(Fraction x, Fraction y)
+        {
+            throw new NotImplementedException();
+        }
+
+        static Fraction INumberBase<Fraction>.MaxMagnitudeNumber(Fraction x, Fraction y)
+        {
+            throw new NotImplementedException();
+        }
+
+        static Fraction INumberBase<Fraction>.MinMagnitude(Fraction x, Fraction y)
+        {
+            throw new NotImplementedException();
+        }
+
+        static Fraction INumberBase<Fraction>.MinMagnitudeNumber(Fraction x, Fraction y)
+        {
+            throw new NotImplementedException();
+        }
+
+        static Fraction INumberBase<Fraction>.Parse(ReadOnlySpan<char> s, NumberStyles style, IFormatProvider? provider)
+        {
+            throw new NotImplementedException();
+        }
+
+        static Fraction INumberBase<Fraction>.Parse(string s, NumberStyles style, IFormatProvider? provider)
+        {
+            throw new NotImplementedException();
+        }
+
+        static bool INumberBase<Fraction>.TryConvertFromChecked<TOther>(TOther value, out Fraction result)
+        {
+            if (typeof(TOther) == typeof(byte))
+            {
+                var actualValue = (byte)(object)value;
+                result = checked((Int)actualValue);
+                return true;
+            }
+            else if (typeof(TOther) == typeof(sbyte))
+            {
+                var actualValue = (sbyte)(object)value;
+                result = checked((Int)actualValue);
+                return true;
+            }
+            else if (typeof(TOther) == typeof(char))
+            {
+                var actualValue = (char)(object)value;
+                result = checked((Int)actualValue);
+                return true;
+            }
+            else if (typeof(TOther) == typeof(short))
+            {
+                var actualValue = (short)(object)value;
+                result = checked((Int)actualValue);
+                return true;
+            }
+            else if (typeof(TOther) == typeof(ushort))
+            {
+                var actualValue = (ushort)(object)value;
+                result = checked((Int)actualValue);
+                return true;
+            }
+            else if (typeof(TOther) == typeof(int))
+            {
+                var actualValue = (int)(object)value;
+                result = checked((Int)actualValue);
+                return true;
+            }
+            else if (typeof(TOther) == typeof(uint))
+            {
+                var actualValue = (uint)(object)value;
+                result = checked((Int)actualValue);
+                return true;
+            }
+            else if (typeof(TOther) == typeof(long))
+            {
+                var actualValue = (long)(object)value;
+                result = checked((Int)actualValue);
+                return true;
+            }
+            else if (typeof(TOther) == typeof(ulong))
+            {
+                var actualValue = (ulong)(object)value;
+                result = checked((Int)actualValue);
+                return true;
+            }
+            else if (typeof(TOther) == typeof(Int128))
+            {
+                var actualValue = (Int128)(object)value;
+                result = checked((Int)actualValue);
+                return true;
+            }
+            else if (typeof(TOther) == typeof(UInt128))
+            {
+                var actualValue = (UInt128)(object)value;
+                result = checked((Int)actualValue);
+                return true;
+            }
+            else if (typeof(TOther) == typeof(nint))
+            {
+                var actualValue = (nint)(object)value;
+                result = checked((Int)actualValue);
+                return true;
+            }
+            else if (typeof(TOther) == typeof(nuint))
+            {
+                var actualValue = (nuint)(object)value;
+                result = checked((Int)actualValue);
+                return true;
+            }
+            else if (typeof(TOther) == typeof(Half))
+            {
+                var actualValue = (Half)(object)value;
+                result = checked((Int)actualValue);
+                return true;
+            }
+            else if (typeof(TOther) == typeof(float))
+            {
+                var actualValue = (float)(object)value;
+                result = checked((Int)actualValue);
+                return true;
+            }
+            else if (typeof(TOther) == typeof(double))
+            {
+                var actualValue = (double)(object)value;
+                result = checked((Int)actualValue);
+                return true;
+            }
+            else if (typeof(TOther) == typeof(decimal))
+            {
+                var actualValue = (decimal)(object)value;
+                result = checked((Int)actualValue);
+                return true;
+            }
+            else if (typeof(TOther) == typeof(BigInteger))
+            {
+                var actualValue = (BigInteger)(object)value;
+                result = checked((Int)actualValue);
+                return true;
+            }
+            else
+            {
+                result = default;
+                return false;
+            }
+        }
+
+        static bool INumberBase<Fraction>.TryConvertFromSaturating<TOther>(TOther value, out Fraction result)
+        {
+            if (typeof(TOther) == typeof(byte))
+            {
+                var actualValue = (byte)(object)value;
+                result = checked((Int)actualValue);
+                return true;
+            }
+            else if (typeof(TOther) == typeof(sbyte))
+            {
+                var actualValue = (sbyte)(object)value;
+                result = checked((Int)actualValue);
+                return true;
+            }
+            else if (typeof(TOther) == typeof(char))
+            {
+                var actualValue = (char)(object)value;
+                result = checked((Int)actualValue);
+                return true;
+            }
+            else if (typeof(TOther) == typeof(short))
+            {
+                var actualValue = (short)(object)value;
+                result = checked((Int)actualValue);
+                return true;
+            }
+            else if (typeof(TOther) == typeof(ushort))
+            {
+                var actualValue = (ushort)(object)value;
+                result = checked((Int)actualValue);
+                return true;
+            }
+            else if (typeof(TOther) == typeof(int))
+            {
+                var actualValue = (int)(object)value;
+                result = checked((Int)actualValue);
+                return true;
+            }
+            else if (typeof(TOther) == typeof(uint))
+            {
+                var actualValue = (uint)(object)value;
+                result = checked((Int)actualValue);
+                return true;
+            }
+            else if (typeof(TOther) == typeof(long))
+            {
+                var actualValue = (long)(object)value;
+                result = checked((Int)actualValue);
+                return true;
+            }
+            else if (typeof(TOther) == typeof(ulong))
+            {
+                var actualValue = (ulong)(object)value;
+                result = checked((Int)actualValue);
+                return true;
+            }
+            else if (typeof(TOther) == typeof(Int128))
+            {
+                var actualValue = (Int128)(object)value;
+                result = checked((Int)actualValue);
+                return true;
+            }
+            else if (typeof(TOther) == typeof(UInt128))
+            {
+                var actualValue = (UInt128)(object)value;
+                result = checked((Int)actualValue);
+                return true;
+            }
+            else if (typeof(TOther) == typeof(nint))
+            {
+                var actualValue = (nint)(object)value;
+                result = checked((Int)actualValue);
+                return true;
+            }
+            else if (typeof(TOther) == typeof(nuint))
+            {
+                var actualValue = (nuint)(object)value;
+                result = checked((Int)actualValue);
+                return true;
+            }
+            else if (typeof(TOther) == typeof(Half))
+            {
+                var actualValue = (Half)(object)value;
+                result = checked((Int)actualValue);
+                return true;
+            }
+            else if (typeof(TOther) == typeof(float))
+            {
+                var actualValue = (float)(object)value;
+                result = checked((Int)actualValue);
+                return true;
+            }
+            else if (typeof(TOther) == typeof(double))
+            {
+                var actualValue = (double)(object)value;
+                result = checked((Int)actualValue);
+                return true;
+            }
+            else if (typeof(TOther) == typeof(decimal))
+            {
+                var actualValue = (decimal)(object)value;
+                result = checked((Int)actualValue);
+                return true;
+            }
+            else if (typeof(TOther) == typeof(BigInteger))
+            {
+                var actualValue = (BigInteger)(object)value;
+                result = checked((Int)actualValue);
+                return true;
+            }
+            else
+            {
+                result = default;
+                return false;
+            }
+        }
+
+        static bool INumberBase<Fraction>.TryConvertFromTruncating<TOther>(TOther value, out Fraction result)
+        {
+            throw new NotImplementedException();
+        }
+
+        static bool INumberBase<Fraction>.TryConvertToChecked<TOther>(Fraction value, out TOther result)
+        {
+            throw new NotImplementedException();
+        }
+
+        static bool INumberBase<Fraction>.TryConvertToSaturating<TOther>(Fraction value, out TOther result)
+        {
+            throw new NotImplementedException();
+        }
+
+        static bool INumberBase<Fraction>.TryConvertToTruncating<TOther>(Fraction value, out TOther result)
+        {
+            throw new NotImplementedException();
+        }
+
+        static bool INumberBase<Fraction>.TryParse(ReadOnlySpan<char> s, NumberStyles style, IFormatProvider? provider, out Fraction result)
+        {
+            throw new NotImplementedException();
+        }
+
+        static bool INumberBase<Fraction>.TryParse(string? s, NumberStyles style, IFormatProvider? provider, out Fraction result)
+        {
+            throw new NotImplementedException();
+        }
+
+        bool IEquatable<Fraction>.Equals(Fraction other)
+        {
+            throw new NotImplementedException();
+        }
+
+        bool ISpanFormattable.TryFormat(Span<char> destination, out int charsWritten, ReadOnlySpan<char> format, IFormatProvider? provider)
+        {
+            throw new NotImplementedException();
+        }
+
+        string IFormattable.ToString(string? format, IFormatProvider? formatProvider)
+        {
+            throw new NotImplementedException();
+        }
+
+        static Fraction ISpanParsable<Fraction>.Parse(ReadOnlySpan<char> s, IFormatProvider? provider)
+        {
+            throw new NotImplementedException();
+        }
+
+        static bool ISpanParsable<Fraction>.TryParse(ReadOnlySpan<char> s, IFormatProvider? provider, out Fraction result)
+        {
+            throw new NotImplementedException();
+        }
+
+        static Fraction IParsable<Fraction>.Parse(string s, IFormatProvider? provider)
+        {
+            throw new NotImplementedException();
+        }
+
+        static bool IParsable<Fraction>.TryParse(string? s, IFormatProvider? provider, out Fraction result)
+        {
+            throw new NotImplementedException();
         }
         #endregion object
     }
