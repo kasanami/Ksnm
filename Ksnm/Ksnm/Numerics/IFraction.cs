@@ -10,8 +10,9 @@ namespace Ksnm.Numerics
     /// <summary>
     /// 分数型インターフェイス
     /// </summary>
-    interface IFraction<TSelf, TNumerator, TDenominator>
-        where TSelf : INumber<TSelf>
+    interface IFraction<TSelf, TNumerator, TDenominator> :
+        IFloatingPointIeee754<TSelf>
+        where TSelf : INumber<TSelf>, IFloatingPointIeee754<TSelf>
         where TNumerator : INumber<TNumerator>
         where TDenominator : INumber<TDenominator>
     {

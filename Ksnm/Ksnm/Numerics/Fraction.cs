@@ -10,7 +10,7 @@ namespace Ksnm.Numerics
     public struct Fraction<T> :
         IFraction<Fraction<T>, T, T>,
         INumber<Fraction<T>>
-        where T : INumber<T>
+        where T : INumber<T>, IMinMaxValue<T>
     {
         #region 定数・静的変数
         public static Fraction<T> One => 1;
@@ -22,6 +22,24 @@ namespace Ksnm.Numerics
         public static Fraction<T> AdditiveIdentity => 0;
 
         public static Fraction<T> MultiplicativeIdentity => 1;
+
+        public static Fraction<T> Epsilon => new Fraction<T>(T.One, T.MaxValue);
+
+        public static Fraction<T> NaN => new Fraction<T>(T.Zero, T.Zero);
+
+        public static Fraction<T> NegativeInfinity => new Fraction<T>(-T.One, T.Zero);
+
+        public static Fraction<T> NegativeZero => new Fraction<T>(-T.Zero);
+
+        public static Fraction<T> PositiveInfinity => new Fraction<T>(T.One, T.Zero);
+
+        public static Fraction<T> NegativeOne => new Fraction<T>(-T.One);
+
+        public static Fraction<T> E => throw new NotImplementedException();
+
+        public static Fraction<T> Pi => throw new NotImplementedException();
+
+        public static Fraction<T> Tau => throw new NotImplementedException();
         #endregion 定数・静的変数
 
         #region プロパティ
@@ -55,13 +73,10 @@ namespace Ksnm.Numerics
 
         public static bool IsCanonical(Fraction<T> value)
         {
-            return true;
+            throw new NotImplementedException();
         }
 
-        public static bool IsComplexNumber(Fraction<T> value)
-        {
-            return false;
-        }
+        public static bool IsComplexNumber(Fraction<T> value) => false;
 
         public static bool IsEvenInteger(Fraction<T> value)
         {
@@ -76,17 +91,14 @@ namespace Ksnm.Numerics
         /// </summary>
         public static bool IsFinite(Fraction<T> value)
         {
-            return true;
+            return value.Denominator != T.Zero;
         }
 
-        public static bool IsImaginaryNumber(Fraction<T> value)
-        {
-            return false;
-        }
+        public static bool IsImaginaryNumber(Fraction<T> value) => false;
 
         public static bool IsInfinity(Fraction<T> value)
         {
-            return false;
+            return value.Numerator != T.Zero && value.Denominator == T.Zero;
         }
 
         public static bool IsInteger(Fraction<T> value)
@@ -96,7 +108,7 @@ namespace Ksnm.Numerics
 
         public static bool IsNaN(Fraction<T> value)
         {
-            return value.Denominator == T.Zero;
+            return value.Numerator == T.Zero && value.Denominator == T.Zero;
         }
 
         public static bool IsNegative(Fraction<T> value)
@@ -106,7 +118,7 @@ namespace Ksnm.Numerics
 
         public static bool IsNegativeInfinity(Fraction<T> value)
         {
-            return false;
+            return value.Numerator < T.Zero && value.Denominator == T.Zero;
         }
 
         public static bool IsNormal(Fraction<T> value)
@@ -130,21 +142,29 @@ namespace Ksnm.Numerics
 
         public static bool IsPositiveInfinity(Fraction<T> value)
         {
-            return false;
+            return value.Numerator > T.Zero && value.Denominator == T.Zero;
         }
 
         public static bool IsRealNumber(Fraction<T> value)
         {
+            if (value.Denominator == T.Zero)
+            {
+                return false;
+            }
             return true;
         }
 
         public static bool IsSubnormal(Fraction<T> value)
         {
-            return true;
+            throw new NotImplementedException();
         }
 
         public static bool IsZero(Fraction<T> value)
         {
+            if (value.Denominator == T.Zero)
+            {
+                return false;
+            }
             return value.Numerator == T.Zero;
         }
 
@@ -644,6 +664,251 @@ namespace Ksnm.Numerics
         }
 
         static bool IParsable<Fraction<T>>.TryParse(string? s, IFormatProvider? provider, out Fraction<T> result)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static Fraction<T> Atan2(Fraction<T> y, Fraction<T> x)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static Fraction<T> Atan2Pi(Fraction<T> y, Fraction<T> x)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static Fraction<T> BitDecrement(Fraction<T> x)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static Fraction<T> BitIncrement(Fraction<T> x)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static Fraction<T> FusedMultiplyAdd(Fraction<T> left, Fraction<T> right, Fraction<T> addend)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static Fraction<T> Ieee754Remainder(Fraction<T> left, Fraction<T> right)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static int ILogB(Fraction<T> x)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static Fraction<T> ScaleB(Fraction<T> x, int n)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static Fraction<T> Exp(Fraction<T> x)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static Fraction<T> Exp10(Fraction<T> x)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static Fraction<T> Exp2(Fraction<T> x)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int GetExponentByteCount()
+        {
+            throw new NotImplementedException();
+        }
+
+        public int GetExponentShortestBitLength()
+        {
+            throw new NotImplementedException();
+        }
+
+        public int GetSignificandBitLength()
+        {
+            throw new NotImplementedException();
+        }
+
+        public int GetSignificandByteCount()
+        {
+            throw new NotImplementedException();
+        }
+
+        public static Fraction<T> Round(Fraction<T> x, int digits, MidpointRounding mode)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool TryWriteExponentBigEndian(Span<byte> destination, out int bytesWritten)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool TryWriteExponentLittleEndian(Span<byte> destination, out int bytesWritten)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool TryWriteSignificandBigEndian(Span<byte> destination, out int bytesWritten)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool TryWriteSignificandLittleEndian(Span<byte> destination, out int bytesWritten)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static Fraction<T> Acosh(Fraction<T> x)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static Fraction<T> Asinh(Fraction<T> x)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static Fraction<T> Atanh(Fraction<T> x)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static Fraction<T> Cosh(Fraction<T> x)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static Fraction<T> Sinh(Fraction<T> x)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static Fraction<T> Tanh(Fraction<T> x)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static Fraction<T> Log(Fraction<T> x)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static Fraction<T> Log(Fraction<T> x, Fraction<T> newBase)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static Fraction<T> Log10(Fraction<T> x)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static Fraction<T> Log2(Fraction<T> x)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static Fraction<T> Pow(Fraction<T> x, Fraction<T> y)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static Fraction<T> Cbrt(Fraction<T> x)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static Fraction<T> Hypot(Fraction<T> x, Fraction<T> y)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static Fraction<T> RootN(Fraction<T> x, int n)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static Fraction<T> Sqrt(Fraction<T> x)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static Fraction<T> Acos(Fraction<T> x)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static Fraction<T> AcosPi(Fraction<T> x)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static Fraction<T> Asin(Fraction<T> x)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static Fraction<T> AsinPi(Fraction<T> x)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static Fraction<T> Atan(Fraction<T> x)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static Fraction<T> AtanPi(Fraction<T> x)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static Fraction<T> Cos(Fraction<T> x)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static Fraction<T> CosPi(Fraction<T> x)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static Fraction<T> Sin(Fraction<T> x)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static (Fraction<T> Sin, Fraction<T> Cos) SinCos(Fraction<T> x)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static (Fraction<T> SinPi, Fraction<T> CosPi) SinCosPi(Fraction<T> x)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static Fraction<T> SinPi(Fraction<T> x)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static Fraction<T> Tan(Fraction<T> x)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static Fraction<T> TanPi(Fraction<T> x)
         {
             throw new NotImplementedException();
         }
