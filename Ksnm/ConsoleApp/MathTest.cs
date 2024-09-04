@@ -15,10 +15,21 @@ namespace ConsoleApp
             {
                 Console.WriteLine("→4～100の範囲では成り立つ");
             }
+            Console.WriteLine("ガウス＝ルジャンドルのアルゴリズム");
             {
-                Console.WriteLine("ガウス＝ルジャンドルのアルゴリズム");
+                Console.WriteLine("double");
                 var pi = Algorithm.GaussLegendre<double>(3);
                 Console.WriteLine($"→{pi}");
+            }
+            {
+                Console.WriteLine("BigDecimal");
+                BigDecimal pi;
+                Console.WriteLine($"DefaultMinExponent={BigDecimal.DefaultMinExponent}");
+                for (var count = 0; count <= 8; count++)
+                {
+                    pi = Algorithm.GaussLegendre<BigDecimal>(0, count, BigDecimal.Sqrt);
+                    Console.WriteLine($"{count}:{pi}");
+                }
             }
             GammaTest();
             StirlingsFormulaTest();
