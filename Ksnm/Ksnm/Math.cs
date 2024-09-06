@@ -2036,87 +2036,6 @@ namespace Ksnm
         {
             return GreatestCommonDivisor(GreatestCommonDivisor(a, b), c);
         }
-
-        /// <summary>
-        /// 最大公約数を計算する。
-        /// <para>負数は正数にされる。</para>
-        /// </summary>
-        /// <param name="a">整数</param>
-        /// <param name="b">整数</param>
-        /// <returns>最大公約数</returns>
-        public static int GreatestCommonDivisor(int a, int b)
-        {
-            if (a < b)
-            {
-                // 引数を入替えて自分を呼び出す
-                return GreatestCommonDivisor(b, a);
-            }
-#if true
-            while (b != 0)
-            {
-                var remainder = a % b;
-                a = b;
-                b = remainder;
-            }
-            return System.Math.Abs(a);
-#else
-            // 再帰呼び出しでは、わずかに遅い
-            var remainder = a % b;
-            if (remainder == 0)
-            {
-                return b;
-            }
-            return GreatestCommonDivisor(b, remainder);
-#endif
-        }
-        /// <summary>
-        /// 最大公約数を計算する。
-        /// </summary>
-        /// <param name="a">符号なし整数</param>
-        /// <param name="b">符号なし整数</param>
-        /// <returns>最大公約数</returns>
-        public static uint GreatestCommonDivisor(uint a, uint b)
-        {
-            if (a < b)
-            {
-                // 引数を入替えて自分を呼び出す
-                return GreatestCommonDivisor(b, a);
-            }
-            while (b != 0)
-            {
-                var remainder = a % b;
-                a = b;
-                b = remainder;
-            }
-            return a;
-        }
-
-        /// <summary>
-        /// 最大公約数を計算する。
-        /// <para>負数は正数にされる。</para>
-        /// </summary>
-        /// <param name="a">整数</param>
-        /// <param name="b">整数</param>
-        /// <param name="c">整数</param>
-        /// <returns>最大公約数</returns>
-        public static int GreatestCommonDivisor(int a, int b, int c)
-        {
-            return GreatestCommonDivisor(GreatestCommonDivisor(a, b), c);
-        }
-
-        /// <summary>
-        /// 最大公約数を計算する。
-        /// <para>負数は正数にされる。</para>
-        /// </summary>
-        /// <param name="a">符号なし整数</param>
-        /// <param name="b">符号なし整数</param>
-        /// <param name="c">符号なし整数</param>
-        /// <returns>最大公約数</returns>
-        public static uint GreatestCommonDivisor(uint a, uint b, uint c)
-        {
-            return GreatestCommonDivisor(GreatestCommonDivisor(a, b), c);
-        }
-
         #endregion 最大公約数 GreatestCommonDivisor
 
         #region 最小公倍数
@@ -2126,18 +2045,7 @@ namespace Ksnm
         /// <param name="a">整数</param>
         /// <param name="b">整数</param>
         /// <returns>最小公倍数</returns>
-        public static int LeastCommonMultiple(int a, int b)
-        {
-            var gcd = GreatestCommonDivisor(a, b);
-            return (a * b) / gcd;
-        }
-        /// <summary>
-        /// 最小公倍数を計算する。
-        /// </summary>
-        /// <param name="a">符号なし整数</param>
-        /// <param name="b">符号なし整数</param>
-        /// <returns>最小公倍数</returns>
-        public static uint LeastCommonMultiple(uint a, uint b)
+        public static T LeastCommonMultiple<T>(T a, T b) where T : INumber<T>
         {
             var gcd = GreatestCommonDivisor(a, b);
             return (a * b) / gcd;
