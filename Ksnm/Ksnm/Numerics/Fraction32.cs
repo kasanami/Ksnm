@@ -32,6 +32,7 @@ namespace Ksnm.Numerics
 {
     // コードを再利用するためのエイリアスを定義
     using Int = Int16;
+    using Int2 = Int32;// 計算途中に使用する
     using Fraction = Fraction32;
     /// <summary>
     /// 符号付き32ビット分数(16ビット×2)
@@ -145,65 +146,53 @@ namespace Ksnm.Numerics
         public Fraction32(Int numerator) : this(numerator, 1)
         {
         }
-        /// <summary>
-        /// 実数を分数に変換して初期化
-        /// </summary>
-        /// <param name="value">実数</param>
-        public Fraction32(double value) : this((decimal)value)
+        public Fraction32(ExtendedDouble value)
         {
-#if false
-            var mantissa = value.GetMantissa();
-            var exponentBits = value.GetExponentBits();
-            var exponent = value.GetExponent();
-            if (mantissa == 0 && exponentBits == 0)
+            var mantissa = value.Mantissa;
+            var exponent = value.Exponent;
+            var denominator = 1ul;
+            // 指数が
+            if (exponent > 0)
             {
-                Numerator = 0;
-                Denominator = 1;
+                var scale = Math.Pow(2ul, exponent);
+                mantissa *= scale;
             }
-            else if (exponent <= -32)
+            else if (exponent < 0)
             {
-                // アンダーフロー
-                Numerator = 0;
-                Denominator = 1;
+                var scale = Math.Pow(2ul, -exponent);
+                denominator = scale;
             }
-            else if (exponent >= 32)
+            // 分子
+            Numerator = Int.CreateChecked(mantissa);
+            // 分母
+            Denominator = Int.CreateChecked(denominator);
+            // 符号
+            if (value.SignBit == 1)
             {
-                // オーバーフロー
-                if (value.GetSignBits() == 1)
-                {
-                    Numerator = int.MinValue;
-                }
-                else
-                {
-                    Numerator = int.MaxValue;
-                }
-                Denominator = 1;
+                Numerator = (Int)(-Numerator);
             }
-            else
-            {
-                // 分子の精度を残しつつ
-                // 分母を最小値にする
-                if (exponent < 0)
-                {
-                    Denominator = 1 << -exponent;
-                }
-                Numerator = (int)(mantissa >> shift);
-                
-                Numerator *= value.GetSign();
-            }
-#endif
         }
-        /// <summary>
-        /// 実数を分数に変換して初期化
-        /// </summary>
-        /// <param name="value">実数</param>
         public Fraction32(ExtendedDecimal value)
         {
             var mantissa = value.Mantissa;
-            var exponent = value.Scale;
-            var denominator = Math.Pow(10, exponent);
-            Numerator = (Int)mantissa;
-            Denominator = (Int)denominator;
+            var exponent = value.Exponent;
+            var denominator = 1ul;
+            // 指数が
+            if (exponent > 0)
+            {
+                var scale = Math.Pow(10ul, exponent);
+                mantissa *= scale;
+            }
+            else if (exponent < 0)
+            {
+                var scale = Math.Pow(10ul, -exponent);
+                denominator = scale;
+            }
+            // 分子
+            Numerator = Int.CreateChecked(mantissa);
+            // 分母
+            Denominator = Int.CreateChecked(denominator);
+            // 符号
             if (value.SignBit == 1)
             {
                 Numerator = (Int)(-Numerator);
@@ -788,7 +777,7 @@ namespace Ksnm.Numerics
 
         public static Fraction Sqrt(Fraction x)
         {
-            throw new NotImplementedException();
+            return Math.Sqrt(x, Epsilon, 1);
         }
 
         public static Fraction Acos(Fraction x)
@@ -1198,11 +1187,6 @@ namespace Ksnm.Numerics
         }
 
         static Fraction IRootFunctions<Fraction>.RootN(Fraction x, int n)
-        {
-            throw new NotImplementedException();
-        }
-
-        static Fraction IRootFunctions<Fraction>.Sqrt(Fraction x)
         {
             throw new NotImplementedException();
         }
@@ -1662,9 +1646,7 @@ namespace Ksnm.Numerics
         }
 
         bool ISpanFormattable.TryFormat(Span<char> destination, out int charsWritten, ReadOnlySpan<char> format, IFormatProvider? provider)
-        {
-            throw new NotImplementedException();
-        }
+            => TryFormat(destination, out charsWritten, format, provider);
 
         string IFormattable.ToString(string? format, IFormatProvider? formatProvider)
         {
