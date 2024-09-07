@@ -97,11 +97,13 @@ namespace Ksnm.Numerics
         }
         /// <summary>
         /// 指数を取得/設定
+        /// 2のべき乗の指数（2^Exponent）
+        /// Mantissaが左詰めのため、そのビット数は引いたあとの値
         /// </summary>
         public int Exponent
         {
-            get => ExponentBits - ExponentBias;
-            set => ExponentBits = (ushort)(value + ExponentBias);
+            get => ExponentBits - ExponentBias - MantissaLength;
+            set => ExponentBits = (ushort)(value + ExponentBias + MantissaLength);
         }
 
         /// <summary>
@@ -114,12 +116,43 @@ namespace Ksnm.Numerics
         }
         /// <summary>
         /// 仮数を取得/設定
+        /// 0～1.0の値
+        /// ※1.0=0b100_0000000000_0000000000_0000000000_0000000000_0000000000
+        /// ※0が出力されるのは、符号ビット以外が0のとき
         /// </summary>
         public UInt Mantissa
         {
-            get => MantissaBits | ((UInt)1 << MantissaLength);// ((UInt)1 << MantissaLength)は"1."を意味する
+            get
+            {
+                // 符号ビット以外が0なら0を返す
+                if ((Bits & ~SignShiftedBitMask) == 0)
+                {
+                    return 0;
+                }
+                // ((UInt)1 << MantissaLength)は"1."を意味する
+                return MantissaBits | ((UInt)1 << MantissaLength);
+            }
             set => Bits = value;
         }
         #endregion プロパティ
+
+        #region コンストラクタ
+        public ExtendedDouble(double value)
+        {
+            Value = value;
+        }
+        #endregion コンストラクタ
+
+        #region 型変更
+        public static implicit operator ExtendedDouble(double value)
+        {
+            return new ExtendedDouble(value);
+        }
+        /// </summary>
+        public static implicit operator double(ExtendedDouble value)
+        {
+            return value.Value;
+        }
+        #endregion 型変更
     }
 }
