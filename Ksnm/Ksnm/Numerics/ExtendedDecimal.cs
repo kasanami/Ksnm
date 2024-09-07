@@ -141,9 +141,10 @@ namespace Ksnm.Numerics
         /// </summary>
         public int Exponent => -ExponentBits;
         /// <summary>
-        /// 10 進数の小数点以下桁数を表す 0 から 28 までの数値を取得します。
+        /// 倍率
+        /// Mantissaと乗算すると元の値になる係数
         /// </summary>
-        public byte Scale => Value.Scale;
+        public double Scale => System.Math.Pow(Radix, Exponent);
 
         /// <summary>
         /// 仮数部を取得/設定

@@ -10,6 +10,8 @@ namespace Ksnm.Numerics
     public struct ExtendedDouble
     {
         #region 定数
+        public const int Radix = 2;
+
         /// <summary>
         /// 符号部のビット数
         /// </summary>
@@ -102,9 +104,22 @@ namespace Ksnm.Numerics
         /// </summary>
         public int Exponent
         {
-            get => ExponentBits - ExponentBias - MantissaLength;
+            get
+            {
+                // 符号ビット以外が0なら0を返す
+                if ((Bits & ~SignShiftedBitMask) == 0)
+                {
+                    return 0;
+                }
+                return ExponentBits - ExponentBias - MantissaLength;
+            }
             set => ExponentBits = (ushort)(value + ExponentBias + MantissaLength);
         }
+        /// <summary>
+        /// 倍率
+        /// Mantissaと乗算すると元の値になる係数
+        /// </summary>
+        public double Scale => System.Math.Pow(Radix, Exponent);
 
         /// <summary>
         /// 仮数部を取得/設定
