@@ -1,4 +1,5 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using Ksnm.Units;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Numerics;
 
@@ -13,15 +14,15 @@ namespace Ksnm.Numerics
         where T : INumber<T>, IMinMaxValue<T>
     {
         #region 定数・静的変数
-        public static Fraction<T> One => 1;
+        public static Fraction<T> One => new Fraction<T>(T.One);
 
         public static int Radix => 2;
 
-        public static Fraction<T> Zero => 0;
+        public static Fraction<T> Zero => new Fraction<T>(T.Zero);
 
-        public static Fraction<T> AdditiveIdentity => 0;
+        public static Fraction<T> AdditiveIdentity => new Fraction<T>(T.AdditiveIdentity);
 
-        public static Fraction<T> MultiplicativeIdentity => 1;
+        public static Fraction<T> MultiplicativeIdentity => new Fraction<T>(T.MultiplicativeIdentity);
 
         public static Fraction<T> Epsilon => new Fraction<T>(T.One, T.MaxValue);
 
@@ -51,6 +52,10 @@ namespace Ksnm.Numerics
         /// 分母
         /// </summary>
         public T Denominator { get; set; }
+        /// <summary>
+        /// 逆数を返す。
+        /// </summary>
+        public Fraction<T> Reciprocal => new Fraction<T>(Denominator, Numerator);
         #endregion プロパティ
 
         #region コンストラクタ
@@ -64,7 +69,177 @@ namespace Ksnm.Numerics
             Numerator = numerator;
             Denominator = T.One;
         }
+        public Fraction(ExtendedDouble value)
+        {
+            var mantissa = value.Mantissa;
+            var exponent = value.Exponent;
+            var denominator = 1ul;
+            // 指数が
+            if (exponent > 0)
+            {
+                var scale = Math.Pow(2ul, exponent);
+                mantissa *= scale;
+            }
+            else if (exponent < 0)
+            {
+                var scale = Math.Pow(2ul, -exponent);
+                denominator = scale;
+            }
+            // 分子
+            Numerator = T.CreateChecked(mantissa);
+            // 分母
+            Denominator = T.CreateChecked(denominator);
+            // 符号
+            if (value.SignBit == 1)
+            {
+                Numerator = -Numerator;
+            }
+        }
+        public Fraction(ExtendedDecimal value)
+        {
+            var mantissa = value.Mantissa;
+            var exponent = value.Exponent;
+            var denominator = 1ul;
+            // 指数が
+            if (exponent > 0)
+            {
+                var scale = Math.Pow(10ul, exponent);
+                mantissa *= scale;
+            }
+            else if (exponent < 0)
+            {
+                var scale = Math.Pow(10ul, -exponent);
+                denominator = scale;
+            }
+            // 分子
+            Numerator = T.CreateChecked(mantissa);
+            // 分母
+            Denominator = T.CreateChecked(denominator);
+            // 符号
+            if (value.SignBit == 1)
+            {
+                Numerator = -Numerator;
+            }
+        }
         #endregion コンストラクタ
+
+        #region 型変換
+        public static Fraction<T> ConvertFrom<TOther>(TOther value) where TOther : INumber<TOther>
+        {
+            if (TOther.IsInteger(value))
+            {
+                return new Fraction<T>(T.CreateChecked(value));
+            }
+            else if (TOther.IsNaN(value))
+            {
+                return NaN;
+            }
+            else if (TOther.IsPositiveInfinity(value))
+            {
+                return PositiveInfinity;
+            }
+            else if (TOther.IsNegativeInfinity(value))
+            {
+                return NegativeInfinity;
+            }
+            else if (typeof(TOther) == typeof(Half))
+            {
+                var fValue = (Half)(object)value;
+                return new Fraction<T>((double)fValue);
+            }
+            else if (typeof(TOther)==typeof(float))
+            {
+                var fValue = (float)(object)value;
+                return new Fraction<T>(fValue);
+            }
+            else if (typeof(TOther) == typeof(double))
+            {
+                var fValue = (double)(object)value;
+                return new Fraction<T>(fValue);
+            }
+            else if (typeof(TOther) == typeof(decimal))
+            {
+                var fValue = (decimal)(object)value;
+                return new Fraction<T>(fValue);
+            }
+            throw new InvalidCastException($"{nameof(value)}={value}");
+        }
+        public static explicit operator Fraction<T>(byte value) => ConvertFrom(value);
+        public static explicit operator Fraction<T>(sbyte value) => ConvertFrom(value);
+        public static explicit operator Fraction<T>(short value) => ConvertFrom(value);
+        public static explicit operator Fraction<T>(ushort value) => ConvertFrom(value);
+        public static explicit operator Fraction<T>(int value) => ConvertFrom(value);
+        public static explicit operator Fraction<T>(uint value) => ConvertFrom(value);
+        public static explicit operator Fraction<T>(long value) => ConvertFrom(value);
+        public static explicit operator Fraction<T>(ulong value) => ConvertFrom(value);
+        public static explicit operator Fraction<T>(Int128 value) => ConvertFrom(value);
+        public static explicit operator Fraction<T>(UInt128 value) => ConvertFrom(value);
+        public static explicit operator Fraction<T>(Half value) => ConvertFrom(value);
+        public static explicit operator Fraction<T>(float value) => ConvertFrom(value);
+        public static explicit operator Fraction<T>(double value) => ConvertFrom(value);
+        public static explicit operator Fraction<T>(decimal value) => ConvertFrom(value);
+
+        public static TOther ConvertTo<TOther>(Fraction<T> value) where TOther : INumber<TOther>
+        {
+            TOther numeratorOther = TOther.CreateChecked(value.Numerator);
+            TOther denominatorOther = TOther.CreateChecked(value.Denominator);
+            return numeratorOther / denominatorOther;
+        }
+        public static explicit operator byte(Fraction<T> value) => ConvertTo<byte>(value);
+        public static explicit operator sbyte(Fraction<T> value) => ConvertTo<sbyte>(value);
+        public static explicit operator short(Fraction<T> value) => ConvertTo<short>(value);
+        public static explicit operator ushort(Fraction<T> value) => ConvertTo<ushort>(value);
+        public static explicit operator int(Fraction<T> value) => ConvertTo<int>(value);
+        public static explicit operator uint(Fraction<T> value) => ConvertTo<uint>(value);
+        public static explicit operator long(Fraction<T> value) => ConvertTo<long>(value);
+        public static explicit operator ulong(Fraction<T> value) => ConvertTo<ulong>(value);
+        public static explicit operator Int128(Fraction<T> value) => ConvertTo<Int128>(value);
+        public static explicit operator UInt128(Fraction<T> value) => ConvertTo<UInt128>(value);
+        public static explicit operator Half(Fraction<T> value) => ConvertTo<Half>(value);
+        public static explicit operator float(Fraction<T> value) => ConvertTo<float>(value);
+        public static explicit operator double(Fraction<T> value) => ConvertTo<double>(value);
+        public static explicit operator decimal(Fraction<T> value) => ConvertTo<decimal>(value);
+        #endregion 型変換
+
+        /// <summary>
+        /// 分数の簡約化
+        /// </summary>
+        public void Simplify()
+        {
+            // 約分する
+            Reduce();
+            // 分母を正の数にする
+            if (Denominator < T.Zero)
+            {
+                Numerator = -Numerator;
+                Denominator = -Denominator;
+            }
+        }
+
+        #region Reduce 約分
+        /// <summary>
+        /// 約分する。
+        /// <para>可約でない場合は何もしません。</para>
+        /// </summary>
+        public void Reduce()
+        {
+            var gcd = Math.GreatestCommonDivisor(Numerator, Denominator);
+            if (gcd > T.One)
+            {
+                Numerator /= gcd;
+                Denominator /= gcd;
+            }
+        }
+        /// <summary>
+        /// 可約ならtrueを返す。
+        /// <para>判定後にReduce()を呼び出すより、Reduce()単体で使用したほうが効率的です。</para>
+        /// </summary>
+        public bool IsReducible()
+        {
+            var gcd = Math.GreatestCommonDivisor(Numerator, Denominator);
+            return gcd > T.One;
+        }
+        #endregion Reduce 約分
 
         public static Fraction<T> Abs(Fraction<T> value)
         {
@@ -301,46 +476,118 @@ namespace Ksnm.Numerics
         static bool TryConvertFromChecked<TOther>(TOther value, out Fraction<T> result)
             where TOther : INumber<TOther>
         {
-            if (TOther.TryConvertToChecked<T>(value, out var _result))
+            result = default;
+            if (typeof(TOther) == typeof(Fraction<T>))
             {
-                result = new(_result);
+                var actualValue = (Fraction<T>)(object)value;
+                result.Numerator = actualValue.Numerator;
+                result.Denominator = actualValue.Denominator;
                 return true;
             }
-            else
+            T numerator;
+            if (T.TryConvertFromChecked<TOther>(value, out numerator) == false)
             {
-                result = default;
                 return false;
             }
+            result.Numerator = numerator;
+            result.Denominator = T.One;
+            return true;
         }
 
         static bool TryConvertFromSaturating<TOther>(TOther value, out Fraction<T> result)
             where TOther : INumber<TOther>
         {
-            throw new NotImplementedException();
+            result = default;
+            if (typeof(TOther) == typeof(Fraction<T>))
+            {
+                var actualValue = (Fraction<T>)(object)value;
+                result.Numerator = actualValue.Numerator;
+                result.Denominator = actualValue.Denominator;
+                return true;
+            }
+            T numerator;
+            if (T.TryConvertFromSaturating<TOther>(value, out numerator) == false)
+            {
+                return false;
+            }
+            result.Numerator = numerator;
+            result.Denominator = T.One;
+            return true;
         }
 
         static bool TryConvertFromTruncating<TOther>(TOther value, out Fraction<T> result)
             where TOther : INumber<TOther>
         {
-            throw new NotImplementedException();
+            result = default;
+            if (typeof(TOther) == typeof(Fraction<T>))
+            {
+                var actualValue = (Fraction<T>)(object)value;
+                result.Numerator = actualValue.Numerator;
+                result.Denominator = actualValue.Denominator;
+                return true;
+            }
+            T numerator;
+            if (T.TryConvertFromTruncating<TOther>(value, out numerator) == false)
+            {
+                return false;
+            }
+            result.Numerator = numerator;
+            result.Denominator = T.One;
+            return true;
         }
 
         static bool TryConvertToChecked<TOther>(Fraction<T> value, out TOther result)
             where TOther : INumber<TOther>
         {
-            throw new NotImplementedException();
+            result = default;
+            TOther numeratorOther;
+            TOther denominatorOther;
+            if (T.TryConvertToChecked<TOther>(value.Numerator, out numeratorOther) == false)
+            {
+                return false;
+            }
+            if (T.TryConvertToChecked<TOther>(value.Denominator, out denominatorOther) == false)
+            {
+                return false;
+            }
+            result = numeratorOther / denominatorOther;
+            return true;
         }
 
         static bool TryConvertToSaturating<TOther>(Fraction<T> value, out TOther result)
             where TOther : INumber<TOther>
         {
-            throw new NotImplementedException();
+            result = default;
+            TOther numeratorOther;
+            TOther denominatorOther;
+            if (T.TryConvertToSaturating<TOther>(value.Numerator, out numeratorOther) == false)
+            {
+                return false;
+            }
+            if (T.TryConvertToSaturating<TOther>(value.Denominator, out denominatorOther) == false)
+            {
+                return false;
+            }
+            result = numeratorOther / denominatorOther;
+            return true;
         }
 
         static bool TryConvertToTruncating<TOther>(Fraction<T> value, out TOther result)
             where TOther : INumber<TOther>
         {
-            throw new NotImplementedException();
+            result = default;
+            TOther numeratorOther;
+            TOther denominatorOther;
+            if (T.TryConvertToTruncating<TOther>(value.Numerator, out numeratorOther) == false)
+            {
+                return false;
+            }
+            if (T.TryConvertToTruncating<TOther>(value.Denominator, out denominatorOther) == false)
+            {
+                return false;
+            }
+            result = numeratorOther / denominatorOther;
+            return true;
         }
 
         public int CompareTo(object? obj)
@@ -360,12 +607,16 @@ namespace Ksnm.Numerics
 
         public bool Equals(Fraction<T>? other)
         {
-            throw new NotImplementedException();
+            if (other == null)
+            {
+                return false;
+            }
+            return this == other;
         }
 
         public bool Equals(Fraction<T> other)
         {
-            throw new NotImplementedException();
+            return this == other;
         }
 
         public string ToString(string? format, IFormatProvider? formatProvider)
@@ -375,295 +626,230 @@ namespace Ksnm.Numerics
 
         public bool TryFormat(Span<char> destination, out int charsWritten, ReadOnlySpan<char> format, IFormatProvider? provider)
         {
-            throw new NotImplementedException();
+            charsWritten = 0;
+            int start = 0;
+            int numeratorCharsWritten;
+            int denominatorCharsWritten;
+            // 分子
+            if (Numerator.TryFormat(destination, out numeratorCharsWritten, format, provider) == false)
+            {
+                return false;
+            }
+            // /記号
+            start = numeratorCharsWritten;
+            if (start < destination.Length)
+            {
+                destination[start] = '/';
+                start += 1;
+            }
+            else
+            {
+                return false;
+            }
+            // 分母
+            if (start < destination.Length)
+            {
+                var destination2 = destination.Slice(start, destination.Length - start);
+                if (Denominator.TryFormat(destination2,
+                    out denominatorCharsWritten, format, provider) == false)
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                return false;
+            }
+            charsWritten = numeratorCharsWritten + 1 + denominatorCharsWritten;
+            return true;
         }
 
-        public static Fraction<T> operator +(Fraction<T> value)
-        {
-            throw new NotImplementedException();
-        }
+        #region オペレーター
 
-        public static Fraction<T> operator +(Fraction<T> left, Fraction<T> right)
-        {
-            throw new NotImplementedException();
-        }
-
+        #region 単項演算子
+        /// <summary>
+        /// 符号維持
+        /// </summary>
+        public static Fraction<T> operator +(Fraction<T> value) => value;
+        /// <summary>
+        /// 符号反転
+        /// <para>変更されるのは Numerator</para>
+        /// </summary>
         public static Fraction<T> operator -(Fraction<T> value)
         {
-            throw new NotImplementedException();
+            return new Fraction<T>((T)(-value.Numerator), value.Denominator);
         }
-
-        public static Fraction<T> operator -(Fraction<T> left, Fraction<T> right)
-        {
-            throw new NotImplementedException();
-        }
-
-        public static Fraction<T> operator ++(Fraction<T> value)
-        {
-            throw new NotImplementedException();
-        }
-
         public static Fraction<T> operator --(Fraction<T> value)
         {
-            throw new NotImplementedException();
+            return value - One;
         }
+        public static Fraction<T> operator ++(Fraction<T> value)
+        {
+            return value + One;
+        }
+        #endregion 単項演算子
 
+        #region 二項演算子
+        /// <summary>
+        /// 加算
+        /// </summary>
+        public static Fraction<T> operator +(Fraction<T> left, Fraction<T> right)
+        {
+            var temp = new Fraction<T>();
+            if (right.Denominator == left.Denominator)
+            {
+                temp.Numerator = T.CreateChecked(left.Numerator + right.Numerator);
+                temp.Denominator = left.Denominator;
+            }
+            else
+            {
+                temp.Numerator = T.CreateChecked(left.Numerator * right.Denominator + right.Numerator * left.Denominator);
+                temp.Denominator = T.CreateChecked(left.Denominator * right.Denominator);
+            }
+            temp.Reduce();
+            return temp;
+        }
+        /// <summary>
+        /// 減算
+        /// </summary>
+        public static Fraction<T> operator -(Fraction<T> left, Fraction<T> right)
+        {
+            var temp = new Fraction<T>();
+            if (right.Denominator == left.Denominator)
+            {
+                temp.Numerator = T.CreateChecked(left.Numerator - right.Numerator);
+                temp.Denominator = left.Denominator;
+            }
+            else
+            {
+                temp.Numerator = T.CreateChecked(left.Numerator * right.Denominator - right.Numerator * left.Denominator);
+                temp.Denominator = T.CreateChecked(left.Denominator * right.Denominator);
+            }
+            temp.Reduce();
+            return temp;
+        }
+        /// <summary>
+        /// 乗算
+        /// </summary>
         public static Fraction<T> operator *(Fraction<T> left, Fraction<T> right)
         {
-            throw new NotImplementedException();
+            var temp = new Fraction<T>();
+            temp.Numerator = T.CreateChecked(left.Numerator * right.Numerator);
+            temp.Denominator = T.CreateChecked(left.Denominator * right.Denominator);
+            temp.Reduce();
+            return temp;
         }
-
+        /// <summary>
+        /// 除算
+        /// </summary>
         public static Fraction<T> operator /(Fraction<T> left, Fraction<T> right)
         {
-            throw new NotImplementedException();
+            var temp = new Fraction<T>();
+            temp.Numerator = T.CreateChecked(left.Numerator * right.Denominator);
+            temp.Denominator = T.CreateChecked(left.Denominator * right.Numerator);
+            temp.Reduce();
+            return temp;
         }
 
         public static Fraction<T> operator %(Fraction<T> left, Fraction<T> right)
         {
-            throw new NotImplementedException();
-        }
+            // 分母の最小公倍数
+            T lcm = Math.LeastCommonMultiple(left.Denominator, right.Denominator);
 
+            // 両方の分数を分母がLCMの形に変換
+            T aNumerator = left.Numerator * (lcm / left.Denominator);
+            T bNumerator = right.Numerator * (lcm / right.Denominator);
+
+            // 剰余を計算
+            T modNumerator = aNumerator % bNumerator;
+
+            return new Fraction<T>(modNumerator, lcm);
+        }
+        #endregion 2項演算子
+
+        #region 比較演算子
         public static bool operator ==(Fraction<T>? left, Fraction<T>? right)
         {
-            throw new NotImplementedException();
+            if (left == null || right == null)
+            {
+                return false;
+            }
+            return left.Value == right.Value;
         }
-
         public static bool operator ==(Fraction<T> left, Fraction<T> right)
         {
-            throw new NotImplementedException();
+            return left.Numerator == right.Numerator && left.Denominator == right.Denominator;
         }
-
         public static bool operator !=(Fraction<T>? left, Fraction<T>? right)
         {
-            throw new NotImplementedException();
+            if (left == null || right == null)
+            {
+                return false;
+            }
+            return left.Value != right.Value;
         }
 
         public static bool operator !=(Fraction<T> left, Fraction<T> right)
         {
-            throw new NotImplementedException();
+            return left.Numerator != right.Numerator || left.Denominator != right.Denominator;
         }
-
-        public static bool operator <(Fraction<T> left, Fraction<T> right)
-        {
-            throw new NotImplementedException();
-        }
-
+        /// <summary>
+        /// 大なり演算子
+        /// </summary>
         public static bool operator >(Fraction<T> left, Fraction<T> right)
         {
-            throw new NotImplementedException();
+            return left.Numerator * right.Denominator > right.Numerator * left.Denominator;
         }
-
-        public static bool operator <=(Fraction<T> left, Fraction<T> right)
+        /// <summary>
+        /// 小なり演算子
+        /// </summary>
+        public static bool operator <(Fraction<T> left, Fraction<T> right)
         {
-            throw new NotImplementedException();
+            return left.Numerator * right.Denominator < right.Numerator * left.Denominator;
         }
-
+        /// <summary>
+        /// 以上演算子
+        /// </summary>
         public static bool operator >=(Fraction<T> left, Fraction<T> right)
         {
-            throw new NotImplementedException();
+            return left.Numerator * right.Denominator >= right.Numerator * left.Denominator;
         }
+        /// <summary>
+        /// 以下演算子
+        /// </summary>
+        public static bool operator <=(Fraction<T> left, Fraction<T> right)
+        {
+            return left.Numerator * right.Denominator <= right.Numerator * left.Denominator;
+        }
+        #endregion 比較演算子
 
+        #endregion オペレーター
+
+
+        #region object
         public override bool Equals(object? obj)
         {
-            throw new NotImplementedException();
+            if (obj == null)
+            {
+                return false;
+            }
+            if (obj is Fraction<T>)
+            {
+                return Equals((Fraction<T>)obj);
+            }
+            return false;
         }
-
         public override int GetHashCode()
         {
-            throw new NotImplementedException();
+            return Numerator.GetHashCode() ^ Denominator.GetHashCode();
         }
+        public override string ToString()
+        {
+            return $"{Numerator}/{Denominator}";
+        }
+        #endregion object
 
         int IComparable.CompareTo(object? obj)
-        {
-            throw new NotImplementedException();
-        }
-
-        int IComparable<Fraction<T>>.CompareTo(Fraction<T> other)
-        {
-            throw new NotImplementedException();
-        }
-
-        static Fraction<T> INumberBase<Fraction<T>>.Abs(Fraction<T> value)
-        {
-            throw new NotImplementedException();
-        }
-
-        static bool INumberBase<Fraction<T>>.IsCanonical(Fraction<T> value)
-        {
-            throw new NotImplementedException();
-        }
-
-        static bool INumberBase<Fraction<T>>.IsComplexNumber(Fraction<T> value)
-        {
-            throw new NotImplementedException();
-        }
-
-        static bool INumberBase<Fraction<T>>.IsEvenInteger(Fraction<T> value)
-        {
-            throw new NotImplementedException();
-        }
-
-        static bool INumberBase<Fraction<T>>.IsFinite(Fraction<T> value)
-        {
-            throw new NotImplementedException();
-        }
-
-        static bool INumberBase<Fraction<T>>.IsImaginaryNumber(Fraction<T> value)
-        {
-            throw new NotImplementedException();
-        }
-
-        static bool INumberBase<Fraction<T>>.IsInfinity(Fraction<T> value)
-        {
-            throw new NotImplementedException();
-        }
-
-        static bool INumberBase<Fraction<T>>.IsInteger(Fraction<T> value)
-        {
-            throw new NotImplementedException();
-        }
-
-        static bool INumberBase<Fraction<T>>.IsNaN(Fraction<T> value)
-        {
-            throw new NotImplementedException();
-        }
-
-        static bool INumberBase<Fraction<T>>.IsNegative(Fraction<T> value)
-        {
-            throw new NotImplementedException();
-        }
-
-        static bool INumberBase<Fraction<T>>.IsNegativeInfinity(Fraction<T> value)
-        {
-            throw new NotImplementedException();
-        }
-
-        static bool INumberBase<Fraction<T>>.IsNormal(Fraction<T> value)
-        {
-            throw new NotImplementedException();
-        }
-
-        static bool INumberBase<Fraction<T>>.IsOddInteger(Fraction<T> value)
-        {
-            throw new NotImplementedException();
-        }
-
-        static bool INumberBase<Fraction<T>>.IsPositive(Fraction<T> value)
-        {
-            throw new NotImplementedException();
-        }
-
-        static bool INumberBase<Fraction<T>>.IsPositiveInfinity(Fraction<T> value)
-        {
-            throw new NotImplementedException();
-        }
-
-        static bool INumberBase<Fraction<T>>.IsRealNumber(Fraction<T> value)
-        {
-            throw new NotImplementedException();
-        }
-
-        static bool INumberBase<Fraction<T>>.IsSubnormal(Fraction<T> value)
-        {
-            throw new NotImplementedException();
-        }
-
-        static bool INumberBase<Fraction<T>>.IsZero(Fraction<T> value)
-        {
-            throw new NotImplementedException();
-        }
-
-        static Fraction<T> INumberBase<Fraction<T>>.MaxMagnitude(Fraction<T> x, Fraction<T> y)
-        {
-            throw new NotImplementedException();
-        }
-
-        static Fraction<T> INumberBase<Fraction<T>>.MaxMagnitudeNumber(Fraction<T> x, Fraction<T> y)
-        {
-            throw new NotImplementedException();
-        }
-
-        static Fraction<T> INumberBase<Fraction<T>>.MinMagnitude(Fraction<T> x, Fraction<T> y)
-        {
-            throw new NotImplementedException();
-        }
-
-        static Fraction<T> INumberBase<Fraction<T>>.MinMagnitudeNumber(Fraction<T> x, Fraction<T> y)
-        {
-            throw new NotImplementedException();
-        }
-
-        static Fraction<T> INumberBase<Fraction<T>>.Parse(ReadOnlySpan<char> s, NumberStyles style, IFormatProvider? provider)
-        {
-            throw new NotImplementedException();
-        }
-
-        static Fraction<T> INumberBase<Fraction<T>>.Parse(string s, NumberStyles style, IFormatProvider? provider)
-        {
-            throw new NotImplementedException();
-        }
-
-        static bool INumberBase<Fraction<T>>.TryConvertFromChecked<TOther>(TOther value, out Fraction<T> result)
-        {
-            throw new NotImplementedException();
-        }
-
-        static bool INumberBase<Fraction<T>>.TryConvertFromSaturating<TOther>(TOther value, out Fraction<T> result)
-        {
-            throw new NotImplementedException();
-        }
-
-        static bool INumberBase<Fraction<T>>.TryConvertFromTruncating<TOther>(TOther value, out Fraction<T> result)
-        {
-            throw new NotImplementedException();
-        }
-
-        static bool INumberBase<Fraction<T>>.TryConvertToChecked<TOther>(Fraction<T> value, out TOther result)
-        {
-            throw new NotImplementedException();
-        }
-
-        static bool INumberBase<Fraction<T>>.TryConvertToSaturating<TOther>(Fraction<T> value, out TOther result)
-        {
-            throw new NotImplementedException();
-        }
-
-        static bool INumberBase<Fraction<T>>.TryConvertToTruncating<TOther>(Fraction<T> value, out TOther result)
-        {
-            throw new NotImplementedException();
-        }
-
-        bool IEquatable<Fraction<T>>.Equals(Fraction<T> other)
-        {
-            throw new NotImplementedException();
-        }
-
-        bool ISpanFormattable.TryFormat(Span<char> destination, out int charsWritten, ReadOnlySpan<char> format, IFormatProvider? provider)
-        {
-            throw new NotImplementedException();
-        }
-
-        string IFormattable.ToString(string? format, IFormatProvider? formatProvider)
-        {
-            throw new NotImplementedException();
-        }
-
-        static Fraction<T> ISpanParsable<Fraction<T>>.Parse(ReadOnlySpan<char> s, IFormatProvider? provider)
-        {
-            throw new NotImplementedException();
-        }
-
-        static bool ISpanParsable<Fraction<T>>.TryParse(ReadOnlySpan<char> s, IFormatProvider? provider, out Fraction<T> result)
-        {
-            throw new NotImplementedException();
-        }
-
-        static Fraction<T> IParsable<Fraction<T>>.Parse(string s, IFormatProvider? provider)
-        {
-            throw new NotImplementedException();
-        }
-
-        static bool IParsable<Fraction<T>>.TryParse(string? s, IFormatProvider? provider, out Fraction<T> result)
         {
             throw new NotImplementedException();
         }
@@ -913,93 +1099,82 @@ namespace Ksnm.Numerics
             throw new NotImplementedException();
         }
 
-        #region 型変換
-        /// <summary>
-        /// 暗黙的な変換を定義します。
-        /// </summary>
-        public static implicit operator Fraction<T>(T value)
+        static bool INumberBase<Fraction<T>>.TryConvertFromChecked<TOther>(TOther value, out Fraction<T> result)
         {
-            return new Fraction<T>(value);
+            throw new NotImplementedException();
         }
-        public static implicit operator Fraction<T>(int value) => T.CreateChecked(value);
-        #endregion 型変換
+
+        static bool INumberBase<Fraction<T>>.TryConvertFromSaturating<TOther>(TOther value, out Fraction<T> result)
+        {
+            throw new NotImplementedException();
+        }
+
+        static bool INumberBase<Fraction<T>>.TryConvertFromTruncating<TOther>(TOther value, out Fraction<T> result)
+        {
+            throw new NotImplementedException();
+        }
+
+        static bool INumberBase<Fraction<T>>.TryConvertToChecked<TOther>(Fraction<T> value, out TOther result)
+        {
+            throw new NotImplementedException();
+        }
+
+        static bool INumberBase<Fraction<T>>.TryConvertToSaturating<TOther>(Fraction<T> value, out TOther result)
+        {
+            throw new NotImplementedException();
+        }
+
+        static bool INumberBase<Fraction<T>>.TryConvertToTruncating<TOther>(Fraction<T> value, out TOther result)
+        {
+            throw new NotImplementedException();
+        }
 
         #region オペレーター
 
         static bool IComparisonOperators<Fraction<T>, Fraction<T>, bool>.operator >(Fraction<T> left, Fraction<T> right)
-        {
-            throw new NotImplementedException();
-        }
+            => left > right;
 
         static bool IComparisonOperators<Fraction<T>, Fraction<T>, bool>.operator >=(Fraction<T> left, Fraction<T> right)
-        {
-            throw new NotImplementedException();
-        }
+            => left >= right;
 
         static bool IComparisonOperators<Fraction<T>, Fraction<T>, bool>.operator <(Fraction<T> left, Fraction<T> right)
-        {
-            throw new NotImplementedException();
-        }
+            => left < right;
 
         static bool IComparisonOperators<Fraction<T>, Fraction<T>, bool>.operator <=(Fraction<T> left, Fraction<T> right)
-        {
-            throw new NotImplementedException();
-        }
+            => left <= right;
 
         static Fraction<T> IModulusOperators<Fraction<T>, Fraction<T>, Fraction<T>>.operator %(Fraction<T> left, Fraction<T> right)
-        {
-            throw new NotImplementedException();
-        }
+            => left % right;
 
         static Fraction<T> IAdditionOperators<Fraction<T>, Fraction<T>, Fraction<T>>.operator +(Fraction<T> left, Fraction<T> right)
-        {
-            throw new NotImplementedException();
-        }
+            => left + right;
 
         static Fraction<T> IDecrementOperators<Fraction<T>>.operator --(Fraction<T> value)
-        {
-            throw new NotImplementedException();
-        }
+            => value--;
 
         static Fraction<T> IDivisionOperators<Fraction<T>, Fraction<T>, Fraction<T>>.operator /(Fraction<T> left, Fraction<T> right)
-        {
-            throw new NotImplementedException();
-        }
+            => left/ right;
 
         static bool IEqualityOperators<Fraction<T>, Fraction<T>, bool>.operator ==(Fraction<T> left, Fraction<T> right)
-        {
-            throw new NotImplementedException();
-        }
+            => left == right;
 
         static bool IEqualityOperators<Fraction<T>, Fraction<T>, bool>.operator !=(Fraction<T> left, Fraction<T> right)
-        {
-            throw new NotImplementedException();
-        }
+            => left != right;
 
         static Fraction<T> IIncrementOperators<Fraction<T>>.operator ++(Fraction<T> value)
-        {
-            throw new NotImplementedException();
-        }
+            => value++;
 
         static Fraction<T> IMultiplyOperators<Fraction<T>, Fraction<T>, Fraction<T>>.operator *(Fraction<T> left, Fraction<T> right)
-        {
-            throw new NotImplementedException();
-        }
+            => left * right;
 
         static Fraction<T> ISubtractionOperators<Fraction<T>, Fraction<T>, Fraction<T>>.operator -(Fraction<T> left, Fraction<T> right)
-        {
-            throw new NotImplementedException();
-        }
+            => left - right;
 
         static Fraction<T> IUnaryNegationOperators<Fraction<T>, Fraction<T>>.operator -(Fraction<T> value)
-        {
-            throw new NotImplementedException();
-        }
+            => -value;
 
         static Fraction<T> IUnaryPlusOperators<Fraction<T>, Fraction<T>>.operator +(Fraction<T> value)
-        {
-            throw new NotImplementedException();
-        }
+            => +value;
         #endregion オペレーター
     }
 }

@@ -24,5 +24,17 @@ namespace Ksnm.Numerics
         /// 分母
         /// </summary>
         public TDenominator Denominator { get; set; }
+        /// <summary>
+        /// 逆数を取得する
+        /// </summary>
+        public TSelf Reciprocal { get; }
+        /// <summary>
+        /// 約分する
+        /// </summary>
+        public void Reduce();
+        /// <summary>
+        /// 可約ならtrueを返す。
+        /// </summary>
+        public bool IsReducible();
     }
 }
