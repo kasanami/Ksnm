@@ -1,5 +1,6 @@
 ﻿using Ksnm.ExtensionMethods.System.Decimal;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using static System.Formats.Asn1.AsnWriter;
 
 namespace Ksnm.Numerics.Tests
 {
@@ -32,6 +33,7 @@ namespace Ksnm.Numerics.Tests
                 Assert.AreEqual(0, extendedDecimal.Exponent);
                 Assert.AreEqual("0B0A09080706050403020100", extendedDecimal.MantissaBits.ToString("X24"));
                 Assert.AreEqual("0B0A09080706050403020100", extendedDecimal.Mantissa.ToString("X24"));
+                Assert.AreEqual(System.Math.Pow(ExtendedDecimal.Radix, extendedDecimal.Exponent), extendedDecimal.Scale);
             }
             // 1
             {
@@ -43,6 +45,7 @@ namespace Ksnm.Numerics.Tests
                 Assert.AreEqual(0, extendedDecimal.Exponent);
                 Assert.AreEqual<UInt128>(1, extendedDecimal.MantissaBits);
                 Assert.AreEqual<UInt128>(1, extendedDecimal.Mantissa);
+                Assert.AreEqual(System.Math.Pow(ExtendedDecimal.Radix, extendedDecimal.Exponent), extendedDecimal.Scale);
             }
             // 1.0
             {
@@ -54,6 +57,7 @@ namespace Ksnm.Numerics.Tests
                 Assert.AreEqual(-1, extendedDecimal.Exponent);
                 Assert.AreEqual<UInt128>(10, extendedDecimal.MantissaBits);
                 Assert.AreEqual<UInt128>(10, extendedDecimal.Mantissa);
+                Assert.AreEqual(System.Math.Pow(ExtendedDecimal.Radix, extendedDecimal.Exponent), extendedDecimal.Scale);
             }
             // -1.0
             {
@@ -65,6 +69,7 @@ namespace Ksnm.Numerics.Tests
                 Assert.AreEqual(-1, extendedDecimal.Exponent);
                 Assert.AreEqual<UInt128>(10, extendedDecimal.MantissaBits);
                 Assert.AreEqual<UInt128>(10, extendedDecimal.Mantissa);
+                Assert.AreEqual(System.Math.Pow(ExtendedDecimal.Radix, extendedDecimal.Exponent), extendedDecimal.Scale);
             }
             // 1.23
             {
@@ -76,6 +81,43 @@ namespace Ksnm.Numerics.Tests
                 Assert.AreEqual(-2, extendedDecimal.Exponent);
                 Assert.AreEqual<UInt128>(123, extendedDecimal.MantissaBits);
                 Assert.AreEqual<UInt128>(123, extendedDecimal.Mantissa);
+                Assert.AreEqual(System.Math.Pow(ExtendedDecimal.Radix, extendedDecimal.Exponent), extendedDecimal.Scale);
+            }
+            // -1.23
+            {
+                ExtendedDecimal extendedDecimal = new ExtendedDecimal();
+                extendedDecimal = -1.23m;
+                Assert.AreEqual(1, extendedDecimal.SignBit);
+                Assert.AreEqual(-1, extendedDecimal.Sign);
+                Assert.AreEqual(2, extendedDecimal.ExponentBits);
+                Assert.AreEqual(-2, extendedDecimal.Exponent);
+                Assert.AreEqual<UInt128>(123, extendedDecimal.MantissaBits);
+                Assert.AreEqual<UInt128>(123, extendedDecimal.Mantissa);
+                Assert.AreEqual(System.Math.Pow(ExtendedDecimal.Radix, extendedDecimal.Exponent), extendedDecimal.Scale);
+            }
+            // 10
+            {
+                ExtendedDecimal extendedDecimal = new ExtendedDecimal();
+                extendedDecimal = 10m;
+                Assert.AreEqual(0, extendedDecimal.SignBit);
+                Assert.AreEqual(+1, extendedDecimal.Sign);
+                Assert.AreEqual(0, extendedDecimal.ExponentBits);
+                Assert.AreEqual(0, extendedDecimal.Exponent);
+                Assert.AreEqual<UInt128>(10, extendedDecimal.MantissaBits);
+                Assert.AreEqual<UInt128>(10, extendedDecimal.Mantissa);
+                Assert.AreEqual(System.Math.Pow(ExtendedDecimal.Radix, extendedDecimal.Exponent), extendedDecimal.Scale);
+            }
+            // 100
+            {
+                ExtendedDecimal extendedDecimal = new ExtendedDecimal();
+                extendedDecimal = 100m;
+                Assert.AreEqual(0, extendedDecimal.SignBit);
+                Assert.AreEqual(+1, extendedDecimal.Sign);
+                Assert.AreEqual(0, extendedDecimal.ExponentBits);
+                Assert.AreEqual(0, extendedDecimal.Exponent);
+                Assert.AreEqual<UInt128>(100, extendedDecimal.MantissaBits);
+                Assert.AreEqual<UInt128>(100, extendedDecimal.Mantissa);
+                Assert.AreEqual(System.Math.Pow(ExtendedDecimal.Radix, extendedDecimal.Exponent), extendedDecimal.Scale);
             }
         }
         [TestMethod()]
