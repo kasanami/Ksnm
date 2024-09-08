@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace ConsoleApp
 {
@@ -15,17 +16,49 @@ namespace ConsoleApp
         {
             Console.WriteLine(Ksnm.Debug.GetFilePathAndLineNumber());
 
-            for (double i = -10; i <= 10; i++)
+            Console.WriteLine($"ExtendedDouble");
+            for (double i = -10; i <= 10; i += 0.5)
             {
                 ExtendedDouble d = i;
                 Console.WriteLine($"Value   :{d.Value}");
-                Console.WriteLine($"Mantissa:{d.Mantissa:X}");
-                Console.WriteLine($"Exponent:{d.Exponent}");
                 Console.WriteLine($"Bits    :{d.Bits:X}");
-                var scale = System.Math.Pow(2, d.Exponent);
-                var value = d.Mantissa * scale * d.Sign;
+                Console.WriteLine($"Sign    :{d.Sign}");
+                Console.WriteLine($"Mantissa:{d.Mantissa}");
+                Console.WriteLine($"Exponent:{d.Exponent}");
+                Console.WriteLine($"Scale   :{d.Scale}");
+                var value = d.Mantissa * d.Scale * d.Sign;
                 Console.WriteLine($"{value}");
                 Console.WriteLine();
+            }
+
+            Console.WriteLine($"ExtendedDecimal");
+            for (decimal i = -10; i <= 10; i += 0.5m)
+            {
+                ExtendedDecimal d = i;
+                Console.WriteLine($"Value   :{d.Value}");
+                Console.WriteLine($"Bits    :{d.Bits:X}");
+                Console.WriteLine($"Sign    :{d.Sign}");
+                Console.WriteLine($"Mantissa:{d.Mantissa}");
+                Console.WriteLine($"Exponent:{d.Exponent}");
+                Console.WriteLine($"Scale   :{d.Scale}");
+                var value = (double)d.Mantissa * d.Scale * d.Sign;
+                Console.WriteLine($"{value}");
+                Console.WriteLine();
+            }
+
+            Console.WriteLine($"double → Fraction");
+            for (double i = -10; i <= 10; i++)
+            {
+                Fraction<long> fraction = new Fraction<long>(i);
+                fraction.Reduce();
+                Console.WriteLine($"{i} → {fraction}");
+            }
+            Console.WriteLine($"decimal → Fraction");
+            for (decimal i = -10; i <= 10; i++)
+            {
+                Fraction<long> fraction = new Fraction<long>(i);
+                fraction.Reduce();
+                Console.WriteLine($"{i} → {fraction}");
             }
             // NaNはキャスト可能？→可能
             if (false)
