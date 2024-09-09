@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using System.Security.Authentication;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -25,7 +26,7 @@ namespace ConsoleApp
                 RadixTest<Complex>();
             }
 
-            if (false)
+            if (true)
             {
                 Console.WriteLine("CreateSaturatingTest");
                 CreateSaturatingTest<float>(0.1f);
@@ -36,6 +37,9 @@ namespace ConsoleApp
                 CreateSaturatingTest<double, byte>(double.MaxValue);
                 CreateSaturatingTest<double, float>(double.Epsilon);
                 CreateSaturatingTest<double, float>(double.MaxValue);
+                CreateSaturatingTest<double, Half>(0.123456789);
+                CreateSaturatingTest<double, Half>(123456789);
+                Console.WriteLine();
 
                 Console.WriteLine("CreateTruncatingTest");
                 CreateTruncatingTest<float>(0.1f);
@@ -46,6 +50,73 @@ namespace ConsoleApp
                 CreateTruncatingTest<double, byte>(double.MaxValue);
                 CreateTruncatingTest<double, float>(double.Epsilon);
                 CreateTruncatingTest<double, float>(double.MaxValue);
+                CreateTruncatingTest<double, Half>(0.123456789);
+                CreateTruncatingTest<double, Half>(123456789);
+                Console.WriteLine();
+            }
+
+            if (true)
+            {
+                Console.WriteLine("byte");
+
+                Console.WriteLine("largeValue");
+                // 大きな値を byte 型に変換
+                int largeValue = 300;
+
+                byte castedValue = (byte)largeValue;
+                Console.WriteLine($"cast            : {castedValue}");
+
+                // CreateTruncating: 下位ビットを使用
+                byte truncatedValue = byte.CreateTruncating(largeValue);
+                Console.WriteLine($"CreateTruncating: {truncatedValue}"); // 300 の下位 8 ビットだけを取る -> 44
+
+                // CreateSaturating: 最大値にクリップされる
+                byte saturatedValue = byte.CreateSaturating(largeValue);
+                Console.WriteLine($"CreateSaturating: {saturatedValue}"); // byte の最大値 255
+
+                Console.WriteLine("smallValue");
+               int smallValue = -100;
+
+                byte castedSmallValue = (byte)smallValue;
+                Console.WriteLine($"cast            : {castedSmallValue}");
+
+                byte truncatedSmallValue = byte.CreateTruncating(smallValue);
+                Console.WriteLine($"CreateTruncating: {truncatedSmallValue}"); // -> 156 (-100 の 8 ビット表現)
+
+                byte saturatedSmallValue = byte.CreateSaturating(smallValue);
+                Console.WriteLine($"CreateSaturating: {saturatedSmallValue}"); // -> 0
+            }
+
+            if (true)
+            {
+                Console.WriteLine("Half");
+
+                Console.WriteLine("largeValue");
+                // 大きな値を byte 型に変換
+                double largeValue = 12345;
+
+                Half castedValue = (Half)largeValue;
+                Console.WriteLine($"cast            : {castedValue}");
+
+                // CreateTruncating: 下位ビットを使用
+                Half truncatedValue = Half.CreateTruncating(largeValue);
+                Console.WriteLine($"CreateTruncating: {truncatedValue}");
+
+                // CreateSaturating: 最大値にクリップされる
+                Half saturatedValue = Half.CreateSaturating(largeValue);
+                Console.WriteLine($"CreateSaturating: {saturatedValue}");
+
+                Console.WriteLine("smallValue");
+                double smallValue = -0.12345;
+
+                Half castedSmallValue = (Half)smallValue;
+                Console.WriteLine($"cast            : {castedSmallValue}");
+
+                Half truncatedSmallValue = Half.CreateTruncating(smallValue);
+                Console.WriteLine($"CreateTruncating: {truncatedSmallValue}");
+
+                Half saturatedSmallValue = Half.CreateSaturating(smallValue);
+                Console.WriteLine($"CreateSaturating: {saturatedSmallValue}");
             }
         }
         public static void RadixTest<T>() where T : INumberBase<T>
