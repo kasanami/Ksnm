@@ -2,6 +2,7 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Numerics;
+using static System.Formats.Asn1.AsnWriter;
 
 namespace Ksnm.Numerics
 {
@@ -16,7 +17,7 @@ namespace Ksnm.Numerics
         #region 定数・静的変数
         public static Fraction<T> One => new Fraction<T>(T.One);
 
-        public static int Radix => 2;
+        public static int Radix => T.Radix;
 
         public static Fraction<T> Zero => new Fraction<T>(T.Zero);
 
@@ -41,6 +42,11 @@ namespace Ksnm.Numerics
         public static Fraction<T> Pi => throw new NotImplementedException();
 
         public static Fraction<T> Tau => throw new NotImplementedException();
+        /// <summary>
+        /// 扱える最大の指数
+        /// </summary>
+        static int _MaxExponent2 = int.CreateSaturating(System.Math.Log2(double.CreateSaturating(T.MaxValue)));
+        static int _MinExponent2 = -_MaxExponent2;
         #endregion 定数・静的変数
 
         #region プロパティ
@@ -71,24 +77,47 @@ namespace Ksnm.Numerics
         }
         public Fraction(ExtendedDouble value)
         {
-            var mantissa = value.Mantissa;
-            var exponent = value.Exponent;
-            var denominator = 1ul;
-            // 指数が
-            if (exponent > 0)
+            int shift = Binary.CountTrainingZero(value.Mantissa);
+            var mantissa = value.Mantissa >> shift;
+            var exponent = value.Exponent + shift;
+            Numerator = T.Zero;// 分子
+            Denominator = T.One;// 分母
+            // 指数が範囲外ならクリップする
+            if (exponent > _MaxExponent2)
+            {
+                // 分子
+                if (value.SignBit == 1)
+                {
+                    Numerator = -T.One;
+                }
+                else
+                {
+                    Numerator = T.One;
+                }
+                // 分母
+                Denominator = T.Zero;
+                return;
+            }
+            else if (exponent < _MinExponent2)
+            {
+                Numerator = T.Zero;// 分子
+                Denominator = T.One;// 分母
+                return;
+            }
+            // 指数が正なら分子を大きくする
+            if (exponent >= 0)
             {
                 var scale = Math.Pow(2ul, exponent);
                 mantissa *= scale;
+                Numerator = T.CreateSaturating(mantissa);// 分子
+                Denominator = T.One;// 分母
             }
             else if (exponent < 0)
             {
-                var scale = Math.Pow(2ul, -exponent);
-                denominator = scale;
+                var scale = Math.Pow(2, -exponent);
+                Numerator = T.CreateSaturating(mantissa);// 分子
+                Denominator = T.CreateSaturating(scale);// 分母
             }
-            // 分子
-            Numerator = T.CreateChecked(mantissa);
-            // 分母
-            Denominator = T.CreateChecked(denominator);
             // 符号
             if (value.SignBit == 1)
             {
@@ -99,22 +128,43 @@ namespace Ksnm.Numerics
         {
             var mantissa = value.Mantissa;
             var exponent = value.Exponent;
-            var denominator = 1ul;
-            // 指数が
-            if (exponent > 0)
+            Numerator = T.Zero;// 分子
+            Denominator = T.One;// 分母
+            // 指数が範囲外ならクリップする
+            if (exponent > _MaxExponent2)
             {
-                var scale = Math.Pow(10ul, exponent);
-                mantissa *= scale;
+                // 分子
+                if (value.SignBit == 1)
+                {
+                    Numerator = -T.One;
+                }
+                else
+                {
+                    Numerator = T.One;
+                }
+                // 分母
+                Denominator = T.Zero;
+                return;
+            }
+            else if (exponent < _MinExponent2)
+            {
+                Numerator = T.Zero;// 分子
+                Denominator = T.One;// 分母
+                return;
+            }
+            // 指数が正なら分子を大きくする
+            if (exponent >= 0)
+            {
+                var scale = Math.Pow(10u, exponent);
+                Numerator = T.CreateSaturating(mantissa * scale);// 分子
+                Denominator = T.One;// 分母
             }
             else if (exponent < 0)
             {
-                var scale = Math.Pow(10ul, -exponent);
-                denominator = scale;
+                var scale = Math.Pow(10, -exponent);
+                Numerator = T.CreateSaturating(mantissa);// 分子
+                Denominator = T.CreateSaturating(scale);// 分母
             }
-            // 分子
-            Numerator = T.CreateChecked(mantissa);
-            // 分母
-            Denominator = T.CreateChecked(denominator);
             // 符号
             if (value.SignBit == 1)
             {
@@ -147,7 +197,7 @@ namespace Ksnm.Numerics
                 var fValue = (Half)(object)value;
                 return new Fraction<T>((double)fValue);
             }
-            else if (typeof(TOther)==typeof(float))
+            else if (typeof(TOther) == typeof(float))
             {
                 var fValue = (float)(object)value;
                 return new Fraction<T>(fValue);
@@ -181,8 +231,8 @@ namespace Ksnm.Numerics
 
         public static TOther ConvertTo<TOther>(Fraction<T> value) where TOther : INumber<TOther>
         {
-            TOther numeratorOther = TOther.CreateChecked(value.Numerator);
-            TOther denominatorOther = TOther.CreateChecked(value.Denominator);
+            TOther numeratorOther = TOther.CreateSaturating(value.Numerator);
+            TOther denominatorOther = TOther.CreateSaturating(value.Denominator);
             return numeratorOther / denominatorOther;
         }
         public static explicit operator byte(Fraction<T> value) => ConvertTo<byte>(value);
@@ -592,17 +642,25 @@ namespace Ksnm.Numerics
 
         public int CompareTo(object? obj)
         {
-            throw new NotImplementedException();
+            if (obj == null)
+            {
+                return 1;
+            }
+            return CompareTo((Fraction<T>)obj);
         }
 
         public int CompareTo(Fraction<T>? other)
         {
-            throw new NotImplementedException();
+            if (other == null)
+            {
+                return 1;
+            }
+            return CompareTo(other.Value);
         }
 
         public int CompareTo(Fraction<T> other)
         {
-            throw new NotImplementedException();
+            return (Numerator * other.Denominator).CompareTo(other.Numerator * Denominator);
         }
 
         public bool Equals(Fraction<T>? other)
@@ -663,7 +721,6 @@ namespace Ksnm.Numerics
             charsWritten = numeratorCharsWritten + 1 + denominatorCharsWritten;
             return true;
         }
-
         #region オペレーター
 
         #region 単項演算子
@@ -750,7 +807,9 @@ namespace Ksnm.Numerics
             temp.Reduce();
             return temp;
         }
-
+        /// <summary>
+        /// 剰余
+        /// </summary>
         public static Fraction<T> operator %(Fraction<T> left, Fraction<T> right)
         {
             // 分母の最小公倍数
@@ -778,6 +837,8 @@ namespace Ksnm.Numerics
         }
         public static bool operator ==(Fraction<T> left, Fraction<T> right)
         {
+            left.Reduce();
+            right.Reduce();
             return left.Numerator == right.Numerator && left.Denominator == right.Denominator;
         }
         public static bool operator !=(Fraction<T>? left, Fraction<T>? right)
@@ -788,9 +849,10 @@ namespace Ksnm.Numerics
             }
             return left.Value != right.Value;
         }
-
         public static bool operator !=(Fraction<T> left, Fraction<T> right)
         {
+            left.Reduce();
+            right.Reduce();
             return left.Numerator != right.Numerator || left.Denominator != right.Denominator;
         }
         /// <summary>
@@ -1153,7 +1215,7 @@ namespace Ksnm.Numerics
             => value--;
 
         static Fraction<T> IDivisionOperators<Fraction<T>, Fraction<T>, Fraction<T>>.operator /(Fraction<T> left, Fraction<T> right)
-            => left/ right;
+            => left / right;
 
         static bool IEqualityOperators<Fraction<T>, Fraction<T>, bool>.operator ==(Fraction<T> left, Fraction<T> right)
             => left == right;
