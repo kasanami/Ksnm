@@ -93,5 +93,34 @@ namespace ConsoleApp
                 Console.WriteLine(bigFraction.ToString());
             }
         }
+
+        public static void CubedDividedNumber8Test()
+        {
+            Console.WriteLine(Ksnm.Debug.GetFilePathAndLineNumber());
+
+            CubedDividedNumber8 cdn = new CubedDividedNumber8();
+            for (int i = 1; i <= 128; i += 8)
+            {
+                CubedDividedNumber8.Divisor = i * i * i;
+                Console.WriteLine($"Divisor={CubedDividedNumber8.Divisor}:{CubedDividedNumber8.MinValue}～{CubedDividedNumber8.MaxValue}");
+            }
+            CubedDividedNumber8.Divisor = 0x8000;
+            for (int i = sbyte.MinValue; i <= sbyte.MaxValue; i++)
+            {
+                cdn.Value = (sbyte)i;
+                double d = (double)cdn;
+                Console.WriteLine($"{cdn.Value}:{d}");
+            }
+            for (double d = -2; d <= 2; d += 0.01)
+            {
+                cdn = (CubedDividedNumber8)d;
+                Console.WriteLine($"{cdn.Value}:{d}");
+            }
+            for (double d = (double)CubedDividedNumber8.MinValue; d <= (double)CubedDividedNumber8.MaxValue; d += 1)
+            {
+                cdn = (CubedDividedNumber8)d;
+                Console.WriteLine($"{d}→{cdn.Value}→{(double)cdn}");
+            }
+        }
     }
 }
