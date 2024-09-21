@@ -13,6 +13,9 @@ namespace ConsoleApp
     {
         public static void Run()
         {
+            IsNormalTest();
+            IsSubnormalTest();
+
             if (false)
             {
                 RadixTest<byte>();
@@ -150,6 +153,96 @@ namespace ConsoleApp
         {
             TTo to = TTo.CreateTruncating(from);
             Console.WriteLine($"{to}<={from}");
+        }
+
+        public static void IsNormalTest()
+        {
+            Console.WriteLine("IsNormalTest()");
+
+            Console.WriteLine("double");
+            double d = double.NaN;
+            d = 0;
+            Console.WriteLine($"{d}\t={double.IsNormal(d)}");
+            d = 1;
+            Console.WriteLine($"{d}\t={double.IsNormal(d)}");
+            d = -1;
+            Console.WriteLine($"{d}\t={double.IsNormal(d)}");
+            d = 0.001;
+            Console.WriteLine($"{d}\t={double.IsNormal(d)}");
+            d = double.Epsilon;
+            Console.WriteLine($"{d}\t={double.IsNormal(d)}");
+            d = double.NaN;
+            Console.WriteLine($"{d}\t={double.IsNormal(d)}");
+            d = double.PositiveInfinity;
+            Console.WriteLine($"{d}\t={double.IsNormal(d)}");
+            d = double.NegativeInfinity;
+            Console.WriteLine($"{d}\t={double.IsNormal(d)}");
+
+            Console.WriteLine("Half");
+            Half h = Half.NaN;
+            h = (Half)0;
+            Console.WriteLine($"{h}\t={Half.IsNormal(h)}");
+            h = (Half)1;
+            Console.WriteLine($"{h}\t={Half.IsNormal(h)}");
+            h = -1;
+            Console.WriteLine($"{h}\t={Half.IsNormal(h)}");
+            h = (Half)0.001;
+            Console.WriteLine($"{h}\t={Half.IsNormal(h)}");
+            h = Half.Epsilon;
+            Console.WriteLine($"{h}\t={Half.IsNormal(h)}");
+            h = Half.NaN;
+            Console.WriteLine($"{h}\t={Half.IsNormal(h)}");
+            h = Half.PositiveInfinity;
+            Console.WriteLine($"{h}\t={Half.IsNormal(h)}");
+            h = Half.NegativeInfinity;
+            Console.WriteLine($"{h}\t={Half.IsNormal(h)}");
+
+            Console.WriteLine("");
+        }
+
+        public static void IsSubnormalTest()
+        {
+            Console.WriteLine("IsSubnormalTest()");
+
+            Console.WriteLine("double");
+            double d = double.NaN;
+            d = 0;
+            Console.WriteLine($"{d}\t={double.IsSubnormal(d)}");
+            d = 1;
+            Console.WriteLine($"{d}\t={double.IsSubnormal(d)}");
+            d = -1;
+            Console.WriteLine($"{d}\t={double.IsSubnormal(d)}");
+            d = 0.001;
+            Console.WriteLine($"{d}\t={double.IsSubnormal(d)}");
+            d = double.Epsilon;
+            Console.WriteLine($"{d}\t={double.IsSubnormal(d)}");
+            d = double.NaN;
+            Console.WriteLine($"{d}\t={double.IsSubnormal(d)}");
+            d = double.PositiveInfinity;
+            Console.WriteLine($"{d}\t={double.IsSubnormal(d)}");
+            d = double.NegativeInfinity;
+            Console.WriteLine($"{d}\t={double.IsSubnormal(d)}");
+
+            Console.WriteLine("Half");
+            Half h = Half.NaN;
+            h = (Half)0;
+            Console.WriteLine($"{h}\t={Half.IsSubnormal(h)}");
+            h = (Half)1;
+            Console.WriteLine($"{h}\t={Half.IsSubnormal(h)}");
+            h = -1;
+            Console.WriteLine($"{h}\t={Half.IsSubnormal(h)}");
+            h = (Half)0.001;
+            Console.WriteLine($"{h}\t={Half.IsSubnormal(h)}");
+            h = Half.Epsilon;
+            Console.WriteLine($"{h}\t={Half.IsSubnormal(h)}");
+            h = Half.NaN;
+            Console.WriteLine($"{h}\t={Half.IsSubnormal(h)}");
+            h = Half.PositiveInfinity;
+            Console.WriteLine($"{h}\t={Half.IsSubnormal(h)}");
+            h = Half.NegativeInfinity;
+            Console.WriteLine($"{h}\t={Half.IsSubnormal(h)}");
+
+            Console.WriteLine("");
         }
     }
 }
