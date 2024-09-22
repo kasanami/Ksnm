@@ -47,6 +47,8 @@ namespace Ksnm.Numerics
         /// </summary>
         static int _MaxExponent2 = int.CreateSaturating(System.Math.Log2(double.CreateSaturating(T.MaxValue)));
         static int _MinExponent2 = -_MaxExponent2;
+        static int _MaxExponent10 = int.CreateSaturating(System.Math.Log10(double.CreateSaturating(T.MaxValue)));
+        static int _MinExponent10 = -_MaxExponent10;
         #endregion 定数・静的変数
 
         #region プロパティ
@@ -77,11 +79,15 @@ namespace Ksnm.Numerics
         }
         public Fraction(ExtendedDouble value)
         {
+            Numerator = T.Zero;// 分子
+            Denominator = T.One;// 分母
+            if (value == 0)
+            {
+                return;
+            }
             int shift = Binary.CountTrainingZero(value.Mantissa);
             var mantissa = value.Mantissa >> shift;
             var exponent = value.Exponent + shift;
-            Numerator = T.Zero;// 分子
-            Denominator = T.One;// 分母
             // 指数が範囲外ならクリップする
             if (exponent > _MaxExponent2)
             {
@@ -126,12 +132,16 @@ namespace Ksnm.Numerics
         }
         public Fraction(ExtendedDecimal value)
         {
-            var mantissa = value.Mantissa;
-            var exponent = value.Exponent;
             Numerator = T.Zero;// 分子
             Denominator = T.One;// 分母
+            if (value == 0)
+            {
+                return;
+            }
+            var mantissa = value.Mantissa;
+            var exponent = value.Exponent;
             // 指数が範囲外ならクリップする
-            if (exponent > _MaxExponent2)
+            if (exponent > _MaxExponent10)
             {
                 // 分子
                 if (value.SignBit == 1)
@@ -146,7 +156,7 @@ namespace Ksnm.Numerics
                 Denominator = T.Zero;
                 return;
             }
-            else if (exponent < _MinExponent2)
+            else if (exponent < _MinExponent10)
             {
                 Numerator = T.Zero;// 分子
                 Denominator = T.One;// 分母
@@ -176,11 +186,7 @@ namespace Ksnm.Numerics
         #region 型変換
         public static Fraction<T> ConvertFrom<TOther>(TOther value) where TOther : INumber<TOther>
         {
-            if (TOther.IsInteger(value))
-            {
-                return new Fraction<T>(T.CreateChecked(value));
-            }
-            else if (TOther.IsNaN(value))
+            if (TOther.IsNaN(value))
             {
                 return NaN;
             }
@@ -192,7 +198,7 @@ namespace Ksnm.Numerics
             {
                 return NegativeInfinity;
             }
-            else if (typeof(TOther) == typeof(Half))
+            else if(typeof(TOther) == typeof(Half))
             {
                 var fValue = (Half)(object)value;
                 return new Fraction<T>((double)fValue);
@@ -211,6 +217,10 @@ namespace Ksnm.Numerics
             {
                 var fValue = (decimal)(object)value;
                 return new Fraction<T>(fValue);
+            }
+            else if(TOther.IsInteger(value))
+            {
+                return new Fraction<T>(T.CreateChecked(value));
             }
             throw new InvalidCastException($"{nameof(value)}={value}");
         }
