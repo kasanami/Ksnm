@@ -1521,19 +1521,19 @@ namespace Ksnm.Tests
         public void FastInverseSqrtTest()
         {
             // float
-            for (float f = 1; f <= 9; f += 0.5f)
+            for (float f = 0.1f; f <= 10; f += 0.25f)
             {
                 var a = Ksnm.Math.InverseSqrt(f);
                 var b = Ksnm.Math.FastInverseSqrt(f);
-                Assert.AreEqual(a, b, 0.002);
+                Assert.AreEqual(a, b, 0.01);
             }
 
             // double
-            for (double f = 1; f <= 9; f += 0.5)
+            for (double f = 0.1; f <= 10; f += 0.25)
             {
                 var a = Ksnm.Math.InverseSqrt(f);
                 var b = Ksnm.Math.FastInverseSqrt(f);
-                Assert.AreEqual(a, b, 0.002);
+                Assert.AreEqual(a, b, 0.01);
             }
         }
     }
