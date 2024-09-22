@@ -10,6 +10,15 @@ namespace ConsoleApp
     {
         public static void Run()
         {
+            FastInverseSqrtTest();
+
+            // Log2
+            if (false)
+            {
+                int maxValueLog2 = Ksnm.Math.Log2<int>(int.MaxValue, 1);
+                int minValueLog2 = Ksnm.Math.Log2<int>(int.MinValue, 1);
+            }
+
             Console.WriteLine("ゴールドバッハ予想");
             if (Conjecture.GoldbachsConjecture(4, 100))
             {
@@ -36,21 +45,42 @@ namespace ConsoleApp
         }
         public static void GammaTest()
         {
+            Console.WriteLine(Ksnm.Debug.GetFilePathAndLineNumber());
+
             //Console.WriteLine("GammaTest");
             //for (double i = 0; i <= 10; i += 0.25)
             //{
             //    var x = Gamma(i);
             //    Console.WriteLine($"({i:0.0000})={x:0.0000}");
             //}
+
+            Console.WriteLine();
         }
         public static void StirlingsFormulaTest()
         {
-            Console.WriteLine("StirlingsFormulaTest");
+            Console.WriteLine(Ksnm.Debug.GetFilePathAndLineNumber());
+
             for (double i = 0; i <= 10; i += 0.25)
             {
                 var x = StirlingsFormula(i);
                 Console.WriteLine($"({i:0.0000})={x:0.0000}");
             }
+
+            Console.WriteLine();
+        }
+
+        public static void FastInverseSqrtTest()
+        {
+            Console.WriteLine(Ksnm.Debug.GetFilePathAndLineNumber());
+
+            for (float f = 1; f <= 9; f += 0.5f)
+            {
+                var a = Ksnm.Math.InverseSqrt(f);
+                var b = Ksnm.Math.FastInverseSqrt(f);
+                Console.WriteLine($"{a:0.00000000}:{b:0.00000000} ({a - b:0.00000000})");
+            }
+
+            Console.WriteLine();
         }
     }
 }

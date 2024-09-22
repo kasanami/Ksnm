@@ -1642,6 +1642,33 @@ namespace Ksnm
             return Sqrt(value, T.Epsilon);
         }
         #endregion Sqrt
+        #region InverseSqrt 逆平方根
+        /// <summary>
+        /// 平方根の逆数を求める
+        /// </summary>
+        public static float InverseSqrt(float value)
+        {
+            return 1 / float.Sqrt(value);
+        }
+        /// <summary>
+        /// 平方根の逆数を求める
+        /// </summary>
+        public static double InverseSqrt(double value)
+        {
+            return 1 / double.Sqrt(value);
+        }
+        /// <summary>
+        /// 高速逆平方根
+        /// </summary>
+        public static float FastInverseSqrt(float value)
+        {
+            const uint MagicNumber = 0x5F3759DF;
+            var i = BitConverter.SingleToUInt32Bits(value);
+            i = MagicNumber - (i >> 1);
+            var f = BitConverter.UInt32BitsToSingle(i);
+            return f * (1.5f - (value * 0.5f * f * f));
+        }
+        #endregion InverseSqrt 逆平方根
         /// <summary>
         /// n乗根をバイナリサーチで求める
         /// </summary>
