@@ -1516,5 +1516,25 @@ namespace Ksnm.Tests
             Assert.AreEqual(20, Math.Combination(6, 3));
             Assert.AreEqual(56, Math.Combination(8, 3));
         }
+
+        [TestMethod()]
+        public void FastInverseSqrtTest()
+        {
+            // float
+            for (float f = 1; f <= 9; f += 0.5f)
+            {
+                var a = Ksnm.Math.InverseSqrt(f);
+                var b = Ksnm.Math.FastInverseSqrt(f);
+                Assert.AreEqual(a, b, 0.002);
+            }
+
+            // double
+            for (double f = 1; f <= 9; f += 0.5)
+            {
+                var a = Ksnm.Math.InverseSqrt(f);
+                var b = Ksnm.Math.FastInverseSqrt(f);
+                Assert.AreEqual(a, b, 0.002);
+            }
+        }
     }
 }

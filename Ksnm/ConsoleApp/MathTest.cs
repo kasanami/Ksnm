@@ -73,7 +73,16 @@ namespace ConsoleApp
         {
             Console.WriteLine(Ksnm.Debug.GetFilePathAndLineNumber());
 
+            Console.WriteLine("float");
             for (float f = 1; f <= 9; f += 0.5f)
+            {
+                var a = Ksnm.Math.InverseSqrt(f);
+                var b = Ksnm.Math.FastInverseSqrt(f);
+                Console.WriteLine($"{a:0.00000000}:{b:0.00000000} ({a - b:0.00000000})");
+            }
+
+            Console.WriteLine("double");
+            for (double f = 1; f <= 9; f += 0.5)
             {
                 var a = Ksnm.Math.InverseSqrt(f);
                 var b = Ksnm.Math.FastInverseSqrt(f);

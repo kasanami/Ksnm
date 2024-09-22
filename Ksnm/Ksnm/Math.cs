@@ -1668,6 +1668,17 @@ namespace Ksnm
             var f = BitConverter.UInt32BitsToSingle(i);
             return f * (1.5f - (value * 0.5f * f * f));
         }
+        /// <summary>
+        /// 高速逆平方根
+        /// </summary>
+        public static double FastInverseSqrt(double value)
+        {
+            const ulong MagicNumber = 0x5FE6EC85E7DE30DA;
+            var i = BitConverter.DoubleToUInt64Bits(value);
+            i = MagicNumber - (i >> 1);
+            var f = BitConverter.UInt64BitsToDouble(i);
+            return f * (1.5 - (value * 0.5 * f * f));
+        }
         #endregion InverseSqrt 逆平方根
         /// <summary>
         /// n乗根をバイナリサーチで求める
