@@ -711,42 +711,60 @@ namespace Ksnm.Numerics
             return true;
         }
 
+        #region IComparable
+        /// <summary>
+        /// 比較し、これらの相対値を示す値を返します。
+        /// </summary>
+        /// <param name="obj">比較するオブジェクト</param>
+        /// <returns>0の場合等価です。0 より大きい値の場合 obj よりも大きいです。0 より小さい値の場合 obj よりも小さいです。</returns>
         public int CompareTo(object? obj)
         {
             if (obj == null)
             {
                 return 1;
             }
-            return CompareTo((Fraction<T>)obj);
+            if (obj is Fraction<T>)
+            {
+                return CompareTo((Fraction<T>)obj);
+            }
+            return 1;
         }
-
         public int CompareTo(Fraction<T>? other)
         {
             if (other == null)
             {
                 return 1;
             }
-            return CompareTo(other.Value);
+            if (other.HasValue)
+            {
+                return CompareTo(other.Value);
+            }
+            return 1;
         }
-
         public int CompareTo(Fraction<T> other)
         {
             return (Numerator * other.Denominator).CompareTo(other.Numerator * Denominator);
         }
+        #endregion IComparable
 
+        #region IEquatable
         public bool Equals(Fraction<T>? other)
         {
             if (other == null)
             {
                 return false;
             }
-            return this == other;
+            if (other.HasValue)
+            {
+                return Equals(other.Value);
+            }
+            return false;
         }
-
         public bool Equals(Fraction<T> other)
         {
-            return this == other;
+            return CompareTo(other) == 0;
         }
+        #endregion IEquatable
 
         public string ToString(string? format, IFormatProvider? formatProvider)
         {
@@ -981,11 +999,6 @@ namespace Ksnm.Numerics
             return $"{Numerator}/{Denominator}";
         }
         #endregion object
-
-        int IComparable.CompareTo(object? obj)
-        {
-            throw new NotImplementedException();
-        }
 
         public static Fraction<T> Atan2(Fraction<T> y, Fraction<T> x)
         {

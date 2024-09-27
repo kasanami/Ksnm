@@ -8,6 +8,9 @@ using System.Text;
 using System.Threading.Tasks;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
+using Fraction32 = Ksnm.Numerics.Fraction<System.Int16>;
+using Fraction64 = Ksnm.Numerics.Fraction<System.Int32>;
+
 namespace ConsoleApp
 {
     internal class NumericsTest
