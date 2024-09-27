@@ -88,8 +88,12 @@ namespace Ksnm.Numerics
             int shift = Binary.CountTrainingZero(value.Mantissa);
             var mantissa = value.Mantissa >> shift;
             var exponent = value.Exponent + shift;
+            ulong denominator = 1;
+            const ulong Radix = 2;
+            int MaxExponent = _MaxExponent2;
+            int MinExponent = _MinExponent2;
             // 指数が範囲外ならクリップする
-            if (exponent > _MaxExponent2)
+            if (exponent > MaxExponent)
             {
                 // 分子
                 if (value.SignBit == 1)
@@ -104,25 +108,51 @@ namespace Ksnm.Numerics
                 Denominator = T.Zero;
                 return;
             }
-            else if (exponent < _MinExponent2)
+            else if (exponent < MinExponent)
             {
                 Numerator = T.Zero;// 分子
                 Denominator = T.One;// 分母
                 return;
             }
             // 指数が正なら分子を大きくする
-            if (exponent >= 0)
+            if (exponent > 0)
             {
-                var scale = Math.Pow(2ul, exponent);
+                var scale = Math.Pow(Radix, exponent);
                 mantissa *= scale;
-                Numerator = T.CreateSaturating(mantissa);// 分子
-                Denominator = T.One;// 分母
             }
             else if (exponent < 0)
             {
-                var scale = Math.Pow(2, -exponent);
-                Numerator = T.CreateSaturating(mantissa);// 分子
-                Denominator = T.CreateSaturating(scale);// 分母
+                var scale = Math.Pow(Radix, -exponent);
+                denominator = scale;
+            }
+            // 分子が範囲外なら無限大にする
+            try
+            {
+                Numerator = T.CreateChecked(mantissa);
+            }
+            catch (OverflowException)
+            {
+                if (value.SignBit == 1)
+                {
+                    Numerator = -T.One;
+                }
+                else
+                {
+                    Numerator = T.One;
+                }
+                Denominator = T.Zero;
+                return;
+            }
+            // 分母が範囲外なら0にする
+            try
+            {
+                Denominator = T.CreateChecked(denominator);
+            }
+            catch (OverflowException)
+            {
+                Numerator = T.Zero;
+                Denominator = T.One;
+                return;
             }
             // 符号
             if (value.SignBit == 1)
@@ -140,8 +170,12 @@ namespace Ksnm.Numerics
             }
             var mantissa = value.Mantissa;
             var exponent = value.Exponent;
+            Int128 denominator = 1;
+            const ulong Radix = 10;
+            int MaxExponent = _MaxExponent10;
+            int MinExponent = _MinExponent10;
             // 指数が範囲外ならクリップする
-            if (exponent > _MaxExponent10)
+            if (exponent > MaxExponent)
             {
                 // 分子
                 if (value.SignBit == 1)
@@ -156,24 +190,51 @@ namespace Ksnm.Numerics
                 Denominator = T.Zero;
                 return;
             }
-            else if (exponent < _MinExponent10)
+            else if (exponent < MinExponent)
             {
                 Numerator = T.Zero;// 分子
                 Denominator = T.One;// 分母
                 return;
             }
             // 指数が正なら分子を大きくする
-            if (exponent >= 0)
+            if (exponent > 0)
             {
-                var scale = Math.Pow(10u, exponent);
-                Numerator = T.CreateSaturating(mantissa * scale);// 分子
-                Denominator = T.One;// 分母
+                var scale = Math.Pow(Radix, exponent);
+                mantissa *= scale;
             }
             else if (exponent < 0)
             {
-                var scale = Math.Pow(10, -exponent);
-                Numerator = T.CreateSaturating(mantissa);// 分子
-                Denominator = T.CreateSaturating(scale);// 分母
+                var scale = Math.Pow(Radix, -exponent);
+                denominator = scale;
+            }
+            // 分子が範囲外なら無限大にする
+            try
+            {
+                Numerator = T.CreateChecked(mantissa);
+            }
+            catch (OverflowException)
+            {
+                if (value.SignBit == 1)
+                {
+                    Numerator = -T.One;
+                }
+                else
+                {
+                    Numerator = T.One;
+                }
+                Denominator = T.Zero;
+                return;
+            }
+            // 分母が範囲外なら0にする
+            try
+            {
+                Denominator = T.CreateChecked(denominator);
+            }
+            catch (OverflowException)
+            {
+                Numerator = T.Zero;
+                Denominator = T.One;
+                return;
             }
             // 符号
             if (value.SignBit == 1)
@@ -198,7 +259,7 @@ namespace Ksnm.Numerics
             {
                 return NegativeInfinity;
             }
-            else if(typeof(TOther) == typeof(Half))
+            else if (typeof(TOther) == typeof(Half))
             {
                 var fValue = (Half)(object)value;
                 return new Fraction<T>((double)fValue);
@@ -218,7 +279,7 @@ namespace Ksnm.Numerics
                 var fValue = (decimal)(object)value;
                 return new Fraction<T>(fValue);
             }
-            else if(TOther.IsInteger(value))
+            else if (TOther.IsInteger(value))
             {
                 return new Fraction<T>(T.CreateChecked(value));
             }
