@@ -4,7 +4,7 @@ using System.Linq;
 using Ksnm.ExtensionMethods.System.Collections.Generic.Enumerable;
 using System.Numerics;
 using Ksnm.Numerics;
-using SMath = System.Math;
+using MathD = System.Math;
 using System.Collections.Generic;
 using System;
 using Ksnm.ExtensionMethods.System.Double;
@@ -183,6 +183,14 @@ namespace Ksnm.Tests
                 9,
                 10,
                 11,
+                12,
+                13,
+                14,
+                15,
+                16,
+                17,
+                18,
+                19,
             };
             bool[] expectes = new[]
             {
@@ -200,7 +208,20 @@ namespace Ksnm.Tests
                 false,//9,
                 false,//10,
                 true,//11,
+                false,// 12,
+                true,// 13,
+                false,// 14,
+                false,// 15,
+                false,// 16,
+                true,// 17,
+                false,// 18,
+                true,// 19,
             };
+            // int
+            for (int i = 0; i < numbers.Length; i++)
+            {
+                Assert.AreEqual(expectes[i], Math.IsPrime<int>(numbers[i]));
+            }
             // int
             for (int i = 0; i < numbers.Length; i++)
             {
@@ -852,7 +873,7 @@ namespace Ksnm.Tests
                 for (int e = -9; e <= 9; e++)
                 {
                     if (n == 0) { continue; }
-                    Assert.AreEqual((int)System.Math.Pow(n, e), Math.Pow(n, e), $"{n}^{e}");
+                    Assert.AreEqual((int)MathD.Pow(n, e), Math.Pow(n, e), $"{n}^{e}");
                 }
             }
         }
@@ -893,7 +914,7 @@ namespace Ksnm.Tests
             {
                 for (uint e = 0; e <= 9; e++)
                 {
-                    Assert.AreEqual((uint)System.Math.Pow(n, e), Math.Pow(n, e), $"{n}^{e}");
+                    Assert.AreEqual((uint)MathD.Pow(n, e), Math.Pow(n, e), $"{n}^{e}");
                 }
             }
         }
@@ -934,7 +955,7 @@ namespace Ksnm.Tests
             {
                 for (int e = 0; e <= 9; e++)
                 {
-                    var expected = SMath.Pow(n, e);
+                    var expected = MathD.Pow(n, e);
                     var actual = Math.Pow((double)n, e);
                     Assert.AreEqual(expected, actual, $"{n}^{e}");
                 }
@@ -943,7 +964,7 @@ namespace Ksnm.Tests
             {
                 for (uint e = 0; e <= 9; e++)
                 {
-                    var expected = SMath.Pow(n, e);
+                    var expected = MathD.Pow(n, e);
                     var actual = Math.Pow((double)n, e);
                     Assert.AreEqual(expected, actual, $"{n}^{e}");
                 }
@@ -952,7 +973,7 @@ namespace Ksnm.Tests
             {
                 for (double e = -10; e <= 10; e += 0.25)
                 {
-                    var expected = SMath.Pow(n, e);
+                    var expected = MathD.Pow(n, e);
                     if (double.IsNaN(expected))
                     {
                         continue;
@@ -1005,7 +1026,7 @@ namespace Ksnm.Tests
             {
                 for (int e = 0; e <= 9; e++)
                 {
-                    var expected = (decimal)System.Math.Pow(n, e);
+                    var expected = (decimal)MathD.Pow(n, e);
                     var actual = Math.Pow((decimal)n, e);
                     Assert.AreEqual(expected, actual, $"{n}^{e}");
                 }
@@ -1014,7 +1035,7 @@ namespace Ksnm.Tests
             {
                 for (uint e = 0; e <= 9; e++)
                 {
-                    var expected = (decimal)System.Math.Pow(n, e);
+                    var expected = (decimal)MathD.Pow(n, e);
                     var actual = Math.Pow((decimal)n, e);
                     Assert.AreEqual(expected, actual, $"{n}^{e}");
                 }
@@ -1024,7 +1045,7 @@ namespace Ksnm.Tests
             {
                 for (decimal e = -10; e <= 10; e += 0.25m)
                 {
-                    var expected = System.Math.Pow((double)n, (double)e);
+                    var expected = MathD.Pow((double)n, (double)e);
                     if (double.IsNaN(expected))
                     {
                         continue;
@@ -1044,25 +1065,25 @@ namespace Ksnm.Tests
         {
             for (Half i = -5; i <= (Half)5; i += (Half)0.5)
             {
-                var expected = SMath.Exp((double)i);
+                var expected = MathD.Exp((double)i);
                 var actual = (double)Math.Exp(i);
                 Assert.AreEqual(expected, actual, 0.5, $"i={i}");
             }
             for (float i = -5; i <= 5; i += 0.5f)
             {
-                var expected = SMath.Exp(i);
+                var expected = MathD.Exp(i);
                 var actual = Math.Exp(i);
                 Assert.AreEqual(expected, actual, 0.00001, $"i={i}");
             }
             for (double i = -5; i <= 5; i += 0.5)
             {
-                var expected = SMath.Exp(i);
+                var expected = MathD.Exp(i);
                 var actual = Math.Exp(i);
                 Assert.AreEqual(expected, actual, 0.00000000001, $"i={i}");
             }
             for (decimal i = -5; i <= 5; i += 0.5m)
             {
-                var expected = SMath.Exp((double)i);
+                var expected = MathD.Exp((double)i);
                 var actual = Math.Exp(i, Math.DecimalEpsilon);
                 Assert.AreEqual((decimal)expected, actual, 0.00000000001m, $"i={i}");
             }
@@ -1073,13 +1094,13 @@ namespace Ksnm.Tests
         {
             for (double i = -5; i <= 5; i += 0.5)
             {
-                var expected = SMath.Pow(10, i);
+                var expected = MathD.Pow(10, i);
                 var actual = Math.Exp10(i);
                 Assert.AreEqual(expected, actual, 0.000000001, $"i={i}");
             }
             for (decimal i = -5; i <= 5; i += 0.5m)
             {
-                var expected = SMath.Pow(10, (double)i);
+                var expected = MathD.Pow(10, (double)i);
                 var actual = Math.Exp10(i, Math.DecimalEpsilon);
                 Assert.AreEqual((decimal)expected, actual, 0.00000000001m, $"i={i}");
             }
@@ -1090,13 +1111,13 @@ namespace Ksnm.Tests
         {
             for (double i = -5; i <= 5; i += 0.5)
             {
-                var expected = SMath.Pow(2, i);
+                var expected = MathD.Pow(2, i);
                 var actual = Math.Exp2(i);
                 Assert.AreEqual(expected, actual, 0.00000000001, $"i={i}");
             }
             for (decimal i = -5; i <= 5; i += 0.5m)
             {
-                var expected = SMath.Pow(2, (double)i);
+                var expected = MathD.Pow(2, (double)i);
                 var actual = Math.Exp2(i, Math.DecimalEpsilon);
                 Assert.AreEqual((decimal)expected, actual, 0.00000000001m, $"i={i}");
             }
@@ -1107,13 +1128,13 @@ namespace Ksnm.Tests
         {
             for (double i = 1; i <= 5; i += 0.5)
             {
-                var expected = SMath.Log(i);
+                var expected = MathD.Log(i);
                 var actual = Math.Log(i);
                 Assert.AreEqual(expected, actual, 0.00000000001, $"i={i}");
             }
             for (decimal i = 1; i <= 5; i += 0.5m)
             {
-                var expected = SMath.Log((double)i);
+                var expected = MathD.Log((double)i);
                 var actual = Math.Log(i, Math.DecimalEpsilon);
                 Assert.AreEqual((decimal)expected, actual, 0.00000000001m, $"i={i}");
             }
@@ -1124,13 +1145,13 @@ namespace Ksnm.Tests
         {
             for (double i = 1; i <= 5; i += 0.5)
             {
-                var expected = SMath.Log10(i);
+                var expected = MathD.Log10(i);
                 var actual = Math.Log10(i);
                 Assert.AreEqual(expected, actual, 0.00000000001, $"i={i}");
             }
             for (decimal i = 1; i <= 5; i += 0.5m)
             {
-                var expected = SMath.Log10((double)i);
+                var expected = MathD.Log10((double)i);
                 var actual = Math.Log10(i, Math.DecimalEpsilon);
                 Assert.AreEqual((decimal)expected, actual, 0.00000000001m, $"i={i}");
             }
@@ -1141,13 +1162,13 @@ namespace Ksnm.Tests
         {
             for (double i = 1; i <= 5; i += 0.5)
             {
-                var expected = SMath.Log2(i);
+                var expected = MathD.Log2(i);
                 var actual = Math.Log2(i);
                 Assert.AreEqual(expected, actual, 0.00000000001, $"i={i}");
             }
             for (decimal i = 1; i <= 5; i += 0.5m)
             {
-                var expected = SMath.Log2((double)i);
+                var expected = MathD.Log2((double)i);
                 var actual = Math.Log2(i, Math.DecimalEpsilon);
                 Assert.AreEqual((decimal)expected, actual, 0.00000000001m, $"i={i}");
             }
@@ -1176,7 +1197,7 @@ namespace Ksnm.Tests
                     var item = new Tuple<double, double>(a * a, 6);
                     list.Add(item);
                 }
-                var expected = SMath.PI;
+                var expected = MathD.PI;
                 var actual = Math.ContinuedFraction(3, list);
                 Assert.AreEqual(expected, actual, 0.001);
             }
@@ -1208,13 +1229,13 @@ namespace Ksnm.Tests
             }
             // √2
             {
-                var expected = SMath.Sqrt(2);
+                var expected = MathD.Sqrt(2);
                 var actual = Math.RegularContinuedFraction<double>(1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2);
                 Assert.AreEqual(expected, actual, 0.0000000001);
             }
             // √3
             {
-                var expected = SMath.Sqrt(3);
+                var expected = MathD.Sqrt(3);
                 var actual = Math.RegularContinuedFraction<double>(1, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2);
                 Assert.AreEqual(expected, actual, 0.0000000001);
             }
@@ -1306,10 +1327,10 @@ namespace Ksnm.Tests
                 var actual = Math.Sqrt(value);
                 Assert.AreEqual(expected, actual, $"i={i}");
             }
-            // System.Math.Sqrtと比較
+            // MathD.Sqrtと比較
             for (double i = -10; i <= 10; i++)
             {
-                var expected = SMath.Sqrt(i);
+                var expected = MathD.Sqrt(i);
                 var actual = Math.Sqrt(i);
                 if (double.IsNaN(expected))
                 {
@@ -1326,17 +1347,17 @@ namespace Ksnm.Tests
         public void RootTest()
         {
             double Delta = 0.000000000000001;
-            // System.Math.Sqrtと比較
+            // MathD.Sqrtと比較
             for (double i = 0; i <= 10; i++)
             {
-                var expected = SMath.Sqrt(i);
+                var expected = MathD.Sqrt(i);
                 var actual = Math.Root(i, 2);
                 Assert.AreEqual(expected, actual, Delta, $"i={i}");
             }
             // 2乗根
             for (double i = -10; i <= 10; i += 0.5)
             {
-                var expected = SMath.Sqrt(i);
+                var expected = MathD.Sqrt(i);
                 var actual = Math.Root(i, 2);
                 if (double.IsNaN(expected))
                 {
@@ -1350,7 +1371,7 @@ namespace Ksnm.Tests
             // 3乗根
             for (double i = -10; i <= 10; i += 0.5)
             {
-                var expected = SMath.Cbrt(i);
+                var expected = MathD.Cbrt(i);
                 var actual = Math.Root(i, 3);
                 if (double.IsNaN(expected))
                 {
@@ -1368,7 +1389,7 @@ namespace Ksnm.Tests
         {
             for (double i = -10; i <= 10; i += 0.125)
             {
-                var expected = SMath.Sin(i);
+                var expected = MathD.Sin(i);
                 var actual = Math.Sin(i);
                 Assert.AreEqual(expected, actual, 0.00000000000001, $"i={i}");
             }
@@ -1379,7 +1400,7 @@ namespace Ksnm.Tests
         {
             for (double i = -10; i <= 10; i += 0.125)
             {
-                var expected = SMath.Cos(i);
+                var expected = MathD.Cos(i);
                 var actual = Math.Cos(i);
                 Assert.AreEqual(expected, actual, 0.00000000000001, $"i={i}");
             }
@@ -1390,7 +1411,7 @@ namespace Ksnm.Tests
         {
             for (double i = -10; i <= 10; i += 0.125)
             {
-                var expected = SMath.Tan(i);
+                var expected = MathD.Tan(i);
                 var actual = Math.Tan(i);
                 Assert.AreEqual(expected, actual, 0.0000000001, $"i={i}");
             }
@@ -1401,7 +1422,7 @@ namespace Ksnm.Tests
         {
             for (double i = -1; i <= 1; i += 0.125)
             {
-                var expected = SMath.Asin(i);
+                var expected = MathD.Asin(i);
                 var actual = Math.Asin(i);
                 Assert.AreEqual(expected, actual, 0.0001, $"i={i}");
             }
@@ -1412,7 +1433,7 @@ namespace Ksnm.Tests
         {
             for (double i = -1; i <= 1; i += 0.125)
             {
-                var expected = SMath.Acos(i);
+                var expected = MathD.Acos(i);
                 var actual = Math.Acos(i);
                 Assert.AreEqual(expected, actual, 0.0001, $"i={i}");
             }
@@ -1423,7 +1444,7 @@ namespace Ksnm.Tests
         {
             for (double i = -2; i <= 2; i += 0.125)
             {
-                var expected = SMath.Atan(i);
+                var expected = MathD.Atan(i);
                 var actual = Math.Atan(i);
                 Assert.AreEqual(expected, actual, 0.000000000000001, $"i={i}");
             }
@@ -1436,23 +1457,23 @@ namespace Ksnm.Tests
             {
                 double x = 0;
                 double y = 0;
-                var expected = SMath.Atan2(y, x);
+                var expected = MathD.Atan2(y, x);
                 var actual = Math.Atan2(y, x);
                 Assert.AreEqual(expected, actual, Delta, $"y={y},x={x}");
             }
             {
                 double x = -0.3;
                 double y = -1;
-                var expected = SMath.Atan2(y, x);
-                var expected2 = SMath.Atan(y / x);
+                var expected = MathD.Atan2(y, x);
+                var expected2 = MathD.Atan(y / x);
                 var actual = Math.Atan2(y, x);
                 Assert.AreEqual(expected, actual, Delta, $"y={y},x={x}");
             }
             {
                 double x = 0.9;
                 double y = 1;
-                var expected = SMath.Atan2(y, x);
-                var expected2 = SMath.Atan(y / x);
+                var expected = MathD.Atan2(y, x);
+                var expected2 = MathD.Atan(y / x);
                 var actual = Math.Atan2(y, x);
                 Assert.AreEqual(expected, actual, Delta, $"y={y},x={x}");
             }
@@ -1464,7 +1485,7 @@ namespace Ksnm.Tests
                     {
                         continue;
                     }
-                    var expected = SMath.Atan2(y, x);
+                    var expected = MathD.Atan2(y, x);
                     var actual = Math.Atan2(y, x);
                     Assert.AreEqual(expected, actual, 0.0000001, $"y={y},x={x}");
                 }
@@ -1475,7 +1496,7 @@ namespace Ksnm.Tests
         public void NapiersConstantTest()
         {
             {
-                var expected = SMath.E;
+                var expected = MathD.E;
                 var actual = Math.NapiersConstant(0.00000_00000_1);
                 Assert.AreEqual(expected, actual, 0.00000_00000_1);
             }
@@ -1489,7 +1510,7 @@ namespace Ksnm.Tests
                 double a = 0.0;// 積分区間の下限
                 double b = double.Pi;// 積分区間の上限
                 int n = 10000;// 分割数
-                double result = Math.TrapezoidalIntegral(a, b, n, SMath.Sin);
+                double result = Math.TrapezoidalIntegral(a, b, n, MathD.Sin);
                 Assert.AreEqual(2.0, result, 0.0000001);
             }
         }

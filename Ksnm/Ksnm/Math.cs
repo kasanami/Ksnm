@@ -245,8 +245,38 @@ namespace Ksnm
 
         #endregion IsOdd
 
+        #region 素数
         #region IsPrime
+        /// <summary>
+        /// 素数ならtrueを返す。
+        /// </summary>
+        public static bool IsPrime<T>(T value)where T :INumber<T>
+        {
+            T _2 = T.CreateChecked(2);
+            T _3 = T.CreateChecked(3);
+            if (value < _2)
+            {
+                return false;
+            }
+            else if (value == _2)
+            {
+                return true;
+            }
 
+            if (value % _2 == T.Zero)
+            {
+                return false;
+            }
+
+            for (T i = _3; i <= value / i; i += _2)
+            {
+                if (value % i == T.Zero)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
         /// <summary>
         /// 素数ならtrueを返す。
         /// </summary>
@@ -265,7 +295,7 @@ namespace Ksnm
             {
                 return false;
             }
-
+#if false
             for (int i = 3; i <= value / i; i += 2)
             {
                 if (value % i == 0)
@@ -273,6 +303,16 @@ namespace Ksnm
                     return false;
                 }
             }
+#else
+            var sqrt = double.Sqrt(value);
+            for (int i = 3; i <= sqrt; i += 2)
+            {
+                if (value % i == 0)
+                {
+                    return false;
+                }
+            }
+#endif
             return true;
         }
 
@@ -391,7 +431,8 @@ namespace Ksnm
             }
             return true;
         }
-        #endregion IsPrime
+#endregion IsPrime
+#endregion 素数
 
         #region Abs
         /// <summary>
@@ -1110,7 +1151,7 @@ namespace Ksnm
             return Gamma<T>(x, T.Pi, T.Epsilon, terms);
         }
 #endif
-        #endregion Gamma ガンマ関数
+#endregion Gamma ガンマ関数
 
         #region Pow
         /// <summary>
@@ -1522,7 +1563,7 @@ namespace Ksnm
             {
                 term = numerator / k;
                 sum += term;
-                if (T.Abs(term) < tolerance)
+                if (term < tolerance)
                 {
                     break;
                 }
@@ -1617,6 +1658,25 @@ namespace Ksnm
                     break;
                 }
                 before = temp;
+            }
+            return temp;
+        }
+        /// <summary>
+        /// 指定された数値の平方根を返します。
+        /// </summary>
+        /// <param name="value">平方根を求める対象の数値。</param>
+        /// <param name="terms">単項式数</param>
+        /// <returns>0 または value の平方根。</returns>
+        public static T Sqrt<T>(T value, int terms = DefaultTerms) where T : INumber<T>
+        {
+            if (T.IsZero(value))
+            {
+                return T.Zero;
+            }
+            var temp = value;
+            for (int i = 0; i < terms; i++)
+            {
+                temp = (temp * temp + value) / (temp + temp);
             }
             return temp;
         }
