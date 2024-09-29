@@ -1085,51 +1085,57 @@ namespace Ksnm.Tests
         [TestMethod()]
         public void LogTest()
         {
-            for (double i = 1; i <= 5; i += 0.5)
+            for (double i = 1; i <= 50; i += 0.5)
             {
                 var expected = MathD.Log(i);
                 var actual = Math.Log(i);
-                Assert.AreEqual(expected, actual, 0.00000000001, $"i={i}");
+                Assert.AreEqual(expected, actual, 0.00000_00000_0001, $"i={i}");
             }
-            for (decimal i = 1; i <= 5; i += 0.5m)
+            for (double i = 50; i <= 100; i += 0.5)
+            {
+                var expected = MathD.Log(i);
+                var actual = Math.Log(i);
+                Assert.AreEqual(expected, actual, 0.00000_00000_001, $"i={i}");
+            }
+            for (decimal i = 1; i <= 100; i += 0.5m)
             {
                 var expected = MathD.Log((double)i);
                 var actual = Math.Log(i, Math.DecimalEpsilon);
-                Assert.AreEqual((decimal)expected, actual, 0.00000000001m, $"i={i}");
+                Assert.AreEqual((decimal)expected, actual, 0.00000_00000_001m, $"i={i}");
             }
         }
 
         [TestMethod()]
         public void Log10Test()
         {
-            for (double i = 1; i <= 5; i += 0.5)
+            for (double i = 1; i <= 50; i += 0.5)
             {
                 var expected = MathD.Log10(i);
                 var actual = Math.Log10(i);
-                Assert.AreEqual(expected, actual, 0.00000000001, $"i={i}");
+                Assert.AreEqual(expected, actual, 0.00000_00000_0001, $"i={i}");
             }
-            for (decimal i = 1; i <= 5; i += 0.5m)
+            for (decimal i = 1; i <= 50; i += 0.5m)
             {
                 var expected = MathD.Log10((double)i);
                 var actual = Math.Log10(i, Math.DecimalEpsilon);
-                Assert.AreEqual((decimal)expected, actual, 0.00000000001m, $"i={i}");
+                Assert.AreEqual((decimal)expected, actual, 0.00000_00000_0001m, $"i={i}");
             }
         }
 
         [TestMethod()]
         public void Log2Test()
         {
-            for (double i = 1; i <= 5; i += 0.5)
+            for (double i = 1; i <= 50; i += 0.5)
             {
                 var expected = MathD.Log2(i);
                 var actual = Math.Log2(i);
-                Assert.AreEqual(expected, actual, 0.00000000001, $"i={i}");
+                Assert.AreEqual(expected, actual, 0.00000_00000_0001, $"i={i}");
             }
-            for (decimal i = 1; i <= 5; i += 0.5m)
+            for (decimal i = 1; i <= 50; i += 0.5m)
             {
                 var expected = MathD.Log2((double)i);
                 var actual = Math.Log2(i, Math.DecimalEpsilon);
-                Assert.AreEqual((decimal)expected, actual, 0.00000000001m, $"i={i}");
+                Assert.AreEqual((decimal)expected, actual, 0.00000_00000_0001m, $"i={i}");
             }
         }
 
