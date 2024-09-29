@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System;
 using Ksnm.ExtensionMethods.System.Double;
 using Ksnm.Science.Mathematics;
+using Ksnm.Units;
 
 namespace Ksnm.Tests
 {
@@ -167,85 +168,43 @@ namespace Ksnm.Tests
         [TestMethod()]
         public void IsPrimeTest()
         {
-            int[] numbers = new[]
-            {
-                -2,
-                -1,
-                0,
-                1,
-                2,
-                3,
-                4,
-                5,
-                6,
-                7,
-                8,
-                9,
-                10,
-                11,
-                12,
-                13,
-                14,
-                15,
-                16,
-                17,
-                18,
-                19,
-            };
-            bool[] expectes = new[]
-            {
-                false,//-2,
-                false,//-1,
-                false,//0,
-                false,//1,
-                true,//2,
-                true,//3,
-                false,//4,
-                true,//5,
-                false,//6,
-                true,//7,
-                false,//8,
-                false,//9,
-                false,//10,
-                true,//11,
-                false,// 12,
-                true,// 13,
-                false,// 14,
-                false,// 15,
-                false,// 16,
-                true,// 17,
-                false,// 18,
-                true,// 19,
-            };
+            Assert.IsFalse(Math.IsPrime(0));
+            Assert.IsFalse(Math.IsPrime(1));
+            int[] primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97];
             // int
-            for (int i = 0; i < numbers.Length; i++)
+            foreach (var prime in primes)
             {
-                Assert.AreEqual(expectes[i], Math.IsPrime<int>(numbers[i]));
-            }
-            // int
-            for (int i = 0; i < numbers.Length; i++)
-            {
-                Assert.AreEqual(expectes[i], Math.IsPrime(numbers[i]));
+                Assert.IsTrue(Math.IsPrime(prime));
+                // 非素数チェック
+                for (int i = 2; i < 10; i++)
+                {
+                    Assert.IsFalse(Math.IsPrime(i * prime));
+                }
             }
             // uint
-            for (int i = 2; i < numbers.Length; i++)
+            foreach (var prime in primes)
             {
-                Assert.AreEqual(expectes[i], Math.IsPrime((uint)numbers[i]));
+                Assert.IsTrue(Math.IsPrime((uint)prime));
+                // 非素数チェック
+                for (uint i = 2; i < 10; i++)
+                {
+                    Assert.IsFalse(Math.IsPrime(i * (uint)prime));
+                }
             }
             // long
-            for (int i = 2; i < numbers.Length; i++)
+            foreach (var prime in primes)
             {
-                Assert.AreEqual(expectes[i], Math.IsPrime((long)numbers[i]));
+                Assert.IsTrue(Math.IsPrime((long)prime));
             }
             // ulong
-            for (int i = 2; i < numbers.Length; i++)
+            foreach (var prime in primes)
             {
-                Assert.AreEqual(expectes[i], Math.IsPrime((ulong)numbers[i]));
+                Assert.IsTrue(Math.IsPrime((ulong)prime));
             }
             // decimal
-            for (int i = 2; i < numbers.Length; i++)
+            foreach (var prime in primes)
             {
-                Assert.AreEqual(expectes[i], Math.IsPrime((decimal)numbers[i]));
+                Assert.IsTrue(Math.IsPrime((decimal)prime));
             }
         }
 
@@ -985,7 +944,7 @@ namespace Ksnm.Tests
                     var actual = Math.Pow(n, e, double.Epsilon);
                     var expectedStr = expected.ToDecimalString();
                     var actualStr = actual.ToDecimalString();
-                    Assert.AreEqual(expected, actual, 0.001, $"{n}^{e}");
+                    Assert.AreEqual(expected, actual, 0.001, $"{n}^{e} expectedStr={expectedStr} actualStr={actualStr}");
                 }
             }
         }

@@ -250,181 +250,33 @@ namespace Ksnm
         /// <summary>
         /// 素数ならtrueを返す。
         /// </summary>
-        public static bool IsPrime<T>(T value)where T :INumber<T>
+        public static bool IsPrime<T>(T value) where T : INumber<T>
         {
+            // 1以下の数は素数ではない
             T _2 = T.CreateChecked(2);
-            T _3 = T.CreateChecked(3);
             if (value < _2)
             {
                 return false;
             }
-            else if (value == _2)
+            // 2と3は素数
+            T _3 = T.CreateChecked(3);
+            if (value == _2 || value == _3)
             {
                 return true;
             }
-
-            if (value % _2 == T.Zero)
+            // 2や3で割り切れる場合は素数ではない
+            T _0 = T.Zero;
+            if (value % _2 == _0 || value % _3 == _0)
             {
                 return false;
             }
-
-            for (T i = _3; i <= value / i; i += _2)
+            // 6の倍数±1で割り切れるかを確認
+            // ※素数でない数は必ず √n 以下の因数を持つ、i * i <= value は i <= √n と同じ
+            T _5 = T.CreateChecked(5);
+            T _6 = T.CreateChecked(6);
+            for (T i = _5; i * i <= value; i += _6)
             {
-                if (value % i == T.Zero)
-                {
-                    return false;
-                }
-            }
-            return true;
-        }
-        /// <summary>
-        /// 素数ならtrueを返す。
-        /// </summary>
-        public static bool IsPrime(int value)
-        {
-            if (value < 2)
-            {
-                return false;
-            }
-            else if (value == 2)
-            {
-                return true;
-            }
-
-            if (value % 2 == 0)
-            {
-                return false;
-            }
-#if false
-            for (int i = 3; i <= value / i; i += 2)
-            {
-                if (value % i == 0)
-                {
-                    return false;
-                }
-            }
-#else
-            var sqrt = double.Sqrt(value);
-            for (int i = 3; i <= sqrt; i += 2)
-            {
-                if (value % i == 0)
-                {
-                    return false;
-                }
-            }
-#endif
-            return true;
-        }
-
-        /// <summary>
-        /// 素数ならtrueを返す。
-        /// </summary>
-        public static bool IsPrime(uint value)
-        {
-            if (value < 2)
-            {
-                return false;
-            }
-            else if (value == 2)
-            {
-                return true;
-            }
-
-            if (value % 2 == 0)
-            {
-                return false;
-            }
-
-            for (uint i = 3; i <= value / i; i += 2)
-            {
-                if (value % i == 0)
-                {
-                    return false;
-                }
-            }
-            return true;
-        }
-
-        /// <summary>
-        /// 素数ならtrueを返す。
-        /// </summary>
-        public static bool IsPrime(long value)
-        {
-            if (value < 2)
-            {
-                return false;
-            }
-            else if (value == 2)
-            {
-                return true;
-            }
-
-            if (value % 2 == 0)
-            {
-                return false;
-            }
-
-            for (long i = 3; i <= value / i; i += 2)
-            {
-                if (value % i == 0)
-                {
-                    return false;
-                }
-            }
-            return true;
-        }
-
-        /// <summary>
-        /// 素数ならtrueを返す。
-        /// </summary>
-        public static bool IsPrime(ulong value)
-        {
-            if (value < 2)
-            {
-                return false;
-            }
-            else if (value == 2)
-            {
-                return true;
-            }
-
-            if (value % 2 == 0)
-            {
-                return false;
-            }
-
-            for (ulong i = 3; i <= value / i; i += 2)
-            {
-                if (value % i == 0)
-                {
-                    return false;
-                }
-            }
-            return true;
-        }
-
-        /// <summary>
-        /// 素数ならtrueを返す。
-        /// </summary>
-        public static bool IsPrime(decimal value)
-        {
-            if (value < 2)
-            {
-                return false;
-            }
-            else if (value == 2)
-            {
-                return true;
-            }
-
-            if (value % 2 == 0)
-            {
-                return false;
-            }
-
-            for (decimal i = 3; i <= value / i; i += 2)
-            {
-                if (value % i == 0)
+                if (value % i == _0 || value % (i + _2) == _0)
                 {
                     return false;
                 }
