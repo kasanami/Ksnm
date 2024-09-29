@@ -209,6 +209,26 @@ namespace Ksnm.Tests
         }
 
         [TestMethod()]
+        public void CalculateNotPrimesTest()
+        {
+            var notPrimes = Math.CalculateNotPrimes(1000);
+            foreach (var notPrime in notPrimes)
+            {
+                Assert.IsFalse(Math.IsPrime(notPrime));
+            }
+        }
+
+        [TestMethod()]
+        public void CalculatePrimesTest()
+        {
+            var primes = Math.CalculatePrimes(1000);
+            foreach (var prime in primes)
+            {
+                Assert.IsTrue(Math.IsPrime(prime));
+            }
+        }
+
+        [TestMethod()]
         public void SignTest()
         {
             Assert.AreEqual(Math.Sign(+2), +1);

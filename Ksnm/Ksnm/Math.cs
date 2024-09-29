@@ -246,7 +246,6 @@ namespace Ksnm
         #endregion IsOdd
 
         #region 素数
-        #region IsPrime
         /// <summary>
         /// 素数ならtrueを返す。
         /// </summary>
@@ -283,8 +282,57 @@ namespace Ksnm
             }
             return true;
         }
-#endregion IsPrime
-#endregion 素数
+        /// <summary>
+        /// 指定した数以下の非素数を計算します。
+        /// ただし、順不同。
+        /// </summary>
+        static public IEnumerable<int> CalculateNotPrimes(int max)
+        {
+            // 各値が非素数ならtrue
+            // isNotPrimes[0],[1]は使用しない
+            var isNotPrimes = new bool[max + 1];
+            for (int i = 2; i * i <= max; i++)
+            {
+                if (isNotPrimes[i]) { continue; }
+                // iの倍数には非素数を設定
+                for (int j = i * i; j <= max; j += i)
+                {
+                    if (isNotPrimes[j]) { continue; }
+                    // 非素数を設定
+                    isNotPrimes[j] = true;
+                    yield return j;
+                }
+            }
+        }
+        /// <summary>
+        /// 指定した数以下の素数を計算します
+        /// </summary>
+        static public IEnumerable<int> CalculatePrimes(int max)
+        {
+            // 各値が非素数ならtrue
+            // isNotPrimes[0],[1]は使用しない
+            var isNotPrimes = new bool[max + 1];
+            for (int i = 2; i * i <= max; i++)
+            {
+                if (isNotPrimes[i]) { continue; }
+                // iの倍数には非素数を設定
+                for (int j = i * i; j <= max; j += i)
+                {
+                    if (isNotPrimes[j]) { continue; }
+                    // 非素数を設定
+                    isNotPrimes[j] = true;
+                }
+            }
+            // 非素数以外＝素数　を返す
+            for (int i = 2; i <= max; i++)
+            {
+                if (isNotPrimes[i] == false)
+                {
+                    yield return i;
+                }
+            }
+        }
+        #endregion 素数
 
         #region Abs
         /// <summary>
@@ -1003,7 +1051,7 @@ namespace Ksnm
             return Gamma<T>(x, T.Pi, T.Epsilon, terms);
         }
 #endif
-#endregion Gamma ガンマ関数
+        #endregion Gamma ガンマ関数
 
         #region Pow
         /// <summary>
