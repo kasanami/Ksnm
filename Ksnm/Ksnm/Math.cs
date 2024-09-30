@@ -78,6 +78,20 @@ namespace Ksnm
         /// <returns>ネイピア数 2.7182...</returns>
         public static T CalculateE<T>(T tolerance, int terms = DefaultTerms) where T : INumber<T>
         {
+#if true
+            T sum = T.One;
+            T term = T.One;
+            for (int n = 1; n <= terms; n++)
+            {
+                term /= T.CreateChecked(n);
+                sum += term;
+                if (term < tolerance)
+                {
+                    break;
+                }
+            }
+            return sum;
+#else
             T e = T.One;
             T factorial = T.One;
             T n = T.One;
@@ -92,6 +106,7 @@ namespace Ksnm
                 }
             }
             return e;
+#endif
         }
         /// <summary>
         /// ネイピア数を計算する
@@ -2301,31 +2316,6 @@ namespace Ksnm
             return (n + Sqrt(n * n + _4, tolerance, terms)) / _2;
         }
         #endregion 貴金属数
-
-        #region ネイピア数
-        /// <summary>
-        /// ネイピア数を計算します
-        /// </summary>
-        /// <param name="tolerance">許容値</param>
-        /// <param name="terms">単項式数</param>
-        /// <returns>ネイピア数</returns>
-        public static T NapiersConstant<T>(T tolerance, int terms = DefaultTerms)
-            where T : INumber<T>
-        {
-            T sum = T.One;
-            T term = T.One;
-            for (int n = 1; n <= terms; n++)
-            {
-                term /= T.CreateChecked(n);
-                sum += term;
-                if (term < tolerance)
-                {
-                    break;
-                }
-            }
-            return sum;
-        }
-        #endregion ネイピア数
 
         #region 順列・組合せ
         /// <summary>

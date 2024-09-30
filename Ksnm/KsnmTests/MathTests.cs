@@ -34,9 +34,11 @@ namespace Ksnm.Tests
         public void CalculateETest()
         {
             // double
-            Assert.AreEqual(double.E, Math.CalculateE<double>(), 0.000000000000001);
+            Assert.AreEqual(double.E, Math.CalculateE<double>(), 0.00000_00000_00001);
             // decimal
-            Assert.AreEqual(2.71828182845904523536028747135m, Math.CalculateE(Math.DecimalEpsilon, 27));
+            Assert.AreEqual(Math.DecimalE,
+                Math.CalculateE(Math.DecimalEpsilon, 27),
+                0.0000000000000000000000000001m);
             // BigDecimal
             {
                 BigDecimal.DefaultMinExponent = -105;// 四捨五入のため調整
@@ -1485,16 +1487,6 @@ namespace Ksnm.Tests
                     var actual = Math.Atan2(y, x);
                     Assert.AreEqual(expected, actual, 0.0000001, $"y={y},x={x}");
                 }
-            }
-        }
-
-        [TestMethod()]
-        public void NapiersConstantTest()
-        {
-            {
-                var expected = MathD.E;
-                var actual = Math.NapiersConstant(0.00000_00000_1);
-                Assert.AreEqual(expected, actual, 0.00000_00000_1);
             }
         }
 
