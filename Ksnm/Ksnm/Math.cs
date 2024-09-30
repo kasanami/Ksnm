@@ -105,7 +105,7 @@ namespace Ksnm
         /// ネイピア数を計算する
         /// </summary>
         /// <returns>ネイピア数 2.7182...</returns>
-        public static decimal CalculateEForDecimal()
+        public static decimal CalculateDecimalE()
         {
             return CalculateE(DecimalEpsilon, 27);
         }
@@ -135,6 +135,14 @@ namespace Ksnm
         public static T CalculatePi<T>(int terms = DefaultTerms) where T : IFloatingPointIeee754<T>
         {
             return Ksnm.Science.Mathematics.Algorithm.GaussLegendre<T>(terms);
+        }
+        /// <summary>
+        /// 円周率を計算する
+        /// </summary>
+        /// <returns>円周率 3.14159265358979323846264338 17</returns>
+        public static decimal CalculateDecimalPi()
+        {
+            return CalculatePi(DecimalEpsilon, 6);
         }
         #endregion 円周率
 
@@ -331,6 +339,28 @@ namespace Ksnm
                     yield return i;
                 }
             }
+        }
+        /// <summary>
+        /// n番目の素数を計算します。
+        /// なお、0番目は2となります。
+        /// </summary>
+        static public int CalculatePrime(int n)
+        {
+            if (n < 0)
+            {
+                throw new ArgumentException($"引数 {nameof(n)} は0以上である必要があります。");
+            }
+            var primes = new List<int>();
+            int number = 2;// 素数の候補
+            while (primes.Count <= n)
+            {
+                if (IsPrime(number))
+                {
+                    primes.Add(number);
+                }
+                number++;
+            }
+            return primes[n];
         }
         #endregion 素数
 

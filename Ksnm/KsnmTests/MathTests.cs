@@ -48,10 +48,10 @@ namespace Ksnm.Tests
         }
 
         [TestMethod()]
-        public void CalculateEForDecimalTest()
+        public void CalculateDecimalETest()
         {
             // decimal
-            Assert.AreEqual(2.71828182845904523536028747135m, Math.CalculateEForDecimal());
+            Assert.AreEqual(2.71828182845904523536028747135m, Math.CalculateDecimalE());
         }
 
         [TestMethod()]
@@ -225,6 +225,17 @@ namespace Ksnm.Tests
             foreach (var prime in primes)
             {
                 Assert.IsTrue(Math.IsPrime(prime));
+            }
+        }
+
+        [TestMethod()]
+        public void CalculatePrimeTest()
+        {
+            var primes = Math.CalculatePrimes(1000).ToArray();
+            for (int i = 0; i < primes.Length; i++)
+            {
+                var prime = primes[i];
+                Assert.AreEqual(prime, Math.CalculatePrime(i));
             }
         }
 
