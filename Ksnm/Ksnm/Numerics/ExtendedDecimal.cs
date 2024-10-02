@@ -544,42 +544,38 @@ namespace Ksnm.Numerics
         bool IEquatable<ExtendedDecimal>.Equals(ExtendedDecimal other) => Value.Equals(other.Value);
 
         bool ISpanFormattable.TryFormat(Span<char> destination, out int charsWritten, ReadOnlySpan<char> format, IFormatProvider? provider)
-        {
-            throw new NotImplementedException();
-        }
+            => Value.TryFormat(destination, out charsWritten, format, provider);
 
         string IFormattable.ToString(string? format, IFormatProvider? formatProvider)
             => Value.ToString(format, formatProvider);
 
         static ExtendedDecimal ISpanParsable<ExtendedDecimal>.Parse(ReadOnlySpan<char> s, IFormatProvider? provider)
-        {
-            throw new NotImplementedException();
-        }
+            => Decimal.Parse(s, provider);
 
         static bool ISpanParsable<ExtendedDecimal>.TryParse(ReadOnlySpan<char> s, IFormatProvider? provider, out ExtendedDecimal result)
         {
-            throw new NotImplementedException();
+            Decimal result2;
+            var success = Decimal.TryParse(s, provider, out result2);
+            result = result2;
+            return success;
         }
 
         static ExtendedDecimal IParsable<ExtendedDecimal>.Parse(string s, IFormatProvider? provider)
-        {
-            throw new NotImplementedException();
-        }
+            => Decimal.Parse(s, provider);
 
         static bool IParsable<ExtendedDecimal>.TryParse(string? s, IFormatProvider? provider, out ExtendedDecimal result)
         {
-            throw new NotImplementedException();
+            Decimal result2;
+            var success = Decimal.TryParse(s, provider, out result2);
+            result = result2;
+            return success;
         }
 
         public static ExtendedDecimal Atan2(ExtendedDecimal y, ExtendedDecimal x)
-        {
-            throw new NotImplementedException();
-        }
+            => Math.Atan2(y, x);
 
         public static ExtendedDecimal Atan2Pi(ExtendedDecimal y, ExtendedDecimal x)
-        {
-            throw new NotImplementedException();
-        }
+            => Atan2(y, x) / Pi;
 
         public static ExtendedDecimal BitDecrement(ExtendedDecimal x)
         {
@@ -631,10 +627,9 @@ namespace Ksnm.Numerics
             throw new NotImplementedException();
         }
 
+        #region IFloatingPoint
         public static ExtendedDecimal Round(ExtendedDecimal x, int digits, MidpointRounding mode)
-        {
-            throw new NotImplementedException();
-        }
+            => Decimal.Round(x, digits, mode);
 
         public bool TryWriteExponentBigEndian(Span<byte> destination, out int bytesWritten)
         {
@@ -655,6 +650,7 @@ namespace Ksnm.Numerics
         {
             throw new NotImplementedException();
         }
+        #endregion IFloatingPoint
 
         public int CompareTo(object? obj) => Value.CompareTo(obj);
         public int CompareTo(ExtendedDecimal other) => Value.CompareTo(other.Value);
