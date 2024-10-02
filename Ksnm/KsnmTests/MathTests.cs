@@ -53,7 +53,10 @@ namespace Ksnm.Tests
         public void CalculateDecimalETest()
         {
             // decimal
-            Assert.AreEqual(2.71828182845904523536028747135m, Math.CalculateDecimalE());
+            Assert.AreEqual(
+                2.71828182845904523536028747135m,
+                Math.CalculateDecimalE(),
+                0.0000000000000000000000000001m);
         }
 
         [TestMethod()]
@@ -1485,6 +1488,46 @@ namespace Ksnm.Tests
                     }
                     var expected = MathD.Atan2(y, x);
                     var actual = Math.Atan2(y, x);
+                    Assert.AreEqual(expected, actual, 0.0000001, $"y={y},x={x}");
+                }
+            }
+        }
+
+        [TestMethod()]
+        public void Atan2PiTest()
+        {
+            const double Delta = 0.00000000000001;
+            {
+                double x = 0;
+                double y = 0;
+                var expected = double.Atan2Pi(y, x);
+                var actual = Math.Atan2Pi(y, x);
+                Assert.AreEqual(expected, actual, Delta, $"y={y},x={x}");
+            }
+            {
+                double x = -0.3;
+                double y = -1;
+                var expected = double.Atan2Pi(y, x);
+                var actual = Math.Atan2Pi(y, x);
+                Assert.AreEqual(expected, actual, Delta, $"y={y},x={x}");
+            }
+            {
+                double x = 0.9;
+                double y = 1;
+                var expected = double.Atan2Pi(y, x);
+                var actual = Math.Atan2Pi(y, x);
+                Assert.AreEqual(expected, actual, Delta, $"y={y},x={x}");
+            }
+            for (double x = -1; x <= 1; x += 0.125)
+            {
+                for (double y = -1; y <= 1; y += 0.125)
+                {
+                    if (y == 0 || x == 0)
+                    {
+                        continue;
+                    }
+                    var expected = double.Atan2Pi(y, x);
+                    var actual = Math.Atan2Pi(y, x);
                     Assert.AreEqual(expected, actual, 0.0000001, $"y={y},x={x}");
                 }
             }

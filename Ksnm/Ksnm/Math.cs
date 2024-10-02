@@ -1576,6 +1576,39 @@ namespace Ksnm
             var _2 = T.CreateChecked(2);
             return LogB(x, _2);
         }
+
+        const int ILogB_NaN = 0x7FFFFFFF;
+        const int ILogB_Zero = (-1 - 0x7FFFFFFF);
+        public static int ILogB(double x)
+        {
+            // Implementation based on https://git.musl-libc.org/cgit/musl/tree/src/math/ilogb.c
+
+            if (double.IsNaN(x))
+            {
+                return ILogB_NaN;
+            }
+
+            ulong i = BitConverter.DoubleToUInt64Bits(x);
+            int e = (int)((i >> 52) & 0x7FF);
+
+            if (e == 0)
+            {
+                i <<= 12;
+                if (i == 0)
+                {
+                    return ILogB_Zero;
+                }
+                for (e = -0x3FF; (i >> 63) == 0; e--, i <<= 1) ;
+                return e;
+            }
+
+            if (e == 0x7FF)
+            {
+                return (i << 12) != 0 ? ILogB_Zero : int.MaxValue;
+            }
+
+            return e - 0x3FF;
+        }
         #endregion Log
 
         #region Root 根
@@ -2045,6 +2078,16 @@ namespace Ksnm
             where T : IFloatingPointIeee754<T>
         {
             return Atan2(y, x, T.Epsilon);
+        }
+        public static T Atan2Pi<T>(T y, T x, T tolerance, int terms = DefaultTerms)
+            where T : INumber<T>, IFloatingPointConstants<T>
+        {
+            return Atan2(y, x, tolerance, terms) / T.Pi;
+        }
+        public static T Atan2Pi<T>(T y, T x)
+            where T : IFloatingPointIeee754<T>
+        {
+            return Atan2(y, x) / T.Pi;
         }
         #endregion 三角関数
 
