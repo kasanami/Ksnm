@@ -2149,21 +2149,21 @@ public struct BigDecimal :
         /// </summary>
         public static explicit operator Half(BigDecimal value)
         {
-            return (Half)value.ToDecimal();
+            return (Half)value.ToDouble();
         }
         /// <summary>
         /// BigDecimal から float への明示的な変換を定義します。
         /// </summary>
         public static explicit operator float(BigDecimal value)
         {
-            return (float)value.ToDecimal();
+            return (float)value.ToDouble();
         }
         /// <summary>
         /// BigDecimal から double への明示的な変換を定義します。
         /// </summary>
         public static explicit operator double(BigDecimal value)
         {
-            return (double)value.ToDecimal();
+            return value.ToDouble();
         }
         /// <summary>
         /// BigDecimal から decimal への明示的な変換を定義します。
@@ -2233,38 +2233,38 @@ public struct BigDecimal :
         /// <summary>
         /// double へ変換します。
         /// </summary>
-        public double ToDouble(bool isSaturating = true)
+        public double ToDouble()
         {
-            if (isSaturating)
+            BigDecimal DoubleMaxValue = new BigDecimal(double.MaxValue);
+            BigDecimal DoubleMinValue = new BigDecimal(double.MinValue);
+            // 範囲外は無限大にする
+            if (this > DoubleMaxValue)
             {
-                if (this > (BigDecimal)double.MaxValue)
-                {
-                    return double.MaxValue;
-                }
-                else if (this < (BigDecimal)double.MinValue)
-                {
-                    return double.MinValue;
-                }
+                return double.PositiveInfinity;
+            }
+            else if (this < DoubleMinValue)
+            {
+                return double.NegativeInfinity;
             }
             var mantissa = (double)Mantissa;
-            var exponent = double.Pow(10, Exponent);
-            return mantissa * exponent;
+            var scale = double.Pow(Radix, Exponent);
+            return mantissa * scale;
         }
         /// <summary>
         /// decimal へ変換します。
         /// </summary>
-        public decimal ToDecimal(bool isSaturating = true)
+        public decimal ToDecimal()
         {
-            if (isSaturating)
+            BigDecimal DecimalMaxValue = new BigDecimal(decimal.MaxValue);
+            BigDecimal DecimalMinValue = new BigDecimal(decimal.MinValue);
+            // 範囲外は最大値にする
+            if (this > DecimalMaxValue)
             {
-                if (this > decimal.MaxValue)
-                {
-                    return decimal.MaxValue;
-                }
-                else if (this < decimal.MinValue)
-                {
-                    return decimal.MinValue;
-                }
+                return decimal.MaxValue;
+            }
+            else if (this < DecimalMinValue)
+            {
+                return decimal.MinValue;
             }
             // mantissa は正の数にする
             var mantissa = BigInteger.Abs(Mantissa);
@@ -3798,20 +3798,9 @@ public struct BigDecimal :
         #endregion ILogarithmicFunctions
 
         #region IExponentialFunctions
-        public static BigDecimal Exp(BigDecimal x)
-        {
-            return Math.Exp(x, Epsilon);
-        }
-
-        public static BigDecimal Exp10(BigDecimal x)
-        {
-            throw new NotImplementedException();
-        }
-
-        public static BigDecimal Exp2(BigDecimal x)
-        {
-            throw new NotImplementedException();
-        }
+        public static BigDecimal Exp(BigDecimal x) => Math.Exp(x, Epsilon);
+        public static BigDecimal Exp10(BigDecimal x) => Math.Exp10(x, Epsilon);
+        public static BigDecimal Exp2(BigDecimal x) => Math.Exp2(x, Epsilon);
         #endregion IExponentialFunctions
 
         #region IFloatingPoint

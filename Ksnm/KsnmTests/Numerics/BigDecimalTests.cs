@@ -106,7 +106,7 @@ namespace Ksnm.Numerics.Tests
                 {
                     if (i == 0 && j < 0) { continue; }// 結果が無限大になるのでスキップ
                     var expected = double.Pow((double)i, j);
-                    var actual = (double)(BigDecimal.Pow(i, j).ToDouble(true));
+                    var actual = (double)(BigDecimal.Pow(i, j).ToDouble());
                     Assert.AreEqual(expected, actual, 0.00001, $"{i} ^ {j}");
                 }
             }
@@ -132,11 +132,21 @@ namespace Ksnm.Numerics.Tests
         [TestMethod()]
         public void LogTest()
         {
-            var f = new BigDecimal(10);
-            var expected = 2.3025850929940456840179914547m;
-            var result = BigDecimal.Log(f).ToDecimal();
-            var delta = 0.00000_00000_00000_00000_00000_001m;
-            Assert.AreEqual(expected, result, delta);
+            BigDecimal.DefaultMinExponent = -100;
+            {
+                var expected = 2.3025850929940456840179914547m;
+                var actual2 = BigDecimal.Log(10);
+                var actual = (decimal)actual2;
+                Assert.AreEqual(expected, actual, ExtendedDecimal.Epsilon);
+            }
+            for (double i = 1; i <= 10; i += 0.5)
+            {
+                var expected = double.Log(i);
+                var actual2 = BigDecimal.Log((BigDecimal)i);
+                var actual = (double)actual2;
+                Assert.AreEqual(expected, actual, 0.000000000000001, $"i={i}");
+            }
+
         }
         [TestMethod()]
         public void Log10Test()
@@ -166,6 +176,45 @@ namespace Ksnm.Numerics.Tests
             Assert.AreEqual(3, log2_8.ToDecimal(), delta);
         }
         #endregion ILogarithmicFunctions
+
+        #region IExponentialFunctions
+        [TestMethod()]
+        public void ExpTest()
+        {
+            BigDecimal.DefaultMinExponent = -100;
+            for (double i = -5; i <= 5; i += 0.5)
+            {
+                var expected = double.Exp(i);
+                var actual2 = BigDecimal.Exp((BigDecimal)i);
+                var actual = (double)actual2;
+                Assert.AreEqual(expected, actual, 0.00000_000001, $"i={i}");
+            }
+        }
+        [TestMethod()]
+        public void Exp10Test()
+        {
+            BigDecimal.DefaultMinExponent = -100;
+            for (double i = -5; i <= 5; i += 0.5)
+            {
+                var expected = double.Exp10(i);
+                var actual2 = BigDecimal.Exp10((BigDecimal)i);
+                var actual = (double)actual2;
+                Assert.AreEqual(expected, actual, 0.00000_000001, $"i={i}");
+            }
+        }
+        [TestMethod()]
+        public void Exp2Test()
+        {
+            BigDecimal.DefaultMinExponent = -100;
+            for (double i = -5; i <= 5; i += 0.5)
+            {
+                var expected = double.Exp2(i);
+                var actual2 = BigDecimal.Exp2((BigDecimal)i);
+                var actual = (double)actual2;
+                Assert.AreEqual(expected, actual, 0.00000_000001, $"i={i}");
+            }
+        }
+        #endregion IExponentialFunctions
 
         [TestMethod()]
         public void MaxExponentTest()
@@ -294,6 +343,26 @@ namespace Ksnm.Numerics.Tests
         [TestMethod()]
         public void ToDoubleTest()
         {
+            {
+                var sample = new BigDecimal(0);
+                Assert.AreEqual(0.0, sample.ToDouble());
+            }
+            {
+                var sample = new BigDecimal(1, -500);
+                Assert.AreEqual(+0.0, sample.ToDouble());
+            }
+            {
+                var sample = new BigDecimal(-1, -500);
+                Assert.AreEqual(-0.0, sample.ToDouble());
+            }
+            {
+                var sample = new BigDecimal(1, 500);
+                Assert.AreEqual(double.PositiveInfinity, sample.ToDouble());
+            }
+            {
+                var sample = new BigDecimal(-1, 500);
+                Assert.AreEqual(double.NegativeInfinity, sample.ToDouble());
+            }
             for (double i = -100; i < 100; i++)
             {
                 var sample = new BigDecimal(i);
@@ -314,6 +383,36 @@ namespace Ksnm.Numerics.Tests
         [TestMethod()]
         public void ToDecimalTest()
         {
+            {
+                var sample = new BigDecimal(0);
+                Assert.AreEqual(0.0m, sample.ToDecimal());
+            }
+            {
+                var sample = new BigDecimal(1, -500);
+                Assert.AreEqual(+0.0m, sample.ToDecimal());
+            }
+            {
+                var sample = new BigDecimal(-1, -500);
+                Assert.AreEqual(-0.0m, sample.ToDecimal());
+            }
+            {
+                var sample = new BigDecimal(1, 500);
+                Assert.AreEqual(decimal.MaxValue, sample.ToDecimal());
+            }
+            {
+                var sample = new BigDecimal(-1, 500);
+                Assert.AreEqual(decimal.MinValue, sample.ToDecimal());
+            }
+            {
+                var i = BigInteger.Parse("12345678901234567890123456789");
+                var sample = new BigDecimal(i, -29);
+                Assert.AreEqual(0.12345678901234567890123456789m, sample.ToDecimal());
+            }
+            {
+                var i = BigInteger.Parse("123456789012345678901234567890123456789");
+                var sample = new BigDecimal(i, -39);
+                Assert.AreEqual(0.12345678901234567890123456789m, sample.ToDecimal());
+            }
             for (decimal i = -100; i < 100; i++)
             {
                 var sample = new BigDecimal(i);
@@ -915,6 +1014,11 @@ namespace Ksnm.Numerics.Tests
             {
                 sample = (BigDecimal)source;
                 Assert.AreEqual<BigInteger>(source, (BigInteger)sample);
+            }
+
+            {
+                BigDecimal bigDecimal = BigDecimal.Parse("1234567890123456789012345678901234567890.123456789");
+                var d = bigDecimal.ToDecimal();
             }
         }
 
