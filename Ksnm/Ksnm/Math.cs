@@ -157,7 +157,7 @@ namespace Ksnm
         /// <returns>円周率 3.14159265358979323846264338 17</returns>
         public static decimal CalculateDecimalPi()
         {
-            return CalculatePi(DecimalEpsilon, 6);
+            return CalculatePi(DecimalEpsilon, 8);
         }
         #endregion 円周率
 
