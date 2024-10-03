@@ -379,6 +379,28 @@ namespace Ksnm
         }
         #endregion 素数
 
+        #region レピュニット数
+        /// <summary>
+        /// n番目のレピュニット数を計算する
+        /// </summary>
+        public static int Repunit(int n, int radix)
+        {
+            if (radix <= 1)
+            {
+                throw new ArgumentException($"{nameof(radix)}は2以上の必要があります。");
+            }
+            if (n < 0)
+            {
+                throw new ArgumentException($"{nameof(n)}は1以上の必要があります。");
+            }
+            if (radix == 2)
+            {
+                return (1 << n) - 1;
+            }
+            return (Pow(radix, n) - 1) / (radix - 1);
+        }
+        #endregion レピュニット数
+
         #region Abs
         /// <summary>
         /// 数値の絶対値を返します。

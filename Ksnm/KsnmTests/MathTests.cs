@@ -1588,5 +1588,24 @@ namespace Ksnm.Tests
                 Assert.AreEqual(a, b, 0.01);
             }
         }
+
+        [TestMethod()]
+        public void RepunitTest()
+        {
+            Assert.AreEqual(0b0001, Math.Repunit(1, 2));
+            Assert.AreEqual(0b0011, Math.Repunit(2, 2));
+            Assert.AreEqual(0b0111, Math.Repunit(3, 2));
+            Assert.AreEqual(0b1111, Math.Repunit(4, 2));
+
+            Assert.AreEqual(0001, Math.Repunit(1, 10));
+            Assert.AreEqual(0011, Math.Repunit(2, 10));
+            Assert.AreEqual(0111, Math.Repunit(3, 10));
+            Assert.AreEqual(1111, Math.Repunit(4, 10));
+
+            Assert.AreEqual(0x0001, Math.Repunit(1, 16));
+            Assert.AreEqual(0x0011, Math.Repunit(2, 16));
+            Assert.AreEqual(0x0111, Math.Repunit(3, 16));
+            Assert.AreEqual(0x1111, Math.Repunit(4, 16));
+        }
     }
 }
