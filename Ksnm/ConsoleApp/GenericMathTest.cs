@@ -1,4 +1,5 @@
-﻿using Ksnm.Units;
+﻿using Ksnm.Numerics;
+using Ksnm.Units;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,14 +10,21 @@ using System.Threading.Tasks;
 
 namespace ConsoleApp
 {
+    using MathD = System.Math;
+    using Math = Ksnm.Math;
     internal class GenericMathTest
     {
         public static void Run()
         {
+            Console.WriteLine($"{Math.DecimalEpsilon} Math.DecimalEpsilon");
+            Console.WriteLine($"{ExtendedDecimal.Epsilon} ExtendedDecimal.Epsilon");
+
+            CalculatePiTest();
+            CalculateETest();
+            PowTest();
             IsNormalTest();
             IsSubnormalTest();
 
-            if (false)
             {
                 RadixTest<byte>();
                 RadixTest<char>();
@@ -29,7 +37,6 @@ namespace ConsoleApp
                 RadixTest<Complex>();
             }
 
-            if (true)
             {
                 Console.WriteLine("CreateSaturatingTest");
                 CreateSaturatingTest<float>(0.1f);
@@ -78,7 +85,7 @@ namespace ConsoleApp
                 Console.WriteLine($"CreateSaturating: {saturatedValue}"); // byte の最大値 255
 
                 Console.WriteLine("smallValue");
-               int smallValue = -100;
+                int smallValue = -100;
 
                 byte castedSmallValue = (byte)smallValue;
                 Console.WriteLine($"cast            : {castedSmallValue}");
@@ -241,6 +248,81 @@ namespace ConsoleApp
             Console.WriteLine($"{h}\t={Half.IsSubnormal(h)}");
             h = Half.NegativeInfinity;
             Console.WriteLine($"{h}\t={Half.IsSubnormal(h)}");
+
+            Console.WriteLine("");
+        }
+
+        public static void PowTest()
+        {
+            Console.WriteLine("PowTest()");
+
+            Console.WriteLine($"int");
+            for (int n = -10; n <= 10; n ++)
+            {
+                for (int e = -10; e <= 10; e ++)
+                {
+                    Console.WriteLine($"{n}^{e}=");
+                    var expected = MathD.Pow(n, e);
+                    Console.WriteLine($"{expected:0.##########}");
+                    if (double.IsNaN(expected))
+                    {
+                        continue;
+                    }
+                    if (double.IsInfinity(expected))
+                    {
+                        continue;
+                    }
+                    var actual = Math.Pow(n, e, double.Epsilon);
+                    Console.WriteLine($"{actual:0.##########}");
+                }
+            }
+            Console.WriteLine($"double");
+            for (double n = -10; n <= 10; n += 0.25)
+            {
+                for (double e = -10; e <= 10; e += 0.25)
+                {
+                    Console.WriteLine($"{n}^{e}=");
+                    var expected = MathD.Pow(n, e);
+                    Console.WriteLine($"{expected:0.##########}");
+                    if (double.IsNaN(expected))
+                    {
+                        continue;
+                    }
+                    if (double.IsInfinity(expected))
+                    {
+                        continue;
+                    }
+                    var actual = Math.Pow(n, e, double.Epsilon);
+                    Console.WriteLine($"{actual:0.##########}");
+                }
+            }
+        }
+
+        public static void CalculatePiTest()
+        {
+            Console.WriteLine("CalculatePiTest()");
+
+            for (int i = 0; i < 8; i++)
+            {
+                var pi = Math.CalculatePi(Math.DecimalEpsilon, i);
+                Console.WriteLine($"{i} pi={pi}");
+            }
+            Console.WriteLine($"{Math.CalculateDecimalPi()} Math.CalculateDecimalPi()");
+            Console.WriteLine($"{Math.DecimalPi} Math.DecimalPi");
+
+            Console.WriteLine("");
+        }
+        public static void CalculateETest()
+        {
+            Console.WriteLine("CalculateETest()");
+
+            for (int i = 0; i < 30; i++)
+            {
+                var e = Math.CalculateE(Math.DecimalEpsilon, i);
+                Console.WriteLine($"{i} e={e}");
+            }
+            Console.WriteLine($"{Math.CalculateDecimalE()} Math.CalculateDecimalE()");
+            Console.WriteLine($"{Math.DecimalE} Math.DecimalE");
 
             Console.WriteLine("");
         }
