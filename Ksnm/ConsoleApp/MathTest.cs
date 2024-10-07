@@ -43,7 +43,7 @@ namespace ConsoleApp
         }
         public static void GammaTest()
         {
-            Console.WriteLine(Ksnm.Debug.GetFilePathAndLineNumber());
+            Ksnm.Debug.WriteLineCallerInfo();
 
             //Console.WriteLine("GammaTest");
             //for (double i = 0; i <= 10; i += 0.25)
@@ -56,7 +56,7 @@ namespace ConsoleApp
         }
         public static void StirlingsFormulaTest()
         {
-            Console.WriteLine(Ksnm.Debug.GetFilePathAndLineNumber());
+            Ksnm.Debug.WriteLineCallerInfo();
 
             for (double i = 0; i <= 10; i += 0.25)
             {
@@ -69,7 +69,7 @@ namespace ConsoleApp
 
         public static void FastInverseSqrtTest()
         {
-            Console.WriteLine(Ksnm.Debug.GetFilePathAndLineNumber());
+            Ksnm.Debug.WriteLineCallerInfo();
 
             Console.WriteLine("float");
             for (float f = 1; f <= 9; f += 0.5f)
