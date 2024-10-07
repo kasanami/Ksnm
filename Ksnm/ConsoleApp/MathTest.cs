@@ -1,11 +1,13 @@
 ﻿using Ksnm.Numerics;
 using Ksnm.Science.Mathematics;
 using System.Numerics;
-using static Ksnm.Math;
 using static Ksnm.Science.Mathematics.Formula;
 
 namespace ConsoleApp
 {
+    using Math= Ksnm.Math;
+    using MathD = System.Math;
+    using MathF = System.MathF;
     internal class MathTest
     {
         public static void Run()
@@ -13,17 +15,13 @@ namespace ConsoleApp
             FastInverseSqrtTest();
 
             // Log2
-            if (false)
+            Console.WriteLine("Log2");
             {
-                int maxValueLog2 = Ksnm.Math.Log2<int>(int.MaxValue, 1);
-                int minValueLog2 = Ksnm.Math.Log2<int>(int.MinValue, 1);
+                Console.WriteLine($"double.Log2:{double.Log2(int.MaxValue)}");
+                Console.WriteLine($"int   .Log2:{int.Log2(int.MaxValue)}");
+                Console.WriteLine($"Math  .Log2:{Math.Log2<double>(int.MaxValue)}");
             }
 
-            Console.WriteLine("ゴールドバッハ予想");
-            if (Conjecture.GoldbachsConjecture(4, 100))
-            {
-                Console.WriteLine("→4～100の範囲では成り立つ");
-            }
             Console.WriteLine("ガウス＝ルジャンドルのアルゴリズム");
             {
                 Console.WriteLine("double");
