@@ -138,5 +138,13 @@ namespace Ksnm.Units
             return quantity.Value;
         }
         #endregion 型変換
+
+        #region よく使う数値
+        protected readonly static T _0 = T.CreateChecked(0);
+        protected readonly static T _1 = T.CreateChecked(1);
+        protected readonly static T _2 = T.CreateChecked(2);
+        protected readonly static T _60 = T.CreateChecked(60);
+        protected readonly static T _3600 = T.CreateChecked(3600);
+        #endregion よく使う数値
     }
 }
