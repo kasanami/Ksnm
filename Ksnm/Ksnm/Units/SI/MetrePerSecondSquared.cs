@@ -21,7 +21,6 @@ freely, subject to the following restrictions:
 
 3. This notice may not be removed or altered from any source distribution.
 */
-using Ksnm.Numerics;
 using System.Numerics;
 
 namespace Ksnm.Units.SI
@@ -41,6 +40,7 @@ namespace Ksnm.Units.SI
         /// </summary>
         public override string Symbol => "m/s^2";
         #endregion プロパティ
+
         #region コンストラクタ
         /// <summary>
         /// 0 で初期化
@@ -68,6 +68,7 @@ namespace Ksnm.Units.SI
         public MetrePerSecondSquared(GS.StandardGravity<T> acceleration) :
             this(acceleration.Value * T.CreateChecked(9.80665m)) { }
         #endregion コンストラクタ
+
         #region 演算子
         /// <summary>
         /// 加速度と時間から速度を計算する
@@ -91,6 +92,7 @@ namespace Ksnm.Units.SI
             return new MetrePerSecondSquared<T>(quantity.Value * value);
         }
         #endregion 演算子
+
         #region 型変換
         /// <summary>
         /// 明示的な変換を定義します。
