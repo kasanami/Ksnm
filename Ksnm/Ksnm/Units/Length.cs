@@ -22,6 +22,7 @@ freely, subject to the following restrictions:
 3. This notice may not be removed or altered from any source distribution.
 */
 using Ksnm.Numerics;
+using Ksnm.Units.SI;
 using System.Numerics;
 
 namespace Ksnm.Units
@@ -65,5 +66,12 @@ namespace Ksnm.Units
             return new Velocity<T>(length, time);
         }
         #endregion 演算子
+
+        #region 型変換
+        /// <summary>
+        /// SI単位に変換する
+        /// </summary>
+        public virtual Metre<T> SI { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        #endregion 型変換
     }
 }

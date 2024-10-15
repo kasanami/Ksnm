@@ -76,5 +76,17 @@ namespace Ksnm.Units.SI
         public static Metre<T> operator *(Metre<T> length, T scale) => new Metre<T>(length.Value * scale);
         public static MetrePerSecond<T> operator /(Metre<T> length, Second<T> time) => new MetrePerSecond<T>(length, time);
         #endregion 演算子
+
+        #region 型変換
+        public static explicit operator KiloMetre<T>(Metre<T> length) => new KiloMetre<T>(length.Value / _1000);
+        /// <summary>
+        /// SI単位に変換する
+        /// </summary>
+        public override Metre<T> SI
+        {
+            get => this;
+            set => Value = value.Value;
+        }
+        #endregion 型変換
     }
 }
