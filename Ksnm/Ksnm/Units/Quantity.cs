@@ -148,6 +148,7 @@ namespace Ksnm.Units
         protected readonly static T _60 = T.CreateChecked(60);
         protected readonly static T _100 = T.CreateChecked(100);
         protected readonly static T _1000 = T.CreateChecked(1000);
+        protected readonly static T _1852 = T.CreateChecked(1852);
         protected readonly static T _3600 = T.CreateChecked(3600);
         #endregion よく使う数値
     }

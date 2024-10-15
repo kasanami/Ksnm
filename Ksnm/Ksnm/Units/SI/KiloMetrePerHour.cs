@@ -58,44 +58,21 @@ namespace Ksnm.Units.SI
         /// 指定した値で初期化
         /// </summary>
         public KiloMetrePerHour(T value) : base(value) { }
-        /// <summary>
-        /// 距離と時間から速度を計算する
-        /// </summary>
-        public KiloMetrePerHour(Metre<T> length, Second<T> time) : base(length, time) { }
-        /// <summary>
-        /// 距離と時間から速度を計算する
-        /// </summary>
-        public KiloMetrePerHour(Metre<T> length, Hour<T> time) : this(length, (Second<T>)time) { }
-        /// <summary>
-        /// 別の速度から初期化
-        /// </summary>
-        public KiloMetrePerHour(MetrePerSecond<T> velocity) : this(velocity.Value * T.CreateChecked(3.6m)) { }
-        /// <summary>
-        /// 別の速度から初期化
-        /// </summary>
-        public KiloMetrePerHour(NonSI.Knot<T> velocity) : this(velocity.Value * T.CreateChecked(1.852m)) { }
+        public KiloMetrePerHour(KiloMetre<T> length, Hour<T> time) : base(length, time) { }
         #endregion コンストラクタ
 
         #region 演算子
         /// <summary>
-        /// 乗算
+        /// 速度と時間から加速度を計算する
         /// </summary>
-        public static KiloMetrePerHour<T> operator *(T value, KiloMetrePerHour<T> quantity)
-        {
-            return new KiloMetrePerHour<T>(value * quantity.Value);
-        }
-        /// <summary>
-        /// 乗算
-        /// </summary>
-        public static KiloMetrePerHour<T> operator *(KiloMetrePerHour<T> quantity, T value)
-        {
-            return new KiloMetrePerHour<T>(quantity.Value * value);
-        }
+        public static KiloMetrePerHourPerSecond<T> operator /(KiloMetrePerHour<T> velocity, Second<T> time) => new KiloMetrePerHourPerSecond<T>(velocity, time);
+        public static KiloMetrePerHour<T> operator *(T scale, KiloMetrePerHour<T> velocity) => new KiloMetrePerHour<T>(scale * velocity.Value);
+        public static KiloMetrePerHour<T> operator *(KiloMetrePerHour<T> velocity, T scale) => new KiloMetrePerHour<T>(velocity.Value * scale);
         #endregion 演算子
 
         #region 型変換
-        public static explicit operator KiloMetrePerHour<T>(MetrePerSecond<T> velocity) => new KiloMetrePerHour<T>(velocity);
-        public static explicit operator KiloMetrePerHour<T>(NonSI.Knot<T> velocity) => new KiloMetrePerHour<T>(velocity);
+        public static explicit operator KiloMetrePerHour<T>(MetrePerSecond<T> velocity) => new KiloMetrePerHour<T>(velocity.Value * _3600 / _1000);
+        public static explicit operator KiloMetrePerHour<T>(NonSI.Knot<T> velocity) => new KiloMetrePerHour<T>(velocity.Value * _1852 / _1000);
         /// <summary>
         /// SI単位に変換する
         /// </summary>
