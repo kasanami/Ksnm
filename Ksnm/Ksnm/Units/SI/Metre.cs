@@ -45,6 +45,7 @@ namespace Ksnm.Units.SI
         /// </summary>
         public override string Symbol => "m";
         #endregion プロパティ
+
         #region コンストラクタ
         /// <summary>
         /// 0 で初期化
@@ -65,28 +66,15 @@ namespace Ksnm.Units.SI
         /// </summary>
         public Metre(decimal value) : base(value) { }
         #endregion コンストラクタ
+
         #region 演算子
         /// <summary>
         /// 2つの長さから面積を計算する
         /// </summary>
-        public static SquareMetre<T> operator *(Metre<T> length1, Metre<T> length2)
-        {
-            return new SquareMetre<T>(length1, length2);
-        }
-        /// <summary>
-        /// 乗算
-        /// </summary>
-        public static Metre<T> operator *(T value, Metre<T> quantity)
-        {
-            return new Metre<T>(value * quantity.Value);
-        }
-        /// <summary>
-        /// 乗算
-        /// </summary>
-        public static Metre<T> operator *(Metre<T> quantity, T value)
-        {
-            return new Metre<T>(quantity.Value * value);
-        }
+        public static SquareMetre<T> operator *(Metre<T> length1, Metre<T> length2) => new SquareMetre<T>(length1, length2);
+        public static Metre<T> operator *(T scale, Metre<T> length) => new Metre<T>(scale * length.Value);
+        public static Metre<T> operator *(Metre<T> length, T scale) => new Metre<T>(length.Value * scale);
+        public static MetrePerSecond<T> operator /(Metre<T> length, Second<T> time) => new MetrePerSecond<T>(length, time);
         #endregion 演算子
     }
 }

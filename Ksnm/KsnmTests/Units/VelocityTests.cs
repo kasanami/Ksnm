@@ -21,7 +21,7 @@ namespace Ksnm.Units.Tests
                 var time = 4 * second;
                 var velocity = len / time;
                 Assert.AreEqual("3m/s", velocity.ToString());
-                //Assert.AreEqual("3m/s", velocity.SI.ToString());
+                Assert.AreEqual("3m/s", velocity.SI.ToString());
             }
             // 分速
             {
@@ -37,12 +37,14 @@ namespace Ksnm.Units.Tests
             }
             // キロメートル毎時
             {
-                var velocity = 300 * kiloMetrePerHour;
-                Assert.AreEqual("300km/h", velocity.ToString());
+                var velocity = 3.6m * kiloMetrePerHour;
+                Assert.AreEqual("3.6km/h", velocity.ToString());
                 var velocity2 = (MetrePerSecond)velocity;
-                Assert.AreEqual("83.33333333333333333333333333m/s", velocity2.ToString());
-                Assert.AreEqual("83.33333333333333333333333333m/s", velocity.SI.ToString());
-                //velocity.SI = (1 * metre / second);
+                Assert.AreEqual("1m/s", velocity2.ToString());
+                Assert.AreEqual("1.0m/s", velocity.SI.ToString());
+                velocity.SI = velocity2;
+                Assert.AreEqual("3.6km/h", velocity.ToString());
+                Assert.AreEqual("1.0m/s", velocity.SI.ToString());
             }
             // メートル毎時
             {

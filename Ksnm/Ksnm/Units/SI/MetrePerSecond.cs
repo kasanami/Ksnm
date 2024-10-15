@@ -84,24 +84,9 @@ namespace Ksnm.Units.SI
         /// <summary>
         /// 速度と時間から加速度を計算する
         /// </summary>
-        public static MetrePerSecondSquared<T> operator /(MetrePerSecond<T> velocity, Second<T> time)
-        {
-            return new MetrePerSecondSquared<T>(velocity, time);
-        }
-        /// <summary>
-        /// 乗算
-        /// </summary>
-        public static MetrePerSecond<T> operator *(T value, MetrePerSecond<T> quantity)
-        {
-            return new MetrePerSecond<T>(value * quantity.Value);
-        }
-        /// <summary>
-        /// 乗算
-        /// </summary>
-        public static MetrePerSecond<T> operator *(MetrePerSecond<T> quantity, T value)
-        {
-            return new MetrePerSecond<T>(quantity.Value * value);
-        }
+        public static MetrePerSecondSquared<T> operator /(MetrePerSecond<T> velocity, Second<T> time) => new MetrePerSecondSquared<T>(velocity, time);
+        public static MetrePerSecond<T> operator *(T scale, MetrePerSecond<T> velocity) => new MetrePerSecond<T>(scale * velocity.Value);
+        public static MetrePerSecond<T> operator *(MetrePerSecond<T> velocity, T scale) => new MetrePerSecond<T>(velocity.Value * scale);
         #endregion 演算子
 
         #region 型変換
