@@ -95,20 +95,8 @@ namespace Ksnm.Units.SI
         }
         #endregion 演算子
         #region 型変換
-        /// <summary>
-        /// 他の型から、この型への暗黙的な変換を定義します。
-        /// </summary>
-        public static implicit operator Hour<T>(Second<T> time)
-        {
-            return new Hour<T>(time);
-        }
-        /// <summary>
-        /// 他の型から、この型への暗黙的な変換を定義します。
-        /// </summary>
-        public static implicit operator Hour<T>(Minute<T> time)
-        {
-            return new Hour<T>(time);
-        }
+        public static explicit operator Hour<T>(Second<T> time) => new Hour<T>(time);
+        public static explicit operator Hour<T>(Minute<T> time) => new Hour<T>(time);
         #endregion 型変換
     }
 }

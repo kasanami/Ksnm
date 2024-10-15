@@ -4,6 +4,9 @@ using Ksnm.Units.SI;
 
 namespace Ksnm.Units.Tests
 {
+    using Second = Second<decimal>;
+    using Minute = Minute<decimal>;
+    using Hour = Hour<decimal>;
     [TestClass()]
     public class TimeTests
     {
@@ -11,31 +14,31 @@ namespace Ksnm.Units.Tests
         public void TimeTest()
         {
             {
-                var hour = new Hour<double>(1);
+                var hour = new Hour(1);
                 Assert.AreEqual(1, hour.Value);
-                Minute<double> minute = hour;
+                Minute minute = (Minute)hour;
                 Assert.AreEqual(60, minute.Value);
-                Second<double> second = minute;
+                Second second = (Second)minute;
                 Assert.AreEqual(3600, second.Value);
             }
 
             {
-                var hour = new Hour<double>(2);
+                var hour = new Hour(2);
                 Assert.AreEqual(2, hour.Value);
-                Minute<double> minute = hour;
+                Minute minute = (Minute)hour;
                 Assert.AreEqual(120, minute.Value);
-                Second<double> second = minute;
+                Second second = (Second)minute;
                 Assert.AreEqual(7200, second.Value);
             }
 
             {
-                var second = new Second<double>(30);
-                Assert.AreEqual<double>(30, second.Value);
-                Minute<double> minute = second;
-                Assert.AreEqual<double>(0.5, minute.Value);
+                var second = new Second(30);
+                Assert.AreEqual(30, second.Value);
+                Minute minute = (Minute)second;
+                Assert.AreEqual(0.5m, minute.Value);
                 minute.Value = 30;
-                Hour<double> hour = minute;
-                Assert.AreEqual<double>(0.5, hour.Value);
+                Hour hour = (Hour)minute;
+                Assert.AreEqual(0.5m, hour.Value);
             }
         }
     }
