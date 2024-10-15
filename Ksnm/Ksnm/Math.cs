@@ -1564,7 +1564,9 @@ namespace Ksnm
         /// <param name="baseValue">対象の低</param>
         public static T LogB<T>(T x, T baseValue) where T : IFloatingPointIeee754<T>
         {
-            return Log(x) / Log(baseValue);
+            var logX = Log(x);
+            var logBase = Log(baseValue);
+            return logX / logBase;
         }
         /// <summary>
         /// 常用対数
