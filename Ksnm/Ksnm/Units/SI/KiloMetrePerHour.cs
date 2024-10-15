@@ -37,6 +37,7 @@ namespace Ksnm.Units.SI
     {
         #region 定数
         #endregion 定数
+
         #region プロパティ
         /// <summary>
         /// 名前
@@ -47,6 +48,7 @@ namespace Ksnm.Units.SI
         /// </summary>
         public override string Symbol => "km/h";
         #endregion プロパティ
+
         #region コンストラクタ
         /// <summary>
         /// 0 で初期化
@@ -56,14 +58,6 @@ namespace Ksnm.Units.SI
         /// 指定した値で初期化
         /// </summary>
         public KiloMetrePerHour(T value) : base(value) { }
-        /// <summary>
-        /// 指定した値で初期化
-        /// </summary>
-        public KiloMetrePerHour(int value) : base(value) { }
-        /// <summary>
-        /// 指定した値で初期化
-        /// </summary>
-        public KiloMetrePerHour(decimal value) : base(value) { }
         /// <summary>
         /// 距離と時間から速度を計算する
         /// </summary>
@@ -81,6 +75,7 @@ namespace Ksnm.Units.SI
         /// </summary>
         public KiloMetrePerHour(NonSI.Knot<T> velocity) : this(velocity.Value * T.CreateChecked(1.852m)) { }
         #endregion コンストラクタ
+
         #region 演算子
         /// <summary>
         /// 乗算
@@ -97,20 +92,17 @@ namespace Ksnm.Units.SI
             return new KiloMetrePerHour<T>(quantity.Value * value);
         }
         #endregion 演算子
+
         #region 型変換
+        public static explicit operator KiloMetrePerHour<T>(MetrePerSecond<T> velocity) => new KiloMetrePerHour<T>(velocity);
+        public static explicit operator KiloMetrePerHour<T>(NonSI.Knot<T> velocity) => new KiloMetrePerHour<T>(velocity);
         /// <summary>
-        /// 明示的な変換を定義します。
+        /// SI単位に変換する
         /// </summary>
-        public static explicit operator KiloMetrePerHour<T>(MetrePerSecond<T> velocity)
+        public override MetrePerSecond<T> SI
         {
-            return new KiloMetrePerHour<T>(velocity);
-        }
-        /// <summary>
-        /// 明示的な変換を定義します。
-        /// </summary>
-        public static explicit operator KiloMetrePerHour<T>(NonSI.Knot<T> velocity)
-        {
-            return new KiloMetrePerHour<T>(velocity);
+            get => (MetrePerSecond<T>)(Value * _1000 / _3600);
+            set => Value = (value.Value * _3600 / _1000);
         }
         #endregion 型変換
     }

@@ -56,14 +56,6 @@ namespace Ksnm.Units.NonSI
         /// </summary>
         public Knot(T value) : base(value) { }
         /// <summary>
-        /// 指定した値で初期化
-        /// </summary>
-        public Knot(int value) : base(value) { }
-        /// <summary>
-        /// 指定した値で初期化
-        /// </summary>
-        public Knot(decimal value) : base(value) { }
-        /// <summary>
         /// 距離と時間から速度を計算する
         /// </summary>
         public Knot(NauticalMile<T> length, SI.Second<T> time) : base(length, (SI.Hour<T>)time) { }

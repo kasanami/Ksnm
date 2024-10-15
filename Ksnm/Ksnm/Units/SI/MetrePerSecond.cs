@@ -28,15 +28,21 @@ namespace Ksnm.Units.SI
 {
     /// <summary>
     /// メートル毎秒
+    /// <para>記号:m/s</para>
+    /// <para>系  :国際単位系（組立単位）</para>
+    /// <para>量  :速さ</para>
+    /// <para>定義:1秒間に 1m 進む速さ</para>
     /// </summary>
     public class MetrePerSecond<T> : Velocity<T> where T : INumber<T>
     {
         #region 定数
+        protected static readonly T _299792458 = T.CreateChecked(299792458);
         /// <summary>
         /// 光速
         /// </summary>
-        public static readonly MetrePerSecond<T> SpeedOfLight = new MetrePerSecond<T>(299792458);
+        public static readonly MetrePerSecond<T> SpeedOfLight = (MetrePerSecond<T>)_299792458;
         #endregion 定数
+
         #region プロパティ
         /// <summary>
         /// 名前
@@ -47,6 +53,7 @@ namespace Ksnm.Units.SI
         /// </summary>
         public override string Symbol => "m/s";
         #endregion プロパティ
+
         #region コンストラクタ
         /// <summary>
         /// 0 で初期化
@@ -56,14 +63,6 @@ namespace Ksnm.Units.SI
         /// 指定した値で初期化
         /// </summary>
         public MetrePerSecond(T value) : base(value) { }
-        /// <summary>
-        /// 指定した値で初期化
-        /// </summary>
-        public MetrePerSecond(int value) : base(value) { }
-        /// <summary>
-        /// 指定した値で初期化
-        /// </summary>
-        public MetrePerSecond(decimal value) : base(value) { }
         /// <summary>
         /// 距離と時間から速度を計算する
         /// </summary>
@@ -80,6 +79,7 @@ namespace Ksnm.Units.SI
         {
         }
         #endregion コンストラクタ
+
         #region 演算子
         /// <summary>
         /// 速度と時間から加速度を計算する
@@ -103,20 +103,18 @@ namespace Ksnm.Units.SI
             return new MetrePerSecond<T>(quantity.Value * value);
         }
         #endregion 演算子
+
         #region 型変換
+        public static explicit operator MetrePerSecond<T>(T velocity) => new MetrePerSecond<T>(velocity);
+        public static explicit operator MetrePerSecond<T>(KiloMetrePerHour<T> velocity) => new MetrePerSecond<T>(velocity);
+        public static explicit operator MetrePerSecond<T>(NonSI.Knot<T> velocity) => new MetrePerSecond<T>(velocity);
         /// <summary>
-        /// 明示的な変換を定義します。
+        /// SI単位に変換する
         /// </summary>
-        public static explicit operator MetrePerSecond<T>(KiloMetrePerHour<T> velocity)
+        public override MetrePerSecond<T> SI
         {
-            return new MetrePerSecond<T>(velocity);
-        }
-        /// <summary>
-        /// 明示的な変換を定義します。
-        /// </summary>
-        public static explicit operator MetrePerSecond<T>(NonSI.Knot<T> velocity)
-        {
-            return new MetrePerSecond<T>(velocity);
+            get => this;
+            set => Value = value.Value;
         }
         #endregion 型変換
     }
