@@ -94,13 +94,8 @@ namespace Ksnm.Units.SI
         #endregion 演算子
 
         #region 型変換
-        /// <summary>
-        /// 明示的な変換を定義します。
-        /// </summary>
-        public static explicit operator MetrePerSecondSquared<T>(GS.StandardGravity<T> acceleration)
-        {
-            return new MetrePerSecondSquared<T>(acceleration);
-        }
+        public static explicit operator MetrePerSecondSquared<T>(T acceleration) => new MetrePerSecondSquared<T>(acceleration);
+        public static explicit operator MetrePerSecondSquared<T>(GS.StandardGravity<T> acceleration)=> new MetrePerSecondSquared<T>(acceleration);
         #endregion 型変換
     }
 }

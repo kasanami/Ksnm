@@ -48,7 +48,8 @@ namespace Ksnm.Units.SI
         #endregion 演算子
 
         #region 型変換
-        public static explicit operator Metre<T>(KiloMetre<T> length) => new Metre<T>(length.Value * _1000);
+        public static explicit operator KiloMetre<T>(T value) => new KiloMetre<T>(value);
+        public static explicit operator KiloMetre<T>(Metre<T> length) => new KiloMetre<T>(length.Value / _1000);
         /// <summary>
         /// SI単位に変換する
         /// </summary>

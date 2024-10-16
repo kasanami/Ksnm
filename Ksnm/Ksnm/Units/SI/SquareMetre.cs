@@ -63,9 +63,8 @@ namespace Ksnm.Units.SI
         /// <summary>
         /// 2つの長さから面積を計算する
         /// </summary>
-        public SquareMetre(Metre<T> length1, Metre<T> length2) : base(length1, length2)
-        {
-        }
+        public SquareMetre(Metre<T> length1, Metre<T> length2) : base(length1, length2) { }
+        public SquareMetre(KiloMetre<T> length1, KiloMetre<T> length2) : base((Metre<T>)length1, (Metre<T>)length2) { }
         #endregion コンストラクタ
         #region 演算子
         /// <summary>
