@@ -1607,5 +1607,39 @@ namespace Ksnm.Tests
             Assert.AreEqual(0x0111, Math.Repunit(3, 16));
             Assert.AreEqual(0x1111, Math.Repunit(4, 16));
         }
+
+        [TestMethod()]
+        public void CountDivisorsTest()
+        {
+            Assert.AreEqual(1, Math.CountDivisors(0));
+            Assert.AreEqual(1, Math.CountDivisors(1));
+            // 素数→2
+            Assert.AreEqual(2, Math.CountDivisors(2));
+            Assert.AreEqual(2, Math.CountDivisors(3));
+            Assert.AreEqual(2, Math.CountDivisors(5));
+            Assert.AreEqual(2, Math.CountDivisors(7));
+            // 素数の自乗→3
+            Assert.AreEqual(3, Math.CountDivisors(4));
+            Assert.AreEqual(3, Math.CountDivisors(9));
+            // 素数の立方→4
+            Assert.AreEqual(4, Math.CountDivisors(6));
+            Assert.AreEqual(4, Math.CountDivisors(8));
+            Assert.AreEqual(4, Math.CountDivisors(10));
+        }
+
+        [TestMethod()]
+        public void IsHighlyCompositeTest()
+        {
+            int[] HighlyComposite = [1, 2, 4, 6, 12, 24, 36, 48, 60, 120, 180, 240, 360, 720, 840, 1260, 1680,];
+            int[] NotHighlyComposite = [3, 5, 7, 8, 9, 10, 11, 13, 14, 15, 16];
+            foreach (int i in HighlyComposite)
+            {
+                Assert.IsTrue(Math.IsHighlyComposite(i));
+            }
+            foreach (int i in NotHighlyComposite)
+            {
+                Assert.IsFalse(Math.IsHighlyComposite(i));
+            }
+        }
     }
 }

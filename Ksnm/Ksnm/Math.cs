@@ -2115,6 +2115,33 @@ namespace Ksnm
         }
         #endregion 三角関数
 
+        #region 約数
+        /// <summary>
+        /// 約数の個数を数える
+        /// </summary>
+        /// <returns>約数の個数</returns>
+        public static int CountDivisors<T>(T n) where T : INumber<T>
+        {
+            if (n == T.Zero)
+            {
+                return 1;// 0の約数は0 
+            }
+            if (n == T.One)
+            {
+                return 1;// 1の約数は1
+            }
+            if (n < T.Zero)
+            {
+                return CountDivisors(-n);
+            }
+            var factors = PrimeFactorization(n);
+            var factorsExponent = FactorsExponent(factors);
+            return factorsExponent.Values// 個数
+                .Select(count => count + 1)// 個数に1を足す
+                .Aggregate((total, next) => total * next);// すべて乗算
+        }
+        #endregion 約数
+
         #region 最大公約数 GreatestCommonDivisor
         /// <summary>
         /// 最大公約数
@@ -2163,6 +2190,39 @@ namespace Ksnm
         #endregion 最小公倍数
 
         #region 素因数分解
+
+        /// <summary>
+        /// 素因数分解
+        /// </summary>
+        /// <param name="value">素因数分解する値</param>
+        /// <returns>一連の素数</returns>
+        public static IEnumerable<T> PrimeFactorization<T>(T value) where T : INumber<T>
+        {
+            if (value < T.One)
+            {
+                yield break;
+            }
+
+            var temp = value;
+            var _2 = T.CreateChecked(2);
+
+            for (T i = _2; i * i <= value;)
+            {
+                if (temp % i == T.Zero)
+                {
+                    temp /= i;
+                    yield return i;
+                }
+                else
+                {
+                    i++;
+                }
+            }
+            if (temp > T.One)
+            {
+                yield return temp;
+            }
+        }
 
         /// <summary>
         /// 素因数分解
@@ -2231,6 +2291,41 @@ namespace Ksnm
         }
 
         #endregion 素因数分解
+
+        #region 因数
+        /// <summary>
+        /// 因数の集合から、べき指数の集合に変換します。
+        /// </summary>
+        /// <param name="factors">因数の集合</param>
+        /// <returns>[因数]=因数の個数</returns>
+        public static Dictionary<T, int> FactorsExponent<T>(IEnumerable<T> factors) where T : INumber<T>
+        {
+            return factors
+                .GroupBy(item => item)
+                .ToDictionary(g => g.Key, g => g.Count());
+        }
+        #endregion 因数
+
+        #region 合成数
+        /// <summary>
+        /// 高度合成数を判定する。
+        /// 1と2は合成数ではないが、高度合成数に含める。
+        /// </summary>
+        public static bool IsHighlyComposite<T>(T n) where T : INumber<T>
+        {
+            var divisorsFromN = CountDivisors(n);
+            for (T i = n - T.One; i > T.One; i--)
+            {
+                var divisorsFromI = CountDivisors(i);
+                if (divisorsFromN <= divisorsFromI)
+                {
+                    // 一つでも約数が多いならfalse
+                    return false;
+                }
+            }
+            return true;
+        }
+        #endregion 合成数
 
         #region 数列
 
