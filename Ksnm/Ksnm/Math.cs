@@ -2198,10 +2198,12 @@ namespace Ksnm
         /// <returns>一連の素数</returns>
         public static IEnumerable<T> PrimeFactorization<T>(T value) where T : INumber<T>
         {
+            // 1未満は無し
             if (value < T.One)
             {
                 yield break;
             }
+#if false
 
             var temp = value;
             var _2 = T.CreateChecked(2);
@@ -2222,74 +2224,33 @@ namespace Ksnm
             {
                 yield return temp;
             }
-        }
-
-        /// <summary>
-        /// 素因数分解
-        /// </summary>
-        /// <param name="value">素因数分解する値</param>
-        /// <returns>一連の素数</returns>
-        public static IEnumerable<int> PrimeFactorization(int value)
-        {
-            if (value < 1)
+#else
+            // 2で割れるだけ割る
+            var _2 = T.CreateChecked(2);
+            while (value % _2 == T.Zero)
             {
-                yield break;
+                yield return _2;
+                value /= _2;
             }
 
-            var temp = value;
-            var sqrt = System.Math.Sqrt(value);
-
-            for (int i = 2; i <= sqrt;)
+            // 奇数で割る
+            var _3 = T.CreateChecked(3);
+            for (T i = _3; i * i <= value; i += _2)
             {
-                if (temp % i == 0)
+                while (value % i == T.Zero)
                 {
-                    temp /= i;
                     yield return i;
-                }
-                else
-                {
-                    i++;
+                    value /= i;
                 }
             }
-            if (temp > 1)
+
+            // value が 2 より大きい場合はそれが素数である
+            if (value > _2)
             {
-                yield return temp;
+                yield return value;
             }
+#endif
         }
-
-        /// <summary>
-        /// 素因数分解
-        /// </summary>
-        /// <param name="value">素因数分解する値</param>
-        /// <returns>一連の素数</returns>
-        public static IEnumerable<long> PrimeFactorization(long value)
-        {
-            if (value < 1)
-            {
-                yield break;
-            }
-
-            var temp = value;
-            var sqrt = System.Math.Sqrt(value);
-
-            for (long i = 2; i <= sqrt;)
-            {
-                if (temp % i == 0)
-                {
-                    temp /= i;
-                    yield return i;
-                }
-                else
-                {
-                    i++;
-                }
-            }
-            if (temp > 1)
-            {
-                yield return temp;
-            }
-        }
-
         #endregion 素因数分解
 
         #region 因数
