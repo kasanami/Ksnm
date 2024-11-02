@@ -42,14 +42,6 @@ namespace Ksnm.Units
         /// </summary>
         public Acceleration(T value) : base(value) { }
         /// <summary>
-        /// 指定した値で初期化
-        /// </summary>
-        public Acceleration(int value) : base(value) { }
-        /// <summary>
-        /// 指定した値で初期化
-        /// </summary>
-        public Acceleration(decimal value) : base(value) { }
-        /// <summary>
         /// 速度と時間から加速度を計算する
         /// </summary>
         public Acceleration(Velocity<T> velocity, Time<T> time)

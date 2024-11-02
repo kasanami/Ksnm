@@ -41,14 +41,6 @@ namespace Ksnm.Units
         /// </summary>
         public Area(T value) : base(value) { }
         /// <summary>
-        /// 指定した値で初期化
-        /// </summary>
-        public Area(int value) : base(value) { }
-        /// <summary>
-        /// 指定した値で初期化
-        /// </summary>
-        public Area(decimal value) : base(value) { }
-        /// <summary>
         /// ２つの長さから面積を計算する
         /// </summary>
         public Area(Length<T> length1, Length<T> length2)

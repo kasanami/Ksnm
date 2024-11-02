@@ -41,14 +41,6 @@ namespace Ksnm.Units
         /// 指定した値で初期化
         /// </summary>
         public Length(T value) : base(value) { }
-        /// <summary>
-        /// 指定した値で初期化
-        /// </summary>
-        public Length(int value) : base(value) { }
-        /// <summary>
-        /// 指定した値で初期化
-        /// </summary>
-        public Length(decimal value) : base(value) { }
         #endregion コンストラクタ
         #region 演算子
         /// <summary>

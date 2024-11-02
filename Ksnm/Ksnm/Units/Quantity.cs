@@ -62,27 +62,6 @@ namespace Ksnm.Units
         {
             Value = value;
         }
-        /// <summary>
-        /// 指定した値で初期化
-        /// </summary>
-        public Quantity(int value)
-        {
-            Value = T.CreateChecked(value);
-        }
-        /// <summary>
-        /// 指定した値で初期化
-        /// </summary>
-        public Quantity(double value)
-        {
-            Value = T.CreateChecked(value);
-        }
-        /// <summary>
-        /// 指定した値で初期化
-        /// </summary>
-        public Quantity(decimal value)
-        {
-            Value = T.CreateChecked(value);
-        }
         #endregion コンストラクタ
 
         #region object

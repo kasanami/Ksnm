@@ -57,14 +57,6 @@ namespace Ksnm.Units.SI
         /// 指定した値で初期化
         /// </summary>
         public Metre(T value) : base(value) { }
-        /// <summary>
-        /// 指定した値で初期化
-        /// </summary>
-        public Metre(int value) : base(value) { }
-        /// <summary>
-        /// 指定した値で初期化
-        /// </summary>
-        public Metre(decimal value) : base(value) { }
         #endregion コンストラクタ
 
         #region 演算子

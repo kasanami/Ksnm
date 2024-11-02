@@ -41,14 +41,6 @@ namespace Ksnm.Units
         /// </summary>
         public Energy(T value) : base(value) { }
         /// <summary>
-        /// 指定した値で初期化
-        /// </summary>
-        public Energy(int value) : base(value) { }
-        /// <summary>
-        /// 指定した値で初期化
-        /// </summary>
-        public Energy(decimal value) : base(value) { }
-        /// <summary>
         /// 力と距離からエネルギーを計算する
         /// </summary>
         public Energy(Force<T> force, Length<T> length)

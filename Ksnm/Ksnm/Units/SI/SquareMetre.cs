@@ -53,14 +53,6 @@ namespace Ksnm.Units.SI
         /// </summary>
         public SquareMetre(T value) : base(value) { }
         /// <summary>
-        /// 指定した値で初期化
-        /// </summary>
-        public SquareMetre(int value) : base(value) { }
-        /// <summary>
-        /// 指定した値で初期化
-        /// </summary>
-        public SquareMetre(decimal value) : base(value) { }
-        /// <summary>
         /// 2つの長さから面積を計算する
         /// </summary>
         public SquareMetre(Metre<T> length1, Metre<T> length2) : base(length1, length2) { }
