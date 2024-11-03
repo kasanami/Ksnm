@@ -47,7 +47,7 @@ namespace Ksnm.Units.SI
         #endregion 演算子
 
         #region 型変換
-        public static explicit operator KiloMetrePerHourPerSecond<T>(T acceleration) => new KiloMetrePerHourPerSecond<T>(acceleration);
+        public static explicit operator KiloMetrePerHourPerSecond<T>(T value) => new KiloMetrePerHourPerSecond<T>(value);
         public static explicit operator KiloMetrePerHourPerSecond<T>(MetrePerSecondSquared<T> acceleration) => (KiloMetrePerHourPerSecond<T>)(acceleration.Value * _5 / _18);
         /// <summary>
         /// SI単位に変換する
