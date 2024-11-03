@@ -56,14 +56,6 @@ namespace Ksnm.Units.GS
         /// </summary>
         public StandardGravity(T value) : base(value) { }
         /// <summary>
-        /// 指定した値で初期化
-        /// </summary>
-        public StandardGravity(int value) : base(value) { }
-        /// <summary>
-        /// 指定した値で初期化
-        /// </summary>
-        public StandardGravity(decimal value) : base(value) { }
-        /// <summary>
         /// 他の加速度から初期化
         /// </summary>
         public StandardGravity(SI.MetrePerSecondSquared<T> acceleration) :

@@ -41,14 +41,6 @@ namespace Ksnm.Units
         /// </summary>
         public Volume(T value) : base(value) { }
         /// <summary>
-        /// 指定した値で初期化
-        /// </summary>
-        public Volume(int value) : base(value) { }
-        /// <summary>
-        /// 指定した値で初期化
-        /// </summary>
-        public Volume(decimal value) : base(value) { }
-        /// <summary>
         /// 3つの長さから体積を計算する
         /// </summary>
         public Volume(Length<T> length1, Length<T> length2, Length<T> length3)

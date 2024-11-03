@@ -58,14 +58,6 @@ namespace Ksnm.Units.SI
         /// </summary>
         public Litre(T value) : base(value) { }
         /// <summary>
-        /// 指定した値で初期化
-        /// </summary>
-        public Litre(int value) : base(value) { }
-        /// <summary>
-        /// 指定した値で初期化
-        /// </summary>
-        public Litre(decimal value) : base(value) { }
-        /// <summary>
         /// 3つの長さから体積を計算する
         /// </summary>
         public Litre(Metre<T> length1, Metre<T> length2, Metre<T> length3)

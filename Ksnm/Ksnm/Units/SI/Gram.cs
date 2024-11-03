@@ -58,14 +58,6 @@ namespace Ksnm.Units.SI
         /// </summary>
         public Gram(T value) : base(value) { }
         /// <summary>
-        /// 指定した値で初期化
-        /// </summary>
-        public Gram(int value) : base(value) { }
-        /// <summary>
-        /// 指定した値で初期化
-        /// </summary>
-        public Gram(decimal value) : base(value) { }
-        /// <summary>
         /// キログラムから変換
         /// </summary>
         public Gram(Kilogram<T> kilogram)

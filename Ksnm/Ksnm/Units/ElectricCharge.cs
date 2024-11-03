@@ -41,14 +41,6 @@ namespace Ksnm.Units
         /// </summary>
         public ElectricCharge(T value) : base(value) { }
         /// <summary>
-        /// 指定した値で初期化
-        /// </summary>
-        public ElectricCharge(int value) : base(value) { }
-        /// <summary>
-        /// 指定した値で初期化
-        /// </summary>
-        public ElectricCharge(decimal value) : base(value) { }
-        /// <summary>
         /// 電流と時間から電荷を計算する
         /// </summary>
         public ElectricCharge(ElectricCurrent<T> current, Time<T> time)

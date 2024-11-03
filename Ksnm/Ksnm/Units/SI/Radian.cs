@@ -58,14 +58,6 @@ namespace Ksnm.Units.SI
         /// </summary>
         public Radian(T value) : base(value) { }
         /// <summary>
-        /// 指定した値で初期化
-        /// </summary>
-        public Radian(int value) : base(value) { }
-        /// <summary>
-        /// 指定した値で初期化
-        /// </summary>
-        public Radian(decimal value) : base(value) { }
-        /// <summary>
         /// 半径と円弧から角度を計算する
         /// </summary>
         /// <param name="radius">半径</param>

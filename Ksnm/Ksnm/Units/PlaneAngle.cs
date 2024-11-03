@@ -42,14 +42,6 @@ namespace Ksnm.Units
         /// 指定した値で初期化
         /// </summary>
         public PlaneAngle(T value) : base(value) { }
-        /// <summary>
-        /// 指定した値で初期化
-        /// </summary>
-        public PlaneAngle(int value) : base(value) { }
-        /// <summary>
-        /// 指定した値で初期化
-        /// </summary>
-        public PlaneAngle(decimal value) : base(value) { }
         #endregion コンストラクタ
     }
 }

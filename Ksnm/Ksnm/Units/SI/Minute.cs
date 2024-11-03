@@ -57,14 +57,6 @@ namespace Ksnm.Units.SI
         public Minute(T value) : base(value) { }
         /// <summary>
         /// 指定した値で初期化
-        /// </summary>
-        public Minute(int value) : base(value) { }
-        /// <summary>
-        /// 指定した値で初期化
-        /// </summary>
-        public Minute(decimal value) : base(value) { }
-        /// <summary>
-        /// 指定した値で初期化
         /// 秒→分
         /// </summary>
         public Minute(Second<T> time)

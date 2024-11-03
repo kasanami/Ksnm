@@ -57,14 +57,6 @@ namespace Ksnm.Units.SI
         /// </summary>
         public Kilogram(T value) : base(value) { }
         /// <summary>
-        /// 指定した値で初期化
-        /// </summary>
-        public Kilogram(int value) : base(value) { }
-        /// <summary>
-        /// 指定した値で初期化
-        /// </summary>
-        public Kilogram(decimal value) : base(value) { }
-        /// <summary>
         /// エネルギーと光速から質量を計算する
         /// </summary>
         public Kilogram(Joule<T> energy) : base(energy, MetrePerSecond<T>.SpeedOfLight)

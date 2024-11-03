@@ -40,14 +40,6 @@ namespace Ksnm.Units
         /// 指定した値で初期化
         /// </summary>
         public Temperature(T value) : base(value) { }
-        /// <summary>
-        /// 指定した値で初期化
-        /// </summary>
-        public Temperature(int value) : base(value) { }
-        /// <summary>
-        /// 指定した値で初期化
-        /// </summary>
-        public Temperature(decimal value) : base(value) { }
         #endregion コンストラクタ
     }
 }

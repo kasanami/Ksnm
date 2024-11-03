@@ -55,14 +55,6 @@ namespace Ksnm.Units.SI
         /// </summary>
         public Joule(T value) : base(value) { }
         /// <summary>
-        /// 指定した値で初期化
-        /// </summary>
-        public Joule(int value) : base(value) { }
-        /// <summary>
-        /// 指定した値で初期化
-        /// </summary>
-        public Joule(decimal value) : base(value) { }
-        /// <summary>
         /// 力と距離からエネルギーを計算する
         /// </summary>
         public Joule(Newton<T> force, Metre<T> length) : base(force, length) { }

@@ -40,14 +40,6 @@ namespace Ksnm.Units
         /// 指定した値で初期化
         /// </summary>
         public SolidAngle(T value) : base(value) { }
-        /// <summary>
-        /// 指定した値で初期化
-        /// </summary>
-        public SolidAngle(int value) : base(value) { }
-        /// <summary>
-        /// 指定した値で初期化
-        /// </summary>
-        public SolidAngle(decimal value) : base(value) { }
         #endregion コンストラクタ
     }
 }

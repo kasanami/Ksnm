@@ -58,14 +58,6 @@ namespace Ksnm.Units.SI
         /// </summary>
         public Newton(T value) : base(value) { }
         /// <summary>
-        /// 指定した値で初期化
-        /// </summary>
-        public Newton(int value) : base(value) { }
-        /// <summary>
-        /// 指定した値で初期化
-        /// </summary>
-        public Newton(decimal value) : base(value) { }
-        /// <summary>
         /// 質量と加速度から力を計算する
         /// </summary>
         public Newton(Kilogram<T> mass, MetrePerSecondSquared<T> acceleration) : base(mass, acceleration)

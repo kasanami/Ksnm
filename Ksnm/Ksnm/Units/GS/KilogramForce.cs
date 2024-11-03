@@ -63,14 +63,6 @@ namespace Ksnm.Units.GS
         /// </summary>
         public KilogramForce(T value) : base(value) { }
         /// <summary>
-        /// 指定した値で初期化
-        /// </summary>
-        public KilogramForce(int value) : base(value) { }
-        /// <summary>
-        /// 指定した値で初期化
-        /// </summary>
-        public KilogramForce(decimal value) : base(value) { }
-        /// <summary>
         /// ニュートンから変換
         /// </summary>
         public KilogramForce(SI.Newton<T> newton)

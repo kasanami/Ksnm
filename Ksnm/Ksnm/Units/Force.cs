@@ -41,14 +41,6 @@ namespace Ksnm.Units
         /// </summary>
         public Force(T value) : base(value) { }
         /// <summary>
-        /// 指定した値で初期化
-        /// </summary>
-        public Force(int value) : base(value) { }
-        /// <summary>
-        /// 指定した値で初期化
-        /// </summary>
-        public Force(decimal value) : base(value) { }
-        /// <summary>
         /// 質量と加速度から力を計算する
         /// </summary>
         public Force(Mass<T> mass, Acceleration<T> acceleration)

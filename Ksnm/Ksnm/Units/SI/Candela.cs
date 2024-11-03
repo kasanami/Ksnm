@@ -50,21 +50,11 @@ namespace Ksnm.Units.SI
         /// <summary>
         /// 0 で初期化
         /// </summary>
-        public Candela()
-        {
-        }
+        public Candela() { }
         /// <summary>
         /// 指定した値で初期化
         /// </summary>
         public Candela(T value) : base(value) { }
-        /// <summary>
-        /// 指定した値で初期化
-        /// </summary>
-        public Candela(int value) : base(value) { }
-        /// <summary>
-        /// 指定した値で初期化
-        /// </summary>
-        public Candela(decimal value) : base(value) { }
         #endregion コンストラクタ
         #region 演算子
         /// <summary>

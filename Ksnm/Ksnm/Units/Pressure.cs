@@ -41,14 +41,6 @@ namespace Ksnm.Units
         /// </summary>
         public Pressure(T value) : base(value) { }
         /// <summary>
-        /// 指定した値で初期化
-        /// </summary>
-        public Pressure(int value) : base(value) { }
-        /// <summary>
-        /// 指定した値で初期化
-        /// </summary>
-        public Pressure(decimal value) : base(value) { }
-        /// <summary>
         /// 力と面積から圧力を計算する
         /// </summary>
         public Pressure(Force<T> force, Area<T> area)

@@ -58,14 +58,6 @@ namespace Ksnm.Units.SI
         /// <summary>
         /// 指定した値で初期化
         /// </summary>
-        public Hour(int value) : base(value) { }
-        /// <summary>
-        /// 指定した値で初期化
-        /// </summary>
-        public Hour(decimal value) : base(value) { }
-        /// <summary>
-        /// 指定した値で初期化
-        /// </summary>
         public Hour(Second<T> time)
         {
             Value = time.Value / T.CreateChecked(3600);

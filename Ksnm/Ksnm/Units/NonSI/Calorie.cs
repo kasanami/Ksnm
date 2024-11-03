@@ -56,14 +56,6 @@ namespace Ksnm.Units.NonSI
         /// </summary>
         public Calorie(T value) : base(value) { }
         /// <summary>
-        /// 指定した値で初期化
-        /// </summary>
-        public Calorie(int value) : base(value) { }
-        /// <summary>
-        /// 指定した値で初期化
-        /// </summary>
-        public Calorie(decimal value) : base(value) { }
-        /// <summary>
         /// 別のエネルギーから初期化
         /// </summary>
         public Calorie(SI.Joule<T> energy) : this(energy.Value / T.CreateChecked(4.184m)) { }

@@ -58,14 +58,6 @@ namespace Ksnm.Units.SI
         /// </summary>
         public Lumen(T value) : base(value) { }
         /// <summary>
-        /// 指定した値で初期化
-        /// </summary>
-        public Lumen(int value) : base(value) { }
-        /// <summary>
-        /// 指定した値で初期化
-        /// </summary>
-        public Lumen(decimal value) : base(value) { }
-        /// <summary>
         /// 光度と角度から光束を計算する
         /// </summary>
         /// <param name="luminousIntensity">光度</param>

@@ -57,14 +57,6 @@ namespace Ksnm.Units.SI
         /// </summary>
         public DegreeCelsius(T value) : base(value) { }
         /// <summary>
-        /// 指定した値で初期化
-        /// </summary>
-        public DegreeCelsius(int value) : base(value) { }
-        /// <summary>
-        /// 指定した値で初期化
-        /// </summary>
-        public DegreeCelsius(decimal value) : base(value) { }
-        /// <summary>
         /// ケルビンをセルシウス度に設定する。
         /// </summary>
         public DegreeCelsius(Kelvin<T> kelvin)
