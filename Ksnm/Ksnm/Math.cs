@@ -401,6 +401,33 @@ namespace Ksnm
         }
         #endregion レピュニット数
 
+        #region Max Min
+        public static T Max<T>(T value1, T value2) where T : INumber<T>
+        {
+            if (value1 < value2)
+            {
+                return value2;
+            }
+            return value1;
+        }
+        public static T Max<T>(T value1, T value2, T value3) where T : INumber<T>
+        {
+            return Max(Max(value1, value2), value3);
+        }
+        public static T Min<T>(T value1, T value2) where T : INumber<T>
+        {
+            if (value1 > value2)
+            {
+                return value2;
+            }
+            return value1;
+        }
+        public static T Min<T>(T value1, T value2, T value3) where T : INumber<T>
+        {
+            return Min(Min(value1, value2), value3);
+        }
+        #endregion Max Min
+
         #region Abs
         /// <summary>
         /// 数値の絶対値を返します。
@@ -1530,7 +1557,7 @@ namespace Ksnm
             {
                 term = numerator / k;
                 sum += term;
-                if (term < tolerance)
+                if (T.Abs(term) < tolerance)
                 {
                     break;
                 }

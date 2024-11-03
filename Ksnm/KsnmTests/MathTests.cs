@@ -1641,5 +1641,35 @@ namespace Ksnm.Tests
                 Assert.IsFalse(Math.IsHighlyComposite(i));
             }
         }
+
+        [TestMethod()]
+        public void MaxTest()
+        {
+            Assert.AreEqual(-1, Math.Max(-2, -1));
+            Assert.AreEqual(-1, Math.Max(-1, -1));
+            Assert.AreEqual(0, Math.Max(-1, 0));
+            Assert.AreEqual(0, Math.Max(0, 0));
+            Assert.AreEqual(1, Math.Max(0, 1));
+            Assert.AreEqual(1, Math.Max(1, 1));
+            Assert.AreEqual(2, Math.Max(1, 2));
+
+            Assert.AreEqual(-1, Math.Max(-3, -2, -1));
+            Assert.AreEqual(3, Math.Max(1, 2, 3));
+        }
+
+        [TestMethod()]
+        public void MinTest()
+        {
+            Assert.AreEqual(-2, Math.Min(-2, -1));
+            Assert.AreEqual(-1, Math.Min(-1, -1));
+            Assert.AreEqual(-1, Math.Min(-1, 0));
+            Assert.AreEqual(0, Math.Min(0, 0));
+            Assert.AreEqual(0, Math.Min(0, 1));
+            Assert.AreEqual(1, Math.Min(1, 1));
+            Assert.AreEqual(1, Math.Min(1, 2));
+
+            Assert.AreEqual(-3, Math.Min(-3, -2, -1));
+            Assert.AreEqual(1, Math.Min(1, 2, 3));
+        }
     }
 }
