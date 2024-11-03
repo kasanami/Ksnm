@@ -1058,25 +1058,25 @@ namespace Ksnm.Tests
         [TestMethod()]
         public void ExpTest()
         {
-            for (Half i = -5; i <= (Half)5; i += (Half)0.5)
+            for (Half i = -5; i <= (Half)5; i += (Half)0.25)
             {
                 var expected = MathD.Exp((double)i);
                 var actual = (double)Math.Exp(i);
                 Assert.AreEqual(expected, actual, 0.5, $"i={i}");
             }
-            for (float i = -5; i <= 5; i += 0.5f)
+            for (float i = -5; i <= 5; i += 0.25f)
             {
                 var expected = MathD.Exp(i);
                 var actual = Math.Exp(i);
-                Assert.AreEqual(expected, actual, 0.00001, $"i={i}");
+                Assert.AreEqual(expected, actual, 0.0001, $"i={i}");
             }
-            for (double i = -5; i <= 5; i += 0.5)
+            for (double i = -5; i <= 5; i += 0.25)
             {
                 var expected = MathD.Exp(i);
                 var actual = Math.Exp(i);
                 Assert.AreEqual(expected, actual, 0.00000000001, $"i={i}");
             }
-            for (decimal i = -5; i <= 5; i += 0.5m)
+            for (decimal i = -5; i <= 5; i += 0.25m)
             {
                 var expected = MathD.Exp((double)i);
                 var actual = Math.Exp(i, Math.DecimalEpsilon);
@@ -1121,19 +1121,19 @@ namespace Ksnm.Tests
         [TestMethod()]
         public void LogTest()
         {
-            for (double i = 1; i <= 50; i += 0.5)
+            for (double i = 1; i <= 50; i += 0.25)
             {
                 var expected = MathD.Log(i);
                 var actual = Math.Log(i);
                 Assert.AreEqual(expected, actual, 0.00000_00000_0001, $"i={i}");
             }
-            for (double i = 50; i <= 100; i += 0.5)
+            for (double i = 50; i <= 100; i += 0.25)
             {
                 var expected = MathD.Log(i);
                 var actual = Math.Log(i);
                 Assert.AreEqual(expected, actual, 0.00000_00000_001, $"i={i}");
             }
-            for (decimal i = 1; i <= 100; i += 0.5m)
+            for (decimal i = 1; i <= 100; i += 0.25m)
             {
                 var expected = MathD.Log((double)i);
                 var actual = Math.Log(i, Math.DecimalEpsilon);
