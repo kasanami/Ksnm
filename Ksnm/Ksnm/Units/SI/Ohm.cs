@@ -27,7 +27,7 @@ using System.Numerics;
 namespace Ksnm.Units.SI
 {
     /// <summary>
-    /// アンペア
+    /// オーム
     /// <para>記号:Ω</para>
     /// <para>系  :国際単位系(SI)</para>
     /// <para>種類:組立単位</para>
