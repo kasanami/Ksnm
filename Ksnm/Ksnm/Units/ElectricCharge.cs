@@ -22,12 +22,13 @@ freely, subject to the following restrictions:
 3. This notice may not be removed or altered from any source distribution.
 */
 using Ksnm.Numerics;
+using Ksnm.Units.SI;
 using System.Numerics;
 
 namespace Ksnm.Units
 {
     /// <summary>
-    /// 電荷
+    /// 電荷、電気素量、電荷素量
     /// </summary>
     public class ElectricCharge<T> : Quantity<T> where T : INumber<T>
     {
@@ -49,5 +50,12 @@ namespace Ksnm.Units
             Symbol = current.Symbol + "*" + time.Symbol;
         }
         #endregion コンストラクタ
+
+        #region 型変換
+        /// <summary>
+        /// SI単位に変換する
+        /// </summary>
+        public virtual Coulomb<T> SI { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        #endregion 型変換
     }
 }
