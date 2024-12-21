@@ -1096,6 +1096,13 @@ namespace Ksnm
         }
         #endregion Factorial 階乗
 
+        #region Product 総乗
+        public static T Product<T>(params IEnumerable<T> values) where T : INumber<T>
+        {
+            return values.Aggregate((result, current) => result * current);
+        }
+        #endregion Product 総乗
+
         #region Gamma ガンマ関数
 #if false
         public static T Gamma<T>(T z)
@@ -1855,6 +1862,26 @@ namespace Ksnm
         }
         #endregion Root 根
 
+        #region Radical 根基
+        /// <summary>
+        /// 根基
+        /// 底に現れる指数を全部１にしたもの
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static T Radical<T>(T value) where T : INumber<T>
+        {
+            if (value == T.One)
+            {
+                return T.One;
+            }
+            var primes = PrimeFactorization(value);// 素因数分解
+            primes = primes.Distinct();// 重複を削除＝指数を1とする
+            return Product(primes);// すべてかけあわせる
+        }
+        #endregion Radical 根基
+
         #region 三角関数
         /// <summary>
         /// 指定された角度のサインを返します。
@@ -2217,7 +2244,6 @@ namespace Ksnm
         #endregion 最小公倍数
 
         #region 素因数分解
-
         /// <summary>
         /// 素因数分解
         /// </summary>

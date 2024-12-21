@@ -1671,5 +1671,44 @@ namespace Ksnm.Tests
             Assert.AreEqual(-3, Math.Min(-3, -2, -1));
             Assert.AreEqual(1, Math.Min(1, 2, 3));
         }
+
+        [TestMethod()]
+        public void ProductTest()
+        {
+            Assert.AreEqual(1, Math.Product(1));
+            Assert.AreEqual(1, Math.Product(1, 1));
+            Assert.AreEqual(1, Math.Product(1, 1, 1));
+            Assert.AreEqual(2, Math.Product(1, 2));
+            Assert.AreEqual(2, Math.Product(1, 2, 1));
+            Assert.AreEqual(3, Math.Product(1, 3, 1));
+            Assert.AreEqual(4, Math.Product(2, 2));
+            Assert.AreEqual(8, Math.Product(2, 2, 2));
+        }
+
+        [TestMethod()]
+        public void RadicalTest()
+        {
+            Assert.AreEqual(1, Math.Radical(1));
+            Assert.AreEqual(2, Math.Radical(2));
+            Assert.AreEqual(3, Math.Radical(3));
+            Assert.AreEqual(2, Math.Radical(4));
+            Assert.AreEqual(5, Math.Radical(5));
+            Assert.AreEqual(6, Math.Radical(6));
+            Assert.AreEqual(7, Math.Radical(7));
+            Assert.AreEqual(2, Math.Radical(8));
+            Assert.AreEqual(3, Math.Radical(9));
+            Assert.AreEqual(10, Math.Radical(10));
+            Assert.AreEqual(11, Math.Radical(11));
+            Assert.AreEqual(6, Math.Radical(12));
+            Assert.AreEqual(13, Math.Radical(13));
+            Assert.AreEqual(14, Math.Radical(14));
+
+            foreach (var n in (int[])[2, 3, 5, 7])
+            {
+                Assert.AreEqual(n, Math.Radical(n * n));
+                Assert.AreEqual(n, Math.Radical(n * n * n));
+                Assert.AreEqual(n, Math.Radical(n * n * n * n));
+            }
+        }
     }
 }
