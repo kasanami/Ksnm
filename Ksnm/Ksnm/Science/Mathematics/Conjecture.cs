@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -11,6 +12,16 @@ namespace Ksnm.Science.Mathematics
     /// </summary>
     public static class Conjecture
     {
+        /// <summary>
+        /// ABC予想
+        /// 互いに素な自然数の組a、b、cについて、a＋b＝cが成り立つとき、c＜K*(rad(abc)^1+ε)という不等式を満たすならtrueを返す。
+        /// この関数では、K=1,ε=0とする。
+        /// </summary>
+        public static bool AbcConjecture(int a, int b)
+        {
+            int c = a + b;
+            return c < Math.Radical(a * b * c);
+        }
         /// <summary>
         /// ゴールドバッハの予想
         /// 指定した数の範囲の偶数が、2つの素数の和として表すことができるか判定する。
@@ -64,11 +75,11 @@ namespace Ksnm.Science.Mathematics
         /// </summary>
         static bool IsPrime(int value)
         {
-            if(PrimeNumbers.Contains(value))
+            if (PrimeNumbers.Contains(value))
             {
                 return true;
             }
-            if(Math.IsPrime(value))
+            if (Math.IsPrime(value))
             {
                 PrimeNumbers.Add(value);
                 return true;

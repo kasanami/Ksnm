@@ -1,4 +1,6 @@
-﻿using Ksnm.Science.Mathematics;
+﻿using Ksnm.ExtensionMethods.System.Collections.Generic.Enumerable;
+using Ksnm.Science.Mathematics;
+using Ksnm.Units;
 using Math = Ksnm.Math;
 
 namespace ConsoleApp
@@ -10,6 +12,12 @@ namespace ConsoleApp
     {
         public static void Run()
         {
+
+            Console.WriteLine("ABC予想");
+            if (AbcConjecture())
+            {
+                Console.WriteLine("→成り立つ");
+            }
 
             Console.WriteLine("ゴールドバッハ予想");
             if (Conjecture.GoldbachsConjecture(4, 100))
@@ -34,6 +42,35 @@ namespace ConsoleApp
             {
                 Console.WriteLine("→成り立つ");
             }
+        }
+        /// <summary>
+        /// ABC予想
+        /// K=1,ε=0として、一部の反例を出力する
+        /// </summary>
+        /// <returns>現状常にtrueを返す</returns>
+        public static bool AbcConjecture()
+        {
+            for (int a = 2; a < 100; a++)
+            {
+                for (int b = 2; b < 100; b++)
+                {
+                    int c = a + b;
+                    if (Math.Coprime(a, b, c))
+                    {
+                        var result = Conjecture.AbcConjecture(a, b);
+                        //Console.WriteLine($"{a}+{b}={c};\t{c}<{Math.Radical(a * b * c)} = {result} {(result ? "" : "★")}");
+                        if (result == false)
+                        {
+                            var abc = a * b * c;
+                            Console.WriteLine($"{a}+{b}={c}; {c}<{Math.Radical(abc)} = {result}");
+
+                            var primes = Math.PrimeFactorization(abc);
+                            Console.WriteLine($"PrimeFactorization({abc})={primes.ToJoinedString(",")}");
+                        }
+                    }
+                }
+            }
+            return true;
         }
         /// <summary>
         /// コラッツの問題
