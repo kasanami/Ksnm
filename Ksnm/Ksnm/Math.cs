@@ -1872,6 +1872,10 @@ namespace Ksnm
         /// <returns></returns>
         public static T Radical<T>(T value) where T : INumber<T>
         {
+            if (value == T.Zero)
+            {
+                throw new ArgumentException($"{nameof(value)}が0です。");
+            }
             if (value == T.One)
             {
                 return T.One;
