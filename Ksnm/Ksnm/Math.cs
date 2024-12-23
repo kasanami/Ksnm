@@ -2200,12 +2200,12 @@ namespace Ksnm
         /// <summary>
         /// 最大公約数
         /// </summary>
-        public static T GreatestCommonDivisor<T>(T a, T b) where T : INumber<T>
+        static T _GreatestCommonDivisor<T>(T a, T b) where T : INumber<T>
         {
             if (a < b)
             {
                 // 引数を入替えて自分を呼び出す
-                return GreatestCommonDivisor(b, a);
+                return _GreatestCommonDivisor(b, a);
             }
             while (T.IsZero(b) == false)
             {
@@ -2219,13 +2219,18 @@ namespace Ksnm
         /// 最大公約数を計算する。
         /// <para>負数は正数にされる。</para>
         /// </summary>
-        /// <param name="a">整数</param>
-        /// <param name="b">整数</param>
-        /// <param name="c">整数</param>
         /// <returns>最大公約数</returns>
-        public static T GreatestCommonDivisor<T>(T a, T b, T c) where T : INumber<T>
+        public static T GreatestCommonDivisor<T>(T value, params IEnumerable<T> values) where T : INumber<T>
         {
-            return GreatestCommonDivisor(GreatestCommonDivisor(a, b), c);
+            if (values.Count() <= 0)
+            {
+                return value;
+            }
+            foreach (var value2 in values)
+            {
+                value = _GreatestCommonDivisor(value, value2);
+            }
+            return value;
         }
         #endregion 最大公約数 GreatestCommonDivisor
 
@@ -2242,6 +2247,18 @@ namespace Ksnm
             return (a * b) / gcd;
         }
         #endregion 最小公倍数
+
+        #region Coprime 互いに素
+        /// <summary>
+        /// 指定した値が、互いに素か判定する。
+        /// = 指定した値を共に割り切る正の整数が 1 のみ。
+        /// = 指定した値の最大公約数が 1 である。
+        /// </summary>
+        public static bool Coprime<T>(T value, params IEnumerable<T> values) where T : INumber<T>
+        {
+            return GreatestCommonDivisor(value, values) == T.One;
+        }
+        #endregion Coprime 互いに素
 
         #region 素因数分解
         /// <summary>

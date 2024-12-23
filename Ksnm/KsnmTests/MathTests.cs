@@ -655,6 +655,10 @@ namespace Ksnm.Tests
             Assert.AreEqual(Math.GreatestCommonDivisor(1071, 1029), 21);
             Assert.AreEqual(Math.GreatestCommonDivisor(-30, 42), 6);
             Assert.AreEqual(Math.GreatestCommonDivisor(-1071, 1029), 21);
+
+            Assert.AreEqual(Math.GreatestCommonDivisor(12, 14, 16), 2);
+            Assert.AreEqual(Math.GreatestCommonDivisor(6, 9, 12), 3);
+            Assert.AreEqual(Math.GreatestCommonDivisor(12, 15, 18), 3);
         }
 
         [TestMethod()]
@@ -1709,6 +1713,21 @@ namespace Ksnm.Tests
                 Assert.AreEqual(n, Math.Radical(n * n * n));
                 Assert.AreEqual(n, Math.Radical(n * n * n * n));
             }
+        }
+
+        [TestMethod()]
+        public void CoprimeTest()
+        {
+            Assert.IsTrue(Math.Coprime(8, 15));
+            Assert.IsTrue(Math.Coprime(9, 28));
+            Assert.IsTrue(Math.Coprime(14, 25));
+            Assert.IsTrue(Math.Coprime(35, 48));
+            Assert.IsTrue(Math.Coprime(11, 27));
+            Assert.IsTrue(Math.Coprime(7, 20));
+            Assert.IsTrue(Math.Coprime(16, 21));
+            Assert.IsTrue(Math.Coprime(13, 22));
+            Assert.IsTrue(Math.Coprime(17, 19));
+            Assert.IsTrue(Math.Coprime(23, 40));
         }
     }
 }
