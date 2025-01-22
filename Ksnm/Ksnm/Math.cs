@@ -845,6 +845,45 @@ namespace Ksnm
         }
         #endregion LeakyReLU
 
+        #region Softmax
+        /// <summary>
+        /// ソフトマックス関数
+        /// ・任意の数のリストを0.0～1.0の値のリストに変換する。
+        /// </summary>
+        /// <param name="values">任意の数のリスト</param>
+        /// <param name="temperature">0の場合、最大値に重みが割り振られる。2より大きくしない。</param>
+        /// <param name="tolerance">許容誤差</param>
+        public static IEnumerable<T> Softmax<T>(IEnumerable<T> values, T temperature, T tolerance) where T : INumber<T>
+        {
+            if (temperature == T.Zero)
+            {
+                var exp = values.Select(value => Exp(value, tolerance));
+                T sum = T.Zero;
+                foreach (var value in exp)
+                {
+                    sum += value;
+                }
+                foreach (var value in exp)
+                {
+                    yield return value / sum;
+                }
+            }
+            else
+            {
+                var exp = values.Select(value => Exp(value / temperature, tolerance));
+                T sum = T.Zero;
+                foreach (var value in exp)
+                {
+                    sum += value;
+                }
+                foreach (var value in exp)
+                {
+                    yield return value / sum;
+                }
+            }
+        }
+        #endregion Softmax
+
         #region Softplus
         /// <summary>
         /// ソフトプラス関数

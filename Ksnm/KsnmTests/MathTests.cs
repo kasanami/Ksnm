@@ -1729,5 +1729,26 @@ namespace Ksnm.Tests
             Assert.IsTrue(Math.Coprime(17, 19));
             Assert.IsTrue(Math.Coprime(23, 40));
         }
+
+        [TestMethod()]
+        public void SoftmaxTest()
+        {
+            {
+                var values = new double[] { 1, 1, 1, 1 };
+                var results = Math.Softmax(values, 1, double.Epsilon).ToArray();
+                Assert.AreEqual(0.25, results[0]);
+                Assert.AreEqual(0.25, results[1]);
+                Assert.AreEqual(0.25, results[2]);
+                Assert.AreEqual(0.25, results[3]);
+            }
+            {
+                var values = new double[] { 1, 2, 3, 4 };
+                var results = Math.Softmax(values, 1, double.Epsilon).ToArray();
+                Assert.AreEqual(0.0321, results[0], 0.001);
+                Assert.AreEqual(0.0871, results[1], 0.001);
+                Assert.AreEqual(0.2369, results[2], 0.001);
+                Assert.AreEqual(0.6439, results[3], 0.001);
+            }
+        }
     }
 }
