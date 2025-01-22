@@ -14,9 +14,9 @@ namespace ConsoleApp
         {
 
             Console.WriteLine("ABC予想");
-            if (AbcConjecture())
+            if (AbcConjecture(100))
             {
-                Console.WriteLine("→成り立つ");
+                Console.WriteLine("→100の範囲では成り立つ");
             }
 
             Console.WriteLine("ゴールドバッハ予想");
@@ -48,11 +48,11 @@ namespace ConsoleApp
         /// K=1,ε=0として、一部の反例を出力する
         /// </summary>
         /// <returns>現状常にtrueを返す</returns>
-        public static bool AbcConjecture()
+        public static bool AbcConjecture(int maxValue)
         {
-            for (int a = 2; a < 100; a++)
+            for (int a = 2; a <= maxValue; a++)
             {
-                for (int b = 2; b < 100; b++)
+                for (int b = 2; b <= maxValue; b++)
                 {
                     int c = a + b;
                     if (Math.Coprime(a, b, c))
