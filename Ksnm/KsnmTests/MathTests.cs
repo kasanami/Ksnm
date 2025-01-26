@@ -1780,6 +1780,24 @@ namespace Ksnm.Tests
                 Assert.AreEqual(0.25, results[5]);
                 Assert.AreEqual(0.25, results[6]);
             }
+            // decimal
+            {
+                var values = new decimal[] { 1, 2, 3, 4 };
+                var results = Math.Softmax(values, 1, ExtendedDecimal.Epsilon).ToArray();
+                Assert.AreEqual(0.0321m, results[0], 0.001m);
+                Assert.AreEqual(0.0871m, results[1], 0.001m);
+                Assert.AreEqual(0.2369m, results[2], 0.001m);
+                Assert.AreEqual(0.6439m, results[3], 0.001m);
+            }
+            // Half
+            {
+                var values = new Half[] { (Half)1, (Half)2, (Half)3, (Half)4 };
+                var results = Math.Softmax(values, (Half)1).ToArray();
+                Assert.AreEqual(0.0321, (double)results[0], 0.001);
+                Assert.AreEqual(0.0871, (double)results[1], 0.001);
+                Assert.AreEqual(0.2369, (double)results[2], 0.001);
+                Assert.AreEqual(0.6439, (double)results[3], 0.001);
+            }
         }
     }
 }

@@ -852,8 +852,9 @@ namespace Ksnm
         /// </summary>
         /// <param name="values">任意の数のリスト</param>
         /// <param name="temperature">0の場合、最大値に重みが割り振られる。2より大きくしない。</param>
-        public static IEnumerable<T> Softmax<T>(IEnumerable<T> values, T temperature)
-            where T : IExponentialFunctions<T>
+        /// <param name="Exp">自然対数の底のべき乗を返す関数</param>
+        public static IEnumerable<T> Softmax<T>(IEnumerable<T> values, T temperature, Func<T, T> Exp)
+            where T : INumber<T>
         {
             // ゼロのときは、最大値に1を設定する。最大値が複数ある場合は均等に割り振る。
             if (temperature == T.Zero)
@@ -875,7 +876,7 @@ namespace Ksnm
             }
             else
             {
-                var expValues = values.Select(value => T.Exp(value / temperature));
+                var expValues = values.Select(value => Exp(value / temperature));
                 T sum = T.Zero;
                 foreach (var value in expValues)
                 {
@@ -886,6 +887,29 @@ namespace Ksnm
                     yield return value / sum;
                 }
             }
+        }
+        /// <summary>
+        /// ソフトマックス関数
+        /// ・任意の数のリストを0.0～1.0の値のリストに変換する。
+        /// </summary>
+        /// <param name="values">任意の数のリスト</param>
+        /// <param name="temperature">0の場合、最大値に重みが割り振られる。2より大きくしない。</param>
+        public static IEnumerable<T> Softmax<T>(IEnumerable<T> values, T temperature)
+            where T : INumber<T>, IExponentialFunctions<T>
+        {
+            return Softmax(values, temperature, T.Exp);
+        }
+        /// <summary>
+        /// ソフトマックス関数
+        /// ・任意の数のリストを0.0～1.0の値のリストに変換する。
+        /// </summary>
+        /// <param name="values">任意の数のリスト</param>
+        /// <param name="temperature">0の場合、最大値に重みが割り振られる。2より大きくしない。</param>
+        /// <param name="tolerance">許容値</param>
+        public static IEnumerable<T> Softmax<T>(IEnumerable<T> values, T temperature, T tolerance)
+            where T : INumber<T>
+        {
+            return Softmax(values, temperature, (x) => Exp(x, tolerance));
         }
         #endregion Softmax
 
