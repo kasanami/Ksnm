@@ -852,31 +852,36 @@ namespace Ksnm
         /// </summary>
         /// <param name="values">任意の数のリスト</param>
         /// <param name="temperature">0の場合、最大値に重みが割り振られる。2より大きくしない。</param>
-        /// <param name="tolerance">許容誤差</param>
-        public static IEnumerable<T> Softmax<T>(IEnumerable<T> values, T temperature, T tolerance) where T : INumber<T>
+        public static IEnumerable<T> Softmax<T>(IEnumerable<T> values, T temperature)
+            where T : IExponentialFunctions<T>
         {
+            // ゼロのときは、最大値に1を設定する。最大値が複数ある場合は均等に割り振る。
             if (temperature == T.Zero)
             {
-                var exp = values.Select(value => Exp(value, tolerance));
-                T sum = T.Zero;
-                foreach (var value in exp)
+                var maxValue = values.Max();
+                var maxCount = values.Count(value => value == maxValue);
+                var returnValue = T.One / T.CreateChecked(maxCount);
+                foreach (var value in values)
                 {
-                    sum += value;
-                }
-                foreach (var value in exp)
-                {
-                    yield return value / sum;
+                    if (value == maxValue)
+                    {
+                        yield return returnValue;
+                    }
+                    else
+                    {
+                        yield return T.Zero;
+                    }
                 }
             }
             else
             {
-                var exp = values.Select(value => Exp(value / temperature, tolerance));
+                var expValues = values.Select(value => T.Exp(value / temperature));
                 T sum = T.Zero;
-                foreach (var value in exp)
+                foreach (var value in expValues)
                 {
                     sum += value;
                 }
-                foreach (var value in exp)
+                foreach (var value in expValues)
                 {
                     yield return value / sum;
                 }
