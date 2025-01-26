@@ -1768,6 +1768,18 @@ namespace Ksnm.Tests
                 Assert.AreEqual(0.5, results[3]);
                 Assert.AreEqual(0.5, results[4]);
             }
+            {
+                // temperatureがゼロ、最大値が複数あるなら均等に割り振る
+                var values = new double[] { 1, 2, 3, 4, 4, 4, 4 };
+                var results = Math.Softmax(values, 0).ToArray();
+                Assert.AreEqual(0.0, results[0]);
+                Assert.AreEqual(0.0, results[1]);
+                Assert.AreEqual(0.0, results[2]);
+                Assert.AreEqual(0.25, results[3]);
+                Assert.AreEqual(0.25, results[4]);
+                Assert.AreEqual(0.25, results[5]);
+                Assert.AreEqual(0.25, results[6]);
+            }
         }
     }
 }
