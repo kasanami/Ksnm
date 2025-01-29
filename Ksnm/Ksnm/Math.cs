@@ -1018,7 +1018,20 @@ namespace Ksnm
         {
             return values.Average();
         }
-
+        /// <summary>
+        /// 平均値
+        /// </summary>
+        public static T Average<T>(params IEnumerable<T> values) where T : INumber<T>
+        {
+            T sum = T.Zero;
+            T count = T.Zero;
+            foreach (var value in values)
+            {
+                sum += value;
+                count++;
+            }
+            return sum / count;
+        }
         #endregion Average
 
         #region Median
@@ -1089,6 +1102,52 @@ namespace Ksnm
         }
 
         #endregion Median
+
+        #region StandardDeviation 標準偏差
+        /// <summary>
+        /// 標準偏差を計算する
+        /// </summary>
+        /// <param name="values">値</param>
+        /// <param name="Sqrt">平方根を計算する関数</param>
+        public static T StandardDeviation<T>(IEnumerable<T> values, Func<T, T> Sqrt) where T : INumber<T>
+        {
+            // 合計値
+            T sum = T.Zero;
+            T count = T.Zero;
+            foreach (var value in values)
+            {
+                sum += value;
+                count++;
+            }
+            // データが空の場合、0を返す
+            if (count == T.Zero) return T.Zero;
+
+            // 平均値
+            T average = sum / count;
+
+            // 平均からの差の2乗を合計
+            T sumOfSquares = T.Zero;
+            foreach (var value in values)
+            {
+                var diff = value - average;
+                sumOfSquares += diff * diff;
+            }
+
+            // 分散（平均からの差の2乗の平均）を求めて平方根を取る
+            T variance = sumOfSquares / count;
+
+            return Sqrt(variance);
+        }
+        /// <summary>
+        /// 標準偏差を計算する
+        /// </summary>
+        /// <param name="values">値</param>
+        public static T StandardDeviation<T>(IEnumerable<T> values)
+            where T : INumber<T>, IRootFunctions<T>
+        {
+            return StandardDeviation(values, T.Sqrt);
+        }
+        #endregion StandardDeviation 標準偏差
 
         #region Integral 積分
         /// <summary>

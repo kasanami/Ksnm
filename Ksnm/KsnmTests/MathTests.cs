@@ -547,6 +547,8 @@ namespace Ksnm.Tests
         {
             Assert.AreEqual(Math.Average(0, 1), 0.5f);
             Assert.AreEqual(Math.Average(0, 1, 2), 1);
+            var values = new[] { (Half)1, (Half)2, (Half)3 };
+            Assert.AreEqual((Half)2, Math.Average(values));
         }
 
         [TestMethod()]
@@ -1751,7 +1753,7 @@ namespace Ksnm.Tests
             }
             {
                 // temperatureがゼロなら最大値のみ1.0
-                var values = new double[] { 1, 2, 3, 4};
+                var values = new double[] { 1, 2, 3, 4 };
                 var results = Math.Softmax(values, 0).ToArray();
                 Assert.AreEqual(0.0, results[0]);
                 Assert.AreEqual(0.0, results[1]);
@@ -1798,6 +1800,13 @@ namespace Ksnm.Tests
                 Assert.AreEqual(0.2369, (double)results[2], 0.001);
                 Assert.AreEqual(0.6439, (double)results[3], 0.001);
             }
+        }
+
+        [TestMethod()]
+        public void StandardDeviationTest()
+        {
+            var a = Math.StandardDeviation([1.0, 2.0, 3.0, 4.0, 5.0]);
+            Assert.AreEqual(1.4142135623731, a, 0.0000000000001);
         }
     }
 }
