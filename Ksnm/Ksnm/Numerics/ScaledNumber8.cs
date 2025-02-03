@@ -23,21 +23,20 @@ freely, subject to the following restrictions:
 */
 using System;
 using System.Numerics;
-using System.Runtime.InteropServices;
-using Ksnm.ExtensionMethods.System.Double;
-using BitsType = System.Byte;// 固定小数点数 全体のビットを表す型
 using System.Globalization;
-using System.Diagnostics.CodeAnalysis;// 固定小数点数 小数部分のビットを表す型
+using System.Diagnostics.CodeAnalysis;
 
 namespace Ksnm.Numerics
 {
+    // 全体のビットを表す型
+    using BitsType = System.Byte;
     // コードを再利用するためのエイリアスを定義
     using Self = ScaledNumber8;
     /// <summary>
     /// 8ビットにスケーリングされた値型
     /// ・固定小数点数
     /// ・0x0 = 0.0 , 0xFF = 1.0
-    /// ・他の型名候補、非正規化された値（denormalized value）・・・長い
+    /// ・他の型名候補：非正規化された値（denormalized value）・・・長い
     /// </summary>
     public struct ScaledNumber8 :
         INumber<Self>,
@@ -55,7 +54,7 @@ namespace Ksnm.Numerics
         /// <summary>
         /// 数値 1 を表します。
         /// </summary>
-        public readonly static Self One = new () { bits = OneBits };
+        public readonly static Self One = new(OneBits);
         /// <summary>
         /// 最小有効値を表します。
         /// </summary>
@@ -99,13 +98,21 @@ namespace Ksnm.Numerics
         /// <summary>
         /// 全体のビット
         /// </summary>
-        public BitsType Bits => bits;
+        public BitsType Bits { get => bits; set => bits = value; }
         #endregion プロパティ
 
         #region コンストラクタ
         public ScaledNumber8()
         {
             bits = 0;
+        }
+        /// <summary>
+        /// 指定した整数から初期化
+        /// </summary>
+        /// <param name="bits">整数の値</param>
+        public ScaledNumber8(BitsType bits)
+        {
+            this.bits = bits;
         }
         /// <summary>
         /// 指定した浮動小数点数から初期化

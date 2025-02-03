@@ -428,6 +428,16 @@ namespace Ksnm
         }
         #endregion Max Min
 
+        #region Clamp
+        /// <summary>
+        /// 値を上限と下限の間に制限します。
+        /// </summary>
+        public static T Clamp<T>(T value, T minValue, T maxValue) where T : INumber<T>
+        {
+            return Max(minValue, Min(value, maxValue));
+        }
+        #endregion Clamp
+
         #region Abs
         /// <summary>
         /// 数値の絶対値を返します。

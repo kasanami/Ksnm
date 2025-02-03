@@ -10,6 +10,7 @@ using System;
 using Ksnm.ExtensionMethods.System.Double;
 using Ksnm.Science.Mathematics;
 using Ksnm.Units;
+using System.Security.Claims;
 
 namespace Ksnm.Tests
 {
@@ -1807,6 +1808,16 @@ namespace Ksnm.Tests
         {
             var a = Math.StandardDeviation([1.0, 2.0, 3.0, 4.0, 5.0]);
             Assert.AreEqual(1.4142135623731, a, 0.0000000000001);
+        }
+
+        [TestMethod()]
+        public void ClampTest()
+        {
+            Assert.AreEqual(2, Math.Clamp(1, 2, 3));
+            Assert.AreEqual(3, Math.Clamp(4, 2, 3));
+
+            Assert.AreEqual(-1, Math.Clamp(-5, -1, +1));
+            Assert.AreEqual(+1, Math.Clamp(+5, -1, +1));
         }
     }
 }
