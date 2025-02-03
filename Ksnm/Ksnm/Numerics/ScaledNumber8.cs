@@ -326,7 +326,7 @@ namespace Ksnm.Numerics
             {
                 return MaxValue;
             }
-            value *= MaxValue;
+            value *= OneBits;
             return new Self() { bits = (byte)value };
         }
         public static explicit operator Self(decimal value)
