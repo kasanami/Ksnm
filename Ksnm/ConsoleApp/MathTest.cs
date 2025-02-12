@@ -14,6 +14,15 @@ namespace ConsoleApp
         {
             FastInverseSqrtTest();
 
+            // ネイピア数を計算
+            Console.WriteLine("CalculateE");
+            {
+                Console.WriteLine($"Half   :{Math.CalculateE<Half>()}");
+                Console.WriteLine($"float  :{Math.CalculateE<float>()}");
+                Console.WriteLine($"double :{Math.CalculateE<double>()}");
+                Console.WriteLine($"decimal:{Math.CalculateE<decimal>(Math.DecimalEpsilon)}");
+            }
+
             // Log2
             Console.WriteLine("Log2");
             {
