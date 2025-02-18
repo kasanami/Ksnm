@@ -19,12 +19,44 @@ namespace ConsoleApp
         {
             Console.WriteLine(Ksnm.Debug.GetFilePathAndLineNumber());
 
+
+            {
+                Console.WriteLine($"{nameof(Int128)}");
+                Console.WriteLine($"{nameof(Int128.MaxValue)}={Int128.MaxValue}");
+                Console.WriteLine($"{nameof(Int128.MinValue)}={Int128.MinValue}");
+                Console.WriteLine($"{nameof(Int128.Zero)}={Int128.Zero}");
+                Console.WriteLine($"{nameof(Int128.One)}={Int128.One}");
+                Console.WriteLine($"{nameof(Int128.NegativeOne)}={Int128.NegativeOne}");
+            }
+
+            {
+                Console.WriteLine($"{nameof(Fraction<Int128>)}");
+                Fraction<Int128> fraction = new();
+
+                fraction = (Fraction<Int128>)10.0;
+                Console.WriteLine($"10.0  = {fraction}");
+                fraction = (Fraction<Int128>)12.3;
+                Console.WriteLine($"12.3  = {fraction}");
+
+                fraction = (Fraction<Int128>)10.0m;
+                Console.WriteLine($"10.0m = {fraction}");
+                fraction = (Fraction<Int128>)12.3m;
+                Console.WriteLine($"12.3m = {fraction}");
+
+                fraction = Int128.Parse("123456789012345678901234567890123456789");
+                Console.WriteLine($"123456789012345678901234567890123456789 = {fraction}");
+                fraction /= Int128.Parse("100000000000000000000000000000000000000");
+                Console.WriteLine($"{fraction}={(double)fraction}");
+
+                fraction = Int128.Parse("123");
+                fraction /= Int128.Parse("100000000000000000000000000000000000000");
+                Console.WriteLine($"{fraction}={(double)fraction}");
+            }
+
             ExtendedDoubleTest();
             ExtendedDecimalTest();
             CubedDividedNumber8Test();
             FractionTest();
-
-
             // NaNはキャスト可能？→可能
             if (false)
             {
