@@ -621,16 +621,12 @@ namespace ConsoleApp
         static void TestClustering()
         {
             List<Human> humans = new();
-            humans.Add(new Human(100, 30));
-            humans.Add(new Human(110, 40));
-            humans.Add(new Human(120, 50));
-            humans.Add(new Human(130, 60));
-            humans.Add(new Human(140, 70));
-            humans.Add(new Human(130, 30));
-            humans.Add(new Human(140, 40));
-            humans.Add(new Human(150, 50));
-            humans.Add(new Human(160, 60));
-            humans.Add(new Human(170, 70));
+            for (var i = 0; i < 100; i++)
+            {
+                var height = Random.Shared.Next(100, 200);
+                var weight = Random.Shared.Next(50, 100);
+                humans.Add(new Human(height, weight));
+            }
 
             KMeansClustering<double> kMeansClustering = new(3);
             foreach (Human human in humans)
@@ -639,8 +635,22 @@ namespace ConsoleApp
             }
 
             kMeansClustering.Initialize();
-            while (kMeansClustering.Update() == false)
+            kMeansClustering.Clusters.ElementAt(0).Name = "太";
+            kMeansClustering.Clusters.ElementAt(0).Location[0] = 100;
+            kMeansClustering.Clusters.ElementAt(0).Location[1] = 100;
+            kMeansClustering.Clusters.ElementAt(1).Name = "中";
+            kMeansClustering.Clusters.ElementAt(1).Location[0] = 150;
+            kMeansClustering.Clusters.ElementAt(1).Location[1] = 75;
+            kMeansClustering.Clusters.ElementAt(2).Name = "細";
+            kMeansClustering.Clusters.ElementAt(2).Location[0] = 200;
+            kMeansClustering.Clusters.ElementAt(2).Location[1] = 50;
+
+            for (int i = 0; i < 100; i++)
             {
+                if (kMeansClustering.Update())
+                {
+                    break;
+                }
             }
 
         }

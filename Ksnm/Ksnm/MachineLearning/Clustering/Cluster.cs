@@ -8,6 +8,7 @@ namespace Ksnm.MachineLearning.Clustering
     public class Cluster<T> where T : INumber<T>
     {
         #region フィールド、プロパティ
+        public string Name { get; set; } = "";
         public List<IData<T>> DataList = new();
         public IEnumerable<Numerics.Vector<T>> DataValues => DataList.Select(item => item.Values);
         /// <summary>
@@ -34,6 +35,10 @@ namespace Ksnm.MachineLearning.Clustering
             var delta = Location - newLocation;
             Location = newLocation;
             return delta.MagnitudePow2;
+        }
+        public override string ToString()
+        {
+            return $"{Name},{Location},{DataList.Count}";
         }
     }
 }
