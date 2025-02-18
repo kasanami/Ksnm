@@ -456,64 +456,18 @@ namespace Ksnm
         /// <summary>
         /// 符号関数
         /// </summary>
-        public static int Sign(int x)
+        public static int Sign<T>(T x) where T : INumber<T>
         {
-            if (x < 0)
+            if (x < T.Zero)
             {
                 return -1;
             }
-            else if (x > 0)
+            else if (x > T.Zero)
             {
                 return +1;
             }
             return 0;
         }
-        /// <summary>
-        /// 符号関数
-        /// </summary>
-        public static int Sign(long x)
-        {
-            if (x < 0)
-            {
-                return -1;
-            }
-            else if (x > 0)
-            {
-                return +1;
-            }
-            return 0;
-        }
-        /// <summary>
-        /// 符号関数
-        /// </summary>
-        public static int Sign(float x)
-        {
-            if (x < 0)
-            {
-                return -1;
-            }
-            else if (x > 0)
-            {
-                return +1;
-            }
-            return 0;
-        }
-        /// <summary>
-        /// 符号関数
-        /// </summary>
-        public static int Sign(double x)
-        {
-            if (x < 0)
-            {
-                return -1;
-            }
-            else if (x > 0)
-            {
-                return +1;
-            }
-            return 0;
-        }
-
         #endregion Sign
 
         #region Ramp ランプ関数
