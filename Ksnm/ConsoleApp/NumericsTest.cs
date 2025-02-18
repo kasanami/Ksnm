@@ -1,15 +1,7 @@
-﻿using Ksnm;
-using Ksnm.Numerics;
-using SixLabors.ImageSharp.PixelFormats;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static System.Runtime.InteropServices.JavaScript.JSType;
+﻿using Ksnm.Numerics;
+using System.Numerics;
 
 using Fraction32 = Ksnm.Numerics.Fraction<System.Int16>;
-using Fraction64 = Ksnm.Numerics.Fraction<System.Int32>;
 
 namespace ConsoleApp
 {
@@ -19,6 +11,25 @@ namespace ConsoleApp
         {
             Console.WriteLine(Ksnm.Debug.GetFilePathAndLineNumber());
 
+            {
+                Console.WriteLine($"{nameof(Ksnm.Numerics.Vector<double>)}");
+
+                Ksnm.Numerics.Vector<double> vector = new(3);
+
+                vector[0] = 1;
+                vector[1] = 1;
+                vector[2] = 1;
+
+                Console.WriteLine($"{nameof(vector)}={vector}");
+                Console.WriteLine($"{nameof(vector.Magnitude)}={vector.Magnitude}");
+                Console.WriteLine($"{nameof(vector.MagnitudePow2)}={vector.MagnitudePow2}");
+
+                vector[1] = -1;
+                vector[2] = -1;
+                Console.WriteLine($"{nameof(vector)}={vector}");
+                Console.WriteLine($"{nameof(vector.Magnitude)}={vector.Magnitude}");
+                Console.WriteLine($"{nameof(vector.MagnitudePow2)}={vector.MagnitudePow2}");
+            }
 
             {
                 Console.WriteLine($"{nameof(Int128)}");

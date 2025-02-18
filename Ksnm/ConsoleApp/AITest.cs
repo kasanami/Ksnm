@@ -7,6 +7,8 @@ using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
 using System.Reflection;
 using System.Reflection.Metadata;
+using Ksnm.MachineLearning.Clustering;
+using Ksnm.Numerics;
 
 namespace ConsoleApp
 {
@@ -21,7 +23,8 @@ namespace ConsoleApp
             //TestLogicGate<float>();
             //TestLogicGate<Half>();
             //TestNumericRecognition<double>();
-            TestNumericRecognition2<double>();
+            //TestNumericRecognition2<double>();
+            TestClustering();
         }
         static void TestLogicGate<T>()
             where T : INumber<T>, IFloatingPointIeee754<T>, IMinMaxValue<T>
@@ -613,6 +616,70 @@ namespace ConsoleApp
         {
             double scale = (color.R + color.G + color.B) / (255.0 * 3);
             return T.CreateChecked(scale);
+        }
+
+        static void TestClustering()
+        {
+            List<Human> humans = new();
+            humans.Add(new Human(100, 30));
+            humans.Add(new Human(110, 40));
+            humans.Add(new Human(120, 50));
+            humans.Add(new Human(130, 60));
+            humans.Add(new Human(140, 70));
+            humans.Add(new Human(130, 30));
+            humans.Add(new Human(140, 40));
+            humans.Add(new Human(150, 50));
+            humans.Add(new Human(160, 60));
+            humans.Add(new Human(170, 70));
+
+            KMeansClustering<double> kMeansClustering = new(3);
+            foreach (Human human in humans)
+            {
+                kMeansClustering.AddData(human);
+            }
+
+            kMeansClustering.Initialize();
+            while (kMeansClustering.Update() == false)
+            {
+            }
+
+        }
+
+        struct Human : IData<double>
+        {
+            /// <summary>
+            /// 身長[cm]
+            /// </summary>
+            double _height
+            {
+                get => _values[0];
+                set => _values[0] = value;
+            }
+            /// <summary>
+            /// 体重[kg]
+            /// </summary>
+            double _weight
+            {
+                get => _values[1];
+                set => _values[1] = value;
+            }
+
+            Ksnm.Numerics.Vector<double> _values = new(2);
+            public Ksnm.Numerics.Vector<double> Values => _values;
+
+            public Human()
+            {
+            }
+            public Human(double height, double weight)
+            {
+                _height = height;
+                _weight = weight;
+            }
+
+            public override string ToString()
+            {
+                return $"{{{_height}cm,{_weight}kg}}";
+            }
         }
     }
 #pragma warning restore CS0162 // 到達できないコードが検出されました
