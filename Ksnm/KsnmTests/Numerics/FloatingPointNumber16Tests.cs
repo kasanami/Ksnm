@@ -7,6 +7,10 @@ namespace Ksnm.Numerics.Tests
     public class FloatingPointNumber16Tests
     {
         [TestMethod()]
+        public void OperationsTest()
+        {
+        }
+        [TestMethod()]
         public void ToDoubleTest()
         {
             Assert.AreEqual(0, Half.Zero.ToDouble());

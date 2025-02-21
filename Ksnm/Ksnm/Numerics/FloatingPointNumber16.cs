@@ -30,7 +30,7 @@ namespace Ksnm.Numerics
     /// <summary>
     /// 半精度浮動小数点数型
     /// </summary>
-    public struct FloatingPointNumber16: IEquatable<FloatingPointNumber16>
+    public struct FloatingPointNumber16 : IEquatable<FloatingPointNumber16>
     {
         #region 定数
         /// <summary>
@@ -171,6 +171,7 @@ namespace Ksnm.Numerics
         }
         #endregion プロパティ
 
+        #region 型変換
         /// <summary>
         /// 倍精度浮動小数点数に変換する
         /// </summary>
@@ -274,6 +275,21 @@ namespace Ksnm.Numerics
             }
             return temp;
         }
+
+        public static explicit operator FloatingPointNumber16(double value)
+        {
+            return FromDouble(value);
+        }
+        public static implicit operator float(FloatingPointNumber16 value)
+        {
+            return (float)value.ToDouble();
+        }
+        public static implicit operator double(FloatingPointNumber16 value)
+        {
+            return value.ToDouble();
+        }
+        #endregion 型変換
+
         #region IEquatable
         /// <summary>
         /// このインスタンスが指定した FloatingPointNumber16 値に等しいかどうかを示す値を返します。
