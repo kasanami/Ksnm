@@ -78,21 +78,21 @@ namespace KsnmTests.Numerics
         public const BitsType MantissaBitMask = 0b0000_0000_0111_1111;
 
         #region IFloatingPointConstants
-        public static BrainFloatingPoint16 E => throw new NotImplementedException();
+        public static BrainFloatingPoint16 E => (BrainFloatingPoint16)float.E;
 
-        public static BrainFloatingPoint16 Pi => throw new NotImplementedException();
+        public static BrainFloatingPoint16 Pi => (BrainFloatingPoint16)float.Pi;
 
-        public static BrainFloatingPoint16 Tau => throw new NotImplementedException();
+        public static BrainFloatingPoint16 Tau => (BrainFloatingPoint16)float.Tau;
 
-        public static BrainFloatingPoint16 One => new(0b0000_0000_0000_0000);
+        public static BrainFloatingPoint16 One => (BrainFloatingPoint16)1.0f;
 
         public static BrainFloatingPoint16 Zero => new(0);
 
-        public static BrainFloatingPoint16 AdditiveIdentity => throw new NotImplementedException();
+        public static BrainFloatingPoint16 AdditiveIdentity => Zero;
 
-        public static BrainFloatingPoint16 MultiplicativeIdentity => throw new NotImplementedException();
+        public static BrainFloatingPoint16 MultiplicativeIdentity => One;
 
-        static int INumberBase<BrainFloatingPoint16>.Radix => throw new NotImplementedException();
+        static int INumberBase<BrainFloatingPoint16>.Radix => 2;
         #endregion IFloatingPointConstants
         #endregion 定数
 
@@ -135,8 +135,8 @@ namespace KsnmTests.Numerics
         {
             get
             {
-                // 符号ビット以外が0なら0を返す
-                if ((Bits & ~SignShiftedBitMask) == 0)
+                // 0なら0を返す
+                if (IsZero(this))
                 {
                     return 0;
                 }
@@ -168,8 +168,8 @@ namespace KsnmTests.Numerics
         {
             get
             {
-                // 符号ビット以外が0なら0を返す
-                if ((Bits & ~SignShiftedBitMask) == 0)
+                // 0なら0を返す
+                if (IsZero(this))
                 {
                     return 0;
                 }
@@ -193,134 +193,85 @@ namespace KsnmTests.Numerics
 
         #region メソッド
         public static BrainFloatingPoint16 Abs(BrainFloatingPoint16 value)
-        {
-            throw new NotImplementedException();
-        }
+            => (BrainFloatingPoint16)float.Abs(value);
 
         public static bool IsCanonical(BrainFloatingPoint16 value)
-        {
-            throw new NotImplementedException();
-        }
+            => throw new NotImplementedException();
 
         public static bool IsComplexNumber(BrainFloatingPoint16 value)
-        {
-            throw new NotImplementedException();
-        }
+            => false;
 
         public static bool IsEvenInteger(BrainFloatingPoint16 value)
-        {
-            throw new NotImplementedException();
-        }
+            => float.IsEvenInteger(value);
 
         public static bool IsFinite(BrainFloatingPoint16 value)
-        {
-            throw new NotImplementedException();
-        }
+            => float.IsFinite(value);
 
         public static bool IsImaginaryNumber(BrainFloatingPoint16 value)
-        {
-            throw new NotImplementedException();
-        }
+            => false;
 
         public static bool IsInfinity(BrainFloatingPoint16 value)
-        {
-            throw new NotImplementedException();
-        }
+            => float.IsInfinity(value);
 
         public static bool IsInteger(BrainFloatingPoint16 value)
-        {
-            throw new NotImplementedException();
-        }
+            => float.IsInteger(value);
 
         public static bool IsNaN(BrainFloatingPoint16 value)
-        {
-            throw new NotImplementedException();
-        }
+            => float.IsNaN(value);
 
         public static bool IsNegative(BrainFloatingPoint16 value)
-        {
-            throw new NotImplementedException();
-        }
+            => float.IsNegative(value);
 
         public static bool IsNegativeInfinity(BrainFloatingPoint16 value)
-        {
-            throw new NotImplementedException();
-        }
+            => float.IsNegativeInfinity(value);
 
         public static bool IsNormal(BrainFloatingPoint16 value)
-        {
-            throw new NotImplementedException();
-        }
+            => float.IsNormal(value);
 
         public static bool IsOddInteger(BrainFloatingPoint16 value)
-        {
-            throw new NotImplementedException();
-        }
+            => float.IsOddInteger(value);
 
         public static bool IsPositive(BrainFloatingPoint16 value)
-        {
-            throw new NotImplementedException();
-        }
+            => float.IsPositive(value);
 
         public static bool IsPositiveInfinity(BrainFloatingPoint16 value)
-        {
-            throw new NotImplementedException();
-        }
+            => float.IsPositiveInfinity(value);
 
         public static bool IsRealNumber(BrainFloatingPoint16 value)
-        {
-            throw new NotImplementedException();
-        }
+            => float.IsRealNumber(value);
 
         public static bool IsSubnormal(BrainFloatingPoint16 value)
-        {
-            throw new NotImplementedException();
-        }
+            => float.IsSubnormal(value);
 
         public static bool IsZero(BrainFloatingPoint16 value)
         {
-            throw new NotImplementedException();
+            // 符号ビット以外が0なら0を返す
+            return (value.Bits & ~SignShiftedBitMask) == 0;
         }
 
         public static BrainFloatingPoint16 MaxMagnitude(BrainFloatingPoint16 x, BrainFloatingPoint16 y)
-        {
-            throw new NotImplementedException();
-        }
+            => (BrainFloatingPoint16)float.MaxMagnitude(x, y);
 
         public static BrainFloatingPoint16 MaxMagnitudeNumber(BrainFloatingPoint16 x, BrainFloatingPoint16 y)
-        {
-            throw new NotImplementedException();
-        }
+            => (BrainFloatingPoint16)float.MaxMagnitudeNumber(x, y);
 
         public static BrainFloatingPoint16 MinMagnitude(BrainFloatingPoint16 x, BrainFloatingPoint16 y)
-        {
-            throw new NotImplementedException();
-        }
+            => (BrainFloatingPoint16)float.MinMagnitude(x, y);
 
         public static BrainFloatingPoint16 MinMagnitudeNumber(BrainFloatingPoint16 x, BrainFloatingPoint16 y)
-        {
-            throw new NotImplementedException();
-        }
+            => (BrainFloatingPoint16)float.MinMagnitudeNumber(x, y);
 
         public static BrainFloatingPoint16 Parse(ReadOnlySpan<char> s, NumberStyles style, IFormatProvider? provider)
-        {
-            throw new NotImplementedException();
-        }
+            => (BrainFloatingPoint16)float.Parse(s, style, provider);
 
         public static BrainFloatingPoint16 Parse(string s, NumberStyles style, IFormatProvider? provider)
-        {
-            throw new NotImplementedException();
-        }
+            => (BrainFloatingPoint16)float.Parse(s, style, provider);
 
         public static BrainFloatingPoint16 Parse(ReadOnlySpan<char> s, IFormatProvider? provider)
-        {
-            throw new NotImplementedException();
-        }
+            => (BrainFloatingPoint16)float.Parse(s, provider);
 
         public static BrainFloatingPoint16 Parse(string s, IFormatProvider? provider)
-        {
-            throw new NotImplementedException();
-        }
+            => (BrainFloatingPoint16)float.Parse(s, provider);
 
         public static bool TryConvertFromChecked<TOther>(TOther value, [MaybeNullWhen(false)] out BrainFloatingPoint16 result) where TOther : INumberBase<TOther>
         {
@@ -354,12 +305,18 @@ namespace KsnmTests.Numerics
 
         public static bool TryParse(ReadOnlySpan<char> s, NumberStyles style, IFormatProvider? provider, [MaybeNullWhen(false)] out BrainFloatingPoint16 result)
         {
-            throw new NotImplementedException();
+            float temp;
+            var success = float.TryParse(s, style, provider, out temp);
+            result = (BrainFloatingPoint16)temp;
+            return success;
         }
 
         public static bool TryParse([NotNullWhen(true)] string? s, NumberStyles style, IFormatProvider? provider, [MaybeNullWhen(false)] out BrainFloatingPoint16 result)
         {
-            throw new NotImplementedException();
+            float temp;
+            var success = float.TryParse(s, style, provider, out temp);
+            result = (BrainFloatingPoint16)temp;
+            return success;
         }
 
         public static bool TryParse(ReadOnlySpan<char> s, IFormatProvider? provider, [MaybeNullWhen(false)] out BrainFloatingPoint16 result)
@@ -491,7 +448,7 @@ namespace KsnmTests.Numerics
         }
         public override string ToString()
         {
-            return Bits.ToString();
+            return ((float)this).ToString();
         }
         #endregion override Object
     }
