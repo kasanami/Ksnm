@@ -22,6 +22,7 @@ namespace KsnmTests.Numerics
     /// </summary>
     public struct BrainFloatingPoint16 :
         IFloatingPointConstants<BrainFloatingPoint16>,
+        IFloatingPointIeee754<BrainFloatingPoint16>,
         IMinMaxValue<BrainFloatingPoint16>
     {
         #region 定数
@@ -78,6 +79,18 @@ namespace KsnmTests.Numerics
         /// </summary>
         public const BitsType MantissaBitMask = 0b0000_0000_0111_1111;
 
+        private const BitsType EpsilonBits = 0x0001;
+        private const BitsType PositiveQNaNBits = 0b0111_1111_1100_0000;
+        private const BitsType NegativeQNaNBits = 0b1111_1111_1100_0000;
+        private const BitsType PositiveInfinityBits = 0b0111_1111_1000_0000;
+        private const BitsType NegativeInfinityBits = 0b1111_1111_1000_0000;
+        private const BitsType PositiveZeroBits = 0x0000;
+        private const BitsType NegativeZeroBits = 0x8000;
+        private const BitsType PositiveOneBits = 0b0011_1111_1000_0000;
+        private const BitsType NegativeOneBits = 0b1011_1111_1000_0000;
+        private const BitsType MinValueBits = 0b1111_1111_0111_1111;
+        private const BitsType MaxValueBits = 0b0111_1111_0111_1111;
+
         #region IFloatingPointConstants
         public static BrainFloatingPoint16 E => (BrainFloatingPoint16)float.E;
 
@@ -85,9 +98,9 @@ namespace KsnmTests.Numerics
 
         public static BrainFloatingPoint16 Tau => (BrainFloatingPoint16)float.Tau;
 
-        public static BrainFloatingPoint16 One => (BrainFloatingPoint16)1.0f;
+        public static BrainFloatingPoint16 One => new(PositiveOneBits);
 
-        public static BrainFloatingPoint16 Zero => new(0);
+        public static BrainFloatingPoint16 Zero => new(PositiveZeroBits);
 
         public static BrainFloatingPoint16 AdditiveIdentity => Zero;
 
@@ -96,11 +109,21 @@ namespace KsnmTests.Numerics
         static int INumberBase<BrainFloatingPoint16>.Radix => 2;
         #endregion IFloatingPointConstants
         #region IMinMaxValue
-        private const BitsType MinValueBits = 0b1111_1111_0111_1111;
-        private const BitsType MaxValueBits = 0b0111_1111_0111_1111;
+        /// <inheritdoc cref="IMinMaxValue{TSelf}.MaxValue" />
         public static BrainFloatingPoint16 MaxValue => new(MaxValueBits);
+        /// <inheritdoc cref="IMinMaxValue{TSelf}.MinValue" />
         public static BrainFloatingPoint16 MinValue => new(MinValueBits);
         #endregion IMinMaxValue
+        #region IFloatingPointIeee754
+        public static BrainFloatingPoint16 Epsilon => new(EpsilonBits);
+        public static BrainFloatingPoint16 NaN => new(NegativeQNaNBits);
+        public static BrainFloatingPoint16 PositiveInfinity => new(PositiveInfinityBits);
+        public static BrainFloatingPoint16 NegativeInfinity => new(NegativeInfinityBits);
+        /// <inheritdoc cref="IFloatingPointIeee754{TSelf}.NegativeZero" />
+        public static BrainFloatingPoint16 NegativeZero => new(NegativeZeroBits);
+        /// <inheritdoc cref="IFloatingPointIeee754{TSelf}.NegativeOne" />
+        public static BrainFloatingPoint16 NegativeOne => new(NegativeOneBits);
+        #endregion IFloatingPointIeee754
         #endregion 定数
 
         #region フィールド
@@ -385,6 +408,20 @@ namespace KsnmTests.Numerics
         {
             return !(left == right);
         }
+        public static bool operator >(BrainFloatingPoint16 left, BrainFloatingPoint16 right)
+            => (float)left > (float)right;
+
+        public static bool operator >=(BrainFloatingPoint16 left, BrainFloatingPoint16 right)
+            => (float)left >= (float)right;
+
+        public static bool operator <(BrainFloatingPoint16 left, BrainFloatingPoint16 right)
+            => (float)left < (float)right;
+
+        public static bool operator <=(BrainFloatingPoint16 left, BrainFloatingPoint16 right)
+            => (float)left <= (float)right;
+
+        public static BrainFloatingPoint16 operator %(BrainFloatingPoint16 left, BrainFloatingPoint16 right)
+            => (BrainFloatingPoint16)((float)left % (float)right);
         #endregion operators
 
         #region 型変換
@@ -416,9 +453,6 @@ namespace KsnmTests.Numerics
         public static explicit operator BrainFloatingPoint16(decimal value) => (BrainFloatingPoint16)(float)value;
         #endregion 他の型→BrainFloatingPoint16
         #region BrainFloatingPoint16→他の型
-        /// <summary>
-        /// BrainFloatingPoint16 から byte への明示的な変換を定義します。
-        /// </summary>
         public static explicit operator byte(BrainFloatingPoint16 value) => (byte)(float)value;
         public static explicit operator sbyte(BrainFloatingPoint16 value) => (sbyte)(float)value;
         public static explicit operator short(BrainFloatingPoint16 value) => (short)(float)value;
@@ -457,5 +491,128 @@ namespace KsnmTests.Numerics
             return ((float)this).ToString();
         }
         #endregion override Object
+
+        #region IFloatingPointIeee754
+        public static BrainFloatingPoint16 Atan2(BrainFloatingPoint16 y, BrainFloatingPoint16 x)
+            => (BrainFloatingPoint16)float.Atan2(y, x);
+        public static BrainFloatingPoint16 Atan2Pi(BrainFloatingPoint16 y, BrainFloatingPoint16 x)
+            => (BrainFloatingPoint16)float.Atan2Pi(y, x);
+
+        public static BrainFloatingPoint16 BitDecrement(BrainFloatingPoint16 x)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static BrainFloatingPoint16 BitIncrement(BrainFloatingPoint16 x)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static BrainFloatingPoint16 FusedMultiplyAdd(BrainFloatingPoint16 left, BrainFloatingPoint16 right, BrainFloatingPoint16 addend)
+            => (BrainFloatingPoint16)float.FusedMultiplyAdd(left, right, addend);
+        public static BrainFloatingPoint16 Ieee754Remainder(BrainFloatingPoint16 left, BrainFloatingPoint16 right)
+            => (BrainFloatingPoint16)float.Ieee754Remainder(left, right);
+        public static int ILogB(BrainFloatingPoint16 x) => float.ILogB(x);
+        public static BrainFloatingPoint16 ScaleB(BrainFloatingPoint16 x, int n) => (BrainFloatingPoint16)float.ScaleB(x, n);
+        public static BrainFloatingPoint16 Exp(BrainFloatingPoint16 x) => (BrainFloatingPoint16)float.Exp(x);
+        public static BrainFloatingPoint16 Exp10(BrainFloatingPoint16 x) => (BrainFloatingPoint16)float.Exp10(x);
+        public static BrainFloatingPoint16 Exp2(BrainFloatingPoint16 x) => (BrainFloatingPoint16)float.Exp2(x);
+
+        public int GetExponentByteCount()
+        {
+            throw new NotImplementedException();
+        }
+
+        public int GetExponentShortestBitLength()
+        {
+            throw new NotImplementedException();
+        }
+
+        public int GetSignificandBitLength()
+        {
+            throw new NotImplementedException();
+        }
+
+        public int GetSignificandByteCount()
+        {
+            throw new NotImplementedException();
+        }
+
+        public static BrainFloatingPoint16 Round(BrainFloatingPoint16 x, int digits, MidpointRounding mode) => (BrainFloatingPoint16)float.Round(x, digits, mode);
+
+        public bool TryWriteExponentBigEndian(Span<byte> destination, out int bytesWritten)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool TryWriteExponentLittleEndian(Span<byte> destination, out int bytesWritten)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool TryWriteSignificandBigEndian(Span<byte> destination, out int bytesWritten)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool TryWriteSignificandLittleEndian(Span<byte> destination, out int bytesWritten)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int CompareTo(object? obj)
+        {
+            if (obj == null)
+            {
+                return -1;
+            }
+            if (obj is BrainFloatingPoint16)
+            {
+                return CompareTo((BrainFloatingPoint16)obj);
+            }
+            return -1;
+        }
+        public int CompareTo(BrainFloatingPoint16 other)
+        {
+            return ((float)this).CompareTo((float)other);
+        }
+        public static BrainFloatingPoint16 Acosh(BrainFloatingPoint16 x) => (BrainFloatingPoint16)float.Acosh(x);
+        public static BrainFloatingPoint16 Asinh(BrainFloatingPoint16 x) => (BrainFloatingPoint16)float.Asinh(x);
+        public static BrainFloatingPoint16 Atanh(BrainFloatingPoint16 x) => (BrainFloatingPoint16)float.Atanh(x);
+        public static BrainFloatingPoint16 Cosh(BrainFloatingPoint16 x) => (BrainFloatingPoint16)float.Cosh(x);
+        public static BrainFloatingPoint16 Sinh(BrainFloatingPoint16 x) => (BrainFloatingPoint16)float.Sinh(x);
+        public static BrainFloatingPoint16 Tanh(BrainFloatingPoint16 x) => (BrainFloatingPoint16)float.Tanh(x);
+        public static BrainFloatingPoint16 Log(BrainFloatingPoint16 x) => (BrainFloatingPoint16)float.Log(x);
+        public static BrainFloatingPoint16 Log(BrainFloatingPoint16 x, BrainFloatingPoint16 newBase)=> (BrainFloatingPoint16)float.Log(x, newBase);
+        public static BrainFloatingPoint16 Log10(BrainFloatingPoint16 x) => (BrainFloatingPoint16)float.Log10(x);
+        public static BrainFloatingPoint16 Log2(BrainFloatingPoint16 x) => (BrainFloatingPoint16)float.Log2(x);
+        public static BrainFloatingPoint16 Pow(BrainFloatingPoint16 x, BrainFloatingPoint16 y) => (BrainFloatingPoint16)float.Pow(x, y);
+        public static BrainFloatingPoint16 Cbrt(BrainFloatingPoint16 x) => (BrainFloatingPoint16)float.Cbrt(x);
+        public static BrainFloatingPoint16 Hypot(BrainFloatingPoint16 x, BrainFloatingPoint16 y) => (BrainFloatingPoint16)float.Hypot(x, y);
+        public static BrainFloatingPoint16 RootN(BrainFloatingPoint16 x, int n) => (BrainFloatingPoint16)float.RootN(x, n);
+        public static BrainFloatingPoint16 Sqrt(BrainFloatingPoint16 x) => (BrainFloatingPoint16)float.Sqrt(x);
+        public static BrainFloatingPoint16 Acos(BrainFloatingPoint16 x) => (BrainFloatingPoint16)float.Acos(x);
+        public static BrainFloatingPoint16 AcosPi(BrainFloatingPoint16 x) => (BrainFloatingPoint16)float.AcosPi(x);
+        public static BrainFloatingPoint16 Asin(BrainFloatingPoint16 x) => (BrainFloatingPoint16)float.Asin(x);
+        public static BrainFloatingPoint16 AsinPi(BrainFloatingPoint16 x) => (BrainFloatingPoint16)float.AsinPi(x);
+        public static BrainFloatingPoint16 Atan(BrainFloatingPoint16 x) => (BrainFloatingPoint16)float.Atan(x);
+        public static BrainFloatingPoint16 AtanPi(BrainFloatingPoint16 x) => (BrainFloatingPoint16)float.AtanPi(x);
+        public static BrainFloatingPoint16 Cos(BrainFloatingPoint16 x) => (BrainFloatingPoint16)float.Cos(x);
+        public static BrainFloatingPoint16 CosPi(BrainFloatingPoint16 x) => (BrainFloatingPoint16)float.CosPi(x);
+        public static BrainFloatingPoint16 Sin(BrainFloatingPoint16 x) => (BrainFloatingPoint16)float.Sin(x);
+        public static (BrainFloatingPoint16 Sin, BrainFloatingPoint16 Cos) SinCos(BrainFloatingPoint16 x)
+        {
+            (float sin, float cos) = float.SinCos(x);
+            return ((BrainFloatingPoint16)sin, (BrainFloatingPoint16)cos);
+        }
+        public static (BrainFloatingPoint16 SinPi, BrainFloatingPoint16 CosPi) SinCosPi(BrainFloatingPoint16 x)
+        {
+            (float sinPi, float cosPi) = float.SinCosPi(x);
+            return ((BrainFloatingPoint16)sinPi, (BrainFloatingPoint16)cosPi);
+        }
+        public static BrainFloatingPoint16 SinPi(BrainFloatingPoint16 x) => (BrainFloatingPoint16)float.SinPi(x);
+        public static BrainFloatingPoint16 Tan(BrainFloatingPoint16 x) => (BrainFloatingPoint16)float.Tan(x);
+        public static BrainFloatingPoint16 TanPi(BrainFloatingPoint16 x) => (BrainFloatingPoint16)float.TanPi(x);
+        #endregion IFloatingPointIeee754
     }
 }

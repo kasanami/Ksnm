@@ -9,6 +9,35 @@ namespace Ksnm.Numerics.Tests
     public class BrainFloatingPoint16Tests
     {
         [TestMethod()]
+        public void ConstantsTest()
+        {
+            Assert.AreEqual(float.E, (float)Half.E, 0.02f);
+            Assert.AreEqual(float.Pi, (float)Half.Pi, 0.02f);
+            Assert.AreEqual(float.Tau, (float)Half.Tau, 0.02f);
+            Assert.AreEqual(1.0f, (float)Half.One);
+            Assert.AreEqual(0.0f, (float)Half.Zero);
+            Assert.AreEqual(-1.0f, (float)Half.NegativeOne);
+            Assert.AreEqual(-0.0f, (float)Half.NegativeZero);
+            Assert.AreEqual(float.Epsilon, (float)Half.Epsilon, 0.02f);
+            {
+                // -16はビット数の差
+                ExtendedSingle s = float.MaxValue;
+                Assert.AreEqual(s.Exponent, Half.MaxValue.Exponent - 16);
+            }
+            {
+                ExtendedSingle s = float.MinValue;
+                Assert.AreEqual(s.Exponent, Half.MinValue.Exponent - 16);
+            }
+            Assert.AreEqual(float.PositiveInfinity, (float)Half.PositiveInfinity);
+            Assert.AreEqual(float.NegativeInfinity, (float)Half.NegativeInfinity);
+            Assert.IsTrue(float.IsInfinity((float)Half.PositiveInfinity));
+            Assert.IsTrue(float.IsInfinity((float)Half.NegativeInfinity));
+            Assert.IsTrue(float.IsPositiveInfinity((float)Half.PositiveInfinity));
+            Assert.IsTrue(float.IsNegativeInfinity((float)Half.NegativeInfinity));
+            Assert.IsTrue(float.IsNaN((float)Half.NaN));
+            Assert.IsTrue(Half.IsNaN(Half.NaN));
+        }
+        [TestMethod()]
         public void OperationsTest()
         {
             for (float i = -10; i < 10; i += 0.125f)
