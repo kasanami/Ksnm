@@ -68,7 +68,18 @@ namespace Ksnm.Numerics
         [FieldOffset(0)]
         public Double Value;
         [FieldOffset(0)]
-        public UInt Bits;
+        public UInt Bits=0;
+#if BIGENDIAN
+        [FieldOffset(0)]
+        public UInt32 UpperBits;
+        [FieldOffset(4)]
+        public UInt32 LowerBits;
+#else
+        [FieldOffset(0)]
+        public UInt32 LowerBits;
+        [FieldOffset(4)]
+        public UInt32 UpperBits;
+#endif
         #endregion フィールド
 
         #region プロパティ
@@ -152,6 +163,9 @@ namespace Ksnm.Numerics
         #endregion プロパティ
 
         #region コンストラクタ
+        public ExtendedDouble()
+        {
+        }
         public ExtendedDouble(double value)
         {
             Value = value;

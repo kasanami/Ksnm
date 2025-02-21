@@ -95,17 +95,19 @@ namespace ConsoleApp
             Console.WriteLine(Ksnm.Debug.GetFilePathAndLineNumber());
 
             Console.WriteLine($"ExtendedDouble");
-            for (double i = -10; i <= 10; i += 0.5)
+            for (double i = -10; i <= 10; i += 0.1)
             {
                 ExtendedDouble d = i;
-                Console.WriteLine($"Value   :{d.Value}");
-                Console.WriteLine($"Bits    :{d.Bits:X}");
-                Console.WriteLine($"Sign    :{d.Sign}");
-                Console.WriteLine($"Mantissa:{d.Mantissa}");
-                Console.WriteLine($"Exponent:{d.Exponent}");
-                Console.WriteLine($"Scale   :{d.Scale}");
+                Console.WriteLine($"Value    :{d.Value}");
+                Console.WriteLine($"Bits     :{d.Bits:X}");
+                Console.WriteLine($"UpperBits:{d.UpperBits:X}");
+                Console.WriteLine($"LowerBits:{d.LowerBits:X}");
+                Console.WriteLine($"Sign     :{d.Sign}");
+                Console.WriteLine($"Mantissa :{d.Mantissa}");
+                Console.WriteLine($"Exponent :{d.Exponent}");
+                Console.WriteLine($"Scale    :{d.Scale}");
                 var value = d.Mantissa * d.Scale * d.Sign;
-                Console.WriteLine($"{value}");
+                Console.WriteLine($"計算     :{value}");
                 Console.WriteLine();
             }
 
