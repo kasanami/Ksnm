@@ -304,32 +304,122 @@ namespace KsnmTests.Numerics
 
         public static bool TryConvertFromChecked<TOther>(TOther value, [MaybeNullWhen(false)] out BrainFloatingPoint16 result) where TOther : INumberBase<TOther>
         {
-            throw new NotImplementedException();
+            if (typeof(TOther) == typeof(float))
+            {
+                result = (BrainFloatingPoint16)(object)value;
+                return true;
+            }
+            try
+            {
+                float temp = float.CreateChecked(value);
+                result = (BrainFloatingPoint16)temp;
+                return true;
+            }
+            catch
+            {
+                result = default;
+                return false;
+            }
         }
 
         public static bool TryConvertFromSaturating<TOther>(TOther value, [MaybeNullWhen(false)] out BrainFloatingPoint16 result) where TOther : INumberBase<TOther>
         {
-            throw new NotImplementedException();
+            if (typeof(TOther) == typeof(float))
+            {
+                result = (BrainFloatingPoint16)(object)value;
+                return true;
+            }
+            try
+            {
+                float temp = float.CreateSaturating(value);
+                result = (BrainFloatingPoint16)temp;
+                return true;
+            }
+            catch
+            {
+                result = default;
+                return false;
+            }
         }
 
         public static bool TryConvertFromTruncating<TOther>(TOther value, [MaybeNullWhen(false)] out BrainFloatingPoint16 result) where TOther : INumberBase<TOther>
         {
-            throw new NotImplementedException();
+            if (typeof(TOther) == typeof(float))
+            {
+                result = (BrainFloatingPoint16)(object)value;
+                return true;
+            }
+            try
+            {
+                float temp = float.CreateTruncating(value);
+                result = (BrainFloatingPoint16)temp;
+                return true;
+            }
+            catch
+            {
+                result = default;
+                return false;
+            }
         }
 
         public static bool TryConvertToChecked<TOther>(BrainFloatingPoint16 value, [MaybeNullWhen(false)] out TOther result) where TOther : INumberBase<TOther>
         {
-            throw new NotImplementedException();
+            if (typeof(TOther) == typeof(float))
+            {
+                result = (TOther)(object)value;
+                return true;
+            }
+            try
+            {
+                float temp = (float)(value);
+                result = TOther.CreateChecked(temp);
+                return true;
+            }
+            catch
+            {
+                result = default;
+                return false;
+            }
         }
 
         public static bool TryConvertToSaturating<TOther>(BrainFloatingPoint16 value, [MaybeNullWhen(false)] out TOther result) where TOther : INumberBase<TOther>
         {
-            throw new NotImplementedException();
+            if (typeof(TOther) == typeof(float))
+            {
+                result = (TOther)(object)value;
+                return true;
+            }
+            try
+            {
+                float temp = (float)(value);
+                result = TOther.CreateSaturating(temp);
+                return true;
+            }
+            catch
+            {
+                result = default;
+                return false;
+            }
         }
 
         public static bool TryConvertToTruncating<TOther>(BrainFloatingPoint16 value, [MaybeNullWhen(false)] out TOther result) where TOther : INumberBase<TOther>
         {
-            throw new NotImplementedException();
+            if (typeof(TOther) == typeof(float))
+            {
+                result = (TOther)(object)value;
+                return true;
+            }
+            try
+            {
+                float temp = (float)(value);
+                result = TOther.CreateTruncating(temp);
+                return true;
+            }
+            catch
+            {
+                result = default;
+                return false;
+            }
         }
 
         public static bool TryParse(ReadOnlySpan<char> s, NumberStyles style, IFormatProvider? provider, [MaybeNullWhen(false)] out BrainFloatingPoint16 result)
@@ -583,7 +673,7 @@ namespace KsnmTests.Numerics
         public static BrainFloatingPoint16 Sinh(BrainFloatingPoint16 x) => (BrainFloatingPoint16)float.Sinh(x);
         public static BrainFloatingPoint16 Tanh(BrainFloatingPoint16 x) => (BrainFloatingPoint16)float.Tanh(x);
         public static BrainFloatingPoint16 Log(BrainFloatingPoint16 x) => (BrainFloatingPoint16)float.Log(x);
-        public static BrainFloatingPoint16 Log(BrainFloatingPoint16 x, BrainFloatingPoint16 newBase)=> (BrainFloatingPoint16)float.Log(x, newBase);
+        public static BrainFloatingPoint16 Log(BrainFloatingPoint16 x, BrainFloatingPoint16 newBase) => (BrainFloatingPoint16)float.Log(x, newBase);
         public static BrainFloatingPoint16 Log10(BrainFloatingPoint16 x) => (BrainFloatingPoint16)float.Log10(x);
         public static BrainFloatingPoint16 Log2(BrainFloatingPoint16 x) => (BrainFloatingPoint16)float.Log2(x);
         public static BrainFloatingPoint16 Pow(BrainFloatingPoint16 x, BrainFloatingPoint16 y) => (BrainFloatingPoint16)float.Pow(x, y);

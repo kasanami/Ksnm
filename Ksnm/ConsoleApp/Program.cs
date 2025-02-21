@@ -9,7 +9,7 @@
             //ConjectureTest.Run();
             //MathTest.Run();
             //GenericMathTest.Run();
-            //AITest.Run();
+            AITest.Run();
         }
     }
 }

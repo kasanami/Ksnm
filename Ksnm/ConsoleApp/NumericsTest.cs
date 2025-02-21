@@ -71,17 +71,19 @@ namespace ConsoleApp
             Console.WriteLine(Ksnm.Debug.GetFilePathAndLineNumber());
 
             Console.WriteLine($"ExtendedSingle");
-            for (float i = -10; i <= 10; i += 0.5f)
+            for (float i = -10; i <= 10; i += 0.1f)
             {
                 ExtendedSingle f = i;
-                Console.WriteLine($"Value   :{f.Value}");
-                Console.WriteLine($"Bits    :{f.Bits:X}");
-                Console.WriteLine($"Sign    :{f.Sign}");
-                Console.WriteLine($"Mantissa:{f.Mantissa}");
-                Console.WriteLine($"Exponent:{f.Exponent}");
-                Console.WriteLine($"Scale   :{f.Scale}");
+                Console.WriteLine($"Value    :{f.Value}");
+                Console.WriteLine($"Bits     :{f.Bits:X}");
+                Console.WriteLine($"UpperBits:{f.UpperBits:X}");
+                Console.WriteLine($"LowerBits:{f.LowerBits:X}");
+                Console.WriteLine($"Sign     :{f.Sign}");
+                Console.WriteLine($"Mantissa :{f.Mantissa}");
+                Console.WriteLine($"Exponent :{f.Exponent}");
+                Console.WriteLine($"Scale    :{f.Scale}");
                 var value = f.Mantissa * f.Scale * f.Sign;
-                Console.WriteLine($"{value}");
+                Console.WriteLine($"計算     :{value}");
                 Console.WriteLine();
             }
 

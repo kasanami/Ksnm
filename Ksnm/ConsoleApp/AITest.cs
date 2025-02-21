@@ -8,6 +8,8 @@ using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
 using Ksnm.MachineLearning.Clustering;
 
+using bfp16 = KsnmTests.Numerics.BrainFloatingPoint16;
+
 namespace ConsoleApp
 {
 #pragma warning disable CS0162 // 到達できないコードが検出されました
@@ -20,9 +22,10 @@ namespace ConsoleApp
             //TestLogicGate<double>();
             //TestLogicGate<float>();
             //TestLogicGate<Half>();
+            //TestLogicGate<bfp16>();
             //TestNumericRecognition<double>();
             //TestNumericRecognition2<double>();
-            TestClustering();
+            TestClustering<bfp16>();
         }
         static void TestLogicGate<T>()
             where T : INumber<T>, IFloatingPointIeee754<T>, IMinMaxValue<T>
@@ -616,32 +619,32 @@ namespace ConsoleApp
             return T.CreateChecked(scale);
         }
 
-        static void TestClustering()
+        static void TestClustering<T>() where T : INumber<T>, IMinMaxValue<T>
         {
-            List<Human> humans = new();
+            List<Human<T>> humans = new();
             for (var i = 0; i < 100; i++)
             {
-                var height = (Half)Random.Shared.Next(100, 200);
-                var weight = (Half)Random.Shared.Next(50, 100);
-                humans.Add(new Human(height, weight));
+                var height = T.CreateChecked(Random.Shared.Next(10, 200));
+                var weight = T.CreateChecked(Random.Shared.Next(10, 200));
+                humans.Add(new Human<T>(height, weight));
             }
 
-            KMeansClustering<Half> kMeansClustering = new(3);
-            foreach (Human human in humans)
+            KMeansClustering<T> kMeansClustering = new(3);
+            foreach (Human<T> human in humans)
             {
                 kMeansClustering.AddData(human);
             }
 
             kMeansClustering.Initialize();
             kMeansClustering.Clusters.ElementAt(0).Name = "太";
-            kMeansClustering.Clusters.ElementAt(0).Location[0] = (Half)100;
-            kMeansClustering.Clusters.ElementAt(0).Location[1] = (Half)100;
+            kMeansClustering.Clusters.ElementAt(0).Location[0] = T.CreateChecked(100);
+            kMeansClustering.Clusters.ElementAt(0).Location[1] = T.CreateChecked(100);
             kMeansClustering.Clusters.ElementAt(1).Name = "中";
-            kMeansClustering.Clusters.ElementAt(1).Location[0] = (Half)150;
-            kMeansClustering.Clusters.ElementAt(1).Location[1] = (Half)75;
+            kMeansClustering.Clusters.ElementAt(1).Location[0] = T.CreateChecked(150);
+            kMeansClustering.Clusters.ElementAt(1).Location[1] = T.CreateChecked(75);
             kMeansClustering.Clusters.ElementAt(2).Name = "細";
-            kMeansClustering.Clusters.ElementAt(2).Location[0] = (Half)200;
-            kMeansClustering.Clusters.ElementAt(2).Location[1] = (Half)50;
+            kMeansClustering.Clusters.ElementAt(2).Location[0] = T.CreateChecked(200);
+            kMeansClustering.Clusters.ElementAt(2).Location[1] = T.CreateChecked(50);
 
             for (int i = 0; i < 100; i++)
             {
@@ -649,10 +652,11 @@ namespace ConsoleApp
                 {
                     break;
                 }
-                SaveClusteringImage(i,kMeansClustering);
+                SaveClusteringImage(i, kMeansClustering);
             }
         }
-        static void SaveClusteringImage(int no, KMeansClustering<Half> kMeansClustering)
+        static void SaveClusteringImage<T>(int no, KMeansClustering<T> kMeansClustering)
+            where T : INumber<T>, IMinMaxValue<T>
         {
             // 描画領域を作成
             using (var image = new Image<Rgba32>(200, 200, Color.White))
@@ -664,22 +668,22 @@ namespace ConsoleApp
                     Color pointColor = colors[i % colors.Length];
                     foreach (var data in cluster.DataList)
                     {
-                        int pointX = (int)data.Values[0];
-                        int pointY = image.Height - (int)data.Values[1];
+                        int pointX = int.CreateChecked(data.Values[0]);
+                        int pointY = image.Height - int.CreateChecked(data.Values[1]);
                         // 点を描画
-                        image.Mutate(ctx => ctx.Fill(pointColor, new RectangularPolygon(pointX, pointY, 1, 1)));
+                        image.Mutate(ctx => ctx.Fill(pointColor, new RectangularPolygon(pointX, pointY, 2, 2)));
                     }
                 }
                 image.Save($"kMeansClustering_{no}.png");
             }
         }
 
-        struct Human : IData<Half>
+        struct Human<T> : IData<T> where T : INumber<T>
         {
             /// <summary>
             /// 身長[cm]
             /// </summary>
-            Half _height
+            T _height
             {
                 get => _values[0];
                 set => _values[0] = value;
@@ -687,19 +691,19 @@ namespace ConsoleApp
             /// <summary>
             /// 体重[kg]
             /// </summary>
-            Half _weight
+            T _weight
             {
                 get => _values[1];
                 set => _values[1] = value;
             }
 
-            Ksnm.Numerics.Vector<Half> _values = new(2);
-            public Ksnm.Numerics.Vector<Half> Values => _values;
+            Ksnm.Numerics.Vector<T> _values = new(2);
+            public Ksnm.Numerics.Vector<T> Values => _values;
 
             public Human()
             {
             }
-            public Human(Half height, Half weight)
+            public Human(T height, T weight)
             {
                 _height = height;
                 _weight = weight;
