@@ -1,4 +1,5 @@
 ﻿using Ksnm.Numerics;
+using KsnmTests.Numerics;
 using System.Numerics;
 
 using Fraction32 = Ksnm.Numerics.Fraction<System.Int16>;
@@ -40,34 +41,13 @@ namespace ConsoleApp
                 Console.WriteLine($"{nameof(Int128.NegativeOne)}={Int128.NegativeOne}");
             }
 
-            {
-                Console.WriteLine($"{nameof(Fraction<Int128>)}");
-                Fraction<Int128> fraction = new();
-
-                fraction = (Fraction<Int128>)10.0;
-                Console.WriteLine($"10.0  = {fraction}");
-                fraction = (Fraction<Int128>)12.3;
-                Console.WriteLine($"12.3  = {fraction}");
-
-                fraction = (Fraction<Int128>)10.0m;
-                Console.WriteLine($"10.0m = {fraction}");
-                fraction = (Fraction<Int128>)12.3m;
-                Console.WriteLine($"12.3m = {fraction}");
-
-                fraction = (Fraction<Int128>)Int128.Parse("123456789012345678901234567890123456789");
-                Console.WriteLine($"123456789012345678901234567890123456789 = {fraction}");
-                fraction /= (Fraction<Int128>)Int128.Parse("100000000000000000000000000000000000000");
-                Console.WriteLine($"{fraction}={(double)fraction}");
-
-                fraction = (Fraction<Int128>)Int128.Parse("123");
-                fraction /= (Fraction<Int128>)Int128.Parse("100000000000000000000000000000000000000");
-                Console.WriteLine($"{fraction}={(double)fraction}");
-            }
-
+            ExtendedSingleTest();
             ExtendedDoubleTest();
             ExtendedDecimalTest();
             CubedDividedNumber8Test();
             FractionTest();
+            BrainFloatingPoint16Test();
+
             // NaNはキャスト可能？→可能
             if (false)
             {
@@ -84,6 +64,28 @@ namespace ConsoleApp
                 f64 = (double)f32;
                 Console.WriteLine($"{f64} {BitConverter.DoubleToUInt64Bits(f64):X16}");
             }
+        }
+
+        public static void ExtendedSingleTest()
+        {
+            Console.WriteLine(Ksnm.Debug.GetFilePathAndLineNumber());
+
+            Console.WriteLine($"ExtendedSingle");
+            for (float i = -10; i <= 10; i += 0.5f)
+            {
+                ExtendedSingle f = i;
+                Console.WriteLine($"Value   :{f.Value}");
+                Console.WriteLine($"Bits    :{f.Bits:X}");
+                Console.WriteLine($"Sign    :{f.Sign}");
+                Console.WriteLine($"Mantissa:{f.Mantissa}");
+                Console.WriteLine($"Exponent:{f.Exponent}");
+                Console.WriteLine($"Scale   :{f.Scale}");
+                var value = f.Mantissa * f.Scale * f.Sign;
+                Console.WriteLine($"{value}");
+                Console.WriteLine();
+            }
+
+            Console.WriteLine();
         }
 
         public static void ExtendedDoubleTest()
@@ -195,6 +197,60 @@ namespace ConsoleApp
             {
                 var bigFraction = new BigFraction(1, 3);// 1/3
                 Console.WriteLine(bigFraction.ToString());
+            }
+
+            {
+                Console.WriteLine($"{nameof(Fraction<Int128>)}");
+                Fraction<Int128> fraction = new();
+
+                fraction = (Fraction<Int128>)10.0;
+                Console.WriteLine($"10.0  = {fraction}");
+                fraction = (Fraction<Int128>)12.3;
+                Console.WriteLine($"12.3  = {fraction}");
+
+                fraction = (Fraction<Int128>)10.0m;
+                Console.WriteLine($"10.0m = {fraction}");
+                fraction = (Fraction<Int128>)12.3m;
+                Console.WriteLine($"12.3m = {fraction}");
+
+                fraction = (Fraction<Int128>)Int128.Parse("123456789012345678901234567890123456789");
+                Console.WriteLine($"123456789012345678901234567890123456789 = {fraction}");
+                fraction /= (Fraction<Int128>)Int128.Parse("100000000000000000000000000000000000000");
+                Console.WriteLine($"{fraction}={(double)fraction}");
+
+                fraction = (Fraction<Int128>)Int128.Parse("123");
+                fraction /= (Fraction<Int128>)Int128.Parse("100000000000000000000000000000000000000");
+                Console.WriteLine($"{fraction}={(double)fraction}");
+            }
+
+            Console.WriteLine();
+        }
+
+        public static void BrainFloatingPoint16Test()
+        {
+            Console.WriteLine(Ksnm.Debug.GetFilePathAndLineNumber());
+            Console.WriteLine($"BrainFloatingPoint16Test");
+
+            BrainFloatingPoint16 bfp = new();
+
+            for (float i = -10; i <= 10; i += 0.5f)
+            {
+                bfp = (BrainFloatingPoint16)i;
+                Console.WriteLine($"Value   :{bfp}");
+                Console.WriteLine($"Bits    :{bfp.Bits:X}");
+                Console.WriteLine($"Sign    :{bfp.Sign}");
+                Console.WriteLine($"Mantissa:{bfp.Mantissa}");
+                Console.WriteLine($"Exponent:{bfp.Exponent}");
+                Console.WriteLine($"Scale   :{bfp.Scale}");
+                var value = (double)bfp.Mantissa * bfp.Scale * bfp.Sign;
+                Console.WriteLine($"{value}");
+                Console.WriteLine();
+            }
+
+            for (double d = -10; d <= +10; d += 0.01)
+            {
+                bfp = (BrainFloatingPoint16)d;
+                Console.WriteLine($"{d}→{bfp}→{(double)bfp}");
             }
 
             Console.WriteLine();

@@ -21,7 +21,8 @@ namespace KsnmTests.Numerics
     /// ・仮数部 : 7ビット(暗黙的に8ビットの表現幅を持つ。)
     /// </summary>
     public struct BrainFloatingPoint16 :
-        IFloatingPointConstants<BrainFloatingPoint16>
+        IFloatingPointConstants<BrainFloatingPoint16>,
+        IMinMaxValue<BrainFloatingPoint16>
     {
         #region 定数
         public const int Radix = 2;
@@ -94,6 +95,12 @@ namespace KsnmTests.Numerics
 
         static int INumberBase<BrainFloatingPoint16>.Radix => 2;
         #endregion IFloatingPointConstants
+        #region IMinMaxValue
+        private const BitsType MinValueBits = 0b1111_1111_0111_1111;
+        private const BitsType MaxValueBits = 0b0111_1111_0111_1111;
+        public static BrainFloatingPoint16 MaxValue => new(MaxValueBits);
+        public static BrainFloatingPoint16 MinValue => new(MinValueBits);
+        #endregion IMinMaxValue
         #endregion 定数
 
         #region フィールド
@@ -178,7 +185,6 @@ namespace KsnmTests.Numerics
             }
             set => Bits = value;
         }
-
         #endregion プロパティ
 
         #region コンストラクタ
