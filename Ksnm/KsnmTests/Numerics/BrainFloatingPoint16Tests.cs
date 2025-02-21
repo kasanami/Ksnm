@@ -86,10 +86,18 @@ namespace Ksnm.Numerics.Tests
                 Half half2 = (Half)1;
                 Assert.IsTrue(half1 == half2);
                 Assert.IsFalse(half1 != half2);
+                Assert.IsFalse(half1 > half2);
+                Assert.IsTrue(half1 >= half2);
+                Assert.IsFalse(half1 < half2);
+                Assert.IsTrue(half1 <= half2);
                 half1 = (Half)1;
                 half2 = (Half)2;
                 Assert.IsFalse(half1 == half2);
                 Assert.IsTrue(half1 != half2);
+                Assert.IsFalse(half1 > half2);
+                Assert.IsFalse(half1 >= half2);
+                Assert.IsTrue(half1 < half2);
+                Assert.IsTrue(half1 <= half2);
             }
         }
         [TestMethod()]
@@ -97,12 +105,28 @@ namespace Ksnm.Numerics.Tests
         {
             Half half = (Half)1.0f;
             Assert.AreEqual(1.0f, (float)half);
+            Assert.AreEqual(1.0 , (double)half);
+            Assert.AreEqual(1, (int)half);
             half = (Half)(-1.0f);
             Assert.AreEqual(-1.0f, (float)half);
+            Assert.AreEqual(-1.0, (double)half);
+            Assert.AreEqual(-1, (int)half);
             half = (Half)2.0f;
             Assert.AreEqual(2.0f, (byte)half);
+            Assert.AreEqual(2.0, (double)half);
+            Assert.AreEqual(2, (int)half);
             half = (Half)(-2.0f);
             Assert.AreEqual(-2.0f, (float)half);
+            Assert.AreEqual(-2.0, (double)half);
+            Assert.AreEqual(-2, (int)half);
+            half = (Half)(0.5f);
+            Assert.AreEqual(0.5f, (float)half);
+            Assert.AreEqual(0.5, (double)half);
+            Assert.AreEqual(0, (int)half);
+            half = (Half)(float.Epsilon);
+            Assert.AreEqual(0.0f, (float)half);
+            Assert.AreEqual(0.0, (double)half);
+            Assert.AreEqual(0, (int)half);
             //half = (Half)float.MaxValue;
             //Assert.AreEqual(float.MaxValue, (float)half);
             //half = (Half)float.MinValue;

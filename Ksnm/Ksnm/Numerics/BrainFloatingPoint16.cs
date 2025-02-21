@@ -6,6 +6,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq;
 using System.Numerics;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -515,16 +516,18 @@ namespace KsnmTests.Numerics
         #endregion operators
 
         #region 型変換
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static BrainFloatingPoint16 FromSingle(float value)
         {
-            ExtendedSingle extendedSingle = new ExtendedSingle(value);
-            return new((BitsType)(extendedSingle.Bits >> 16));
+            ExtendedSingle extendedSingle = new(value);
+            return new(extendedSingle.UpperBits);
         }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float ToSingle(BrainFloatingPoint16 value)
         {
-            ExtendedSingle extendedSingle = new ExtendedSingle();
-            extendedSingle.Bits = (UInt32)value.Bits << 16;
-            return extendedSingle;
+            ExtendedSingle extendedSingle = new();
+            extendedSingle.UpperBits = value.Bits;
+            return extendedSingle.Value;
         }
         #region 他の型→BrainFloatingPoint16
         public static explicit operator BrainFloatingPoint16(byte value) => (BrainFloatingPoint16)(float)value;

@@ -68,7 +68,7 @@ namespace Ksnm.Numerics
         [FieldOffset(0)]
         public Single Value;
         [FieldOffset(0)]
-        public UInt Bits;
+        public UInt Bits = 0;
 #if BIGENDIAN
         [FieldOffset(0)]
         public UInt16 UpperBits;
@@ -163,6 +163,9 @@ namespace Ksnm.Numerics
         #endregion プロパティ
 
         #region コンストラクタ
+        public ExtendedSingle()
+        {
+        }
         public ExtendedSingle(Single value)
         {
             Value = value;
