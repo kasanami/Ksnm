@@ -54,13 +54,13 @@ namespace ConsoleApp
                 fraction = (Fraction<Int128>)12.3m;
                 Console.WriteLine($"12.3m = {fraction}");
 
-                fraction = Int128.Parse("123456789012345678901234567890123456789");
+                fraction = (Fraction<Int128>)Int128.Parse("123456789012345678901234567890123456789");
                 Console.WriteLine($"123456789012345678901234567890123456789 = {fraction}");
-                fraction /= Int128.Parse("100000000000000000000000000000000000000");
+                fraction /= (Fraction<Int128>)Int128.Parse("100000000000000000000000000000000000000");
                 Console.WriteLine($"{fraction}={(double)fraction}");
 
-                fraction = Int128.Parse("123");
-                fraction /= Int128.Parse("100000000000000000000000000000000000000");
+                fraction = (Fraction<Int128>)Int128.Parse("123");
+                fraction /= (Fraction<Int128>)Int128.Parse("100000000000000000000000000000000000000");
                 Console.WriteLine($"{fraction}={(double)fraction}");
             }
 

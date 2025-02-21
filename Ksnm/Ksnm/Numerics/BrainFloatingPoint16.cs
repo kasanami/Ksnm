@@ -1,4 +1,5 @@
-﻿using Ksnm.Units.SI;
+﻿using Ksnm.Numerics;
+using Ksnm.Units.SI;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
@@ -85,7 +86,7 @@ namespace KsnmTests.Numerics
 
         public static BrainFloatingPoint16 One => new(0b0000_0000_0000_0000);
 
-        public static BrainFloatingPoint16 Zero => new (0);
+        public static BrainFloatingPoint16 Zero => new(0);
 
         public static BrainFloatingPoint16 AdditiveIdentity => throw new NotImplementedException();
 
@@ -363,86 +364,127 @@ namespace KsnmTests.Numerics
 
         public static bool TryParse(ReadOnlySpan<char> s, IFormatProvider? provider, [MaybeNullWhen(false)] out BrainFloatingPoint16 result)
         {
-            throw new NotImplementedException();
+            float temp;
+            var success = float.TryParse(s, provider, out temp);
+            result = (BrainFloatingPoint16)temp;
+            return success;
         }
 
         public static bool TryParse([NotNullWhen(true)] string? s, IFormatProvider? provider, [MaybeNullWhen(false)] out BrainFloatingPoint16 result)
         {
-            throw new NotImplementedException();
-        }
-
-        public bool Equals(BrainFloatingPoint16 other)
-        {
-            throw new NotImplementedException();
+            float temp;
+            var success = float.TryParse(s, provider, out temp);
+            result = (BrainFloatingPoint16)temp;
+            return success;
         }
 
         public string ToString(string? format, IFormatProvider? formatProvider)
-        {
-            throw new NotImplementedException();
-        }
+            => ((float)this).ToString(format, formatProvider);
 
         public bool TryFormat(Span<char> destination, out int charsWritten, ReadOnlySpan<char> format, IFormatProvider? provider)
-        {
-            throw new NotImplementedException();
-        }
+            => ((float)this).TryFormat(destination, out charsWritten, format, provider);
+        #endregion メソッド
 
+        #region operators
         public static BrainFloatingPoint16 operator +(BrainFloatingPoint16 value)
-        {
-            throw new NotImplementedException();
-        }
+            => value;
 
         public static BrainFloatingPoint16 operator +(BrainFloatingPoint16 left, BrainFloatingPoint16 right)
-        {
-            throw new NotImplementedException();
-        }
+            => (BrainFloatingPoint16)((float)left + (float)right);
 
         public static BrainFloatingPoint16 operator -(BrainFloatingPoint16 value)
         {
-            throw new NotImplementedException();
+            value.Bits ^= SignShiftedBitMask;// 符号ビットを反転
+            return value;
         }
 
         public static BrainFloatingPoint16 operator -(BrainFloatingPoint16 left, BrainFloatingPoint16 right)
-        {
-            throw new NotImplementedException();
-        }
+            => (BrainFloatingPoint16)((float)left - (float)right);
 
         public static BrainFloatingPoint16 operator ++(BrainFloatingPoint16 value)
-        {
-            throw new NotImplementedException();
-        }
+            => (BrainFloatingPoint16)((float)value++);
 
         public static BrainFloatingPoint16 operator --(BrainFloatingPoint16 value)
-        {
-            throw new NotImplementedException();
-        }
+            => (BrainFloatingPoint16)((float)value--);
 
         public static BrainFloatingPoint16 operator *(BrainFloatingPoint16 left, BrainFloatingPoint16 right)
-        {
-            throw new NotImplementedException();
-        }
+            => (BrainFloatingPoint16)((float)left * (float)right);
 
         public static BrainFloatingPoint16 operator /(BrainFloatingPoint16 left, BrainFloatingPoint16 right)
-        {
-            throw new NotImplementedException();
-        }
+            => (BrainFloatingPoint16)((float)left / (float)right);
 
         public static bool operator ==(BrainFloatingPoint16 left, BrainFloatingPoint16 right)
         {
-            throw new NotImplementedException();
+            return left.Equals(right);
         }
 
         public static bool operator !=(BrainFloatingPoint16 left, BrainFloatingPoint16 right)
         {
-            throw new NotImplementedException();
+            return !(left == right);
         }
-        #endregion メソッド
+        #endregion operators
+
+        #region 型変換
+        public static BrainFloatingPoint16 FromSingle(float value)
+        {
+            ExtendedSingle extendedSingle = new ExtendedSingle(value);
+            return new((BitsType)(extendedSingle.Bits >> 16));
+        }
+        public static float ToSingle(BrainFloatingPoint16 value)
+        {
+            ExtendedSingle extendedSingle = new ExtendedSingle();
+            extendedSingle.Bits = (UInt32)value.Bits << 16;
+            return extendedSingle;
+        }
+        #region 他の型→BrainFloatingPoint16
+        public static explicit operator BrainFloatingPoint16(byte value) => (BrainFloatingPoint16)(float)value;
+        public static explicit operator BrainFloatingPoint16(sbyte value) => (BrainFloatingPoint16)(float)value;
+        public static explicit operator BrainFloatingPoint16(short value) => (BrainFloatingPoint16)(float)value;
+        public static explicit operator BrainFloatingPoint16(ushort value) => (BrainFloatingPoint16)(float)value;
+        public static explicit operator BrainFloatingPoint16(int value) => (BrainFloatingPoint16)(float)value;
+        public static explicit operator BrainFloatingPoint16(uint value) => (BrainFloatingPoint16)(float)value;
+        public static explicit operator BrainFloatingPoint16(long value) => (BrainFloatingPoint16)(float)value;
+        public static explicit operator BrainFloatingPoint16(ulong value) => (BrainFloatingPoint16)(float)value;
+        public static explicit operator BrainFloatingPoint16(Int128 value) => (BrainFloatingPoint16)(float)value;
+        public static explicit operator BrainFloatingPoint16(UInt128 value) => (BrainFloatingPoint16)(float)value;
+        public static explicit operator BrainFloatingPoint16(Half value) => (BrainFloatingPoint16)(float)value;
+        public static explicit operator BrainFloatingPoint16(float value) => FromSingle(value);
+        public static explicit operator BrainFloatingPoint16(double value) => (BrainFloatingPoint16)(float)value;
+        public static explicit operator BrainFloatingPoint16(decimal value) => (BrainFloatingPoint16)(float)value;
+        #endregion 他の型→BrainFloatingPoint16
+        #region BrainFloatingPoint16→他の型
+        /// <summary>
+        /// BrainFloatingPoint16 から byte への明示的な変換を定義します。
+        /// </summary>
+        public static explicit operator byte(BrainFloatingPoint16 value) => (byte)(float)value;
+        public static explicit operator sbyte(BrainFloatingPoint16 value) => (sbyte)(float)value;
+        public static explicit operator short(BrainFloatingPoint16 value) => (short)(float)value;
+        public static explicit operator ushort(BrainFloatingPoint16 value) => (ushort)(float)value;
+        public static explicit operator int(BrainFloatingPoint16 value) => (int)(float)value;
+        public static explicit operator uint(BrainFloatingPoint16 value) => (uint)(float)value;
+        public static explicit operator long(BrainFloatingPoint16 value) => (long)(float)value;
+        public static explicit operator ulong(BrainFloatingPoint16 value) => (ulong)(float)value;
+        public static explicit operator Int128(BrainFloatingPoint16 value) => (Int128)(float)value;
+        public static explicit operator UInt128(BrainFloatingPoint16 value) => (UInt128)(float)value;
+        public static explicit operator Half(BrainFloatingPoint16 value) => (Half)(float)value;
+        public static implicit operator float(BrainFloatingPoint16 value) => ToSingle(value);
+        public static implicit operator double(BrainFloatingPoint16 value) => (double)(float)value;
+        public static explicit operator decimal(BrainFloatingPoint16 value) => (decimal)(float)value;
+        #endregion BrainFloatingPoint16→他の型
+        #endregion 型変換
+
+        #region IEquatable
+        public bool Equals(BrainFloatingPoint16 other)
+        {
+            return Bits.Equals(other.Bits);
+        }
+        #endregion IEquatable
 
         #region override Object
         public override bool Equals(object obj)
         {
             return obj is BrainFloatingPoint16 && Equals((BrainFloatingPoint16)obj);
         }
-
         public override int GetHashCode()
         {
             return Bits.GetHashCode();

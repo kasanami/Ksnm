@@ -299,10 +299,10 @@ namespace Ksnm.Numerics
         public static explicit operator Fraction<T>(float value) => ConvertFrom(value);
         public static explicit operator Fraction<T>(double value) => ConvertFrom(value);
         public static explicit operator Fraction<T>(decimal value) => ConvertFrom(value);
-        public static implicit operator Fraction<T>(T value)
-        {
-            return new Fraction<T>(value);
-        }
+        //public static implicit operator Fraction<T>(T value)
+        //{
+        //    return new Fraction<T>(value);
+        //}
 
         public static TOther ConvertTo<TOther>(Fraction<T> value) where TOther : INumber<TOther>
         {
