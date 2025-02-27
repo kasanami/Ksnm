@@ -2,12 +2,12 @@
 
 namespace Ksnm.Numerics
 {
-    using UInt = System.UInt64;
+    using BitsType = System.UInt64;
     /// <summary>
     /// 64bit浮動小数点数型
     /// </summary>
     [StructLayout(LayoutKind.Explicit)]
-    public struct ExtendedDouble
+    public struct ExtendedDouble : IFloatingPointProperties<BitsType>
     {
         #region 定数
         public const int Radix = 2;
@@ -23,11 +23,11 @@ namespace Ksnm.Numerics
         /// <summary>
         /// 符号部のビットマスク
         /// </summary>
-        public const UInt SignBitMask = 1ul;
+        public const BitsType SignBitMask = 1ul;
         /// <summary>
         /// 符号部のビットマスク(実際のビット位置)
         /// </summary>
-        public const UInt SignShiftedBitMask = SignBitMask << SignBitShift;
+        public const BitsType SignShiftedBitMask = SignBitMask << SignBitShift;
 
         /// <summary>
         /// 指数部のビット数
@@ -40,11 +40,11 @@ namespace Ksnm.Numerics
         /// <summary>
         /// 指数部のビットマスク
         /// </summary>
-        public const UInt ExponentBitMask = ((UInt)1 << ExponentLength) - 1;
+        public const BitsType ExponentBitMask = ((BitsType)1 << ExponentLength) - 1;
         /// <summary>
         /// 指数部のビットマスク(実際のビット位置)
         /// </summary>
-        public const UInt ExponentShiftedBitMask = ExponentBitMask << ExponentBitShift;
+        public const BitsType ExponentShiftedBitMask = ExponentBitMask << ExponentBitShift;
         /// <summary>
         /// 指数部バイアス
         /// </summary>
@@ -61,14 +61,14 @@ namespace Ksnm.Numerics
         /// <summary>
         /// 仮数部のビットマスク
         /// </summary>
-        public const UInt MantissaBitMask = ((UInt)1 << MantissaLength) - 1;
+        public const BitsType MantissaBitMask = ((BitsType)1 << MantissaLength) - 1;
         #endregion 定数
 
         #region フィールド
         [FieldOffset(0)]
         public Double Value;
         [FieldOffset(0)]
-        public UInt Bits=0;
+        private BitsType bits = 0;
 #if BIGENDIAN
         [FieldOffset(0)]
         public UInt32 UpperBits;
@@ -83,12 +83,14 @@ namespace Ksnm.Numerics
         #endregion フィールド
 
         #region プロパティ
+        public BitsType Bits { get => bits; set => bits = value; }
+
         /// <summary>
         /// 符号ビットを取得/設定
         /// </summary>
-        public byte SignBit
+        public BitsType SignBit
         {
-            get => (byte)(Bits >> SignBitShift);
+            get => (BitsType)(Bits >> SignBitShift);
             set => Bits = (Bits & ~SignShiftedBitMask) | ((value & 1ul) << SignBitShift);
         }
         /// <summary>
@@ -103,9 +105,9 @@ namespace Ksnm.Numerics
         /// <summary>
         /// 指数部を取得/設定
         /// </summary>
-        public ushort ExponentBits
+        public BitsType ExponentBits
         {
-            get => (ushort)((Bits >> ExponentBitShift) & ExponentBitMask);
+            get => (BitsType)((Bits >> ExponentBitShift) & ExponentBitMask);
             set => Bits = (Bits & ~ExponentShiftedBitMask) | ((value & ExponentBitMask) << ExponentBitShift);
         }
         /// <summary>
@@ -122,7 +124,7 @@ namespace Ksnm.Numerics
                 {
                     return 0;
                 }
-                return ExponentBits - ExponentBias - MantissaLength;
+                return (int)(ExponentBits - ExponentBias - MantissaLength);
             }
             set => ExponentBits = (ushort)(value + ExponentBias + MantissaLength);
         }
@@ -135,7 +137,7 @@ namespace Ksnm.Numerics
         /// <summary>
         /// 仮数部を取得/設定
         /// </summary>
-        public UInt MantissaBits
+        public BitsType MantissaBits
         {
             get => Bits & MantissaBitMask;
             set => Bits = (Bits & ~MantissaBitMask) | (value & MantissaBitMask);
@@ -146,7 +148,7 @@ namespace Ksnm.Numerics
         /// ※1.0=0b100_0000000000_0000000000_0000000000_0000000000_0000000000
         /// ※0が出力されるのは、符号ビット以外が0のとき
         /// </summary>
-        public UInt Mantissa
+        public BitsType Mantissa
         {
             get
             {
@@ -156,7 +158,7 @@ namespace Ksnm.Numerics
                     return 0;
                 }
                 // ((UInt)1 << MantissaLength)は"1."を意味する
-                return MantissaBits | ((UInt)1 << MantissaLength);
+                return MantissaBits | ((BitsType)1 << MantissaLength);
             }
             set => Bits = value;
         }
