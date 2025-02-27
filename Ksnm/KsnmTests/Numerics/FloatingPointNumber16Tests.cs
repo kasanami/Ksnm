@@ -7,6 +7,10 @@ namespace Ksnm.Numerics.Tests
     public class FloatingPointNumber16Tests
     {
         [TestMethod()]
+        public void PropertiesTest()
+        {
+        }
+        [TestMethod()]
         public void OperationsTest()
         {
         }

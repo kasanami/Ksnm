@@ -240,14 +240,7 @@ namespace ConsoleApp
             for (float i = -10; i <= 10; i += 0.5f)
             {
                 bfp = (BrainFloatingPoint16)i;
-                Console.WriteLine($"Value   :{bfp}");
-                Console.WriteLine($"Bits    :{bfp.Bits:X}");
-                Console.WriteLine($"Sign    :{bfp.Sign}");
-                Console.WriteLine($"Mantissa:{bfp.Mantissa}");
-                Console.WriteLine($"Exponent:{bfp.Exponent}");
-                Console.WriteLine($"Scale   :{bfp.Scale}");
-                var value = (double)bfp.Mantissa * bfp.Scale * bfp.Sign;
-                Console.WriteLine($"{value}");
+                ConsoleWriteLine(bfp);
                 Console.WriteLine();
             }
 
@@ -257,6 +250,20 @@ namespace ConsoleApp
                 Console.WriteLine($"{d}→{bfp}→{(double)bfp}");
             }
 
+            Console.WriteLine();
+        }
+
+        static void ConsoleWriteLine<TBits>(IFloatingPointProperties<TBits> value)
+            where TBits : INumber<TBits>
+        {
+            Console.WriteLine($"Value   :{value}");
+            Console.WriteLine($"Bits    :{value.Bits:X}");
+            Console.WriteLine($"Sign    :{value.Sign}");
+            Console.WriteLine($"Exponent:{value.Exponent}");
+            Console.WriteLine($"Mantissa:{value.Mantissa}");
+            Console.WriteLine($"Scale   :{value.Scale}");
+            var reconstruction = double.CreateChecked(value.Mantissa) * value.Scale * value.Sign;
+            Console.WriteLine($"復元    :{reconstruction}");
             Console.WriteLine();
         }
     }

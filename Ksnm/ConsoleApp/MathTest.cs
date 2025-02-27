@@ -5,7 +5,8 @@ using static Ksnm.Science.Mathematics.Formula;
 
 namespace ConsoleApp
 {
-    using Math= Ksnm.Math;
+    using BFloat16 = KsnmTests.Numerics.BrainFloatingPoint16;
+    using Math = Ksnm.Math;
     using MathD = System.Math;
     using MathF = System.MathF;
     internal class MathTest
@@ -17,10 +18,21 @@ namespace ConsoleApp
             // ネイピア数を計算
             Console.WriteLine("CalculateE");
             {
-                Console.WriteLine($"Half   :{Math.CalculateE<Half>()}");
-                Console.WriteLine($"float  :{Math.CalculateE<float>()}");
-                Console.WriteLine($"double :{Math.CalculateE<double>()}");
-                Console.WriteLine($"decimal:{Math.CalculateE<decimal>(Math.DecimalEpsilon)}");
+                Console.WriteLine($"BFloat16:{Math.CalculateE<BFloat16>()}");
+                Console.WriteLine($"Half    :{Math.CalculateE<Half>()}");
+                Console.WriteLine($"float   :{Math.CalculateE<float>()}");
+                Console.WriteLine($"double  :{Math.CalculateE<double>()}");
+                Console.WriteLine($"decimal :{Math.CalculateE<decimal>(Math.DecimalEpsilon)}");
+            }
+
+            // 円周率を計算
+            Console.WriteLine("CalculatePi");
+            {
+                Console.WriteLine($"BFloat16:{Math.CalculatePi<BFloat16>()}");
+                Console.WriteLine($"Half    :{Math.CalculatePi<Half>()}");
+                Console.WriteLine($"float   :{Math.CalculatePi<float>()}");
+                Console.WriteLine($"double  :{Math.CalculatePi<double>()}");
+                Console.WriteLine($"decimal :{Math.CalculatePi<decimal>(Math.DecimalEpsilon)}");
             }
 
             // Log2

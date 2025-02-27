@@ -22,6 +22,7 @@ namespace KsnmTests.Numerics
     /// ・仮数部 : 7ビット(暗黙的に8ビットの表現幅を持つ。)
     /// </summary>
     public struct BrainFloatingPoint16 :
+        IFloatingPointProperties<BitsType>,
         IFloatingPointConstants<BrainFloatingPoint16>,
         IFloatingPointIeee754<BrainFloatingPoint16>,
         IMinMaxValue<BrainFloatingPoint16>
@@ -128,16 +129,18 @@ namespace KsnmTests.Numerics
         #endregion 定数
 
         #region フィールド
-        public BitsType Bits;
+        private BitsType bits;
         #endregion フィールド
 
         #region プロパティ
+        public BitsType Bits { get => bits; set => bits = value; }
+
         /// <summary>
         /// 符号ビットを取得/設定
         /// </summary>
-        public byte SignBit
+        public BitsType SignBit
         {
-            get => (byte)(Bits >> SignBitShift);
+            get => (BitsType)(Bits >> SignBitShift);
             set => Bits = (BitsType)((Bits & ~SignShiftedBitMask) | (BitsType)((value & 1) << SignBitShift));
         }
         /// <summary>
@@ -152,9 +155,9 @@ namespace KsnmTests.Numerics
         /// <summary>
         /// 指数部を取得/設定
         /// </summary>
-        public ushort ExponentBits
+        public BitsType ExponentBits
         {
-            get => (ushort)((Bits >> ExponentBitShift) & ExponentBitMask);
+            get => (BitsType)((Bits >> ExponentBitShift) & ExponentBitMask);
             set => Bits = (BitsType)((Bits & ~ExponentShiftedBitMask) | ((value & ExponentBitMask) << ExponentBitShift));
         }
         /// <summary>

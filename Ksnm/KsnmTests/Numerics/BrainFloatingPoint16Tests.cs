@@ -105,7 +105,7 @@ namespace Ksnm.Numerics.Tests
         {
             Half half = (Half)1.0f;
             Assert.AreEqual(1.0f, (float)half);
-            Assert.AreEqual(1.0 , (double)half);
+            Assert.AreEqual(1.0, (double)half);
             Assert.AreEqual(1, (int)half);
             half = (Half)(-1.0f);
             Assert.AreEqual(-1.0f, (float)half);

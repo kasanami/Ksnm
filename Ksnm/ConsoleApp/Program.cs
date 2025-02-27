@@ -7,9 +7,9 @@
             NumericsTest.Run();
             //GraphicsTest.Run();
             //ConjectureTest.Run();
-            //MathTest.Run();
+            MathTest.Run();
             //GenericMathTest.Run();
-            AITest.Run();
+            //AITest.Run();
         }
     }
 }
