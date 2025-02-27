@@ -27,9 +27,9 @@ namespace Ksnm.Numerics.Tests
                 Assert.AreEqual<uint>(0x0B0A0908, extendedDecimal.HiBits);
                 Assert.AreEqual<uint>(0x07060504, extendedDecimal.MidBits);
                 Assert.AreEqual<uint>(0x03020100, extendedDecimal.LoBits);
-                Assert.AreEqual(1, extendedDecimal.SignBit);
+                Assert.AreEqual<UInt128>(1, extendedDecimal.SignBit);
                 Assert.AreEqual(-1, extendedDecimal.Sign);
-                Assert.AreEqual(0, extendedDecimal.ExponentBits);
+                Assert.AreEqual<UInt128>(0, extendedDecimal.ExponentBits);
                 Assert.AreEqual(0, extendedDecimal.Exponent);
                 Assert.AreEqual("0B0A09080706050403020100", extendedDecimal.MantissaBits.ToString("X24"));
                 Assert.AreEqual("0B0A09080706050403020100", extendedDecimal.Mantissa.ToString("X24"));
@@ -39,9 +39,9 @@ namespace Ksnm.Numerics.Tests
             {
                 ExtendedDecimal extendedDecimal = new ExtendedDecimal();
                 extendedDecimal = 1m;
-                Assert.AreEqual(0, extendedDecimal.SignBit);
+                Assert.AreEqual<UInt128>(0, extendedDecimal.SignBit);
                 Assert.AreEqual(+1, extendedDecimal.Sign);
-                Assert.AreEqual(0, extendedDecimal.ExponentBits);
+                Assert.AreEqual<UInt128>(0, extendedDecimal.ExponentBits);
                 Assert.AreEqual(0, extendedDecimal.Exponent);
                 Assert.AreEqual<UInt128>(1, extendedDecimal.MantissaBits);
                 Assert.AreEqual<UInt128>(1, extendedDecimal.Mantissa);
@@ -51,9 +51,9 @@ namespace Ksnm.Numerics.Tests
             {
                 ExtendedDecimal extendedDecimal = new ExtendedDecimal();
                 extendedDecimal = 1.0m;
-                Assert.AreEqual(0, extendedDecimal.SignBit);
+                Assert.AreEqual<UInt128>(0, extendedDecimal.SignBit);
                 Assert.AreEqual(+1, extendedDecimal.Sign);
-                Assert.AreEqual(1, extendedDecimal.ExponentBits);
+                Assert.AreEqual<UInt128>(1, extendedDecimal.ExponentBits);
                 Assert.AreEqual(-1, extendedDecimal.Exponent);
                 Assert.AreEqual<UInt128>(10, extendedDecimal.MantissaBits);
                 Assert.AreEqual<UInt128>(10, extendedDecimal.Mantissa);
@@ -63,9 +63,9 @@ namespace Ksnm.Numerics.Tests
             {
                 ExtendedDecimal extendedDecimal = new ExtendedDecimal();
                 extendedDecimal = -1.0m;
-                Assert.AreEqual(1, extendedDecimal.SignBit);
+                Assert.AreEqual<UInt128>(1, extendedDecimal.SignBit);
                 Assert.AreEqual(-1, extendedDecimal.Sign);
-                Assert.AreEqual(1, extendedDecimal.ExponentBits);
+                Assert.AreEqual<UInt128>(1, extendedDecimal.ExponentBits);
                 Assert.AreEqual(-1, extendedDecimal.Exponent);
                 Assert.AreEqual<UInt128>(10, extendedDecimal.MantissaBits);
                 Assert.AreEqual<UInt128>(10, extendedDecimal.Mantissa);
@@ -75,9 +75,9 @@ namespace Ksnm.Numerics.Tests
             {
                 ExtendedDecimal extendedDecimal = new ExtendedDecimal();
                 extendedDecimal = 1.23m;
-                Assert.AreEqual(0, extendedDecimal.SignBit);
+                Assert.AreEqual<UInt128>(0, extendedDecimal.SignBit);
                 Assert.AreEqual(+1, extendedDecimal.Sign);
-                Assert.AreEqual(2, extendedDecimal.ExponentBits);
+                Assert.AreEqual<UInt128>(2, extendedDecimal.ExponentBits);
                 Assert.AreEqual(-2, extendedDecimal.Exponent);
                 Assert.AreEqual<UInt128>(123, extendedDecimal.MantissaBits);
                 Assert.AreEqual<UInt128>(123, extendedDecimal.Mantissa);
@@ -87,9 +87,9 @@ namespace Ksnm.Numerics.Tests
             {
                 ExtendedDecimal extendedDecimal = new ExtendedDecimal();
                 extendedDecimal = -1.23m;
-                Assert.AreEqual(1, extendedDecimal.SignBit);
+                Assert.AreEqual<UInt128>(1, extendedDecimal.SignBit);
                 Assert.AreEqual(-1, extendedDecimal.Sign);
-                Assert.AreEqual(2, extendedDecimal.ExponentBits);
+                Assert.AreEqual<UInt128>(2, extendedDecimal.ExponentBits);
                 Assert.AreEqual(-2, extendedDecimal.Exponent);
                 Assert.AreEqual<UInt128>(123, extendedDecimal.MantissaBits);
                 Assert.AreEqual<UInt128>(123, extendedDecimal.Mantissa);
@@ -99,9 +99,9 @@ namespace Ksnm.Numerics.Tests
             {
                 ExtendedDecimal extendedDecimal = new ExtendedDecimal();
                 extendedDecimal = 10m;
-                Assert.AreEqual(0, extendedDecimal.SignBit);
+                Assert.AreEqual<UInt128>(0, extendedDecimal.SignBit);
                 Assert.AreEqual(+1, extendedDecimal.Sign);
-                Assert.AreEqual(0, extendedDecimal.ExponentBits);
+                Assert.AreEqual<UInt128>(0, extendedDecimal.ExponentBits);
                 Assert.AreEqual(0, extendedDecimal.Exponent);
                 Assert.AreEqual<UInt128>(10, extendedDecimal.MantissaBits);
                 Assert.AreEqual<UInt128>(10, extendedDecimal.Mantissa);
@@ -111,9 +111,9 @@ namespace Ksnm.Numerics.Tests
             {
                 ExtendedDecimal extendedDecimal = new ExtendedDecimal();
                 extendedDecimal = 100m;
-                Assert.AreEqual(0, extendedDecimal.SignBit);
+                Assert.AreEqual<UInt128>(0, extendedDecimal.SignBit);
                 Assert.AreEqual(+1, extendedDecimal.Sign);
-                Assert.AreEqual(0, extendedDecimal.ExponentBits);
+                Assert.AreEqual<UInt128>(0, extendedDecimal.ExponentBits);
                 Assert.AreEqual(0, extendedDecimal.Exponent);
                 Assert.AreEqual<UInt128>(100, extendedDecimal.MantissaBits);
                 Assert.AreEqual<UInt128>(100, extendedDecimal.Mantissa);

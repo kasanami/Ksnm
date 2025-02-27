@@ -12,12 +12,13 @@ using System.Threading.Tasks;
 namespace Ksnm.Numerics
 {
     using Decimal = System.Decimal;
-    using UInt = System.UInt128;
+    using BitsType = System.UInt128;
     /// <summary>
     /// 10進浮動小数点数型
     /// </summary>
     [StructLayout(LayoutKind.Explicit)]
     public struct ExtendedDecimal :
+        IFloatingPointProperties<BitsType>,
         IFloatingPointIeee754<ExtendedDecimal>,
         IFloatingPointConstants<ExtendedDecimal>,
         IExponentialFunctions<ExtendedDecimal>,
@@ -53,7 +54,7 @@ namespace Ksnm.Numerics
         /// <summary>
         /// 符号部のビットマスク
         /// </summary>
-        public static readonly UInt SignBitMask = 1;
+        public static readonly BitsType SignBitMask = 1;
 
         /// <summary>
         /// 指数部のビット数
@@ -62,7 +63,7 @@ namespace Ksnm.Numerics
         /// <summary>
         /// 指数部のビットマスク
         /// </summary>
-        public static readonly UInt ExponentBitMask = ((UInt)1 << ExponentLength) - 1;
+        public static readonly BitsType ExponentBitMask = ((BitsType)1 << ExponentLength) - 1;
 
         /// <summary>
         /// 仮数部のビット数
@@ -71,7 +72,7 @@ namespace Ksnm.Numerics
         /// <summary>
         /// 仮数部のビットマスク
         /// </summary>
-        public static readonly UInt MantissaBitMask = ((UInt)1 << MantissaLength) - 1;
+        public static readonly BitsType MantissaBitMask = ((BitsType)1 << MantissaLength) - 1;
         #endregion 定数
 
         #region フィールド オフセットの位置がイメージと違う
@@ -81,7 +82,7 @@ namespace Ksnm.Numerics
         [FieldOffset(4 * 3)] public UInt32 MidBits;
         [FieldOffset(4 * 2)] public UInt32 LoBits;
 
-        [FieldOffset(0)] private UInt _bits;
+        [FieldOffset(0)] private BitsType _bits;
         [FieldOffset(4 * 0)] private UInt32 _bits0;
         [FieldOffset(4 * 1)] private UInt32 _bits1;
         [FieldOffset(4 * 3)] private UInt32 _bits2;
@@ -92,30 +93,30 @@ namespace Ksnm.Numerics
         #endregion フィールド
 
         #region プロパティ
-        public UInt Bits
+        public BitsType Bits
         {
             get
             {
                 return
-                    ((UInt)_bits0 << 96) |
-                    ((UInt)_bits1 << 64) |
-                    ((UInt)_bits2 << 32) |
-                    ((UInt)_bits3);
+                    ((BitsType)_bits0 << 96) |
+                    ((BitsType)_bits1 << 64) |
+                    ((BitsType)_bits2 << 32) |
+                    ((BitsType)_bits3);
             }
             set
             {
-                _bits0 = (UInt32)((value >> 96) & UInt.MaxValue);
-                _bits1 = (UInt32)((value >> 64) & UInt.MaxValue); ;
-                _bits2 = (UInt32)((value >> 32) & UInt.MaxValue);
-                _bits3 = (UInt32)((value) & UInt.MaxValue);
+                _bits0 = (UInt32)((value >> 96) & BitsType.MaxValue);
+                _bits1 = (UInt32)((value >> 64) & BitsType.MaxValue); ;
+                _bits2 = (UInt32)((value >> 32) & BitsType.MaxValue);
+                _bits3 = (UInt32)((value) & BitsType.MaxValue);
             }
         }
         /// <summary>
         /// 符号ビットを取得/設定
         /// </summary>
-        public byte SignBit
+        public BitsType SignBit
         {
-            get => (byte)(_signBits >> 7);
+            get => (BitsType)(_signBits >> 7);
             set => _signBits = (byte)(value << 7);
         }
         /// <summary>
@@ -130,7 +131,7 @@ namespace Ksnm.Numerics
         /// <summary>
         /// 指数部を取得/設定
         /// </summary>
-        public byte ExponentBits
+        public BitsType ExponentBits
         {
             get => _exponentBits;
             set => _exponentBits = (byte)(value & ExponentBitMask);
@@ -139,7 +140,11 @@ namespace Ksnm.Numerics
         /// 指数を取得/設定
         /// 0.1の場合は-1。
         /// </summary>
-        public int Exponent => -ExponentBits;
+        public int Exponent
+        {
+            get => -(int)ExponentBits;
+            set => ExponentBits = (BitsType)(-Exponent);
+        }
         /// <summary>
         /// 倍率
         /// Mantissaと乗算すると元の値になる係数
@@ -149,7 +154,7 @@ namespace Ksnm.Numerics
         /// <summary>
         /// 仮数部を取得/設定
         /// </summary>
-        public UInt MantissaBits
+        public BitsType MantissaBits
         {
             get => Bits & MantissaBitMask;
             set => Bits = (Bits & ~MantissaBitMask) | (value & MantissaBitMask);
@@ -157,7 +162,11 @@ namespace Ksnm.Numerics
         /// <summary>
         /// 仮数を取得/設定
         /// </summary>
-        public UInt Mantissa => MantissaBits;
+        public BitsType Mantissa
+        {
+            get => MantissaBits;
+            set => MantissaBits = value;
+        }
         #endregion プロパティ
 
 

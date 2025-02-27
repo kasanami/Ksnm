@@ -122,14 +122,7 @@ namespace ConsoleApp
             for (decimal i = -10; i <= 10; i += 0.5m)
             {
                 ExtendedDecimal d = i;
-                Console.WriteLine($"Value   :{d.Value}");
-                Console.WriteLine($"Bits    :{d.Bits:X}");
-                Console.WriteLine($"Sign    :{d.Sign}");
-                Console.WriteLine($"Mantissa:{d.Mantissa}");
-                Console.WriteLine($"Exponent:{d.Exponent}");
-                Console.WriteLine($"Scale   :{d.Scale}");
-                var value = (double)d.Mantissa * d.Scale * d.Sign;
-                Console.WriteLine($"{value}");
+                ConsoleWriteLine(d);
                 Console.WriteLine();
             }
 
