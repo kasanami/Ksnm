@@ -2,9 +2,9 @@
 
 namespace Ksnm.Numerics
 {
-    public struct FloatingPointNumberBase
+    public interface IFloatingPointNumberBase
     {
-        public static double ToDouble<T, TBits>(T from)
+        static double ToDouble<T, TBits>(T from)
             where T : IFloatingPointProperties<TBits>
             where TBits : INumber<TBits>
         {
@@ -14,7 +14,7 @@ namespace Ksnm.Numerics
             extendedDouble.Mantissa = ulong.CreateTruncating(from.Mantissa);
             return extendedDouble;
         }
-        public static double ToSingle<T, TBits>(T from)
+        static double ToSingle<T, TBits>(T from)
             where T : IFloatingPointProperties<TBits>
             where TBits : INumber<TBits>
         {
