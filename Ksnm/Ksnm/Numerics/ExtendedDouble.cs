@@ -179,7 +179,6 @@ namespace Ksnm.Numerics
         {
             return new ExtendedDouble(value);
         }
-        /// </summary>
         public static implicit operator double(ExtendedDouble value)
         {
             return value.Value;
