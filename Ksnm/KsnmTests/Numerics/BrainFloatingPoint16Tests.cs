@@ -69,7 +69,14 @@ namespace Ksnm.Numerics.Tests
                     {
                         float expected = i / j;
                         Half half = half1 / half2;
-                        Assert.AreEqual(expected, (float)half, 0.5f, $"{i}*{j}");
+                        Assert.AreEqual(expected, (float)half, 0.5f, $"{i}/{j}");
+                    }
+                    // %
+                    if (j != 0)
+                    {
+                        float expected = i % j;
+                        Half half = half1 % half2;
+                        Assert.AreEqual(expected, (float)half, 0.5f, $"{i}%{j}");
                     }
                 }
             }

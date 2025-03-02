@@ -52,8 +52,8 @@ namespace Ksnm.ExtensionMethods.System.Random.Tests
                 if (value == 0) { isMinAppeared = true; }
                 if (value == max - 1) { isMaxAppeared = true; }
             }
-            Assert.IsTrue(isMinAppeared);
-            Assert.IsTrue(isMaxAppeared);
+            Assert.IsTrue(isMinAppeared, $"{nameof(max)}={max}");
+            Assert.IsTrue(isMaxAppeared, $"{nameof(max)}={max}");
         }
 
         [TestMethod()]
@@ -70,14 +70,14 @@ namespace Ksnm.ExtensionMethods.System.Random.Tests
             var isMaxAppeared = false;
             for (int i = 0; i < TestCount; i++)
             {
-                var value = random.NextLong(max);
+                var value = random.NextLong(min, max);
                 Assert.IsTrue(value >= min);
                 Assert.IsTrue(value < max);
                 if (value == min) { isMinAppeared = true; }
                 if (value == max - 1) { isMaxAppeared = true; }
             }
-            Assert.IsTrue(isMinAppeared);
-            Assert.IsTrue(isMaxAppeared);
+            Assert.IsTrue(isMinAppeared, $"{nameof(min)}={min} {nameof(max)}={max}");
+            Assert.IsTrue(isMaxAppeared, $"{nameof(min)}={min} {nameof(max)}={max}");
         }
 
         [TestMethod()]

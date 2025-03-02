@@ -133,6 +133,19 @@ namespace Ksnm.Randoms
             return (int)(Sample() * maxValue);
         }
 
+        public override void NextBytes(byte[] buffer)
+        {
+            if (buffer == null)
+            {
+                throw new System.ArgumentNullException();
+            }
+            var value = GenerateUInt32();
+            for (int i = 0; i < buffer.Length; i++)
+            {
+                buffer[i] = (byte)value;
+            }
+        }
+
         /// <summary>
         /// 0 以上で 0xFFFFFFFF 以下の乱数を返します。
         /// </summary>
