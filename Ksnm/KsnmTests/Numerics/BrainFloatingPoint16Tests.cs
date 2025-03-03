@@ -22,11 +22,11 @@ namespace Ksnm.Numerics.Tests
             {
                 // -16はビット数の差
                 ExtendedSingle s = float.MaxValue;
-                Assert.AreEqual(s.Exponent, Half.MaxValue.Exponent - 16);
+                Assert.AreEqual(s.Exponent, Half.MaxValue.Exponent);
             }
             {
                 ExtendedSingle s = float.MinValue;
-                Assert.AreEqual(s.Exponent, Half.MinValue.Exponent - 16);
+                Assert.AreEqual(s.Exponent, Half.MinValue.Exponent);
             }
             Assert.AreEqual(float.PositiveInfinity, (float)Half.PositiveInfinity);
             Assert.AreEqual(float.NegativeInfinity, (float)Half.NegativeInfinity);

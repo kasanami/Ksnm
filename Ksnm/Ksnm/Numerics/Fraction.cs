@@ -87,7 +87,7 @@ namespace Ksnm.Numerics
             }
             int shift = Binary.CountTrainingZero(value.Mantissa);
             var mantissa = value.Mantissa >> shift;
-            var exponent = value.Exponent + shift;
+            var exponent = value.Exponent + shift - ExtendedDouble.MantissaLength;
             ulong denominator = 1;
             const ulong Radix = 2;
             int MaxExponent = _MaxExponent2;

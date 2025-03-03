@@ -16,10 +16,10 @@ namespace Ksnm.Numerics.Tests
                 Assert.AreEqual(0u, extendedDouble.SignBit);
                 Assert.AreEqual(+1, extendedDouble.Sign);
                 Assert.AreEqual(0b01111111111u, extendedDouble.ExponentBits);
-                Assert.AreEqual(-52, extendedDouble.Exponent);
+                Assert.AreEqual(0, extendedDouble.Exponent);
                 Assert.AreEqual(0b0000000000000000000000000000000000000000000000000000ul, extendedDouble.MantissaBits);
                 Assert.AreEqual(0b10000000000000000000000000000000000000000000000000000ul, extendedDouble.Mantissa);
-                Assert.AreEqual(System.Math.Pow(ExtendedDouble.Radix, extendedDouble.Exponent), extendedDouble.Scale);
+                Assert.AreEqual(System.Math.Pow(ExtendedDouble.Radix, extendedDouble.Exponent - ExtendedDouble.MantissaLength), extendedDouble.Scale);
             }
             // -1.00
             {
@@ -29,10 +29,10 @@ namespace Ksnm.Numerics.Tests
                 Assert.AreEqual(1u, extendedDouble.SignBit);
                 Assert.AreEqual(-1, extendedDouble.Sign);
                 Assert.AreEqual(0b01111111111u, extendedDouble.ExponentBits);
-                Assert.AreEqual(-52, extendedDouble.Exponent);
+                Assert.AreEqual(0, extendedDouble.Exponent);
                 Assert.AreEqual(0b0000000000000000000000000000000000000000000000000000ul, extendedDouble.MantissaBits);
                 Assert.AreEqual(0b10000000000000000000000000000000000000000000000000000ul, extendedDouble.Mantissa);
-                Assert.AreEqual(System.Math.Pow(ExtendedDouble.Radix, extendedDouble.Exponent), extendedDouble.Scale);
+                Assert.AreEqual(System.Math.Pow(ExtendedDouble.Radix, extendedDouble.Exponent - ExtendedDouble.MantissaLength), extendedDouble.Scale);
             }
             // 1.23
             {
@@ -42,10 +42,10 @@ namespace Ksnm.Numerics.Tests
                 Assert.AreEqual(0u, extendedDouble.SignBit);
                 Assert.AreEqual(+1, extendedDouble.Sign);
                 Assert.AreEqual(0b01111111111u, extendedDouble.ExponentBits);
-                Assert.AreEqual(-52, extendedDouble.Exponent);
+                Assert.AreEqual(0, extendedDouble.Exponent);
                 Assert.AreEqual(0b0011101011100001010001111010111000010100011110101110ul, extendedDouble.MantissaBits);
                 Assert.AreEqual(0b10011101011100001010001111010111000010100011110101110ul, extendedDouble.Mantissa);
-                Assert.AreEqual(System.Math.Pow(ExtendedDouble.Radix, extendedDouble.Exponent), extendedDouble.Scale);
+                Assert.AreEqual(System.Math.Pow(ExtendedDouble.Radix, extendedDouble.Exponent - ExtendedDouble.MantissaLength), extendedDouble.Scale);
             }
             // 2.00
             {
@@ -55,10 +55,10 @@ namespace Ksnm.Numerics.Tests
                 Assert.AreEqual(0u, extendedDouble.SignBit);
                 Assert.AreEqual(+1, extendedDouble.Sign);
                 Assert.AreEqual(0b10000000000u, extendedDouble.ExponentBits);
-                Assert.AreEqual(-51, extendedDouble.Exponent);
+                Assert.AreEqual(1, extendedDouble.Exponent);
                 Assert.AreEqual(0b0000000000000000000000000000000000000000000000000000ul, extendedDouble.MantissaBits);
                 Assert.AreEqual(0b10000000000000000000000000000000000000000000000000000ul, extendedDouble.Mantissa);
-                Assert.AreEqual(System.Math.Pow(ExtendedDouble.Radix, extendedDouble.Exponent), extendedDouble.Scale);
+                Assert.AreEqual(System.Math.Pow(ExtendedDouble.Radix, extendedDouble.Exponent - ExtendedDouble.MantissaLength), extendedDouble.Scale);
             }
             // 4.00
             {
@@ -68,10 +68,10 @@ namespace Ksnm.Numerics.Tests
                 Assert.AreEqual(0u, extendedDouble.SignBit);
                 Assert.AreEqual(+1, extendedDouble.Sign);
                 Assert.AreEqual(0b10000000001u, extendedDouble.ExponentBits);
-                Assert.AreEqual(-50, extendedDouble.Exponent);
+                Assert.AreEqual(2, extendedDouble.Exponent);
                 Assert.AreEqual(0b0000000000000000000000000000000000000000000000000000ul, extendedDouble.MantissaBits);
                 Assert.AreEqual(0b10000000000000000000000000000000000000000000000000000ul, extendedDouble.Mantissa);
-                Assert.AreEqual(System.Math.Pow(ExtendedDouble.Radix, extendedDouble.Exponent), extendedDouble.Scale);
+                Assert.AreEqual(System.Math.Pow(ExtendedDouble.Radix, extendedDouble.Exponent - ExtendedDouble.MantissaLength), extendedDouble.Scale);
             }
         }
         [TestMethod()]

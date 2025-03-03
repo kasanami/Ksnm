@@ -117,7 +117,6 @@ namespace Ksnm.Numerics
         /// <summary>
         /// 指数を取得/設定
         /// 2のべき乗の指数（2^Exponent）
-        /// Mantissaが左詰めのため、そのビット数は引いたあとの値
         /// </summary>
         public int Exponent
         {
@@ -128,15 +127,15 @@ namespace Ksnm.Numerics
                 {
                     return 0;
                 }
-                return (int)ExponentBits - ExponentBias - MantissaLength;
+                return (int)ExponentBits - ExponentBias;
             }
-            set => ExponentBits = (ushort)(value + ExponentBias + MantissaLength);
+            set => ExponentBits = (ushort)(value + ExponentBias);
         }
         /// <summary>
         /// 倍率
         /// Mantissaと乗算すると元の値になる係数
         /// </summary>
-        public double Scale => System.Math.Pow(Radix, Exponent);
+        public double Scale => System.Math.Pow(Radix, Exponent - MantissaLength);
 
         /// <summary>
         /// 仮数部を取得/設定
