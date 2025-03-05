@@ -167,6 +167,7 @@ namespace Ksnm.Numerics
             get => MantissaBits;
             set => MantissaBits = value;
         }
+        int IFloatingPointProperties<BitsType>.MantissaLength => MantissaLength;
         #endregion プロパティ
 
 

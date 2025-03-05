@@ -211,6 +211,7 @@ namespace KsnmTests.Numerics
             }
             set => Bits = value;
         }
+        int IFloatingPointProperties<BitsType>.MantissaLength => MantissaLength;
         #endregion プロパティ
 
         #region コンストラクタ

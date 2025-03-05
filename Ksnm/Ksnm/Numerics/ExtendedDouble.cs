@@ -159,8 +159,9 @@ namespace Ksnm.Numerics
                 // ((UInt)1 << MantissaLength)は"1."を意味する
                 return MantissaBits | ((BitsType)1 << MantissaLength);
             }
-            set => Bits = value;
+            set => MantissaBits = value;
         }
+        int IFloatingPointProperties<BitsType>.MantissaLength => MantissaLength;
         #endregion プロパティ
 
         #region コンストラクタ
@@ -183,5 +184,16 @@ namespace Ksnm.Numerics
             return value.Value;
         }
         #endregion 型変更
+
+        #region override object
+        public override string ToString()
+        {
+            return Value.ToString();
+        }
+        public override int GetHashCode()
+        {
+            return Value.GetHashCode();
+        }
+        #endregion override object
     }
 }

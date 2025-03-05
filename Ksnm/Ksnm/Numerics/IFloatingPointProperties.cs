@@ -29,7 +29,6 @@ namespace Ksnm.Numerics
         /// <summary>
         /// 指数を取得/設定
         /// 2のべき乗の指数（2^Exponent）
-        /// Mantissaが左詰めのため、そのビット数は引いたあとの値
         /// </summary>
         int Exponent { get; set; }
         /// <summary>
@@ -51,6 +50,10 @@ namespace Ksnm.Numerics
         /// ※0が出力されるのは、符号ビット以外が0のとき
         /// </summary>
         TBits Mantissa { get; set; }
+        /// <summary>
+        /// 仮数部のビット数を取得
+        /// </summary>
+        int MantissaLength { get; }
         #endregion 仮数部
     }
 }
