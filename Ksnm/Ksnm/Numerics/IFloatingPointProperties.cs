@@ -33,7 +33,7 @@ namespace Ksnm.Numerics
         int Exponent { get; set; }
         /// <summary>
         /// 倍率
-        /// Mantissaと乗算すると元の値になる係数
+        /// Coefficientと乗算すると元の値になる係数
         /// </summary>
         double Scale { get; }
         #endregion 指数部
@@ -54,6 +54,12 @@ namespace Ksnm.Numerics
         /// 仮数部のビット数を取得
         /// </summary>
         int MantissaLength { get; }
+        /// <summary>
+        /// 係数
+        /// Mantissaを実数に変換した値
+        /// Scaleと乗算すると元の値になる係数
+        /// </summary>
+        double Coefficient { get; }
         #endregion 仮数部
     }
 }

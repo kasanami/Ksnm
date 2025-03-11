@@ -129,9 +129,9 @@ namespace Ksnm.Numerics
         }
         /// <summary>
         /// 倍率
-        /// Mantissaと乗算すると元の値になる係数
+        /// Coefficientと乗算すると元の値になる係数
         /// </summary>
-        public double Scale => System.Math.Pow(Radix, Exponent - MantissaLength);
+        public double Scale => System.Math.Pow(Radix, Exponent);
 
         /// <summary>
         /// 仮数部を取得/設定
@@ -162,6 +162,8 @@ namespace Ksnm.Numerics
             set => MantissaBits = value;
         }
         int IFloatingPointProperties<BitsType>.MantissaLength => MantissaLength;
+
+        public double Coefficient => Mantissa / (double)(1ul << MantissaLength);
         #endregion プロパティ
 
         #region コンストラクタ

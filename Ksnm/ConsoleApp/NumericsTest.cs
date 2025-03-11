@@ -1,4 +1,5 @@
 ﻿using Ksnm.Numerics;
+using Ksnm.Units;
 using KsnmTests.Numerics;
 using System.Numerics;
 
@@ -41,12 +42,13 @@ namespace ConsoleApp
                 Console.WriteLine($"{nameof(Int128.NegativeOne)}={Int128.NegativeOne}");
             }
 
-            ExtendedSingleTest();
-            ExtendedDoubleTest();
+            //ExtendedSingleTest();
+            //ExtendedDoubleTest();
             ExtendedDecimalTest();
-            CubedDividedNumber8Test();
-            FractionTest();
-            BrainFloatingPoint16Test();
+            //CubedDividedNumber8Test();
+            //FractionTest();
+            //BrainFloatingPoint16Test();
+            FloatingPointNumber8E4M3Test();
 
             // NaNはキャスト可能？→可能
             if (false)
@@ -73,18 +75,50 @@ namespace ConsoleApp
             Console.WriteLine($"ExtendedSingle");
             for (float i = -10; i <= 10; i += 0.1f)
             {
-                ExtendedSingle f = i;
-                Console.WriteLine($"Value    :{f.Value}");
-                Console.WriteLine($"Bits     :{f.Bits:X}");
-                Console.WriteLine($"UpperBits:{f.UpperBits:X}");
-                Console.WriteLine($"LowerBits:{f.LowerBits:X}");
-                Console.WriteLine($"Sign     :{f.Sign}");
-                Console.WriteLine($"Mantissa :{f.Mantissa}");
-                Console.WriteLine($"Exponent :{f.Exponent}");
-                Console.WriteLine($"Scale    :{f.Scale}");
-                var value = f.Mantissa * f.Scale * f.Sign;
-                Console.WriteLine($"計算     :{value}");
+                ExtendedSingle value = i;
+                var reconstruction = value.Coefficient * value.Scale * value.Sign;
+                Console.WriteLine($"Value      :{value.Value}");
+                Console.WriteLine($"Bits       :0x{value.Bits:X}");
+                Console.WriteLine($"UpperBits  :0x{value.UpperBits:X}");
+                Console.WriteLine($"LowerBits  :0x{value.LowerBits:X}");
+                Console.WriteLine($"Sign       :{value.Sign}");
+                Console.WriteLine($"Exponent   :{value.Exponent}");
+                Console.WriteLine($"Mantissa   :0x{value.Mantissa:X}");
+                Console.WriteLine($"Scale      :{value.Scale}");
+                Console.WriteLine($"Coefficient:{value.Coefficient}");
+                Console.WriteLine($"復元       :{reconstruction}");
                 Console.WriteLine();
+            }
+
+            {
+                ExtendedSingle f = 1;
+                f.Sign = +1;
+                ConsoleWriteLine(f);
+                f.Sign = -1;
+                ConsoleWriteLine(f);
+
+                f.Exponent = +1;
+                ConsoleWriteLine(f);
+                f.Exponent = -1;
+                ConsoleWriteLine(f);
+                f.Exponent = 0;
+                ConsoleWriteLine(f);
+
+                f.Mantissa = 1;
+                ConsoleWriteLine(f);
+            }
+
+            {
+                ExtendedSingle f;
+                ExtendedDouble d;
+                f = 0.125f;
+                d = IFloatingPointNumberBase.ToDouble<ExtendedSingle, UInt32>(f);
+                ConsoleWriteLine(f);
+                ConsoleWriteLine(d);
+                f = 2;
+                d = IFloatingPointNumberBase.ToDouble<ExtendedSingle, UInt32>(f);
+                ConsoleWriteLine(f);
+                ConsoleWriteLine(d);
             }
 
             Console.WriteLine();
@@ -97,17 +131,18 @@ namespace ConsoleApp
             Console.WriteLine($"ExtendedDouble");
             for (double i = -10; i <= 10; i += 0.1)
             {
-                ExtendedDouble d = i;
-                Console.WriteLine($"Value    :{d.Value}");
-                Console.WriteLine($"Bits     :{d.Bits:X}");
-                Console.WriteLine($"UpperBits:{d.UpperBits:X}");
-                Console.WriteLine($"LowerBits:{d.LowerBits:X}");
-                Console.WriteLine($"Sign     :{d.Sign}");
-                Console.WriteLine($"Mantissa :{d.Mantissa}");
-                Console.WriteLine($"Exponent :{d.Exponent}");
-                Console.WriteLine($"Scale    :{d.Scale}");
-                var value = d.Mantissa * d.Scale * d.Sign;
-                Console.WriteLine($"計算     :{value}");
+                ExtendedDouble value = i;
+                var reconstruction = value.Coefficient * value.Scale * value.Sign;
+                Console.WriteLine($"Value      :{value.Value}");
+                Console.WriteLine($"Bits       :0x{value.Bits:X}");
+                Console.WriteLine($"UpperBits  :0x{value.UpperBits:X}");
+                Console.WriteLine($"LowerBits  :0x{value.LowerBits:X}");
+                Console.WriteLine($"Sign       :{value.Sign}");
+                Console.WriteLine($"Exponent   :{value.Exponent}");
+                Console.WriteLine($"Mantissa   :0x{value.Mantissa:X}");
+                Console.WriteLine($"Scale      :{value.Scale}");
+                Console.WriteLine($"Coefficient:{value.Coefficient}");
+                Console.WriteLine($"復元       :{reconstruction}");
                 Console.WriteLine();
             }
 
@@ -226,7 +261,7 @@ namespace ConsoleApp
         public static void BrainFloatingPoint16Test()
         {
             Console.WriteLine(Ksnm.Debug.GetFilePathAndLineNumber());
-            Console.WriteLine($"BrainFloatingPoint16Test");
+            Console.WriteLine($"{nameof(BrainFloatingPoint16)} Test");
 
             BrainFloatingPoint16 bfp = new();
 
@@ -246,17 +281,74 @@ namespace ConsoleApp
             Console.WriteLine();
         }
 
+        public static void FloatingPointNumber8E4M3Test()
+        {
+            Console.WriteLine(Ksnm.Debug.GetFilePathAndLineNumber());
+            Console.WriteLine($"{nameof(FloatingPointNumber8S1E4M3B1)} Test");
+
+            FloatingPointNumber8S1E4M3B1 fp8 = new();
+
+            // 0
+            {
+                Console.WriteLine("期待する値：0");
+                fp8.SignBit = 0;
+                fp8.ExponentBits = 0;
+                fp8.MantissaBits = 0;
+                ConsoleWriteLine(fp8);
+            }
+            // 0.125
+            {
+                Console.WriteLine("期待する値：0.125");
+                fp8.SignBit = 0;
+                fp8.ExponentBits = 0;
+                fp8.MantissaBits = 1;
+                ConsoleWriteLine(fp8);
+            }
+            // 1
+            {
+                Console.WriteLine("期待する値：1.0");
+                fp8.SignBit = 0;
+                fp8.ExponentBits = 1;
+                fp8.MantissaBits = 0;
+                ConsoleWriteLine(fp8);
+            }
+            // 1.125
+            {
+                Console.WriteLine("期待する値：1.125");
+                fp8.SignBit = 0;
+                fp8.ExponentBits = 1;
+                fp8.MantissaBits = 1;
+                ConsoleWriteLine(fp8);
+            }
+
+            for (float i = -2; i <= 2; i += 0.5f)
+            {
+                fp8 = (FloatingPointNumber8S1E4M3B1)i;
+                ConsoleWriteLine(fp8);
+                Console.WriteLine();
+            }
+
+            for (double d = -2; d <= +2; d += 0.01)
+            {
+                fp8 = (FloatingPointNumber8S1E4M3B1)d;
+                Console.WriteLine($"{d}→{fp8}→{(double)fp8}");
+            }
+
+            Console.WriteLine();
+        }
+
         static void ConsoleWriteLine<TBits>(IFloatingPointProperties<TBits> value)
             where TBits : INumber<TBits>
         {
-            Console.WriteLine($"Value   :{value}");
-            Console.WriteLine($"Bits    :{value.Bits:X}");
-            Console.WriteLine($"Sign    :{value.Sign}");
-            Console.WriteLine($"Exponent:{value.Exponent}");
-            Console.WriteLine($"Mantissa:{value.Mantissa}");
-            Console.WriteLine($"Scale   :{value.Scale}");
-            var reconstruction = double.CreateChecked(value.Mantissa) * value.Scale * value.Sign;
-            Console.WriteLine($"復元    :{reconstruction}");
+            var reconstruction = value.Coefficient * value.Scale * value.Sign;
+            Console.WriteLine($"Value      :{value}");
+            Console.WriteLine($"Bits       :0x{value.Bits:X}");
+            Console.WriteLine($"Sign       :{value.Sign}");
+            Console.WriteLine($"Exponent   :{value.Exponent}");
+            Console.WriteLine($"Mantissa   :0x{value.Mantissa:X}");
+            Console.WriteLine($"Scale      :{value.Scale}");
+            Console.WriteLine($"Coefficient:{value.Coefficient}");
+            Console.WriteLine($"復元       :{reconstruction}");
             Console.WriteLine();
         }
     }
