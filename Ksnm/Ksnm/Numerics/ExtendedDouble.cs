@@ -2,6 +2,7 @@
 
 namespace Ksnm.Numerics
 {
+    using BaseType = System.Double;
     using BitsType = System.UInt64;
     /// <summary>
     /// 64bit浮動小数点数型
@@ -66,7 +67,7 @@ namespace Ksnm.Numerics
 
         #region フィールド
         [FieldOffset(0)]
-        public Double Value;
+        public BaseType Value;
         [FieldOffset(0)]
         private BitsType bits = 0;
 #if BIGENDIAN
@@ -164,24 +165,31 @@ namespace Ksnm.Numerics
         int IFloatingPointProperties<BitsType>.MantissaLength => MantissaLength;
 
         public double Coefficient => Mantissa / (double)(1ul << MantissaLength);
+        bool IFloatingPointProperties<BitsType>.IsPositive => BaseType.IsPositive(Value);
+        bool IFloatingPointProperties<BitsType>.IsNegative => BaseType.IsNegative(Value);
+        bool IFloatingPointProperties<BitsType>.IsZero => Value == 0;
+        bool IFloatingPointProperties<BitsType>.IsInfinity => BaseType.IsInfinity(Value);
+        bool IFloatingPointProperties<BitsType>.IsPositiveInfinity => BaseType.IsPositiveInfinity(Value);
+        bool IFloatingPointProperties<BitsType>.IsNegativeInfinity => BaseType.IsNegativeInfinity(Value);
+        bool IFloatingPointProperties<BitsType>.IsNaN => BaseType.IsNaN(Value);
         #endregion プロパティ
 
         #region コンストラクタ
         public ExtendedDouble()
         {
         }
-        public ExtendedDouble(double value)
+        public ExtendedDouble(BaseType value)
         {
             Value = value;
         }
         #endregion コンストラクタ
 
         #region 型変更
-        public static implicit operator ExtendedDouble(double value)
+        public static implicit operator ExtendedDouble(BaseType value)
         {
             return new ExtendedDouble(value);
         }
-        public static implicit operator double(ExtendedDouble value)
+        public static implicit operator BaseType(ExtendedDouble value)
         {
             return value.Value;
         }

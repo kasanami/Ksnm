@@ -61,5 +61,36 @@ namespace Ksnm.Numerics
         /// </summary>
         double Coefficient { get; }
         #endregion 仮数部
+
+        #region 状態
+        /// <summary>
+        /// 正数 なら true
+        /// </summary>
+        bool IsPositive { get; }
+        /// <summary>
+        /// 負数 なら true
+        /// </summary>
+        bool IsNegative { get; }
+        /// <summary>
+        /// 0 なら true
+        /// </summary>
+        bool IsZero { get; }
+        /// <summary>
+        /// 無限大 なら true
+        /// </summary>
+        bool IsInfinity { get; }
+        /// <summary>
+        /// 正の無限大 なら true
+        /// </summary>
+        bool IsPositiveInfinity { get; }
+        /// <summary>
+        /// 負の無限大 なら true
+        /// </summary>
+        bool IsNegativeInfinity { get; }
+        /// <summary>
+        /// NaN なら true
+        /// </summary>
+        bool IsNaN { get; }
+        #endregion 状態
     }
 }

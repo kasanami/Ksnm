@@ -8,35 +8,59 @@ namespace Ksnm.Numerics
             where TFrom : IFloatingPointProperties<TFromBits>
             where TFromBits : INumber<TFromBits>, IShiftOperators<TFromBits, int, TFromBits>
         {
-            ExtendedDouble extendedDouble = new();
-            extendedDouble.SignBit = ulong.CreateTruncating(from.SignBit);
-            if (IsZero<TFrom, TFromBits>(from))
+            ExtendedDouble result = new();
+            result.SignBit = ulong.CreateTruncating(from.SignBit);
+            if (from.IsZero)
             {
-                return extendedDouble;
+                return result;
+            }
+            else if(from.IsPositiveInfinity)
+            {
+                return Double.PositiveInfinity;
+            }
+            else if (from.IsNegativeInfinity)
+            {
+                return Double.NegativeInfinity;
+            }
+            else if (from.IsNaN)
+            {
+                return Double.NaN;
             }
             else
             {
-                extendedDouble.Exponent = from.Exponent;
+                result.Exponent = from.Exponent;
             }
-            extendedDouble.MantissaBits = ShiftMantissa<TFromBits, UInt64>(from.MantissaBits, from.MantissaLength, ExtendedDouble.MantissaLength);
-            return extendedDouble;
+            result.MantissaBits = ShiftMantissa<TFromBits, UInt64>(from.MantissaBits, from.MantissaLength, ExtendedDouble.MantissaLength);
+            return result;
         }
         static float ToSingle<TFrom, TFromBits>(TFrom from)
             where TFrom : IFloatingPointProperties<TFromBits>
             where TFromBits : INumber<TFromBits>, IShiftOperators<TFromBits, int, TFromBits>
         {
-            ExtendedSingle extendedSingle = new();
-            extendedSingle.SignBit = uint.CreateTruncating(from.SignBit);
-            if (IsZero<TFrom, TFromBits>(from))
+            ExtendedSingle result = new();
+            result.SignBit = uint.CreateTruncating(from.SignBit);
+            if (from.IsZero)
             {
-                return extendedSingle;
+                return result;
+            }
+            else if (from.IsPositiveInfinity)
+            {
+                return Single.PositiveInfinity;
+            }
+            else if (from.IsNegativeInfinity)
+            {
+                return Single.NegativeInfinity;
+            }
+            else if (from.IsNaN)
+            {
+                return Single.NaN;
             }
             else
             {
-                extendedSingle.Exponent = from.Exponent;
+                result.Exponent = from.Exponent;
             }
-            extendedSingle.MantissaBits = ShiftMantissa<TFromBits, UInt32>(from.MantissaBits, from.MantissaLength, ExtendedSingle.MantissaLength);
-            return extendedSingle;
+            result.MantissaBits = ShiftMantissa<TFromBits, UInt32>(from.MantissaBits, from.MantissaLength, ExtendedSingle.MantissaLength);
+            return result;
         }
         static TTo FromDouble<TTo, TToBits>(ExtendedDouble from)
             where TTo : IFloatingPointProperties<TToBits>, new()

@@ -44,11 +44,11 @@ namespace ConsoleApp
 
             //ExtendedSingleTest();
             //ExtendedDoubleTest();
-            ExtendedDecimalTest();
+            //ExtendedDecimalTest();
             //CubedDividedNumber8Test();
             //FractionTest();
             //BrainFloatingPoint16Test();
-            FloatingPointNumber8E4M3Test();
+            FloatingPointNumber8S1E4M3B7Test();
 
             // NaNはキャスト可能？→可能
             if (false)
@@ -281,56 +281,34 @@ namespace ConsoleApp
             Console.WriteLine();
         }
 
-        public static void FloatingPointNumber8E4M3Test()
+        public static void FloatingPointNumber8S1E4M3B7Test()
         {
             Console.WriteLine(Ksnm.Debug.GetFilePathAndLineNumber());
-            Console.WriteLine($"{nameof(FloatingPointNumber8S1E4M3B1)} Test");
+            Console.WriteLine($"{nameof(FloatingPointNumber8S1E4M3B7)} Test");
 
-            FloatingPointNumber8S1E4M3B1 fp8 = new();
+            FloatingPointNumber8S1E4M3B7 fp8 = new();
 
-            // 0
+            for (int i = 0; i < 0xFF; i++)
             {
-                Console.WriteLine("期待する値：0");
-                fp8.SignBit = 0;
-                fp8.ExponentBits = 0;
-                fp8.MantissaBits = 0;
+                fp8.Bits = (byte)i;
                 ConsoleWriteLine(fp8);
             }
-            // 0.125
+            for (int i = 0; i < 0xFF; i++)
             {
-                Console.WriteLine("期待する値：0.125");
-                fp8.SignBit = 0;
-                fp8.ExponentBits = 0;
-                fp8.MantissaBits = 1;
-                ConsoleWriteLine(fp8);
-            }
-            // 1
-            {
-                Console.WriteLine("期待する値：1.0");
-                fp8.SignBit = 0;
-                fp8.ExponentBits = 1;
-                fp8.MantissaBits = 0;
-                ConsoleWriteLine(fp8);
-            }
-            // 1.125
-            {
-                Console.WriteLine("期待する値：1.125");
-                fp8.SignBit = 0;
-                fp8.ExponentBits = 1;
-                fp8.MantissaBits = 1;
-                ConsoleWriteLine(fp8);
+                fp8.Bits = (byte)i;
+                Console.WriteLine($"{i}\t{fp8}");
             }
 
             for (float i = -2; i <= 2; i += 0.5f)
             {
-                fp8 = (FloatingPointNumber8S1E4M3B1)i;
+                fp8 = (FloatingPointNumber8S1E4M3B7)i;
                 ConsoleWriteLine(fp8);
                 Console.WriteLine();
             }
 
             for (double d = -2; d <= +2; d += 0.01)
             {
-                fp8 = (FloatingPointNumber8S1E4M3B1)d;
+                fp8 = (FloatingPointNumber8S1E4M3B7)d;
                 Console.WriteLine($"{d}→{fp8}→{(double)fp8}");
             }
 
@@ -341,14 +319,17 @@ namespace ConsoleApp
             where TBits : INumber<TBits>
         {
             var reconstruction = value.Coefficient * value.Scale * value.Sign;
-            Console.WriteLine($"Value      :{value}");
-            Console.WriteLine($"Bits       :0x{value.Bits:X}");
-            Console.WriteLine($"Sign       :{value.Sign}");
-            Console.WriteLine($"Exponent   :{value.Exponent}");
-            Console.WriteLine($"Mantissa   :0x{value.Mantissa:X}");
-            Console.WriteLine($"Scale      :{value.Scale}");
-            Console.WriteLine($"Coefficient:{value.Coefficient}");
-            Console.WriteLine($"復元       :{reconstruction}");
+            Console.WriteLine($"Value       :{value}");
+            Console.WriteLine($"Bits        :0x{value.Bits:X}");
+            Console.WriteLine($"SignBit     :{value.SignBit}");
+            Console.WriteLine($"ExponentBits:0x{value.ExponentBits:X}");
+            Console.WriteLine($"MantissaBits:0x{value.MantissaBits:X}");
+            Console.WriteLine($"Sign        :{value.Sign}");
+            Console.WriteLine($"Exponent    :{value.Exponent}");
+            Console.WriteLine($"Mantissa    :0x{value.Mantissa:X}");
+            Console.WriteLine($"Scale       :{value.Scale}");
+            Console.WriteLine($"Coefficient :{value.Coefficient}");
+            Console.WriteLine($"復元        :{reconstruction}");
             Console.WriteLine();
         }
     }

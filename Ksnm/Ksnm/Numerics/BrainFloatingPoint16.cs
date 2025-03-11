@@ -1,4 +1,5 @@
 ﻿using Ksnm.Numerics;
+using Ksnm.Units;
 using Ksnm.Units.SI;
 using System;
 using System.Collections.Generic;
@@ -8,6 +9,7 @@ using System.Linq;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using System.Security.AccessControl;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -214,6 +216,13 @@ namespace KsnmTests.Numerics
         int IFloatingPointProperties<BitsType>.MantissaLength => MantissaLength;
 
         public double Coefficient => Mantissa / (double)(1 << MantissaLength);
+        bool IFloatingPointProperties<BitsType>.IsPositive => IsPositive(this);
+        bool IFloatingPointProperties<BitsType>.IsNegative => IsNegative(this);
+        bool IFloatingPointProperties<BitsType>.IsZero => IsZero(this);
+        bool IFloatingPointProperties<BitsType>.IsInfinity => IsInfinity(this);
+        bool IFloatingPointProperties<BitsType>.IsPositiveInfinity => IsPositiveInfinity(this);
+        bool IFloatingPointProperties<BitsType>.IsNegativeInfinity => IsNegativeInfinity(this);
+        bool IFloatingPointProperties<BitsType>.IsNaN => IsNaN(this);
         #endregion プロパティ
 
         #region コンストラクタ

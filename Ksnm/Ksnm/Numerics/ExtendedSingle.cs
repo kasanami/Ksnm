@@ -1,7 +1,9 @@
 ﻿using System.Runtime.InteropServices;
+using System.Security.AccessControl;
 
 namespace Ksnm.Numerics
 {
+    using BaseType = System.Single;
     using BitsType = System.UInt32;
     /// <summary>
     /// 32bit浮動小数点数型
@@ -66,7 +68,7 @@ namespace Ksnm.Numerics
 
         #region フィールド
         [FieldOffset(0)]
-        public Single Value;
+        public BaseType Value;
         [FieldOffset(0)]
         private BitsType bits = 0;
 #if BIGENDIAN
@@ -90,7 +92,7 @@ namespace Ksnm.Numerics
         }
 
         /// <summary>
-        /// 符号ビットを取得/設定
+        /// 符号ビットを取得/設定[1bit]
         /// </summary>
         public BitsType SignBit
         {
@@ -107,7 +109,7 @@ namespace Ksnm.Numerics
         }
 
         /// <summary>
-        /// 指数部を取得/設定
+        /// 指数部を取得/設定[8bit]
         /// </summary>
         public BitsType ExponentBits
         {
@@ -138,7 +140,7 @@ namespace Ksnm.Numerics
         public double Scale => System.Math.Pow(Radix, Exponent);
 
         /// <summary>
-        /// 仮数部を取得/設定
+        /// 仮数部を取得/設定[23bit]
         /// </summary>
         public BitsType MantissaBits
         {
@@ -167,24 +169,31 @@ namespace Ksnm.Numerics
         }
         int IFloatingPointProperties<BitsType>.MantissaLength => MantissaLength;
         public double Coefficient => Mantissa / (double)(1u << MantissaLength);
+        bool IFloatingPointProperties<BitsType>.IsPositive => BaseType.IsPositive(Value);
+        bool IFloatingPointProperties<BitsType>.IsNegative => BaseType.IsNegative(Value);
+        bool IFloatingPointProperties<BitsType>.IsZero => Value == 0;
+        bool IFloatingPointProperties<BitsType>.IsInfinity => BaseType.IsInfinity(Value);
+        bool IFloatingPointProperties<BitsType>.IsPositiveInfinity => BaseType.IsPositiveInfinity(Value);
+        bool IFloatingPointProperties<BitsType>.IsNegativeInfinity => BaseType.IsNegativeInfinity(Value);
+        bool IFloatingPointProperties<BitsType>.IsNaN => BaseType.IsNaN(Value);
         #endregion プロパティ
 
         #region コンストラクタ
         public ExtendedSingle()
         {
         }
-        public ExtendedSingle(Single value)
+        public ExtendedSingle(BaseType value)
         {
             Value = value;
         }
         #endregion コンストラクタ
 
         #region 型変更
-        public static implicit operator ExtendedSingle(Single value)
+        public static implicit operator ExtendedSingle(BaseType value)
         {
             return new ExtendedSingle(value);
         }
-        public static implicit operator Single(ExtendedSingle value)
+        public static implicit operator BaseType(ExtendedSingle value)
         {
             return value.Value;
         }

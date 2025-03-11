@@ -6,12 +6,13 @@ using System.Globalization;
 using System.Linq;
 using System.Numerics;
 using System.Runtime.InteropServices;
+using System.Security.AccessControl;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Ksnm.Numerics
 {
-    using Decimal = System.Decimal;
+    using BaseType = System.Decimal;
     using BitsType = System.UInt128;
     /// <summary>
     /// 10進浮動小数点数型
@@ -76,7 +77,7 @@ namespace Ksnm.Numerics
         #endregion 定数
 
         #region フィールド オフセットの位置がイメージと違う
-        [FieldOffset(0)] public Decimal Value;
+        [FieldOffset(0)] public BaseType Value;
         [FieldOffset(4 * 0)] public UInt32 Flags;
         [FieldOffset(4 * 1)] public UInt32 HiBits;
         [FieldOffset(4 * 3)] public UInt32 MidBits;
@@ -170,6 +171,13 @@ namespace Ksnm.Numerics
         int IFloatingPointProperties<BitsType>.MantissaLength => MantissaLength;
 
         public double Coefficient => (double)Mantissa;
+        bool IFloatingPointProperties<BitsType>.IsPositive => BaseType.IsPositive(Value);
+        bool IFloatingPointProperties<BitsType>.IsNegative => BaseType.IsNegative(Value);
+        bool IFloatingPointProperties<BitsType>.IsZero => Value == 0;
+        bool IFloatingPointProperties<BitsType>.IsInfinity => false;
+        bool IFloatingPointProperties<BitsType>.IsPositiveInfinity => false;
+        bool IFloatingPointProperties<BitsType>.IsNegativeInfinity => false;
+        bool IFloatingPointProperties<BitsType>.IsNaN => false;
         #endregion プロパティ
 
 
@@ -177,14 +185,14 @@ namespace Ksnm.Numerics
         /// <summary>
         /// Decimal から ExtendedDecimal への暗黙的な変換を定義します。
         /// </summary>
-        public static implicit operator ExtendedDecimal(Decimal value)
+        public static implicit operator ExtendedDecimal(BaseType value)
         {
             return new ExtendedDecimal() { Value = value };
         }
         /// <summary>
         /// ExtendedDecimal から Decimal への暗黙的な変換を定義します。
         /// </summary>
-        public static implicit operator Decimal(ExtendedDecimal value)
+        public static implicit operator BaseType(ExtendedDecimal value)
         {
             return value.Value;
         }
@@ -202,17 +210,17 @@ namespace Ksnm.Numerics
         #endregion object
 
         #region IFloatingPointIeee754
-        public static ExtendedDecimal One => Decimal.One;
+        public static ExtendedDecimal One => BaseType.One;
 
         public static int Radix => 10;
 
-        public static ExtendedDecimal Zero => Decimal.Zero;
+        public static ExtendedDecimal Zero => BaseType.Zero;
 
-        public static ExtendedDecimal AdditiveIdentity => Decimal.Zero;
+        public static ExtendedDecimal AdditiveIdentity => BaseType.Zero;
 
-        public static ExtendedDecimal MultiplicativeIdentity => Decimal.One;
+        public static ExtendedDecimal MultiplicativeIdentity => BaseType.One;
 
-        public static ExtendedDecimal Epsilon => new Decimal(1, 0, 0, false, 28);
+        public static ExtendedDecimal Epsilon => new BaseType(1, 0, 0, false, 28);
 
         public static ExtendedDecimal NaN => throw new NotImplementedException();
 
@@ -225,7 +233,7 @@ namespace Ksnm.Numerics
         public static ExtendedDecimal NegativeOne => -1;
         #endregion IFloatingPointIeee754
 
-        public static ExtendedDecimal Abs(ExtendedDecimal value) => Decimal.Abs(value);
+        public static ExtendedDecimal Abs(ExtendedDecimal value) => BaseType.Abs(value);
 
         #region IExponentialFunctions
         public static ExtendedDecimal Exp(ExtendedDecimal x) => Math.Exp(x, 0, 28);
@@ -376,7 +384,7 @@ namespace Ksnm.Numerics
         }
 
         public static bool IsComplexNumber(ExtendedDecimal value) => false;
-        public static bool IsEvenInteger(ExtendedDecimal value) => Decimal.IsEvenInteger(value);
+        public static bool IsEvenInteger(ExtendedDecimal value) => BaseType.IsEvenInteger(value);
 
         public static bool IsFinite(ExtendedDecimal value)
         {
@@ -394,7 +402,7 @@ namespace Ksnm.Numerics
 
         public static bool IsNaN(ExtendedDecimal value) => false;
 
-        public static bool IsNegative(ExtendedDecimal value) => Decimal.IsNegative(value);
+        public static bool IsNegative(ExtendedDecimal value) => BaseType.IsNegative(value);
 
         public static bool IsNegativeInfinity(ExtendedDecimal value) => false;
 
@@ -403,8 +411,8 @@ namespace Ksnm.Numerics
             throw new NotImplementedException();
         }
 
-        public static bool IsOddInteger(ExtendedDecimal value) => Decimal.IsOddInteger(value);
-        public static bool IsPositive(ExtendedDecimal value) => Decimal.IsPositive(value);
+        public static bool IsOddInteger(ExtendedDecimal value) => BaseType.IsOddInteger(value);
+        public static bool IsPositive(ExtendedDecimal value) => BaseType.IsPositive(value);
         public static bool IsPositiveInfinity(ExtendedDecimal value) => false;
 
         public static bool IsRealNumber(ExtendedDecimal value) => true;
@@ -490,7 +498,7 @@ namespace Ksnm.Numerics
         {
             try
             {
-                result = Decimal.CreateChecked(value);
+                result = BaseType.CreateChecked(value);
                 return true;
             }
             catch
@@ -504,7 +512,7 @@ namespace Ksnm.Numerics
         {
             try
             {
-                result = Decimal.CreateSaturating(value);
+                result = BaseType.CreateSaturating(value);
                 return true;
             }
             catch
@@ -518,7 +526,7 @@ namespace Ksnm.Numerics
         {
             try
             {
-                result = Decimal.CreateTruncating(value);
+                result = BaseType.CreateTruncating(value);
                 return true;
             }
             catch
@@ -562,23 +570,23 @@ namespace Ksnm.Numerics
             => Value.ToString(format, formatProvider);
 
         static ExtendedDecimal ISpanParsable<ExtendedDecimal>.Parse(ReadOnlySpan<char> s, IFormatProvider? provider)
-            => Decimal.Parse(s, provider);
+            => BaseType.Parse(s, provider);
 
         static bool ISpanParsable<ExtendedDecimal>.TryParse(ReadOnlySpan<char> s, IFormatProvider? provider, out ExtendedDecimal result)
         {
-            Decimal result2;
-            var success = Decimal.TryParse(s, provider, out result2);
+            BaseType result2;
+            var success = BaseType.TryParse(s, provider, out result2);
             result = result2;
             return success;
         }
 
         static ExtendedDecimal IParsable<ExtendedDecimal>.Parse(string s, IFormatProvider? provider)
-            => Decimal.Parse(s, provider);
+            => BaseType.Parse(s, provider);
 
         static bool IParsable<ExtendedDecimal>.TryParse(string? s, IFormatProvider? provider, out ExtendedDecimal result)
         {
-            Decimal result2;
-            var success = Decimal.TryParse(s, provider, out result2);
+            BaseType result2;
+            var success = BaseType.TryParse(s, provider, out result2);
             result = result2;
             return success;
         }
@@ -641,7 +649,7 @@ namespace Ksnm.Numerics
 
         #region IFloatingPoint
         public static ExtendedDecimal Round(ExtendedDecimal x, int digits, MidpointRounding mode)
-            => Decimal.Round(x, digits, mode);
+            => BaseType.Round(x, digits, mode);
 
         public bool TryWriteExponentBigEndian(Span<byte> destination, out int bytesWritten)
         {
