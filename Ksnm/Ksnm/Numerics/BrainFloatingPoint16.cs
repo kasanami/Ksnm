@@ -203,10 +203,10 @@ namespace KsnmTests.Numerics
         {
             get
             {
-                // 0なら0を返す
-                if (IsZero(this))
+                // 非正規化数なら最上位に1を加えずに返す
+                if (ExponentBits == 0)
                 {
-                    return 0;
+                    return MantissaBits;
                 }
                 // ((UInt)1 << MantissaLength)は"1."を意味する
                 return (BitsType)(MantissaBits | ((BitsType)1 << MantissaLength));

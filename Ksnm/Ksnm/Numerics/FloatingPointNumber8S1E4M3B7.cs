@@ -180,15 +180,14 @@ namespace Ksnm.Numerics
         bool IFloatingPointProperties<BitsType>.IsPositive=> IsPositive(this);
         bool IFloatingPointProperties<BitsType>.IsNegative=> IsNegative(this);
         bool IFloatingPointProperties<BitsType>.IsInfinity
-            => (ExponentBits == 0b1111) && (MantissaBits == 0);
+            => (ExponentBits == InfinityExponentBits) && (MantissaBits == 0);
         bool IFloatingPointProperties<BitsType>.IsPositiveInfinity
             => IsPositive(this) && IsInfinity(this);
         bool IFloatingPointProperties<BitsType>.IsNegativeInfinity
             => IsNegative(this) && IsInfinity(this);
         bool IFloatingPointProperties<BitsType>.IsNaN
-            => (ExponentBits == 0b1111) && (MantissaBits != 0);
-
-        bool IFloatingPointProperties<byte>.IsZero => IsZero;
+            => (ExponentBits == InfinityExponentBits) && (MantissaBits != 0);
+        bool IFloatingPointProperties<BitsType>.IsZero => IsZero;
         #endregion プロパティ
 
         #region コンストラクタ

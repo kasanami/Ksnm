@@ -42,7 +42,7 @@ namespace ConsoleApp
                 Console.WriteLine($"{nameof(Int128.NegativeOne)}={Int128.NegativeOne}");
             }
 
-            //ExtendedSingleTest();
+            ExtendedSingleTest();
             //ExtendedDoubleTest();
             //ExtendedDecimalTest();
             //CubedDividedNumber8Test();
@@ -71,8 +71,46 @@ namespace ConsoleApp
         public static void ExtendedSingleTest()
         {
             Console.WriteLine(Ksnm.Debug.GetFilePathAndLineNumber());
+            Console.WriteLine($"{nameof(ExtendedSingle)} Test ====================");
 
-            Console.WriteLine($"ExtendedSingle");
+            for (long i = 0; i < 0b11111111_111_1111111111_1111111111; i ++)
+            {
+                if (i == 0b11)
+                {
+                    i = 0b111_1111111111_1111111111;
+                }
+                else if (i == 0b1_000_0000000000_0000000011)
+                {
+                    i = 0b10_000_0000000000_0000000000;
+                }
+                else if (i == 0b10_000_0000000000_0000000011)
+                {
+                    i = 0b11111110_000_0000000000_0000000000;
+                }
+                else if (i == 0b11111110_000_0000000000_0000000011)
+                {
+                    i = 0b11111110_111_1111111111_1111111111;
+                }
+                else if (i == 0b11111111_000_0000000000_0000000011)
+                {
+                    i = 0b11111111_111_1111111111_1111111111;
+                }
+                ExtendedSingle value = i;
+                value.Bits = (uint)i;
+                var reconstruction = value.Coefficient * value.Scale * value.Sign;
+                Console.WriteLine($"Value       :{value.Value}");
+                Console.WriteLine($"復元        :{reconstruction}");
+                Console.WriteLine($"Bits        :0x{value.Bits:X}");
+                Console.WriteLine($"ExponentBits:0x{value.ExponentBits:X}");
+                Console.WriteLine($"MantissaBits:0x{value.MantissaBits:X}");
+                Console.WriteLine($"Sign        :{value.Sign}");
+                Console.WriteLine($"Exponent    :{value.Exponent}");
+                Console.WriteLine($"Mantissa    :0x{value.Mantissa:X}");
+                Console.WriteLine($"Scale       :{value.Scale}");
+                Console.WriteLine($"Coefficient :{value.Coefficient}");
+                Console.WriteLine();
+            }
+
             for (float i = -10; i <= 10; i += 0.1f)
             {
                 ExtendedSingle value = i;
@@ -127,8 +165,8 @@ namespace ConsoleApp
         public static void ExtendedDoubleTest()
         {
             Console.WriteLine(Ksnm.Debug.GetFilePathAndLineNumber());
+            Console.WriteLine($"{nameof(ExtendedDouble)} Test ====================");
 
-            Console.WriteLine($"ExtendedDouble");
             for (double i = -10; i <= 10; i += 0.1)
             {
                 ExtendedDouble value = i;
@@ -152,8 +190,8 @@ namespace ConsoleApp
         public static void ExtendedDecimalTest()
         {
             Console.WriteLine(Ksnm.Debug.GetFilePathAndLineNumber());
+            Console.WriteLine($"{nameof(ExtendedDecimal)} Test ====================");
 
-            Console.WriteLine($"ExtendedDecimal");
             for (decimal i = -10; i <= 10; i += 0.5m)
             {
                 ExtendedDecimal d = i;
@@ -198,7 +236,7 @@ namespace ConsoleApp
         public static void FractionTest()
         {
             Console.WriteLine(Ksnm.Debug.GetFilePathAndLineNumber());
-
+            Console.WriteLine($"{nameof(FractionTest)} ====================");
 
             Console.WriteLine($"double → Fraction");
             for (double i = -10; i <= 10; i++)
@@ -261,7 +299,7 @@ namespace ConsoleApp
         public static void BrainFloatingPoint16Test()
         {
             Console.WriteLine(Ksnm.Debug.GetFilePathAndLineNumber());
-            Console.WriteLine($"{nameof(BrainFloatingPoint16)} Test");
+            Console.WriteLine($"{nameof(BrainFloatingPoint16)} Test ====================");
 
             BrainFloatingPoint16 bfp = new();
 

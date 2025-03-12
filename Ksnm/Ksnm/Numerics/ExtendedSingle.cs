@@ -56,6 +56,12 @@ namespace Ksnm.Numerics
         /// </summary>
         public const int InfinityExponent = 128;
 
+        public const int MinExponent = 1 - ExponentBias;
+        public const int MaxExponent = ExponentBias;
+
+        public const BitsType MinExponentBits = 0x00;
+        public const BitsType MaxExponentBits = 0xFF;
+
         /// <summary>
         /// 仮数部のビット数
         /// </summary>
@@ -113,7 +119,7 @@ namespace Ksnm.Numerics
         /// </summary>
         public BitsType ExponentBits
         {
-            get => (ushort)((Bits >> ExponentBitShift) & ExponentBitMask);
+            get => (BitsType)((Bits >> ExponentBitShift) & ExponentBitMask);
             set => Bits = (BitsType)((Bits & ~ExponentShiftedBitMask) | ((value & ExponentBitMask) << ExponentBitShift));
         }
         /// <summary>
@@ -124,20 +130,46 @@ namespace Ksnm.Numerics
         {
             get
             {
-                // 符号ビット以外が0なら0を返す
-                if ((Bits & ~SignShiftedBitMask) == 0)
+                // 0なら0を返す
+                if (IsZero)
                 {
                     return 0;
                 }
+                // ExponentBitsが0なら最小値を返す
+                if (ExponentBits == MinExponentBits)
+                {
+                    return MinExponent;
+                }
                 return (int)ExponentBits - ExponentBias;
             }
-            set => ExponentBits = (ushort)(value + ExponentBias);
+            set
+            {
+                if (value > MaxExponent)
+                {
+                    ExponentBits = MaxExponentBits;
+                }
+                else if (value < MinExponent)
+                {
+                    ExponentBits = MinExponentBits;
+                }
+                ExponentBits = (BitsType)(value + ExponentBias);
+            }
         }
         /// <summary>
         /// 倍率
         /// Coefficientと乗算すると元の値になる係数
         /// </summary>
-        public double Scale => System.Math.Pow(Radix, Exponent);
+        public double Scale
+        {
+            get
+            {
+                if (Exponent == InfinityExponent)
+                {
+                    return double.PositiveInfinity;
+                }
+                return System.Math.Pow(Radix, Exponent);
+            }
+        }
 
         /// <summary>
         /// 仮数部を取得/設定[23bit]
@@ -157,10 +189,10 @@ namespace Ksnm.Numerics
         {
             get
             {
-                // 符号ビット以外が0なら0を返す
-                if ((Bits & ~SignShiftedBitMask) == 0)
+                // 非正規化数なら最上位に1を加えずに返す
+                if (ExponentBits == 0)
                 {
-                    return 0;
+                    return MantissaBits;
                 }
                 // ((UInt)1 << MantissaLength)は"1."を意味する
                 return MantissaBits | ((BitsType)1 << MantissaLength);
@@ -172,6 +204,7 @@ namespace Ksnm.Numerics
         bool IFloatingPointProperties<BitsType>.IsPositive => BaseType.IsPositive(Value);
         bool IFloatingPointProperties<BitsType>.IsNegative => BaseType.IsNegative(Value);
         bool IFloatingPointProperties<BitsType>.IsZero => Value == 0;
+        public bool IsZero => Value == 0;
         bool IFloatingPointProperties<BitsType>.IsInfinity => BaseType.IsInfinity(Value);
         bool IFloatingPointProperties<BitsType>.IsPositiveInfinity => BaseType.IsPositiveInfinity(Value);
         bool IFloatingPointProperties<BitsType>.IsNegativeInfinity => BaseType.IsNegativeInfinity(Value);
