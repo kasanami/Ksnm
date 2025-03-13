@@ -2,13 +2,13 @@
 
 namespace Ksnm.Numerics
 {
-    using BaseType = System.Single;
-    using BitsType = System.UInt32;
+    using BaseType = System.Half;
+    using BitsType = System.UInt16;
     /// <summary>
-    /// 32bit浮動小数点数型
+    /// 16bit浮動小数点数型
     /// </summary>
     [StructLayout(LayoutKind.Explicit)]
-    public struct ExtendedSingle : IFloatingPointProperties<BitsType>
+    public struct ExtendedHalf : IFloatingPointProperties<BitsType>
     {
         #region 定数
         public const int Radix = 2;
@@ -20,7 +20,7 @@ namespace Ksnm.Numerics
         /// <summary>
         /// 符号部のビットシフト数
         /// </summary>
-        public const int SignShift = 31;
+        public const int SignShift = 15;
         /// <summary>
         /// 符号部のビットマスク
         /// </summary>
@@ -33,11 +33,11 @@ namespace Ksnm.Numerics
         /// <summary>
         /// 指数部のビット数
         /// </summary>
-        public const int ExponentLength = 8;
+        public const int ExponentLength = 5;
         /// <summary>
         /// 指数部のビットシフト数
         /// </summary>
-        public const int ExponentShift = 23;
+        public const int ExponentShift = 10;
         /// <summary>
         /// 指数部のビットマスク
         /// </summary>
@@ -49,23 +49,23 @@ namespace Ksnm.Numerics
         /// <summary>
         /// 指数部バイアス
         /// </summary>
-        public const int ExponentBias = 127;
+        public const int ExponentBias = 15;
         /// <summary>
         /// 無限大を表す指数部
         /// </summary>
-        public const BitsType InfinityExponentBits = 0b1111_1111;
-        public const int InfinityExponent = 128;
+        public const BitsType InfinityExponentBits = 0b1_1111;
+        public const int InfinityExponent = 16;
 
         public const int MinExponent = 1 - ExponentBias;
         public const int MaxExponent = ExponentBias;
 
         public const BitsType MinExponentBits = 0x00;
-        public const BitsType MaxExponentBits = 0xFF;
+        public const BitsType MaxExponentBits = 0x1F;
 
         /// <summary>
         /// 仮数部のビット数
         /// </summary>
-        public const int MantissaLength = 23;
+        public const int MantissaLength = 10;
         /// <summary>
         /// 仮数部のビットマスク
         /// </summary>
@@ -79,14 +79,14 @@ namespace Ksnm.Numerics
         private BitsType bits = 0;
 #if BIGENDIAN
         [FieldOffset(0)]
-        public UInt16 UpperBits;
+        public byte UpperBits;
         [FieldOffset(2)]
-        public UInt16 LowerBits;
+        public byte LowerBits;
 #else
         [FieldOffset(0)]
-        public UInt16 LowerBits;
+        public byte LowerBits;
         [FieldOffset(2)]
-        public UInt16 UpperBits;
+        public byte UpperBits;
 #endif
         #endregion フィールド
 
@@ -103,7 +103,7 @@ namespace Ksnm.Numerics
         public BitsType SignBit
         {
             get => (BitsType)(Bits >> SignShift);
-            set => Bits = (BitsType)((Bits & ~SignShiftedMask) | ((value & 1ul) << SignShift));
+            set => Bits = (BitsType)((Bits & ~SignShiftedMask) | ((value & 1) << SignShift));
         }
         /// <summary>
         /// 符号を取得/設定
@@ -176,8 +176,8 @@ namespace Ksnm.Numerics
         /// </summary>
         public BitsType MantissaBits
         {
-            get => Bits & MantissaMask;
-            set => Bits = (Bits & ~MantissaMask) | (value & MantissaMask);
+            get => (BitsType)(Bits & MantissaMask);
+            set => Bits = (BitsType)((Bits & ~MantissaMask) | (value & MantissaMask));
         }
         /// <summary>
         /// 仮数を取得/設定
@@ -194,7 +194,7 @@ namespace Ksnm.Numerics
                     return MantissaBits;
                 }
                 // ((UInt)1 << MantissaLength)は"1."を意味する
-                return MantissaBits | ((BitsType)1 << MantissaLength);
+                return (BitsType)(MantissaBits | ((BitsType)1 << MantissaLength));
             }
             set => MantissaBits = value;
         }
@@ -202,8 +202,8 @@ namespace Ksnm.Numerics
         public double Coefficient => Mantissa / (double)(1u << MantissaLength);
         bool IFloatingPointProperties<BitsType>.IsPositive => BaseType.IsPositive(Value);
         bool IFloatingPointProperties<BitsType>.IsNegative => BaseType.IsNegative(Value);
-        bool IFloatingPointProperties<BitsType>.IsZero => Value == 0;
-        public bool IsZero => Value == 0;
+        bool IFloatingPointProperties<BitsType>.IsZero => Value == BaseType.Zero;
+        public bool IsZero => Value == BaseType.Zero;
         bool IFloatingPointProperties<BitsType>.IsInfinity => BaseType.IsInfinity(Value);
         bool IFloatingPointProperties<BitsType>.IsPositiveInfinity => BaseType.IsPositiveInfinity(Value);
         bool IFloatingPointProperties<BitsType>.IsNegativeInfinity => BaseType.IsNegativeInfinity(Value);
@@ -211,21 +211,21 @@ namespace Ksnm.Numerics
         #endregion プロパティ
 
         #region コンストラクタ
-        public ExtendedSingle()
+        public ExtendedHalf()
         {
         }
-        public ExtendedSingle(BaseType value)
+        public ExtendedHalf(BaseType value)
         {
             Value = value;
         }
         #endregion コンストラクタ
 
         #region 型変更
-        public static implicit operator ExtendedSingle(BaseType value)
+        public static implicit operator ExtendedHalf(BaseType value)
         {
-            return new ExtendedSingle(value);
+            return new ExtendedHalf(value);
         }
-        public static implicit operator BaseType(ExtendedSingle value)
+        public static implicit operator BaseType(ExtendedHalf value)
         {
             return value.Value;
         }

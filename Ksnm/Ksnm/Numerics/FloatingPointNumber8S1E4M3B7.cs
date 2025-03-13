@@ -69,6 +69,20 @@ namespace Ksnm.Numerics
         public const int MantissaLength = 3;
         #endregion 仮数部
 
+        #region 定数
+        private const BitsType EpsilonBits = 0b0000_0001;
+        public static FloatingPointNumber8S1E4M3B7 Epsilon => new(EpsilonBits);
+
+        private const BitsType PositiveQNaNBits = 0b0_1111_100;
+        private const BitsType NegativeQNaNBits = 0b1_1111_100;
+        public static FloatingPointNumber8S1E4M3B7 NaN => new(NegativeQNaNBits);
+
+        private const BitsType PositiveOneBits = 0b0_0111_000;
+        private const BitsType NegativeOneBits = 0b1_0111_000;
+        public static FloatingPointNumber8S1E4M3B7 One => new (PositiveOneBits);
+        public static FloatingPointNumber8S1E4M3B7 NegativeOne => new (NegativeOneBits);
+        #endregion 定数
+
         #region プロパティ
         /// <summary>
         /// 全体のビット
