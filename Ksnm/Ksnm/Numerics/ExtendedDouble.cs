@@ -20,15 +20,15 @@ namespace Ksnm.Numerics
         /// <summary>
         /// 符号部のビットシフト数
         /// </summary>
-        public const int SignBitShift = 63;
+        public const int SignShift = 63;
         /// <summary>
         /// 符号部のビットマスク
         /// </summary>
-        public const BitsType SignBitMask = 1ul;
+        public const BitsType SignMask = 1ul;
         /// <summary>
         /// 符号部のビットマスク(実際のビット位置)
         /// </summary>
-        public const BitsType SignShiftedBitMask = SignBitMask << SignBitShift;
+        public const BitsType SignShiftedMask = SignMask << SignShift;
 
         /// <summary>
         /// 指数部のビット数
@@ -37,15 +37,15 @@ namespace Ksnm.Numerics
         /// <summary>
         /// 指数部のビットシフト数
         /// </summary>
-        public const int ExponentBitShift = 52;
+        public const int ExponentShift = 52;
         /// <summary>
         /// 指数部のビットマスク
         /// </summary>
-        public const BitsType ExponentBitMask = ((BitsType)1 << ExponentLength) - 1;
+        public const BitsType ExponentMask = ((BitsType)1 << ExponentLength) - 1;
         /// <summary>
         /// 指数部のビットマスク(実際のビット位置)
         /// </summary>
-        public const BitsType ExponentShiftedBitMask = ExponentBitMask << ExponentBitShift;
+        public const BitsType ExponentShiftedBitMask = ExponentMask << ExponentShift;
         /// <summary>
         /// 指数部バイアス
         /// </summary>
@@ -53,6 +53,7 @@ namespace Ksnm.Numerics
         /// <summary>
         /// 無限大を表す指数部
         /// </summary>
+        public const BitsType InfinityExponentBits = 0b111_1111_1111;
         public const int InfinityExponent = 1024;
 
         public const int MinExponent = 1 - ExponentBias;
@@ -68,7 +69,7 @@ namespace Ksnm.Numerics
         /// <summary>
         /// 仮数部のビットマスク
         /// </summary>
-        public const BitsType MantissaBitMask = ((BitsType)1 << MantissaLength) - 1;
+        public const BitsType MantissaMask = ((BitsType)1 << MantissaLength) - 1;
         #endregion 定数
 
         #region フィールド
@@ -101,8 +102,8 @@ namespace Ksnm.Numerics
         /// </summary>
         public BitsType SignBit
         {
-            get => (BitsType)(Bits >> SignBitShift);
-            set => Bits = (BitsType)((Bits & ~SignShiftedBitMask) | ((value & 1ul) << SignBitShift));
+            get => (BitsType)(Bits >> SignShift);
+            set => Bits = (BitsType)((Bits & ~SignShiftedMask) | ((value & 1ul) << SignShift));
         }
         /// <summary>
         /// 符号を取得/設定
@@ -118,8 +119,8 @@ namespace Ksnm.Numerics
         /// </summary>
         public BitsType ExponentBits
         {
-            get => (BitsType)((Bits >> ExponentBitShift) & ExponentBitMask);
-            set => Bits = (BitsType)((Bits & ~ExponentShiftedBitMask) | ((value & ExponentBitMask) << ExponentBitShift));
+            get => (BitsType)((Bits >> ExponentShift) & ExponentMask);
+            set => Bits = (BitsType)((Bits & ~ExponentShiftedBitMask) | ((value & ExponentMask) << ExponentShift));
         }
         /// <summary>
         /// 指数を取得/設定
@@ -162,7 +163,7 @@ namespace Ksnm.Numerics
         {
             get
             {
-                if (Exponent == InfinityExponent)
+                if (ExponentBits == InfinityExponentBits)
                 {
                     return double.PositiveInfinity;
                 }
@@ -175,13 +176,12 @@ namespace Ksnm.Numerics
         /// </summary>
         public BitsType MantissaBits
         {
-            get => Bits & MantissaBitMask;
-            set => Bits = (Bits & ~MantissaBitMask) | (value & MantissaBitMask);
+            get => Bits & MantissaMask;
+            set => Bits = (Bits & ~MantissaMask) | (value & MantissaMask);
         }
         /// <summary>
         /// 仮数を取得/設定
-        /// 0～1.0の値
-        /// ※1.0=0b100_0000000000_0000000000_0000000000_0000000000_0000000000
+        /// ※実数で例えると0～2.0の値
         /// ※0が出力されるのは、符号ビット以外が0のとき
         /// </summary>
         public BitsType Mantissa

@@ -47,17 +47,15 @@ namespace Ksnm.Numerics
         /// </summary>
         public const int ExponentBias = 7;
         /// <summary>
-        /// 指数の最小値
-        /// </summary>
-        public const int ExponentMinValue = 0 - ExponentBias;
-        /// <summary>
-        /// 指数の最大値
-        /// </summary>
-        public const int ExponentMaxValue = 0b1111 - ExponentBias;
-        /// <summary>
         /// 無限大を表す指数部のビット
         /// </summary>
         public const BitsType InfinityExponentBits = 0b1111;
+
+        public const int MinExponent = 1 - ExponentBias;
+        public const int MaxExponent = ExponentBias;
+
+        public const BitsType MinExponentBits = 0b0000;
+        public const BitsType MaxExponentBits = 0b1111;
         #endregion 指数部
 
         #region 仮数部
@@ -83,18 +81,7 @@ namespace Ksnm.Numerics
         public BitsType SignBit
         {
             get => (BitsType)(Bits >> SignShift);
-            set
-            {
-                value &= 1;
-                if (value == 1)
-                {
-                    Bits |= SignMask;
-                }
-                else
-                {
-                    Bits = (BitsType)(Bits & ~SignMask);
-                }
-            }
+            set => Bits = (BitsType)((Bits & ~SignMask) | ((value & 1) << SignShift));
         }
         /// <summary>
         /// 符号を取得/設定
@@ -120,23 +107,28 @@ namespace Ksnm.Numerics
             get
             {
                 // 0なら0を返す
-                if (this.IsZero)
+                if (IsZero)
                 {
                     return 0;
                 }
-                return ExponentBits - ExponentBias;
+                // ExponentBitsが0なら最小値を返す
+                if (ExponentBits == MinExponentBits)
+                {
+                    return MinExponent;
+                }
+                return (int)ExponentBits - ExponentBias;
             }
             set
             {
-                if (value > ExponentMaxValue || value < ExponentMinValue)
+                if (value > MaxExponent)
                 {
-                    ExponentBits = InfinityExponentBits;
-                    //throw new ArgumentOutOfRangeException($"{ExponentMinValue}より小さい{value}が与えられました。");
+                    ExponentBits = MaxExponentBits;
                 }
-                else
+                else if (value < MinExponent)
                 {
-                    ExponentBits = (BitsType)(value + ExponentBias);
+                    ExponentBits = MinExponentBits;
                 }
+                ExponentBits = (BitsType)(value + ExponentBias);
             }
         }
         /// <summary>
@@ -172,7 +164,17 @@ namespace Ksnm.Numerics
         /// 倍率
         /// Mantissaと乗算すると元の値になる係数
         /// </summary>
-        public double Scale => System.Math.Pow(Radix, Exponent);
+        public double Scale
+        {
+            get
+            {
+                if (ExponentBits == InfinityExponentBits)
+                {
+                    return double.PositiveInfinity;
+                }
+                return System.Math.Pow(Radix, Exponent);
+            }
+        }
 
         public double Coefficient => Mantissa / (double)(1 << MantissaLength);
 
