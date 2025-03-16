@@ -1,4 +1,4 @@
-﻿using KsnmTests.Numerics;
+﻿using Ksnm.Numerics;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 

@@ -13,7 +13,7 @@ using System.Security.AccessControl;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace KsnmTests.Numerics
+namespace Ksnm.Numerics
 {
     using BitsType = System.UInt16;// 全体のビットを表す型
     /// <summary>

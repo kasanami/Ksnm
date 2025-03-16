@@ -8,7 +8,7 @@ using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
 using Ksnm.MachineLearning.Clustering;
 
-using bfp16 = KsnmTests.Numerics.BrainFloatingPoint16;
+using bfp16 = Ksnm.Numerics.BrainFloatingPoint16;
 
 namespace ConsoleApp
 {
