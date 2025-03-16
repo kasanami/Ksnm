@@ -4,7 +4,7 @@ using Ksnm.Numerics;
 using System.Numerics;
 
 using Float8 = Ksnm.Numerics.FloatingPointNumber8S1E4M3B7;
-using BFloat16 = Ksnm.Numerics.BrainFloatingPoint16;
+using BFloat16 = Ksnm.Numerics.FloatingPointNumber16E8M7;
 using Float16 = System.Half;
 using Float32 = System.Single;
 using Float64 = System.Double;
@@ -336,23 +336,23 @@ namespace ConsoleApp
             Console.WriteLine();
         }
 
-        public static void BrainFloatingPoint16Test()
+        public static void FloatingPointNumber16E8M7Test()
         {
             Console.WriteLine(Ksnm.Debug.GetFilePathAndLineNumber());
-            Console.WriteLine($"{nameof(BrainFloatingPoint16)} Test ====================");
+            Console.WriteLine($"{nameof(FloatingPointNumber16E8M7Test)} ====================");
 
-            BrainFloatingPoint16 bfp = new();
+            BFloat16 bfp = new();
 
             for (float i = -10; i <= 10; i += 0.5f)
             {
-                bfp = (BrainFloatingPoint16)i;
+                bfp = (BFloat16)i;
                 ConsoleWriteLine(bfp);
                 Console.WriteLine();
             }
 
             for (double d = -10; d <= +10; d += 0.01)
             {
-                bfp = (BrainFloatingPoint16)d;
+                bfp = (BFloat16)d;
                 Console.WriteLine($"{d}→{bfp}→{(double)bfp}");
             }
 

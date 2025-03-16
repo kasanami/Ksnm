@@ -1,12 +1,8 @@
-﻿using Ksnm.Numerics;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-
-namespace Ksnm.Numerics.Tests
+﻿namespace Ksnm.Numerics.Tests
 {
-    using Half = BrainFloatingPoint16;
+    using Half = FloatingPointNumber16E8M7;
     [TestClass()]
-    public class BrainFloatingPoint16Tests
+    public class FloatingPointNumber16E8M7Tests
     {
         [TestMethod()]
         public void ConstantsTest()

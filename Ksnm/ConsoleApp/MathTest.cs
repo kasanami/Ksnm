@@ -5,7 +5,7 @@ using static Ksnm.Science.Mathematics.Formula;
 
 namespace ConsoleApp
 {
-    using BFloat16 = Ksnm.Numerics.BrainFloatingPoint16;
+    using BFloat16 = Ksnm.Numerics.FloatingPointNumber16E8M7;
     using Math = Ksnm.Math;
     using MathD = System.Math;
     using MathF = System.MathF;
