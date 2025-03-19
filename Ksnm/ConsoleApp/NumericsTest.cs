@@ -19,65 +19,58 @@ namespace ConsoleApp
             Console.WriteLine(Ksnm.Debug.GetFilePathAndLineNumber());
 
             {
+                Console.WriteLine($"{nameof(FixedPointDecimal8Q2)}");
                 FixedPointDecimal8Q2 a = new(0.01m);
-                Console.WriteLine($"{nameof(a)}={a}");
                 FixedPointDecimal8Q2 b = new(1.00m);
-                Console.WriteLine($"{nameof(b)}={b}");
-
-                Console.WriteLine($"a + b={a + b}");
-                Console.WriteLine($"a + a={a + a}");
-                Console.WriteLine($"a - b={a - b}");
-                Console.WriteLine($"a * b={a * b}");
-                Console.WriteLine($"a / b={a / b}");
+                NumberBaseTest(a, b);
 
                 a = new(0.50m);
                 b = new(0.50m);
-                Console.WriteLine($"{nameof(a)}={a}");
-                Console.WriteLine($"{nameof(b)}={b}");
-                Console.WriteLine($"a * b={a * b}");
+                NumberBaseTest(a, b);
 
                 a = new(1.1m);
                 b = new(1.1m);
-                Console.WriteLine($"{nameof(a)}={a}");
-                Console.WriteLine($"{nameof(b)}={b}");
-                Console.WriteLine($"a * b={a * b}");
+                NumberBaseTest(a, b);
 
                 Console.WriteLine();
             }
-
             {
+                Console.WriteLine($"{nameof(FixedPointDecimal16Q3)}");
                 FixedPointDecimal16Q3 a = new(0.001m);
-                Console.WriteLine($"{nameof(a)}={a}");
                 FixedPointDecimal16Q3 b = new(1.000m);
-                Console.WriteLine($"{nameof(b)}={b}");
-
-                Console.WriteLine($"a + b={a + b}");
-                Console.WriteLine($"a + a={a + a}");
-                Console.WriteLine($"a - b={a - b}");
-                Console.WriteLine($"a * b={a * b}");
-                Console.WriteLine($"a / b={a / b}");
+                NumberBaseTest(a, b);
 
                 a = new(0.50m);
                 b = new(0.50m);
-                Console.WriteLine($"{nameof(a)}={a}");
-                Console.WriteLine($"{nameof(b)}={b}");
-                Console.WriteLine($"a * b={a * b}");
+                NumberBaseTest(a, b);
 
                 a = new(1.1m);
                 b = new(1.1m);
-                Console.WriteLine($"{nameof(a)}={a}");
-                Console.WriteLine($"{nameof(b)}={b}");
-                Console.WriteLine($"a * b={a * b}");
+                NumberBaseTest(a, b);
 
                 a = new(1.0m);
                 b = new(3.0m);
-                Console.WriteLine($"{nameof(a)}={a}");
-                Console.WriteLine($"{nameof(b)}={b}");
-                Console.WriteLine($"a + b={a + b}");
-                Console.WriteLine($"a + a={a + a}");
-                Console.WriteLine($"a - b={a - b}");
-                Console.WriteLine($"a * b={a * b}");
-                Console.WriteLine($"a / b={a / b}");
+                NumberBaseTest(a, b);
+
+                Console.WriteLine();
+            }
+            {
+                Console.WriteLine($"{nameof(FixedPointDecimal32Q5)}");
+                FixedPointDecimal32Q5 a = new(0.00001m);
+                FixedPointDecimal32Q5 b = new(1.00000m);
+                NumberBaseTest(a, b);
+
+                a = new(0.50m);
+                b = new(0.50m);
+                NumberBaseTest(a, b);
+
+                a = new(1.1m);
+                b = new(1.1m);
+                NumberBaseTest(a, b);
+
+                a = new(1.0m);
+                b = new(3.0m);
+                NumberBaseTest(a, b);
 
                 Console.WriteLine();
             }
@@ -201,17 +194,36 @@ namespace ConsoleApp
             }
         }
 
+        static void NumberBaseTest<T>(T a, T b) where T : INumberBase<T>
+        {
+            Console.WriteLine($"{nameof(a)}={a}");
+            Console.WriteLine($"{nameof(b)}={b}");
+
+            Console.WriteLine($"a + b={a + b}");
+            Console.WriteLine($"b + a={b + a}");
+            Console.WriteLine($"a - b={a - b}");
+            Console.WriteLine($"b - a={b - a}");
+            Console.WriteLine($"a * b={a * b}");
+            Console.WriteLine($"b * a={b * a}");
+            Console.WriteLine($"a / b={a / b}");
+            Console.WriteLine($"b / a={b / a}");
+
+            Console.WriteLine();
+        }
+
         public static void ExtendedHalfTest()
         {
+            Console.WriteLine("========================================");
             Console.WriteLine(Ksnm.Debug.GetFilePathAndLineNumber());
-            Console.WriteLine($"{nameof(ExtendedHalfTest)} ====================");
+            Console.WriteLine($"{nameof(ExtendedHalfTest)}");
 
         }
 
         public static void ExtendedSingleTest()
         {
+            Console.WriteLine("========================================");
             Console.WriteLine(Ksnm.Debug.GetFilePathAndLineNumber());
-            Console.WriteLine($"{nameof(ExtendedSingle)} Test ====================");
+            Console.WriteLine($"{nameof(ExtendedSingleTest)}");
 
             for (long i = 0; i < 0b11111111_111_1111111111_1111111111; i++)
             {
@@ -293,8 +305,9 @@ namespace ConsoleApp
 
         public static void ExtendedDoubleTest()
         {
+            Console.WriteLine("========================================");
             Console.WriteLine(Ksnm.Debug.GetFilePathAndLineNumber());
-            Console.WriteLine($"{nameof(ExtendedDouble)} Test ====================");
+            Console.WriteLine($"{nameof(ExtendedDoubleTest)}");
 
             for (double i = -10; i <= 10; i += 0.1)
             {
@@ -318,8 +331,9 @@ namespace ConsoleApp
 
         public static void ExtendedDecimalTest()
         {
+            Console.WriteLine("========================================");
             Console.WriteLine(Ksnm.Debug.GetFilePathAndLineNumber());
-            Console.WriteLine($"{nameof(ExtendedDecimal)} Test ====================");
+            Console.WriteLine($"{nameof(ExtendedDecimalTest)}");
 
             for (decimal i = -10; i <= 10; i += 0.5m)
             {
@@ -333,7 +347,9 @@ namespace ConsoleApp
 
         public static void CubedDividedNumber8Test()
         {
+            Console.WriteLine("========================================");
             Console.WriteLine(Ksnm.Debug.GetFilePathAndLineNumber());
+            Console.WriteLine($"{nameof(CubedDividedNumber8Test)}");
 
             CubedDividedNumber8 cdn = new CubedDividedNumber8();
             for (int i = 1; i <= 128; i += 8)
@@ -364,8 +380,9 @@ namespace ConsoleApp
 
         public static void FractionTest()
         {
+            Console.WriteLine("========================================");
             Console.WriteLine(Ksnm.Debug.GetFilePathAndLineNumber());
-            Console.WriteLine($"{nameof(FractionTest)} ====================");
+            Console.WriteLine($"{nameof(FractionTest)}");
 
             Console.WriteLine($"double → Fraction");
             for (double i = -10; i <= 10; i++)
@@ -427,8 +444,9 @@ namespace ConsoleApp
 
         public static void FloatingPointNumber16E8M7Test()
         {
+            Console.WriteLine("========================================");
             Console.WriteLine(Ksnm.Debug.GetFilePathAndLineNumber());
-            Console.WriteLine($"{nameof(FloatingPointNumber16E8M7Test)} ====================");
+            Console.WriteLine($"{nameof(FloatingPointNumber16E8M7Test)}");
 
             BFloat16 bfp = new();
 
@@ -465,8 +483,9 @@ namespace ConsoleApp
 
         public static void FloatingPointNumber8S1E4M3B7Test()
         {
+            Console.WriteLine("========================================");
             Console.WriteLine(Ksnm.Debug.GetFilePathAndLineNumber());
-            Console.WriteLine($"{nameof(FloatingPointNumber8S1E4M3B7)} Test");
+            Console.WriteLine($"{nameof(FloatingPointNumber8S1E4M3B7Test)}");
 
             FloatingPointNumber8S1E4M3B7 fp8 = new();
 

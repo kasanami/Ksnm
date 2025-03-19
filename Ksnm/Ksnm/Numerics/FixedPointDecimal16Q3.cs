@@ -1,43 +1,42 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
-using System.Linq;
 using System.Numerics;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Ksnm.Numerics
 {
     using BitsType = Int16;
+    using TempType = Int32;
+    using FixedPointDecimal = FixedPointDecimal16Q3;
     /// <summary>
     /// 10進数の固定小数点数型
     /// ・全体のビット数:16
     /// ・小数点以下10進数で3桁
     /// </summary>
     public struct FixedPointDecimal16Q3 :
-        INumberBase<FixedPointDecimal16Q3>,
-        IMinMaxValue<FixedPointDecimal16Q3>,
-        ISignedNumber<FixedPointDecimal16Q3>, IEquatable<FixedPointDecimal16Q3>
+        INumberBase<FixedPointDecimal>,
+        IMinMaxValue<FixedPointDecimal>,
+        ISignedNumber<FixedPointDecimal>,
+        IEquatable<FixedPointDecimal>
     {
         BitsType _bits;
 
-        public static FixedPointDecimal16Q3 One => new(1000);
+        const BitsType OneBits = 1000;
+
+        public static FixedPointDecimal One => new(OneBits);
 
         public static int Radix => 2;
 
-        public static FixedPointDecimal16Q3 Zero => new(0);
+        public static FixedPointDecimal Zero => new(0);
 
-        public static FixedPointDecimal16Q3 AdditiveIdentity => Zero;
+        public static FixedPointDecimal AdditiveIdentity => Zero;
 
-        public static FixedPointDecimal16Q3 MultiplicativeIdentity => One;
+        public static FixedPointDecimal MultiplicativeIdentity => One;
 
-        public static FixedPointDecimal16Q3 MaxValue => new(BitsType.MaxValue);
+        public static FixedPointDecimal MaxValue => new(BitsType.MaxValue);
 
-        public static FixedPointDecimal16Q3 MinValue => new(BitsType.MinValue);
+        public static FixedPointDecimal MinValue => new(BitsType.MinValue);
 
-        public static FixedPointDecimal16Q3 NegativeOne => new(-1000);
+        public static FixedPointDecimal NegativeOne => new(-OneBits);
 
         public FixedPointDecimal16Q3() { }
 
@@ -48,211 +47,247 @@ namespace Ksnm.Numerics
 
         public FixedPointDecimal16Q3(decimal value)
         {
-            if (value < -65.536m)
+            decimal minValue = (decimal)MinValue;
+            decimal maxValue = (decimal)MaxValue;
+            if (value < minValue)
             {
                 throw new OverflowException($"{value}は範囲外");
             }
-            else if (value > 65.535m)
+            else if (value > maxValue)
             {
                 throw new OverflowException($"{value}は範囲外");
             }
-            _bits = (BitsType)(value * 1000);
+            _bits = (BitsType)(value * OneBits);
         }
 
+        #region 型変換
         public double ToDouble()
         {
-            return _bits / 1000.0;
+            return _bits / (double)OneBits;
         }
         public decimal ToDecimal()
         {
-            return _bits / 1000m;
+            return _bits / (decimal)OneBits;
         }
+        #region 他の型→BrainFloatingPoint16
+        public static explicit operator FixedPointDecimal(byte value) => (FixedPointDecimal)(decimal)value;
+        public static explicit operator FixedPointDecimal(sbyte value) => (FixedPointDecimal)(decimal)value;
+        public static explicit operator FixedPointDecimal(short value) => (FixedPointDecimal)(decimal)value;
+        public static explicit operator FixedPointDecimal(ushort value) => (FixedPointDecimal)(decimal)value;
+        public static explicit operator FixedPointDecimal(int value) => (FixedPointDecimal)(decimal)value;
+        public static explicit operator FixedPointDecimal(uint value) => (FixedPointDecimal)(decimal)value;
+        public static explicit operator FixedPointDecimal(long value) => (FixedPointDecimal)(decimal)value;
+        public static explicit operator FixedPointDecimal(ulong value) => (FixedPointDecimal)(decimal)value;
+        public static explicit operator FixedPointDecimal(Int128 value) => (FixedPointDecimal)(decimal)value;
+        public static explicit operator FixedPointDecimal(UInt128 value) => (FixedPointDecimal)(decimal)value;
+        public static explicit operator FixedPointDecimal(Half value) => (FixedPointDecimal)(decimal)value;
+        public static explicit operator FixedPointDecimal(float value) => (FixedPointDecimal)(decimal)value;
+        public static explicit operator FixedPointDecimal(double value) => (FixedPointDecimal)(decimal)value;
+        public static explicit operator FixedPointDecimal(decimal value) => new(value);
+        #endregion 他の型→BrainFloatingPoint16
+        #region BrainFloatingPoint16→他の型
+        public static explicit operator byte(FixedPointDecimal value) => (byte)(decimal)value;
+        public static explicit operator sbyte(FixedPointDecimal value) => (sbyte)(decimal)value;
+        public static explicit operator short(FixedPointDecimal value) => (short)(decimal)value;
+        public static explicit operator ushort(FixedPointDecimal value) => (ushort)(decimal)value;
+        public static explicit operator int(FixedPointDecimal value) => (int)(decimal)value;
+        public static explicit operator uint(FixedPointDecimal value) => (uint)(decimal)value;
+        public static explicit operator long(FixedPointDecimal value) => (long)(decimal)value;
+        public static explicit operator ulong(FixedPointDecimal value) => (ulong)(decimal)value;
+        public static explicit operator Int128(FixedPointDecimal value) => (Int128)(decimal)value;
+        public static explicit operator UInt128(FixedPointDecimal value) => (UInt128)(decimal)value;
+        public static explicit operator Half(FixedPointDecimal value) => (Half)(decimal)value;
+        public static explicit operator float(FixedPointDecimal value) => (float)(decimal)value;
+        public static explicit operator double(FixedPointDecimal value) => (double)(decimal)value;
+        public static implicit operator decimal(FixedPointDecimal value) => value.ToDecimal();
+        #endregion BrainFloatingPoint16→他の型
+        #endregion 型変換
 
         public override string ToString()
         {
             return $"{ToDecimal()}";
         }
 
-        public static FixedPointDecimal16Q3 Abs(FixedPointDecimal16Q3 value)
+        public static FixedPointDecimal Abs(FixedPointDecimal value)
             => new(BitsType.Abs(value._bits));
 
-        public static bool IsCanonical(FixedPointDecimal16Q3 value) => false;
+        public static bool IsCanonical(FixedPointDecimal value) => false;
 
-        public static bool IsComplexNumber(FixedPointDecimal16Q3 value) => false;
+        public static bool IsComplexNumber(FixedPointDecimal value) => false;
 
-        public static bool IsEvenInteger(FixedPointDecimal16Q3 value)
+        public static bool IsEvenInteger(FixedPointDecimal value)
             => BitsType.IsEvenInteger(value._bits);
 
-        public static bool IsFinite(FixedPointDecimal16Q3 value) => false;
+        public static bool IsFinite(FixedPointDecimal value) => false;
 
-        public static bool IsImaginaryNumber(FixedPointDecimal16Q3 value) => false;
+        public static bool IsImaginaryNumber(FixedPointDecimal value) => false;
 
-        public static bool IsInfinity(FixedPointDecimal16Q3 value) => false;
+        public static bool IsInfinity(FixedPointDecimal value) => false;
 
-        public static bool IsInteger(FixedPointDecimal16Q3 value)
+        public static bool IsInteger(FixedPointDecimal value)
         {
-            return (value._bits % 1000 == 0);
+            return (value._bits % OneBits == 0);
         }
 
-        public static bool IsNaN(FixedPointDecimal16Q3 value) => false;
+        public static bool IsNaN(FixedPointDecimal value) => false;
 
-        public static bool IsNegative(FixedPointDecimal16Q3 value)
+        public static bool IsNegative(FixedPointDecimal value)
             => BitsType.IsNegative(value._bits);
 
-        public static bool IsNegativeInfinity(FixedPointDecimal16Q3 value) => false;
+        public static bool IsNegativeInfinity(FixedPointDecimal value) => false;
 
-        public static bool IsNormal(FixedPointDecimal16Q3 value) => false;
+        public static bool IsNormal(FixedPointDecimal value) => false;
 
-        public static bool IsOddInteger(FixedPointDecimal16Q3 value)
+        public static bool IsOddInteger(FixedPointDecimal value)
             => BitsType.IsOddInteger(value._bits);
 
-        public static bool IsPositive(FixedPointDecimal16Q3 value)
+        public static bool IsPositive(FixedPointDecimal value)
             => BitsType.IsPositive(value._bits);
 
-        public static bool IsPositiveInfinity(FixedPointDecimal16Q3 value) => false;
+        public static bool IsPositiveInfinity(FixedPointDecimal value) => false;
 
-        public static bool IsRealNumber(FixedPointDecimal16Q3 value) => true;
-        public static bool IsSubnormal(FixedPointDecimal16Q3 value) => false;
+        public static bool IsRealNumber(FixedPointDecimal value) => true;
+        public static bool IsSubnormal(FixedPointDecimal value) => false;
 
-        public static bool IsZero(FixedPointDecimal16Q3 value) => value._bits == 0;
+        public static bool IsZero(FixedPointDecimal value) => value._bits == 0;
 
-        public static FixedPointDecimal16Q3 MaxMagnitude(FixedPointDecimal16Q3 x, FixedPointDecimal16Q3 y)
+        public static FixedPointDecimal MaxMagnitude(FixedPointDecimal x, FixedPointDecimal y)
         {
             throw new NotImplementedException();
         }
 
-        public static FixedPointDecimal16Q3 MaxMagnitudeNumber(FixedPointDecimal16Q3 x, FixedPointDecimal16Q3 y)
+        public static FixedPointDecimal MaxMagnitudeNumber(FixedPointDecimal x, FixedPointDecimal y)
         {
             throw new NotImplementedException();
         }
 
-        public static FixedPointDecimal16Q3 MinMagnitude(FixedPointDecimal16Q3 x, FixedPointDecimal16Q3 y)
+        public static FixedPointDecimal MinMagnitude(FixedPointDecimal x, FixedPointDecimal y)
         {
             throw new NotImplementedException();
         }
 
-        public static FixedPointDecimal16Q3 MinMagnitudeNumber(FixedPointDecimal16Q3 x, FixedPointDecimal16Q3 y)
+        public static FixedPointDecimal MinMagnitudeNumber(FixedPointDecimal x, FixedPointDecimal y)
         {
             throw new NotImplementedException();
         }
 
-        public static FixedPointDecimal16Q3 Parse(ReadOnlySpan<char> s, NumberStyles style, IFormatProvider? provider)
+        public static FixedPointDecimal Parse(ReadOnlySpan<char> s, NumberStyles style, IFormatProvider? provider)
         {
             throw new NotImplementedException();
         }
 
-        public static FixedPointDecimal16Q3 Parse(string s, NumberStyles style, IFormatProvider? provider)
+        public static FixedPointDecimal Parse(string s, NumberStyles style, IFormatProvider? provider)
         {
             throw new NotImplementedException();
         }
 
-        public static bool TryConvertFromChecked<TOther>(TOther value, [MaybeNullWhen(false)] out FixedPointDecimal16Q3 result) where TOther : INumberBase<TOther>
+        public static bool TryConvertFromChecked<TOther>(TOther value, [MaybeNullWhen(false)] out FixedPointDecimal result) where TOther : INumberBase<TOther>
         {
             throw new NotImplementedException();
         }
 
-        public static bool TryConvertFromSaturating<TOther>(TOther value, [MaybeNullWhen(false)] out FixedPointDecimal16Q3 result) where TOther : INumberBase<TOther>
+        public static bool TryConvertFromSaturating<TOther>(TOther value, [MaybeNullWhen(false)] out FixedPointDecimal result) where TOther : INumberBase<TOther>
         {
             throw new NotImplementedException();
         }
 
-        public static bool TryConvertFromTruncating<TOther>(TOther value, [MaybeNullWhen(false)] out FixedPointDecimal16Q3 result) where TOther : INumberBase<TOther>
+        public static bool TryConvertFromTruncating<TOther>(TOther value, [MaybeNullWhen(false)] out FixedPointDecimal result) where TOther : INumberBase<TOther>
         {
             throw new NotImplementedException();
         }
 
-        public static bool TryConvertToChecked<TOther>(FixedPointDecimal16Q3 value, [MaybeNullWhen(false)] out TOther result) where TOther : INumberBase<TOther>
+        public static bool TryConvertToChecked<TOther>(FixedPointDecimal value, [MaybeNullWhen(false)] out TOther result) where TOther : INumberBase<TOther>
         {
             throw new NotImplementedException();
         }
 
-        public static bool TryConvertToSaturating<TOther>(FixedPointDecimal16Q3 value, [MaybeNullWhen(false)] out TOther result) where TOther : INumberBase<TOther>
+        public static bool TryConvertToSaturating<TOther>(FixedPointDecimal value, [MaybeNullWhen(false)] out TOther result) where TOther : INumberBase<TOther>
         {
             throw new NotImplementedException();
         }
 
-        public static bool TryConvertToTruncating<TOther>(FixedPointDecimal16Q3 value, [MaybeNullWhen(false)] out TOther result) where TOther : INumberBase<TOther>
+        public static bool TryConvertToTruncating<TOther>(FixedPointDecimal value, [MaybeNullWhen(false)] out TOther result) where TOther : INumberBase<TOther>
         {
             throw new NotImplementedException();
         }
 
-        public static bool TryParse(ReadOnlySpan<char> s, NumberStyles style, IFormatProvider? provider, [MaybeNullWhen(false)] out FixedPointDecimal16Q3 result)
+        public static bool TryParse(ReadOnlySpan<char> s, NumberStyles style, IFormatProvider? provider, [MaybeNullWhen(false)] out FixedPointDecimal result)
         {
             throw new NotImplementedException();
         }
 
-        public static bool TryParse([NotNullWhen(true)] string? s, NumberStyles style, IFormatProvider? provider, [MaybeNullWhen(false)] out FixedPointDecimal16Q3 result)
+        public static bool TryParse([NotNullWhen(true)] string? s, NumberStyles style, IFormatProvider? provider, [MaybeNullWhen(false)] out FixedPointDecimal result)
         {
             throw new NotImplementedException();
         }
 
-        public bool Equals(FixedPointDecimal16Q3 other) => _bits == other._bits;
+        public bool Equals(FixedPointDecimal other) => _bits == other._bits;
 
         public bool TryFormat(Span<char> destination, out int charsWritten, ReadOnlySpan<char> format, IFormatProvider? provider)
             => ToDecimal().TryFormat(destination, out charsWritten, format, provider);
         public string ToString(string? format, IFormatProvider? formatProvider)
             => ToDecimal().ToString(format, formatProvider);
 
-        public static FixedPointDecimal16Q3 Parse(ReadOnlySpan<char> s, IFormatProvider? provider)
+        public static FixedPointDecimal Parse(ReadOnlySpan<char> s, IFormatProvider? provider)
         {
             throw new NotImplementedException();
         }
 
-        public static bool TryParse(ReadOnlySpan<char> s, IFormatProvider? provider, [MaybeNullWhen(false)] out FixedPointDecimal16Q3 result)
+        public static bool TryParse(ReadOnlySpan<char> s, IFormatProvider? provider, [MaybeNullWhen(false)] out FixedPointDecimal result)
         {
             throw new NotImplementedException();
         }
 
-        public static FixedPointDecimal16Q3 Parse(string s, IFormatProvider? provider)
+        public static FixedPointDecimal Parse(string s, IFormatProvider? provider)
         {
             throw new NotImplementedException();
         }
 
-        public static bool TryParse([NotNullWhen(true)] string? s, IFormatProvider? provider, [MaybeNullWhen(false)] out FixedPointDecimal16Q3 result)
+        public static bool TryParse([NotNullWhen(true)] string? s, IFormatProvider? provider, [MaybeNullWhen(false)] out FixedPointDecimal result)
         {
             throw new NotImplementedException();
         }
 
-        public static FixedPointDecimal16Q3 operator +(FixedPointDecimal16Q3 left, FixedPointDecimal16Q3 right)
+        public static FixedPointDecimal operator +(FixedPointDecimal left, FixedPointDecimal right)
             => new((BitsType)(left._bits + right._bits));
 
-        public static FixedPointDecimal16Q3 operator --(FixedPointDecimal16Q3 value)
+        public static FixedPointDecimal operator --(FixedPointDecimal value)
             => value - One;
 
-        public static FixedPointDecimal16Q3 operator /(FixedPointDecimal16Q3 left, FixedPointDecimal16Q3 right)
+        public static FixedPointDecimal operator /(FixedPointDecimal left, FixedPointDecimal right)
         {
-            int temp = (left._bits * 1000) / (right._bits);
+            TempType temp = ((TempType)left._bits * OneBits) / (right._bits);
             return new((BitsType)temp);
         }
 
-        public static bool operator ==(FixedPointDecimal16Q3 left, FixedPointDecimal16Q3 right)
+        public static bool operator ==(FixedPointDecimal left, FixedPointDecimal right)
             => left.Equals(right);
 
-        public static bool operator !=(FixedPointDecimal16Q3 left, FixedPointDecimal16Q3 right)
+        public static bool operator !=(FixedPointDecimal left, FixedPointDecimal right)
             => !left.Equals(right);
 
-        public static FixedPointDecimal16Q3 operator ++(FixedPointDecimal16Q3 value)
+        public static FixedPointDecimal operator ++(FixedPointDecimal value)
             => value + One;
 
-        public static FixedPointDecimal16Q3 operator *(FixedPointDecimal16Q3 left, FixedPointDecimal16Q3 right)
+        public static FixedPointDecimal operator *(FixedPointDecimal left, FixedPointDecimal right)
         {
-            int temp = left._bits * right._bits;
-            temp /= 1000;
+            TempType temp = (TempType)left._bits * (TempType)right._bits;
+            temp /= OneBits;
             return new((BitsType)temp);
         }
 
-        public static FixedPointDecimal16Q3 operator -(FixedPointDecimal16Q3 left, FixedPointDecimal16Q3 right)
+        public static FixedPointDecimal operator -(FixedPointDecimal left, FixedPointDecimal right)
             => new((BitsType)(left._bits - right._bits));
 
-        public static FixedPointDecimal16Q3 operator -(FixedPointDecimal16Q3 value)
+        public static FixedPointDecimal operator -(FixedPointDecimal value)
             => new((BitsType)(-value._bits));
 
-        public static FixedPointDecimal16Q3 operator +(FixedPointDecimal16Q3 value)
+        public static FixedPointDecimal operator +(FixedPointDecimal value)
             => value;
 
         public override bool Equals(object? obj)
         {
-            return obj is FixedPointDecimal16Q3 && Equals((FixedPointDecimal16Q3)obj);
+            return obj is FixedPointDecimal && Equals((FixedPointDecimal)obj);
         }
     }
 }

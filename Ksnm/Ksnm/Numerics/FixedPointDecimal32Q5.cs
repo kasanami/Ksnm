@@ -4,15 +4,15 @@ using System.Numerics;
 
 namespace Ksnm.Numerics
 {
-    using BitsType = SByte;
-    using TempType = Int32;
-    using FixedPointDecimal = FixedPointDecimal8Q2;
+    using BitsType = Int32;
+    using TempType = Int64;
+    using FixedPointDecimal = FixedPointDecimal32Q5;
     /// <summary>
     /// 10進数の固定小数点数型
-    /// ・全体のビット数:8
-    /// ・小数点以下10進数で2桁
+    /// ・全体のビット数:32
+    /// ・小数点以下10進数で5桁
     /// </summary>
-    public struct FixedPointDecimal8Q2 :
+    public struct FixedPointDecimal32Q5 :
         INumberBase<FixedPointDecimal>,
         IMinMaxValue<FixedPointDecimal>,
         ISignedNumber<FixedPointDecimal>,
@@ -20,7 +20,7 @@ namespace Ksnm.Numerics
     {
         BitsType _bits;
 
-        const BitsType OneBits = 100;
+        const BitsType OneBits = 100000;
 
         public static FixedPointDecimal One => new(OneBits);
 
@@ -38,14 +38,14 @@ namespace Ksnm.Numerics
 
         public static FixedPointDecimal NegativeOne => new(-OneBits);
 
-        public FixedPointDecimal8Q2() { }
+        public FixedPointDecimal32Q5() { }
 
-        public FixedPointDecimal8Q2(BitsType bits)
+        public FixedPointDecimal32Q5(BitsType bits)
         {
             _bits = bits;
         }
 
-        public FixedPointDecimal8Q2(decimal value)
+        public FixedPointDecimal32Q5(decimal value)
         {
             decimal minValue = (decimal)MinValue;
             decimal maxValue = (decimal)MaxValue;
