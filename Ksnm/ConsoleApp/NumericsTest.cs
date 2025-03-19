@@ -19,6 +19,69 @@ namespace ConsoleApp
             Console.WriteLine(Ksnm.Debug.GetFilePathAndLineNumber());
 
             {
+                FixedPointDecimal8Q2 a = new(0.01m);
+                Console.WriteLine($"{nameof(a)}={a}");
+                FixedPointDecimal8Q2 b = new(1.00m);
+                Console.WriteLine($"{nameof(b)}={b}");
+
+                Console.WriteLine($"a + b={a + b}");
+                Console.WriteLine($"a + a={a + a}");
+                Console.WriteLine($"a - b={a - b}");
+                Console.WriteLine($"a * b={a * b}");
+                Console.WriteLine($"a / b={a / b}");
+
+                a = new(0.50m);
+                b = new(0.50m);
+                Console.WriteLine($"{nameof(a)}={a}");
+                Console.WriteLine($"{nameof(b)}={b}");
+                Console.WriteLine($"a * b={a * b}");
+
+                a = new(1.1m);
+                b = new(1.1m);
+                Console.WriteLine($"{nameof(a)}={a}");
+                Console.WriteLine($"{nameof(b)}={b}");
+                Console.WriteLine($"a * b={a * b}");
+
+                Console.WriteLine();
+            }
+
+            {
+                FixedPointDecimal16Q3 a = new(0.001m);
+                Console.WriteLine($"{nameof(a)}={a}");
+                FixedPointDecimal16Q3 b = new(1.000m);
+                Console.WriteLine($"{nameof(b)}={b}");
+
+                Console.WriteLine($"a + b={a + b}");
+                Console.WriteLine($"a + a={a + a}");
+                Console.WriteLine($"a - b={a - b}");
+                Console.WriteLine($"a * b={a * b}");
+                Console.WriteLine($"a / b={a / b}");
+
+                a = new(0.50m);
+                b = new(0.50m);
+                Console.WriteLine($"{nameof(a)}={a}");
+                Console.WriteLine($"{nameof(b)}={b}");
+                Console.WriteLine($"a * b={a * b}");
+
+                a = new(1.1m);
+                b = new(1.1m);
+                Console.WriteLine($"{nameof(a)}={a}");
+                Console.WriteLine($"{nameof(b)}={b}");
+                Console.WriteLine($"a * b={a * b}");
+
+                a = new(1.0m);
+                b = new(3.0m);
+                Console.WriteLine($"{nameof(a)}={a}");
+                Console.WriteLine($"{nameof(b)}={b}");
+                Console.WriteLine($"a + b={a + b}");
+                Console.WriteLine($"a + a={a + a}");
+                Console.WriteLine($"a - b={a - b}");
+                Console.WriteLine($"a * b={a * b}");
+                Console.WriteLine($"a / b={a / b}");
+
+                Console.WriteLine();
+            }
+            {
                 Console.WriteLine($"{nameof(Ksnm.Numerics.Vector<double>)}");
 
                 Ksnm.Numerics.Vector<double> vector = new(3);
@@ -36,6 +99,32 @@ namespace ConsoleApp
                 Console.WriteLine($"{nameof(vector)}={vector}");
                 Console.WriteLine($"{nameof(vector.Magnitude)}={vector.Magnitude}");
                 Console.WriteLine($"{nameof(vector.MagnitudePow2)}={vector.MagnitudePow2}");
+            }
+
+            {
+                Console.WriteLine();
+                Matrix<BFloat16> mat1 = new Matrix<BFloat16>(3, 3);
+                mat1[0, 0] = (BFloat16)1.0;
+                mat1[0, 1] = (BFloat16)2.0;
+                mat1[0, 2] = (BFloat16)3.0;
+                mat1[1, 0] = (BFloat16)4.0;
+                mat1[1, 1] = (BFloat16)5.0;
+                mat1[1, 2] = (BFloat16)6.0;
+                mat1[2, 0] = (BFloat16)7.0;
+                mat1[2, 1] = (BFloat16)8.0;
+                mat1[2, 2] = (BFloat16)9.0;
+                Matrix<BFloat16> mat2 = new Matrix<BFloat16>(3, 3);
+                mat2[0, 0] = (BFloat16)1.0;
+                mat2[0, 1] = (BFloat16)1.0;
+                mat2[0, 2] = (BFloat16)1.0;
+                mat2[1, 0] = (BFloat16)1.0;
+                mat2[1, 1] = (BFloat16)1.0;
+                mat2[1, 2] = (BFloat16)1.0;
+                mat2[2, 0] = (BFloat16)1.0;
+                mat2[2, 1] = (BFloat16)1.0;
+                mat2[2, 2] = (BFloat16)1.0;
+
+                var mat3 = mat1 * mat2;
             }
 
             {
@@ -91,7 +180,7 @@ namespace ConsoleApp
             //ExtendedDecimalTest();
             //CubedDividedNumber8Test();
             //FractionTest();
-            //BrainFloatingPoint16Test();
+            FloatingPointNumber16E8M7Test();
             FloatingPointNumber8S1E4M3B7Test();
 
             // NaNはキャスト可能？→可能
@@ -343,6 +432,7 @@ namespace ConsoleApp
 
             BFloat16 bfp = new();
 
+#if false
             for (float i = -10; i <= 10; i += 0.5f)
             {
                 bfp = (BFloat16)i;
@@ -354,6 +444,20 @@ namespace ConsoleApp
             {
                 bfp = (BFloat16)d;
                 Console.WriteLine($"{d}→{bfp}→{(double)bfp}");
+            }
+#endif
+
+            {
+                BFloat16 a = (BFloat16)2;
+                BFloat16 b = (BFloat16)3;
+                Console.WriteLine($"a={a}");
+                Console.WriteLine($"b={b}");
+                Console.WriteLine($"a + b={a + b}");
+                Console.WriteLine($"a - b={a - b}");
+                Console.WriteLine($"b - a={b - a}");
+                Console.WriteLine($"a * b={a * b}");
+                Console.WriteLine($"a / b={a / b}");
+                Console.WriteLine($"b / a={b / a}");
             }
 
             Console.WriteLine();
