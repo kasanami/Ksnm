@@ -103,11 +103,6 @@ namespace Ksnm.Numerics
         #endregion BrainFloatingPoint16→他の型
         #endregion 型変換
 
-        public override string ToString()
-        {
-            return $"{ToDecimal()}";
-        }
-
         public static FixedPointDecimal Abs(FixedPointDecimal value)
             => new(BitsType.Abs(value._bits));
 
@@ -285,9 +280,19 @@ namespace Ksnm.Numerics
         public static FixedPointDecimal operator +(FixedPointDecimal value)
             => value;
 
+        #region override Object
         public override bool Equals(object? obj)
         {
             return obj is FixedPointDecimal && Equals((FixedPointDecimal)obj);
         }
+        public override int GetHashCode()
+        {
+            return _bits.GetHashCode();
+        }
+        public override string ToString()
+        {
+            return $"{ToDecimal()}";
+        }
+        #endregion override Object
     }
 }
