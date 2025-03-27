@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Linq;
+﻿using System.Diagnostics.CodeAnalysis;
 using System.Numerics;
-using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
-using System.Threading.Tasks;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Ksnm.Numerics
 {
@@ -25,7 +19,7 @@ namespace Ksnm.Numerics
         /// <summary>
         /// 1次元配列
         /// </summary>
-        private TValue[] _array = new TValue[0];
+        private TValue[,] _array = new TValue[0, 0];
         #endregion フィールド
 
         #region プロパティ
@@ -37,15 +31,13 @@ namespace Ksnm.Numerics
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
-                var index = GetIndex(row, column);
-                return _array[index];
+                return _array[row, column];
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set
             {
-                var index = GetIndex(row, column);
-                _array[index] = value;
+                _array[row, column] = value;
             }
         }
         #endregion プロパティ
@@ -57,7 +49,7 @@ namespace Ksnm.Numerics
         {
             RowLength = rowLength;
             ColumnLength = columnLength;
-            _array = new TValue[rowLength * columnLength];
+            _array = new TValue[rowLength, columnLength];
         }
 
         public Matrix(Matrix<TValue> other) : this(other.RowLength, other.ColumnLength)
@@ -67,40 +59,69 @@ namespace Ksnm.Numerics
 
         public Matrix(Matrix4x4 other)
         {
-            _array = new TValue[4 * 4];
+            _array = new TValue[4, 4];
             for (int r = 0; r < 4; r++)
             {
                 for (int c = 0; c < 4; c++)
                 {
-                    var index = GetIndex(r, c);
-                    _array[index] = TValue.CreateChecked(other[r, c]);
+                    _array[r, c] = TValue.CreateChecked(other[r, c]);
                 }
             }
+        }
+
+        public Matrix(TValue[,] array) : this(array.GetLength(0), array.GetLength(1))
+        {
+            Array.Copy(array, _array, ArrayLength);
         }
         #endregion コンストラクタ
 
         #region Get
-        public int GetIndex(int row, int column)
-        {
-            return row * ColumnLength + column;
-        }
         public IEnumerable<TValue> GetColumnItems(int column)
         {
             for (int r = 0; r < RowLength; r++)
             {
-                var index = GetIndex(r, column);
-                yield return _array[index];
+                yield return _array[r, column];
             }
         }
         public IEnumerable<TValue> GetRowItems(int row)
         {
             for (int c = 0; c < ColumnLength; c++)
             {
-                var index = GetIndex(row, c);
-                yield return _array[index];
+                yield return _array[row, c];
             }
         }
+        /// <summary>
+        /// 転置した値を取得
+        /// </summary>
+        /// <returns></returns>
+        public Matrix<TValue> GetTranspose()
+        {
+            Matrix<TValue> temp = new(ColumnLength, RowLength);
+            for (int r = 0; r < RowLength; r++)
+            {
+                for (int c = 0; c < ColumnLength; c++)
+                {
+                    temp._array[c, r] = _array[r, c];
+                }
+            }
+            return temp;
+        }
         #endregion Get
+
+        #region 型変更
+        public static implicit operator Matrix<TValue>(TValue[,] array)
+        {
+            return new Matrix<TValue>(array);
+        }
+        public static explicit operator TValue[,](Matrix<TValue> value)
+        {
+            return value._array;
+        }
+        public TValue[,] AsPrimitive()
+        {
+            return _array;
+        }
+        #endregion 型変更
 
         #region operators
         public static Matrix<TValue> operator +(Matrix<TValue> left, Matrix<TValue> right)
@@ -113,8 +134,7 @@ namespace Ksnm.Numerics
             {
                 for (int c = 0; c < columnLength; c++)
                 {
-                    var index = temp.GetIndex(r, c);
-                    temp._array[index] = left[r, c] + right[r, c];
+                    temp._array[r, c] = left[r, c] + right[r, c];
                 }
             }
             return temp;
@@ -130,8 +150,7 @@ namespace Ksnm.Numerics
             {
                 for (int c = 0; c < columnLength; c++)
                 {
-                    var index = temp.GetIndex(r, c);
-                    temp._array[index] = left[r, c] - right[r, c];
+                    temp._array[r, c] = left[r, c] - right[r, c];
                 }
             }
             return temp;
@@ -155,8 +174,7 @@ namespace Ksnm.Numerics
                     {
                         tempValue += leftRowItems.ElementAt(i) * rightColumnItems.ElementAt(i);
                     }
-                    var index = temp.GetIndex(r, c);
-                    temp._array[index] = tempValue;
+                    temp._array[r, c] = tempValue;
                 }
             }
             return temp;
@@ -173,8 +191,7 @@ namespace Ksnm.Numerics
                 stringBuilder.Append("{");
                 for (int c = 0; ;)
                 {
-                    var index = GetIndex(r, c);
-                    stringBuilder.Append(_array[index].ToString());
+                    stringBuilder.Append(_array[r, c].ToString());
                     // 次へ
                     c++;
                     if (c < ColumnLength)
@@ -190,7 +207,7 @@ namespace Ksnm.Numerics
                 r++;
                 if (r < RowLength)
                 {
-                    stringBuilder.Append(",");
+                    stringBuilder.AppendLine(",");
                 }
                 else
                 {
@@ -222,7 +239,25 @@ namespace Ksnm.Numerics
             {
                 return false;
             }
-            return _array.SequenceEqual(other._array);
+            if (RowLength != other.RowLength)
+            {
+                return false;
+            }
+            if (ColumnLength != other.ColumnLength)
+            {
+                return false;
+            }
+            for (int r = 0; r < RowLength; r++)
+            {
+                for (int c = 0; c < ColumnLength; c++)
+                {
+                    if (_array[r, c] != other._array[r, c])
+                    {
+                        return false;
+                    }
+                }
+            }
+            return true;
         }
         public override int GetHashCode()
         {

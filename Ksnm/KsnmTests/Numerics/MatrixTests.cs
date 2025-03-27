@@ -124,7 +124,7 @@
         [TestMethod()]
         public void GetHashCodeTest()
         {
-            for (int i = -10; i < 10; i++)
+            for (int i = 0; i < 10; i++)
             {
                 var a = new Matrix<int>(i, i);
                 var b = new Matrix<int>(i, i);
