@@ -1,10 +1,35 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using Ksnm.Units;
+using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
+using System.Net.NetworkInformation;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Text;
 
 namespace Ksnm.Numerics
 {
+    public enum MatrixStatus
+    {
+        /// <summary>
+        /// 通常の行列
+        /// </summary>
+        Normal = 0,
+        /// <summary>
+        /// 定数行列
+        /// ・零行列
+        /// ・サイズは計算相手の合わせ変化する。
+        /// ・_array[0,0]の値を全体に敷き詰める。
+        /// </summary>
+        Constant = 1,
+        /// <summary>
+        /// スカラー行列
+        /// ・単位行列やスカラー行列
+        /// ・サイズは計算相手の合わせ変化する。
+        /// ・_array[0,0]の値を[i, i]に設定。
+        /// ・_array[i, i]以外は零。
+        /// </summary>
+        Scalar = 2,
+    }
     /// <summary>
     /// 任意サイズの行列
     /// </summary>
@@ -13,19 +38,34 @@ namespace Ksnm.Numerics
         IAdditionOperators<Matrix<TValue>, Matrix<TValue>, Matrix<TValue>>,
         ISubtractionOperators<Matrix<TValue>, Matrix<TValue>, Matrix<TValue>>,
         IMultiplyOperators<Matrix<TValue>, Matrix<TValue>, Matrix<TValue>>
-        where TValue : INumber<TValue>
+        where TValue : INumber<TValue>, IExponentialFunctions<TValue>
     {
         #region フィールド
         /// <summary>
         /// 1次元配列
         /// </summary>
         private TValue[,] _array = new TValue[0, 0];
+        /// <summary>
+        /// 状態
+        /// </summary>
+        private MatrixStatus _status = MatrixStatus.Normal;
         #endregion フィールド
 
         #region プロパティ
-        public int RowLength = 0;
-        public int ColumnLength = 0;
+        public int RowLength => _array.GetLength(0);
+        public int ColumnLength => _array.GetLength(1);
         public int ArrayLength => RowLength * ColumnLength;
+
+        public static Matrix<TValue> One => new(TValue.One, MatrixStatus.Constant);
+
+        public static int Radix => TValue.Radix;
+
+        public static Matrix<TValue> Zero => new(TValue.Zero, MatrixStatus.Constant);
+
+        public static Matrix<TValue> AdditiveIdentity => Zero;
+
+        public static Matrix<TValue> MultiplicativeIdentity => new(TValue.MultiplicativeIdentity, MatrixStatus.Scalar);
+
         public TValue this[int row, int column]
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -45,10 +85,15 @@ namespace Ksnm.Numerics
         #region コンストラクタ
         public Matrix() { }
 
+        public Matrix(TValue value, MatrixStatus status)
+        {
+            _array = new TValue[1, 1];
+            _array[0, 0] = value;
+            _status = status;
+        }
+
         public Matrix(int rowLength, int columnLength)
         {
-            RowLength = rowLength;
-            ColumnLength = columnLength;
             _array = new TValue[rowLength, columnLength];
         }
 
@@ -67,6 +112,11 @@ namespace Ksnm.Numerics
                     _array[r, c] = TValue.CreateChecked(other[r, c]);
                 }
             }
+        }
+
+        public Matrix(TValue[] array) : this(array.GetLength(0), 1)
+        {
+            Array.Copy(array, _array, ArrayLength);
         }
 
         public Matrix(TValue[,] array) : this(array.GetLength(0), array.GetLength(1))
@@ -109,6 +159,10 @@ namespace Ksnm.Numerics
         #endregion Get
 
         #region 型変更
+        public static implicit operator Matrix<TValue>(TValue[] array)
+        {
+            return new Matrix<TValue>(array);
+        }
         public static implicit operator Matrix<TValue>(TValue[,] array)
         {
             return new Matrix<TValue>(array);
@@ -126,6 +180,10 @@ namespace Ksnm.Numerics
         #region operators
         public static Matrix<TValue> operator +(Matrix<TValue> left, Matrix<TValue> right)
         {
+            if (right._status == MatrixStatus.Constant)
+            {
+                return left + right[0, 0];
+            }
             var rowLength = System.Math.Min(left.RowLength, right.RowLength);
             var columnLength = System.Math.Min(left.ColumnLength, right.ColumnLength);
             var temp = new Matrix<TValue>(rowLength, columnLength);
@@ -139,9 +197,24 @@ namespace Ksnm.Numerics
             }
             return temp;
         }
-
+        public static Matrix<TValue> operator +(Matrix<TValue> left, TValue right)
+        {
+            var temp = new Matrix<TValue>(left.RowLength, left.ColumnLength);
+            for (int r = 0; r < temp.RowLength; r++)
+            {
+                for (int c = 0; c < temp.ColumnLength; c++)
+                {
+                    temp[r, c] = left[r, c] + right;
+                }
+            }
+            return temp;
+        }
         public static Matrix<TValue> operator -(Matrix<TValue> left, Matrix<TValue> right)
         {
+            if (right._status == MatrixStatus.Constant)
+            {
+                return left - right[0, 0];
+            }
             var rowLength = System.Math.Min(left.RowLength, right.RowLength);
             var columnLength = System.Math.Min(left.ColumnLength, right.ColumnLength);
             var temp = new Matrix<TValue>(rowLength, columnLength);
@@ -155,9 +228,25 @@ namespace Ksnm.Numerics
             }
             return temp;
         }
+        public static Matrix<TValue> operator -(Matrix<TValue> left, TValue right)
+        {
+            var temp = new Matrix<TValue>(left.RowLength, left.ColumnLength);
+            for (int r = 0; r < temp.RowLength; r++)
+            {
+                for (int c = 0; c < temp.ColumnLength; c++)
+                {
+                    temp[r, c] = left[r, c] - right;
+                }
+            }
+            return temp;
+        }
 
         public static Matrix<TValue> operator *(Matrix<TValue> left, Matrix<TValue> right)
         {
+            if (right._status == MatrixStatus.Constant)
+            {
+                return left * right[0, 0];
+            }
             var rowLength = left.RowLength;
             var columnLength = right.ColumnLength;
             var temp = new Matrix<TValue>(rowLength, columnLength);
@@ -179,7 +268,102 @@ namespace Ksnm.Numerics
             }
             return temp;
         }
+        public static Matrix<TValue> operator *(Matrix<TValue> left, TValue right)
+        {
+            var temp = new Matrix<TValue>(left.RowLength, left.ColumnLength);
+            for (int r = 0; r < temp.RowLength; r++)
+            {
+                for (int c = 0; c < temp.ColumnLength; c++)
+                {
+                    temp[r, c] = left[r, c] * right;
+                }
+            }
+            return temp;
+        }
+
+        public static Matrix<TValue> operator --(Matrix<TValue> value)
+        {
+            return value - One;
+        }
+
+        public static Matrix<TValue> operator /(Matrix<TValue> left, Matrix<TValue> right)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static bool operator ==(Matrix<TValue> left, Matrix<TValue> right)
+        {
+            return left.Equals(right);
+        }
+
+        public static bool operator !=(Matrix<TValue> left, Matrix<TValue> right)
+        {
+            return !(left == right);
+        }
+
+        public static Matrix<TValue> operator ++(Matrix<TValue> value)
+        {
+            return value + One;
+        }
+
+        public static Matrix<TValue> operator -(Matrix<TValue> value)
+        {
+            var temp = new Matrix<TValue>(value.RowLength, value.ColumnLength);
+            for (int r = 0; r < temp.RowLength; r++)
+            {
+                for (int c = 0; c < temp.ColumnLength; c++)
+                {
+                    temp[r, c] = -value[r, c];
+                }
+            }
+            return temp;
+        }
+
+        public static Matrix<TValue> operator +(Matrix<TValue> value)
+        {
+            return value;
+        }
+
+        public static bool operator >(Matrix<TValue> left, Matrix<TValue> right)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static bool operator >=(Matrix<TValue> left, Matrix<TValue> right)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static bool operator <(Matrix<TValue> left, Matrix<TValue> right)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static bool operator <=(Matrix<TValue> left, Matrix<TValue> right)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static Matrix<TValue> operator %(Matrix<TValue> left, Matrix<TValue> right)
+        {
+            throw new NotImplementedException();
+        }
         #endregion operators
+
+        #region 数学関数
+        public static Matrix<TValue> Sigmoid(Matrix<TValue> value, TValue gain)
+        {
+            var temp = new Matrix<TValue>(value.RowLength, value.ColumnLength);
+            for (int r = 0; r < temp.RowLength; r++)
+            {
+                for (int c = 0; c < temp.ColumnLength; c++)
+                {
+                    temp[r, c] = Math.Sigmoid(value[r, c], gain);
+                }
+            }
+            return temp;
+        }
+        #endregion 数学関数
 
         #region object
         public override string ToString()
@@ -227,7 +411,7 @@ namespace Ksnm.Numerics
         }
         public bool Equals(Matrix<TValue> other)
         {
-            if (other == null)
+            if (other is null)
             {
                 return false;
             }
@@ -277,5 +461,55 @@ namespace Ksnm.Numerics
         }
         #endregion private
 
+        #region
+        public static Matrix<TValue> Abs(Matrix<TValue> value)
+        {
+            var temp = new Matrix<TValue>(value.RowLength, value.ColumnLength);
+            for (int r = 0; r < temp.RowLength; r++)
+            {
+                for (int c = 0; c < temp.ColumnLength; c++)
+                {
+                    temp[r, c] = TValue.Abs(value[r, c]);
+                }
+            }
+            return temp;
+        }
+
+        public static bool IsZero(Matrix<TValue> value)
+        {
+            foreach (var item in value._array)
+            {
+                if (item != TValue.Zero)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        public int CompareTo(object? obj)
+        {
+            if (obj == null) { return 1; }
+            return CompareTo((Matrix<TValue>)obj);
+        }
+
+        public int CompareTo(Matrix<TValue>? other)
+        {
+            var rowLength = System.Math.Min(RowLength, other.RowLength);
+            var columnLength = System.Math.Min(ColumnLength, other.ColumnLength);
+            for (int r = 0; r < rowLength; r++)
+            {
+                for (int c = 0; c < columnLength; c++)
+                {
+                    var compare = _array[r, c].CompareTo(other._array[r, c]);
+                    if (compare != 0)
+                    {
+                        return compare;
+                    }
+                }
+            }
+            return 0;
+        }
+        #endregion
     }
 }
