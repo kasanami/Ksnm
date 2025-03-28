@@ -9,6 +9,9 @@ using Float16 = System.Half;
 using Float32 = System.Single;
 using Float64 = System.Double;
 using Fraction32 = Ksnm.Numerics.Fraction<System.Int16>;
+using MatrixF64 = Ksnm.Numerics.Matrix<double>;
+using VectorF64 = Ksnm.Numerics.Vector<double>;
+using System;
 
 namespace ConsoleApp
 {
@@ -17,6 +20,9 @@ namespace ConsoleApp
         public static void Run()
         {
             Console.WriteLine(Ksnm.Debug.GetFilePathAndLineNumber());
+
+            MatrixTest();
+            MatrixTest2();
 
             {
                 Console.WriteLine($"{nameof(FixedPointDecimal8Q2)}");
@@ -194,6 +200,172 @@ namespace ConsoleApp
             }
         }
 
+        public static void MatrixTest()
+        {
+            Console.WriteLine("========================================");
+            Console.WriteLine(Ksnm.Debug.GetFilePathAndLineNumber());
+            Console.WriteLine($"{nameof(MatrixTest)}");
+
+            // 入力データ (特徴量数3)
+            VectorF64 input = new[] { 0.5, 0.3, 0.2 };
+            Console.WriteLine($"{nameof(input)}={input}");
+
+            // 第1層の重み (隠れ層ノード数4, 入力層ノード数3)
+            MatrixF64 W1 = new[,]
+            {
+                { 0.2, 0.4, 0.1 },
+                { 0.1, 0.3, 0.4 },
+                { 0.5, 0.2, 0.3 },
+                { 0.3, 0.1, 0.2 }
+            };
+            var W1_T = W1.GetTranspose();
+            Console.WriteLine($"{nameof(W1)}={W1}");
+            Console.WriteLine($"{nameof(W1_T)}={W1_T}");
+
+            // 第1層のバイアス (隠れ層ノード数4)
+            VectorF64 b1 = new[] { 0.1, 0.2, 0.3, 0.4 };
+            Console.WriteLine($"{nameof(b1)}={b1}");
+
+            // 第2層の重み (出力層ノード数2, 隠れ層ノード数4)
+            MatrixF64 W2 = new[,]
+            {
+                { 0.3, 0.1, 0.4, 0.2 },
+                { 0.2, 0.4, 0.1, 0.3 }
+            };
+            var W2_T = W2.GetTranspose();
+            Console.WriteLine($"{nameof(W2)}={W2}");
+            Console.WriteLine($"{nameof(W2_T)}={W2_T}");
+
+            // 第2層のバイアス (出力層ノード数2)
+            VectorF64 b2 = new[] { 0.2, 0.1 };
+            Console.WriteLine($"{nameof(b2)}={b2}");
+
+            // 順伝播の計算
+            // 第1層の計算
+            var z1 = W1 * input + b1;
+            VectorF64 a1 = Ksnm.Math.StandardSigmoid(z1);
+            Console.WriteLine("第1層の計算");
+            Console.WriteLine($"{nameof(z1)}={z1}");
+            Console.WriteLine($"{nameof(a1)}={a1}");
+
+            // 第2層の計算
+            var z2 = W2 * a1 + b2;
+            VectorF64 a2 = Ksnm.Math.StandardSigmoid(z2);
+            Console.WriteLine("第2層の計算");
+            Console.WriteLine($"{nameof(z2)}={z2}");
+            Console.WriteLine($"{nameof(a2)}={a2}");
+
+            // 結果の表示
+            Console.WriteLine("隠れ層の出力 (a1):");
+            Console.WriteLine(a1);
+            Console.WriteLine("出力層の出力 (a2):");
+            Console.WriteLine(a2);
+        }
+
+        #region
+        // シグモイド関数
+        static double Sigmoid(double x)
+        {
+            return 1.0 / (1.0 + Math.Exp(-x));
+        }
+
+        // 行列とベクトルの掛け算
+        static double[] Dot(double[,] matrix, double[] vector)
+        {
+            int rows = matrix.GetLength(0);
+            int cols = matrix.GetLength(1);
+            double[] result = new double[rows];
+
+            for (int r = 0; r < rows; r++)
+            {
+                result[r] = 0.0;
+                for (int c = 0; c < cols; c++)
+                {
+                    result[r] += matrix[r, c] * vector[c];
+                }
+            }
+            return result;
+        }
+
+        // ベクトルにバイアスを加算する
+        static double[] AddBias(double[] vector, double[] bias)
+        {
+            int length = vector.Length;
+            double[] result = new double[length];
+
+            for (int i = 0; i < length; i++)
+            {
+                result[i] = vector[i] + bias[i];
+            }
+            return result;
+        }
+
+        // ベクトルの各要素にシグモイド関数を適用する
+        static double[] ApplySigmoid(double[] vector)
+        {
+            int length = vector.Length;
+            double[] result = new double[length];
+
+            for (int i = 0; i < length; i++)
+            {
+                result[i] = Sigmoid(vector[i]);
+            }
+            return result;
+        }
+        #endregion
+
+        static void MatrixTest2()
+        {
+            Console.WriteLine("========================================");
+            Console.WriteLine(Ksnm.Debug.GetFilePathAndLineNumber());
+            Console.WriteLine($"{nameof(MatrixTest2)}");
+
+            // 入力データ (特徴量数3)
+            double[] input = { 0.5, 0.3, 0.2 };
+
+            // 第1層の重み (隠れ層ノード数4, 入力層ノード数3)
+            double[,] W1 = {
+                { 0.2, 0.4, 0.1 },
+                { 0.1, 0.3, 0.4 },
+                { 0.5, 0.2, 0.3 },
+                { 0.3, 0.1, 0.2 }
+            };
+
+            // 第1層のバイアス (隠れ層ノード数4)
+            double[] b1 = { 0.1, 0.2, 0.3, 0.4 };
+
+            // 第2層の重み (出力層ノード数2, 隠れ層ノード数4)
+            double[,] W2 = {
+                { 0.3, 0.1, 0.4, 0.2 },
+                { 0.2, 0.4, 0.1, 0.3 }
+            };
+
+            // 第2層のバイアス (出力層ノード数2)
+            double[] b2 = { 0.2, 0.1 };
+
+            // 第1層の計算
+            double[] z1 = Dot(W1, input);
+            z1 = AddBias(z1, b1);
+            double[] a1 = ApplySigmoid(z1);
+
+            // 第2層の計算
+            double[] z2 = Dot(W2, a1);
+            z2 = AddBias(z2, b2);
+            double[] a2 = ApplySigmoid(z2);
+
+            // 結果の表示
+            Console.WriteLine("隠れ層の出力 (a1):");
+            foreach (var value in a1)
+            {
+                Console.WriteLine(value);
+            }
+
+            Console.WriteLine("出力層の出力 (a2):");
+            foreach (var value in a2)
+            {
+                Console.WriteLine(value);
+            }
+        }
         static void NumberBaseTest<T>(T a, T b) where T : INumberBase<T>
         {
             Console.WriteLine($"{nameof(a)}={a}");

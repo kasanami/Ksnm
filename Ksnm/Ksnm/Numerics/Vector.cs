@@ -1,15 +1,18 @@
 ﻿using Ksnm.MachineLearning.Clustering;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using System.Runtime.Intrinsics;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Ksnm.Numerics
 {
     public struct Vector<T> :
+        IList<T>,
         IAdditionOperators<Vector<T>, Vector<T>, Vector<T>>,
         ISubtractionOperators<Vector<T>, Vector<T>, Vector<T>>,
         IMultiplyOperators<Vector<T>, Vector<T>, Vector<T>>,
@@ -18,7 +21,12 @@ namespace Ksnm.Numerics
         IDivisionOperators<Vector<T>, T, Vector<T>>
         where T : INumber<T>
     {
+        #region フィールド
+        /// <summary>
+        /// 1次元配列
+        /// </summary>
         T[] _values = [];
+        #endregion フィールド
         /// <summary>
         /// 次元数
         /// </summary>
@@ -36,6 +44,8 @@ namespace Ksnm.Numerics
             }
         }
         public T Magnitude => Math.Sqrt(MagnitudePow2);
+
+        public bool IsReadOnly => ((ICollection<T>)_values).IsReadOnly;
 
         public T this[int index]
         {
@@ -58,10 +68,33 @@ namespace Ksnm.Numerics
             Array.Copy(values, _values, values.Length);
         }
 
+        public Vector(IList<T> values) : this(values.ToArray())
+        {
+        }
+
         public Vector(Vector<T> vector) : this(vector._values)
         {
         }
         #endregion コンストラクタ
+
+        #region 型変更
+        public static implicit operator Vector<T>(T[] array)
+        {
+            return new Vector<T>(array);
+        }
+        public static implicit operator Vector<T>(List<T> array)
+        {
+            return new Vector<T>(array);
+        }
+        public static explicit operator T[](Vector<T> value)
+        {
+            return value._values;
+        }
+        public T[] AsPrimitive()
+        {
+            return _values;
+        }
+        #endregion 型変更
 
         #region object
         public override int GetHashCode()
@@ -171,6 +204,56 @@ namespace Ksnm.Numerics
                 sum += vector;
             }
             return sum;
+        }
+
+        public int IndexOf(T item)
+        {
+            return ((IList<T>)_values).IndexOf(item);
+        }
+
+        public void Insert(int index, T item)
+        {
+            ((IList<T>)_values).Insert(index, item);
+        }
+
+        public void RemoveAt(int index)
+        {
+            ((IList<T>)_values).RemoveAt(index);
+        }
+
+        public void Add(T item)
+        {
+            ((ICollection<T>)_values).Add(item);
+        }
+
+        public void Clear()
+        {
+            ((ICollection<T>)_values).Clear();
+        }
+
+        public bool Contains(T item)
+        {
+            return ((ICollection<T>)_values).Contains(item);
+        }
+
+        public void CopyTo(T[] array, int arrayIndex)
+        {
+            ((ICollection<T>)_values).CopyTo(array, arrayIndex);
+        }
+
+        public bool Remove(T item)
+        {
+            return ((ICollection<T>)_values).Remove(item);
+        }
+
+        public IEnumerator<T> GetEnumerator()
+        {
+            return ((IEnumerable<T>)_values).GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return _values.GetEnumerator();
         }
         #endregion
     }

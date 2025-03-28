@@ -42,7 +42,7 @@ namespace Ksnm.Numerics
     {
         #region フィールド
         /// <summary>
-        /// 1次元配列
+        /// 2次元配列
         /// </summary>
         private TValue[,] _array = new TValue[0, 0];
         /// <summary>
@@ -116,7 +116,10 @@ namespace Ksnm.Numerics
 
         public Matrix(TValue[] array) : this(array.GetLength(0), 1)
         {
-            Array.Copy(array, _array, ArrayLength);
+            for (int r = 0; r < RowLength; r++)
+            {
+                _array[r, 0] = array[r];
+            }
         }
 
         public Matrix(TValue[,] array) : this(array.GetLength(0), array.GetLength(1))
@@ -268,6 +271,22 @@ namespace Ksnm.Numerics
             }
             return temp;
         }
+        public static Vector<TValue> operator *(Matrix<TValue> matrix, Vector<TValue> vector)
+        {
+            int rows = matrix.RowLength;
+            int cols = matrix.ColumnLength;
+            Vector<TValue> result = new(rows);
+
+            for (int r = 0; r < rows; r++)
+            {
+                result[r] = TValue.Zero;
+                for (int c = 0; c < cols; c++)
+                {
+                    result[r] += matrix[r, c] * vector[c];
+                }
+            }
+            return result;
+        }
         public static Matrix<TValue> operator *(Matrix<TValue> left, TValue right)
         {
             var temp = new Matrix<TValue>(left.RowLength, left.ColumnLength);
@@ -350,29 +369,14 @@ namespace Ksnm.Numerics
         }
         #endregion operators
 
-        #region 数学関数
-        public static Matrix<TValue> Sigmoid(Matrix<TValue> value, TValue gain)
-        {
-            var temp = new Matrix<TValue>(value.RowLength, value.ColumnLength);
-            for (int r = 0; r < temp.RowLength; r++)
-            {
-                for (int c = 0; c < temp.ColumnLength; c++)
-                {
-                    temp[r, c] = Math.Sigmoid(value[r, c], gain);
-                }
-            }
-            return temp;
-        }
-        #endregion 数学関数
-
         #region object
         public override string ToString()
         {
             StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.Append("{");
+            stringBuilder.AppendLine("{");
             for (int r = 0; ;)
             {
-                stringBuilder.Append("{");
+                stringBuilder.Append(" {");
                 for (int c = 0; ;)
                 {
                     stringBuilder.Append(_array[r, c].ToString());

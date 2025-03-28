@@ -624,6 +624,19 @@ namespace Ksnm
         /// <summary>
         /// 標準シグモイド関数(ゲイン=1.0)
         /// </summary>
+        public static T[] StandardSigmoid<T>(IList<T> x)
+            where T : INumber<T>, IExponentialFunctions<T>
+        {
+            var result = new T[x.Count];
+            for (int i = 0; i < result.Length; i++)
+            {
+                result[i] = T.One / (T.One + T.Exp(-x[i]));
+            }
+            return result;
+        }
+        /// <summary>
+        /// 標準シグモイド関数(ゲイン=1.0)
+        /// </summary>
         public static double StandardSigmoid(double x)
         {
             return 1.0 / (1.0 + SMath.Exp(-x));
