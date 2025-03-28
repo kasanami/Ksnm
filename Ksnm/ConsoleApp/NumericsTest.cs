@@ -17,6 +17,7 @@ namespace ConsoleApp
 {
     internal class NumericsTest
     {
+        const string Separator = "================================================================================";
         public static void Run()
         {
             Console.WriteLine(Ksnm.Debug.GetFilePathAndLineNumber());
@@ -136,7 +137,7 @@ namespace ConsoleApp
             }
 
             {
-                Console.WriteLine("NaN ========================================");
+                Console.WriteLine($"NaN {Separator}");
                 Float8 f = Float8.NaN;
                 ConsoleWriteLine(f);
                 ExtendedHalf h = Float16.NaN;
@@ -149,7 +150,7 @@ namespace ConsoleApp
             }
 
             {
-                Console.WriteLine("One ========================================");
+                Console.WriteLine($"One {Separator}");
                 Float8 f = Float8.One;
                 ConsoleWriteLine(f);
                 ExtendedHalf h = Float16.One;
@@ -162,7 +163,7 @@ namespace ConsoleApp
             }
 
             {
-                Console.WriteLine("NegativeOne ========================================");
+                Console.WriteLine($"NegativeOne {Separator}");
                 Float8 f = Float8.NegativeOne;
                 ConsoleWriteLine(f);
                 ExtendedHalf h = Float16.NegativeOne;
@@ -202,9 +203,9 @@ namespace ConsoleApp
 
         public static void MatrixTest()
         {
-            Console.WriteLine("========================================");
-            Console.WriteLine(Ksnm.Debug.GetFilePathAndLineNumber());
-            Console.WriteLine($"{nameof(MatrixTest)}");
+            Console.WriteLine($"{Separator}");
+            Console.WriteLine($"{nameof(MatrixTest)} {Ksnm.Debug.GetFilePathAndLineNumber()}");
+            Console.WriteLine();
 
             // 入力データ (特徴量数3)
             VectorF64 input = new[] { 0.5, 0.3, 0.2 };
@@ -260,6 +261,8 @@ namespace ConsoleApp
             Console.WriteLine(a1);
             Console.WriteLine("出力層の出力 (a2):");
             Console.WriteLine(a2);
+
+            Console.WriteLine();
         }
 
         #region
@@ -316,9 +319,9 @@ namespace ConsoleApp
 
         static void MatrixTest2()
         {
-            Console.WriteLine("========================================");
-            Console.WriteLine(Ksnm.Debug.GetFilePathAndLineNumber());
-            Console.WriteLine($"{nameof(MatrixTest2)}");
+            Console.WriteLine($"{Separator}");
+            Console.WriteLine($"{nameof(MatrixTest2)} {Ksnm.Debug.GetFilePathAndLineNumber()}");
+            Console.WriteLine();
 
             // 入力データ (特徴量数3)
             double[] input = { 0.5, 0.3, 0.2 };
@@ -365,6 +368,8 @@ namespace ConsoleApp
             {
                 Console.WriteLine(value);
             }
+
+            Console.WriteLine();
         }
         static void NumberBaseTest<T>(T a, T b) where T : INumberBase<T>
         {
@@ -385,17 +390,16 @@ namespace ConsoleApp
 
         public static void ExtendedHalfTest()
         {
-            Console.WriteLine("========================================");
-            Console.WriteLine(Ksnm.Debug.GetFilePathAndLineNumber());
-            Console.WriteLine($"{nameof(ExtendedHalfTest)}");
-
+            Console.WriteLine($"{Separator}");
+            Console.WriteLine($"{nameof(ExtendedHalfTest)} {Ksnm.Debug.GetFilePathAndLineNumber()}");
+            Console.WriteLine();
         }
 
         public static void ExtendedSingleTest()
         {
-            Console.WriteLine("========================================");
-            Console.WriteLine(Ksnm.Debug.GetFilePathAndLineNumber());
-            Console.WriteLine($"{nameof(ExtendedSingleTest)}");
+            Console.WriteLine($"{Separator}");
+            Console.WriteLine($"{nameof(ExtendedSingleTest)} {Ksnm.Debug.GetFilePathAndLineNumber()}");
+            Console.WriteLine();
 
             for (long i = 0; i < 0b11111111_111_1111111111_1111111111; i++)
             {
@@ -477,9 +481,9 @@ namespace ConsoleApp
 
         public static void ExtendedDoubleTest()
         {
-            Console.WriteLine("========================================");
-            Console.WriteLine(Ksnm.Debug.GetFilePathAndLineNumber());
-            Console.WriteLine($"{nameof(ExtendedDoubleTest)}");
+            Console.WriteLine($"{Separator}");
+            Console.WriteLine($"{nameof(ExtendedDoubleTest)} {Ksnm.Debug.GetFilePathAndLineNumber()}");
+            Console.WriteLine();
 
             for (double i = -10; i <= 10; i += 0.1)
             {
@@ -503,9 +507,9 @@ namespace ConsoleApp
 
         public static void ExtendedDecimalTest()
         {
-            Console.WriteLine("========================================");
-            Console.WriteLine(Ksnm.Debug.GetFilePathAndLineNumber());
-            Console.WriteLine($"{nameof(ExtendedDecimalTest)}");
+            Console.WriteLine($"{Separator}");
+            Console.WriteLine($"{nameof(ExtendedDecimalTest)} {Ksnm.Debug.GetFilePathAndLineNumber()}");
+            Console.WriteLine();
 
             for (decimal i = -10; i <= 10; i += 0.5m)
             {
@@ -519,9 +523,9 @@ namespace ConsoleApp
 
         public static void CubedDividedNumber8Test()
         {
-            Console.WriteLine("========================================");
-            Console.WriteLine(Ksnm.Debug.GetFilePathAndLineNumber());
-            Console.WriteLine($"{nameof(CubedDividedNumber8Test)}");
+            Console.WriteLine($"{Separator}");
+            Console.WriteLine($"{nameof(CubedDividedNumber8Test)} {Ksnm.Debug.GetFilePathAndLineNumber()}");
+            Console.WriteLine();
 
             CubedDividedNumber8 cdn = new CubedDividedNumber8();
             for (int i = 1; i <= 128; i += 8)
@@ -552,9 +556,9 @@ namespace ConsoleApp
 
         public static void FractionTest()
         {
-            Console.WriteLine("========================================");
-            Console.WriteLine(Ksnm.Debug.GetFilePathAndLineNumber());
-            Console.WriteLine($"{nameof(FractionTest)}");
+            Console.WriteLine($"{Separator}");
+            Console.WriteLine($"{nameof(FractionTest)} {Ksnm.Debug.GetFilePathAndLineNumber()}");
+            Console.WriteLine();
 
             Console.WriteLine($"double → Fraction");
             for (double i = -10; i <= 10; i++)
@@ -616,9 +620,9 @@ namespace ConsoleApp
 
         public static void FloatingPointNumber16E8M7Test()
         {
-            Console.WriteLine("========================================");
-            Console.WriteLine(Ksnm.Debug.GetFilePathAndLineNumber());
-            Console.WriteLine($"{nameof(FloatingPointNumber16E8M7Test)}");
+            Console.WriteLine($"{Separator}");
+            Console.WriteLine($"{nameof(FloatingPointNumber16E8M7Test)} {Ksnm.Debug.GetFilePathAndLineNumber()}");
+            Console.WriteLine();
 
             BFloat16 bfp = new();
 
@@ -655,9 +659,9 @@ namespace ConsoleApp
 
         public static void FloatingPointNumber8S1E4M3B7Test()
         {
-            Console.WriteLine("========================================");
-            Console.WriteLine(Ksnm.Debug.GetFilePathAndLineNumber());
-            Console.WriteLine($"{nameof(FloatingPointNumber8S1E4M3B7Test)}");
+            Console.WriteLine($"{Separator}");
+            Console.WriteLine($"{nameof(FloatingPointNumber8S1E4M3B7Test)} {Ksnm.Debug.GetFilePathAndLineNumber()}");
+            Console.WriteLine();
 
             FloatingPointNumber8S1E4M3B7 fp8 = new();
 
