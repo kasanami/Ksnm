@@ -3,18 +3,18 @@ using Ksnm.Units;
 using Ksnm.Numerics;
 using System.Numerics;
 
-using Float8 = Ksnm.Numerics.FloatingPointNumber8S1E4M3B7;
-using BFloat16 = Ksnm.Numerics.FloatingPointNumber16E8M7;
-using Float16 = System.Half;
-using Float32 = System.Single;
-using Float64 = System.Double;
-using Fraction32 = Ksnm.Numerics.Fraction<System.Int16>;
-using MatrixF64 = Ksnm.Numerics.Matrix<double>;
-using VectorF64 = Ksnm.Numerics.Vector<double>;
-using System;
-
 namespace ConsoleApp
 {
+    using Float8 = Ksnm.Numerics.FloatingPointNumber8S1E4M3B7;
+    using BFloat16 = Ksnm.Numerics.FloatingPointNumber16E8M7;
+    using Float16 = System.Half;
+    using Float32 = System.Single;
+    using Float64 = System.Double;
+    using Fraction32 = Ksnm.Numerics.Fraction<System.Int16>;
+    using MatrixF64 = Ksnm.Numerics.Matrix<double>;
+    using VectorF64 = Ksnm.Numerics.Vector<double>;
+    using K = Ksnm.Numerics;
+
     internal class NumericsTest
     {
         const string Separator = "================================================================================";
@@ -22,7 +22,7 @@ namespace ConsoleApp
         {
             Console.WriteLine(Ksnm.Debug.GetFilePathAndLineNumber());
 
-            MatrixTest();
+            MatrixTest<Float32>();
             MatrixTest2();
 
             {
@@ -201,57 +201,68 @@ namespace ConsoleApp
             }
         }
 
-        public static void MatrixTest()
+        public static void MatrixTest<T>()
+            where T : INumber<T>, IExponentialFunctions<T>
         {
             Console.WriteLine($"{Separator}");
             Console.WriteLine($"{nameof(MatrixTest)} {Ksnm.Debug.GetFilePathAndLineNumber()}");
             Console.WriteLine();
 
+            T _0_1 = T.CreateChecked(0.1);
+            T _0_2 = T.CreateChecked(0.2);
+            T _0_3 = T.CreateChecked(0.3);
+            T _0_4 = T.CreateChecked(0.4);
+            T _0_5 = T.CreateChecked(0.5);
+            T _0_6 = T.CreateChecked(0.6);
+            T _0_7 = T.CreateChecked(0.7);
+            T _0_8 = T.CreateChecked(0.8);
+            T _0_9 = T.CreateChecked(0.9);
+
             // 入力データ (特徴量数3)
-            VectorF64 input = new[] { 0.5, 0.3, 0.2 };
+            K.Vector<T> input = new[] { _0_5, _0_3, _0_2 };
             Console.WriteLine($"{nameof(input)}={input}");
 
             // 第1層の重み (隠れ層ノード数4, 入力層ノード数3)
-            MatrixF64 W1 = new[,]
+            K.Matrix<T> W1 = new[,]
             {
-                { 0.2, 0.4, 0.1 },
-                { 0.1, 0.3, 0.4 },
-                { 0.5, 0.2, 0.3 },
-                { 0.3, 0.1, 0.2 }
+                { _0_2, _0_4, _0_1 },
+                { _0_1, _0_3, _0_4 },
+                { _0_5, _0_2, _0_3 },
+                { _0_3, _0_1, _0_2 }
             };
             var W1_T = W1.GetTranspose();
             Console.WriteLine($"{nameof(W1)}={W1}");
             Console.WriteLine($"{nameof(W1_T)}={W1_T}");
 
             // 第1層のバイアス (隠れ層ノード数4)
-            VectorF64 b1 = new[] { 0.1, 0.2, 0.3, 0.4 };
+            K.Vector<T> b1 = new[] { _0_1, _0_2, _0_3, _0_4 };
             Console.WriteLine($"{nameof(b1)}={b1}");
 
             // 第2層の重み (出力層ノード数2, 隠れ層ノード数4)
-            MatrixF64 W2 = new[,]
+            K.Matrix<T> W2 = new[,]
             {
-                { 0.3, 0.1, 0.4, 0.2 },
-                { 0.2, 0.4, 0.1, 0.3 }
+                { _0_3, _0_1, _0_4, _0_2 },
+                { _0_2, _0_4, _0_1, _0_3 }
             };
             var W2_T = W2.GetTranspose();
             Console.WriteLine($"{nameof(W2)}={W2}");
             Console.WriteLine($"{nameof(W2_T)}={W2_T}");
 
             // 第2層のバイアス (出力層ノード数2)
-            VectorF64 b2 = new[] { 0.2, 0.1 };
+            K.Vector<T> b2 = new[] { _0_2, _0_1 };
             Console.WriteLine($"{nameof(b2)}={b2}");
 
             // 順伝播の計算
             // 第1層の計算
             var z1 = W1 * input + b1;
-            VectorF64 a1 = Ksnm.Math.StandardSigmoid(z1);
+            K.Vector<T> a1 = Ksnm.Math.StandardSigmoid<T>(z1);
             Console.WriteLine("第1層の計算");
             Console.WriteLine($"{nameof(z1)}={z1}");
             Console.WriteLine($"{nameof(a1)}={a1}");
 
             // 第2層の計算
             var z2 = W2 * a1 + b2;
-            VectorF64 a2 = Ksnm.Math.StandardSigmoid(z2);
+            K.Vector<T> a2 = Ksnm.Math.StandardSigmoid<T>(z2);
             Console.WriteLine("第2層の計算");
             Console.WriteLine($"{nameof(z2)}={z2}");
             Console.WriteLine($"{nameof(a2)}={a2}");
