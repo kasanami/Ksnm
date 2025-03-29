@@ -15,12 +15,17 @@ namespace Ksnm.Numerics.Tests
         [TestMethod()]
         public void ConstructorTest()
         {
-            Matrix expected = new Matrix(2, 2);
+            Matrix expected = new double[,]
+            {
+                { 1, 2, 3 },
+                { 4, 5, 6 },
+                { 7, 8, 9 },
+            };
             Matrix actual = new Matrix(expected);
             Assert.AreEqual(expected, actual);
 
-            expected[0, 0] = 1;
-            actual[0, 0] = 1;
+            expected[0, 0] = -1;
+            actual[0, 0] = -1;
             Assert.AreEqual(actual, expected);
 
             expected[1, 1] = 1;
