@@ -30,7 +30,7 @@ namespace Ksnm.Numerics
     /// <summary>
     /// 任意サイズの行列
     /// </summary>
-    /// <typeparam name="TValue"></typeparam>
+    /// <typeparam name="TValue">値型</typeparam>
     public class Matrix<TValue> :
         IAdditionOperators<Matrix<TValue>, Matrix<TValue>, Matrix<TValue>>,
         ISubtractionOperators<Matrix<TValue>, Matrix<TValue>, Matrix<TValue>>,
@@ -41,7 +41,7 @@ namespace Ksnm.Numerics
         /// <summary>
         /// 2次元配列
         /// </summary>
-        private TValue[,] _array = new TValue[0, 0];
+        private TValue[,] _values = new TValue[0, 0];
         /// <summary>
         /// 状態
         /// </summary>
@@ -49,8 +49,8 @@ namespace Ksnm.Numerics
         #endregion フィールド
 
         #region プロパティ
-        public int RowLength => _array.GetLength(0);
-        public int ColumnLength => _array.GetLength(1);
+        public int RowLength => _values.GetLength(0);
+        public int ColumnLength => _values.GetLength(1);
         public int ArrayLength => RowLength * ColumnLength;
 
         public static Matrix<TValue> One => new(TValue.One, MatrixStatus.Constant);
@@ -68,13 +68,13 @@ namespace Ksnm.Numerics
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
-                return _array[row, column];
+                return _values[row, column];
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set
             {
-                _array[row, column] = value;
+                _values[row, column] = value;
             }
         }
         #endregion プロパティ
@@ -84,29 +84,29 @@ namespace Ksnm.Numerics
 
         public Matrix(TValue value, MatrixStatus status)
         {
-            _array = new TValue[1, 1];
-            _array[0, 0] = value;
+            _values = new TValue[1, 1];
+            _values[0, 0] = value;
             _status = status;
         }
 
         public Matrix(int rowLength, int columnLength)
         {
-            _array = new TValue[rowLength, columnLength];
+            _values = new TValue[rowLength, columnLength];
         }
 
         public Matrix(Matrix<TValue> other) : this(other.RowLength, other.ColumnLength)
         {
-            Array.Copy(other._array, _array, ArrayLength);
+            Array.Copy(other._values, _values, ArrayLength);
         }
 
         public Matrix(Matrix4x4 other)
         {
-            _array = new TValue[4, 4];
+            _values = new TValue[4, 4];
             for (int r = 0; r < 4; r++)
             {
                 for (int c = 0; c < 4; c++)
                 {
-                    _array[r, c] = TValue.CreateChecked(other[r, c]);
+                    _values[r, c] = TValue.CreateChecked(other[r, c]);
                 }
             }
         }
@@ -115,13 +115,13 @@ namespace Ksnm.Numerics
         {
             for (int r = 0; r < RowLength; r++)
             {
-                _array[r, 0] = array[r];
+                _values[r, 0] = array[r];
             }
         }
 
         public Matrix(TValue[,] array) : this(array.GetLength(0), array.GetLength(1))
         {
-            Array.Copy(array, _array, ArrayLength);
+            Array.Copy(array, _values, ArrayLength);
         }
         #endregion コンストラクタ
 
@@ -130,14 +130,14 @@ namespace Ksnm.Numerics
         {
             for (int r = 0; r < RowLength; r++)
             {
-                yield return _array[r, column];
+                yield return _values[r, column];
             }
         }
         public IEnumerable<TValue> GetRowItems(int row)
         {
             for (int c = 0; c < ColumnLength; c++)
             {
-                yield return _array[row, c];
+                yield return _values[row, c];
             }
         }
         /// <summary>
@@ -151,7 +151,7 @@ namespace Ksnm.Numerics
             {
                 for (int c = 0; c < ColumnLength; c++)
                 {
-                    temp._array[c, r] = _array[r, c];
+                    temp._values[c, r] = _values[r, c];
                 }
             }
             return temp;
@@ -169,11 +169,11 @@ namespace Ksnm.Numerics
         }
         public static explicit operator TValue[,](Matrix<TValue> value)
         {
-            return value._array;
+            return value._values;
         }
         public TValue[,] AsPrimitive()
         {
-            return _array;
+            return _values;
         }
         #endregion 型変更
 
@@ -192,7 +192,7 @@ namespace Ksnm.Numerics
             {
                 for (int c = 0; c < columnLength; c++)
                 {
-                    temp._array[r, c] = left[r, c] + right[r, c];
+                    temp._values[r, c] = left[r, c] + right[r, c];
                 }
             }
             return temp;
@@ -223,7 +223,7 @@ namespace Ksnm.Numerics
             {
                 for (int c = 0; c < columnLength; c++)
                 {
-                    temp._array[r, c] = left[r, c] - right[r, c];
+                    temp._values[r, c] = left[r, c] - right[r, c];
                 }
             }
             return temp;
@@ -263,7 +263,7 @@ namespace Ksnm.Numerics
                     {
                         tempValue += leftRowItems.ElementAt(i) * rightColumnItems.ElementAt(i);
                     }
-                    temp._array[r, c] = tempValue;
+                    temp._values[r, c] = tempValue;
                 }
             }
             return temp;
@@ -376,7 +376,7 @@ namespace Ksnm.Numerics
                 stringBuilder.Append(" {");
                 for (int c = 0; ;)
                 {
-                    stringBuilder.Append(_array[r, c].ToString());
+                    stringBuilder.Append(_values[r, c].ToString());
                     // 次へ
                     c++;
                     if (c < ColumnLength)
@@ -420,7 +420,7 @@ namespace Ksnm.Numerics
             {
                 return true;
             }
-            if (_array.Length != other._array.Length)
+            if (_values.Length != other._values.Length)
             {
                 return false;
             }
@@ -436,7 +436,7 @@ namespace Ksnm.Numerics
             {
                 for (int c = 0; c < ColumnLength; c++)
                 {
-                    if (_array[r, c] != other._array[r, c])
+                    if (_values[r, c] != other._values[r, c])
                     {
                         return false;
                     }
@@ -447,7 +447,7 @@ namespace Ksnm.Numerics
         public override int GetHashCode()
         {
             int hashCode = 0;
-            foreach (var item in _array)
+            foreach (var item in _values)
             {
                 hashCode = hashCode ^ item.GetHashCode();
             }
@@ -478,7 +478,7 @@ namespace Ksnm.Numerics
 
         public static bool IsZero(Matrix<TValue> value)
         {
-            foreach (var item in value._array)
+            foreach (var item in value._values)
             {
                 if (item != TValue.Zero)
                 {
@@ -502,7 +502,7 @@ namespace Ksnm.Numerics
             {
                 for (int c = 0; c < columnLength; c++)
                 {
-                    var compare = _array[r, c].CompareTo(other._array[r, c]);
+                    var compare = _values[r, c].CompareTo(other._values[r, c]);
                     if (compare != 0)
                     {
                         return compare;

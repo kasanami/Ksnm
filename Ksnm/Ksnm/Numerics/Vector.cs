@@ -4,31 +4,35 @@ using System.Text;
 
 namespace Ksnm.Numerics
 {
-    public class Vector<T> :
-        IList<T>,
-        IAdditionOperators<Vector<T>, Vector<T>, Vector<T>>,
-        ISubtractionOperators<Vector<T>, Vector<T>, Vector<T>>,
-        IMultiplyOperators<Vector<T>, Vector<T>, Vector<T>>,
-        IMultiplyOperators<Vector<T>, T, Vector<T>>,
-        IDivisionOperators<Vector<T>, Vector<T>, Vector<T>>,
-        IDivisionOperators<Vector<T>, T, Vector<T>>
-        where T : INumber<T>, IRootFunctions<T>
+    /// <summary>
+    /// ベクトル
+    /// </summary>
+    /// <typeparam name="TValue">値型</typeparam>
+    public class Vector<TValue> :
+        IList<TValue>,
+        IAdditionOperators<Vector<TValue>, Vector<TValue>, Vector<TValue>>,
+        ISubtractionOperators<Vector<TValue>, Vector<TValue>, Vector<TValue>>,
+        IMultiplyOperators<Vector<TValue>, Vector<TValue>, Vector<TValue>>,
+        IMultiplyOperators<Vector<TValue>, TValue, Vector<TValue>>,
+        IDivisionOperators<Vector<TValue>, Vector<TValue>, Vector<TValue>>,
+        IDivisionOperators<Vector<TValue>, TValue, Vector<TValue>>
+        where TValue : INumber<TValue>, IRootFunctions<TValue>
     {
         #region フィールド
         /// <summary>
         /// 1次元配列
         /// </summary>
-        T[] _values = [];
+        TValue[] _values = [];
         #endregion フィールド
         /// <summary>
         /// 次元数
         /// </summary>
         public int Count => _values.Length;
-        public T MagnitudePow2
+        public TValue MagnitudePow2
         {
             get
             {
-                T sum = T.Zero;
+                TValue sum = TValue.Zero;
                 for (int i = 0; i < _values.Length; i++)
                 {
                     sum += _values[i] * _values[i];
@@ -36,11 +40,11 @@ namespace Ksnm.Numerics
                 return sum;
             }
         }
-        public T Magnitude => T.Sqrt(MagnitudePow2);
+        public TValue Magnitude => TValue.Sqrt(MagnitudePow2);
 
-        public bool IsReadOnly => ((ICollection<T>)_values).IsReadOnly;
+        public bool IsReadOnly => ((ICollection<TValue>)_values).IsReadOnly;
 
-        public T this[int index]
+        public TValue this[int index]
         {
             get => _values[index];
             set => _values[index] = value;
@@ -53,37 +57,37 @@ namespace Ksnm.Numerics
 
         public Vector(int count)
         {
-            _values = new T[count];
+            _values = new TValue[count];
         }
 
-        public Vector(T[] values) : this(values.Length)
+        public Vector(TValue[] values) : this(values.Length)
         {
             Array.Copy(values, _values, values.Length);
         }
 
-        public Vector(IList<T> values) : this(values.ToArray())
+        public Vector(IList<TValue> values) : this(values.ToArray())
         {
         }
 
-        public Vector(Vector<T> vector) : this(vector._values)
+        public Vector(Vector<TValue> vector) : this(vector._values)
         {
         }
         #endregion コンストラクタ
 
         #region 型変更
-        public static implicit operator Vector<T>(T[] array)
+        public static implicit operator Vector<TValue>(TValue[] array)
         {
-            return new Vector<T>(array);
+            return new Vector<TValue>(array);
         }
-        public static implicit operator Vector<T>(List<T> array)
+        public static implicit operator Vector<TValue>(List<TValue> array)
         {
-            return new Vector<T>(array);
+            return new Vector<TValue>(array);
         }
-        public static explicit operator T[](Vector<T> value)
+        public static explicit operator TValue[](Vector<TValue> value)
         {
             return value._values;
         }
-        public T[] AsPrimitive()
+        public TValue[] AsPrimitive()
         {
             return _values;
         }
@@ -109,54 +113,54 @@ namespace Ksnm.Numerics
         #endregion object
 
         #region operations
-        public static Vector<T> operator +(Vector<T> left, Vector<T> right)
+        public static Vector<TValue> operator +(Vector<TValue> left, Vector<TValue> right)
         {
-            Vector<T> result = new(left._values.Length);
+            Vector<TValue> result = new(left._values.Length);
             for (int i = 0; i < left._values.Length; i++)
             {
                 result[i] = left[i] + right[i];
             }
             return result;
         }
-        public static Vector<T> operator -(Vector<T> left, Vector<T> right)
+        public static Vector<TValue> operator -(Vector<TValue> left, Vector<TValue> right)
         {
-            Vector<T> result = new(left._values.Length);
+            Vector<TValue> result = new(left._values.Length);
             for (int i = 0; i < left._values.Length; i++)
             {
                 result[i] = left[i] - right[i];
             }
             return result;
         }
-        public static Vector<T> operator *(Vector<T> left, Vector<T> right)
+        public static Vector<TValue> operator *(Vector<TValue> left, Vector<TValue> right)
         {
-            Vector<T> result = new(left._values.Length);
+            Vector<TValue> result = new(left._values.Length);
             for (int i = 0; i < left._values.Length; i++)
             {
                 result[i] = left[i] * right[i];
             }
             return result;
         }
-        public static Vector<T> operator *(Vector<T> left, T right)
+        public static Vector<TValue> operator *(Vector<TValue> left, TValue right)
         {
-            Vector<T> result = new(left._values.Length);
+            Vector<TValue> result = new(left._values.Length);
             for (int i = 0; i < left._values.Length; i++)
             {
                 result[i] = left[i] * right;
             }
             return result;
         }
-        public static Vector<T> operator /(Vector<T> left, Vector<T> right)
+        public static Vector<TValue> operator /(Vector<TValue> left, Vector<TValue> right)
         {
-            Vector<T> result = new(left._values.Length);
+            Vector<TValue> result = new(left._values.Length);
             for (int i = 0; i < left._values.Length; i++)
             {
                 result[i] = left[i] / right[i];
             }
             return result;
         }
-        public static Vector<T> operator /(Vector<T> left, T right)
+        public static Vector<TValue> operator /(Vector<TValue> left, TValue right)
         {
-            Vector<T> result = new(left._values.Length);
+            Vector<TValue> result = new(left._values.Length);
             for (int i = 0; i < left._values.Length; i++)
             {
                 result[i] = left[i] / right;
@@ -166,20 +170,20 @@ namespace Ksnm.Numerics
         #endregion operations
 
         #region
-        public static T DistancePow2(Vector<T> vector1, Vector<T> vector2)
+        public static TValue DistancePow2(Vector<TValue> vector1, Vector<TValue> vector2)
         {
             return (vector1 - vector2).MagnitudePow2;
         }
 
-        public static T Distance(Vector<T> vector1, Vector<T> vector2)
+        public static TValue Distance(Vector<TValue> vector1, Vector<TValue> vector2)
         {
             return (vector1 - vector2).Magnitude;
         }
 
-        public static Vector<T> Lerp(Vector<T> from, Vector<T> to, T t)
+        public static Vector<TValue> Lerp(Vector<TValue> from, Vector<TValue> to, TValue t)
         {
             var count = from.Count;
-            Vector<T> result = new(count);
+            Vector<TValue> result = new(count);
             for (int i = 0; i < count; i++)
             {
                 result[i] = Math.Lerp(from[i], to[i], t);
@@ -187,9 +191,9 @@ namespace Ksnm.Numerics
             return result;
         }
 
-        public static Vector<T> Sum(IEnumerable<Vector<T>> vectors)
+        public static Vector<TValue> Sum(IEnumerable<Vector<TValue>> vectors)
         {
-            Vector<T> sum = new();
+            Vector<TValue> sum = new();
             if (vectors.Count() == 0) { return sum; }
             sum = new(vectors.ElementAt(0).Count);
             foreach (var vector in vectors)
@@ -199,49 +203,49 @@ namespace Ksnm.Numerics
             return sum;
         }
 
-        public int IndexOf(T item)
+        public int IndexOf(TValue item)
         {
-            return ((IList<T>)_values).IndexOf(item);
+            return ((IList<TValue>)_values).IndexOf(item);
         }
 
-        public void Insert(int index, T item)
+        public void Insert(int index, TValue item)
         {
-            ((IList<T>)_values).Insert(index, item);
+            ((IList<TValue>)_values).Insert(index, item);
         }
 
         public void RemoveAt(int index)
         {
-            ((IList<T>)_values).RemoveAt(index);
+            ((IList<TValue>)_values).RemoveAt(index);
         }
 
-        public void Add(T item)
+        public void Add(TValue item)
         {
-            ((ICollection<T>)_values).Add(item);
+            ((ICollection<TValue>)_values).Add(item);
         }
 
         public void Clear()
         {
-            ((ICollection<T>)_values).Clear();
+            ((ICollection<TValue>)_values).Clear();
         }
 
-        public bool Contains(T item)
+        public bool Contains(TValue item)
         {
-            return ((ICollection<T>)_values).Contains(item);
+            return ((ICollection<TValue>)_values).Contains(item);
         }
 
-        public void CopyTo(T[] array, int arrayIndex)
+        public void CopyTo(TValue[] array, int arrayIndex)
         {
-            ((ICollection<T>)_values).CopyTo(array, arrayIndex);
+            ((ICollection<TValue>)_values).CopyTo(array, arrayIndex);
         }
 
-        public bool Remove(T item)
+        public bool Remove(TValue item)
         {
-            return ((ICollection<T>)_values).Remove(item);
+            return ((ICollection<TValue>)_values).Remove(item);
         }
 
-        public IEnumerator<T> GetEnumerator()
+        public IEnumerator<TValue> GetEnumerator()
         {
-            return ((IEnumerable<T>)_values).GetEnumerator();
+            return ((IEnumerable<TValue>)_values).GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
