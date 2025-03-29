@@ -202,7 +202,7 @@ namespace ConsoleApp
         }
 
         public static void MatrixTest<T>()
-            where T : INumber<T>, IExponentialFunctions<T>
+            where T : INumber<T>, IExponentialFunctions<T>, IRootFunctions<T>
         {
             Console.WriteLine($"{Separator}");
             Console.WriteLine($"{nameof(MatrixTest)} {Ksnm.Debug.GetFilePathAndLineNumber()}");

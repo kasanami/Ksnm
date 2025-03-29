@@ -8,7 +8,8 @@ namespace Ksnm.MachineLearning.Clustering
     /// <summary>
     /// k平均法
     /// </summary>
-    public class KMeansClustering<T> where T : INumber<T>, IMinMaxValue<T>
+    public class KMeansClustering<T>
+        where T : INumber<T>, IRootFunctions<T>, IMinMaxValue<T>
     {
         #region フィールド、プロパティ
         List<IData<T>> dataList = new();
@@ -20,7 +21,7 @@ namespace Ksnm.MachineLearning.Clustering
         /// <summary>
         /// 更新不要となる許容値
         /// </summary>
-        public T Tolerance=T.One;
+        public T Tolerance = T.One;
         #endregion フィールド、プロパティ
 
         #region コンストラクタ

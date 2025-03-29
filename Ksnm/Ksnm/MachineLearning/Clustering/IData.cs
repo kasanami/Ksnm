@@ -2,7 +2,7 @@
 
 namespace Ksnm.MachineLearning.Clustering
 {
-    public interface IData<T> where T : INumber<T>
+    public interface IData<T> where T : INumber<T>, IRootFunctions<T>
     {
         public Numerics.Vector<T> Values { get; }
 

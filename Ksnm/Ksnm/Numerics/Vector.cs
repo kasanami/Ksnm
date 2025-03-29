@@ -1,17 +1,10 @@
-﻿using Ksnm.MachineLearning.Clustering;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections;
 using System.Numerics;
-using System.Runtime.Intrinsics;
 using System.Text;
-using System.Threading.Tasks;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Ksnm.Numerics
 {
-    public struct Vector<T> :
+    public class Vector<T> :
         IList<T>,
         IAdditionOperators<Vector<T>, Vector<T>, Vector<T>>,
         ISubtractionOperators<Vector<T>, Vector<T>, Vector<T>>,
@@ -19,7 +12,7 @@ namespace Ksnm.Numerics
         IMultiplyOperators<Vector<T>, T, Vector<T>>,
         IDivisionOperators<Vector<T>, Vector<T>, Vector<T>>,
         IDivisionOperators<Vector<T>, T, Vector<T>>
-        where T : INumber<T>
+        where T : INumber<T>, IRootFunctions<T>
     {
         #region フィールド
         /// <summary>
@@ -43,7 +36,7 @@ namespace Ksnm.Numerics
                 return sum;
             }
         }
-        public T Magnitude => Math.Sqrt(MagnitudePow2);
+        public T Magnitude => T.Sqrt(MagnitudePow2);
 
         public bool IsReadOnly => ((ICollection<T>)_values).IsReadOnly;
 

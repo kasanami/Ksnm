@@ -670,6 +670,7 @@ namespace Ksnm.MachineLearning.NeuralNetwork
             }
         }
         #endregion Reduce 削減
+
         #endregion 学習
 
         /// <summary>

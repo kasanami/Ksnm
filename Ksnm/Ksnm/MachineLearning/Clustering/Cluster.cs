@@ -5,7 +5,7 @@ namespace Ksnm.MachineLearning.Clustering
     /// <summary>
     /// クラスター
     /// </summary>
-    public class Cluster<T> where T : INumber<T>
+    public class Cluster<T> where T : INumber<T>, IRootFunctions<T>
     {
         #region フィールド、プロパティ
         public string Name { get; set; } = "";

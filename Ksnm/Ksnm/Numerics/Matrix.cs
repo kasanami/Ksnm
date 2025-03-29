@@ -1,7 +1,4 @@
-﻿using Ksnm.Units;
-using System.Diagnostics.CodeAnalysis;
-using System.Globalization;
-using System.Net.NetworkInformation;
+﻿using System.Diagnostics.CodeAnalysis;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -38,7 +35,7 @@ namespace Ksnm.Numerics
         IAdditionOperators<Matrix<TValue>, Matrix<TValue>, Matrix<TValue>>,
         ISubtractionOperators<Matrix<TValue>, Matrix<TValue>, Matrix<TValue>>,
         IMultiplyOperators<Matrix<TValue>, Matrix<TValue>, Matrix<TValue>>
-        where TValue : INumber<TValue>, IExponentialFunctions<TValue>
+        where TValue : INumber<TValue>, IExponentialFunctions<TValue>, IRootFunctions<TValue>
     {
         #region フィールド
         /// <summary>

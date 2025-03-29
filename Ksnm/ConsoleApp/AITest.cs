@@ -619,7 +619,8 @@ namespace ConsoleApp
             return T.CreateChecked(scale);
         }
 
-        static void TestClustering<T>() where T : INumber<T>, IMinMaxValue<T>
+        static void TestClustering<T>()
+            where T : INumber<T>, IRootFunctions<T>, IMinMaxValue<T>
         {
             List<Human<T>> humans = new();
             for (var i = 0; i < 100; i++)
@@ -656,7 +657,7 @@ namespace ConsoleApp
             }
         }
         static void SaveClusteringImage<T>(int no, KMeansClustering<T> kMeansClustering)
-            where T : INumber<T>, IMinMaxValue<T>
+            where T : INumber<T>, IRootFunctions<T>, IMinMaxValue<T>
         {
             // 描画領域を作成
             using (var image = new Image<Rgba32>(200, 200, Color.White))
@@ -678,7 +679,7 @@ namespace ConsoleApp
             }
         }
 
-        struct Human<T> : IData<T> where T : INumber<T>
+        struct Human<T> : IData<T> where T : INumber<T>, IRootFunctions<T>
         {
             /// <summary>
             /// 身長[cm]
