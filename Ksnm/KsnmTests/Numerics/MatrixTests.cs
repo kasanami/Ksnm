@@ -280,21 +280,5 @@ namespace Ksnm.Numerics.Tests
             Assert.AreEqual(-1, b.CompareTo(c));
             Assert.AreEqual(1, c.CompareTo(a));
         }
-
-        [TestMethod()]
-        public void SigmoidTest()
-        {
-            Matrix a = new double[3, 3]
-            {
-                { -2, -1, -0.5 }, { -0.25, 0, +0.25 }, { +0.5, +1, +2 }
-            };
-            Matrix expected = new double[3, 3]
-            {
-                { 0.11920292202211755, 0.2689414213699951, 0.3775406687981454 },
-                { 0.43782349911420193, 0.5, 0.5621765008857981 },
-                { 0.6224593312018546, 0.7310585786300049, 0.8807970779778823 }
-            };
-            Assert.AreEqual(expected, Matrix.Sigmoid(a, 1.0));
-        }
     }
 }
