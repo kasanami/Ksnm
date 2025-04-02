@@ -24,6 +24,7 @@ namespace ConsoleApp
 
             MatrixTest<Float32>();
             MatrixTest2();
+            TestMatrix4x4();
 
             {
                 Console.WriteLine($"{nameof(FixedPointDecimal8Q2)}");
@@ -274,6 +275,24 @@ namespace ConsoleApp
             Console.WriteLine(a2);
 
             Console.WriteLine();
+        }
+        static void TestMatrix4x4()
+        {
+            Matrix4x4 matrix1 = new
+            (
+                1, 2, 3, 4,
+                1, 2, 3, 4,
+                1, 2, 3, 4,
+                1, 2, 3, 4
+            );
+            Matrix4x4 matrix2 = new
+            (
+                1, 2, 3, 4,
+                1, 2, 3, 4,
+                1, 2, 3, 4,
+                1, 2, 3, 4
+            );
+            var matrix3 = matrix1 * matrix2;
         }
 
         #region
