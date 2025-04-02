@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Ksnm.Units;
+using System.Collections;
 using System.Numerics;
 using System.Text;
 
@@ -15,7 +16,8 @@ namespace Ksnm.Numerics
         IMultiplyOperators<Vector<TValue>, Vector<TValue>, Vector<TValue>>,
         IMultiplyOperators<Vector<TValue>, TValue, Vector<TValue>>,
         IDivisionOperators<Vector<TValue>, Vector<TValue>, Vector<TValue>>,
-        IDivisionOperators<Vector<TValue>, TValue, Vector<TValue>>
+        IDivisionOperators<Vector<TValue>, TValue, Vector<TValue>>,
+        IEquatable<Vector<TValue>>
         where TValue : INumber<TValue>, IRootFunctions<TValue>
     {
         #region フィールド
@@ -167,7 +169,64 @@ namespace Ksnm.Numerics
             }
             return result;
         }
+        public static Vector<TValue> operator %(Vector<TValue> left, Vector<TValue> right)
+        {
+            Vector<TValue> result = new(left._values.Length);
+            for (int i = 0; i < left._values.Length; i++)
+            {
+                result[i] = left[i] % right[i];
+            }
+            return result;
+        }
         #endregion operations
+
+        #region operation 代替関数
+        public Vector<TValue> AddAssign(Vector<TValue> other)
+        {
+            var length = int.Min(_values.Length, other._values.Length);
+            for (int i = 0; i < length; i++)
+            {
+                _values[i] += other._values[i];
+            }
+            return this;
+        }
+        public Vector<TValue> SubtractAssign(Vector<TValue> other)
+        {
+            var length = int.Min(_values.Length, other._values.Length);
+            for (int i = 0; i < length; i++)
+            {
+                _values[i] -= other._values[i];
+            }
+            return this;
+        }
+        public Vector<TValue> MultiplyAssign(Vector<TValue> other)
+        {
+            var length = int.Min(_values.Length, other._values.Length);
+            for (int i = 0; i < length; i++)
+            {
+                _values[i] *= other._values[i];
+            }
+            return this;
+        }
+        public Vector<TValue> DivideAssign(Vector<TValue> other)
+        {
+            var length = int.Min(_values.Length, other._values.Length);
+            for (int i = 0; i < length; i++)
+            {
+                _values[i] /= other._values[i];
+            }
+            return this;
+        }
+        public Vector<TValue> ModulusAssign(Vector<TValue> other)
+        {
+            var length = int.Min(_values.Length, other._values.Length);
+            for (int i = 0; i < length; i++)
+            {
+                _values[i] %= other._values[i];
+            }
+            return this;
+        }
+        #endregion operation 代替関数
 
         #region
         public static TValue DistancePow2(Vector<TValue> vector1, Vector<TValue> vector2)
@@ -220,7 +279,9 @@ namespace Ksnm.Numerics
 
         public void Add(TValue item)
         {
-            ((ICollection<TValue>)_values).Add(item);
+            var list = new List<TValue>(_values);
+            list.Add(item);
+            _values = list.ToArray();
         }
 
         public void Clear()
@@ -253,5 +314,12 @@ namespace Ksnm.Numerics
             return _values.GetEnumerator();
         }
         #endregion
+
+        #region IEquatable
+        public bool Equals(Vector<TValue>? other)
+        {
+            return _values.SequenceEqual(other._values);
+        }
+        #endregion IEquatable
     }
 }
