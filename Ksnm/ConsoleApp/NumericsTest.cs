@@ -1,18 +1,8 @@
 ﻿using Ksnm.Numerics;
-using Ksnm.Units;
-using Ksnm.Numerics;
 using System.Numerics;
 
 namespace ConsoleApp
 {
-    using Float8 = Ksnm.Numerics.FloatingPointNumber8S1E4M3B7;
-    using BFloat16 = Ksnm.Numerics.FloatingPointNumber16E8M7;
-    using Float16 = System.Half;
-    using Float32 = System.Single;
-    using Float64 = System.Double;
-    using Fraction32 = Ksnm.Numerics.Fraction<System.Int16>;
-    using MatrixF64 = Ksnm.Numerics.Matrix<double>;
-    using VectorF64 = Ksnm.Numerics.Vector<double>;
     using K = Ksnm.Numerics;
 
     internal class NumericsTest
@@ -720,6 +710,11 @@ namespace ConsoleApp
             }
 
             Console.WriteLine();
+        }
+
+        public static void FixedPointNumber()
+        {
+            //Algorithm.GaussLegendre
         }
 
         static void ConsoleWriteLine<TBits>(IFloatingPointProperties<TBits> value)

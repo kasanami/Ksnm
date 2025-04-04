@@ -6,12 +6,6 @@ using System.Text;
 
 namespace ConsoleApp
 {
-    using Float8 = Ksnm.Numerics.FloatingPointNumber8S1E4M3B7;
-    using BFloat16 = Ksnm.Numerics.FloatingPointNumber16E8M7;
-    using Float16 = System.Half;
-    using Float32 = System.Single;
-    using Float64 = System.Double;
-
     [MemoryDiagnoser]
     [MinColumn, MaxColumn]
     public class AIMesurement
@@ -36,12 +30,17 @@ namespace ConsoleApp
         {
             TestLogicGate<BFloat16>();
         }
+        [Benchmark]
+        public void TestLogicGate_Fixed64()
+        {
+           TestLogicGate<Fixed64>();
+        }
         //[Benchmark]
         //public void TestLogicGate_Float8()
         //{
         //    TestLogicGate<Float8>();
         //}
-        static void TestLogicGate<T>()
+        public static void TestLogicGate<T>()
             where T : INumber<T>, IFloatingPointIeee754<T>, IMinMaxValue<T>
         {
             Activation<T> activation = Activation<T>.Sigmoid;

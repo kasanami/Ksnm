@@ -21,8 +21,9 @@ namespace ConsoleApp
 
             //TestLogicGate<double>();
             //TestLogicGate<float>();
-            TestLogicGate<Half>();
-            TestLogicGate<bfp16>();
+            //TestLogicGate<Half>();
+            //TestLogicGate<bfp16>();
+            TestLogicGate<Fixed64>();
             //TestNumericRecognition<double>();
             //TestNumericRecognition2<double>();
             //TestClustering<bfp16>();

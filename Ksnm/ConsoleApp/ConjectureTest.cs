@@ -1,7 +1,5 @@
 ﻿using Ksnm.ExtensionMethods.System.Collections.Generic.Enumerable;
 using Ksnm.Science.Mathematics;
-using Ksnm.Units;
-using Math = Ksnm.Math;
 
 namespace ConsoleApp
 {

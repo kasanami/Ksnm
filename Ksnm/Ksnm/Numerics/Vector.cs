@@ -1,6 +1,7 @@
 ﻿using Ksnm.Units;
 using System.Collections;
 using System.Numerics;
+using System.Runtime.CompilerServices;
 using System.Text;
 
 namespace Ksnm.Numerics
@@ -26,6 +27,8 @@ namespace Ksnm.Numerics
         /// </summary>
         TValue[] _values = [];
         #endregion フィールド
+
+        #region プロパティ
         /// <summary>
         /// 次元数
         /// </summary>
@@ -51,6 +54,7 @@ namespace Ksnm.Numerics
             get => _values[index];
             set => _values[index] = value;
         }
+        #endregion プロパティ
 
         #region コンストラクタ
         public Vector()

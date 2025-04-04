@@ -5,10 +5,6 @@ using static Ksnm.Science.Mathematics.Formula;
 
 namespace ConsoleApp
 {
-    using BFloat16 = Ksnm.Numerics.FloatingPointNumber16E8M7;
-    using Math = Ksnm.Math;
-    using MathD = System.Math;
-    using MathF = System.MathF;
     internal class MathTest
     {
         public static void Run()
@@ -23,6 +19,7 @@ namespace ConsoleApp
                 Console.WriteLine($"float   :{Math.CalculateE<float>()}");
                 Console.WriteLine($"double  :{Math.CalculateE<double>()}");
                 Console.WriteLine($"decimal :{Math.CalculateE<decimal>(Math.DecimalEpsilon)}");
+                Console.WriteLine($"Fixed64 :{Math.CalculateE<Fixed64>()}");
             }
 
             // 円周率を計算
@@ -33,6 +30,7 @@ namespace ConsoleApp
                 Console.WriteLine($"float   :{Math.CalculatePi<float>()}");
                 Console.WriteLine($"double  :{Math.CalculatePi<double>()}");
                 Console.WriteLine($"decimal :{Math.CalculatePi<decimal>(Math.DecimalEpsilon)}");
+                Console.WriteLine($"Fixed64 :{Math.CalculatePi<Fixed64>()}");
             }
 
             // Log2
