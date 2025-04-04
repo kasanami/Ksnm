@@ -23,6 +23,7 @@ freely, subject to the following restrictions:
 */
 using System;
 using System.Runtime.InteropServices;
+using BigBitsType = System.Int128;// BitsTypeより大きい型
 using BitsType = System.Int64;// 固定小数点数 全体のビットを表す型
 using IntegerType = System.Int32;// 固定小数点数 整数部分のビットを表す型
 using FractionalType = System.UInt32;
@@ -51,27 +52,23 @@ namespace Ksnm.Numerics
         /// <summary>
         /// 数値 0 を表します。
         /// </summary>
-        public readonly static FixedPointNumber Zero = new FixedPointNumber() { integer = 0 };
+        public readonly static FixedPointNumber Zero = new(0, 0);
         /// <summary>
         /// 数値 1 を表します。
         /// </summary>
-        public readonly static FixedPointNumber One = new FixedPointNumber() { integer = 1 };
-        /// <summary>
-        /// 負の 1 (-1) を表します。
-        /// </summary>
-        public readonly static FixedPointNumber MinusOne = new FixedPointNumber() { integer = -1 };
+        public readonly static FixedPointNumber One = new(1, 0);
         /// <summary>
         /// 最小有効値を表します。
         /// </summary>
-        public readonly static FixedPointNumber MinValue = new FixedPointNumber() { bits = BitsType.MinValue };
+        public readonly static FixedPointNumber MinValue = new(BitsType.MinValue);
         /// <summary>
         /// 最大有効値を表します。
         /// </summary>
-        public readonly static FixedPointNumber MaxValue = new FixedPointNumber() { bits = BitsType.MaxValue };
+        public readonly static FixedPointNumber MaxValue = new(BitsType.MaxValue);
         /// <summary>
         /// ゼロより大きい最小の値を表します。
         /// </summary>
-        public readonly static FixedPointNumber Epsilon = new FixedPointNumber() { bits = 1 };
+        public readonly static FixedPointNumber Epsilon = new(1);
         /// <summary>
         /// 1を表すビット
         /// </summary>
@@ -91,7 +88,7 @@ namespace Ksnm.Numerics
 
         public static FixedPointNumber PositiveInfinity => throw new NotImplementedException();
 
-        public static FixedPointNumber NegativeOne => new(-1);
+        public static FixedPointNumber NegativeOne => new(-1, 0);
 
         public static FixedPointNumber E => (FixedPointNumber)double.E;
 
@@ -151,12 +148,10 @@ namespace Ksnm.Numerics
         /// <summary>
         /// 指定した整数で初期化
         /// </summary>
-        /// <param name="integer">整数部</param>
-        public FixedPointNumber64Q32(IntegerType integer)
+        /// <param name="bits">全体のビット</param>
+        public FixedPointNumber64Q32(BitsType bits)
         {
-            bits = 0;
-            this.integer = integer;
-            fractional = 0;
+            this.bits = bits;
         }
 
         /// <summary>
@@ -343,9 +338,9 @@ namespace Ksnm.Numerics
         /// </summary>
         public static FixedPointNumber operator *(FixedPointNumber valueL, FixedPointNumber valueR)
         {
-            decimal temp = valueL.bits;
+            BigBitsType temp = valueL.bits;
             temp *= valueR.bits;
-            temp /= OneBits;
+            temp >>= QBits;
             return new FixedPointNumber() { bits = (BitsType)temp };
         }
         /// <summary>
@@ -353,8 +348,8 @@ namespace Ksnm.Numerics
         /// </summary>
         public static FixedPointNumber operator /(FixedPointNumber valueL, FixedPointNumber valueR)
         {
-            decimal temp = valueL.bits;
-            temp *= OneBits;
+            BigBitsType temp = valueL.bits;
+            temp <<= QBits;
             temp /= valueR.bits;
             return new FixedPointNumber() { bits = (BitsType)temp };
         }
@@ -470,101 +465,23 @@ namespace Ksnm.Numerics
 
         #region 型変換
         #region 他の型→固定小数点数型
-        /// <summary>
-        /// byte から 固定小数点数型 への暗黙的な変換を定義します。
-        /// </summary>
-        public static implicit operator FixedPointNumber(byte value)
-        {
-            return new FixedPointNumber() { integer = value };
-        }
-        /// <summary>
-        /// sbyte から 固定小数点数型 への暗黙的な変換を定義します。
-        /// </summary>
-        public static implicit operator FixedPointNumber(sbyte value)
-        {
-            return new FixedPointNumber() { integer = value };
-        }
-        /// <summary>
-        /// short から 固定小数点数型 への暗黙的な変換を定義します。
-        /// </summary>
-        public static implicit operator FixedPointNumber(short value)
-        {
-            return new FixedPointNumber() { integer = value };
-        }
-        /// <summary>
-        /// ushort から 固定小数点数型 への暗黙的な変換を定義します。
-        /// </summary>
-        public static implicit operator FixedPointNumber(ushort value)
-        {
-            return new FixedPointNumber() { integer = value };
-        }
-        /// <summary>
-        /// int から 固定小数点数型 への暗黙的な変換を定義します。
-        /// </summary>
-        public static implicit operator FixedPointNumber(int value)
-        {
-            return new FixedPointNumber() { integer = value };
-        }
-        /// <summary>
-        /// uint から 固定小数点数型 への明示的な変換を定義します。
-        /// </summary>
-        public static explicit operator FixedPointNumber(uint value)
-        {
-            return new FixedPointNumber() { integer = (IntegerType)value };
-        }
-        /// <summary>
-        /// long から 固定小数点数型 への明示的な変換を定義します。
-        /// </summary>
-        public static explicit operator FixedPointNumber(long value)
-        {
-            return new FixedPointNumber() { integer = (IntegerType)value };
-        }
-        /// <summary>
-        /// ulong から 固定小数点数型 への明示的な変換を定義します。
-        /// </summary>
-        public static explicit operator FixedPointNumber(ulong value)
-        {
-            return new FixedPointNumber() { integer = (IntegerType)value };
-        }
-        /// <summary>
-        /// Int128 から 固定小数点数型 への明示的な変換を定義します。
-        /// </summary>
-        public static explicit operator FixedPointNumber(Int128 value)
-        {
-            return new FixedPointNumber() { integer = (IntegerType)value };
-        }
-        /// <summary>
-        /// UInt128 から 固定小数点数型 への明示的な変換を定義します。
-        /// </summary>
-        public static explicit operator FixedPointNumber(UInt128 value)
-        {
-            return new FixedPointNumber() { integer = (IntegerType)value };
-        }
-        /// <summary>
-        /// Half から 固定小数点数型 への明示的な変換を定義します。
-        /// </summary>
-        public static explicit operator FixedPointNumber(Half value)
-        {
-            return (FixedPointNumber)(double)value;
-        }
-        /// <summary>
-        /// float から 固定小数点数型 への明示的な変換を定義します。
-        /// </summary>
-        public static explicit operator FixedPointNumber(float value)
-        {
-            return (FixedPointNumber)(double)value;
-        }
-        /// <summary>
-        /// double から 固定小数点数型 への明示的な変換を定義します。
-        /// </summary>
+        public static explicit operator FixedPointNumber(byte value) => new((IntegerType)value, 0);
+        public static explicit operator FixedPointNumber(sbyte value) => new((IntegerType)value, 0);
+        public static explicit operator FixedPointNumber(short value) => new((IntegerType)value, 0);
+        public static explicit operator FixedPointNumber(ushort value) => new((IntegerType)value, 0);
+        public static explicit operator FixedPointNumber(int value) => new((IntegerType)value, 0);
+        public static explicit operator FixedPointNumber(uint value) => new((IntegerType)value, 0);
+        public static explicit operator FixedPointNumber(long value) => new((IntegerType)value, 0);
+        public static explicit operator FixedPointNumber(ulong value) => new((IntegerType)value, 0);
+        public static explicit operator FixedPointNumber(Int128 value) => new((IntegerType)value, 0);
+        public static explicit operator FixedPointNumber(UInt128 value) => new((IntegerType)value, 0);
+        public static explicit operator FixedPointNumber(Half value) => (FixedPointNumber)(double)value;
+        public static explicit operator FixedPointNumber(float value) => (FixedPointNumber)(double)value;
         public static explicit operator FixedPointNumber(double value)
         {
             value *= OneBits;
             return new FixedPointNumber() { bits = (BitsType)value };
         }
-        /// <summary>
-        /// decimal から 固定小数点数型 への明示的な変換を定義します。
-        /// </summary>
         public static explicit operator FixedPointNumber(decimal value)
         {
             value *= OneBits;
@@ -572,107 +489,25 @@ namespace Ksnm.Numerics
         }
         #endregion 他の型→固定小数点数型
         #region 固定小数点数型→他の型
-        /// <summary>
-        /// 固定小数点数型 から byte への明示的な変換を定義します。
-        /// </summary>
-        public static explicit operator byte(FixedPointNumber value)
-        {
-            return (byte)Truncate(value).integer;
-        }
-        /// <summary>
-        /// 固定小数点数型 から sbyte への明示的な変換を定義します。
-        /// </summary>
-        public static explicit operator sbyte(FixedPointNumber value)
-        {
-            return (sbyte)Truncate(value).integer;
-        }
-        /// <summary>
-        /// 固定小数点数型 から short への明示的な変換を定義します。
-        /// </summary>
-        public static explicit operator short(FixedPointNumber value)
-        {
-            return (short)Truncate(value).integer;
-        }
-        /// <summary>
-        /// 固定小数点数型 から ushort への明示的な変換を定義します。
-        /// </summary>
-        public static explicit operator ushort(FixedPointNumber value)
-        {
-            return (ushort)Truncate(value).integer;
-        }
-        /// <summary>
-        /// 固定小数点数型 から int への明示的な変換を定義します。
-        /// </summary>
-        public static explicit operator int(FixedPointNumber value)
-        {
-            return Truncate(value).integer;
-        }
-        /// <summary>
-        /// 固定小数点数型 から uint への明示的な変換を定義します。
-        /// </summary>
-        public static explicit operator uint(FixedPointNumber value)
-        {
-            return (uint)Truncate(value).integer;
-        }
-        /// <summary>
-        /// 固定小数点数型 から long への明示的な変換を定義します。
-        /// </summary>
-        public static explicit operator long(FixedPointNumber value)
-        {
-            return Truncate(value).integer;
-        }
-        /// <summary>
-        /// 固定小数点数型 から ulong への明示的な変換を定義します。
-        /// </summary>
-        public static explicit operator ulong(FixedPointNumber value)
-        {
-            return (ulong)Truncate(value).integer;
-        }
-        /// <summary>
-        /// 固定小数点数型 から Int128 への明示的な変換を定義します。
-        /// </summary>
-        public static explicit operator Int128(FixedPointNumber value)
-        {
-            return Truncate(value).integer;
-        }
-        /// <summary>
-        /// 固定小数点数型 から UInt128 への明示的な変換を定義します。
-        /// </summary>
-        public static explicit operator UInt128(FixedPointNumber value)
-        {
-            return (UInt128)Truncate(value).integer;
-        }
-        /// <summary>
-        /// 固定小数点数型 から float への明示的な変換を定義します。
-        /// </summary>
-        public static explicit operator Half(FixedPointNumber value)
-        {
-            double temp = value.bits;
-            temp /= OneBits;
-            return (Half)temp;
-        }
-        /// <summary>
-        /// 固定小数点数型 から float への明示的な変換を定義します。
-        /// </summary>
-        public static explicit operator float(FixedPointNumber value)
-        {
-            double temp = value.bits;
-            temp /= OneBits;
-            return (float)temp;
-        }
-        /// <summary>
-        /// 固定小数点数型 から double への暗黙的な変換を定義します。
-        /// </summary>
+        public static explicit operator byte(FixedPointNumber value) => (byte)Truncate(value).integer;
+        public static explicit operator sbyte(FixedPointNumber value) => (sbyte)Truncate(value).integer;
+        public static explicit operator short(FixedPointNumber value) => (short)Truncate(value).integer;
+        public static explicit operator ushort(FixedPointNumber value) => (ushort)Truncate(value).integer;
+        public static explicit operator int(FixedPointNumber value) => (int)Truncate(value).integer;
+        public static explicit operator uint(FixedPointNumber value) => (uint)Truncate(value).integer;
+        public static explicit operator long(FixedPointNumber value) => (long)Truncate(value).integer;
+        public static explicit operator ulong(FixedPointNumber value) => (ulong)Truncate(value).integer;
+        public static explicit operator Int128(FixedPointNumber value) => (Int128)Truncate(value).integer;
+        public static explicit operator UInt128(FixedPointNumber value) => (UInt128)Truncate(value).integer;
+        public static explicit operator Half(FixedPointNumber value) => (Half)(double)value;
+        public static explicit operator float(FixedPointNumber value) => (float)(double)value;
         public static explicit operator double(FixedPointNumber value)
         {
             double temp = value.bits;
             temp /= OneBits;
             return temp;
         }
-        /// <summary>
-        /// 固定小数点数型 から double への暗黙的な変換を定義します。
-        /// </summary>
-        public static implicit operator decimal(FixedPointNumber value)
+        public static explicit operator decimal(FixedPointNumber value)
         {
             decimal temp = value.bits;
             temp /= OneBits;

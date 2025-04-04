@@ -17,16 +17,16 @@ namespace Ksnm.Numerics.Tests
             var minusTwo = (Fixed)(-2);
             Assert.AreEqual(one, one + Fixed.Zero);
             Assert.AreEqual(two, one + Fixed.One);
-            Assert.AreEqual(zero, one + Fixed.MinusOne);
-            Assert.AreEqual(one, Fixed.MinusOne * Fixed.MinusOne);
-            Assert.AreEqual(minusTwo, Fixed.MinusOne + Fixed.MinusOne);
+            Assert.AreEqual(zero, one + Fixed.NegativeOne);
+            Assert.AreEqual(one, Fixed.NegativeOne * Fixed.NegativeOne);
+            Assert.AreEqual(minusTwo, Fixed.NegativeOne + Fixed.NegativeOne);
             Assert.IsFalse(one == one + Fixed.Epsilon);
             Assert.IsFalse(one == one - Fixed.Epsilon);
 
             var value = Fixed.One;
             value += Fixed.One;
             Assert.AreEqual(two, value);
-            value *= Fixed.MinusOne;
+            value *= Fixed.NegativeOne;
             Assert.AreEqual(minusTwo, value);
         }
         [TestMethod()]
@@ -35,7 +35,7 @@ namespace Ksnm.Numerics.Tests
             var value = new Fixed();
             Assert.AreEqual(0, value.Integer);
             Assert.AreEqual(0u, value.Fractional);
-            value = new Fixed(123);
+            value = new Fixed(123, 0);
             Assert.AreEqual(123, value.Integer);
             Assert.AreEqual(0u, value.Fractional);
             value = new Fixed(123, 456);
@@ -164,8 +164,8 @@ namespace Ksnm.Numerics.Tests
         public void OperationsTest1()
         {
             var value = (Fixed)123;
-            var expected1 = new Fixed(+123);
-            var expected2 = new Fixed(-123);
+            var expected1 = new Fixed(+123, 0);
+            var expected2 = new Fixed(-123, 0);
             var expected3 = new Fixed(); expected3.SetBits(~expected1.Bits);
             Assert.AreEqual(expected1, +value, Debug.GetFilePathAndLineNumber());
             Assert.AreEqual(expected2, -value, Debug.GetFilePathAndLineNumber());

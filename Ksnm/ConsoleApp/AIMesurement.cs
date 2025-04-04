@@ -35,6 +35,11 @@ namespace ConsoleApp
         {
            TestLogicGate<Fixed64>();
         }
+        [Benchmark]
+        public void TestLogicGate_Fixed32()
+        {
+            TestLogicGate<Fixed32>();
+        }
         //[Benchmark]
         //public void TestLogicGate_Float8()
         //{

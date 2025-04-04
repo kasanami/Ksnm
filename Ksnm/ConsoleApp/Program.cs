@@ -6,6 +6,7 @@ global using BFloat16 = Ksnm.Numerics.FloatingPointNumber16E8M7;
 global using Float16 = System.Half;
 global using Float32 = System.Single;
 global using Float64 = System.Double;
+global using Fixed32 = Ksnm.Numerics.FixedPointNumber32Q16;
 global using Fixed64 = Ksnm.Numerics.FixedPointNumber64Q32;
 global using Fraction32 = Ksnm.Numerics.Fraction<System.Int16>;
 global using MatrixF64 = Ksnm.Numerics.Matrix<double>;
