@@ -134,16 +134,16 @@ namespace Ksnm.Numerics
         /// <summary>
         /// 全体のビット
         /// </summary>
-        public BitsType Bits { get { return bits; } }
+        public BitsType Bits => bits;
         /// <summary>
         /// 整数部
         /// 注意点：負数のとき、-0.1は-1。-1.1は-2になる。Floor関数を使用して整数にした値と同じ。
         /// </summary>
-        public IntegerType Integer { get { return integer; } }
+        public IntegerType Integer => integer;
         /// <summary>
         /// 小数部
         /// </summary>
-        public FractionalType Fractional { get { return fractional; } }
+        public FractionalType Fractional => fractional;
         #endregion プロパティ
 
         /// <summary>
@@ -386,18 +386,14 @@ namespace Ksnm.Numerics
         /// </summary>
         public static FixedPointNumber operator +(FixedPointNumber valueL, FixedPointNumber valueR)
         {
-            var temp = new FixedPointNumber();
-            temp.bits = valueL.bits + valueR.bits;
-            return temp;
+            return new(valueL.bits + valueR.bits);
         }
         /// <summary>
         /// 減算
         /// </summary>
         public static FixedPointNumber operator -(FixedPointNumber valueL, FixedPointNumber valueR)
         {
-            var temp = new FixedPointNumber();
-            temp.bits = valueL.bits - valueR.bits;
-            return temp;
+            return new(valueL.bits - valueR.bits);
         }
         /// <summary>
         /// 乗算
@@ -407,7 +403,7 @@ namespace Ksnm.Numerics
             BigBitsType temp = valueL.bits;
             temp *= valueR.bits;
             temp >>= QBits;
-            return new FixedPointNumber() { bits = (BitsType)temp };
+            return new((BitsType)temp);
         }
         /// <summary>
         /// 除算
@@ -417,70 +413,70 @@ namespace Ksnm.Numerics
             BigBitsType temp = valueL.bits;
             temp <<= QBits;
             temp /= valueR.bits;
-            return new FixedPointNumber() { bits = (BitsType)temp };
+            return new((BitsType)temp);
         }
         /// <summary>
         /// 剰余演算
         /// </summary>
         public static FixedPointNumber operator %(FixedPointNumber valueL, FixedPointNumber valueR)
         {
-            return new FixedPointNumber() { bits = valueL.bits % valueR.bits };
+            return new(valueL.bits % valueR.bits);
         }
         /// <summary>
         /// 論理積
         /// </summary>
         public static FixedPointNumber operator &(FixedPointNumber valueL, FixedPointNumber valueR)
         {
-            return new FixedPointNumber() { bits = valueL.bits & valueR.bits };
+            return new(valueL.bits & valueR.bits);
         }
         /// <summary>
         /// 論理積
         /// </summary>
         public static FixedPointNumber operator &(FixedPointNumber valueL, BitsType valueR)
         {
-            return new FixedPointNumber() { bits = valueL.bits & valueR };
+            return new(valueL.bits & valueR);
         }
         /// <summary>
         /// 論理和
         /// </summary>
         public static FixedPointNumber operator |(FixedPointNumber valueL, FixedPointNumber valueR)
         {
-            return new FixedPointNumber() { bits = valueL.bits | valueR.bits };
+            return new(valueL.bits | valueR.bits);
         }
         /// <summary>
         /// 論理和
         /// </summary>
         public static FixedPointNumber operator |(FixedPointNumber valueL, BitsType valueR)
         {
-            return new FixedPointNumber() { bits = valueL.bits | valueR };
+            return new(valueL.bits | valueR);
         }
         /// <summary>
         /// 排他的論理和
         /// </summary>
         public static FixedPointNumber operator ^(FixedPointNumber valueL, FixedPointNumber valueR)
         {
-            return new FixedPointNumber() { bits = valueL.bits ^ valueR.bits };
+            return new(valueL.bits ^ valueR.bits);
         }
         /// <summary>
         /// 排他的論理和
         /// </summary>
         public static FixedPointNumber operator ^(FixedPointNumber valueL, BitsType valueR)
         {
-            return new FixedPointNumber() { bits = valueL.bits ^ valueR };
+            return new(valueL.bits ^ valueR);
         }
         /// <summary>
         /// 左シフト
         /// </summary>
         public static FixedPointNumber operator <<(FixedPointNumber value, int shift)
         {
-            return new FixedPointNumber() { bits = value.bits << shift };
+            return new(value.bits << shift);
         }
         /// <summary>
         /// 右シフト
         /// </summary>
         public static FixedPointNumber operator >>(FixedPointNumber value, int shift)
         {
-            return new FixedPointNumber() { bits = value.bits >> shift };
+            return new(value.bits >> shift);
         }
         #endregion 2項演算子
 
@@ -543,16 +539,8 @@ namespace Ksnm.Numerics
         public static explicit operator FixedPointNumber(UInt128 value) => new((IntegerType)value, 0);
         public static explicit operator FixedPointNumber(Half value) => (FixedPointNumber)(double)value;
         public static explicit operator FixedPointNumber(float value) => (FixedPointNumber)(double)value;
-        public static explicit operator FixedPointNumber(double value)
-        {
-            value *= OneBits;
-            return new FixedPointNumber() { bits = (BitsType)value };
-        }
-        public static explicit operator FixedPointNumber(decimal value)
-        {
-            value *= OneBits;
-            return new FixedPointNumber() { bits = (BitsType)value };
-        }
+        public static explicit operator FixedPointNumber(double value) => new((BitsType)(value * OneBits));
+        public static explicit operator FixedPointNumber(decimal value) => new((BitsType)(value * OneBits));
         #endregion 他の型→固定小数点数型
         #region 固定小数点数型→他の型
         public static explicit operator byte(FixedPointNumber value) => (byte)Truncate(value).integer;
@@ -567,18 +555,8 @@ namespace Ksnm.Numerics
         public static explicit operator UInt128(FixedPointNumber value) => (UInt128)Truncate(value).integer;
         public static explicit operator Half(FixedPointNumber value) => (Half)(double)value;
         public static explicit operator float(FixedPointNumber value) => (float)(double)value;
-        public static explicit operator double(FixedPointNumber value)
-        {
-            double temp = value.bits;
-            temp /= OneBits;
-            return temp;
-        }
-        public static explicit operator decimal(FixedPointNumber value)
-        {
-            decimal temp = value.bits;
-            temp /= OneBits;
-            return temp;
-        }
+        public static explicit operator double(FixedPointNumber value) => (double)value.bits / OneBits;
+        public static explicit operator decimal(FixedPointNumber value) => (decimal)value.bits / OneBits;
         #endregion 固定小数点数型→他の型
         #endregion 型変換
 
@@ -958,14 +936,10 @@ namespace Ksnm.Numerics
         }
 
         public static FixedPointNumber Parse(ReadOnlySpan<char> s, NumberStyles style, IFormatProvider? provider)
-        {
-            throw new NotImplementedException();
-        }
+            => (FixedPointNumber)double.Parse(s, style, provider);
 
         public static FixedPointNumber Parse(string s, NumberStyles style, IFormatProvider? provider)
-        {
-            throw new NotImplementedException();
-        }
+            => (FixedPointNumber)double.Parse(s, style, provider);
 
         public static bool TryConvertFromChecked<TOther>(TOther value, [MaybeNullWhen(false)] out FixedPointNumber result) where TOther : INumberBase<TOther>
         {
@@ -1105,12 +1079,26 @@ namespace Ksnm.Numerics
 
         public static bool TryParse(ReadOnlySpan<char> s, NumberStyles style, IFormatProvider? provider, [MaybeNullWhen(false)] out FixedPointNumber result)
         {
-            throw new NotImplementedException();
+            double doubleResult;
+            if (double.TryParse(s, style, provider, out doubleResult))
+            {
+                result = (FixedPointNumber)doubleResult;
+                return true;
+            }
+            result = Zero;
+            return false;
         }
 
         public static bool TryParse([NotNullWhen(true)] string? s, NumberStyles style, IFormatProvider? provider, [MaybeNullWhen(false)] out FixedPointNumber result)
         {
-            throw new NotImplementedException();
+            double doubleResult;
+            if (double.TryParse(s, style, provider, out doubleResult))
+            {
+                result = (FixedPointNumber)doubleResult;
+                return true;
+            }
+            result = Zero;
+            return false;
         }
 
         public bool TryFormat(Span<char> destination, out int charsWritten, ReadOnlySpan<char> format, IFormatProvider? provider)
@@ -1120,23 +1108,35 @@ namespace Ksnm.Numerics
             => ((double)this).ToString(format, formatProvider);
 
         public static FixedPointNumber Parse(ReadOnlySpan<char> s, IFormatProvider? provider)
-        {
-            throw new NotImplementedException();
-        }
+            => (FixedPointNumber)double.Parse(s, provider);
 
         public static bool TryParse(ReadOnlySpan<char> s, IFormatProvider? provider, [MaybeNullWhen(false)] out FixedPointNumber result)
         {
-            throw new NotImplementedException();
+            double doubleResult;
+            if (double.TryParse(s, provider, out doubleResult))
+            {
+                result = (FixedPointNumber)doubleResult;
+                return true;
+            }
+            result = Zero;
+            return false;
         }
 
         public static FixedPointNumber Parse(string s, IFormatProvider? provider)
         {
-            throw new NotImplementedException();
+            return (FixedPointNumber)double.Parse(s, provider);
         }
 
         public static bool TryParse([NotNullWhen(true)] string? s, IFormatProvider? provider, [MaybeNullWhen(false)] out FixedPointNumber result)
         {
-            throw new NotImplementedException();
+            double doubleResult;
+            if (double.TryParse(s, provider, out doubleResult))
+            {
+                result = (FixedPointNumber)doubleResult;
+                return true;
+            }
+            result = Zero;
+            return false;
         }
         #endregion
     }
