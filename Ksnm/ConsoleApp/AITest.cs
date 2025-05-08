@@ -8,8 +8,6 @@ using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
 using Ksnm.MachineLearning.Clustering;
 
-using bfp16 = Ksnm.Numerics.FloatingPointNumber16E8M7;
-
 namespace ConsoleApp
 {
 #pragma warning disable CS0162 // 到達できないコードが検出されました
@@ -22,8 +20,8 @@ namespace ConsoleApp
             //TestLogicGate<double>();
             //TestLogicGate<float>();
             //TestLogicGate<Half>();
-            //TestLogicGate<bfp16>();
-            TestLogicGate<Fixed64>();
+            TestLogicGate<Fixed16>();
+            //TestLogicGate<Fixed64>();
             //TestNumericRecognition<double>();
             //TestNumericRecognition2<double>();
             //TestClustering<bfp16>();
@@ -41,10 +39,13 @@ namespace ConsoleApp
             var _10 = T.CreateChecked(10);
             var _12 = T.CreateChecked(12);
             var _15 = T.CreateChecked(15);
+            // はじめからほぼ正解を設定
+            var isSetAnswer = true;
             if (true)
             {
                 #region NOTゲート
-                Console.WriteLine("NOTゲート");
+                var name = "NOTゲート";
+                Console.WriteLine(name);
                 var nn = new MultilayerPerceptron<T>(1, 1, activation);
                 nn.Random = new Random(123456789);
                 // 目標値
@@ -53,21 +54,22 @@ namespace ConsoleApp
                     new ([_1],[_0]),
                     new ([_0],[_1]),
                 };
-                _LogicGate(nn, NotSample, _1, true);
+                _LogicGate(name, nn, NotSample, _1, true);
                 // はじめからほぼ正解を設定
-                if (false)
+                if (isSetAnswer)
                 {
                     Console.WriteLine("ほぼ正解を手動設定");
                     nn.ResultNeurons[0].Inputs[0].Weight = -_10;
                     nn.ResultNeurons[0].Bias = _5;
-                    _LogicGate(nn, NotSample, _1, false);
+                    _LogicGate(name, nn, NotSample, _1, false);
                 }
                 #endregion NOTゲート
             }
             if (true)
             {
                 #region ORゲート
-                Console.WriteLine("ORゲート");
+                var name = "ORゲート";
+                Console.WriteLine(name);
                 var nn = new MultilayerPerceptron<T>(2, 1, activation);
                 nn.Random = new Random(123456789);
                 // 目標値
@@ -78,22 +80,23 @@ namespace ConsoleApp
                     new Sample<T>([_1, _0],[_1]),
                     new Sample<T>([_1, _1],[_1]),
                 };
-                _LogicGate(nn, OrSample, _1, true);
+                _LogicGate(name, nn, OrSample, _1, true);
                 // はじめからほぼ正解を設定
-                if (false)
+                if (isSetAnswer)
                 {
                     Console.WriteLine("ほぼ正解を手動設定");
                     nn.ResultNeurons[0].Inputs[0].Weight = _10;
                     nn.ResultNeurons[0].Inputs[1].Weight = _10;
                     nn.ResultNeurons[0].Bias = -_5;
-                    _LogicGate(nn, OrSample, _1, false);
+                    _LogicGate(name, nn, OrSample, _1, false);
                 }
                 #endregion ORゲート
             }
             if (true)
             {
                 #region NORゲート
-                Console.WriteLine("NORゲート");
+                var name = "NORゲート";
+                Console.WriteLine(name);
                 var nn = new MultilayerPerceptron<T>(2, 1, activation);
                 nn.Random = new Random(123456789);
                 // 目標値
@@ -104,22 +107,23 @@ namespace ConsoleApp
                     new Sample<T>([_1, _0],[_0]),
                     new Sample<T>([_1, _1],[_0]),
                 };
-                _LogicGate(nn, OrSample, _1, true);
+                _LogicGate(name, nn, OrSample, _1, true);
                 // はじめからほぼ正解を設定
-                if (false)
+                if (isSetAnswer)
                 {
                     Console.WriteLine("ほぼ正解を手動設定");
                     nn.ResultNeurons[0].Inputs[0].Weight = -_8;
                     nn.ResultNeurons[0].Inputs[1].Weight = -_8;
                     nn.ResultNeurons[0].Bias = _5;
-                    _LogicGate(nn, OrSample, _1, false);
+                    _LogicGate(name, nn, OrSample, _1, false);
                 }
                 #endregion NORゲート
             }
             if (true)
             {
                 #region ANDゲート
-                Console.WriteLine("ANDゲート");
+                var name = "ANDゲート";
+                Console.WriteLine(name);
                 var nn = new MultilayerPerceptron<T>(2, 1, activation);
                 nn.Random = new Random(123456789);
                 // 目標値
@@ -130,22 +134,23 @@ namespace ConsoleApp
                     new Sample<T>([_1, _0],[_0]),
                     new Sample<T>([_1, _1],[_1]),
                 };
-                _LogicGate(nn, AndSample, _1, true);
+                _LogicGate(name, nn, AndSample, _1, true);
                 // はじめからほぼ正解を設定
-                if (false)
+                if (isSetAnswer)
                 {
                     Console.WriteLine("ほぼ正解を手動設定");
                     nn.ResultNeurons[0].Inputs[0].Weight = _10;
                     nn.ResultNeurons[0].Inputs[1].Weight = _10;
                     nn.ResultNeurons[0].Bias = -_15;
-                    _LogicGate(nn, AndSample, _1, false);
+                    _LogicGate(name, nn, AndSample, _1, false);
                 }
                 #endregion ANDゲート
             }
             if (true)
             {
                 #region NANDゲート
-                Console.WriteLine("NANDゲート");
+                var name = "NANDゲート";
+                Console.WriteLine(name);
                 var nn = new MultilayerPerceptron<T>(2, 1, activation);
                 nn.Random = new Random(123456789);
                 // 目標値
@@ -156,22 +161,23 @@ namespace ConsoleApp
                     new Sample<T>([_1, _0],[_1]),
                     new Sample<T>([_1, _1],[_0]),
                 };
-                _LogicGate(nn, AndSample, _1, true);
+                _LogicGate(name, nn, AndSample, _1, true);
                 // はじめからほぼ正解を設定
-                if (false)
+                if (isSetAnswer)
                 {
                     Console.WriteLine("ほぼ正解を手動設定");
                     nn.ResultNeurons[0].Inputs[0].Weight = -_8;
                     nn.ResultNeurons[0].Inputs[1].Weight = -_8;
                     nn.ResultNeurons[0].Bias = _12;
-                    _LogicGate(nn, AndSample, _1, false);
+                    _LogicGate(name, nn, AndSample, _1, false);
                 }
                 #endregion NANDゲート
             }
             if (true)
             {
                 #region XORゲート
-                Console.WriteLine("XORゲート");
+                var name = "XORゲート";
+                Console.WriteLine(name);
                 var nn = new MultilayerPerceptron<T>(2, 2, 1, activation, activation);
                 nn.Random = new Random(123456789);
                 // 目標値
@@ -182,9 +188,9 @@ namespace ConsoleApp
                     new Sample<T>([_1, _0],[_1]),
                     new Sample<T>([_1, _1],[_0]),
                 };
-                _LogicGate(nn, XorSample, _1, true);
+                _LogicGate(name, nn, XorSample, _1, true);
                 // はじめからほぼ正解を設定
-                if (false)
+                if (isSetAnswer)
                 {
                     Console.WriteLine("ほぼ正解を手動設定");
                     nn.HiddenNeurons[0].Inputs[0].Weight = +_5;
@@ -196,7 +202,7 @@ namespace ConsoleApp
                     nn.ResultNeurons[0].Inputs[0].Weight = -_10;
                     nn.ResultNeurons[0].Inputs[1].Weight = -_10;
                     nn.ResultNeurons[0].Bias = _15;
-                    _LogicGate(nn, XorSample, _1, false);
+                    _LogicGate(name, nn, XorSample, _1, false);
                 }
                 #endregion XORゲート
             }
@@ -370,7 +376,7 @@ namespace ConsoleApp
 
         }
 
-        static void _LogicGate<T>(MultilayerPerceptron<T> nn, IReadOnlyList<Sample<T>> samples, T learningRate, bool isResetWeights)
+        static void _LogicGate<T>(string name, MultilayerPerceptron<T> nn, IReadOnlyList<Sample<T>> samples, T learningRate, bool isResetWeights)
             where T : INumber<T>, IFloatingPointIeee754<T>, IMinMaxValue<T>
         {
             var _2 = T.CreateChecked(2);
@@ -412,7 +418,7 @@ namespace ConsoleApp
                 }
             }
             Console.WriteLine("--------------------------------");
-            Console.WriteLine("出力層の活性化関数を変更して出力を0と1に");
+            Console.WriteLine($"{name} 出力層の活性化関数を変更して出力を0と1に");
             {
                 nn.SetResultActivation(Activation<T>.HeavisideStep);
                 foreach (var sample in samples)

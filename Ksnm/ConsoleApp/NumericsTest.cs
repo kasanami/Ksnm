@@ -1,4 +1,5 @@
-﻿using Ksnm.Numerics;
+﻿using BenchmarkDotNet.Running;
+using Ksnm.Numerics;
 using System.Numerics;
 
 namespace ConsoleApp

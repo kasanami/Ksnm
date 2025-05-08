@@ -6,6 +6,7 @@ global using BFloat16 = Ksnm.Numerics.FloatingPointNumber16E8M7;
 global using Float16 = System.Half;
 global using Float32 = System.Single;
 global using Float64 = System.Double;
+global using Fixed16 = Ksnm.Numerics.FixedPointNumber16Q8;
 global using Fixed32 = Ksnm.Numerics.FixedPointNumber32Q16;
 global using Fixed64 = Ksnm.Numerics.FixedPointNumber64Q32;
 global using Fraction32 = Ksnm.Numerics.Fraction<System.Int16>;
@@ -19,15 +20,19 @@ namespace ConsoleApp
     {
         private static void Main(string[] args)
         {
-            //var summary = BenchmarkRunner.Run<StringConcatMesurement>();
-            //NumericsTest.Run();
-            //BenchmarkRunner.Run<NumericsMesurement>();
+            NumericsTest.Run();
             //GraphicsTest.Run();
             //ConjectureTest.Run();
             //MathTest.Run();
             //GenericMathTest.Run();
             //AITest.Run();
-            BenchmarkRunner.Run<AIMesurement>();
+
+            // Benchmark
+#if !DEBUG
+            //var summary = BenchmarkRunner.Run<StringConcatMesurement>();
+            //BenchmarkRunner.Run<NumericsMesurement>();
+            //BenchmarkRunner.Run<AIMesurement>();
+#endif
         }
     }
 }

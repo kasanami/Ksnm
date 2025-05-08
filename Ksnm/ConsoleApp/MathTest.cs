@@ -9,6 +9,13 @@ namespace ConsoleApp
     {
         public static void Run()
         {
+            Console.WriteLine("Exp");
+            {
+                Console.WriteLine($"double  :{Math.Exp<double>(1.0, double.Epsilon)}");
+                Console.WriteLine($"decimal :{Math.Exp<decimal>(decimal.One, Math.DecimalEpsilon)}");
+                Console.WriteLine($"Fixed16 :{Math.Exp<Fixed16>(Fixed16.One, Fixed16.Epsilon)}");
+            }
+
             FastInverseSqrtTest();
 
             // ネイピア数を計算

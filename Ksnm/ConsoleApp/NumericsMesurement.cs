@@ -7,36 +7,64 @@ using System.Text;
 
 namespace ConsoleApp
 {
-    using Float8 = Ksnm.Numerics.FloatingPointNumber8S1E4M3B7;
-    using BFloat16 = Ksnm.Numerics.FloatingPointNumber16E8M7;
-    using Float16 = System.Half;
-    using Float32 = System.Single;
-    using Float64 = System.Double;
-
     [MemoryDiagnoser]
     [MinColumn, MaxColumn]
     public class NumericsMesurement
     {
         [Benchmark]
-        public void TestMatrix_Float64()
+        public void TestInt64()
         {
-            TestMatrix<Float64>();
+            Test<Int64>();
+            //TestMatrix<Int64>();
         }
         [Benchmark]
-        public void TestMatrix_Float32()
+        public void TestFloat64()
         {
-            TestMatrix<Float32>();
+            Test<Float64>();
+            //TestMatrix<Float64>();
         }
         [Benchmark]
-        public void TestMatrix_Float16()
+        public void TestFloat32()
         {
-            TestMatrix<Float16>();
+            Test<Float32>();
+            //TestMatrix<Float32>();
         }
         [Benchmark]
-        public void TestMatrix_BFloat16()
+        public void TestFloat16()
         {
-            TestMatrix<BFloat16>();
+            Test<Float16>();
+            //TestMatrix<Float16>();
         }
+        [Benchmark]
+        public void TestBFloat16()
+        {
+            Test<BFloat16>();
+            //TestMatrix<BFloat16>();
+        }
+        [Benchmark]
+        public void TestFloat8()
+        {
+            Test<Float8>();
+        }
+        [Benchmark]
+        public void TestFixed64()
+        {
+            Test<Fixed64>();
+            //TestMatrix<Fixed32>();
+        }
+        [Benchmark]
+        public void TestFixed32()
+        {
+            Test<Fixed32>();
+            //TestMatrix<Fixed32>();
+        }
+        [Benchmark]
+        public void TestFixed16()
+        {
+            Test<Fixed16>();
+            //TestMatrix<Fixed16>();
+        }
+#if false
         [Benchmark]
         public void TestMatrix4x4()
         {
@@ -56,11 +84,7 @@ namespace ConsoleApp
             );
             var matrix3 = matrix1 * matrix2;
         }
-        //[Benchmark]
-        //public void TestLogicGate_Float8()
-        //{
-        //    TestLogicGate<Float8>();
-        //}
+#endif
         static void TestMatrix<T>()
             where T : INumber<T>, IFloatingPointIeee754<T>, IMinMaxValue<T>
         {
@@ -91,6 +115,12 @@ namespace ConsoleApp
             };
             var matrix3 = matrix1 * matrix2;
         }
-
+        static void Test<T>() where T : INumber<T>
+        {
+            T value1 = T.CreateChecked(1);
+            T value2 = T.CreateChecked(2);
+            T value3 = value1 * value2;
+            value3 *= value2;
+        }
     }
 }
