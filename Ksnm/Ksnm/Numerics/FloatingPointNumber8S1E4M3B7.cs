@@ -1,9 +1,11 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using Ksnm.ExtensionMethods.System.Double;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Numerics;
 
 namespace Ksnm.Numerics
 {
+    using FixedPointNumber = FloatingPointNumber8S1E4M3B7;
     using BitsType = System.Byte;
     /// <summary>
     /// 8ビット浮動小数点数型
@@ -11,9 +13,9 @@ namespace Ksnm.Numerics
     public struct FloatingPointNumber8S1E4M3B7 :
         IEquatable<FloatingPointNumber8S1E4M3B7>,
         IFloatingPointNumberBase,
-        IFloatingPointProperties<BitsType>
+        IFloatingPointProperties<BitsType>,
+        INumber<FloatingPointNumber8S1E4M3B7>
     {
-        public const int Radix = 2;
         #region 符号部
         /// <summary>
         /// 符号部のビットマスク
@@ -70,6 +72,8 @@ namespace Ksnm.Numerics
         #endregion 仮数部
 
         #region 定数
+        public const int Radix = 2;
+
         private const BitsType EpsilonBits = 0b0000_0001;
         public static FloatingPointNumber8S1E4M3B7 Epsilon => new(EpsilonBits);
 
@@ -79,8 +83,16 @@ namespace Ksnm.Numerics
 
         private const BitsType PositiveOneBits = 0b0_0111_000;
         private const BitsType NegativeOneBits = 0b1_0111_000;
-        public static FloatingPointNumber8S1E4M3B7 One => new (PositiveOneBits);
-        public static FloatingPointNumber8S1E4M3B7 NegativeOne => new (NegativeOneBits);
+        public static FloatingPointNumber8S1E4M3B7 One => new(PositiveOneBits);
+        public static FloatingPointNumber8S1E4M3B7 NegativeOne => new(NegativeOneBits);
+
+        static int INumberBase<FloatingPointNumber8S1E4M3B7>.Radix => Radix;
+
+        public static FloatingPointNumber8S1E4M3B7 Zero => new(0);
+
+        public static FloatingPointNumber8S1E4M3B7 AdditiveIdentity => Zero;
+
+        public static FloatingPointNumber8S1E4M3B7 MultiplicativeIdentity => One;
         #endregion 定数
 
         #region プロパティ
@@ -193,8 +205,8 @@ namespace Ksnm.Numerics
         public double Coefficient => Mantissa / (double)(1 << MantissaLength);
 
         bool IsZero => (Bits & ~SignMask) == 0;
-        bool IFloatingPointProperties<BitsType>.IsPositive=> IsPositive(this);
-        bool IFloatingPointProperties<BitsType>.IsNegative=> IsNegative(this);
+        bool IFloatingPointProperties<BitsType>.IsPositive => IsPositive(this);
+        bool IFloatingPointProperties<BitsType>.IsNegative => IsNegative(this);
         bool IFloatingPointProperties<BitsType>.IsInfinity
             => (ExponentBits == InfinityExponentBits) && (MantissaBits == 0);
         bool IFloatingPointProperties<BitsType>.IsPositiveInfinity
@@ -214,7 +226,25 @@ namespace Ksnm.Numerics
         {
             Bits = bits;
         }
+        public FloatingPointNumber8S1E4M3B7(ExtendedDouble value)
+        {
+            Bits = CreateBits(
+                (BitsType)value.SignBit,
+                (BitsType)(value.ExponentBits >> (ExtendedDouble.ExponentLength - ExponentLength)),
+                (BitsType)(value.MantissaBits >> (ExtendedDouble.MantissaLength - MantissaLength)));
+        }
         #endregion コンストラクタ
+
+        #region 
+        static BitsType CreateBits(BitsType signBit, BitsType exponentBits, BitsType mantissaBits)
+        {
+            return BitsOr(signBit << SignShift, exponentBits << ExponentShift, mantissaBits);
+        }
+        static BitsType BitsOr(int bits1, int bits2, int bits3)
+        {
+            return (BitsType)(bits1 | bits2 | bits3);
+        }
+        #endregion 
 
         #region 型変換
         public double ToDouble()
@@ -234,19 +264,71 @@ namespace Ksnm.Numerics
             return IFloatingPointNumberBase.FromSingle<FloatingPointNumber8S1E4M3B7, BitsType>(value);
         }
 
-        public static explicit operator FloatingPointNumber8S1E4M3B7(double value)
-        {
-            return FromDouble(value);
-        }
-        public static implicit operator float(FloatingPointNumber8S1E4M3B7 value)
-        {
-            return value.ToSingle();
-        }
-        public static implicit operator double(FloatingPointNumber8S1E4M3B7 value)
-        {
-            return value.ToDouble();
-        }
+        public static explicit operator FloatingPointNumber8S1E4M3B7(char value) => FromDouble((double)value);
+        public static explicit operator FloatingPointNumber8S1E4M3B7(byte value) => FromDouble((double)value);
+        public static explicit operator FloatingPointNumber8S1E4M3B7(short value) => FromDouble((double)value);
+        public static explicit operator FloatingPointNumber8S1E4M3B7(ushort value) => FromDouble((double)value);
+        public static explicit operator FloatingPointNumber8S1E4M3B7(int value) => FromDouble((double)value);
+        public static explicit operator FloatingPointNumber8S1E4M3B7(uint value) => FromDouble((double)value);
+        public static explicit operator FloatingPointNumber8S1E4M3B7(long value) => FromDouble((double)value);
+        public static explicit operator FloatingPointNumber8S1E4M3B7(ulong value) => FromDouble((double)value);
+        public static explicit operator FloatingPointNumber8S1E4M3B7(Half value) => FromDouble((double)value);
+        public static explicit operator FloatingPointNumber8S1E4M3B7(float value) => FromDouble((double)value);
+        public static explicit operator FloatingPointNumber8S1E4M3B7(double value)=> FromDouble(value);
+        public static explicit operator FloatingPointNumber8S1E4M3B7(decimal value) => FromDouble((double)value);
+        public static explicit operator FloatingPointNumber8S1E4M3B7(Int128 value)=> FromDouble((double)value);
+        public static explicit operator FloatingPointNumber8S1E4M3B7(UInt128 value) => FromDouble((double)value);
+        public static implicit operator float(FloatingPointNumber8S1E4M3B7 value)=> value.ToSingle();
+        public static implicit operator double(FloatingPointNumber8S1E4M3B7 value)=> value.ToDouble();
         #endregion 型変換
+
+        public static bool operator >(FloatingPointNumber8S1E4M3B7 left, FloatingPointNumber8S1E4M3B7 right)
+            => left.ToDouble() > right.ToDouble();
+
+        public static bool operator >=(FloatingPointNumber8S1E4M3B7 left, FloatingPointNumber8S1E4M3B7 right)
+            => left.ToDouble() >= right.ToDouble();
+
+        public static bool operator <(FloatingPointNumber8S1E4M3B7 left, FloatingPointNumber8S1E4M3B7 right)
+            => left.ToDouble() < right.ToDouble();
+
+        public static bool operator <=(FloatingPointNumber8S1E4M3B7 left, FloatingPointNumber8S1E4M3B7 right)
+            => left.ToDouble() <= right.ToDouble();
+
+        public static FloatingPointNumber8S1E4M3B7 operator %(FloatingPointNumber8S1E4M3B7 left, FloatingPointNumber8S1E4M3B7 right)
+            => new(left.ToDouble() % right.ToDouble());
+
+        public static FloatingPointNumber8S1E4M3B7 operator +(FloatingPointNumber8S1E4M3B7 left, FloatingPointNumber8S1E4M3B7 right)
+            => new(left.ToDouble() + right.ToDouble());
+
+        public static FloatingPointNumber8S1E4M3B7 operator --(FloatingPointNumber8S1E4M3B7 value)
+            => throw new NotImplementedException();
+
+        public static FloatingPointNumber8S1E4M3B7 operator /(FloatingPointNumber8S1E4M3B7 left, FloatingPointNumber8S1E4M3B7 right)
+            => new(left.ToDouble() / right.ToDouble());
+
+        public static bool operator ==(FloatingPointNumber8S1E4M3B7 left, FloatingPointNumber8S1E4M3B7 right)
+            => left.ToDouble() == right.ToDouble();
+
+        public static bool operator !=(FloatingPointNumber8S1E4M3B7 left, FloatingPointNumber8S1E4M3B7 right)
+            => left.ToDouble() != right.ToDouble();
+
+        public static FloatingPointNumber8S1E4M3B7 operator ++(FloatingPointNumber8S1E4M3B7 value)
+            => throw new NotImplementedException();
+
+        public static FloatingPointNumber8S1E4M3B7 operator *(FloatingPointNumber8S1E4M3B7 left, FloatingPointNumber8S1E4M3B7 right)
+            => new(left.ToDouble() * right.ToDouble());
+
+        public static FloatingPointNumber8S1E4M3B7 operator -(FloatingPointNumber8S1E4M3B7 left, FloatingPointNumber8S1E4M3B7 right)
+            => new(left.ToDouble() - right.ToDouble());
+
+        public static FloatingPointNumber8S1E4M3B7 operator -(FloatingPointNumber8S1E4M3B7 value)
+        {
+            value.SignBit ^= SignMask;
+            return value;
+        }
+
+        public static FloatingPointNumber8S1E4M3B7 operator +(FloatingPointNumber8S1E4M3B7 value)
+            => value;
 
         #region IEquatable
         /// <summary>
@@ -295,43 +377,31 @@ namespace Ksnm.Numerics
 
         #region INumberBase
         public static FloatingPointNumber8S1E4M3B7 Abs(FloatingPointNumber8S1E4M3B7 value)
-        {
-            throw new NotImplementedException();
-        }
+            => new(value.Bits & ~SignMask);
 
         public static bool IsCanonical(FloatingPointNumber8S1E4M3B7 value)
-        {
-            throw new NotImplementedException();
-        }
+            => value.ExponentBits != 0 && value.MantissaBits != 0;
 
         public static bool IsComplexNumber(FloatingPointNumber8S1E4M3B7 value)
-        {
-            throw new NotImplementedException();
-        }
+            => false;
 
         public static bool IsEvenInteger(FloatingPointNumber8S1E4M3B7 value)
-        {
-            throw new NotImplementedException();
-        }
+            => throw new NotImplementedException();
 
         public static bool IsFinite(FloatingPointNumber8S1E4M3B7 value)
-        {
-            throw new NotImplementedException();
-        }
+            => value.ExponentBits != InfinityExponentBits && value.MantissaBits != 0;
 
         public static bool IsImaginaryNumber(FloatingPointNumber8S1E4M3B7 value)
             => false;
 
         public static bool IsInfinity(FloatingPointNumber8S1E4M3B7 value)
-            => value.ExponentBits == 0b1111 && value.MantissaBits == 0;
+            => value.ExponentBits == InfinityExponentBits && value.MantissaBits == 0;
 
         public static bool IsInteger(FloatingPointNumber8S1E4M3B7 value)
-        {
-            throw new NotImplementedException();
-        }
+            => value.ToDouble().IsInteger();
 
         public static bool IsNaN(FloatingPointNumber8S1E4M3B7 value)
-            => value.ExponentBits == 0b1111 && value.MantissaBits != 0;
+            => value.ExponentBits == InfinityExponentBits && value.MantissaBits != 0;
 
         public static bool IsNegative(FloatingPointNumber8S1E4M3B7 value)
             => value.SignBit == 1;
@@ -340,14 +410,10 @@ namespace Ksnm.Numerics
             => IsNegative(value) && IsInfinity(value);
 
         public static bool IsNormal(FloatingPointNumber8S1E4M3B7 value)
-        {
-            throw new NotImplementedException();
-        }
+            => value.ExponentBits != 0 && value.ExponentBits != InfinityExponentBits && value.MantissaBits != 0;
 
         public static bool IsOddInteger(FloatingPointNumber8S1E4M3B7 value)
-        {
-            throw new NotImplementedException();
-        }
+            => throw new NotImplementedException();
 
         public static bool IsPositive(FloatingPointNumber8S1E4M3B7 value)
             => value.SignBit == 0;
@@ -358,43 +424,135 @@ namespace Ksnm.Numerics
         public static bool IsRealNumber(FloatingPointNumber8S1E4M3B7 value) => true;
 
         public static bool IsSubnormal(FloatingPointNumber8S1E4M3B7 value)
-        {
-            throw new NotImplementedException();
-        }
+            => value.ExponentBits == 0 && value.MantissaBits != 0;
 
         public static FloatingPointNumber8S1E4M3B7 MaxMagnitude(FloatingPointNumber8S1E4M3B7 x, FloatingPointNumber8S1E4M3B7 y)
-        {
-            throw new NotImplementedException();
-        }
+            => x > y ? x : y;
 
         public static FloatingPointNumber8S1E4M3B7 MaxMagnitudeNumber(FloatingPointNumber8S1E4M3B7 x, FloatingPointNumber8S1E4M3B7 y)
-        {
-            throw new NotImplementedException();
-        }
+            => x > y ? x : y;
 
         public static FloatingPointNumber8S1E4M3B7 MinMagnitude(FloatingPointNumber8S1E4M3B7 x, FloatingPointNumber8S1E4M3B7 y)
-        {
-            throw new NotImplementedException();
-        }
+            => x < y ? x : y;
 
         public static FloatingPointNumber8S1E4M3B7 MinMagnitudeNumber(FloatingPointNumber8S1E4M3B7 x, FloatingPointNumber8S1E4M3B7 y)
-        {
-            throw new NotImplementedException();
-        }
+            => x < y ? x : y;
 
         public static FloatingPointNumber8S1E4M3B7 Parse(ReadOnlySpan<char> s, NumberStyles style, IFormatProvider? provider)
-        {
-            throw new NotImplementedException();
-        }
+            => (FloatingPointNumber8S1E4M3B7)double.Parse(s, style, provider);
 
         public static FloatingPointNumber8S1E4M3B7 Parse(string s, NumberStyles style, IFormatProvider? provider)
-        {
-            throw new NotImplementedException();
-        }
+            => (FloatingPointNumber8S1E4M3B7)double.Parse(s, style, provider);
 
         public static bool TryConvertFromChecked<TOther>(TOther value, [MaybeNullWhen(false)] out FloatingPointNumber8S1E4M3B7 result) where TOther : INumberBase<TOther>
         {
-            throw new NotImplementedException();
+            if (typeof(TOther) == typeof(char))
+            {
+                char actualValue = (char)(object)value;
+                result = checked((FixedPointNumber)actualValue);
+                return true;
+            }
+            else if (typeof(TOther) == typeof(byte))
+            {
+                byte actualValue = (byte)(object)value;
+                result = checked((FixedPointNumber)actualValue);
+                return true;
+            }
+            else if (typeof(TOther) == typeof(sbyte))
+            {
+                sbyte actualValue = (sbyte)(object)value;
+                result = checked((FixedPointNumber)actualValue);
+                return true;
+            }
+            else if (typeof(TOther) == typeof(short))
+            {
+                short actualValue = (short)(object)value;
+                result = checked((FixedPointNumber)actualValue);
+                return true;
+            }
+            else if (typeof(TOther) == typeof(ushort))
+            {
+                ushort actualValue = (ushort)(object)value;
+                result = checked((FixedPointNumber)actualValue);
+                return true;
+            }
+            else if (typeof(TOther) == typeof(int))
+            {
+                int actualValue = (int)(object)value;
+                result = checked((FixedPointNumber)actualValue);
+                return true;
+            }
+            else if (typeof(TOther) == typeof(uint))
+            {
+                uint actualValue = (uint)(object)value;
+                result = checked((FixedPointNumber)actualValue);
+                return true;
+            }
+            else if (typeof(TOther) == typeof(long))
+            {
+                long actualValue = (long)(object)value;
+                result = checked((FixedPointNumber)actualValue);
+                return true;
+            }
+            else if (typeof(TOther) == typeof(ulong))
+            {
+                ulong actualValue = (ulong)(object)value;
+                result = checked((FixedPointNumber)actualValue);
+                return true;
+            }
+            else if (typeof(TOther) == typeof(Int128))
+            {
+                Int128 actualValue = (Int128)(object)value;
+                result = checked((FixedPointNumber)actualValue);
+                return true;
+            }
+            else if (typeof(TOther) == typeof(UInt128))
+            {
+                UInt128 actualValue = (UInt128)(object)value;
+                result = checked((FixedPointNumber)actualValue);
+                return true;
+            }
+            else if (typeof(TOther) == typeof(nint))
+            {
+                nint actualValue = (nint)(object)value;
+                result = checked((FixedPointNumber)actualValue);
+                return true;
+            }
+            else if (typeof(TOther) == typeof(nuint))
+            {
+                nuint actualValue = (nuint)(object)value;
+                result = checked((FixedPointNumber)actualValue);
+                return true;
+            }
+            else if (typeof(TOther) == typeof(Half))
+            {
+                Half actualValue = (Half)(object)value;
+                result = checked((FixedPointNumber)actualValue);
+                return true;
+            }
+            else if (typeof(TOther) == typeof(float))
+            {
+                float actualValue = (float)(object)value;
+                result = checked((FixedPointNumber)actualValue);
+                return true;
+            }
+            else if (typeof(TOther) == typeof(double))
+            {
+                double actualValue = (double)(object)value;
+                result = checked((FixedPointNumber)actualValue);
+                return true;
+            }
+            else if (typeof(TOther) == typeof(decimal))
+            {
+                decimal actualValue = (decimal)(object)value;
+                result = checked((FixedPointNumber)actualValue);
+                return true;
+            }
+            else
+            {
+                result = default;
+                return false;
+            }
         }
 
         public static bool TryConvertFromSaturating<TOther>(TOther value, [MaybeNullWhen(false)] out FloatingPointNumber8S1E4M3B7 result) where TOther : INumberBase<TOther>
@@ -461,6 +619,31 @@ namespace Ksnm.Numerics
         {
             throw new NotImplementedException();
         }
+
+        public int CompareTo(object? obj)
+        {
+            if (obj is FloatingPointNumber8S1E4M3B7 other)
+            {
+                return CompareTo(other);
+            }
+            throw new ArgumentException($"Argument must be of type {nameof(FloatingPointNumber8S1E4M3B7)}", nameof(obj));
+        }
+
+        public int CompareTo(FloatingPointNumber8S1E4M3B7 other)
+        {
+            if (this == other)
+            {
+                return 0;
+            }
+            if (this < other)
+            {
+                return -1;
+            }
+            return 1;
+        }
+
+        static bool INumberBase<FloatingPointNumber8S1E4M3B7>.IsZero(FloatingPointNumber8S1E4M3B7 value)
+            => value.IsZero;
         #endregion INumberBase
     }
 }
