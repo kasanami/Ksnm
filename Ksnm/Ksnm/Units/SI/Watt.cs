@@ -63,20 +63,10 @@ namespace Ksnm.Units.SI
         }
         #endregion コンストラクタ
         #region 演算子
-        /// <summary>
-        /// 乗算
-        /// </summary>
-        public static Watt<T> operator *(T value, Watt<T> quantity)
-        {
-            return new Watt<T>(value * quantity.Value);
-        }
-        /// <summary>
-        /// 乗算
-        /// </summary>
-        public static Watt<T> operator *(Watt<T> quantity, T value)
-        {
-            return new Watt<T>(quantity.Value * value);
-        }
+        public static Watt<T> operator *(T value, Watt<T> quantity) => new(value * quantity.Value);
+        public static Watt<T> operator *(Watt<T> quantity, T value) => new(quantity.Value * value);
+        public static Ampere<T> operator /(Watt<T> watt, Volt<T> volt) => new(watt.Value / volt.Value);
+        public static Volt<T> operator /(Watt<T> watt, Ampere<T> ampere) => new(watt.Value / ampere.Value);
         #endregion 演算子
     }
 }

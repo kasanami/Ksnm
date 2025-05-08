@@ -56,20 +56,9 @@ namespace Ksnm.Units.SI
         public Ohm(T value) : base(value) { }
         #endregion コンストラクタ
         #region 演算子
-        /// <summary>
-        /// 乗算
-        /// </summary>
-        public static Ohm<T> operator *(T value, Ohm<T> quantity)
-        {
-            return new Ohm<T>(value * quantity.Value);
-        }
-        /// <summary>
-        /// 乗算
-        /// </summary>
-        public static Ohm<T> operator *(Ohm<T> quantity, T value)
-        {
-            return new Ohm<T>(quantity.Value * value);
-        }
+        public static Ohm<T> operator *(T value, Ohm<T> quantity) => new(value * quantity.Value);
+        public static Ohm<T> operator *(Ohm<T> quantity, T value) => new(quantity.Value * value);
+        public static Volt<T> operator *(Ohm<T> ohm, Ampere<T> ampere) => new(ohm.Value * ampere.Value);
         #endregion 演算子
     }
 }

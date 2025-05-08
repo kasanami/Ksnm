@@ -65,20 +65,11 @@ namespace Ksnm.Units.SI
         }
         #endregion コンストラクタ
         #region 演算子
-        /// <summary>
-        /// 乗算
-        /// </summary>
-        public static Volt<T> operator *(T value, Volt<T> quantity)
-        {
-            return new Volt<T>(value * quantity.Value);
-        }
-        /// <summary>
-        /// 乗算
-        /// </summary>
-        public static Volt<T> operator *(Volt<T> quantity, T value)
-        {
-            return new Volt<T>(quantity.Value * value);
-        }
+        public static Volt<T> operator *(T value, Volt<T> quantity) => new(value * quantity.Value);
+        public static Volt<T> operator *(Volt<T> quantity, T value) => new(quantity.Value * value);
+        public static Watt<T> operator *(Volt<T> volt, Ampere<T> ampere) => new(volt.Value * ampere.Value);
+        public static Ohm<T> operator /(Volt<T> volt, Ampere<T> ampere) => new(volt.Value / ampere.Value);
+        public static Ampere<T> operator /(Volt<T> volt, Ohm<T> ohm) => new(volt.Value / ohm.Value);
         #endregion 演算子
     }
 }
