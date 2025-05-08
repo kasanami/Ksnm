@@ -1580,6 +1580,10 @@ namespace Ksnm
                     break;
                 }
                 n++;
+                if (n == T.Zero)
+                {
+                    break;
+                }
             }
             return sum;
         }
@@ -1674,6 +1678,10 @@ namespace Ksnm
                 }
                 numerator *= termSquared;
                 k += _2;
+                if (k == T.Zero)
+                {
+                    break;
+                }
             }
             return _2 * sum;
         }
