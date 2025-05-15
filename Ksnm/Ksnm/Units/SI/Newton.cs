@@ -75,31 +75,19 @@ namespace Ksnm.Units.SI
         /// <summary>
         /// 力と面積から圧力を計算する
         /// </summary>
-        public static Pascal<T> operator /(Newton<T> force, SquareMetre<T> area)
-        {
-            return new Pascal<T>(force, area);
-        }
+        public static Pascal<T> operator /(Newton<T> force, SquareMetre<T> area) => new(force, area);
         /// <summary>
         /// 力と距離からエネルギーを計算する
         /// </summary>
-        public static Joule<T> operator *(Newton<T> force, Metre<T> length)
-        {
-            return new Joule<T>(force, length);
-        }
+        public static Joule<T> operator *(Newton<T> force, Metre<T> length) => new(force, length);
         /// <summary>
         /// 乗算
         /// </summary>
-        public static Newton<T> operator *(T value, Newton<T> quantity)
-        {
-            return new Newton<T>(value * quantity.Value);
-        }
+        public static Newton<T> operator *(T value, Newton<T> quantity) => new(value * quantity.Value);
         /// <summary>
         /// 乗算
         /// </summary>
-        public static Newton<T> operator *(Newton<T> quantity, T value)
-        {
-            return new Newton<T>(quantity.Value * value);
-        }
+        public static Newton<T> operator *(Newton<T> quantity, T value) => new(quantity.Value * value);
         #endregion 演算子
         #region 型変換
         /// <summary>

@@ -65,8 +65,9 @@ namespace Ksnm.Units.SI
         #region 演算子
         public static Watt<T> operator *(T value, Watt<T> quantity) => new(value * quantity.Value);
         public static Watt<T> operator *(Watt<T> quantity, T value) => new(quantity.Value * value);
-        public static Ampere<T> operator /(Watt<T> watt, Volt<T> volt) => new(watt.Value / volt.Value);
-        public static Volt<T> operator /(Watt<T> watt, Ampere<T> ampere) => new(watt.Value / ampere.Value);
+        public static Ampere<T> operator /(Watt<T> power, Volt<T> volt) => new(power.Value / volt.Value);
+        public static Volt<T> operator /(Watt<T> power, Ampere<T> ampere) => new(power.Value / ampere.Value);
+        public static Joule<T> operator *(Watt<T> power, Second<T> second) => new(power.Value * second.Value);
         #endregion 演算子
     }
 }

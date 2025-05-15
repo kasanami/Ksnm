@@ -68,27 +68,10 @@ namespace Ksnm.Units.SI
         public Joule(NonSI.Calorie<T> energy) : this(energy.Value * T.CreateChecked(4.184m)) { }
         #endregion コンストラクタ
         #region 演算子
-        /// <summary>
-        /// エネルギーと時間から仕事率を計算する
-        /// </summary>
-        public static Watt<T> operator /(Joule<T> energy, Second<T> time)
-        {
-            return new Watt<T>(energy, time);
-        }
-        /// <summary>
-        /// 乗算
-        /// </summary>
-        public static Joule<T> operator *(T value, Joule<T> quantity)
-        {
-            return new Joule<T>(value * quantity.Value);
-        }
-        /// <summary>
-        /// 乗算
-        /// </summary>
-        public static Joule<T> operator *(Joule<T> quantity, T value)
-        {
-            return new Joule<T>(quantity.Value * value);
-        }
+        public static Watt<T> operator /(Joule<T> energy, Second<T> time) => new(energy, time);
+        public static Newton<T> operator /(Joule<T> energy, Metre<T> length) => new(energy.Value / length.Value);
+        public static Joule<T> operator *(T value, Joule<T> quantity) => new(value * quantity.Value);
+        public static Joule<T> operator *(Joule<T> quantity, T value) => new(quantity.Value * value);
         #endregion 演算子
         #region 型変換
         /// <summary>
