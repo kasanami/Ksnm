@@ -68,27 +68,9 @@ namespace Ksnm.Units.SI
         }
         #endregion コンストラクタ
         #region 演算子
-        /// <summary>
-        /// 半径と角度から円弧を計算する
-        /// </summary>
-        public static Metre<T> operator *(Metre<T> radius, Radian<T> radian)
-        {
-            return new Metre<T>(radius.Value * radian.Value);
-        }
-        /// <summary>
-        /// 乗算
-        /// </summary>
-        public static Radian<T> operator *(T value, Radian<T> quantity)
-        {
-            return new Radian<T>(value * quantity.Value);
-        }
-        /// <summary>
-        /// 乗算
-        /// </summary>
-        public static Radian<T> operator *(Radian<T> quantity, T value)
-        {
-            return new Radian<T>(quantity.Value * value);
-        }
+        public static Metre<T> operator *(Metre<T> radius, Radian<T> radian) => new(radius.Value * radian.Value);
+        public static Radian<T> operator *(T value, Radian<T> quantity) => new(value * quantity.Value);
+        public static Radian<T> operator *(Radian<T> quantity, T value) => new(quantity.Value * value);
         #endregion 演算子
     }
 }
