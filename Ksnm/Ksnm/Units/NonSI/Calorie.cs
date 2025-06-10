@@ -58,32 +58,14 @@ namespace Ksnm.Units.NonSI
         /// <summary>
         /// 別のエネルギーから初期化
         /// </summary>
-        public Calorie(SI.Joule<T> energy) : this(energy.Value / T.CreateChecked(4.184m)) { }
+        public Calorie(SI.Joule<T> energy) : this(energy.Value / _4_184) { }
         #endregion コンストラクタ
         #region 演算子
-        /// <summary>
-        /// 乗算
-        /// </summary>
-        public static Calorie<T> operator *(T value, Calorie<T> quantity)
-        {
-            return new Calorie<T>(value * quantity.Value);
-        }
-        /// <summary>
-        /// 乗算
-        /// </summary>
-        public static Calorie<T> operator *(Calorie<T> quantity, T value)
-        {
-            return new Calorie<T>(quantity.Value * value);
-        }
+        public static Calorie<T> operator *(T value, Calorie<T> quantity) => new(value * quantity.Value);
+        public static Calorie<T> operator *(Calorie<T> quantity, T value) => new(quantity.Value * value);
         #endregion 演算子
         #region 型変換
-        /// <summary>
-        /// 明示的な変換を定義します。
-        /// </summary>
-        public static explicit operator Calorie<T>(SI.Joule<T> energy)
-        {
-            return new Calorie<T>(energy);
-        }
+        public static explicit operator Calorie<T>(SI.Joule<T> energy) => new(energy);
         #endregion 型変換
     }
 }
