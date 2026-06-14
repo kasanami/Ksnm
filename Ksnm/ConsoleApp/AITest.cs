@@ -673,7 +673,7 @@ namespace ConsoleApp
             where T : INumber<T>, IRootFunctions<T>, IMinMaxValue<T>
         {
             // 描画領域を作成
-            using (var image = new Image<Rgba32>(200, 200, Color.White))
+            using (var image = new Image<Rgba32>(200, 200, new Rgba32(255, 255, 255)))
             {
                 Color[] colors = [Color.Red, Color.Green, Color.Blue, Color.Yellow, Color.Cyan, Color.Magenta];
                 for (int i = 0; i < kMeansClustering.Clusters.Count; i++)
