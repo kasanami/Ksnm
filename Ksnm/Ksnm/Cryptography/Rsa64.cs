@@ -15,11 +15,11 @@ namespace Ksnm.Cryptography
         /// <summary>
         /// 秘密鍵を生成するための素数1
         /// </summary>
-        public int Prime1 { get; }
+        public long Prime1 { get; }
         /// <summary>
         /// 秘密鍵を生成するための素数2
         /// </summary>
-        public int Prime2 { get; }
+        public long Prime2 { get; }
         /// <summary>
         /// 公開合成数
         /// </summary>
@@ -67,6 +67,10 @@ namespace Ksnm.Cryptography
                 PublicExponent = publicExponent;
                 // オイラーのトーシェント関数の値
                 long phi = (Prime1 - 1) * (Prime2 - 1);
+                if(Gcd(PublicExponent, phi) != 1)
+                {
+                    throw new ArgumentException($"{nameof(publicExponent)}は{phi}と互いに素でなければならない。");
+                }
                 SecretExponent = ModInverse(PublicExponent, phi);
             }
         }
@@ -192,6 +196,23 @@ namespace Ksnm.Cryptography
 
                 return result;
             }
+        }
+        /// <summary>
+        /// a と b の最大公約数を計算するアルゴリズム。
+        /// </summary>
+        public static long Gcd(long a, long b)
+        {
+            a = System.Math.Abs(a);
+            b = System.Math.Abs(b);
+
+            while (b != 0)
+            {
+                long remainder = a % b;
+                a = b;
+                b = remainder;
+            }
+
+            return a;
         }
         #endregion Utility
     }

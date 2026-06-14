@@ -11,6 +11,28 @@ namespace Ksnm.Cryptography.Tests
     public class Rsa64Tests
     {
         [TestMethod()]
+        public void ConstructorTest()
+        {
+            try
+            {
+                Rsa64 rsa64 = new Rsa64(4, 4, 4);
+                Assert.Fail("例外が発生しませんでした。");
+            }
+            catch (ArgumentException e)
+            {
+                // 期待される例外
+            }
+            try
+            {
+                Rsa64 rsa64 = new Rsa64(61, 53, 3);
+                Assert.Fail("例外が発生しませんでした。");
+            }
+            catch (ArgumentException e)
+            {
+                // 期待される例外
+            }
+        }
+        [TestMethod()]
         public void EncryptTest()
         {
             //Rsa64 rsa64 = new Rsa64(61, 53);
