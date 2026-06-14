@@ -15,11 +15,11 @@ namespace Ksnm.Cryptography
         /// <summary>
         /// 秘密鍵を生成するための素数1
         /// </summary>
-        public long Prime1 { get; }
+        public int Prime1 { get; }
         /// <summary>
         /// 秘密鍵を生成するための素数2
         /// </summary>
-        public long Prime2 { get; }
+        public int Prime2 { get; }
         /// <summary>
         /// 公開合成数
         /// </summary>
@@ -27,7 +27,7 @@ namespace Ksnm.Cryptography
         /// <summary>
         /// 公開指数(素数)
         /// </summary>
-        public long PublicExponent { get; } = 17;
+        public int PublicExponent { get; }
         /// <summary>
         /// 秘密指数
         /// </summary>
@@ -35,7 +35,7 @@ namespace Ksnm.Cryptography
         /// <summary>
         /// RSA暗号化方式のインスタンスを生成する。素数はランダムに生成される。
         /// </summary>
-        public Rsa64() : this(GeneratePrimeInt32(), GeneratePrimeInt32())
+        public Rsa64() : this(GeneratePrimeInt32(), GeneratePrimeInt32(), 17)
         {
         }
         /// <summary>
@@ -43,8 +43,9 @@ namespace Ksnm.Cryptography
         /// </summary>
         /// <param name="prime1">秘密鍵を生成するための素数1</param>
         /// <param name="prime2">秘密鍵を生成するための素数2</param>
+        /// <param name="publicExponent">公開指数</param>
         /// <exception cref="ArgumentException"></exception>
-        public Rsa64(int prime1, int prime2)
+        public Rsa64(int prime1, int prime2, int publicExponent = 17)
         {
             checked
             {
@@ -56,13 +57,27 @@ namespace Ksnm.Cryptography
                 {
                     throw new ArgumentException($"{nameof(prime2)}は素数でなければならない。");
                 }
+                if (IsPrime(publicExponent) == false)
+                {
+                    throw new ArgumentException($"{nameof(publicExponent)}は素数でなければならない。");
+                }
                 Prime1 = prime1;
                 Prime2 = prime2;
                 PublicSemiprime = Prime1 * Prime2;
+                PublicExponent = publicExponent;
                 // オイラーのトーシェント関数の値
                 long phi = (Prime1 - 1) * (Prime2 - 1);
                 SecretExponent = ModInverse(PublicExponent, phi);
             }
+        }
+        /// <summary>
+        /// 平文を暗号化する。
+        /// </summary>
+        /// <param name="plainValue">平文</param>
+        /// <returns>暗号文</returns>
+        public long Encrypt(int plainValue)
+        {
+            return ModPow(plainValue, PublicExponent, PublicSemiprime);
         }
         /// <summary>
         /// 平文を暗号化する。
