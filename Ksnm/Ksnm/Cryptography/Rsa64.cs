@@ -15,11 +15,11 @@ namespace Ksnm.Cryptography
         /// <summary>
         /// 秘密鍵を生成するための素数1
         /// </summary>
-        public long Prime1 { get; }
+        public int Prime1 { get; }
         /// <summary>
         /// 秘密鍵を生成するための素数2
         /// </summary>
-        public long Prime2 { get; }
+        public int Prime2 { get; }
         /// <summary>
         /// 公開合成数
         /// </summary>
@@ -66,7 +66,7 @@ namespace Ksnm.Cryptography
                 PublicSemiprime = Prime1 * Prime2;
                 PublicExponent = publicExponent;
                 // オイラーのトーシェント関数の値
-                long phi = (Prime1 - 1) * (Prime2 - 1);
+                long phi = (long)(Prime1 - 1) * (long)(Prime2 - 1);
                 if(Gcd(PublicExponent, phi) != 1)
                 {
                     throw new ArgumentException($"{nameof(publicExponent)}は{phi}と互いに素でなければならない。");
@@ -198,7 +198,7 @@ namespace Ksnm.Cryptography
             }
         }
         /// <summary>
-        /// a と b の最大公約数を計算するアルゴリズム。
+        /// a と b の最大公約数を計算する
         /// </summary>
         public static long Gcd(long a, long b)
         {
