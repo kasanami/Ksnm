@@ -1063,6 +1063,57 @@ namespace Ksnm.Tests
         }
 
         [TestMethod()]
+        public void ModPowTest()
+        {
+            Assert.AreEqual(1, Math.ModPow(0, 0, 1));
+            Assert.AreEqual(0, Math.ModPow(0, 1, 1));
+            Assert.AreEqual(0, Math.ModPow(0, 2, 1));
+            Assert.AreEqual(0, Math.ModPow(0, 3, 1));
+            Assert.AreEqual(0, Math.ModPow(0, 4, 1));
+            Assert.AreEqual(0, Math.ModPow(0, 5, 1));
+
+            Assert.AreEqual(1, Math.ModPow(1, 0, 3));
+            Assert.AreEqual(1, Math.ModPow(1, 1, 3));
+            Assert.AreEqual(1, Math.ModPow(1, 2, 3));
+            Assert.AreEqual(1, Math.ModPow(1, 3, 3));
+            Assert.AreEqual(1, Math.ModPow(1, 4, 3));
+            Assert.AreEqual(1, Math.ModPow(1, 5, 3));
+
+            Assert.AreEqual(1, Math.ModPow(2, 0, 3));
+            Assert.AreEqual(2, Math.ModPow(2, 1, 3));
+            Assert.AreEqual(1, Math.ModPow(2, 2, 3));
+            Assert.AreEqual(2, Math.ModPow(2, 3, 3));
+            Assert.AreEqual(1, Math.ModPow(2, 4, 3));
+            Assert.AreEqual(2, Math.ModPow(2, 5, 3));
+
+            Assert.AreEqual(1, Math.ModPow(3, 0, 5));
+            Assert.AreEqual(3, Math.ModPow(3, 1, 5));
+            Assert.AreEqual(4, Math.ModPow(3, 2, 5));
+            Assert.AreEqual(2, Math.ModPow(3, 3, 5));
+            Assert.AreEqual(1, Math.ModPow(3, 4, 5));
+            Assert.AreEqual(3, Math.ModPow(3, 5, 5));
+
+            Assert.AreEqual(1, Math.ModPow(10, 0, 7));
+            Assert.AreEqual(3, Math.ModPow(10, 1, 7));
+            Assert.AreEqual(2, Math.ModPow(10, 2, 7));
+            Assert.AreEqual(6, Math.ModPow(10, 3, 7));
+            Assert.AreEqual(4, Math.ModPow(10, 4, 7));
+            Assert.AreEqual(5, Math.ModPow(10, 5, 7));
+
+            for (int n = -10; n < 10; n++)
+            {
+                for (int e = -5; e <= 5; e++)
+                {
+                    if (n == 0) { continue; }
+                    if (e < 0) { continue; }
+                    var expected = (int)MathD.Pow(n % 7, e) % 7;
+                    var actual = Math.ModPow(n % 7, e, 7);
+                    Assert.AreEqual(expected, actual, $"{n}^{e} mod {7}");
+                }
+            }
+        }
+
+        [TestMethod()]
         public void ExpTest()
         {
             for (Half i = -5; i <= (Half)5; i += (Half)0.25)

@@ -1554,6 +1554,31 @@ namespace Ksnm
         #endregion CachedPow10
         #endregion Pow
 
+        #region ModPow
+        /// <summary>
+        /// value^exponent mod modulus を効率的に計算する。
+        /// </summary>
+        public static T ModPow<T>(T value, T exponent, T modulus)
+            where T : INumber<T>, IModulusOperators<T, T, T>, IBitwiseOperators<T, T, T>, IShiftOperators<T, T, T>
+        {
+            T result = T.One;
+
+            value %= modulus;
+
+            while (exponent > T.Zero)
+            {
+                if ((exponent & T.One) == T.One)
+                {
+                    result = (result * value) % modulus;
+                }
+                exponent >>= T.One;
+                value = (value * value) % modulus;
+            }
+
+            return result;
+        }
+        #endregion ModPow
+
         #region Exp
         /// <summary>
         /// ネイピア数を指定した値で累乗した値を返します。
