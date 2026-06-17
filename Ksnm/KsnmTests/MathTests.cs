@@ -652,25 +652,29 @@ namespace Ksnm.Tests
         [TestMethod()]
         public void GreatestCommonDivisorTest()
         {
-            Assert.AreEqual(Math.GreatestCommonDivisor(30, 42), 6);
-            Assert.AreEqual(Math.GreatestCommonDivisor(108, 56), 4);
-            Assert.AreEqual(Math.GreatestCommonDivisor(168, 180), 12);
-            Assert.AreEqual(Math.GreatestCommonDivisor(1071, 1029), 21);
-            Assert.AreEqual(Math.GreatestCommonDivisor(-30, 42), 6);
-            Assert.AreEqual(Math.GreatestCommonDivisor(-1071, 1029), 21);
+            Assert.AreEqual(4, Math.GreatestCommonDivisor(108, 56));
+            Assert.AreEqual(6 ,Math.GreatestCommonDivisor(30, 42));
+            Assert.AreEqual(6, Math.GreatestCommonDivisor(-30, 42));
+            Assert.AreEqual(6, Math.GreatestCommonDivisor(30, -42));
+            Assert.AreEqual(6, Math.GreatestCommonDivisor(-30, -42));
+            Assert.AreEqual(12, Math.GreatestCommonDivisor(168, 180));
+            Assert.AreEqual(21, Math.GreatestCommonDivisor(1071, 1029));
+            Assert.AreEqual(21, Math.GreatestCommonDivisor(-1071, 1029));
+            Assert.AreEqual(21, Math.GreatestCommonDivisor(1071, -1029));
+            Assert.AreEqual(21, Math.GreatestCommonDivisor(-1071, -1029));
 
-            Assert.AreEqual(Math.GreatestCommonDivisor(12, 14, 16), 2);
-            Assert.AreEqual(Math.GreatestCommonDivisor(6, 9, 12), 3);
-            Assert.AreEqual(Math.GreatestCommonDivisor(12, 15, 18), 3);
+            Assert.AreEqual(2, Math.GreatestCommonDivisor(12, 14, 16));
+            Assert.AreEqual(3, Math.GreatestCommonDivisor(6, 9, 12));
+            Assert.AreEqual(3, Math.GreatestCommonDivisor(12, 15, 18));
         }
 
         [TestMethod()]
         public void GreatestCommonDivisorTest2()
         {
-            Assert.AreEqual(Math.GreatestCommonDivisor(30u, 42u), 6u);
-            Assert.AreEqual(Math.GreatestCommonDivisor(108u, 56u), 4u);
-            Assert.AreEqual(Math.GreatestCommonDivisor(168u, 180u), 12u);
-            Assert.AreEqual(Math.GreatestCommonDivisor(1071u, 1029u), 21u);
+            Assert.AreEqual(6u, Math.GreatestCommonDivisor(30u, 42u));
+            Assert.AreEqual(4u, Math.GreatestCommonDivisor(108u, 56u));
+            Assert.AreEqual(12u, Math.GreatestCommonDivisor(168u, 180u));
+            Assert.AreEqual(21u, Math.GreatestCommonDivisor(1071u, 1029u));
         }
 
         [TestMethod()]
