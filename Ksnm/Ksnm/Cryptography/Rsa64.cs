@@ -147,11 +147,7 @@ namespace Ksnm.Cryptography
         }
         /// <summary>
         /// a と m が互いに素であるとき、a の m に関する逆元を計算するアルゴリズム。
-        /// 
         /// </summary>
-        /// <param name="a"></param>
-        /// <param name="m"></param>
-        /// <returns></returns>
         static long ModInverse(long a, long m)
         {
             long m0 = m;

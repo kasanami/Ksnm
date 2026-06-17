@@ -1114,6 +1114,35 @@ namespace Ksnm.Tests
         }
 
         [TestMethod()]
+        public void ModInverseTest()
+        {
+            Assert.AreEqual(1, Math.ModInverse(1, 3));
+            Assert.AreEqual(2, Math.ModInverse(2, 3));
+            Assert.AreEqual(3, Math.ModInverse(2, 5));
+            Assert.AreEqual(5, Math.ModInverse(3, 7));
+            Assert.AreEqual(3, Math.ModInverse(5, 7));
+            Assert.AreEqual(9, Math.ModInverse(5, 11));
+            Assert.AreEqual(2, Math.ModInverse(7, 13));
+            Assert.AreEqual(5, Math.ModInverse(10, 7));
+
+            Assert.AreEqual(2753, Math.ModInverse(17, 3120));
+
+            for (int n = 2; n < 10; n++)
+            {
+                for (int m = 2; m <= 10; m++)
+                {
+                    if (Math.GreatestCommonDivisor(n, m) != 1)
+                    {
+                        continue;
+                    }
+                    var x = Math.ModInverse(n, m);
+                    var actual = (x * n) % m;
+                    Assert.AreEqual(1, actual, $"ModInverse({n} , {m})");
+                }
+            }
+        }
+
+        [TestMethod()]
         public void ExpTest()
         {
             for (Half i = -5; i <= (Half)5; i += (Half)0.25)

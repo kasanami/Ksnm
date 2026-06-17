@@ -1579,6 +1579,32 @@ namespace Ksnm
         }
         #endregion ModPow
 
+        #region ModInverse
+        /// <summary>
+        /// 法 m に関する a のモジュラ逆数を計算する。
+        /// </summary>
+        public static T ModInverse<T>(T a, T m) where T : INumber<T>
+        {
+            T m0 = m;
+            T x0 = T.Zero;
+            T x1 = T.One;
+
+            while (a > T.One)
+            {
+                T q = a / m;
+                (a, m) = (m, a % m);
+                (x0, x1) = (x1 - q * x0, x0);
+            }
+
+            if (x1 < T.Zero)
+            {
+                x1 += m0;
+            }
+
+            return x1;
+        }
+        #endregion ModInverse
+
         #region Exp
         /// <summary>
         /// ネイピア数を指定した値で累乗した値を返します。

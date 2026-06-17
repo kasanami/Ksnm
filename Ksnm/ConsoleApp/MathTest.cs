@@ -9,6 +9,23 @@ namespace ConsoleApp
     {
         public static void Run()
         {
+            Console.WriteLine("ModInverse");
+            {
+                for (int n = 1; n < 10; n++)
+                {
+                    for (int m = 2; m <= 10; m++)
+                    {
+                        if (Math.GreatestCommonDivisor(n, m) != 1)
+                        {
+                            continue;
+                        }
+                        var d = Math.ModInverse(n, m);
+                        var a = (d * n) % m;
+                        Console.WriteLine($"ModInverse({n}, {m}) = {d} (a={a})");
+                    }
+                }
+            }
+
             Console.WriteLine("Exp");
             {
                 Console.WriteLine($"double  :{Math.Exp<double>(1.0, double.Epsilon)}");
