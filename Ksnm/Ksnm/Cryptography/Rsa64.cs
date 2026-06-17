@@ -148,51 +148,11 @@ namespace Ksnm.Cryptography
         /// <summary>
         /// a と m が互いに素であるとき、a の m に関する逆元を計算するアルゴリズム。
         /// </summary>
-        static long ModInverse(long a, long m)
-        {
-            long m0 = m;
-            long x0 = 0;
-            long x1 = 1;
-
-            while (a > 1)
-            {
-                long q = a / m;
-
-                (a, m) = (m, a % m);
-                (x0, x1) = (x1 - q * x0, x0);
-            }
-
-            if (x1 < 0)
-            {
-                x1 += m0;
-            }
-
-            return x1;
-        }
+        static long ModInverse(long a, long m) => Math.ModInverse(a, m);
         /// <summary>
         /// value^exponent mod modulus を効率的に計算するアルゴリズム。
         /// </summary>
-        static long ModPow(long value, long exponent, long modulus)
-        {
-            checked
-            {
-                long result = 1;
-
-                value %= modulus;
-
-                while (exponent > 0)
-                {
-                    if ((exponent & 1) == 1)
-                    {
-                        result = (result * value) % modulus;
-                    }
-                    exponent >>= 1;
-                    value = (value * value) % modulus;
-                }
-
-                return result;
-            }
-        }
+        static long ModPow(long value, long exponent, long modulus) => Math.ModPow(value, exponent, modulus);
         /// <summary>
         /// a と b の最大公約数を計算する
         /// </summary>

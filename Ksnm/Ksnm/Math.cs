@@ -1559,7 +1559,7 @@ namespace Ksnm
         /// value^exponent mod modulus を効率的に計算する。
         /// </summary>
         public static T ModPow<T>(T value, T exponent, T modulus)
-            where T : INumber<T>, IModulusOperators<T, T, T>, IBitwiseOperators<T, T, T>, IShiftOperators<T, T, T>
+            where T : INumber<T>, IModulusOperators<T, T, T>, IBitwiseOperators<T, T, T>, IShiftOperators<T, int, T>
         {
             T result = T.One;
 
@@ -1571,7 +1571,7 @@ namespace Ksnm
                 {
                     result = (result * value) % modulus;
                 }
-                exponent >>= T.One;
+                exponent >>= 1;
                 value = (value * value) % modulus;
             }
 
@@ -1582,6 +1582,7 @@ namespace Ksnm
         #region ModInverse
         /// <summary>
         /// 法 m に関する a のモジュラ逆数を計算する。
+        /// ただし、 a と m は互いに素である必要があります。
         /// </summary>
         public static T ModInverse<T>(T a, T m) where T : INumber<T>
         {
