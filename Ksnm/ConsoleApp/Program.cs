@@ -24,13 +24,13 @@ namespace ConsoleApp
             //NumericsTest.Run();
             //GraphicsTest.Run();
             //ConjectureTest.Run();
-            MathTest.Run();
+            //MathTest.Run();
             //GenericMathTest.Run();
             //AITest.Run();
 
             // Benchmark
 #if !DEBUG
-            //var summary = BenchmarkRunner.Run<StringConcatMesurement>();
+            BenchmarkRunner.Run<MathMesurement>();
             //BenchmarkRunner.Run<NumericsMesurement>();
             //BenchmarkRunner.Run<AIMesurement>();
 #endif

@@ -9,6 +9,13 @@ namespace ConsoleApp
     {
         public static void Run()
         {
+            Console.WriteLine("IsPrime");
+            {
+                for (int i = 2; i < 20; i++)
+                {
+                    Console.WriteLine($"{i} is {(Math.IsPrime(i) ? "" : "not ")}prime.");
+                }
+            }
             Console.WriteLine("ModInverse");
             {
                 for (int n = 1; n < 10; n++)

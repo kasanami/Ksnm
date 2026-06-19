@@ -211,11 +211,17 @@ namespace Ksnm
         {
             return (value % 2) == 0;
         }
-
+        /// <summary>
+        /// 偶数ならtrueを返す。
+        /// </summary>
+        public static bool IsEven<T>(T value) where T : INumber<T>
+        {
+            var _2 = T.CreateChecked(2);
+            return (value % _2) == T.Zero;
+        }
         #endregion IsEven
 
         #region IsOdd
-
         /// <summary>
         /// 奇数ならtrueを返す。
         /// </summary>
@@ -265,10 +271,92 @@ namespace Ksnm
         {
             return System.Math.Abs(value % 2) == 1;
         }
-
+        /// <summary>
+        /// 奇数ならtrueを返す。
+        /// </summary>
+        public static bool IsOdd<T>(T value) where T : INumber<T>
+        {
+            var _2 = T.CreateChecked(2);
+            return (value % _2) == T.One;
+        }
         #endregion IsOdd
 
         #region 素数
+        #region IsPrime
+        /// <summary>
+        /// 素数ならtrueを返す。
+        /// </summary>
+        public static bool IsPrime(int value)
+        {
+            // 1以下の数は素数ではない
+            if (value < 2)
+            {
+                return false;
+            }
+            // 2と3は素数
+            if (value == 2 || value == 3)
+            {
+                return true;
+            }
+            // 2で割り切れる場合は素数ではない
+            if ((value & 1) == 0)
+            {
+                return false;
+            }
+            // 3で割り切れる場合は素数ではない
+            if (value % 3 == 0)
+            {
+                return false;
+            }
+            // 6の倍数±1で割り切れるかを確認
+            // ※素数でない数は必ず √value 以下の因数を持つ
+            // ※i * i <= value は i <= √value と同じ（Sqrt関数は計算コストがかかるため）
+            for (var i = 5; i * i <= value; i += 6)
+            {
+                if (value % i == 0 || value % (i + 2) == 0)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+        /// <summary>
+        /// 素数ならtrueを返す。
+        /// </summary>
+        public static bool IsPrime(double value)
+        {
+            // 1以下の数は素数ではない
+            if (value < 2)
+            {
+                return false;
+            }
+            // 2と3は素数
+            if (value == 2 || value == 3)
+            {
+                return true;
+            }
+            // 2で割り切れる場合は素数ではない
+            if (value % 2 == 0)
+            {
+                return false;
+            }
+            // 3で割り切れる場合は素数ではない
+            if (value % 3 == 0)
+            {
+                return false;
+            }
+            // 6の倍数±1で割り切れるかを確認
+            // ※素数でない数は必ず √value 以下の因数を持つ
+            // ※i * i <= value は i <= √value と同じ（Sqrt関数は計算コストがかかるため）
+            for (var i = 5; i * i <= value; i += 6)
+            {
+                if (value % i == 0 || value % (i + 2) == 0)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
         /// <summary>
         /// 素数ならtrueを返す。
         /// </summary>
@@ -293,7 +381,8 @@ namespace Ksnm
                 return false;
             }
             // 6の倍数±1で割り切れるかを確認
-            // ※素数でない数は必ず √n 以下の因数を持つ、i * i <= value は i <= √n と同じ
+            // ※素数でない数は必ず √n 以下の因数を持つ
+            // ※i * i <= value は i <= √value と同じ（Sqrt関数は計算コストがかかるため）
             T _5 = T.CreateChecked(5);
             T _6 = T.CreateChecked(6);
             for (T i = _5; i * i <= value; i += _6)
@@ -305,6 +394,7 @@ namespace Ksnm
             }
             return true;
         }
+        #endregion IsPrime
         /// <summary>
         /// 指定した数以下の非素数を計算します。
         /// ただし、順不同。

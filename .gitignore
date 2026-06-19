@@ -726,3 +726,9 @@ net5.0-windows
 /Ksnm/ConsoleApp/bin/Release/net9.0/kMeansClustering_8.png
 /Ksnm/ConsoleApp/bin/Release/net9.0/kMeansClustering_9.png
 /Ksnm/ConsoleApp/bin/Release/net9.0/BenchmarkDotNet.Artifacts/*.log
+/Ksnm/ConsoleApp/bin/Release/net9.0/BenchmarkDotNet.Artifacts/results/ConsoleApp.MathMesurement-report-github.md
+/Ksnm/ConsoleApp/bin/Release/net9.0/BenchmarkDotNet.Artifacts/results/ConsoleApp.MathMesurement-report.csv
+/Ksnm/ConsoleApp/bin/Release/net9.0/BenchmarkDotNet.Artifacts/results/ConsoleApp.MathMesurement-report.html
+/Ksnm/ConsoleApp/bin/Release/net9.0/Microsoft.Extensions.DependencyInjection.dll
+/Ksnm/ConsoleApp/bin/Release/net9.0/Pragmastat.dll
+/Ksnm/ConsoleApp/bin/Release/net9.0/runtimes/win/lib/net9.0/System.Management.dll
