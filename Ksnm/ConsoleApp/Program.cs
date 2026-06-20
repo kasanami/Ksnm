@@ -20,13 +20,13 @@ namespace ConsoleApp
     {
         private static void Main(string[] args)
         {
-            CryptographyTest.Run();
+            //CryptographyTest.Run();
             //NumericsTest.Run();
             //GraphicsTest.Run();
             //ConjectureTest.Run();
             //MathTest.Run();
             //GenericMathTest.Run();
-            //AITest.Run();
+            AITest.Run();
 
             // Benchmark
 #if !DEBUG
