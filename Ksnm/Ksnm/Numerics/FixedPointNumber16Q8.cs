@@ -38,6 +38,7 @@ namespace Ksnm.Numerics
     using FixedPointNumber = FixedPointNumber16Q8;
     /// <summary>
     /// 固定小数点数(全体のビット数16、小数部分のビット数8)
+    /// ※負数の最小値は絶対値にできないので、最大値を返す
     /// </summary>
     [StructLayout(LayoutKind.Explicit)]
     public struct FixedPointNumber16Q8 :
@@ -264,6 +265,11 @@ namespace Ksnm.Numerics
         /// <returns>絶対値</returns>
         public static FixedPointNumber Abs(FixedPointNumber value)
         {
+            // 負数の最小値は絶対値にできないので、最大値を返す
+            if (value.bits == BitsType.MinValue)
+            {
+                return MaxValue;
+            }
             return new FixedPointNumber() { bits = System.Math.Abs(value.bits) };
         }
         /// <summary>
