@@ -37,10 +37,13 @@ namespace Ksnm.Cryptography.Tests
         {
             Rsa64 rsa64 = new Rsa64();
 
-            var plainValue = 12345;
-            var encryptedValue = rsa64.Encrypt(plainValue);
-            var decryptedValue = rsa64.Decrypt(encryptedValue);
-            Assert.AreEqual(plainValue, decryptedValue);
+            var plainValues = new int[] { 12345, 67890, 54321, int.MaxValue, int.MinValue };
+            foreach (var plainValue in plainValues)
+            {
+                var encryptedValue = rsa64.Encrypt(plainValue);
+                var decryptedValue = rsa64.Decrypt(encryptedValue);
+                Assert.AreEqual(plainValue, decryptedValue);
+            }
         }
     }
 }
