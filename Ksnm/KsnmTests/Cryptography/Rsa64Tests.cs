@@ -35,10 +35,7 @@ namespace Ksnm.Cryptography.Tests
         [TestMethod()]
         public void EncryptTest()
         {
-            //Rsa64 rsa64 = new Rsa64(61, 53);
-            //Rsa64 rsa64 = new Rsa64(211, 269);
-            //Rsa64 rsa64 = new Rsa64(1009, 8009);
-            Rsa64 rsa64 = new Rsa64(9967, 8009);
+            Rsa64 rsa64 = new Rsa64();
 
             var plainValue = 12345;
             var encryptedValue = rsa64.Encrypt(plainValue);
