@@ -20,7 +20,7 @@ namespace ConsoleApp
     {
         private static void Main(string[] args)
         {
-            //CryptographyTest.Run();
+            CryptographyTest.Run();
             //NumericsTest.Run();
             //GraphicsTest.Run();
             //ConjectureTest.Run();
@@ -30,7 +30,7 @@ namespace ConsoleApp
 
             // Benchmark
 #if !DEBUG
-            BenchmarkRunner.Run<MathMesurement>();
+            //BenchmarkRunner.Run<MathMesurement>();
             //BenchmarkRunner.Run<NumericsMesurement>();
             //BenchmarkRunner.Run<AIMesurement>();
 #endif

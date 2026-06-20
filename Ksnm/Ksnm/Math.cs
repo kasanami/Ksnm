@@ -282,6 +282,23 @@ namespace Ksnm
         #endregion IsOdd
 
         #region 素数
+        #region GeneratePrime
+        /// <summary>
+        /// 素数をランダムに生成する。
+        /// </summary>
+        public static int GeneratePrime(int min, int max)
+        {
+            while (true)
+            {
+                int value = RandomNumberGenerator.GetInt32(min, max);
+                value |= 1;// 偶数を避ける
+                if (IsPrime(value))
+                {
+                    return value;
+                }
+            }
+        }
+        #endregion GeneratePrime
         #region IsPrime
         /// <summary>
         /// 素数ならtrueを返す。

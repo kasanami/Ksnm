@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,7 +9,10 @@ using System.Threading.Tasks;
 namespace Ksnm.Cryptography
 {
     /// <summary>
-    /// RSA暗号化方式を実装するクラス。
+    /// RSA暗号化方式を実装するクラス。（Rsa64の64は公開合成数のビット数を意味する）
+    /// - 平文はint型とする
+    /// - 素数はint型とする
+    /// - 公開合成数はlong型とする
     /// </summary>
     public class Rsa64
     {
@@ -22,6 +26,8 @@ namespace Ksnm.Cryptography
         public int Prime2 { get; }
         /// <summary>
         /// 公開合成数
+        /// - int型の素数2つの積はlong型に収まるため、long型を使用する。
+        /// - 平文はint型であるため、公開合成数は0xFFFFFFFFより大きくなければならない。
         /// </summary>
         public long PublicSemiprime { get; }
         /// <summary>
@@ -33,9 +39,13 @@ namespace Ksnm.Cryptography
         /// </summary>
         public long SecretExponent { get; }
         /// <summary>
+        /// 公開指数のデフォルト値。素数でなければならない。一般的には65537が使用されるが、257もよく使用される。
+        /// </summary>
+        const int DefaultPublicExponent = 257;
+        /// <summary>
         /// RSA暗号化方式のインスタンスを生成する。素数はランダムに生成される。
         /// </summary>
-        public Rsa64() : this(GeneratePrimeInt32(), GeneratePrimeInt32(), 17)
+        public Rsa64() : this(GeneratePrime(), GeneratePrime(), DefaultPublicExponent)
         {
         }
         /// <summary>
@@ -45,7 +55,7 @@ namespace Ksnm.Cryptography
         /// <param name="prime2">秘密鍵を生成するための素数2</param>
         /// <param name="publicExponent">公開指数</param>
         /// <exception cref="ArgumentException"></exception>
-        public Rsa64(int prime1, int prime2, int publicExponent = 17)
+        public Rsa64(int prime1, int prime2, int publicExponent = DefaultPublicExponent)
         {
             checked
             {
@@ -63,7 +73,11 @@ namespace Ksnm.Cryptography
                 }
                 Prime1 = prime1;
                 Prime2 = prime2;
-                PublicSemiprime = Prime1 * Prime2;
+                PublicSemiprime = (long)Prime1 * (long)Prime2;
+                if (PublicSemiprime <= int.MaxValue)
+                {
+                    throw new ArgumentException($"{nameof(PublicSemiprime)}は{int.MaxValue}より大きくなければならない。");
+                }
                 PublicExponent = publicExponent;
                 // オイラーのトーシェント関数の値
                 long phi = (long)(Prime1 - 1) * (long)(Prime2 - 1);
@@ -104,55 +118,22 @@ namespace Ksnm.Cryptography
 
         #region Utility
         /// <summary>
-        /// 32ビット整数の素数をランダムに生成する。生成される素数は1000以上である。
+        /// 32ビット整数の素数をランダムに生成する。
         /// </summary>
-        static int GeneratePrimeInt32()
-        {
-            while (true)
-            {
-                int value = RandomNumberGenerator.GetInt32(
-                    1_000,
-                    int.MaxValue);
-
-                // 偶数を避ける
-                value |= 1;
-
-                if (IsPrime(value))
-                    return value;
-            }
-        }
+        static int GeneratePrime() => Math.GeneratePrime(46_340, int.MaxValue);
         /// <summary>
         /// value が素数であるかどうかを判定するアルゴリズム。
         /// </summary>
-        static bool IsPrime(long value)
-        {
-            if (value < 2)
-                return false;
-
-            if (value == 2)
-                return true;
-
-            if ((value & 1) == 0)
-                return false;
-
-            long limit = (long)Math.Sqrt(value);
-
-            for (long i = 3; i <= limit; i += 2)
-            {
-                if (value % i == 0)
-                    return false;
-            }
-
-            return true;
-        }
+        static bool IsPrime(long value) => Math.IsPrime(value);
         /// <summary>
         /// a と m が互いに素であるとき、a の m に関する逆元を計算するアルゴリズム。
         /// </summary>
         static long ModInverse(long a, long m) => Math.ModInverse(a, m);
         /// <summary>
-        /// value^exponent mod modulus を効率的に計算するアルゴリズム。
+        /// value^exponent mod modulus を計算する。
+        /// ※ 一時的に大きい値になるため、BigInteger を使用して計算する。
         /// </summary>
-        static long ModPow(long value, long exponent, long modulus) => Math.ModPow(value, exponent, modulus);
+        static long ModPow(long value, long exponent, long modulus) => (long)Math.ModPow<BigInteger>(value, exponent, modulus);
         /// <summary>
         /// a と b の最大公約数を計算する
         /// </summary>
