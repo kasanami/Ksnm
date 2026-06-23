@@ -107,6 +107,20 @@ namespace Ksnm.Cryptography
             return ModPow(plainValue, PublicExponent, PublicSemiprime);
         }
         /// <summary>
+        /// 平文を暗号化する。
+        /// </summary>
+        /// <param name="plainValues">平文</param>
+        /// <returns>暗号文</returns>
+        public UInt16[] Encrypt(ReadOnlySpan<UInt8> plainValues)
+        {
+            var encryptedValues = new UInt16[plainValues.Length];
+            for (int i = 0; i < plainValues.Length; i++)
+            {
+                encryptedValues[i] = Encrypt(plainValues[i]);
+            }
+            return encryptedValues;
+        }
+        /// <summary>
         /// 暗号文を復号する。
         /// </summary>
         /// <param name="encryptedValue">暗号文</param>
@@ -114,6 +128,20 @@ namespace Ksnm.Cryptography
         public UInt8 Decrypt(UInt16 encryptedValue)
         {
             return (UInt8)ModPow(encryptedValue, SecretExponent, PublicSemiprime);
+        }
+        /// <summary>
+        /// 暗号文を復号する。
+        /// </summary>
+        /// <param name="encryptedValues">暗号文</param>
+        /// <returns>平文</returns>
+        public UInt8[] Decrypt(ReadOnlySpan<UInt16> encryptedValues)
+        {
+            var decryptedValues = new UInt8[encryptedValues.Length];
+            for (int i = 0; i < encryptedValues.Length; i++)
+            {
+                decryptedValues[i] = Decrypt(encryptedValues[i]);
+            }
+            return decryptedValues;
         }
 
         #region Utility

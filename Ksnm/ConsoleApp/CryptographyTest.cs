@@ -1,4 +1,5 @@
 ﻿using Ksnm.Cryptography;
+using Ksnm.ExtensionMethods.System.Collections.Generic.Enumerable;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -164,6 +165,23 @@ namespace ConsoleApp
                 Console.WriteLine($"plainValue    :{plainValue}");
                 Console.WriteLine($"encryptedValue:{encryptedValue}");
                 Console.WriteLine($"decryptedValue:{decryptedValue}");
+            }
+            {
+                Console.WriteLine($"テスト 文字列");
+                var plainText = "Hello, World!";
+                var plainBytes = Encoding.UTF8.GetBytes(plainText);
+                var rsa = new RsaU16();
+                Console.WriteLine($"Prime1         :{rsa.Prime1}");
+                Console.WriteLine($"Prime2         :{rsa.Prime2}");
+                Console.WriteLine($"PublicExponent :{rsa.PublicExponent}");
+                Console.WriteLine($"PublicSemiprime:{rsa.PublicSemiprime}");
+                Console.WriteLine($"SecretExponent :{rsa.SecretExponent}");
+
+                var encryptedValues = rsa.Encrypt(plainBytes);
+                var decryptedValues = rsa.Decrypt(encryptedValues);
+                Console.WriteLine($"plainText      :{plainText}");
+                Console.WriteLine($"encryptedValues:{encryptedValues.ToDebugString()}");
+                Console.WriteLine($"decryptedText  :{Encoding.UTF8.GetString(decryptedValues)}");
             }
         }
     }
