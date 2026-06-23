@@ -8,44 +8,45 @@ using System.Threading.Tasks;
 
 namespace Ksnm.Cryptography
 {
+    using Int8 = SByte;
+    using UInt8 = Byte;
     /// <summary>
-    /// RSA暗号化方式を実装するクラス。（Rsa64の64は公開合成数のビット数を意味する）
-    /// - 平文はint型とする
-    /// - 素数はint型とする
-    /// - 公開合成数はlong型とする
+    /// RSA暗号化方式を実装するクラス。（RsaU16の16は公開合成数のビット数を意味する）
+    /// - 平文は UInt8 型
+    /// - 暗号文は UInt16 型
+    /// - 素数は UInt8 型
+    /// - 公開合成数は UInt16 型
     /// </summary>
-    public class Rsa64
+    public class RsaU16
     {
         /// <summary>
         /// 秘密鍵を生成するための素数1
         /// </summary>
-        public int Prime1 { get; }
+        public UInt8 Prime1 { get; }
         /// <summary>
         /// 秘密鍵を生成するための素数2
         /// </summary>
-        public int Prime2 { get; }
+        public UInt8 Prime2 { get; }
         /// <summary>
         /// 公開合成数
-        /// - int型の素数2つの積はlong型に収まるため、long型を使用する。
-        /// - 平文はint型であるため、公開合成数は0xFFFFFFFFより大きくなければならない。
         /// </summary>
-        public long PublicSemiprime { get; }
+        public UInt16 PublicSemiprime { get; }
         /// <summary>
         /// 公開指数(素数)
         /// </summary>
-        public int PublicExponent { get; }
+        public UInt8 PublicExponent { get; }
         /// <summary>
         /// 秘密指数
         /// </summary>
-        public long SecretExponent { get; }
+        public UInt16 SecretExponent { get; }
         /// <summary>
-        /// 公開指数のデフォルト値。素数でなければならない。一般的には65537が使用されるが、257もよく使用される。
+        /// 公開指数のデフォルト値。素数でなければならない。
         /// </summary>
-        const int DefaultPublicExponent = 257;
+        const UInt8 DefaultPublicExponent = 17;
         /// <summary>
         /// RSA暗号化方式のインスタンスを生成する。素数はランダムに生成される。
         /// </summary>
-        public Rsa64() : this(GeneratePrime(), GeneratePrime(), DefaultPublicExponent)
+        public RsaU16() : this(GeneratePrime(), GeneratePrime(), DefaultPublicExponent)
         {
         }
         /// <summary>
@@ -55,10 +56,18 @@ namespace Ksnm.Cryptography
         /// <param name="prime2">秘密鍵を生成するための素数2</param>
         /// <param name="publicExponent">公開指数</param>
         /// <exception cref="ArgumentException"></exception>
-        public Rsa64(int prime1, int prime2, int publicExponent = DefaultPublicExponent)
+        public RsaU16(UInt8 prime1, UInt8 prime2, UInt8 publicExponent = DefaultPublicExponent)
         {
             checked
             {
+                if (prime1 > UInt8.MaxValue)
+                {
+                    throw new ArgumentException($"{nameof(prime1)}は{UInt8.MaxValue}以下でなければならない。");
+                }
+                if (prime2 > UInt8.MaxValue)
+                {
+                    throw new ArgumentException($"{nameof(prime2)}は{UInt8.MaxValue}以下でなければならない。");
+                }
                 if (IsPrime(prime1) == false)
                 {
                     throw new ArgumentException($"{nameof(prime1)}は素数でなければならない。");
@@ -73,14 +82,14 @@ namespace Ksnm.Cryptography
                 }
                 Prime1 = prime1;
                 Prime2 = prime2;
-                PublicSemiprime = (long)Prime1 * (long)Prime2;
-                if (PublicSemiprime <= int.MaxValue)
+                PublicSemiprime = (UInt16)(Prime1 * Prime2);
+                if (PublicSemiprime <= UInt8.MaxValue)
                 {
-                    throw new ArgumentException($"{nameof(PublicSemiprime)}は{int.MaxValue}より大きくなければならない。");
+                    throw new ArgumentException($"{nameof(PublicSemiprime)}は{UInt8.MaxValue}より大きくなければならない。");
                 }
                 PublicExponent = publicExponent;
                 // オイラーのトーシェント関数の値
-                long phi = (long)(Prime1 - 1) * (long)(Prime2 - 1);
+                UInt16 phi = (UInt16)((Prime1 - 1) * (Prime2 - 1));
                 if (Gcd(PublicExponent, phi) != 1)
                 {
                     throw new ArgumentException($"{nameof(publicExponent)}は{phi}と互いに素でなければならない。");
@@ -93,16 +102,7 @@ namespace Ksnm.Cryptography
         /// </summary>
         /// <param name="plainValue">平文</param>
         /// <returns>暗号文</returns>
-        public long Encrypt(int plainValue)
-        {
-            return ModPow(plainValue, PublicExponent, PublicSemiprime);
-        }
-        /// <summary>
-        /// 平文を暗号化する。
-        /// </summary>
-        /// <param name="plainValue">平文</param>
-        /// <returns>暗号文</returns>
-        public long Encrypt(long plainValue)
+        public UInt16 Encrypt(UInt8 plainValue)
         {
             return ModPow(plainValue, PublicExponent, PublicSemiprime);
         }
@@ -111,33 +111,33 @@ namespace Ksnm.Cryptography
         /// </summary>
         /// <param name="encryptedValue">暗号文</param>
         /// <returns>平文</returns>
-        public long Decrypt(long encryptedValue)
+        public UInt8 Decrypt(UInt16 encryptedValue)
         {
-            return ModPow(encryptedValue, SecretExponent, PublicSemiprime);
+            return (UInt8)ModPow(encryptedValue, SecretExponent, PublicSemiprime);
         }
 
         #region Utility
         /// <summary>
         /// 素数をランダムに生成する。
         /// </summary>
-        static int GeneratePrime() => Math.GeneratePrime(46_340, int.MaxValue);
+        static UInt8 GeneratePrime() => (UInt8)Math.GeneratePrime(17, UInt8.MaxValue);
         /// <summary>
         /// value が素数であるかどうかを判定するアルゴリズム。
         /// </summary>
-        static bool IsPrime(long value) => Math.IsPrime(value);
+        static bool IsPrime(UInt8 value) => Math.IsPrime(value);
         /// <summary>
         /// a と m が互いに素であるとき、a の m に関する逆元を計算するアルゴリズム。
         /// </summary>
-        static long ModInverse(long a, long m) => Math.ModInverse(a, m);
+        static UInt16 ModInverse(UInt16 a, UInt16 m) => Math.ModInverse(a, m);
         /// <summary>
         /// value^exponent mod modulus を計算する。
         /// ※ 一時的に大きい値になるため、BigInteger を使用して計算する。
         /// </summary>
-        static long ModPow(long value, long exponent, long modulus) => (long)Math.ModPow<BigInteger>(value, exponent, modulus);
+        static UInt16 ModPow(UInt16 value, UInt16 exponent, UInt16 modulus) => (UInt16)Math.ModPow<BigInteger>(value, exponent, modulus);
         /// <summary>
         /// a と b の最大公約数を計算する
         /// </summary>
-        public static long Gcd(long a, long b) => Math.GreatestCommonDivisor(a, b);
+        public static int Gcd(int a, int b) => Math.GreatestCommonDivisor(a, b);
         #endregion Utility
     }
 }
