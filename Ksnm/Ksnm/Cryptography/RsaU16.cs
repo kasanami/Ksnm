@@ -28,7 +28,7 @@ namespace Ksnm.Cryptography
         /// </summary>
         public UInt8 Prime2 { get; }
         /// <summary>
-        /// 公開合成数
+        /// 公開半素数
         /// </summary>
         public UInt16 PublicSemiprime { get; }
         /// <summary>
@@ -127,8 +127,9 @@ namespace Ksnm.Cryptography
         static bool IsPrime(UInt8 value) => Math.IsPrime(value);
         /// <summary>
         /// a と m が互いに素であるとき、a の m に関する逆元を計算するアルゴリズム。
+        /// ※ 一時的にマイナス値になるため、int を使用して計算する。
         /// </summary>
-        static UInt16 ModInverse(UInt16 a, UInt16 m) => Math.ModInverse(a, m);
+        static UInt16 ModInverse(UInt16 a, UInt16 m) => (UInt16)Math.ModInverse<int>(a, m);
         /// <summary>
         /// value^exponent mod modulus を計算する。
         /// ※ 一時的に大きい値になるため、BigInteger を使用して計算する。

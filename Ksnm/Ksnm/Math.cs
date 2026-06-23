@@ -1690,8 +1690,9 @@ namespace Ksnm
         /// <summary>
         /// 法 m に関する a のモジュラ逆数を計算する。
         /// ただし、 a と m は互いに素である必要があります。
+        /// ※T は符号付き整数型である必要があります。
         /// </summary>
-        public static T ModInverse<T>(T a, T m) where T : INumber<T>
+        public static T ModInverse<T>(T a, T m) where T : INumber<T>, ISignedNumber<T>
         {
             T m0 = m;
             T x0 = T.Zero;

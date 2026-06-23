@@ -25,7 +25,7 @@ namespace Ksnm.Cryptography
         /// </summary>
         public int Prime2 { get; }
         /// <summary>
-        /// 公開合成数
+        /// 公開半素数
         /// - int型の素数2つの積はlong型に収まるため、long型を使用する。
         /// - 平文はint型であるため、公開合成数は0xFFFFFFFFより大きくなければならない。
         /// </summary>
