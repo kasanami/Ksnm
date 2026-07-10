@@ -14,24 +14,30 @@ namespace ConsoleApp
         public static void Run()
         {
             Console.WriteLine("AES暗号化方式のテスト");
-            //TestAes128();
+            TestAes128();
             Console.WriteLine("RSA暗号化方式のテスト");
-            TestRsa(191, 109);
-            TestRsa64();
-            TestRsaU16();
+            //TestRsa(191, 109);
+            //TestRsa64();
+            //TestRsaU16();
         }
 
         static void TestAes128()
         {
             Console.WriteLine("AES-128暗号化方式のテスト");
+
+            var subWord = Aes128.SubWord(0x01020304);
+            Console.WriteLine($"SubWord(0x01020304) = 0x{subWord:X8}");
+
             var aes = new Aes128();
-            byte[] key = new byte[16] { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F };
-            byte[] plaintext = new byte[16] { 0x00, 0x11, 0x22, 0x33, 0x44, 0x55, 0x66, 0x77, 0x88, 0x99, 0xAA, 0xBB, 0xCC, 0xDD, 0xEE, 0xFF };
-            byte[] ciphertext = aes.Encrypt(plaintext, key);
-            byte[] decryptedtext = aes.Decrypt(ciphertext, key);
-            Console.WriteLine($"平文     : {BitConverter.ToString(plaintext)}");
-            Console.WriteLine($"暗号文   : {BitConverter.ToString(ciphertext)}");
-            Console.WriteLine($"復号結果 : {BitConverter.ToString(decryptedtext)}");
+            var text = "abcd" + "efgh" + "ijkl" + "mnop";
+            aes.SetState(Encoding.UTF8.GetBytes(text));
+            //byte[] key = new byte[16] { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F };
+            //byte[] plaintext = new byte[16] { 0x00, 0x11, 0x22, 0x33, 0x44, 0x55, 0x66, 0x77, 0x88, 0x99, 0xAA, 0xBB, 0xCC, 0xDD, 0xEE, 0xFF };
+            //byte[] ciphertext = aes.Encrypt(plaintext, key);
+            //byte[] decryptedtext = aes.Decrypt(ciphertext, key);
+            //Console.WriteLine($"平文     : {BitConverter.ToString(plaintext)}");
+            //Console.WriteLine($"暗号文   : {BitConverter.ToString(ciphertext)}");
+            //Console.WriteLine($"復号結果 : {BitConverter.ToString(decryptedtext)}");
         }
 
         static void TestRsa(BigInteger p, BigInteger q)
