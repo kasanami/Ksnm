@@ -15,7 +15,14 @@ namespace Ksnm.Cryptography
     [StructLayout(LayoutKind.Explicit)]
     public class Aes128
     {
-        const int BlockSize = 16; // AES-128のブロックサイズは16バイト
+        /// <summary>
+        /// ブロックサイズ[バイト数]
+        /// </summary>
+        const int BlockSize = 16;
+        /// <summary>
+        /// ラウンド数
+        /// </summary>
+        const int RoundsCount = 10;
         /// <summary>
         /// S-Box(substitution box)
         /// </summary>
@@ -278,26 +285,36 @@ namespace Ksnm.Cryptography
             0x10, 0x20, 0x40, 0x80,
             0x1B, 0x36
         };
+        /// <summary>
+        /// 
+        /// - RotWord	バイト位置をずらし、同じ位置のバイトだけが影響し続けることを防ぐ
+        /// - SubWord S-Boxにより非線形性を導入する
+        /// - Rcon ラウンドごとの変化を加え、周期性を防ぐ
+        /// - XOR words[i - 4]  以前のラウンド鍵との依存関係を作る
+        /// </summary>
         public static uint[] KeyExpansion(ReadOnlySpan<byte> key)
         {
-            uint[] words = new uint[44]; // 4 * (Nr + 1) words
-            const int Nk = 4; // 128-bit key
-            const int RoundsCount = 10; // Number of rounds
-            const int Nb = 4; // Block size in words
-            for (int i = 0; i < Nk; i++)
+            if(key.Length != 16)
+            {
+                throw new ArgumentException("AES-128では、鍵長は16バイトでなければなりません。");
+            }
+            uint[] words = new uint[4 * (RoundsCount + 1)]; // 4 * (RoundsCount + 1) words
+            const int KeyWordCount = 4; // 128-bit keyのワード数
+            const int BlockWordCount = 4; // 1 Block のワード数
+            for (int i = 0; i < KeyWordCount; i++)
             {
                 //words[i] = BinaryPrimitives.ReadUInt32LittleEndian(key.Slice(i * 4, 4));
                 words[i] = BinaryPrimitives.ReadUInt32BigEndian(key.Slice(i * 4, 4));
                 //words[i] = MemoryMarshal.Read<uint>(key.Slice(i * 4, 4));
             }
-            for (int i = Nk; i < Nb * (RoundsCount + 1); i++)
+            for (int i = KeyWordCount; i < BlockWordCount * (RoundsCount + 1); i++)
             {
                 uint temp = words[i - 1];
-                if (i % Nk == 0)
+                if (i % KeyWordCount == 0)
                 {
-                    temp = SubWord(RotWord(temp)) ^ ((uint)Rcon[i / Nk - 1] << 24);
+                    temp = SubWord(RotWord(temp)) ^ ((uint)Rcon[i / KeyWordCount - 1] << 24);
                 }
-                words[i] = words[i - Nk] ^ temp;
+                words[i] = words[i - KeyWordCount] ^ temp;
             }
             return words;
             //return words.SelectMany(BitConverter.GetBytes).ToArray();
