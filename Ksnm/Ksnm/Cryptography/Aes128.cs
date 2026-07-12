@@ -87,7 +87,7 @@ namespace Ksnm.Cryptography
             //}
         }
         /// <summary>
-        /// AES-128の暗号化を行います。
+        /// 任意のデータの暗号化を行います。
         /// </summary>
         public byte[] Encrypt(ReadOnlySpan<byte> plainBytes, ReadOnlySpan<byte> key)
         {
@@ -109,14 +109,14 @@ namespace Ksnm.Cryptography
             return result;
         }
         /// <summary>
-        /// AES-128の暗号化を行います。
+        /// 1ブロックの暗号化を行います。
         /// </summary>
         public byte[] EncryptBlock(ReadOnlySpan<byte> blockBytes, ReadOnlySpan<uint> roundKeys)
         {
             var state = new State(blockBytes);
             AddRoundKey(state.Words, roundKeys.Slice(0, 4));
             // 9回繰り返し
-            for (int i = 1; i <= 9; i++)
+            for (int i = 1; i <= RoundsCount - 1; i++)
             {
                 SubBytes(ref state);
                 ShiftRows(ref state);
@@ -127,7 +127,7 @@ namespace Ksnm.Cryptography
             {
                 SubBytes(ref state);
                 ShiftRows(ref state);
-                AddRoundKey(state.Words, roundKeys.Slice(10 * 4, 4));
+                AddRoundKey(state.Words, roundKeys.Slice(RoundsCount * 4, 4));
             }
             return state.Array;
         }
