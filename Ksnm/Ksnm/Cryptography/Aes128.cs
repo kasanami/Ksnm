@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Ksnm.Units;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlTypes;
 using System.Linq;
@@ -13,10 +14,11 @@ namespace Ksnm.Cryptography
     [StructLayout(LayoutKind.Explicit)]
     public class Aes128
     {
+        const int BlockSize = 16; // AES-128のブロックサイズは16バイト
         /// <summary>
         /// S-Box(substitution box)
         /// </summary>
-        static readonly byte[] SBox =
+        static public readonly byte[] SBox =
         {
             0x63,0x7C,0x77,0x7B,0xF2,0x6B,0x6F,0xC5,
             0x30,0x01,0x67,0x2B,0xFE,0xD7,0xAB,0x76,
@@ -77,42 +79,51 @@ namespace Ksnm.Cryptography
             //}
         }
         /// <summary>
-        /// 状態行列
-        /// - 初期状態では平文が入る
-        /// - Stateは毎ラウンド書き換えられる作業領域
+        /// AES-128の暗号化を行います。
         /// </summary>
-        [FieldOffset(0)]
-        public byte[,] state = new byte[4, 4];
-        /// <summary>
-        /// 状態行列を1次元配列として扱う場合の作業領域
-        /// </summary>
-        [FieldOffset(0)]
-        public byte[] stateArray = new byte[4 * 4];
+        public byte[] Encrypt(ReadOnlySpan<byte> plainBytes, ReadOnlySpan<byte> key)
+        {
+            var blockCount = plainBytes.Length / BlockSize;
+            if ((plainBytes.Length & (BlockSize - 1)) > 0)
+            {
+                blockCount += 1;
+            }
+            byte[] result = new byte[blockCount * BlockSize];
+
+            var roundKeys = KeyExpansion(key);
+
+            for (int i = 0; i < blockCount; i++)
+            {
+                var block = plainBytes.Slice(i * BlockSize, BlockSize);
+                var encryptedBlock = EncryptBlock(block, roundKeys);
+                encryptedBlock.CopyTo(result,i * BlockSize);
+            }
+            return result;
+        }
         /// <summary>
         /// AES-128の暗号化を行います。
         /// </summary>
-        public byte[] Encrypt(byte[] plainBytes, byte[] key)
+        public byte[] EncryptBlock(ReadOnlySpan<byte> blockBytes, ReadOnlySpan<byte> roundKeys)
         {
-            var roundKeys = KeyExpansion(key);
-            SetState(plainBytes);
-            AddRoundKey(roundKeys.AsSpan(0, 16));
-
+            var state = new State(blockBytes);
+            AddRoundKey(state.Array, roundKeys.Slice(0, 16));
             // 9回繰り返し
             for (int i = 1; i <= 9; i++)
             {
-                SubBytes();
-                ShiftRows();
-                MixColumns();
-                AddRoundKey(roundKeys.AsSpan(i * 16, 16));
+                SubBytes(state.Array);
+                ShiftRows(ref state);
+                MixColumns(ref state);
+                AddRoundKey(state.Array, roundKeys.Slice(i * 16, 16));
             }
             //最後
             {
-                SubBytes();
-                ShiftRows();
-                AddRoundKey(roundKeys.AsSpan(10 * 16, 16));
+                SubBytes(state.Array);
+                ShiftRows(ref state);
+                AddRoundKey(state.Array, roundKeys.Slice(10 * 16, 16));
             }
-            return stateArray;
+            return state.Array;
         }
+#if false
         /// <summary>
         /// AES-128の復号化を行います。
         /// </summary>
@@ -138,26 +149,15 @@ namespace Ksnm.Cryptography
             }
             return stateArray;
         }
-        /// <summary>
-        /// 状態行列に平文をセットします。
-        /// </summary>
-        /// <param name="input"></param>
-        public void SetState(byte[] input)
-        {
-            ///メモリーをコピーする
-            Array.Copy(input, stateArray, stateArray.Length);
-        }
+#endif
         /// <summary>
         /// 状態とラウンド鍵をXORします。
         /// </summary>
-        public void AddRoundKey(Span<byte> roundKey)
+        public static void AddRoundKey(Span<byte> state, ReadOnlySpan<byte> roundKey)
         {
-            for (int r = 0; r < 4; r++)
+            for (int i = 0; i < state.Length; i++)
             {
-                for (int c = 0; c < 4; c++)
-                {
-                    state[r, c] ^= roundKey[r * 4 + c];
-                }
+                state[i] ^= roundKey[i];
             }
         }
         static byte XTime(byte x)
@@ -169,9 +169,15 @@ namespace Ksnm.Cryptography
         }
         /// <summary>
         /// 状態行列の各バイトをS-Boxで置換します。
+        /// 役割：非線形性（予測しにくさ）を与える
         /// </summary>
-        public void SubBytes()
+        public static void SubBytes(ref State state)
         {
+            SubBytes(state.Array);
+        }
+        public static void SubBytes(Span<byte> state)
+        {
+#if false
             for (int r = 0; r < 4; r++)
             {
                 for (int c = 0; c < 4; c++)
@@ -179,6 +185,12 @@ namespace Ksnm.Cryptography
                     state[r, c] = SBox[state[r, c]];
                 }
             }
+#else
+            for (int i = 0; i < 16; i++)
+            {
+                state[i] = SBox[state[i]];
+            }
+#endif
         }
         /// <summary>
         /// 状態行列の各列をGalois Field GF(2^8)で乗算します。
@@ -204,8 +216,10 @@ namespace Ksnm.Cryptography
 
             return result;
         }
-
-        public void ShiftRows()
+        /// <summary>
+        /// 横方向にデータを拡散する
+        /// </summary>
+        public static void ShiftRows(ref State state)
         {
             for (int row = 1; row < 4; row++)
             {
@@ -218,11 +232,14 @@ namespace Ksnm.Cryptography
                     state[row, col] = temp[col];
             }
         }
-        public byte Mul3(byte x)
+        public static byte Mul3(byte x)
         {
             return (byte)(XTime(x) ^ x);
         }
-        public void MixColumns()
+        /// <summary>
+        /// 縦方向にデータを拡散する
+        /// </summary>
+        public static void MixColumns(ref State state)
         {
             for (int c = 0; c < 4; c++)
             {
@@ -250,7 +267,7 @@ namespace Ksnm.Cryptography
             0x10, 0x20, 0x40, 0x80,
             0x1B, 0x36
         };
-        static byte[] KeyExpansion(byte[] key)
+        static byte[] KeyExpansion(ReadOnlySpan<byte> key)
         {
             uint[] w = new uint[44]; // 4 * (Nr + 1) words
             const int Nk = 4; // 128-bit key
@@ -258,7 +275,7 @@ namespace Ksnm.Cryptography
             const int Nb = 4; // Block size in words
             for (int i = 0; i < Nk; i++)
             {
-                w[i] = BitConverter.ToUInt32(key, i * 4);
+                w[i] = MemoryMarshal.Read<uint>(key.Slice(i * 4, 4));
             }
             for (int i = Nk; i < Nb * (RoundsCount + 1); i++)
             {
@@ -291,12 +308,58 @@ namespace Ksnm.Cryptography
         }
         public static uint SubWord(ReadOnlySpan<byte> word)
         {
-            return 
+            return
                 (uint)SBox[word[3]] << 24 |
                 (uint)SBox[word[2]] << 16 |
                 (uint)SBox[word[1]] << 8 |
                 (uint)SBox[word[0]];
         }
         #endregion RoundKey
+
+        #region State
+        /// <summary>
+        /// AESの状態行列を表す構造体
+        /// - 初期状態では平文が入る
+        /// - Stateは毎ラウンド書き換えられる作業領域
+        /// </summary>
+        public struct State
+        {
+            public byte[] _array = new byte[4 * 4];
+            /// <summary>
+            /// 状態行列
+            /// </summary>
+            //public byte[,] Matrix { get => _matrix; private set => _matrix = value; }
+            /// <summary>
+            /// 状態行列を1次元配列として扱う場合の作業領域
+            /// </summary>
+            public byte[] Array { get => _array; private set => _array = value; }
+            public State()
+            {
+            }
+#if false
+            public State(byte[,] matrix)
+            {
+                // 2次元配列全体を1次元Spanとして扱う
+                Span<byte> destination = MemoryMarshal.CreateSpan(ref _matrix[0, 0], _matrix.Length);
+                Span<byte> source = MemoryMarshal.CreateSpan(ref matrix[0, 0], matrix.Length);
+                // 一括コピー
+                source.CopyTo(destination);
+            }
+#endif
+            public State(ReadOnlySpan<byte> array)
+            {
+                array.CopyTo(Array);
+            }
+            public byte this[int row, int col]
+            {
+#if false
+                get => _matrix[row, col];
+                set => _matrix[row, col] = value;
+#endif
+                get => _array[row * 4 + col];
+                set => _array[row * 4 + col] = value;
+            }
+        }
+#endregion State
     }
 }
