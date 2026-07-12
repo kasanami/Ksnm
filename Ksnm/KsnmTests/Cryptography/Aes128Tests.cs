@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
+using static Ksnm.Cryptography.Aes128;
 
 namespace Ksnm.Cryptography.Tests
 {
@@ -35,6 +36,11 @@ namespace Ksnm.Cryptography.Tests
             Assert.AreEqual(13, state[3, 1]);
             Assert.AreEqual(14, state[3, 2]);
             Assert.AreEqual(15, state[3, 3]);
+
+            Assert.AreEqual<uint>(0x03020100, state.Words[0]);
+            Assert.AreEqual<uint>(0x07060504, state.Words[1]);
+            Assert.AreEqual<uint>(0x0B0A0908, state.Words[2]);
+            Assert.AreEqual<uint>(0x0F0E0D0C, state.Words[3]);
         }
         [TestMethod()]
         public void ConstructorTest()
@@ -158,6 +164,17 @@ namespace Ksnm.Cryptography.Tests
             Assert.AreEqual<uint>(0x9A, state.Array[13]);
             Assert.AreEqual<uint>(0x7A, state.Array[14]);
             Assert.AreEqual<uint>(0x4C, state.Array[15]);
+        }
+        [TestMethod()]
+        public void KeyExpansionTest()
+        {
+            byte[] key = [0x2B, 0x7E, 0x15, 0x16, 0x28, 0xAE, 0xD2, 0xA6, 0xAB, 0xF7, 0x15, 0x88, 0x09, 0xCF, 0x4F, 0x3C];
+            var words = Aes128.KeyExpansion(key);
+
+            Assert.AreEqual<uint>(0xA0FAFE17, words[4]);
+            Assert.AreEqual<uint>(0x88542CB1, words[5]);
+            Assert.AreEqual<uint>(0x23A33939, words[6]);
+            Assert.AreEqual<uint>(0x2A6C7605, words[7]);
         }
     }
 }

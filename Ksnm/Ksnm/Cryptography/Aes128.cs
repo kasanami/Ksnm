@@ -1,5 +1,6 @@
 ﻿using Ksnm.Units;
 using System;
+using System.Buffers.Binary;
 using System.Collections.Generic;
 using System.Data.SqlTypes;
 using System.Linq;
@@ -103,23 +104,23 @@ namespace Ksnm.Cryptography
         /// <summary>
         /// AES-128の暗号化を行います。
         /// </summary>
-        public byte[] EncryptBlock(ReadOnlySpan<byte> blockBytes, ReadOnlySpan<byte> roundKeys)
+        public byte[] EncryptBlock(ReadOnlySpan<byte> blockBytes, ReadOnlySpan<uint> roundKeys)
         {
             var state = new State(blockBytes);
-            AddRoundKey(state.Array, roundKeys.Slice(0, 16));
+            AddRoundKey(state.Words, roundKeys.Slice(0, 4));
             // 9回繰り返し
             for (int i = 1; i <= 9; i++)
             {
-                SubBytes(state.Array);
+                SubBytes(ref state);
                 ShiftRows(ref state);
                 MixColumns(ref state);
-                AddRoundKey(state.Array, roundKeys.Slice(i * 16, 16));
+                AddRoundKey(state.Words, roundKeys.Slice(i * 4, 4));
             }
             //最後
             {
-                SubBytes(state.Array);
+                SubBytes(ref state);
                 ShiftRows(ref state);
-                AddRoundKey(state.Array, roundKeys.Slice(10 * 16, 16));
+                AddRoundKey(state.Words, roundKeys.Slice(10 * 4, 4));
             }
             return state.Array;
         }
@@ -154,6 +155,16 @@ namespace Ksnm.Cryptography
         /// 状態とラウンド鍵をXORします。
         /// </summary>
         public static void AddRoundKey(Span<byte> state, ReadOnlySpan<byte> roundKey)
+        {
+            for (int i = 0; i < state.Length; i++)
+            {
+                state[i] ^= roundKey[i];
+            }
+        }
+        /// <summary>
+        /// 状態とラウンド鍵をXORします。
+        /// </summary>
+        public static void AddRoundKey(Span<uint> state, ReadOnlySpan<uint> roundKey)
         {
             for (int i = 0; i < state.Length; i++)
             {
@@ -267,26 +278,29 @@ namespace Ksnm.Cryptography
             0x10, 0x20, 0x40, 0x80,
             0x1B, 0x36
         };
-        static byte[] KeyExpansion(ReadOnlySpan<byte> key)
+        public static uint[] KeyExpansion(ReadOnlySpan<byte> key)
         {
-            uint[] w = new uint[44]; // 4 * (Nr + 1) words
+            uint[] words = new uint[44]; // 4 * (Nr + 1) words
             const int Nk = 4; // 128-bit key
             const int RoundsCount = 10; // Number of rounds
             const int Nb = 4; // Block size in words
             for (int i = 0; i < Nk; i++)
             {
-                w[i] = MemoryMarshal.Read<uint>(key.Slice(i * 4, 4));
+                //words[i] = BinaryPrimitives.ReadUInt32LittleEndian(key.Slice(i * 4, 4));
+                words[i] = BinaryPrimitives.ReadUInt32BigEndian(key.Slice(i * 4, 4));
+                //words[i] = MemoryMarshal.Read<uint>(key.Slice(i * 4, 4));
             }
             for (int i = Nk; i < Nb * (RoundsCount + 1); i++)
             {
-                uint temp = w[i - 1];
+                uint temp = words[i - 1];
                 if (i % Nk == 0)
                 {
                     temp = SubWord(RotWord(temp)) ^ ((uint)Rcon[i / Nk - 1] << 24);
                 }
-                w[i] = w[i - Nk] ^ temp;
+                words[i] = words[i - Nk] ^ temp;
             }
-            return w.SelectMany(BitConverter.GetBytes).ToArray();
+            return words;
+            //return words.SelectMany(BitConverter.GetBytes).ToArray();
         }
         /// <summary>
         /// ワードを左に1バイト回転させる
@@ -332,7 +346,11 @@ namespace Ksnm.Cryptography
             /// <summary>
             /// 状態行列を1次元配列として扱う場合の作業領域
             /// </summary>
-            public byte[] Array { get => _array; private set => _array = value; }
+            public byte[] Array => _array;
+            /// <summary>
+            /// 状態行列を32bitワードとして扱う
+            /// </summary>
+            public Span<uint> Words => MemoryMarshal.Cast<byte, uint>(_array);
             public State()
             {
             }
