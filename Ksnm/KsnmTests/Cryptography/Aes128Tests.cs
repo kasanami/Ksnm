@@ -15,7 +15,30 @@ namespace Ksnm.Cryptography.Tests
         [TestMethod()]
         public void StateTest()
         {
-            Aes128.State state = new Aes128.State();
+            Aes128.State state = new Aes128.State([
+                0x00, 0x01, 0x02, 0x03,
+                0x04, 0x05, 0x06, 0x07,
+                0x08, 0x09, 0x0A, 0x0B,
+                0x0C, 0x0D, 0x0E, 0x0F
+            ]);
+            // 
+            Assert.AreEqual(00, state[0, 0]);
+            Assert.AreEqual(01, state[1, 0]);
+            Assert.AreEqual(02, state[2, 0]);
+            Assert.AreEqual(03, state[3, 0]);
+            Assert.AreEqual(04, state[0, 1]);
+            Assert.AreEqual(05, state[1, 1]);
+            Assert.AreEqual(06, state[2, 1]);
+            Assert.AreEqual(07, state[3, 1]);
+            Assert.AreEqual(08, state[0, 2]);
+            Assert.AreEqual(09, state[1, 2]);
+            Assert.AreEqual(10, state[2, 2]);
+            Assert.AreEqual(11, state[3, 2]);
+            Assert.AreEqual(12, state[0, 3]);
+            Assert.AreEqual(13, state[1, 3]);
+            Assert.AreEqual(14, state[2, 3]);
+            Assert.AreEqual(15, state[3, 3]);
+
             for (int i = 0; i < state.Array.Length; i++)
             {
                 state.Array[i] = (byte)i;
@@ -138,32 +161,27 @@ namespace Ksnm.Cryptography.Tests
         public void MixColumnsTest()
         {
             Aes128.State state = new Aes128.State(new byte[]
-                {
-                    0x19, 0xA0, 0x9A, 0xE9,
-                    0x3D, 0xF4, 0xC6, 0xF8,
-                    0xE3, 0xE2, 0x8D, 0x48,
-                    0xBE, 0x2B, 0x2A, 0x08
-                });
+            {
+                0x19, 0xA0, 0x9A, 0xE9,
+                0x3D, 0xF4, 0xC6, 0xF8,
+                0xE3, 0xE2, 0x8D, 0x48,
+                0xBE, 0x2B, 0x2A, 0x08
+            });
             Aes128.SubBytes(ref state);
             Aes128.ShiftRows(ref state);
             Aes128.MixColumns(ref state);
 
-            Assert.AreEqual<uint>(0x04, state.Array[0]);
-            Assert.AreEqual<uint>(0xE0, state.Array[1]);
-            Assert.AreEqual<uint>(0x48, state.Array[2]);
-            Assert.AreEqual<uint>(0x28, state.Array[3]);
-            Assert.AreEqual<uint>(0x66, state.Array[4]);
-            Assert.AreEqual<uint>(0xCB, state.Array[5]);
-            Assert.AreEqual<uint>(0xF8, state.Array[6]);
-            Assert.AreEqual<uint>(0x06, state.Array[7]);
-            Assert.AreEqual<uint>(0x81, state.Array[8]);
-            Assert.AreEqual<uint>(0x19, state.Array[9]);
-            Assert.AreEqual<uint>(0xD3, state.Array[10]);
-            Assert.AreEqual<uint>(0x26, state.Array[11]);
-            Assert.AreEqual<uint>(0xE5, state.Array[12]);
-            Assert.AreEqual<uint>(0x9A, state.Array[13]);
-            Assert.AreEqual<uint>(0x7A, state.Array[14]);
-            Assert.AreEqual<uint>(0x4C, state.Array[15]);
+            var expected = new byte[]
+            {
+                0x04, 0xE0, 0x48, 0x28,
+                0x66, 0xCB, 0xF8, 0x06,
+                0x81, 0x19, 0xD3, 0x26,
+                0xE5, 0x9A, 0x7A, 0x4C,
+            };
+            for (int i = 0; i < 16; i++)
+            {
+                Assert.AreEqual<uint>(expected[i], state.Array[i]);
+            }
         }
         [TestMethod()]
         public void KeyExpansionTest()

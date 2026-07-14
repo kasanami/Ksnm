@@ -104,7 +104,7 @@ namespace Ksnm.Cryptography
             {
                 var block = plainBytes.Slice(i * BlockSize, BlockSize);
                 var encryptedBlock = EncryptBlock(block, roundKeys);
-                encryptedBlock.CopyTo(result,i * BlockSize);
+                encryptedBlock.CopyTo(result, i * BlockSize);
             }
             return result;
         }
@@ -176,6 +176,16 @@ namespace Ksnm.Cryptography
             for (int i = 0; i < state.Length; i++)
             {
                 state[i] ^= roundKey[i];
+            }
+        }
+        private static void AddRoundKey(State state, ReadOnlySpan<byte> key)
+        {
+            for (int c = 0; c < 4; c++)
+            {
+                for (int r = 0; r < 4; r++)
+                {
+                    state[r, c] ^= key[c * 4 + r];
+                }
             }
         }
         static byte XTime(byte x)
@@ -294,7 +304,7 @@ namespace Ksnm.Cryptography
         /// </summary>
         public static uint[] KeyExpansion(ReadOnlySpan<byte> key)
         {
-            if(key.Length != 16)
+            if (key.Length != 16)
             {
                 throw new ArgumentException("AES-128では、鍵長は16バイトでなければなりません。");
             }
@@ -352,9 +362,13 @@ namespace Ksnm.Cryptography
         /// AESの状態行列を表す構造体
         /// - 初期状態では平文が入る
         /// - Stateは毎ラウンド書き換えられる作業領域
+        /// - 列優先(Column Major)
         /// </summary>
         public struct State
         {
+            /// <summary>
+            /// [row * 4 + col]
+            /// </summary>
             public byte[] _array = new byte[4 * 4];
             /// <summary>
             /// 状態行列
@@ -383,7 +397,14 @@ namespace Ksnm.Cryptography
 #endif
             public State(ReadOnlySpan<byte> array)
             {
-                array.CopyTo(Array);
+                //array.CopyTo(Array);
+                for (int c = 0; c < 4; c++)
+                {
+                    for (int r = 0; r < 4; r++)
+                    {
+                        _array[r * 4 + c] = array[c * 4 + r];
+                    }
+                }
             }
             public byte this[int row, int col]
             {
@@ -394,7 +415,18 @@ namespace Ksnm.Cryptography
                 get => _array[row * 4 + col];
                 set => _array[row * 4 + col] = value;
             }
+            public Span<byte> ToBytes(Span<byte> output)
+            {
+                for (int c = 0; c < 4; c++)
+                {
+                    for (int r = 0; r < 4; r++)
+                    {
+                        output[c * 4 + r] = _array[r * 4 + c];
+                    }
+                }
+                return output;
+            }
         }
-#endregion State
+        #endregion State
     }
 }
