@@ -1,11 +1,7 @@
 ﻿using Ksnm.Cryptography;
 using Ksnm.ExtensionMethods.System.Collections.Generic.Enumerable;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Numerics;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace ConsoleApp
 {
@@ -21,22 +17,36 @@ namespace ConsoleApp
             //TestRsaU16();
         }
 
+        #region AES
         static void TestAes128()
         {
             Console.WriteLine("AES-128暗号化方式のテスト");
 
-            var subWord = Aes128.SubWord(0x01020304);
-            Console.WriteLine($"SubWord(0x01020304) = 0x{subWord:X8}");
+            byte[] key = new byte[16]
+            {
+                0x00,0x01,0x02,0x03,0x04,0x05,0x06,0x07,
+                0x08,0x09,0x0A,0x0B,0x0C,0x0D,0x0E,0x0F
+            };
 
-            //var aes = new Aes128();
-            //byte[] key = new byte[16] { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F };
-            //byte[] plaintext = new byte[16] { 0x00, 0x11, 0x22, 0x33, 0x44, 0x55, 0x66, 0x77, 0x88, 0x99, 0xAA, 0xBB, 0xCC, 0xDD, 0xEE, 0xFF };
-            //byte[] ciphertext = aes.Encrypt(plaintext, key);
-            //byte[] decryptedtext = aes.Decrypt(ciphertext, key);
-            //Console.WriteLine($"平文     : {BitConverter.ToString(plaintext)}");
-            //Console.WriteLine($"暗号文   : {BitConverter.ToString(ciphertext)}");
-            //Console.WriteLine($"復号結果 : {BitConverter.ToString(decryptedtext)}");
+            byte[] iv = new byte[16]
+            {
+                0x10,0x11,0x12,0x13,0x14,0x15,0x16,0x17,
+                0x18,0x19,0x1A,0x1B,0x1C,0x1D,0x1E,0x1F
+            };
+
+            byte[] plaintext = System.Text.Encoding.UTF8.GetBytes("Hello AES from scratch!");
+
+            var aes = new Aes(key);
+            byte[] ciphertext = aes.EncryptCbc(plaintext, iv);
+            byte[] recovered = aes.DecryptCbc(ciphertext, iv);
+
+            Console.WriteLine($"Plain : {System.Text.Encoding.UTF8.GetString(plaintext)}");
+            Console.WriteLine($"Cipher: {Convert.ToHexString(ciphertext)}");
+            Console.WriteLine($"Back  : {System.Text.Encoding.UTF8.GetString(recovered)}");
+
+            //D7DFEF9C698D98D8880C76FADFFFF1DFC818364AA95EB16AE9449D9DEADF3BD7
         }
+        #endregion AES
 
         static void TestRsa(BigInteger p, BigInteger q)
         {
@@ -205,4 +215,3 @@ namespace ConsoleApp
         }
     }
 }
-
