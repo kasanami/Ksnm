@@ -75,11 +75,20 @@ namespace Ksnm.Cryptography
         #endregion 定数
         #region フィールド
         /// <summary>
-        /// AESキーのワード数（32ビット単位）。AES-128では4、AES-192では6、AES-256では8です。
+        /// AESキーのワード数（32ビット単位）。
+        /// AES-128では4、AES-192では6、AES-256では8です。
         /// </summary>
-        private readonly int _KeyWordsCount;
-        private readonly int _RoundsCount;
-        private readonly uint[] _roundKeys; // expanded key schedule words
+        public int KeyWordsCount { get; private set; }
+        /// <summary>
+        /// AESのラウンド数。
+        /// AES-128では10、AES-192では12、AES-256では14です。
+        /// </summary>
+        public int RoundCount { get; private set; }
+        /// <summary>
+        /// AESのラウンドキー配列。
+        /// キー拡張によって生成され、暗号化/復号化の各ラウンドで使用されます。
+        /// </summary>
+        public uint[] RoundKeys { get; private set; }
         #endregion フィールド
         /// <summary>
         /// AES暗号化/復号化のインスタンスを初期化します。
@@ -93,9 +102,9 @@ namespace Ksnm.Cryptography
                 throw new ArgumentException($"{nameof(key)}の長さは、16、24、または32バイトでなければなりません。", nameof(key));
             }
 
-            _KeyWordsCount = key.Length / 4;
-            _RoundsCount = _KeyWordsCount + 6;
-            _roundKeys = ExpandKey(key);
+            KeyWordsCount = key.Length / 4;
+            RoundCount = KeyWordsCount + 6;
+            RoundKeys = KeyExpansion(key);
         }
         /// <summary>
         /// AESをECBモードで暗号化します。必要に応じてPKCS7パディングを適用します。
@@ -256,7 +265,7 @@ namespace Ksnm.Cryptography
 
             AddRoundKey(state, 0);
 
-            for (int round = 1; round < _RoundsCount; round++)
+            for (int round = 1; round < RoundCount; round++)
             {
                 SubBytes(state);
                 ShiftRows(state);
@@ -266,7 +275,7 @@ namespace Ksnm.Cryptography
 
             SubBytes(state);
             ShiftRows(state);
-            AddRoundKey(state, _RoundsCount);
+            AddRoundKey(state, RoundCount);
 
             state.CopyTo(output);
         }
@@ -290,9 +299,9 @@ namespace Ksnm.Cryptography
             Span<byte> state = stackalloc byte[BlockSize];
             input.Slice(0, BlockSize).CopyTo(state);
 
-            AddRoundKey(state, _RoundsCount);
+            AddRoundKey(state, RoundCount);
 
-            for (int round = _RoundsCount - 1; round >= 1; round--)
+            for (int round = RoundCount - 1; round >= 1; round--)
             {
                 InvShiftRows(state);
                 InvSubBytes(state);
@@ -307,32 +316,41 @@ namespace Ksnm.Cryptography
             state.CopyTo(output);
         }
         /// <summary>
-        /// AESキーを拡張してラウンドキーを生成します。キー拡張アルゴリズムに従って、元のキーから必要なラウンドキーを計算します。
+        /// AESキーを拡張してラウンドキーを生成します。
+        /// キー拡張アルゴリズムに従って、元のキーから必要なラウンドキーを計算します。
         /// </summary>
-        private uint[] ExpandKey(ReadOnlySpan<byte> key)
+        private uint[] KeyExpansion(ReadOnlySpan<byte> key)
         {
-            int wordsLength = 4 * (_RoundsCount + 1);
+            return KeyExpansion(key, KeyWordsCount, RoundCount);
+        }
+        /// <summary>
+        /// AESキーを拡張してラウンドキーを生成します。
+        /// キー拡張アルゴリズムに従って、元のキーから必要なラウンドキーを計算します。
+        /// </summary>
+        public static uint[] KeyExpansion(ReadOnlySpan<byte> key, int keyWordsCount, int roundCount)
+        {
+            int wordsLength = 4 * (roundCount + 1);
             uint[] words = new uint[wordsLength];
 
-            for (int i = 0; i < _KeyWordsCount; i++)
+            for (int i = 0; i < keyWordsCount; i++)
             {
                 words[i] = BinaryPrimitives.ReadUInt32BigEndian(key.Slice(i * 4, 4));
             }
 
-            for (int i = _KeyWordsCount; i < wordsLength; i++)
+            for (int i = keyWordsCount; i < wordsLength; i++)
             {
                 uint temp = words[i - 1];
 
-                if (i % _KeyWordsCount == 0)
+                if (i % keyWordsCount == 0)
                 {
-                    temp = SubWord(RotWord(temp)) ^ ((uint)Rcon[i / _KeyWordsCount] << 24);
+                    temp = SubWord(RotWord(temp)) ^ ((uint)Rcon[i / keyWordsCount] << 24);
                 }
-                else if (_KeyWordsCount > 6 && i % _KeyWordsCount == 4)
+                else if (keyWordsCount > 6 && i % keyWordsCount == 4)
                 {
                     temp = SubWord(temp);
                 }
 
-                words[i] = words[i - _KeyWordsCount] ^ temp;
+                words[i] = words[i - keyWordsCount] ^ temp;
             }
 
             return words;
@@ -348,7 +366,19 @@ namespace Ksnm.Cryptography
             int wordOffset = round * 4;
             for (int c = 0; c < 4; c++)
             {
-                uint k = _roundKeys[wordOffset + c];
+                uint k = RoundKeys[wordOffset + c];
+                state[c * 4 + 0] ^= (byte)(k >> 24);
+                state[c * 4 + 1] ^= (byte)(k >> 16);
+                state[c * 4 + 2] ^= (byte)(k >> 8);
+                state[c * 4 + 3] ^= (byte)k;
+            }
+        }
+        public static void AddRoundKey(Span<byte> state, int round, uint[] roundKeys)
+        {
+            int wordOffset = round * 4;
+            for (int c = 0; c < 4; c++)
+            {
+                uint k = roundKeys[wordOffset + c];
                 state[c * 4 + 0] ^= (byte)(k >> 24);
                 state[c * 4 + 1] ^= (byte)(k >> 16);
                 state[c * 4 + 2] ^= (byte)(k >> 8);

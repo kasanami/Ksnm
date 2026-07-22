@@ -13,6 +13,22 @@ namespace Ksnm.Cryptography.Tests
     public class Aes128Tests
     {
         [TestMethod()]
+        public void AddRoundKeyTest()
+        {
+            byte[] key = new byte[16]
+            {
+                0x00,0x01,0x02,0x03,0x04,0x05,0x06,0x07,
+                0x08,0x09,0x0A,0x0B,0x0C,0x0D,0x0E,0x0F
+            };
+
+            var aes = new Aes(key);
+        }
+        [TestMethod()]
+        public void ExpandKeyTest()
+        {
+
+        }
+        [TestMethod()]
         public void StateTest()
         {
             Aes128.State state = new Aes128.State([
@@ -177,12 +193,27 @@ namespace Ksnm.Cryptography.Tests
         public void KeyExpansionTest()
         {
             byte[] key = [0x2B, 0x7E, 0x15, 0x16, 0x28, 0xAE, 0xD2, 0xA6, 0xAB, 0xF7, 0x15, 0x88, 0x09, 0xCF, 0x4F, 0x3C];
-            var words = Aes128.KeyExpansion(key);
+            var words1 = Aes128.KeyExpansion(key);
+            var words2 = Aes.KeyExpansion(key,4,10);
 
-            Assert.AreEqual<uint>(0xA0FAFE17, words[4]);
-            Assert.AreEqual<uint>(0x88542CB1, words[5]);
-            Assert.AreEqual<uint>(0x23A33939, words[6]);
-            Assert.AreEqual<uint>(0x2A6C7605, words[7]);
+            Assert.AreEqual<uint>(words2[0], words1[0]);
+            Assert.AreEqual<uint>(words2[1], words1[1]);
+            Assert.AreEqual<uint>(words2[2], words1[2]);
+            Assert.AreEqual<uint>(words2[3], words1[3]);
+            Assert.AreEqual<uint>(words2[4], words1[4]);
+            Assert.AreEqual<uint>(words2[5], words1[5]);
+            Assert.AreEqual<uint>(words2[6], words1[6]);
+            Assert.AreEqual<uint>(words2[7], words1[7]);
+
+            Assert.AreEqual<uint>(words2[8], words1[8]);
+            Assert.AreEqual<uint>(words2[9], words1[9]);
+            Assert.AreEqual<uint>(words2[10], words1[10]);
+            Assert.AreEqual<uint>(words2[11], words1[11]);
+            Assert.AreEqual<uint>(words2[12], words1[12]);
+            Assert.AreEqual<uint>(words2[13], words1[13]);
+            Assert.AreEqual<uint>(words2[14], words1[14]);
+            Assert.AreEqual<uint>(words2[15], words1[15]);
+
         }
     }
 }
