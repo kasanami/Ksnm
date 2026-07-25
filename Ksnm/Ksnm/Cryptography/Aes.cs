@@ -390,7 +390,7 @@ namespace Ksnm.Cryptography
         /// 状態の各バイトをS-Boxを使用して置換します。
         /// </summary>
         /// <param name="state"></param>
-        private static void SubBytes(Span<byte> state)
+        public static void SubBytes(Span<byte> state)
         {
             for (int i = 0; i < BlockSize; i++)
                 state[i] = SBox[state[i]];
@@ -399,7 +399,7 @@ namespace Ksnm.Cryptography
         /// AESのInvSubBytesステップを実行します。
         /// </summary>
         /// <param name="state"></param>
-        private static void InvSubBytes(Span<byte> state)
+        public static void InvSubBytes(Span<byte> state)
         {
             for (int i = 0; i < BlockSize; i++)
                 state[i] = InvSBox[state[i]];
@@ -410,17 +410,17 @@ namespace Ksnm.Cryptography
         /// ※AESのステートレイアウトは列優先です。
         /// </summary>
         /// <param name="state"></param>
-        private static void ShiftRows(Span<byte> state)
+        public static void ShiftRows(Span<byte> state)
         {
-            Span<byte> t = stackalloc byte[BlockSize];
-            state.CopyTo(t);
+            Span<byte> temp = stackalloc byte[BlockSize];
+            state.CopyTo(temp);
 
-            t[0] = state[00]; t[4] = state[04]; t[08] = state[08]; t[12] = state[12];
-            t[1] = state[05]; t[5] = state[09]; t[09] = state[13]; t[13] = state[01];
-            t[2] = state[10]; t[6] = state[14]; t[10] = state[02]; t[14] = state[06];
-            t[3] = state[15]; t[7] = state[03]; t[11] = state[07]; t[15] = state[11];
+            temp[0] = state[00]; temp[4] = state[04]; temp[08] = state[08]; temp[12] = state[12];
+            temp[1] = state[05]; temp[5] = state[09]; temp[09] = state[13]; temp[13] = state[01];
+            temp[2] = state[10]; temp[6] = state[14]; temp[10] = state[02]; temp[14] = state[06];
+            temp[3] = state[15]; temp[7] = state[03]; temp[11] = state[07]; temp[15] = state[11];
 
-            t.CopyTo(state);
+            temp.CopyTo(state);
         }
         /// <summary>
         /// AESのInvShiftRowsステップを実行します。
@@ -429,15 +429,15 @@ namespace Ksnm.Cryptography
         /// <param name="state"></param>
         private static void InvShiftRows(Span<byte> state)
         {
-            Span<byte> t = stackalloc byte[BlockSize];
-            state.CopyTo(t);
+            Span<byte> temp = stackalloc byte[BlockSize];
+            state.CopyTo(temp);
 
-            t[0] = state[00]; t[4] = state[04]; t[08] = state[08]; t[12] = state[12];
-            t[1] = state[13]; t[5] = state[01]; t[09] = state[05]; t[13] = state[09];
-            t[2] = state[10]; t[6] = state[14]; t[10] = state[02]; t[14] = state[06];
-            t[3] = state[07]; t[7] = state[11]; t[11] = state[15]; t[15] = state[03];
+            temp[0] = state[00]; temp[4] = state[04]; temp[08] = state[08]; temp[12] = state[12];
+            temp[1] = state[13]; temp[5] = state[01]; temp[09] = state[05]; temp[13] = state[09];
+            temp[2] = state[10]; temp[6] = state[14]; temp[10] = state[02]; temp[14] = state[06];
+            temp[3] = state[07]; temp[7] = state[11]; temp[11] = state[15]; temp[15] = state[03];
 
-            t.CopyTo(state);
+            temp.CopyTo(state);
         }
         /// <summary>
         /// AESのMixColumnsステップを実行します。

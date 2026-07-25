@@ -118,15 +118,15 @@ namespace Ksnm.Cryptography
             // 9回繰り返し
             for (int i = 1; i <= RoundsCount - 1; i++)
             {
-                SubBytes(ref state);
-                ShiftRows(ref state);
-                MixColumns(ref state);
+                SubBytes(state);
+                ShiftRows(state);
+                MixColumns(state);
                 AddRoundKey(state.Words, roundKeys.Slice(i * 4, 4));
             }
             //最後
             {
-                SubBytes(ref state);
-                ShiftRows(ref state);
+                SubBytes(state);
+                ShiftRows(state);
                 AddRoundKey(state.Words, roundKeys.Slice(RoundsCount * 4, 4));
             }
             return state.Array;
@@ -199,7 +199,7 @@ namespace Ksnm.Cryptography
         /// 状態行列の各バイトをS-Boxで置換します。
         /// 役割：非線形性（予測しにくさ）を与える
         /// </summary>
-        public static void SubBytes(ref State state)
+        public static void SubBytes(State state)
         {
             SubBytes(state.Array);
         }
@@ -247,17 +247,37 @@ namespace Ksnm.Cryptography
         /// <summary>
         /// 横方向にデータを拡散する
         /// </summary>
-        public static void ShiftRows(ref State state)
+        public static void ShiftRows(State state)
         {
+            byte[] temp = new byte[4];
             for (int row = 1; row < 4; row++)
             {
-                byte[] temp = new byte[4];
-
-                for (int col = 0; col < 4; col++)
-                    temp[col] = state[row, (col + row) % 4];
-
-                for (int col = 0; col < 4; col++)
-                    state[row, col] = temp[col];
+                for (int i = 0; i < 4; i++)
+                {
+                    temp[i] = state[row, (i + row) % 4];
+                }
+                for (int i = 0; i < 4; i++)
+                {
+                    state[row, i] = temp[i];
+                }
+            }
+        }
+        /// <summary>
+        /// 横方向にデータを拡散する
+        /// </summary>
+        public static void InvShiftRows(State state)
+        {
+            byte[] temp = new byte[4];
+            for (int row = 1; row < 4; row++)
+            {
+                for (int i = 0; i < 4; i++)
+                {
+                    temp[i] = state[row, (i - row) % 4];
+                }
+                for (int i = 0; i < 4; i++)
+                {
+                    state[row, i] = temp[i];
+                }
             }
         }
         public static byte Mul3(byte x)
@@ -267,7 +287,7 @@ namespace Ksnm.Cryptography
         /// <summary>
         /// 縦方向にデータを拡散する
         /// </summary>
-        public static void MixColumns(ref State state)
+        public static void MixColumns(State state)
         {
             for (int c = 0; c < 4; c++)
             {
@@ -364,7 +384,7 @@ namespace Ksnm.Cryptography
         /// - Stateは毎ラウンド書き換えられる作業領域
         /// - 列優先(Column Major)
         /// </summary>
-        public struct State
+        public class State
         {
             /// <summary>
             /// [row * 4 + col]
@@ -402,7 +422,7 @@ namespace Ksnm.Cryptography
                 {
                     for (int r = 0; r < 4; r++)
                     {
-                        _array[r * 4 + c] = array[c * 4 + r];
+                        _array[r + c * 4] = array[c * 4 + r];
                     }
                 }
             }

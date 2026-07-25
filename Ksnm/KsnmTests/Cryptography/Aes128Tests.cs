@@ -124,7 +124,7 @@ namespace Ksnm.Cryptography.Tests
                 0xE3, 0xE2, 0x8D, 0x48,
                 0xBE, 0x2B, 0x2A, 0x08
             });
-            Aes128.SubBytes(ref state);
+            Aes128.SubBytes(state);
 
             var expected = new byte[]
             {
@@ -137,30 +137,43 @@ namespace Ksnm.Cryptography.Tests
             {
                 Assert.AreEqual<uint>(expected[i], state.Array[i]);
             }
+
+            byte[] state2 =
+            [
+                0x19, 0xA0, 0x9A, 0xE9,
+                0x3D, 0xF4, 0xC6, 0xF8,
+                0xE3, 0xE2, 0x8D, 0x48,
+                0xBE, 0x2B, 0x2A, 0x08
+            ];
+            Aes.SubBytes(state2);
+            for (int i = 0; i < 16; i++)
+            {
+                Assert.AreEqual<uint>(state2[i], state.Array[i]);
+            }
         }
         [TestMethod()]
         public void ShiftRowsTest()
         {
             Aes128.State state = new Aes128.State(new byte[]
             {
-                0x19, 0xA0, 0x9A, 0xE9,
-                0x3D, 0xF4, 0xC6, 0xF8,
-                0xE3, 0xE2, 0x8D, 0x48,
-                0xBE, 0x2B, 0x2A, 0x08
+                01, 02, 03, 04,
+                05, 06, 07, 08,
+                09, 10, 11, 12,
+                13, 14, 15, 16
             });
-            Aes128.SubBytes(ref state);
-            Aes128.ShiftRows(ref state);
+            Aes128.ShiftRows(state);
 
             var expected = new byte[]
             {
-                0xD4, 0xBF, 0x5D, 0x30,
-                0xE0, 0xB4, 0x52, 0xAE,
-                0xB8, 0x41, 0x11, 0xF1,
-                0x1E, 0x27, 0x98, 0xE5,
+                01, 02, 03, 04,
+                05, 06, 07, 08,
+                09, 10, 11, 12,
+                13, 14, 15, 16
             };
+            Aes.ShiftRows(expected.AsSpan());
             for (int i = 0; i < 16; i++)
             {
-                Assert.AreEqual<uint>(expected[i], state.Array[i]);
+                Assert.AreEqual<byte>(expected[i], state.Array[i]);
             }
         }
         [TestMethod()]
@@ -173,9 +186,9 @@ namespace Ksnm.Cryptography.Tests
                 0xE3, 0xE2, 0x8D, 0x48,
                 0xBE, 0x2B, 0x2A, 0x08
             });
-            Aes128.SubBytes(ref state);
-            Aes128.ShiftRows(ref state);
-            Aes128.MixColumns(ref state);
+            Aes128.SubBytes(state);
+            Aes128.ShiftRows(state);
+            Aes128.MixColumns(state);
 
             var expected = new byte[]
             {
