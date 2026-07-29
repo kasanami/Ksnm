@@ -73,7 +73,7 @@ namespace Ksnm.Cryptography
             0x6C,0xD8,0xAB,0x4D,0x9A
         };
         #endregion 定数
-        #region フィールド
+        #region フィールド・プロパティ
         /// <summary>
         /// AESキーのワード数（32ビット単位）。
         /// AES-128では4、AES-192では6、AES-256では8です。
@@ -89,7 +89,7 @@ namespace Ksnm.Cryptography
         /// キー拡張によって生成され、暗号化/復号化の各ラウンドで使用されます。
         /// </summary>
         public uint[] RoundKeys { get; private set; }
-        #endregion フィールド
+        #endregion フィールド・プロパティ
         /// <summary>
         /// AES暗号化/復号化のインスタンスを初期化します。
         /// </summary>

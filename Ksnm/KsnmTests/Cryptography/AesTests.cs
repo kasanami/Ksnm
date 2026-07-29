@@ -6,7 +6,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
-using static Ksnm.Cryptography.Aes128;
 
 namespace Ksnm.Cryptography.Tests
 {
@@ -14,6 +13,24 @@ namespace Ksnm.Cryptography.Tests
     public class AesTests
     {
         byte[] key = [0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F];
+        [TestMethod()]
+        public void EcbTest()
+        {
+            var aes = new Aes(key);
+            byte[] planeBytes =
+            [
+                01, 02, 03, 04,
+                05, 06, 07, 08,
+                09, 10, 11, 12,
+                13, 14, 15, 16
+            ];
+            var encryptedBytes = aes.EncryptEcb(planeBytes);
+            var decryptedBytes = aes.DecryptEcb(encryptedBytes);
+            for (int i = 0; i < 16; i++)
+            {
+                Assert.AreEqual<byte>(planeBytes[i], decryptedBytes[i]);
+            }
+        }
         [TestMethod()]
         public void AddRoundKeyTest()
         {
