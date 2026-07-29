@@ -13,6 +13,21 @@ namespace ConsoleApp
         {
             Console.WriteLine(Ksnm.Debug.GetFilePathAndLineNumber());
 
+            {
+                var columnMajorMatrix = new ColumnMajorMatrix<int>(3, 3, 0);
+                columnMajorMatrix[0, 0] = 01;
+                columnMajorMatrix[1, 0] = 02;
+                columnMajorMatrix[2, 0] = 03;
+                columnMajorMatrix[0, 1] = 11;
+                columnMajorMatrix[1, 1] = 12;
+                columnMajorMatrix[2, 1] = 13;
+                columnMajorMatrix[0, 2] = 21;
+                columnMajorMatrix[1, 2] = 22;
+                columnMajorMatrix[2, 2] = 23;
+                var rowMajorMatrix = (RowMajorMatrix<int>)columnMajorMatrix;
+
+            }
+
             MatrixTest<Float32>();
             MatrixTest2();
             TestMatrix4x4();
