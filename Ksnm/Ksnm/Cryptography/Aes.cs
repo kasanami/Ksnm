@@ -359,21 +359,17 @@ namespace Ksnm.Cryptography
         /// 指定されたラウンドのラウンドキーを状態に加えます。
         /// AddRoundKeyステップは、状態とラウンドキーのビットごとのXORを行います。
         /// </summary>
-        /// <param name="state"></param>
-        /// <param name="round"></param>
         private void AddRoundKey(Span<byte> state, int round)
         {
-            int wordOffset = round * 4;
-            for (int c = 0; c < 4; c++)
-            {
-                uint k = RoundKeys[wordOffset + c];
-                state[c * 4 + 0] ^= (byte)(k >> 24);
-                state[c * 4 + 1] ^= (byte)(k >> 16);
-                state[c * 4 + 2] ^= (byte)(k >> 8);
-                state[c * 4 + 3] ^= (byte)k;
-            }
+            AddRoundKey(state, round, RoundKeys);
         }
-        public static void AddRoundKey(Span<byte> state, int round, uint[] roundKeys)
+        /// <summary>
+        /// 指定されたラウンドのラウンドキーを状態に加えます。
+        /// </summary>
+        /// <param name="state"></param>
+        /// <param name="round"></param>
+        /// <param name="roundKeys"></param>
+        public static void AddRoundKey(Span<byte> state, int round, ReadOnlySpan<uint> roundKeys)
         {
             int wordOffset = round * 4;
             for (int c = 0; c < 4; c++)
@@ -404,7 +400,9 @@ namespace Ksnm.Cryptography
         public static void InvSubBytes(Span<byte> state)
         {
             for (int i = 0; i < BlockSize; i++)
+            {
                 state[i] = InvSBox[state[i]];
+            }
         }
         /// <summary>
         /// AESのShiftRowsステップを実行します。
