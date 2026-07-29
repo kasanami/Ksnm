@@ -393,7 +393,9 @@ namespace Ksnm.Cryptography
         public static void SubBytes(Span<byte> state)
         {
             for (int i = 0; i < BlockSize; i++)
+            {
                 state[i] = SBox[state[i]];
+            }
         }
         /// <summary>
         /// AESのInvSubBytesステップを実行します。
@@ -427,7 +429,7 @@ namespace Ksnm.Cryptography
         /// 状態の各行を右にシフトします。
         /// </summary>
         /// <param name="state"></param>
-        private static void InvShiftRows(Span<byte> state)
+        public static void InvShiftRows(Span<byte> state)
         {
             Span<byte> temp = stackalloc byte[BlockSize];
             state.CopyTo(temp);
@@ -443,7 +445,7 @@ namespace Ksnm.Cryptography
         /// AESのMixColumnsステップを実行します。
         /// </summary>
         /// <param name="state"></param>
-        private static void MixColumns(Span<byte> state)
+        public static void MixColumns(Span<byte> state)
         {
             for (int c = 0; c < 4; c++)
             {
@@ -463,7 +465,7 @@ namespace Ksnm.Cryptography
         /// AESのInvMixColumnsステップを実行します。
         /// </summary>
         /// <param name="state"></param>
-        private static void InvMixColumns(Span<byte> state)
+        public static void InvMixColumns(Span<byte> state)
         {
             for (int c = 0; c < 4; c++)
             {
