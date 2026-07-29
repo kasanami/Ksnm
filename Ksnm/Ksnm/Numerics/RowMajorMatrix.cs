@@ -13,6 +13,7 @@ namespace Ksnm.Numerics
     public class RowMajorMatrix<T> where T : struct
     {
         private T[] _values = new T[0];
+        public T[] Values => _values;
         public int RowCount { get; } = 0;
         public int ColumnCount { get; } = 0;
         public int ValuesCount { get; } = 0;
@@ -39,7 +40,7 @@ namespace Ksnm.Numerics
             }
         }
 
-        public RowMajorMatrix(int rowCount, int columnCount, T[] values)
+        public RowMajorMatrix(int rowCount, int columnCount, ReadOnlySpan<T> values)
         {
             RowCount = rowCount;
             ColumnCount = columnCount;
