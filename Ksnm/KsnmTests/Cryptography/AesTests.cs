@@ -32,6 +32,25 @@ namespace Ksnm.Cryptography.Tests
             }
         }
         [TestMethod()]
+        public void CbcTest()
+        {
+            byte[] iv = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16];
+            var aes = new Aes(key);
+            byte[] planeBytes =
+            [
+                01, 02, 03, 04,
+                05, 06, 07, 08,
+                09, 10, 11, 12,
+                13, 14, 15, 16
+            ];
+            var encryptedBytes = aes.EncryptCbc(planeBytes, iv);
+            var decryptedBytes = aes.DecryptCbc(encryptedBytes, iv);
+            for (int i = 0; i < 16; i++)
+            {
+                Assert.AreEqual<byte>(planeBytes[i], decryptedBytes[i]);
+            }
+        }
+        [TestMethod()]
         public void AddRoundKeyTest()
         {
             var aes = new Aes(key);
