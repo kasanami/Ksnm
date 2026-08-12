@@ -37,6 +37,10 @@ public readonly struct FiniteField<T> : IEquatable<FiniteField<T>>,
     /// </summary>
     public FiniteField(T value, T quantity)
     {
+        if (Math.IsPrime(quantity) == false)
+        {
+            throw new ArgumentException("Quantityは素数である必要があります。", nameof(quantity));
+        }
         Value = value;
         Quantity = quantity;
     }

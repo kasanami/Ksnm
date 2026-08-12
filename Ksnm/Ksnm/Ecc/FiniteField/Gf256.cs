@@ -1,5 +1,8 @@
 ﻿namespace Ksnm.Ecc.FiniteField;
 
+/// <summary>
+/// GF(2^8)の有限体を表す構造体です。
+/// </summary>
 public readonly struct Gf256
 {
     #region 定数

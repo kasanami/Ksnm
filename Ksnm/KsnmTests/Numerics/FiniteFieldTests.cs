@@ -27,5 +27,26 @@ namespace Ksnm.Numerics.Tests
             Assert.AreEqual(1, (_7 * _8));
             Assert.AreEqual(1, (_7 / _7));
         }
+        [TestMethod()]
+        public void Test2()
+        {
+            FiniteField2 a = 1;
+            FiniteField2 b = 1;
+
+            Assert.AreEqual(0, a + b);
+            Assert.AreEqual(0, a - b);
+            Assert.AreEqual(1, a * b);
+        }
+        [TestMethod()]
+        public void Test3()
+        {
+            FiniteField3 a = 2;
+            FiniteField3 b = 2;
+
+            Assert.AreEqual(1, a + b);
+            Assert.AreEqual(0, a - b);
+            Assert.AreEqual(1, a * b);
+            Assert.AreEqual(1, a / b);
+        }
     }
 }
