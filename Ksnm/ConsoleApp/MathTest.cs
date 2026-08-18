@@ -3,12 +3,24 @@ using Ksnm.Science.Mathematics;
 using System.Numerics;
 using static Ksnm.Science.Mathematics.Formula;
 
+#pragma warning disable CS0162 // 到達できないコードが検出されました
 namespace ConsoleApp
 {
     internal class MathTest
     {
         public static void Run()
         {
+            if(false)
+            {
+                Console.WriteLine("極限");
+                double sum = 0;
+                for (int i = 1; i < UInt16.MaxValue; i++)
+                {
+                    sum += 1.0 / i;
+                    Console.WriteLine($"{i}: {sum}");
+                }
+                Console.WriteLine($"Sum: {sum}");
+            }
             Console.WriteLine("IsPrime");
             {
                 for (int i = 2; i < 20; i++)
@@ -141,3 +153,4 @@ namespace ConsoleApp
         }
     }
 }
+#pragma warning restore CS0162 // 到達できないコードが検出されました

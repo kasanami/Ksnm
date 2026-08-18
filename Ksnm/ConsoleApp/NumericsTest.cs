@@ -14,6 +14,33 @@ namespace ConsoleApp
             Console.WriteLine(Ksnm.Debug.GetFilePathAndLineNumber());
 
             {
+                Console.WriteLine("FiniteField");
+                var a = FiniteField3.Zero;
+                var b = FiniteField3.One;
+                Console.WriteLine($"加算");
+                for (int i = 0; i < 10; i++)
+                {
+                    a = a + b;
+                    Console.WriteLine($"{i}:{a}");
+                }
+                Console.WriteLine($"減算");
+                a = FiniteField3.Zero;
+                for (int i = 0; i < 10; i++)
+                {
+                    a = a - b;
+                    Console.WriteLine($"{i}:{a}");
+                }
+                Console.WriteLine($"乗算");
+                a = FiniteField3.One;
+                b = FiniteField3.Two;
+                for (int i = 0; i < 10; i++)
+                {
+                    a = a * b;
+                    Console.WriteLine($"{i}:{a}");
+                }
+            }
+
+            {
                 var columnMajorMatrix = new ColumnMajorMatrix<int>(3, 3, 0);
                 columnMajorMatrix[0, 0] = 01;
                 columnMajorMatrix[1, 0] = 02;
