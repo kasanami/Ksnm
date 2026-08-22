@@ -1,4 +1,5 @@
 ﻿using Ksnm.Cryptography;
+using Ksnm.Cryptography.Ecc;
 using Ksnm.ExtensionMethods.System.Collections.Generic.Enumerable;
 using System.Numerics;
 using System.Text;
@@ -9,8 +10,24 @@ namespace ConsoleApp
     {
         public static void Run()
         {
+            {
+                var curve = new EllipticCurve(
+                    a: 2,
+                    b: 2,
+                    p: 17);
+
+                var g = new EcPoint(5, 1);
+
+                Console.WriteLine(curve.IsOnCurve(g));
+
+                var p = curve.Multiply(g, 2);
+                var q = curve.Multiply(g, 7);
+
+                Console.WriteLine($"2G = {p}");
+                Console.WriteLine($"7G = {q}");
+            }
             Console.WriteLine("AES暗号化方式のテスト");
-            TestAes128();
+            //TestAes128();
             Console.WriteLine("RSA暗号化方式のテスト");
             //TestRsa(191, 109);
             //TestRsa64();
