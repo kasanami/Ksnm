@@ -1,5 +1,6 @@
 ﻿using Ksnm.Cryptography;
 using Ksnm.Cryptography.Ecc;
+using Ksnm.Cryptography.Enigma;
 using Ksnm.ExtensionMethods.System.Collections.Generic.Enumerable;
 using System.Numerics;
 using System.Text;
@@ -10,6 +11,51 @@ namespace ConsoleApp
     {
         public static void Run()
         {
+            {
+                Console.WriteLine("エニグマテスト");
+                var rotorI = new Rotor(
+                    "EKMFLGDQVZNTOWYHXUSPAIBRCJ",
+                    'Q');
+
+                var rotorII = new Rotor(
+                    "AJDKSIRUXBLHWTMCQGZNPYFVOE",
+                    'E');
+
+                var rotorIII = new Rotor(
+                    "BDFHJLCPRTXVZNYEIWGAKMUSQO",
+                    'V');
+
+                var reflector = new Reflector(
+                    "YRUHQSLDPXNGOKMIEBFZCWVJAT");
+
+                var plugboard = new Plugboard(
+                    "AB CD EF");
+
+                var machine = new EnigmaMachine(
+                    rotorI,
+                    rotorII,
+                    rotorIII,
+                    reflector,
+                    plugboard);
+
+                machine.SetPositions("AAA");
+
+                Console.WriteLine($"Rotor Positions: {machine.RotorPositions}");
+
+                string encrypted = machine.Encrypt("HELLOWORLD");
+
+                Console.WriteLine(encrypted);
+                Console.WriteLine($"Rotor Positions: {machine.RotorPositions}");
+
+                machine.Reset();
+
+                Console.WriteLine($"Rotor Positions: {machine.RotorPositions}");
+
+                string encryptedAgain = machine.Encrypt("HELLOWORLD");
+
+                Console.WriteLine(encryptedAgain);
+                Console.WriteLine($"Rotor Positions: {machine.RotorPositions}");
+            }
             {
                 var curve = new EllipticCurve(
                     a: 2,
@@ -26,12 +72,18 @@ namespace ConsoleApp
                 Console.WriteLine($"2G = {p}");
                 Console.WriteLine($"7G = {q}");
             }
-            Console.WriteLine("AES暗号化方式のテスト");
-            //TestAes128();
-            Console.WriteLine("RSA暗号化方式のテスト");
-            //TestRsa(191, 109);
-            //TestRsa64();
-            //TestRsaU16();
+            if(false)
+            {
+                Console.WriteLine("AES暗号化方式のテスト");
+                TestAes128();
+            }
+            if (false)
+            {
+                Console.WriteLine("RSA暗号化方式のテスト");
+                TestRsa(191, 109);
+                //TestRsa64();
+                //TestRsaU16();
+            }
         }
 
         #region AES
