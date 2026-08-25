@@ -1,4 +1,6 @@
-﻿namespace Ksnm.Cryptography.Enigma;
+﻿using System.Reflection.PortableExecutable;
+
+namespace Ksnm.Cryptography.Enigma;
 
 /// <summary>
 /// Enigma暗号機を表すクラス。
@@ -111,7 +113,9 @@ public sealed class EnigmaMachine
 
         return (char)('A' + value);
     }
-
+    /// <summary>
+    /// 文字列を暗号化する。大文字小文字は区別せず、A～Z以外の文字はそのまま出力される。
+    /// </summary>
     public string Encrypt(string text)
     {
         char[] result = new char[text.Length];
@@ -133,5 +137,13 @@ public sealed class EnigmaMachine
         }
 
         return new string(result);
+    }
+    /// <summary>
+    /// 復号化する。Enigma暗号機は自己逆写像なので、暗号化と復号化は同じ処理で行える。
+    /// </summary>
+    public string Decrypt(string text)
+    {
+        Reset();
+        return Encrypt(text);
     }
 }

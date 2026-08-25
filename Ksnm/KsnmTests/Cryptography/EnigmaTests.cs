@@ -33,5 +33,39 @@ namespace Ksnm.Cryptography.Tests
                 Assert.AreEqual(i, y, $"Rotor inverse error: input {i}, forward {x}, backward {y}");
             }
         }
+        [TestMethod()]
+        public void ReflectorTest()
+        {
+            var reflector = new Reflector("YRUHQSLDPXNGOKMIEBFZCWVJAT");
+
+            for (int i = 0; i < 26; i++)
+            {
+                int x = reflector.Reflect(i);
+                int y = reflector.Reflect(x);
+
+                Assert.AreEqual(i, y, $"Reflector inverse error: input {i}, reflect {x}, reflect {y}");
+            }
+        }
+        [TestMethod()]
+        public void EnigmaMachineTest()
+        {
+            var rotorI = new Rotor("EKMFLGDQVZNTOWYHXUSPAIBRCJ", 'Q');
+
+            var rotorII = new Rotor("AJDKSIRUXBLHWTMCQGZNPYFVOE", 'E');
+
+            var rotorIII = new Rotor("BDFHJLCPRTXVZNYEIWGAKMUSQO", 'V');
+
+            var reflector = new Reflector("YRUHQSLDPXNGOKMIEBFZCWVJAT");
+
+            var plugboard = new Plugboard("AB CD EF");
+
+            var machine = new EnigmaMachine(rotorI, rotorII, rotorIII, reflector, plugboard);
+
+            var planeText = "HELLOWORLD";
+            var encrypted = machine.Encrypt(planeText);
+            var decrypted = machine.Decrypt(encrypted);
+
+            Assert.AreEqual(planeText, decrypted);
+        }
     }
 }
