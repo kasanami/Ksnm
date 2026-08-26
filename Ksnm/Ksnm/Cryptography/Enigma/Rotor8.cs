@@ -68,13 +68,20 @@ public sealed class Rotor8
     /// </summary>
     public Rotor8(Random random)
     {
-        _wiring = new byte[Size];
-        
+        var wiring = new byte[Size];
+
         for (int i = 0; i < Size; i++)
         {
-            _wiring[i] = (byte)random.Next(Size);
+            wiring[i] = (byte)i;
         }
 
+        for (int i = 0; i < Size; i++)
+        {
+            int j = random.Next(Size);
+            (wiring[i], wiring[j]) = (wiring[j], wiring[i]);
+        }
+
+        _wiring = ParseWiring(wiring);
         _inverseWiring = CreateInverseWiring(_wiring);
         _notch = random.Next(Size);
         Position = random.Next(Size);
