@@ -13,48 +13,8 @@ namespace ConsoleApp
         {
             {
                 Console.WriteLine("エニグマテスト");
-                var rotorI = new Rotor(
-                    "EKMFLGDQVZNTOWYHXUSPAIBRCJ",
-                    'Q');
-
-                var rotorII = new Rotor(
-                    "AJDKSIRUXBLHWTMCQGZNPYFVOE",
-                    'E');
-
-                var rotorIII = new Rotor(
-                    "BDFHJLCPRTXVZNYEIWGAKMUSQO",
-                    'V');
-
-                var reflector = new Reflector(
-                    "YRUHQSLDPXNGOKMIEBFZCWVJAT");
-
-                var plugboard = new Plugboard(
-                    "AB CD EF");
-
-                var machine = new EnigmaMachine(
-                    rotorI,
-                    rotorII,
-                    rotorIII,
-                    reflector,
-                    plugboard);
-
-                machine.SetPositions("AAA");
-
-                Console.WriteLine($"Rotor Positions: {machine.RotorPositions}");
-
-                string encrypted = machine.Encrypt("HELLOWORLD");
-
-                Console.WriteLine(encrypted);
-                Console.WriteLine($"Rotor Positions: {machine.RotorPositions}");
-
-                machine.Reset();
-
-                Console.WriteLine($"Rotor Positions: {machine.RotorPositions}");
-
-                string encryptedAgain = machine.Encrypt("HELLOWORLD");
-
-                Console.WriteLine(encryptedAgain);
-                Console.WriteLine($"Rotor Positions: {machine.RotorPositions}");
+                TestEnigma();
+                TestEnigma8();
             }
             {
                 var curve = new EllipticCurve(
@@ -83,6 +43,111 @@ namespace ConsoleApp
                 TestRsa(191, 109);
                 //TestRsa64();
                 //TestRsaU16();
+            }
+        }
+
+        static void TestEnigma()
+        {
+            Console.WriteLine("TestEnigma()");
+
+            var rotorI = new Rotor(
+                "EKMFLGDQVZNTOWYHXUSPAIBRCJ",
+                'Q');
+
+            var rotorII = new Rotor(
+                "AJDKSIRUXBLHWTMCQGZNPYFVOE",
+                'E');
+
+            var rotorIII = new Rotor(
+                "BDFHJLCPRTXVZNYEIWGAKMUSQO",
+                'V');
+
+            var reflector = new Reflector(
+                "YRUHQSLDPXNGOKMIEBFZCWVJAT");
+
+            var plugboard = new Plugboard(
+                "AB CD EF");
+
+            var machine = new EnigmaMachine(
+                rotorI,
+                rotorII,
+                rotorIII,
+                reflector,
+                plugboard);
+
+            machine.SetPositions("AAA");
+
+            Console.WriteLine($"Rotor Positions: {machine.RotorPositions}");
+
+            string encrypted = machine.Encrypt("HELLOWORLD");
+
+            Console.WriteLine(encrypted);
+            Console.WriteLine($"Rotor Positions: {machine.RotorPositions}");
+
+            machine.Reset();
+
+            Console.WriteLine($"Rotor Positions: {machine.RotorPositions}");
+
+            string encryptedAgain = machine.Encrypt("HELLOWORLD");
+
+            Console.WriteLine(encryptedAgain);
+            Console.WriteLine($"Rotor Positions: {machine.RotorPositions}");
+
+            string decrypted = machine.Decrypt("HELLOWORLD");
+
+            Console.WriteLine(decrypted);
+            Console.WriteLine($"Rotor Positions: {machine.RotorPositions}");
+        }
+
+        static void TestEnigma8()
+        {
+            Console.WriteLine("TestEnigma8()");
+
+            Random random = new Random(123);
+            var rotorI = new Rotor8(random);
+            var rotorII = new Rotor8(random);
+            var rotorIII = new Rotor8(random);
+            var reflector = new Reflector8(random);
+            var plugboard = new Plugboard8(random);
+
+            var machine = new EnigmaMachine8(
+                rotorI,
+                rotorII,
+                rotorIII,
+                reflector,
+                plugboard);
+
+            Console.WriteLine($"Encrypt");
+                machine.SetPositions([0, 0, 0]);
+                Console.WriteLine($"Rotor Positions: {machine.RotorPositions}");
+
+                var encrypted = machine.Encrypt("HELLOWORLD");
+
+                Console.WriteLine($"encrypted:{encrypted.ToDebugString()}");
+                Console.WriteLine($"Rotor Positions: {machine.RotorPositions}");
+
+            Console.WriteLine($"Decrypt");
+            {
+                machine.SetPositions([0, 0, 0]);
+                Console.WriteLine($"Rotor Positions: {machine.RotorPositions}");
+                var decrypted = machine.DecryptToText(encrypted);
+                Console.WriteLine($"decrypted:{decrypted}");
+                Console.WriteLine($"Rotor Positions: {machine.RotorPositions}");
+            }
+
+            Console.WriteLine($"Encrypt");
+                machine.Reset();
+                Console.WriteLine($"Rotor Positions: {machine.RotorPositions}");
+                var encryptedAgain = machine.Encrypt("HELLOWORLD");
+                Console.WriteLine($"encryptedAgain:{encryptedAgain.ToDebugString()}");
+                Console.WriteLine($"Rotor Positions: {machine.RotorPositions}");
+
+            Console.WriteLine($"Decrypt");
+            {
+                machine.Reset();
+                var decrypted = machine.DecryptToText(encrypted);
+                Console.WriteLine($"decrypted:{decrypted}");
+                Console.WriteLine($"Rotor Positions: {machine.RotorPositions}");
             }
         }
 
