@@ -6,7 +6,17 @@
 public sealed class Reflector
 {
     private readonly int[] _wiring;
-
+    /// <summary>
+    /// 交換なしのリフレクターを生成する。
+    /// </summary>
+    public Reflector()
+    {
+        _wiring = new int[26];
+        for (int i = 0; i < 26; i++)
+        {
+            _wiring[i] = i;
+        }
+    }
     public Reflector(string wiring)
     {
         if (wiring.Length != 26)

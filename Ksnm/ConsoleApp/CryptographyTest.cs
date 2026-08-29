@@ -63,11 +63,8 @@ namespace ConsoleApp
                 "BDFHJLCPRTXVZNYEIWGAKMUSQO",
                 'V');
 
-            var reflector = new Reflector(
-                "YRUHQSLDPXNGOKMIEBFZCWVJAT");
-
-            var plugboard = new Plugboard(
-                "AB CD EF");
+            var reflector = new Reflector("YRUHQSLDPXNGOKMIEBFZCWVJAT");
+            var plugboard = new Plugboard("AB CD EF");
 
             var machine = new EnigmaMachine(
                 rotorI,
@@ -144,6 +141,8 @@ namespace ConsoleApp
         {
             Console.WriteLine("TestEnigma8_2()");
 
+            byte[] planeBytes = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+
             {
                 Console.WriteLine("交換なしのエニグマ");
                 var machine = new EnigmaMachine8(
@@ -154,7 +153,26 @@ namespace ConsoleApp
                     new Plugboard8()
                     );
 
-                byte[] planeBytes = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+                var encrypted = machine.Encrypt(planeBytes);
+                var decrypted = machine.Decrypt(encrypted);
+                Console.WriteLine($"encrypted:{encrypted.ToDebugString()}");
+                Console.WriteLine($"decrypted:{decrypted.ToDebugString()}");
+            }
+
+            {
+                Console.WriteLine("弱いエニグマ(リフレクターはずらしただけ)");
+                var wiring = new byte[Rotor8.Size];
+                for (int i = 0; i < Rotor8.Size; i++)
+                {
+                    wiring[i] = (byte)((i + 128) % Rotor8.Size);
+                }
+                var machine = new EnigmaMachine8(
+                    new Rotor8(),
+                    new Rotor8(),
+                    new Rotor8(),
+                    new Reflector8(wiring),
+                    new Plugboard8()
+                    );
 
                 var encrypted = machine.Encrypt(planeBytes);
                 var decrypted = machine.Decrypt(encrypted);
@@ -163,16 +181,57 @@ namespace ConsoleApp
             }
 
             {
-                Console.WriteLine("弱いエニグマ");
+                Console.WriteLine("弱いエニグマ(リフレクターはずらしただけ+ローターずらしただけ)");
+                Random random = new Random(123456);
+                var wiring1 = new byte[Rotor8.Size];
+                for (int i = 0; i < Rotor8.Size; i++)
+                {
+                    wiring1[i] = (byte)((i + 1) % Rotor8.Size);
+                }
+                var wiring2 = new byte[Rotor8.Size];
+                for (int i = 0; i < Rotor8.Size; i++)
+                {
+                    wiring2[i] = (byte)((i + 2) % Rotor8.Size);
+                }
+                var wiring3 = new byte[Rotor8.Size];
+                for (int i = 0; i < Rotor8.Size; i++)
+                {
+                    wiring3[i] = (byte)((i + 3) % Rotor8.Size);
+                }
+                var wiring128 = new byte[Rotor8.Size];
+                for (int i = 0; i < Rotor8.Size; i++)
+                {
+                    wiring128[i] = (byte)((i + 128) % Rotor8.Size);
+                }
                 var machine = new EnigmaMachine8(
-                    new Rotor8(),
-                    new Rotor8(),
-                    new Rotor8(),
-                    new Reflector8(),
+                    new Rotor8(wiring1, 1),
+                    new Rotor8(wiring2, 2),
+                    new Rotor8(wiring3, 3),
+                    new Reflector8(wiring128),
                     new Plugboard8()
                     );
 
-                byte[] planeBytes = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+                var encrypted = machine.Encrypt(planeBytes);
+                var decrypted = machine.Decrypt(encrypted);
+                Console.WriteLine($"encrypted:{encrypted.ToDebugString()}");
+                Console.WriteLine($"decrypted:{decrypted.ToDebugString()}");
+            }
+
+            {
+                Console.WriteLine("弱いエニグマ(リフレクターはずらしただけ+ローターはランダム)");
+                Random random = new Random(123456);
+                var wiring128 = new byte[Rotor8.Size];
+                for (int i = 0; i < Rotor8.Size; i++)
+                {
+                    wiring128[i] = (byte)((i + 128) % Rotor8.Size);
+                }
+                var machine = new EnigmaMachine8(
+                    new Rotor8(random),
+                    new Rotor8(random),
+                    new Rotor8(random),
+                    new Reflector8(wiring128),
+                    new Plugboard8()
+                    );
 
                 var encrypted = machine.Encrypt(planeBytes);
                 var decrypted = machine.Decrypt(encrypted);
