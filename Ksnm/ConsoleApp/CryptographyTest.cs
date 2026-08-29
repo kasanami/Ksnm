@@ -32,7 +32,7 @@ namespace ConsoleApp
                 Console.WriteLine($"2G = {p}");
                 Console.WriteLine($"7G = {q}");
             }
-            if(false)
+            if (false)
             {
                 Console.WriteLine("AES暗号化方式のテスト");
                 TestAes128();
@@ -103,49 +103,37 @@ namespace ConsoleApp
         {
             Console.WriteLine("TestEnigma8()");
 
-            Random random = new Random(123);
-            var rotorI = new Rotor8(random);
-            var rotorII = new Rotor8(random);
-            var rotorIII = new Rotor8(random);
-            var reflector = new Reflector8(random);
-            var plugboard = new Plugboard8(random);
+            Random random = new Random(123456);
+            var machine = new EnigmaMachine8(random);
 
-            var machine = new EnigmaMachine8(
-                rotorI,
-                rotorII,
-                rotorIII,
-                reflector,
-                plugboard);
-
-            Console.WriteLine($"Encrypt");
-                machine.SetPositions([0, 0, 0]);
+            {
+                Console.WriteLine($"Encrypt");
+                machine.SetRotors(0, 0, 0);
                 Console.WriteLine($"Rotor Positions: {machine.RotorPositions}");
-
-                var encrypted = machine.Encrypt("HELLOWORLD");
-
+                var encrypted = machine.Encrypt("HELLOWORLD", false);
                 Console.WriteLine($"encrypted:{encrypted.ToDebugString()}");
                 Console.WriteLine($"Rotor Positions: {machine.RotorPositions}");
 
-            Console.WriteLine($"Decrypt");
-            {
-                machine.SetPositions([0, 0, 0]);
+                Console.WriteLine($"Decrypt");
+                machine.SetRotors(0, 0, 0);
                 Console.WriteLine($"Rotor Positions: {machine.RotorPositions}");
-                var decrypted = machine.DecryptToText(encrypted);
+                var decrypted = machine.DecryptToText(encrypted, false);
                 Console.WriteLine($"decrypted:{decrypted}");
                 Console.WriteLine($"Rotor Positions: {machine.RotorPositions}");
             }
 
-            Console.WriteLine($"Encrypt");
-                machine.Reset();
+            {
+                Console.WriteLine($"Encrypt");
+                machine.ResetRotors();
                 Console.WriteLine($"Rotor Positions: {machine.RotorPositions}");
-                var encryptedAgain = machine.Encrypt("HELLOWORLD");
-                Console.WriteLine($"encryptedAgain:{encryptedAgain.ToDebugString()}");
+                var encrypted = machine.Encrypt("HELLOWORLD", false);
+                Console.WriteLine($"encrypted:{encrypted.ToDebugString()}");
                 Console.WriteLine($"Rotor Positions: {machine.RotorPositions}");
 
-            Console.WriteLine($"Decrypt");
-            {
-                machine.Reset();
-                var decrypted = machine.DecryptToText(encrypted);
+                Console.WriteLine($"Decrypt");
+                machine.ResetRotors();
+                Console.WriteLine($"Rotor Positions: {machine.RotorPositions}");
+                var decrypted = machine.DecryptToText(encrypted, false);
                 Console.WriteLine($"decrypted:{decrypted}");
                 Console.WriteLine($"Rotor Positions: {machine.RotorPositions}");
             }

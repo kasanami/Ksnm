@@ -5,7 +5,10 @@
 /// </summary>
 public sealed class Rotor8
 {
-    private const int Size = 256;
+    /// <summary>
+    /// ローターのサイズ（8bit版は256）。
+    /// </summary>
+    public const int Size = 256;
 
     /// <summary>
     /// ローターの配線。
@@ -28,6 +31,11 @@ public sealed class Rotor8
     /// ローターの現在位置。
     /// </summary>
     public int Position { get; private set; }
+
+    /// <summary>
+    /// ローターの初期位置。
+    /// </summary>
+    public int InitialPosition { get; private set; }
 
     /// <summary>
     /// リング設定。
@@ -53,7 +61,7 @@ public sealed class Rotor8
         byte ringSetting = 0)
     {
         if (wiring.Length != Size)
-            throw new ArgumentException($"ローター配線は{Size}文字である必要があります。", nameof(wiring));
+            throw new ArgumentException($"ローター配線は{Size}である必要があります。", nameof(wiring));
 
         _wiring = ParseWiring(wiring);
         _inverseWiring = CreateInverseWiring(_wiring);
@@ -62,6 +70,7 @@ public sealed class Rotor8
 
         Position = position;
         RingSetting = ringSetting;
+        InitialPosition = Position;
     }
     /// <summary>
     /// ランダムなローターを生成する。
@@ -86,6 +95,15 @@ public sealed class Rotor8
         _notch = random.Next(Size);
         Position = random.Next(Size);
         RingSetting = random.Next(Size);
+        InitialPosition = Position;
+    }
+
+    /// <summary>
+    /// ローターの位置を初期状態にリセットする。
+    /// </summary>
+    public void Reset()
+    {
+        Position = InitialPosition;
     }
 
     /// <summary>
