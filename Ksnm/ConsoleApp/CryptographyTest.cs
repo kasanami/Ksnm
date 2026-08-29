@@ -15,6 +15,7 @@ namespace ConsoleApp
                 Console.WriteLine("エニグマテスト");
                 TestEnigma();
                 TestEnigma8();
+                TestEnigma8_2();
             }
             {
                 var curve = new EllipticCurve(
@@ -136,6 +137,47 @@ namespace ConsoleApp
                 var decrypted = machine.DecryptToText(encrypted, false);
                 Console.WriteLine($"decrypted:{decrypted}");
                 Console.WriteLine($"Rotor Positions: {machine.RotorPositions}");
+            }
+        }
+
+        static void TestEnigma8_2()
+        {
+            Console.WriteLine("TestEnigma8_2()");
+
+            {
+                Console.WriteLine("交換なしのエニグマ");
+                var machine = new EnigmaMachine8(
+                    new Rotor8(),
+                    new Rotor8(),
+                    new Rotor8(),
+                    new Reflector8(),
+                    new Plugboard8()
+                    );
+
+                byte[] planeBytes = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+
+                var encrypted = machine.Encrypt(planeBytes);
+                var decrypted = machine.Decrypt(encrypted);
+                Console.WriteLine($"encrypted:{encrypted.ToDebugString()}");
+                Console.WriteLine($"decrypted:{decrypted.ToDebugString()}");
+            }
+
+            {
+                Console.WriteLine("弱いエニグマ");
+                var machine = new EnigmaMachine8(
+                    new Rotor8(),
+                    new Rotor8(),
+                    new Rotor8(),
+                    new Reflector8(),
+                    new Plugboard8()
+                    );
+
+                byte[] planeBytes = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+
+                var encrypted = machine.Encrypt(planeBytes);
+                var decrypted = machine.Decrypt(encrypted);
+                Console.WriteLine($"encrypted:{encrypted.ToDebugString()}");
+                Console.WriteLine($"decrypted:{decrypted.ToDebugString()}");
             }
         }
 

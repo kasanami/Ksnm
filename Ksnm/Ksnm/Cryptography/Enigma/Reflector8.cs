@@ -7,6 +7,18 @@ public sealed class Reflector8
 {
     private const int Size = 256;
     private readonly byte[] _wiring;
+    /// <summary>
+    /// 交換なしのリフレクターを生成する。
+    /// </summary>
+    public Reflector8()
+    {
+        var wiring = new byte[Size];
+        for (int i = 0; i < Size; i++)
+        {
+            wiring[i] = (byte)i;
+        }
+        _wiring = ParseWiring(wiring);
+    }
 
     public Reflector8(ReadOnlySpan<byte> wiring)
     {
@@ -23,13 +35,20 @@ public sealed class Reflector8
         {
             wiring[i] = (byte)i;
         }
+        // ランダムなインデックス配列を作成する
+        var randomIndexes = new byte[Size];
+        for (int i = 0; i < Size; i++)
+        {
+            randomIndexes[i] = (byte)i;
+        }
+        random.Shuffle(randomIndexes);
         // ランダムにペアを入れ替える
         // ただし、同じ文字が複数回使われないようにする
         bool[] used = new bool[Size];
         for (int i = 0; i < Size; i++)
         {
             if (used[i]) continue;
-            var j = random.Next(Size);
+            var j = randomIndexes[i];
             if (used[j]) continue;
             (wiring[i], wiring[j]) = (wiring[j], wiring[i]);
             used[i] = true;

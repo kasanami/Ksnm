@@ -46,7 +46,22 @@ public sealed class Rotor8
     /// 現在ノッチ位置にあるか。
     /// </summary>
     public bool AtNotch => Position == _notch;
-
+    /// <summary>
+    /// 交換なしのローターを生成する。
+    /// </summary>
+    public Rotor8()
+    {
+        _wiring = new byte[Size];
+        for (int i = 0; i < Size; i++)
+        {
+            _wiring[i] = (byte)i;
+        }
+        _inverseWiring = CreateInverseWiring(_wiring);
+        _notch = 0;
+        Position = 0;
+        RingSetting = 0;
+        InitialPosition = Position;
+    }
     /// <summary>
     /// ローターを生成する。
     /// </summary>

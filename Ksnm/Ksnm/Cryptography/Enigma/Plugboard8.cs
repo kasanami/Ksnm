@@ -27,11 +27,17 @@ public sealed class Plugboard8
     public Plugboard8(Random random)
     {
         _wiring = new byte[Size];
-
         for (int i = 0; i < Size; i++)
         {
             _wiring[i] = (byte)i;
         }
+        // ランダムなインデックス配列を作成する
+        var randomIndexes = new byte[Size];
+        for (int i = 0; i < Size; i++)
+        {
+            randomIndexes[i] = (byte)i;
+        }
+        random.Shuffle(randomIndexes);
 
         // ランダムにペアを入れ替える
         // ただし、同じ文字が複数回使われないようにする
@@ -39,7 +45,7 @@ public sealed class Plugboard8
         for (int i = 0; i < Size; i++)
         {
             if (used[i]) continue;
-            var j = random.Next(Size);
+            var j = randomIndexes[i];
             if (used[j]) continue;
             (_wiring[i], _wiring[j]) = (_wiring[j], _wiring[i]);
             used[i] = true;
@@ -49,7 +55,7 @@ public sealed class Plugboard8
 
     /// <summary>
     /// 指定したペアでプラグボードを生成する。
-    /// 例: "AB CD EF"
+    /// 例: [A,B, C,D, E,F, G,H]
     /// </summary>
     public Plugboard8(byte[] pairs)
         : this()
