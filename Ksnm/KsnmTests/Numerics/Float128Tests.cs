@@ -6,6 +6,66 @@ namespace Ksnm.Numerics.Tests
     public class Float128Tests
     {
         [TestMethod()]
+        public void Zero()
+        {
+            Float128 float128 = Float128.Zero;
+            Assert.IsTrue(float128.IsZero);
+            Assert.AreEqual(0.0, float128.ToDouble());
+        }
+        [TestMethod()]
+        public void NegativeZero()
+        {
+            Float128 float128 = Float128.NegativeZero;
+            Assert.IsTrue(float128.IsZero);
+            Assert.AreEqual(Float64.NegativeZero, float128.ToDouble());
+        }
+        [TestMethod()]
+        public void PositiveInfinity()
+        {
+            Float128 float128 = Float128.PositiveInfinity;
+            Assert.IsTrue(float128.IsInfinity);
+            Assert.AreEqual(Float64.PositiveInfinity, float128.ToDouble());
+        }
+        [TestMethod()]
+        public void NegativeInfinity()
+        {
+            Float128 float128 = Float128.NegativeInfinity;
+            Assert.IsTrue(float128.IsInfinity);
+            Assert.AreEqual(Float64.NegativeInfinity, float128.ToDouble());
+        }
+        [TestMethod()]
+        public void One()
+        {
+            Float128 float128 = Float128.One;
+            Assert.IsFalse(float128.IsInfinity);
+            Assert.IsFalse(float128.IsZero);
+            Assert.AreEqual(1.0, float128.ToDouble());
+        }
+        [TestMethod()]
+        public void NegativeOne()
+        {
+            Float128 float128 = Float128.NegativeOne;
+            Assert.IsFalse(float128.IsInfinity);
+            Assert.IsFalse(float128.IsZero);
+            Assert.AreEqual(-1.0, float128.ToDouble());
+        }
+        [TestMethod()]
+        public void Two()
+        {
+            Float128 float128 = Float128.Two;
+            Assert.IsFalse(float128.IsInfinity);
+            Assert.IsFalse(float128.IsZero);
+            Assert.AreEqual(2.0, float128.ToDouble());
+        }
+        [TestMethod()]
+        public void Half()
+        {
+            Float128 float128 = Float128.Half;
+            Assert.IsFalse(float128.IsInfinity);
+            Assert.IsFalse(float128.IsZero);
+            Assert.AreEqual(0.5, float128.ToDouble());
+        }
+        [TestMethod()]
         public void IsZero()
         {
             Float128 float128 = new Float128();
@@ -64,18 +124,64 @@ namespace Ksnm.Numerics.Tests
             Assert.IsFalse(float128.IsNormal);
         }
         [TestMethod()]
+        public void FromInt32()
+        {
+            for (int i = -100; i < 100; i++)
+            {
+                Float128 float128 = Float128.FromInt32(i);
+                Float64 float64 = float128.ToDouble();
+                Assert.AreEqual((double)i, float64);
+            }
+        }
+        [TestMethod()]
+        public void FromInt64()
+        {
+            for (long i = -100; i < 100; i++)
+            {
+                Float128 float128 = Float128.FromInt64(i);
+                Float64 float64 = float128.ToDouble();
+                Assert.AreEqual((double)i, float64);
+            }
+        }
+        [TestMethod()]
+        public void FromUInt64()
+        {
+            for (ulong i = 0; i < 100; i++)
+            {
+                Float128 float128 = Float128.FromUInt64(i);
+                Float64 float64 = float128.ToDouble();
+                Assert.AreEqual((double)i, float64);
+            }
+        }
+        [TestMethod()]
+        public void FromUInt128()
+        {
+            for (ulong i = 0; i < 100; i++)
+            {
+                Float128 float128 = Float128.FromUInt128(i);
+                Float64 float64 = float128.ToDouble();
+                Assert.AreEqual((double)i, float64);
+            }
+        }
+        [TestMethod()]
         public void ToDouble()
         {
-            Float128 float128 = Float128.FromDouble(1.0);
-            Float64 float64 = float128.ToDouble();
-            Assert.AreEqual(1.0, float64);
+            for (double i = -100.0; i < 100.0; i += 0.5)
+            {
+                Float128 float128 = Float128.FromDouble(i);
+                Float64 float64 = float128.ToDouble();
+                Assert.AreEqual(i, float64);
+            }
         }
         [TestMethod()]
         public void FromDouble()
         {
-            Float128 float128 = Float128.FromDouble(1.0);
-            Float64 float64 = float128.ToDouble();
-            Assert.AreEqual(1.0, float64);
+            for (double i = -100.0; i < 100.0; i += 0.5)
+            {
+                Float128 float128 = Float128.FromDouble(i);
+                Float64 float64 = float128.ToDouble();
+                Assert.AreEqual(i, float64);
+            }
         }
     }
 }

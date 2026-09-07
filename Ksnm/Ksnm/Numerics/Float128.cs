@@ -139,7 +139,7 @@ namespace Ksnm.Numerics
 
         #endregion Bit conversion
 
-        #region Construction from integer
+        #region 他の型からの変換
         public static Float128 FromInt32(int value)
         {
             return FromInt64(value);
@@ -161,12 +161,17 @@ namespace Ksnm.Numerics
 
             return FromUInt64(magnitude, negative);
         }
-
+        /// <summary>
+        /// UInt64 から Float128 に変換します。
+        /// </summary>
         public static Float128 FromUInt64(ulong value)
         {
             return FromUInt64(value, false);
         }
-
+        /// <summary>
+        /// UInt64 から Float128 に変換します。
+        /// 符号を指定できます。
+        /// </summary>
         private static Float128 FromUInt64(ulong value, bool negative)
         {
             if (value == 0)
@@ -190,7 +195,9 @@ namespace Ksnm.Numerics
 
             return new Float128(hi, fractionLow);
         }
-
+        /// <summary>
+        /// UInt128 から Float128 に変換します。
+        /// </summary>
         public static Float128 FromUInt128(UInt128 value)
         {
             if (value == 0)
@@ -234,15 +241,11 @@ namespace Ksnm.Numerics
                 }
             }
 
-            return Pack(
-                negative,
-                exponent,
-                significand);
+            return Pack(negative, exponent, significand);
         }
-
-        #endregion Construction from integer
-
-        #region Construction from double
+        /// <summary>
+        /// double から Float128 に変換します。
+        /// </summary>
         public static Float128 FromDouble(double value)
         {
             ulong bits = (ulong)BitConverter.DoubleToInt64Bits(value);
@@ -287,10 +290,9 @@ namespace Ksnm.Numerics
 
             return Pack(negative, unbiased, sig);
         }
-
-        #endregion Construction from double
-
-        #region Conversion to double
+        /// <summary>
+        /// Float128 を double に変換します。
+        /// </summary>
         public double ToDouble()
         {
             if (IsNaN)
@@ -331,7 +333,7 @@ namespace Ksnm.Numerics
         public static explicit operator Float128(UInt128 value)
             => FromUInt128(value);
 
-        #endregion Conversion to double
+        #endregion 他の型からの変換
 
         #region Internal representation
         private UInt128 GetRawSignificand()
@@ -454,8 +456,6 @@ namespace Ksnm.Numerics
         }
         #endregion Rounding
 
-        // ============================================================        // Addition
-        // ============================================================
         public static Float128 operator +(Float128 a, Float128 b)
         {
             if (a.IsNaN || b.IsNaN)
