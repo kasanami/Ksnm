@@ -1,4 +1,6 @@
-﻿namespace Ksnm.Numerics.Tests
+﻿using Float64 = System.Double;
+
+namespace Ksnm.Numerics.Tests
 {
     [TestClass()]
     public class Float128Tests
@@ -8,7 +10,7 @@
         {
             Float128 float128 = new Float128();
             Assert.IsTrue(float128.IsZero);
-            float128 = new Float128(1);
+            float128 = Float128.One;
             Assert.IsFalse(float128.IsZero);
         }
         [TestMethod()]
@@ -60,6 +62,20 @@
             Assert.IsTrue(float128.IsNormal);
             float128 = new Float128(0x7FFF_0000_0000_0000, 0x0000_0000_0000_0000);
             Assert.IsFalse(float128.IsNormal);
+        }
+        [TestMethod()]
+        public void ToDouble()
+        {
+            Float128 float128 = Float128.FromDouble(1.0);
+            Float64 float64 = float128.ToDouble();
+            Assert.AreEqual(1.0, float64);
+        }
+        [TestMethod()]
+        public void FromDouble()
+        {
+            Float128 float128 = Float128.FromDouble(1.0);
+            Float64 float64 = float128.ToDouble();
+            Assert.AreEqual(1.0, float64);
         }
     }
 }
