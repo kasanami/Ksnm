@@ -19,8 +19,17 @@ namespace Ksnm.Numerics
         IComparable<Float128>,
         IEquatable<Float128>
     {
+        /// <summary>
+        /// Fraction のビット数。
+        /// </summary>
         public const int FractionBits = 112;
+        /// <summary>
+        /// Exponent のビット数。
+        /// </summary>
         public const int ExponentBits = 15;
+        /// <summary>
+        /// Precision（有効桁数）。
+        /// </summary>
         public const int Precision = 113;
 
         public const int ExponentBias = 16383;
@@ -181,7 +190,7 @@ namespace Ksnm.Numerics
 
             int exponent = msb;
 
-            UInt128 significand = (UInt128)value << (112 - msb);
+            UInt128 significand = (UInt128)value << (FractionBits - msb);
 
             ulong fractionHigh = (ulong)(significand >> 64) & FractionHighMask;
 
@@ -211,13 +220,13 @@ namespace Ksnm.Numerics
 
             UInt128 significand;
 
-            if (msb <= 112)
+            if (msb <= FractionBits)
             {
-                significand = value << (112 - msb);
+                significand = value << (FractionBits - msb);
             }
             else
             {
-                int shift = msb - 112;
+                int shift = msb - FractionBits;
 
                 significand = value >> shift;
 
@@ -233,7 +242,7 @@ namespace Ksnm.Numerics
                 {
                     significand++;
 
-                    if (significand == (UInt128.One << 113))
+                    if (significand == (UInt128.One << Precision))
                     {
                         significand >>= 1;
                         exponent++;
@@ -308,7 +317,7 @@ namespace Ksnm.Numerics
 
             int exponent = Exponent;
 
-            double result = (double)value * Math.Pow(2.0, exponent - 112);
+            double result = (double)value * Math.Pow(2.0, exponent - FractionBits);
 
             return IsNegative
                 ? -result
@@ -343,7 +352,7 @@ namespace Ksnm.Numerics
             if (BiasedExponent == 0)
                 return fraction;
 
-            return (UInt128.One << 112) | fraction;
+            return (UInt128.One << FractionBits) | fraction;
         }
 
         private BigInteger GetSignificandBigInteger()
@@ -365,13 +374,13 @@ namespace Ksnm.Numerics
                     ? NegativeZero
                     : Zero;
 
-            while (significand >= (UInt128.One << 113))
+            while (significand >= (UInt128.One << Precision))
             {
                 significand >>= 1;
                 exponent++;
             }
 
-            while (significand < (UInt128.One << 112) &&
+            while (significand < (UInt128.One << FractionBits) &&
                    exponent > MinNormalExponent)
             {
                 significand <<= 1;
@@ -418,7 +427,7 @@ namespace Ksnm.Numerics
 
             int biased = exponent + ExponentBias;
 
-            UInt128 fraction = significand & ((UInt128.One << 112) - 1);
+            UInt128 fraction = significand & ((UInt128.One << FractionBits) - 1);
 
             ulong hi = (negative ? SignMask : 0) |
                 ((ulong)biased << 48) |
@@ -431,6 +440,10 @@ namespace Ksnm.Numerics
         #endregion Internal representation
 
         #region Rounding
+        /// <summary>
+        /// value を shift ビット右に丸めてシフトします。
+        /// * 境界値では、最後のbitが偶数になるように丸めます。
+        /// </summary>
         private static UInt128 RoundRightShift(UInt128 value, int shift)
         {
             if (shift <= 0)
@@ -610,7 +623,7 @@ namespace Ksnm.Numerics
             // Remove 3 extra bits.
             rounded = RoundRightShift(rounded, 3);
 
-            if (rounded >= (UInt128.One << 113))
+            if (rounded >= (UInt128.One << Precision))
             {
                 rounded >>= 1;
                 exponent++;
@@ -686,7 +699,7 @@ namespace Ksnm.Numerics
             {
                 quotient++;
 
-                if (quotient >= (UInt128.One << 113))
+                if (quotient >= (UInt128.One << Precision))
                 {
                     quotient >>= 1;
                     exponent++;
@@ -726,7 +739,7 @@ namespace Ksnm.Numerics
 
             UInt128 rounded = RoundRightShift(value, 3);
 
-            if (rounded >= (UInt128.One << 113))
+            if (rounded >= (UInt128.One << Precision))
             {
                 rounded >>= 1;
                 exponent++;

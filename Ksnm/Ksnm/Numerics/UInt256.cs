@@ -26,11 +26,11 @@ public readonly struct UInt256
     /// <summary>
     /// 256ビットの符号なし整数を生成する。
     /// </summary>
-    /// <param name="u0">最下位64ビット</param>
-    /// <param name="u1">2番目の64ビット</param>
-    /// <param name="u2">3番目の64ビット</param>
     /// <param name="u3">最上位64ビット</param>
-    public UInt256(UInt64 u0, UInt64 u1, UInt64 u2, UInt64 u3)
+    /// <param name="u2">3番目の64ビット</param>
+    /// <param name="u1">2番目の64ビット</param>
+    /// <param name="u0">最下位64ビット</param>
+    UInt256(UInt64 u3, UInt64 u2, UInt64 u1, UInt64 u0)
     {
         U0 = u0;
         U1 = u1;
@@ -40,12 +40,12 @@ public readonly struct UInt256
 
     public static UInt256 FromUInt64(UInt64 value)
     {
-        return new UInt256(value, 0, 0, 0);
+        return new UInt256(0, 0, 0, value);
     }
 
     public static UInt256 FromUInt128(UInt128 value)
     {
-        return new UInt256((UInt64)value, (UInt64)(value >> 64), 0, 0);
+        return new UInt256(0, 0, (UInt64)(value >> 64), (UInt64)value);
     }
 
     override public string ToString()

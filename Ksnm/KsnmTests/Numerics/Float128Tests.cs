@@ -34,6 +34,42 @@ namespace Ksnm.Numerics.Tests
             Assert.AreEqual(Float64.NegativeInfinity, float128.ToDouble());
         }
         [TestMethod()]
+        public void NaN()
+        {
+            Float128 float128 = Float128.NaN;
+            Assert.IsTrue(float128.IsNaN);
+            Assert.AreEqual(Float64.NaN, float128.ToDouble());
+
+            // +∞ + -∞ = NaN
+            {
+                Float128 a = Float128.PositiveInfinity;
+                Float128 b = Float128.NegativeInfinity;
+                Float128 c = a + b;
+                Assert.IsTrue(c.IsNaN);
+            }
+            //0 × ∞ = NaN
+            {
+                Float128 a = Float128.Zero;
+                Float128 b = Float128.PositiveInfinity;
+                Float128 c = a * b;
+                Assert.IsTrue(c.IsNaN);
+            }
+            //∞ / ∞ = NaN
+            {
+                Float128 a = Float128.PositiveInfinity;
+                Float128 b = Float128.PositiveInfinity;
+                Float128 c = a / b;
+                Assert.IsTrue(c.IsNaN);
+            }
+            //0 / 0 = NaN
+            {
+                Float128 a = Float128.Zero;
+                Float128 b = Float128.Zero;
+                Float128 c = a / b;
+                Assert.IsTrue(c.IsNaN);
+            }
+        }
+        [TestMethod()]
         public void One()
         {
             Float128 float128 = Float128.One;
