@@ -1360,14 +1360,10 @@ namespace Ksnm.Numerics
                 scaledNumerator = numerator;
                 scaledDenominator = denominator << (-shift);
             }
-
             BigInteger quotient = BigInteger.DivRem(scaledNumerator, scaledDenominator, out BigInteger remainder);
-            var scaledNumeratorStr = scaledNumerator.ToString("X");
-            var scaledDenominatorStr = scaledDenominator.ToString("X");
-            var remainderStr = remainder.ToString("X");
-            var quotientStr = quotient.ToString("X");
             // --------------------------------------------------------
             // quotient contains:
+            // 113bitに仮数を整形
             //
             // [113 significant][G][R]
             //
@@ -1387,13 +1383,11 @@ namespace Ksnm.Numerics
             // --------------------------------------------------------
             // Rounding overflow
             // --------------------------------------------------------
-            quotientStr = quotient.ToString("X");
-            if (quotient >= (BigInteger.One << Precision))
+            if (quotient > (BigInteger.One << Precision))
             {
                 quotient >>= 1;
                 exponent++;
             }
-            quotientStr = quotient.ToString("X");
             return PackBigInteger(negative, exponent, quotient);
         }
 

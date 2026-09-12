@@ -14,6 +14,24 @@ namespace ConsoleApp
             Console.WriteLine(Ksnm.Debug.GetFilePathAndLineNumber());
 
             {
+                BigInteger numerator = BigInteger.Parse("1");
+                BigInteger denominator = BigInteger.Parse("1");
+                Float128 float128 = Float128.FromBigIntegerRatio(false, numerator, denominator);
+                Console.WriteLine($"{numerator} / {denominator} = {float128}");
+            }
+            {
+                BigInteger numerator = BigInteger.Parse("2");
+                BigInteger denominator = BigInteger.Parse("2");
+                Float128 float128 = Float128.FromBigIntegerRatio(false, numerator, denominator);
+                Console.WriteLine($"{numerator} / {denominator} = {float128}");
+            }
+            {
+                BigInteger numerator = BigInteger.Parse("1");
+                BigInteger denominator = BigInteger.Parse("2");
+                Float128 float128 = Float128.FromBigIntegerRatio(false, numerator, denominator);
+                Console.WriteLine($"{numerator} / {denominator} = {float128}");
+            }
+            {
                 Console.WriteLine("FiniteField");
                 var a = FiniteField3.Zero;
                 var b = FiniteField3.One;

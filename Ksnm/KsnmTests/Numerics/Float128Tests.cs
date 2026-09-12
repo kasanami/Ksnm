@@ -239,9 +239,36 @@ namespace Ksnm.Numerics.Tests
         [TestMethod()]
         public void FromBigIntegerRatio()
         {
-            BigInteger numerator = BigInteger.Parse("1");
-            BigInteger denominator = BigInteger.Parse("2");
-            Float128 float128 = Float128.FromBigIntegerRatio(false, numerator, denominator);
+            {
+                BigInteger numerator = BigInteger.Parse("1");
+                BigInteger denominator = BigInteger.Parse("1");
+                Float128 float128 = Float128.FromBigIntegerRatio(false, numerator, denominator);
+                Assert.AreEqual(Float128.One, float128);
+            }
+            {
+                BigInteger numerator = BigInteger.Parse("2");
+                BigInteger denominator = BigInteger.Parse("2");
+                Float128 float128 = Float128.FromBigIntegerRatio(false, numerator, denominator);
+                Assert.AreEqual(Float128.One, float128);
+            }
+            {
+                BigInteger numerator = BigInteger.Parse("1");
+                BigInteger denominator = BigInteger.Parse("2");
+                Float128 float128 = Float128.FromBigIntegerRatio(false, numerator, denominator);
+                Assert.AreEqual(Float128.Half, float128);
+            }
+            {
+                BigInteger numerator = BigInteger.Parse("2");
+                BigInteger denominator = BigInteger.Parse("1");
+                Float128 float128 = Float128.FromBigIntegerRatio(false, numerator, denominator);
+                Assert.AreEqual(Float128.Two, float128);
+            }
+            {
+                BigInteger numerator = BigInteger.Parse("1");
+                BigInteger denominator = BigInteger.Parse("4");
+                Float128 float128 = Float128.FromBigIntegerRatio(false, numerator, denominator);
+                Assert.AreEqual(new Float128(false, -2, 0, 0), float128);
+            }
         }
         [TestMethod()]
         public void PackBigInteger()
