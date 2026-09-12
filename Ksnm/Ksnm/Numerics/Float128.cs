@@ -54,6 +54,43 @@ namespace Ksnm.Numerics
             _hi = hi;
             _lo = lo;
         }
+        /// <summary>
+        /// Float128 を構築します。
+        /// </summary>
+        /// <param name="negative">負の数かどうか</param>
+        /// <param name="exponent">指数[-16383, 16383]</param>
+        /// <param name="fraction">分数</param>
+        public Float128(bool negative, int exponent, UInt128 fraction)
+        {
+            if (exponent < MinNormalExponent || exponent > MaxNormalExponent)
+                throw new ArgumentOutOfRangeException(nameof(exponent), $"exponent must be in range [{MinNormalExponent}, {MaxNormalExponent}]");
+
+            int biasedExponent = exponent + ExponentBias;
+            ulong fractionHigh = (ulong)(fraction >> 64) & FractionHighMask;
+            ulong fractionLow = (ulong)(fraction & 0xFFFFFFFFFFFFFFFFUL);
+            _hi = (negative ? SignMask : 0) |
+                  ((ulong)(biasedExponent) << 48) |
+                  (fractionHigh & FractionHighMask);
+            _lo = fractionLow;
+        }
+        /// <summary>
+        /// Float128 を構築します。
+        /// </summary>
+        /// <param name="negative">負の数かどうか</param>
+        /// <param name="exponent">指数[-16383, 16383]</param>
+        /// <param name="fractionHigh">分数の上位48ビット(49ビット目より高位は無視されます)</param>
+        /// <param name="fractionLow">分数の下位64ビット</param>
+        public Float128(bool negative, int exponent, ulong fractionHigh, ulong fractionLow)
+        {
+            if (exponent < MinNormalExponent || exponent > MaxNormalExponent)
+                throw new ArgumentOutOfRangeException(nameof(exponent), $"exponent must be in range [{MinNormalExponent}, {MaxNormalExponent}]");
+
+            int biasedExponent = exponent + ExponentBias;
+            _hi = (negative ? SignMask : 0) |
+                  ((ulong)(biasedExponent) << 48) |
+                  (fractionHigh & FractionHighMask);
+            _lo = fractionLow;
+        }
 
         #region Constants
         public static readonly Float128 Zero = new Float128(0, 0);
@@ -191,18 +228,9 @@ namespace Ksnm.Numerics
             int exponent = msb;
 
             UInt128 significand = (UInt128)value << (FractionBits - msb);
-
             ulong fractionHigh = (ulong)(significand >> 64) & FractionHighMask;
-
             ulong fractionLow = (ulong)significand;
-
-            int biased = exponent + ExponentBias;
-
-            ulong hi = (negative ? SignMask : 0) |
-                ((ulong)biased << 48) |
-                fractionHigh;
-
-            return new Float128(hi, fractionLow);
+            return new Float128(negative, exponent, fractionHigh, fractionLow);
         }
         /// <summary>
         /// UInt128 から Float128 に変換します。
@@ -287,10 +315,7 @@ namespace Ksnm.Numerics
 
                 UInt128 significand = (UInt128)normalized << 60;
 
-                return Pack(
-                    negative,
-                    e,
-                    significand);
+                return Pack(negative, e, significand);
             }
 
             int unbiased = exponent - 1023;
@@ -364,10 +389,7 @@ namespace Ksnm.Numerics
                 (ulong)value;
         }
 
-        private static Float128 Pack(
-            bool negative,
-            int exponent,
-            UInt128 significand)
+        private static Float128 Pack(bool negative, int exponent, UInt128 significand)
         {
             if (significand == 0)
                 return negative
@@ -404,9 +426,7 @@ namespace Ksnm.Numerics
                         ? NegativeZero
                         : Zero;
 
-                significand = RoundRightShift(
-                        significand,
-                        shift);
+                significand = RoundRightShift(significand, shift);
 
                 exponent = MinNormalExponent;
 
@@ -416,26 +436,12 @@ namespace Ksnm.Numerics
                         : Zero;
 
                 ulong hiFraction = (ulong)(significand >> 64);
-
                 ulong loFraction = (ulong)significand;
 
-                return new Float128(
-                    (negative ? SignMask : 0) |
-                    hiFraction,
-                    loFraction);
+                return new Float128((negative ? SignMask : 0) | hiFraction, loFraction);
             }
-
-            int biased = exponent + ExponentBias;
-
             UInt128 fraction = significand & ((UInt128.One << FractionBits) - 1);
-
-            ulong hi = (negative ? SignMask : 0) |
-                ((ulong)biased << 48) |
-                (ulong)(fraction >> 64);
-
-            ulong lo = (ulong)fraction;
-
-            return new Float128(hi, lo);
+            return new Float128(negative, exponent, fraction);
         }
         #endregion Internal representation
 
@@ -880,6 +886,628 @@ namespace Ksnm.Numerics
                 return IsNegative ? "-0" : "0";
 
             return ToDouble().ToString("R", CultureInfo.InvariantCulture);
+        }
+
+        #region Parse
+        public static Float128 Parse(string s)
+        {
+            return Parse(s, NumberStyles.Float, CultureInfo.InvariantCulture);
+        }
+
+        public static Float128 Parse(string s, IFormatProvider? provider)
+        {
+            return Parse(s, NumberStyles.Float, provider);
+        }
+
+        public static Float128 Parse(string s, NumberStyles style, IFormatProvider? provider)
+        {
+            if (s is null)
+                throw new ArgumentNullException(nameof(s));
+
+            if (TryParse(s, style, provider, out Float128 result))
+            {
+                return result;
+            }
+
+            throw new FormatException($"The input string '{s}' was not in a correct format.");
+        }
+        #endregion Parse
+
+        #region TryParse
+        public static bool TryParse(string? s, out Float128 result)
+        {
+            return TryParse(s, NumberStyles.Float, CultureInfo.InvariantCulture, out result);
+        }
+
+        public static bool TryParse(string? s, IFormatProvider? provider, out Float128 result)
+        {
+            return TryParse(s, NumberStyles.Float, provider, out result);
+        }
+
+        public static bool TryParse(string? s, NumberStyles style, IFormatProvider? provider, out Float128 result)
+        {
+            result = Zero;
+
+            if (string.IsNullOrWhiteSpace(s))
+                return false;
+
+            string text = s.Trim();
+
+            #region 特殊値の処理
+            if (IsPositiveInfinityString(text))
+            {
+                result = PositiveInfinity;
+                return true;
+            }
+
+            if (IsNegativeInfinityString(text))
+            {
+                result = NegativeInfinity;
+                return true;
+            }
+
+            if (IsNaNString(text))
+            {
+                result = NaN;
+                return true;
+            }
+            #endregion
+
+            #region 符号の処理
+            int index = 0;
+            bool negative = false;
+
+            if (text[index] == '+')
+            {
+                index++;
+            }
+            else if (text[index] == '-')
+            {
+                negative = true;
+                index++;
+            }
+
+            if (index >= text.Length)
+                return false;
+            #endregion
+
+            #region カルチャーの処理
+            NumberFormatInfo nfi = NumberFormatInfo.GetInstance(provider ?? CultureInfo.InvariantCulture);
+
+            string decimalSeparator = nfi.NumberDecimalSeparator;
+
+            if (string.IsNullOrEmpty(decimalSeparator))
+                decimalSeparator = ".";
+
+            // NumberStyles.AllowDecimalPoint が無い場合、
+            // 小数点を許可しない。
+            bool allowDecimal = (style & NumberStyles.AllowDecimalPoint) != 0;
+
+            bool allowExponent = (style & NumberStyles.AllowExponent) != 0;
+            #endregion
+
+            #region Digits
+            BigInteger significand = BigInteger.Zero;
+
+            int digitCount = 0;
+            int fractionalDigits = 0;
+
+            bool decimalSeen = false;
+
+            while (index < text.Length)
+            {
+                char c = text[index];
+
+                if (c >= '0' && c <= '9')
+                {
+                    significand =
+                        significand * 10 +
+                        (c - '0');
+
+                    digitCount++;
+
+                    if (decimalSeen)
+                        fractionalDigits++;
+
+                    index++;
+                    continue;
+                }
+
+                if (!decimalSeen &&
+                    allowDecimal &&
+                    StartsWith(text, index, decimalSeparator))
+                {
+                    decimalSeen = true;
+
+                    index += decimalSeparator.Length;
+                    continue;
+                }
+
+                break;
+            }
+
+            if (digitCount == 0)
+                return false;
+            #endregion
+
+            #region Exponent
+            int decimalExponent = 0;
+
+            if (index < text.Length &&
+                (text[index] == 'e' ||
+                 text[index] == 'E'))
+            {
+                if (!allowExponent)
+                    return false;
+
+                index++;
+
+                if (index >= text.Length)
+                    return false;
+
+                bool exponentNegative = false;
+
+                if (text[index] == '+')
+                {
+                    index++;
+                }
+                else if (text[index] == '-')
+                {
+                    exponentNegative = true;
+                    index++;
+                }
+
+                if (index >= text.Length)
+                    return false;
+
+                int exponentValue = 0;
+                int exponentDigits = 0;
+
+                while (index < text.Length)
+                {
+                    char c = text[index];
+
+                    if (c < '0' || c > '9')
+                        return false;
+
+                    exponentDigits++;
+
+                    // overflow protection
+                    if (exponentValue > 1_000_000)
+                    {
+                        exponentValue = 1_000_000;
+                    }
+                    else
+                    {
+                        exponentValue =
+                            exponentValue * 10 +
+                            (c - '0');
+
+                        if (exponentValue > 1_000_000)
+                            exponentValue = 1_000_000;
+                    }
+
+                    index++;
+                }
+
+                if (exponentDigits == 0)
+                    return false;
+
+                decimalExponent =
+                    exponentNegative
+                        ? -exponentValue
+                        : exponentValue;
+            }
+
+            // 文字列の最後まで消費できていなければ不正。
+            if (index != text.Length)
+                return false;
+            #endregion
+
+            // --------------------------------------------------------
+            // 末尾の小数点以下のゼロを削除します。
+            // Example:
+            //
+            // 123.45000
+            //
+            // becomes
+            //
+            // significand = 12345
+            // decimalExponent = -2
+            // --------------------------------------------------------
+
+            while (significand != 0 &&
+                   significand % 10 == 0)
+            {
+                significand /= 10;
+
+                fractionalDigits--;
+            }
+
+            if (significand == 0)
+            {
+                result =
+                    negative
+                        ? NegativeZero
+                        : Zero;
+
+                return true;
+            }
+
+            // Effective power of ten:
+            //
+            // significand × 10^decimalScale
+            //
+            int decimalScale = decimalExponent - fractionalDigits;
+
+            result = FromDecimal(negative, significand, decimalScale);
+
+            return true;
+        }
+        #endregion TryParse
+
+
+        // ============================================================
+        // Special value parsing
+        // ============================================================
+
+        private static bool IsPositiveInfinityString(string text)
+        {
+            return
+                text.Equals(
+                    "Infinity",
+                    StringComparison.OrdinalIgnoreCase) ||
+                text.Equals(
+                    "+Infinity",
+                    StringComparison.OrdinalIgnoreCase) ||
+                text.Equals(
+                    "∞",
+                    StringComparison.Ordinal);
+        }
+
+        private static bool IsNegativeInfinityString(string text)
+        {
+            return
+                text.Equals(
+                    "-Infinity",
+                    StringComparison.OrdinalIgnoreCase) ||
+                text.Equals(
+                    "-∞",
+                    StringComparison.Ordinal);
+        }
+
+        private static bool IsNaNString(string text)
+        {
+            return text.Equals("NaN", StringComparison.OrdinalIgnoreCase);
+        }
+
+        private static bool StartsWith(string text, int index, string value)
+        {
+            if (index + value.Length > text.Length)
+                return false;
+
+            return string.Compare(
+                text,
+                index,
+                value,
+                0,
+                value.Length,
+                StringComparison.Ordinal) == 0;
+        }
+
+        // ============================================================
+        // Decimal -> Float128
+        // ============================================================
+
+        private static Float128 FromDecimal(bool negative, BigInteger significand, int decimalScale)
+        {
+            if (significand.IsZero)
+            {
+                return negative
+                    ? NegativeZero
+                    : Zero;
+            }
+
+            // --------------------------------------------------------
+            // value =
+            //
+            //     significand × 10^decimalScale
+            //
+            // 10^n = 2^n × 5^n
+            //
+            // Therefore:
+            //
+            // significand × 10^n
+            //
+            // can be represented exactly as
+            //
+            // significand × 5^n × 2^n
+            // --------------------------------------------------------
+
+            if (decimalScale >= 0)
+            {
+                BigInteger integerValue = significand * BigInteger.Pow(10, decimalScale);
+                return FromBigInteger(negative, integerValue);
+            }
+
+            int scale = -decimalScale;
+
+            // value = significand / 10^scale
+            //
+            //          significand
+            //        = -----------
+            //          2^scale × 5^scale
+            //
+            // Instead of creating an enormous decimal denominator,
+            // calculate the binary exponent first and then perform
+            // integer division with sufficient extra precision.
+
+            BigInteger denominator = BigInteger.Pow(10, scale);
+
+            return FromBigIntegerRatio(negative, significand, denominator);
+        }
+
+        // ============================================================
+        // BigInteger -> Float128
+        // ============================================================
+
+        private static Float128 FromBigInteger(bool negative, BigInteger value)
+        {
+            if (value.IsZero)
+            {
+                return negative
+                    ? NegativeZero
+                    : Zero;
+            }
+
+            int bitLength = GetBitLength(value);
+            int exponent = bitLength - 1;
+
+            BigInteger significand;
+
+            if (bitLength > Precision)
+            {
+                int shift = bitLength - Precision;
+                BigInteger truncated = value >> shift;
+                BigInteger remainder = value - (truncated << shift);
+                BigInteger half = BigInteger.One << (shift - 1);
+                bool roundUp = remainder > half || (remainder == half && !truncated.IsEven);
+                significand = truncated + (roundUp ? BigInteger.One : BigInteger.Zero);
+                if (significand == (BigInteger.One << Precision))
+                {
+                    significand >>= 1;
+                    exponent++;
+                }
+            }
+            else
+            {
+                significand = value << (Precision - bitLength);
+            }
+
+            return PackBigInteger(negative, exponent, significand);
+        }
+
+        /// <summary>
+        /// 有理数をFloat128に変換
+        /// value = numerator / denominator
+        /// </summary>
+        /// <param name="negative"></param>
+        /// <param name="numerator"></param>
+        /// <param name="denominator"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        public static Float128 FromBigIntegerRatio(bool negative, BigInteger numerator, BigInteger denominator)
+        {
+            if (numerator.IsZero)
+            {
+                return negative
+                    ? NegativeZero
+                    : Zero;
+            }
+
+            if (denominator.Sign <= 0)
+                throw new ArgumentOutOfRangeException(nameof(denominator));
+
+            // --------------------------------------------------------
+            // 次の条件を満たす2進数の指数 e を求める。
+            //
+            //     2^e <= value < 2^(e+1)
+            // --------------------------------------------------------
+            int numeratorBits = GetBitLength(numerator);
+            int denominatorBits = GetBitLength(denominator);
+            int exponent = numeratorBits - denominatorBits;
+            if (exponent >= 0)
+            {
+                if (numerator < (denominator << exponent))
+                {
+                    exponent--;
+                }
+            }
+            else
+            {
+                if ((numerator << (-exponent)) < denominator)
+                {
+                    exponent--;
+                }
+            }
+
+            // --------------------------------------------------------
+            // Generate:
+            //
+            // 113 significant bits
+            // + guard bit
+            // + round bit
+            // + enough remainder information
+            //
+            // q = floor(value × 2^N)
+            // --------------------------------------------------------
+
+            const int ExtraBits = 3;
+            const int PrecisionWithExtra = Precision + ExtraBits;
+
+            int shift = PrecisionWithExtra - 1 - exponent;
+
+            BigInteger scaledNumerator;
+            BigInteger scaledDenominator;
+
+            if (shift >= 0)
+            {
+                scaledNumerator = numerator << shift;
+                scaledDenominator = denominator;
+            }
+            else
+            {
+                scaledNumerator = numerator;
+                scaledDenominator = denominator << (-shift);
+            }
+
+            BigInteger quotient = BigInteger.DivRem(scaledNumerator, scaledDenominator, out BigInteger remainder);
+            var scaledNumeratorStr = scaledNumerator.ToString("X");
+            var scaledDenominatorStr = scaledDenominator.ToString("X");
+            var remainderStr = remainder.ToString("X");
+            var quotientStr = quotient.ToString("X");
+            // --------------------------------------------------------
+            // quotient contains:
+            //
+            // [113 significant][G][R]
+            //
+            // remainder is the sticky information.
+            // --------------------------------------------------------
+
+            bool guard = ((quotient & 1) != 0);
+            quotient >>= 1;
+            bool round = ((quotient & 1) != 0);
+            quotient >>= 1;
+            bool sticky = remainder != 0;
+            if (guard && (round || sticky || !quotient.IsEven))
+            {
+                quotient++;
+            }
+
+            // --------------------------------------------------------
+            // Rounding overflow
+            // --------------------------------------------------------
+            quotientStr = quotient.ToString("X");
+            if (quotient >= (BigInteger.One << Precision))
+            {
+                quotient >>= 1;
+                exponent++;
+            }
+            quotientStr = quotient.ToString("X");
+            return PackBigInteger(negative, exponent, quotient);
+        }
+
+        // ============================================================
+        // Pack BigInteger significand
+        // ============================================================
+
+        /// <summary>
+        /// BigInteger から Float128 を作成します。
+        /// </summary>
+        /// <param name="negative">負数かどうか</param>
+        /// <param name="exponent">指数[-16382, 16383]</param>
+        /// <param name="significand">仮数(1)</param>
+        /// <returns></returns>
+        public static Float128 PackBigInteger(bool negative, int exponent, BigInteger significand)
+        {
+            if (significand.IsZero)
+            {
+                return negative
+                    ? NegativeZero
+                    : Zero;
+            }
+
+            // Overflow
+            if (exponent > MaxNormalExponent)
+            {
+                return negative
+                    ? NegativeInfinity
+                    : PositiveInfinity;
+            }
+
+            // Normal number
+            if (exponent >= MinNormalExponent)
+            {
+                var significandStr = significand.ToString("X");
+                BigInteger fraction = significand - (BigInteger.One << FractionBits);
+                var fractionStr = fraction.ToString("X");
+                ulong fractionHigh = (ulong)(fraction >> 64);
+                ulong fractionLow = (ulong)(fraction & 0xFFFFFFFFFFFFFFFFUL);
+                return new Float128(negative, exponent, fractionHigh, fractionLow);
+            }
+            else
+            {
+                // --------------------------------------------------------
+                // Subnormal
+                //
+                // value = significand × 2^(exponent - 112)
+                //
+                // For the smallest normal exponent:
+                //
+                // 2^-16382
+                //
+                // the subnormal fraction uses:
+                //
+                // 2^-16494
+                //
+                // Therefore shift the significand so that the binary
+                // point is at -16494.
+                // --------------------------------------------------------
+
+                int shift = exponent - MinSubnormalExponent - FractionBits;
+
+                BigInteger fraction;
+
+                if (shift >= 0)
+                {
+                    fraction = significand << shift;
+                }
+                else
+                {
+                    int rightShift = -shift;
+                    BigInteger truncated = significand >> rightShift;
+                    BigInteger remainder = significand - (truncated << rightShift);
+                    BigInteger half = BigInteger.One << (rightShift - 1);
+                    bool roundUp = remainder > half || (remainder == half && !truncated.IsEven);
+                    fraction = truncated + (roundUp ? BigInteger.One : BigInteger.Zero);
+                }
+
+                // 丸め処理によって、最小の正規値が得られた可能性があります。
+                if (fraction >= (BigInteger.One << FractionBits))
+                {
+                    ulong hi = (negative ? SignMask : 0) | 0x0001000000000000UL;
+                    return new Float128(hi, 0);
+                }
+
+                ulong fractionHigh = (ulong)(fraction >> 64);
+                ulong fractionLow = (ulong)(fraction & 0xFFFFFFFFFFFFFFFFUL);
+
+                return new Float128((negative ? SignMask : 0) | fractionHigh, fractionLow);
+            }
+        }
+
+        /// <summary>
+        /// 何ビットの整数として表現されているかを調べる
+        /// 例：13 = 0b1101　・・・　4ビット
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static int GetBitLength(BigInteger value)
+        {
+#if false
+            if (value.IsZero)
+                return 0;
+
+            if (value.Sign < 0)
+                value = BigInteger.Abs(value);
+
+            byte[] bytes = value.ToByteArray(isUnsigned: true, isBigEndian: true);
+            int leadingZeroCount = byte.LeadingZeroCount(bytes[0]);
+            // 全体のビット数から先頭のゼロビット数を引く
+            return bytes.Length * 8 - leadingZeroCount;
+#else
+            return (int)value.GetBitLength();
+#endif
         }
     }
 }

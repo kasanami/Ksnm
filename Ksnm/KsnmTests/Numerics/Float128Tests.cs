@@ -1,4 +1,6 @@
-﻿using Float64 = System.Double;
+﻿using Newtonsoft.Json.Linq;
+using System.Numerics;
+using Float64 = System.Double;
 
 namespace Ksnm.Numerics.Tests
 {
@@ -217,6 +219,49 @@ namespace Ksnm.Numerics.Tests
                 Float128 float128 = Float128.FromDouble(i);
                 Float64 float64 = float128.ToDouble();
                 Assert.AreEqual(i, float64);
+            }
+        }
+        [TestMethod()]
+        public void Parse()
+        {
+            var float128 = Float128.Parse("2.0");
+            Assert.AreEqual(Float128.Two, float128);
+
+            float128 = Float128.Parse("1.0");
+            Assert.AreEqual(Float128.One, float128);
+
+            float128 = Float128.Parse("0.5");
+            Assert.AreEqual(Float128.Half, float128);
+
+            float128 = Float128.Parse("1.5");
+            Assert.AreEqual(Float128.One + Float128.Half, float128);
+        }
+        [TestMethod()]
+        public void FromBigIntegerRatio()
+        {
+            BigInteger numerator = BigInteger.Parse("1");
+            BigInteger denominator = BigInteger.Parse("2");
+            Float128 float128 = Float128.FromBigIntegerRatio(false, numerator, denominator);
+        }
+        [TestMethod()]
+        public void PackBigInteger()
+        {
+            BigInteger significand = BigInteger.Parse("1");
+            //Float128 float128 = Float128.PackBigInteger(false, 0, significand);
+        }
+        [TestMethod()]
+        public void GetBitLength()
+        {
+            {
+                BigInteger bigInteger = BigInteger.Zero;
+                int bitLength = Float128.GetBitLength(bigInteger);
+                Assert.AreEqual(0, bitLength);
+            }
+            for (int i = 0; i < 200; i++)
+            {
+                BigInteger bigInteger = BigInteger.One << i;
+                int bitLength = Float128.GetBitLength(bigInteger);
+                Assert.AreEqual(i + 1, bitLength);
             }
         }
     }
