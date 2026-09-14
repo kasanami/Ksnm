@@ -224,8 +224,7 @@ namespace Ksnm.Numerics.Tests
         [TestMethod()]
         public void Parse()
         {
-            var float128 = Float128.Parse("2.0");
-            Assert.AreEqual(Float128.Two, float128);
+            var float128 = Float128.Parse("1");
 
             float128 = Float128.Parse("1.0");
             Assert.AreEqual(Float128.One, float128);
@@ -235,10 +234,23 @@ namespace Ksnm.Numerics.Tests
 
             float128 = Float128.Parse("1.5");
             Assert.AreEqual(Float128.One + Float128.Half, float128);
+
+            float128 = Float128.Parse("2.0");
+            Assert.AreEqual(Float128.Two, float128);
         }
         [TestMethod()]
         public void FromBigIntegerRatio()
         {
+            {
+                BigInteger numerator = BigInteger.Parse("12345");
+                BigInteger denominator = BigInteger.Parse("10000");
+                Float128 float128 = Float128.FromBigIntegerRatio(false, numerator, denominator);
+            }
+            {
+                BigInteger numerator = BigInteger.Parse("15");
+                BigInteger denominator = BigInteger.Parse("10");
+                Float128 float128 = Float128.FromBigIntegerRatio(false, numerator, denominator);
+            }
             {
                 BigInteger numerator = BigInteger.Parse("1");
                 BigInteger denominator = BigInteger.Parse("1");
@@ -264,6 +276,12 @@ namespace Ksnm.Numerics.Tests
                 Assert.AreEqual(Float128.Two, float128);
             }
             {
+                BigInteger numerator = BigInteger.Parse("9");
+                BigInteger denominator = BigInteger.Parse("3");
+                Float128 float128 = Float128.FromBigIntegerRatio(false, numerator, denominator);
+                Assert.AreEqual(new Float128(false, -2, 0, 0), float128);
+            }
+            {
                 BigInteger numerator = BigInteger.Parse("1");
                 BigInteger denominator = BigInteger.Parse("4");
                 Float128 float128 = Float128.FromBigIntegerRatio(false, numerator, denominator);
@@ -274,7 +292,7 @@ namespace Ksnm.Numerics.Tests
         public void PackBigInteger()
         {
             BigInteger significand = BigInteger.Parse("1");
-            //Float128 float128 = Float128.PackBigInteger(false, 0, significand);
+            Float128 float128 = Float128.PackBigInteger(false, 0, significand);
         }
         [TestMethod()]
         public void GetBitLength()

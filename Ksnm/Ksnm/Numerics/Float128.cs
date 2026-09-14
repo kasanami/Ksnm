@@ -1291,9 +1291,9 @@ namespace Ksnm.Numerics
         /// 有理数をFloat128に変換
         /// value = numerator / denominator
         /// </summary>
-        /// <param name="negative"></param>
-        /// <param name="numerator"></param>
-        /// <param name="denominator"></param>
+        /// <param name="negative">符号</param>
+        /// <param name="numerator">割られる数。1.5の場合15</param>
+        /// <param name="denominator">割る数。1.5の場合10</param>
         /// <returns></returns>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         public static Float128 FromBigIntegerRatio(bool negative, BigInteger numerator, BigInteger denominator)
@@ -1318,14 +1318,16 @@ namespace Ksnm.Numerics
             int exponent = numeratorBits - denominatorBits;
             if (exponent >= 0)
             {
-                if (numerator < (denominator << exponent))
+                var shiftedDenominator = denominator << exponent;
+                if (numerator < shiftedDenominator)
                 {
                     exponent--;
                 }
             }
             else
             {
-                if ((numerator << (-exponent)) < denominator)
+                var shiftedNumerator = numerator << (-exponent);
+                if (shiftedNumerator < denominator)
                 {
                     exponent--;
                 }
@@ -1383,7 +1385,7 @@ namespace Ksnm.Numerics
             // --------------------------------------------------------
             // Rounding overflow
             // --------------------------------------------------------
-            if (quotient > (BigInteger.One << Precision))
+            while (quotient > (BigInteger.One << Precision))
             {
                 quotient >>= 1;
                 exponent++;
