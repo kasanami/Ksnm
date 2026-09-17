@@ -245,11 +245,13 @@ namespace Ksnm.Numerics.Tests
                 BigInteger numerator = BigInteger.Parse("12345");
                 BigInteger denominator = BigInteger.Parse("10000");
                 Float128 float128 = Float128.FromBigIntegerRatio(false, numerator, denominator);
+                Assert.AreEqual("1.2345", float128.ToString());
             }
             {
                 BigInteger numerator = BigInteger.Parse("15");
                 BigInteger denominator = BigInteger.Parse("10");
                 Float128 float128 = Float128.FromBigIntegerRatio(false, numerator, denominator);
+                Assert.AreEqual(Float128.One + Float128.Half, float128);
             }
             {
                 BigInteger numerator = BigInteger.Parse("1");
@@ -279,13 +281,13 @@ namespace Ksnm.Numerics.Tests
                 BigInteger numerator = BigInteger.Parse("9");
                 BigInteger denominator = BigInteger.Parse("3");
                 Float128 float128 = Float128.FromBigIntegerRatio(false, numerator, denominator);
-                Assert.AreEqual(new Float128(false, -2, 0, 0), float128);
+                Assert.AreEqual(Float128.Two + Float128.One, float128);
             }
             {
                 BigInteger numerator = BigInteger.Parse("1");
                 BigInteger denominator = BigInteger.Parse("4");
                 Float128 float128 = Float128.FromBigIntegerRatio(false, numerator, denominator);
-                Assert.AreEqual(new Float128(false, -2, 0, 0), float128);
+                Assert.AreEqual(Float128.Half * Float128.Half, float128);
             }
         }
         [TestMethod()]

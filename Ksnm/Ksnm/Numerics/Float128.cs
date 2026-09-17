@@ -1371,12 +1371,13 @@ namespace Ksnm.Numerics
             //
             // remainder is the sticky information.
             // --------------------------------------------------------
-
-            bool guard = ((quotient & 1) != 0);
-            quotient >>= 1;
-            bool round = ((quotient & 1) != 0);
-            quotient >>= 1;
             bool sticky = remainder != 0;
+            bool guard = ((quotient >> 2) & 1) != 0;
+            bool round = ((quotient >> 1) & 1) != 0;
+            sticky |= (quotient & 1) != 0;
+            // 余分な3ビットを削除
+            quotient >>= ExtraBits;
+
             if (guard && (round || sticky || !quotient.IsEven))
             {
                 quotient++;
@@ -1505,5 +1506,124 @@ namespace Ksnm.Numerics
             return (int)value.GetBitLength();
 #endif
         }
+
+        #region 
+
+#if false
+        public override string ToString()
+        {
+            return ToString(null, null);
+        }
+
+        public string ToString(string? format, IFormatProvider? formatProvider)
+        {
+            format ??= "G";
+
+            return format switch
+            {
+                "" => ToStringGeneral(formatProvider),
+                "G" => ToStringGeneral(formatProvider),
+                "g" => ToStringGeneral(formatProvider),
+
+                "E" => ToStringExponential(formatProvider, upperCase: true),
+                "e" => ToStringExponential(formatProvider, upperCase: false),
+
+                "F" => ToStringFixed(formatProvider, upperCase: true),
+                "f" => ToStringFixed(formatProvider, upperCase: false),
+
+                _ => throw new FormatException(
+                    $"The format '{format}' is not supported.")
+            };
+        }
+        private static void ParseFormat(string? format,out char formatChar,out int precision)
+        {
+            format ??= "G";
+
+            if (format.Length == 0)
+            {
+                formatChar = 'G';
+                precision = -1;
+                return;
+            }
+
+            formatChar = format[0];
+
+            if (format.Length == 1)
+            {
+                precision = -1;
+                return;
+            }
+
+            if (!int.TryParse(
+                format.AsSpan(1),
+                System.Globalization.NumberStyles.None,
+                System.Globalization.CultureInfo.InvariantCulture,
+                out precision))
+            {
+                throw new FormatException(
+                    $"The format '{format}' is invalid.");
+            }
+        }
+        public bool TryFormat(Span<char> destination,out int charsWritten,ReadOnlySpan<char> format,IFormatProvider? provider)
+        {
+            string formatString = format.IsEmpty
+                ? "G"
+                : format.ToString();
+
+            string result = ToString(formatString, provider);
+
+            if (result.Length > destination.Length)
+            {
+                charsWritten = 0;
+                return false;
+            }
+
+            result.AsSpan().CopyTo(destination);
+
+            charsWritten = result.Length;
+            return true;
+        }
+        public bool TryFormat(Span<char> destination,out int charsWritten,ReadOnlySpan<char> format,IFormatProvider? provider)
+        {
+            ParseFormat(
+                format,
+                out char formatChar,
+                out int precision);
+
+            switch (formatChar)
+            {
+                case 'G':
+                case 'g':
+                    return TryFormatGeneral(
+                        destination,
+                        out charsWritten,
+                        precision,
+                        provider);
+
+                case 'E':
+                case 'e':
+                    return TryFormatExponential(
+                        destination,
+                        out charsWritten,
+                        precision,
+                        formatChar == 'E',
+                        provider);
+
+                case 'F':
+                case 'f':
+                    return TryFormatFixed(
+                        destination,
+                        out charsWritten,
+                        precision,
+                        provider);
+
+                default:
+                    charsWritten = 0;
+                    throw new FormatException(
+                        $"The format '{formatChar}' is not supported.");
+            }
+        }
+#endif
+#endregion
     }
 }
