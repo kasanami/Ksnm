@@ -732,3 +732,5 @@ net5.0-windows
 /Ksnm/ConsoleApp/bin/Release/net9.0/Microsoft.Extensions.DependencyInjection.dll
 /Ksnm/ConsoleApp/bin/Release/net9.0/Pragmastat.dll
 /Ksnm/ConsoleApp/bin/Release/net9.0/runtimes/win/lib/net9.0/System.Management.dll
+/Ksnm/WinFormsApp/obj/Debug/net9.0-windows7.0/WinFormsApp.designer.deps.json
+/Ksnm/WinFormsApp/obj/Debug/net9.0-windows7.0/WinFormsApp.designer.runtimeconfig.json

@@ -20,6 +20,7 @@ namespace ConsoleApp
     {
         private static void Main(string[] args)
         {
+            //RandomTest.Run();
             //CryptographyTest.Run();
             NumericsTest.Run();
             //GraphicsTest.Run();
