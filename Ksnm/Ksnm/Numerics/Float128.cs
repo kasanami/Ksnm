@@ -475,6 +475,7 @@ namespace Ksnm.Numerics
         }
         #endregion Rounding
 
+        #region Operators
         public static Float128 operator +(Float128 a, Float128 b)
         {
             if (a.IsNaN || b.IsNaN)
@@ -714,6 +715,7 @@ namespace Ksnm.Numerics
 
             return Pack(sign, exponent, quotient);
         }
+        #endregion Operators
 
         #region Normalize / round
         private static Float128 NormalizeAndRound(bool negative, int exponent, UInt128 value)
@@ -1403,7 +1405,7 @@ namespace Ksnm.Numerics
         /// </summary>
         /// <param name="negative">負数かどうか</param>
         /// <param name="exponent">指数[-16382, 16383]</param>
-        /// <param name="significand">仮数(1)</param>
+        /// <param name="significand">仮数(最上位の1を含めた数値、1.0＝1<<112)</param>
         /// <returns></returns>
         public static Float128 PackBigInteger(bool negative, int exponent, BigInteger significand)
         {
@@ -1425,10 +1427,12 @@ namespace Ksnm.Numerics
             // Normal number
             if (exponent >= MinNormalExponent)
             {
-                var significandStr = significand.ToString("X");
                 BigInteger fraction = significand - (BigInteger.One << FractionBits);
-                var fractionStr = fraction.ToString("X");
-                ulong fractionHigh = (ulong)(fraction >> 64);
+                if(fraction < 0 || fraction >= (BigInteger.One << FractionBits))
+                {
+                    throw new ArgumentOutOfRangeException(nameof(significand), "The significand is out of range for a normal number.");
+                }
+                ulong fractionHigh = unchecked((ulong)(fraction >> 64));
                 ulong fractionLow = (ulong)(fraction & 0xFFFFFFFFFFFFFFFFUL);
                 return new Float128(negative, exponent, fractionHigh, fractionLow);
             }

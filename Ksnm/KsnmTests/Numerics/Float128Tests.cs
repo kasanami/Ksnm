@@ -293,8 +293,23 @@ namespace Ksnm.Numerics.Tests
         [TestMethod()]
         public void PackBigInteger()
         {
-            BigInteger significand = BigInteger.Parse("1");
-            Float128 float128 = Float128.PackBigInteger(false, 0, significand);
+            var One = BigInteger.One << Float128.FractionBits;
+            {
+                Float128 float128 = Float128.PackBigInteger(false, -1, One);
+                Assert.AreEqual(Float128.Half, float128);
+            }
+            {
+                Float128 float128 = Float128.PackBigInteger(false, 0, One);
+                Assert.AreEqual(Float128.One, float128);
+            }
+            {
+                Float128 float128 = Float128.PackBigInteger(false, 1, One);
+                Assert.AreEqual(Float128.Two, float128);
+            }
+            {
+                Float128 float128 = Float128.PackBigInteger(false, 2, One);
+                Assert.AreEqual(Float128.Two * Float128.Two, float128);
+            }
         }
         [TestMethod()]
         public void GetBitLength()
