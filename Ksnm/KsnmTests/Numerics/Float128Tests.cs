@@ -326,5 +326,41 @@ namespace Ksnm.Numerics.Tests
                 Assert.AreEqual(i + 1, bitLength);
             }
         }
+        [TestMethod()]
+        public void CompareTo()
+        {
+            Float128 a = 0.1;
+            Float128 b = 0.2;
+            Assert.AreEqual(-1, a.CompareTo(b));
+            Assert.AreEqual(1, b.CompareTo(a));
+            Assert.AreEqual(0, a.CompareTo(a));
+        }
+        [TestMethod()]
+        public void Equals()
+        {
+            Float128 a = 0.1;
+            Float128 b = 0.2;
+            Assert.IsFalse(a.Equals(b));
+            Assert.IsTrue(a.Equals(a));
+        }
+        [TestMethod()]
+        public void Negate()
+        {
+            Float128 a = 0.1;
+            Float128 b = -0.1;
+            Assert.AreEqual(b, a.Negate());
+        }
+        [TestMethod()]
+        public new void ToString()
+        {
+            Float128 a = 1;
+            Float128 b = -1;
+            Float128 c = 0.5;
+            Float128 d = -0.5;
+            Assert.AreEqual("1", a.ToString());
+            Assert.AreEqual("-1", b.ToString());
+            Assert.AreEqual("0.5", c.ToString());
+            Assert.AreEqual("-0.5", d.ToString());
+        }
     }
 }

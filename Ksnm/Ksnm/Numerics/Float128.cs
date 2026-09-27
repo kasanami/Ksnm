@@ -59,7 +59,7 @@ namespace Ksnm.Numerics
         /// </summary>
         /// <param name="negative">負の数かどうか</param>
         /// <param name="exponent">指数[-16383, 16383]</param>
-        /// <param name="fraction">分数</param>
+        /// <param name="fraction">仮数</param>
         public Float128(bool negative, int exponent, UInt128 fraction)
         {
             if (exponent < MinNormalExponent || exponent > MaxNormalExponent)
@@ -78,8 +78,8 @@ namespace Ksnm.Numerics
         /// </summary>
         /// <param name="negative">負の数かどうか</param>
         /// <param name="exponent">指数[-16383, 16383]</param>
-        /// <param name="fractionHigh">分数の上位48ビット(49ビット目より高位は無視されます)</param>
-        /// <param name="fractionLow">分数の下位64ビット</param>
+        /// <param name="fractionHigh">仮数の上位48ビット(49ビット目より高位は無視されます)</param>
+        /// <param name="fractionLow">仮数の下位64ビット</param>
         public Float128(bool negative, int exponent, ulong fractionHigh, ulong fractionLow)
         {
             if (exponent < MinNormalExponent || exponent > MaxNormalExponent)
@@ -551,11 +551,6 @@ namespace Ksnm.Numerics
             return a + b.Negate();
         }
 
-        private Float128 Negate()
-        {
-            return new Float128(_hi ^ SignMask, _lo);
-        }
-
         public static Float128 operator *(Float128 a, Float128 b)
         {
             if (a.IsNaN || b.IsNaN)
@@ -785,6 +780,9 @@ namespace Ksnm.Numerics
         }
 
         #region Comparison
+        /// <summary>
+        /// Float128 を比較します。
+        /// </summary>
         public int CompareTo(Float128 other)
         {
             if (IsNaN)
@@ -803,7 +801,10 @@ namespace Ksnm.Numerics
 
             return IsNegative ? -result : result;
         }
-
+        /// <summary>
+        /// Float128 の大きさを比較します。
+        /// ・大きさは符号を無視した値の比較です。
+        /// </summary>
         private int CompareMagnitude(Float128 other)
         {
             int e1 = Exponent;
@@ -864,31 +865,19 @@ namespace Ksnm.Numerics
         #endregion Comparison
 
         #region Unary operators
+        /// <summary>
+        /// Float128 の符号を反転します。
+        /// </summary>
+        public Float128 Negate()
+        {
+            return new Float128(_hi ^ SignMask, _lo);
+        }
         public static Float128 operator +(Float128 value)
             => value;
 
         public static Float128 operator -(Float128 value)
             => value.Negate();
         #endregion Unary operators
-
-        /// <summary>
-        /// 文字列に変換します。
-        /// 仮実装。
-        /// </summary>
-        /// <returns></returns>
-        public override string ToString()
-        {
-            if (IsNaN)
-                return "NaN";
-
-            if (IsInfinity)
-                return IsNegative ? "-Infinity" : "Infinity";
-
-            if (IsZero)
-                return IsNegative ? "-0" : "0";
-
-            return ToDouble().ToString("R", CultureInfo.InvariantCulture);
-        }
 
         #region Parse
         public static Float128 Parse(string s)
@@ -1511,9 +1500,27 @@ namespace Ksnm.Numerics
 #endif
         }
 
-        #region 
+        #region ToString
+#if true
+        /// <summary>
+        /// 文字列に変換します。
+        /// 仮実装。
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            if (IsNaN)
+                return "NaN";
 
-#if false
+            if (IsInfinity)
+                return IsNegative ? "-Infinity" : "Infinity";
+
+            if (IsZero)
+                return IsNegative ? "-0" : "0";
+
+            return ToDouble().ToString("R", CultureInfo.InvariantCulture);
+        }
+#else
         public override string ToString()
         {
             return ToString(null, null);
@@ -1628,6 +1635,7 @@ namespace Ksnm.Numerics
             }
         }
 #endif
-#endregion
+
+        #endregion ToString
     }
 }
