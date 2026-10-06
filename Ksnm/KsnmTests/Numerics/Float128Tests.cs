@@ -351,7 +351,7 @@ namespace Ksnm.Numerics.Tests
             Assert.AreEqual(b, a.Negate());
         }
         [TestMethod()]
-        public new void ToString()
+        public void ToStringTest()
         {
             Float128 a = 1;
             Float128 b = -1;
@@ -361,6 +361,40 @@ namespace Ksnm.Numerics.Tests
             Assert.AreEqual("-1", b.ToString());
             Assert.AreEqual("0.5", c.ToString());
             Assert.AreEqual("-0.5", d.ToString());
+            {
+                Float128 value = Float128.Parse("123456.789");
+                Assert.AreEqual("1.234568E+005", value.ToString("E", null));
+                Assert.AreEqual("1.23E+005", value.ToString("E2", null));
+                Assert.AreEqual("1.2345678900E+005", value.ToString("E10", null));
+                Assert.AreEqual("1.23457e+005", value.ToString("e5", null));
+            }
+        }
+        [TestMethod()]
+        public void ToStringGeneral()
+        {
+            Float128 value = Float128.Parse("123.456789");
+            //Assert.AreEqual("123.456789", value.ToString("G0", null));
+            Assert.AreEqual("1.2E+02", value.ToString("G2", null));
+            Assert.AreEqual("123.5", value.ToString("G4", null));
+            Assert.AreEqual("123.45679", value.ToString("G8", null));
+        }
+        [TestMethod()]
+        public void ToStringExponential()
+        {
+            Float128 value = Float128.Parse("123.456789");
+            Assert.AreEqual("1E+002", value.ToString("E0", null));
+            Assert.AreEqual("1.23E+002", value.ToString("E2", null));
+            Assert.AreEqual("1.2346E+002", value.ToString("E4", null));
+            Assert.AreEqual("1.23456789E+002", value.ToString("E8", null));
+        }
+        [TestMethod()]
+        public void ToStringFixed()
+        {
+            Float128 value = Float128.Parse("123.456789");
+            Assert.AreEqual("123", value.ToString("F0", null));
+            Assert.AreEqual("123.46", value.ToString("F2", null));
+            Assert.AreEqual("123.4568", value.ToString("F4", null));
+            Assert.AreEqual("123.45678900", value.ToString("F8", null));
         }
     }
 }

@@ -12,7 +12,32 @@ namespace ConsoleApp
         public static void Run()
         {
             Console.WriteLine(Ksnm.Debug.GetFilePathAndLineNumber());
-
+            {
+                Float64 value = Float64.Parse("123.456789");
+                for (int i = 0; i < 10; i++)
+                {
+                    var format = $"G{i}";
+                    Console.WriteLine(format + ":" + value.ToString(format));
+                }
+                for (int i = 0; i < 10; i++)
+                {
+                    var format = $"E{i}";
+                    Console.WriteLine(format + ":" + value.ToString(format));
+                }
+                for (int i = 0; i < 10; i++)
+                {
+                    var format = $"F{i}";
+                    Console.WriteLine(format + ":" + value.ToString(format));
+                }
+            }
+            {
+                Float128 float128 = Float128.One;
+                for (int i = 0; i < 10; i++)
+                {
+                    Console.WriteLine($"{float128}");
+                    float128 *= Float128.Half;
+                }
+            }
             {
                 BigInteger numerator = BigInteger.Parse("1");
                 BigInteger denominator = BigInteger.Parse("1");

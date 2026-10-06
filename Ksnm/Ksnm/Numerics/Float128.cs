@@ -19,6 +19,7 @@ namespace Ksnm.Numerics
         IComparable<Float128>,
         IEquatable<Float128>
     {
+        #region 定数
         /// <summary>
         /// Fraction のビット数。
         /// </summary>
@@ -45,10 +46,10 @@ namespace Ksnm.Numerics
         private const ulong SignMask = 0x8000000000000000UL;
         private const ulong ExponentMask = 0x7FFF000000000000UL;
         private const ulong FractionHighMask = 0x0000FFFFFFFFFFFFUL;
-
+        #endregion 定数
         private readonly ulong _hi;
         private readonly ulong _lo;
-
+        #region コンストラクタ
         public Float128(ulong hi, ulong lo)
         {
             _hi = hi;
@@ -91,6 +92,7 @@ namespace Ksnm.Numerics
                   (fractionHigh & FractionHighMask);
             _lo = fractionLow;
         }
+        #endregion コンストラクタ
 
         #region Constants
         public static readonly Float128 Zero = new Float128(0, 0);
@@ -162,7 +164,20 @@ namespace Ksnm.Numerics
         public bool IsNormal =>
             BiasedExponent != 0 &&
             BiasedExponent != MaxBiasedExponent;
-
+        /// <summary>
+        /// 正の無限大かどうかを判定します。
+        /// </summary>
+        public bool IsPositiveInfinity =>
+            BiasedExponent == MaxBiasedExponent &&
+            Fraction == 0 &&
+            !IsNegative;
+        /// <summary>
+        /// 負の無限大かどうかを判定します。
+        /// </summary>
+        public bool IsNegativeInfinity =>
+            BiasedExponent == MaxBiasedExponent &&
+            Fraction == 0 &&
+            IsNegative;
         #endregion
 
         #region Bit conversion
@@ -1137,11 +1152,7 @@ namespace Ksnm.Numerics
         }
         #endregion TryParse
 
-
-        // ============================================================
-        // Special value parsing
-        // ============================================================
-
+        #region Special value parsing
         private static bool IsPositiveInfinityString(string text)
         {
             return
@@ -1185,11 +1196,12 @@ namespace Ksnm.Numerics
                 value.Length,
                 StringComparison.Ordinal) == 0;
         }
+        #endregion Special value parsing
 
-        // ============================================================
-        // Decimal -> Float128
-        // ============================================================
-
+        #region 他の型からの変換
+        /// <summary>
+        /// Decimal から Float128 に変換します。
+        /// </summary>
         private static Float128 FromDecimal(bool negative, BigInteger significand, int decimalScale)
         {
             if (significand.IsZero)
@@ -1417,7 +1429,7 @@ namespace Ksnm.Numerics
             if (exponent >= MinNormalExponent)
             {
                 BigInteger fraction = significand - (BigInteger.One << FractionBits);
-                if(fraction < 0 || fraction >= (BigInteger.One << FractionBits))
+                if (fraction < 0 || fraction >= (BigInteger.One << FractionBits))
                 {
                     throw new ArgumentOutOfRangeException(nameof(significand), "The significand is out of range for a normal number.");
                 }
@@ -1475,6 +1487,7 @@ namespace Ksnm.Numerics
                 return new Float128((negative ? SignMask : 0) | fractionHigh, fractionLow);
             }
         }
+        #endregion 他の型からの変換
 
         /// <summary>
         /// 何ビットの整数として表現されているかを調べる
@@ -1520,62 +1533,369 @@ namespace Ksnm.Numerics
 
             return ToDouble().ToString("R", CultureInfo.InvariantCulture);
         }
+        public string ToString(string? format, IFormatProvider? formatProvider)
+        {
+            return ToDouble().ToString(format, formatProvider);
+        }
 #else
+        /// <summary>
+        /// 文字列に変換します。
+        /// </summary>
         public override string ToString()
         {
             return ToString(null, null);
         }
-
+        /// <summary>
+        /// 文字列に変換します。
+        /// </summary>
+        /// <param name="format">形式指定子</param>
+        /// <param name="formatProvider">形式プロバイダー</param>
+        /// <returns></returns>
+        /// <exception cref="FormatException"></exception>
         public string ToString(string? format, IFormatProvider? formatProvider)
         {
             format ??= "G";
 
-            return format switch
+            ParseFormat(format.AsSpan(), out char formatChar, out int precision);
+
+            switch (formatChar)
             {
-                "" => ToStringGeneral(formatProvider),
-                "G" => ToStringGeneral(formatProvider),
-                "g" => ToStringGeneral(formatProvider),
+                case 'G':
+                case 'g':
+                    return ToStringGeneral(formatProvider);
 
-                "E" => ToStringExponential(formatProvider, upperCase: true),
-                "e" => ToStringExponential(formatProvider, upperCase: false),
+                case 'E':
+                    return ToStringExponential(formatProvider, upperCase: true);
 
-                "F" => ToStringFixed(formatProvider, upperCase: true),
-                "f" => ToStringFixed(formatProvider, upperCase: false),
+                case 'e':
+                    return ToStringExponential(formatProvider, upperCase: false);
 
-                _ => throw new FormatException(
-                    $"The format '{format}' is not supported.")
-            };
+                case 'F':
+                case 'f':
+                    if (precision < 0)
+                        precision = 2;
+
+                    return ToStringFixed(precision, formatProvider);
+
+            }
+
+            throw new FormatException($"The format '{formatChar}' is not supported.");
         }
-        private static void ParseFormat(string? format,out char formatChar,out int precision)
+#endif
+        /// <summary>
+        /// 指数表記で文字列に変換します。
+        /// </summary>
+        /// <param name="provider"></param>
+        /// <param name="upperCase"></param>
+        /// <returns></returns>
+        public string ToStringExponential(IFormatProvider? provider, bool upperCase)
         {
-            format ??= "G";
-
-            if (format.Length == 0)
+            // E / e のデフォルト精度は6桁
+            return ToStringExponential(6, provider, upperCase);
+        }
+        /// <summary>
+        /// 指数表記で文字列に変換します。
+        /// </summary>
+        /// <param name="precision">精度 E3 の 3 は有効桁数3ではありません。</param>
+        /// <param name="provider">形式プロバイダー</param>
+        /// <param name="upperCase">大文字を使用するかどうか</param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        private string ToStringExponential(int precision, IFormatProvider? provider, bool upperCase)
+        {
+            if (precision < 0)
             {
-                formatChar = 'G';
-                precision = -1;
-                return;
+                throw new ArgumentOutOfRangeException(nameof(precision));
             }
 
-            formatChar = format[0];
+            if (IsNaN)
+                return "NaN";
 
-            if (format.Length == 1)
+            if (IsInfinity)
             {
-                precision = -1;
-                return;
+                return IsNegative
+                    ? "-Infinity"
+                    : "Infinity";
             }
 
-            if (!int.TryParse(
-                format.AsSpan(1),
-                System.Globalization.NumberStyles.None,
-                System.Globalization.CultureInfo.InvariantCulture,
-                out precision))
+            BigInteger significand =
+                GetRawSignificand();
+
+            /*
+             * ±0
+             */
+            if (significand.IsZero)
             {
-                throw new FormatException(
-                    $"The format '{format}' is invalid.");
+                string zero = precision == 0 ? "0" : "0." + new string('0', precision);
+                string result = zero + FormatExponent(0, upperCase);
+                return IsNegative ? "-" + result : result;
+            }
+
+            /*
+             * Float128の値を
+             *
+             * significand × 2^binaryExponent
+             *
+             * として表す。
+             */
+            int binaryExponent = Exponent - FractionBits;
+
+            BigInteger numerator;
+            BigInteger denominator;
+
+            if (binaryExponent >= 0)
+            {
+                numerator = significand << binaryExponent;
+                denominator = BigInteger.One;
+            }
+            else
+            {
+                numerator = significand;
+                denominator = BigInteger.One << -binaryExponent;
+            }
+
+            /*
+             * 10進指数を求める。
+             *
+             * 例えば
+             *
+             * 123456.789
+             *
+             * → 5
+             *
+             * 0.001234
+             *
+             * → -3
+             */
+            int decimalExponent = EstimateDecimalExponent(numerator, denominator);
+
+            /*
+             * 必要な有効桁数。
+             *
+             * E3
+             *     1 + 小数3桁
+             *
+             * なので4桁必要。
+             */
+            int significantDigits = precision + 1;
+
+            /*
+             * 最上位桁を1の位にする。
+             *
+             * value =
+             *
+             *     1.xxxxx × 10^decimalExponent
+             *
+             * となるようにスケールする。
+             */
+            int scaleExponent = significantDigits - 1 - decimalExponent;
+
+            BigInteger rounded;
+
+            if (scaleExponent >= 0)
+            {
+                BigInteger scale = BigInteger.Pow(10, scaleExponent);
+                rounded = RoundToNearestEven(numerator * scale, denominator);
+            }
+            else
+            {
+                BigInteger scale = BigInteger.Pow(10, -scaleExponent);
+                rounded = RoundToNearestEven(numerator, denominator * scale);
+            }
+
+            /*
+             * 丸めによって
+             *
+             * 9.999...
+             *
+             * → 10.000...
+             *
+             * となった場合。
+             */
+            BigInteger upperLimit = BigInteger.Pow(10, significantDigits);
+
+            if (rounded >= upperLimit)
+            {
+                rounded /= 10;
+                decimalExponent++;
+            }
+
+            /*
+             * 必要な桁数まで0で埋める。
+             */
+            string digits = rounded.ToString(CultureInfo.InvariantCulture);
+
+            if (digits.Length < significantDigits)
+            {
+                digits = digits.PadLeft(significantDigits, '0');
+            }
+
+            /*
+             * E形式では、最上位1桁と残りを
+             * 小数点で分ける。
+             */
+            string mantissa;
+            string separator = GetDecimalSeparator(provider);
+
+            if (precision == 0)
+            {
+                mantissa = digits[0].ToString();
+            }
+            else
+            {
+                mantissa = digits[0] + separator + digits[1..];
+            }
+
+            string exponentText = FormatExponent(decimalExponent, upperCase);
+
+            {
+                string result = mantissa + exponentText;
+                return IsNegative ? "-" + result : result;
             }
         }
-        public bool TryFormat(Span<char> destination,out int charsWritten,ReadOnlySpan<char> format,IFormatProvider? provider)
+        /// <summary>
+        /// 固定小数点形式で文字列に変換します。
+        /// </summary>
+        /// <param name="provider"></param>
+        /// <returns></returns>
+        public string ToStringFixed(IFormatProvider? provider)
+        {
+            // E / e のデフォルト精度は6桁
+            return ToStringFixed(6, provider);
+        }
+        /// <summary>
+        /// 固定小数点形式で文字列に変換します。
+        /// </summary>
+        /// <param name="precision">精度</param>
+        /// <param name="provider">形式プロバイダー</param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        private string ToStringFixed(int precision, IFormatProvider? provider)
+        {
+            string separator = GetDecimalSeparator(provider);
+
+            if (precision < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(precision));
+            }
+
+            // NaN
+            if (IsNaN)
+                return "NaN";
+
+            // +Infinity
+            if (IsPositiveInfinity)
+                return "Infinity";
+
+            // -Infinity
+            if (IsNegativeInfinity)
+                return "-Infinity";
+
+            // 符号を除いた仮数部
+            BigInteger significand = GetRawSignificand();
+
+            // ±0
+            if (significand.IsZero)
+            {
+                string zero;
+
+                if (precision == 0)
+                {
+                    zero = "0";
+                }
+                else
+                {
+                    zero = "0" + separator + new string('0', precision);
+                }
+
+                return IsNegative ? "-" + zero : zero;
+            }
+
+            /*
+             * Float128 の値:
+             *
+             *   significand × 2^(Exponent - FractionBits)
+             *
+             * これを
+             *
+             *   整数部 + 小数部
+             *
+             * に変換する。
+             */
+            int binaryExponent = Exponent - FractionBits;
+
+            BigInteger numerator;
+            BigInteger denominator;
+
+            if (binaryExponent >= 0)
+            {
+                numerator = significand << binaryExponent;
+                denominator = BigInteger.One;
+            }
+            else
+            {
+                numerator = significand;
+                denominator = BigInteger.One << -binaryExponent;
+            }
+
+            /*
+             * 小数点以下 precision 桁まで残す。
+             *
+             * 例えば F2 なら
+             *
+             *   123.456
+             *
+             * を
+             *
+             *   12345.6
+             *
+             * 相当まで整数化してから丸める。
+             */
+            BigInteger scale = BigInteger.Pow(10, precision);
+            BigInteger scaledNumerator = numerator * scale;
+
+            /*
+             * Round to nearest, ties to even
+             */
+            BigInteger rounded = RoundToNearestEven(scaledNumerator, denominator);
+
+            /*
+             * 例えば F2 で
+             *
+             *   12345
+             *
+             * なら
+             *
+             *   whole = 123
+             *   fraction = 45
+             *
+             * となる。
+             */
+            BigInteger whole = rounded / scale;
+            BigInteger fraction = rounded % scale;
+            string wholeText = whole.ToString(CultureInfo.InvariantCulture);
+
+            string result;
+
+            if (precision == 0)
+            {
+                result = wholeText;
+            }
+            else
+            {
+                string fractionText = fraction.ToString(CultureInfo.InvariantCulture).PadLeft(precision, '0');
+                result = wholeText + separator + fractionText;
+            }
+
+            if (IsNegative)
+            {
+                result = "-" + result;
+            }
+
+            return result;
+        }
+#if false
+        public bool TryFormat(Span<char> destination, out int charsWritten, ReadOnlySpan<char> format, IFormatProvider? provider)
         {
             string formatString = format.IsEmpty
                 ? "G"
@@ -1594,48 +1914,839 @@ namespace Ksnm.Numerics
             charsWritten = result.Length;
             return true;
         }
-        public bool TryFormat(Span<char> destination,out int charsWritten,ReadOnlySpan<char> format,IFormatProvider? provider)
+#else
+        /// <summary>
+        /// 指定された形式で文字列に変換します。
+        /// </summary>
+        /// <param name="destination"></param>
+        /// <param name="charsWritten"></param>
+        /// <param name="format"></param>
+        /// <param name="provider"></param>
+        /// <returns></returns>
+        /// <exception cref="FormatException"></exception>
+        public bool TryFormat(Span<char> destination, out int charsWritten, ReadOnlySpan<char> format, IFormatProvider? provider)
         {
-            ParseFormat(
-                format,
-                out char formatChar,
-                out int precision);
+            ParseFormat(format, out char formatChar, out int precision);
 
             switch (formatChar)
             {
                 case 'G':
                 case 'g':
-                    return TryFormatGeneral(
-                        destination,
-                        out charsWritten,
-                        precision,
-                        provider);
+                    return TryFormatGeneral(destination, out charsWritten, precision, provider);
 
                 case 'E':
                 case 'e':
-                    return TryFormatExponential(
-                        destination,
-                        out charsWritten,
-                        precision,
-                        formatChar == 'E',
-                        provider);
+                    return TryFormatExponential(destination, out charsWritten, precision, formatChar == 'E', provider);
 
                 case 'F':
                 case 'f':
-                    return TryFormatFixed(
-                        destination,
-                        out charsWritten,
-                        precision,
-                        provider);
+                    return TryFormatFixed(destination, out charsWritten, precision, provider);
 
                 default:
                     charsWritten = 0;
-                    throw new FormatException(
-                        $"The format '{formatChar}' is not supported.");
+                    throw new FormatException($"The format '{formatChar}' is not supported.");
             }
         }
 #endif
+        /// <summary>
+        /// ReadOnlySpan<char> 用のフォーマット解析
+        /// </summary>
+        /// <param name="format"></param>
+        /// <param name="formatChar"></param>
+        /// <param name="precision"></param>
+        /// <exception cref="FormatException"></exception>
+        private static void ParseFormat(ReadOnlySpan<char> format, out char formatChar, out int precision)
+        {
+            if (format.IsEmpty)
+            {
+                formatChar = 'G';
+                precision = -1;
+                return;
+            }
 
+            formatChar = format[0];
+
+            if (format.Length == 1)
+            {
+                precision = -1;
+                return;
+            }
+
+            int value = 0;
+
+            for (int i = 1; i < format.Length; i++)
+            {
+                char c = format[i];
+
+                if (c < '0' || c > '9')
+                {
+                    throw new FormatException($"The format '{format.ToString()}' is invalid.");
+                }
+
+                int digit = c - '0';
+
+                if (value > (int.MaxValue - digit) / 10)
+                {
+                    throw new FormatException("The format precision is too large.");
+                }
+
+                value = value * 10 + digit;
+            }
+
+            precision = value;
+        }
+        /// <summary>
+        /// F / f 形式を直接 Span<char> に出力
+        /// </summary>
+        /// <param name="destination"></param>
+        /// <param name="charsWritten"></param>
+        /// <param name="precision"></param>
+        /// <param name="provider"></param>
+        /// <returns></returns>
+        private bool TryFormatFixed(Span<char> destination, out int charsWritten, int precision, IFormatProvider? provider)
+        {
+            if (precision < 0)
+                precision = 2;
+
+            string text = ToStringFixed(precision, provider);
+
+            if (text.Length > destination.Length)
+            {
+                charsWritten = 0;
+                return false;
+            }
+
+            text.AsSpan().CopyTo(destination);
+            charsWritten = text.Length;
+            return true;
+        }
+        /// <summary>
+        /// numerator / denominator を四捨五入して最も近い偶数に丸めます。
+        /// </summary>
+        /// <param name="numerator"></param>
+        /// <param name="denominator"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        private static BigInteger RoundToNearestEven(BigInteger numerator, BigInteger denominator)
+        {
+            if (numerator < 0)
+                throw new ArgumentOutOfRangeException(nameof(numerator));
+
+            if (denominator <= 0)
+                throw new ArgumentOutOfRangeException(nameof(denominator));
+
+            BigInteger quotient = BigInteger.DivRem(numerator, denominator, out BigInteger remainder);
+
+            // 完全に割り切れる
+            if (remainder.IsZero)
+                return quotient;
+
+            /*
+             * remainder / denominator が
+             *
+             * 0.5 より小さい → 切り捨て
+             * 0.5 より大きい → 切り上げ
+             * ちょうど0.5     → 偶数へ
+             *
+             * とする。
+             */
+
+            int comparison =(remainder << 1).CompareTo(denominator);
+
+            if (comparison < 0)
+            {
+                // 0.5未満
+                return quotient;
+            }
+
+            if (comparison > 0)
+            {
+                // 0.5超
+                return quotient + BigInteger.One;
+            }
+
+            // ちょうど0.5
+            //
+            // quotientが奇数なら+1して偶数にする。
+            // quotientが偶数ならそのまま。
+            return quotient.IsEven
+                ? quotient
+                : quotient + BigInteger.One;
+        }
+        /// <summary>
+        /// 通常表記の文字列を生成します。
+        /// </summary>
+        /// <param name="digits"></param>
+        /// <param name="decimalExponent"></param>
+        /// <param name="provider"></param>
+        /// <returns></returns>
+        private static string FormatGeneralFixed(string digits, int decimalExponent, IFormatProvider? provider)
+        {
+            string separator = GetDecimalSeparator(provider);
+
+            /*
+             * decimalExponent は最上位桁の10進指数。
+             *
+             * 例えば
+             *
+             * digits = "123456"
+             * decimalExponent = 5
+             *
+             * → 123456
+             */
+
+            int decimalPosition = decimalExponent + 1;
+
+            if (decimalPosition >= digits.Length)
+            {
+                return digits + new string('0', decimalPosition - digits.Length);
+            }
+
+            if (decimalPosition <= 0)
+            {
+                return "0" + separator + new string('0', -decimalPosition) + digits;
+            }
+
+            return digits[..decimalPosition] + separator + digits[decimalPosition..];
+        }
+        /// <summary>
+        /// 指数表記の文字列を生成します。
+        /// </summary>
+        /// <param name="digits"></param>
+        /// <param name="decimalExponent"></param>
+        /// <param name="provider"></param>
+        /// <returns></returns>
+        private static string FormatGeneralExponential(string digits, int decimalExponent, IFormatProvider? provider)
+        {
+            string separator = GetDecimalSeparator(provider);
+
+            string mantissa;
+
+            if (digits.Length == 1)
+            {
+                mantissa = digits;
+            }
+            else
+            {
+                mantissa = digits[0] + separator + digits[1..];
+            }
+
+            char exponentSign = decimalExponent >= 0 ? '+' : '-';
+            int exponentValue = int.Abs(decimalExponent);
+
+            string exponentDigits = exponentValue.ToString("D3", CultureInfo.InvariantCulture);
+
+            return mantissa + "E" + exponentSign + exponentDigits;
+        }
+        /// <summary>
+        /// G 形式を直接 Span<char> に出力
+        /// </summary>
+        /// <param name="destination"></param>
+        /// <param name="charsWritten"></param>
+        /// <param name="precision"></param>
+        /// <param name="provider"></param>
+        /// <returns></returns>
+        private bool TryFormatGeneral(Span<char> destination, out int charsWritten, int precision, IFormatProvider? provider)
+        {
+            // 精度未指定なら既存の正確な ToString() を使用
+            string text = precision < 0
+                ? ToStringExactDecimal(provider)
+                : ToStringGeneralWithPrecision(precision, provider);
+
+            if (text.Length > destination.Length)
+            {
+                charsWritten = 0;
+                return false;
+            }
+
+            text.AsSpan().CopyTo(destination);
+            charsWritten = text.Length;
+            return true;
+        }
+        /// <summary>
+        /// E / e 形式を直接 Span<char> に出力
+        /// </summary>
+        /// <param name="destination"></param>
+        /// <param name="charsWritten"></param>
+        /// <param name="precision"></param>
+        /// <param name="upperCase"></param>
+        /// <param name="provider"></param>
+        /// <returns></returns>
+        private bool TryFormatExponential(Span<char> destination, out int charsWritten, int precision, bool upperCase, IFormatProvider? provider)
+        {
+            if (precision < 0)
+                precision = 6;
+
+            string text = FormatExponential(precision, upperCase, provider);
+
+            if (text.Length > destination.Length)
+            {
+                charsWritten = 0;
+                return false;
+            }
+
+            text.AsSpan().CopyTo(destination);
+            charsWritten = text.Length;
+            return true;
+        }
+        /// <summary>
+        /// G 形式の文字列を生成します。
+        /// </summary>
+        /// <param name="provider"></param>
+        /// <returns></returns>
+        private string ToStringExactDecimal(IFormatProvider? provider)
+        {
+            if (IsNaN)
+                return "NaN";
+
+            if (IsInfinity)
+            {
+                return IsNegative
+                    ? "-Infinity"
+                    : "Infinity";
+            }
+
+            BigInteger significand = GetRawSignificand();
+
+            if (significand.IsZero)
+            {
+                return IsNegative ? "-0" : "0";
+            }
+
+            int exponent = Exponent - FractionBits;
+
+            string result;
+
+            if (exponent >= 0)
+            {
+                /*
+                 * value =
+                 *
+                 * significand × 2^exponent
+                 *
+                 * なので、単純に左シフトする。
+                 */
+                BigInteger integerValue = significand << exponent;
+                result = integerValue.ToString(CultureInfo.InvariantCulture);
+            }
+            else
+            {
+                /*
+                 * value =
+                 *
+                 * significand / 2^(-exponent)
+                 *
+                 * となる。
+                 *
+                 * 2^n の分母を10進数に変換するため、
+                 *
+                 * 1 / 2^n
+                 *
+                 * を
+                 *
+                 * 5^n / 10^n
+                 *
+                 * と変形する。
+                 *
+                 * したがって、
+                 *
+                 * significand / 2^n
+                 *
+                 * =
+                 *
+                 * significand × 5^n / 10^n
+                 */
+
+                int shift = -exponent;
+                BigInteger numerator = significand * BigInteger.Pow(5, shift);
+                string digits = numerator.ToString(CultureInfo.InvariantCulture);
+
+                /*
+                 * 分母は10^shiftなので、
+                 * 小数点は右からshift桁の位置。
+                 */
+
+                if (digits.Length <= shift)
+                {
+                    digits = digits.PadLeft(shift + 1, '0');
+                }
+
+                int decimalPosition = digits.Length - shift;
+                string integerPart = digits[..decimalPosition];
+                string fractionPart = digits[decimalPosition..];
+
+                /*
+                 * 末尾の0は10進表現として不要。
+                 */
+                fractionPart = fractionPart.TrimEnd('0');
+
+                if (fractionPart.Length == 0)
+                {
+                    result = integerPart;
+                }
+                else
+                {
+                    string separator = GetDecimalSeparator(provider);
+                    result = integerPart + separator + fractionPart;
+                }
+            }
+
+            if (IsNegative)
+            {
+                return "-" + result;
+            }
+
+            return result;
+        }
+        private string ToStringGeneral(IFormatProvider? provider)
+        {
+            return ToStringGeneralWithPrecision(34, provider);
+        }
+        /// <summary>
+        /// G 形式の文字列を生成します。
+        /// </summary>
+        /// <param name="precision"></param>
+        /// <param name="provider"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        private string ToStringGeneralWithPrecision(int precision, IFormatProvider? provider)
+        {
+            if (precision < 1 || precision > 34)
+            {
+                throw new ArgumentOutOfRangeException(nameof(precision), "Float128 general format precision must be between 1 and 34.");
+            }
+
+            if (IsNaN)
+                return "NaN";
+
+            if (IsPositiveInfinity)
+                return "Infinity";
+
+            if (IsNegativeInfinity)
+                return "-Infinity";
+
+            if (IsZero)
+                return IsNegative ? "-0" : "0";
+
+            bool negative = IsNegative;
+
+            /*
+             * 絶対値を
+             *
+             * numerator / denominator
+             *
+             * として取得する。
+             */
+            BigInteger significand = GetRawSignificand();
+
+            int binaryExponent = Exponent - FractionBits;
+
+            BigInteger numerator;
+            BigInteger denominator;
+
+            if (binaryExponent >= 0)
+            {
+                numerator = significand << binaryExponent;
+                denominator = BigInteger.One;
+            }
+            else
+            {
+                numerator = significand;
+                denominator = BigInteger.One << -binaryExponent;
+            }
+
+            /*
+             * 10進指数を求める。
+             *
+             * 例えば
+             *
+             * 123456.789
+             *
+             * なら
+             *
+             * decimalExponent = 5
+             *
+             * となる。
+             */
+            int decimalExponent = EstimateDecimalExponent(numerator, denominator);
+
+            /*
+             * precision桁になるようにスケーリングする。
+             *
+             * 例えば precision=6,
+             * decimalExponent=5 なら
+             *
+             * 123456.789
+             *
+             * → 1.23456... × 10^5
+             *
+             * なので、
+             *
+             * 1.23456
+             *
+             * の6桁を取得する。
+             */
+            int scaleExponent = precision - 1 - decimalExponent;
+
+            BigInteger rounded;
+
+            if (scaleExponent >= 0)
+            {
+                BigInteger scale = BigInteger.Pow(10, scaleExponent);
+                rounded = RoundToNearestEven(numerator * scale, denominator);
+            }
+            else
+            {
+                BigInteger scale = BigInteger.Pow(10, -scaleExponent);
+                rounded = RoundToNearestEven(numerator, denominator * scale);
+            }
+
+            /*
+             * 丸めによって
+             *
+             * 9.99999...
+             *
+             * が
+             *
+             * 10.0000...
+             *
+             * になった場合。
+             */
+            BigInteger precisionLimit = BigInteger.Pow(10, precision);
+
+            if (rounded >= precisionLimit)
+            {
+                rounded /= 10;
+                decimalExponent++;
+            }
+
+            string digits = rounded.ToString(CultureInfo.InvariantCulture);
+
+            /*
+             * precision桁になるように左側を0で埋める。
+             */
+            if (digits.Length < precision)
+            {
+                digits = digits.PadLeft(precision, '0');
+            }
+
+            /*
+             * General形式では末尾の0を削除する。
+             *
+             * 例:
+             *
+             * 1.23000
+             * ↓
+             * 1.23
+             */
+            int lastDigit = digits.Length - 1;
+
+            while (lastDigit > 0 && digits[lastDigit] == '0')
+            {
+                lastDigit--;
+            }
+
+            digits = digits[..(lastDigit + 1)];
+
+            /*
+             * General形式で指数表記を使用するか決定する。
+             *
+             * .NETのG形式に近いルールとして、
+             *
+             * 10^-4 未満
+             *
+             * または
+             *
+             * 10^precision 以上
+             *
+             * の場合は指数形式にする。
+             */
+            bool useExponent = decimalExponent < -4 || decimalExponent >= precision;
+
+            string result;
+
+            if (useExponent)
+            {
+                result = FormatGeneralExponential(digits, decimalExponent, provider);
+            }
+            else
+            {
+                result = FormatGeneralFixed(digits, decimalExponent, provider);
+            }
+
+            if (IsNegative)
+            {
+                return "-" + result;
+            }
+
+            return result;
+        }
+        /// <summary>
+        /// 指数表記の文字列を生成します。
+        /// </summary>
+        /// <param name="precision"> </param>
+        /// <param name="upperCase"> </param>
+        /// <param name="provider"></param>
+        /// <returns></returns>
+        private string FormatExponential(int precision, bool upperCase, IFormatProvider? provider)
+        {
+            if (IsNaN)
+                return "NaN";
+
+            if (IsInfinity)
+            {
+                return IsNegative
+                    ? "-Infinity"
+                    : "Infinity";
+            }
+
+            var separator = GetDecimalSeparator(provider);
+
+            if (IsZero)
+            {
+                string zero =
+                    precision == 0 ? "0" : "0" + separator + new string('0', precision);
+                return zero + (upperCase ? "E+000" : "e+000");
+            }
+
+            /*
+             * Float128:
+             *
+             * value =
+             *
+             * significand × 2^(exponent - 112)
+             */
+
+            BigInteger significand = GetRawSignificand();
+
+            int binaryExponent = Exponent - FractionBits;
+
+            BigInteger numerator;
+            BigInteger denominator;
+
+            if (binaryExponent >= 0)
+            {
+                numerator = significand << binaryExponent;
+                denominator = BigInteger.One;
+            }
+            else
+            {
+                numerator = significand;
+                denominator = BigInteger.One << (-binaryExponent);
+            }
+
+            /*
+             * まず10進表現を作る。
+             *
+             * ここではprecision+1桁程度を取得して、
+             * 最終的な丸めを行う。
+             */
+
+            int decimalExponent = EstimateDecimalExponent(numerator, denominator);
+
+            /*
+             * value / 10^decimalExponent
+             *
+             * を求める。
+             *
+             * 例えば
+             *
+             * 123456.789
+             *
+             * なら
+             *
+             * 1.23456789 × 10^5
+             *
+             * なので decimalExponent = 5。
+             */
+            int digitsAfterDecimal = precision;
+            int significantDigits = precision + 1;
+            BigInteger scale = BigInteger.Pow(10, significantDigits - 1);
+            BigInteger scaled;
+            if (decimalExponent >= 0)
+            {
+                BigInteger power = BigInteger.Pow(10, decimalExponent);
+                scaled = RoundToNearestEven(numerator * scale, denominator * power);
+            }
+            else
+            {
+                BigInteger power = BigInteger.Pow(10, -decimalExponent);
+                scaled = RoundToNearestEven(numerator * scale * power, denominator);
+            }
+
+            /*
+             * 丸めによって
+             *
+             * 9.999... → 10.000...
+             *
+             * になる場合がある。
+             */
+
+            BigInteger limit = BigInteger.Pow(10, significantDigits);
+
+            if (scaled >= limit)
+            {
+                scaled /= 10;
+                decimalExponent++;
+            }
+
+            string digits = scaled.ToString(CultureInfo.InvariantCulture);
+
+            // 桁数が足りない場合は0で埋める。
+            if (digits.Length < significantDigits)
+            {
+                digits = digits.PadLeft(significantDigits, '0');
+            }
+
+            string mantissa;
+
+            if (digitsAfterDecimal == 0)
+            {
+                mantissa = digits;
+            }
+            else
+            {
+                mantissa = digits[0].ToString() + separator + digits.Substring(1);
+            }
+
+            string exponentText = FormatExponent(decimalExponent, upperCase);
+
+            string result = mantissa + exponentText;
+
+            if (IsNegative)
+            {
+                return "-" + result;
+            }
+
+            return result;
+        }
+        /// <summary>
+        /// 10進指数を求める
+        /// </summary>
+        /// <param name="numerator"> 分子 </param>
+        /// <param name="denominator"> 分母 </param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        private static int EstimateDecimalExponent(BigInteger numerator, BigInteger denominator)
+        {
+            if (numerator <= 0)
+                throw new ArgumentOutOfRangeException(nameof(numerator));
+
+            if (denominator <= 0)
+                throw new ArgumentOutOfRangeException(nameof(denominator));
+
+            /*
+             * まずbit lengthから
+             *
+             * log10(value)
+             *
+             * の近似値を求める。
+             */
+
+            int numeratorBits = GetBitLength(numerator);
+            int denominatorBits = GetBitLength(denominator);
+            int binaryExponent = numeratorBits - denominatorBits;
+            double approximate = binaryExponent * 0.30102999566398119521;
+            int exponent = (int)double.Floor(approximate);
+
+            /*
+             * 近似なので、最終的にはBigIntegerによる
+             * 正確な比較で補正する。
+             */
+
+            while (CompareWithPowerOfTen(numerator, denominator, exponent) < 0)
+            {
+                exponent--;
+            }
+
+            while (CompareWithPowerOfTen(numerator, denominator, exponent + 1) >= 0)
+            {
+                exponent++;
+            }
+
+            return exponent;
+        }
+        /// <summary>
+        /// 10のべき乗との比較
+        /// </summary>
+        /// <param name="numerator"> 分子 </param>
+        /// <param name="denominator"> 分母 </param>
+        /// <param name="exponent"> 指数 </param>
+        /// <returns></returns>
+        private static int CompareWithPowerOfTen(BigInteger numerator, BigInteger denominator, int exponent)
+        {
+            /*
+             * numerator / denominator
+             *
+             * と
+             *
+             * 10^exponent
+             *
+             * を比較する。
+             */
+
+            if (exponent >= 0)
+            {
+                BigInteger power = BigInteger.Pow(10, exponent);
+                return numerator.CompareTo(denominator * power);
+            }
+            else
+            {
+                BigInteger power = BigInteger.Pow(10, -exponent);
+
+                /*
+                 * numerator / denominator
+                 *
+                 * と
+                 *
+                 * 1 / 10^(-exponent)
+                 *
+                 * の比較。
+                 *
+                 * numerator * 10^(-exponent)
+                 * と denominator を比較すればよい。
+                 */
+
+                return (numerator * power).CompareTo(denominator);
+            }
+        }
+        /// <summary>
+        /// 指数部分の生成
+        /// </summary>
+        /// <param name="exponent">指数 </param>
+        /// <param name="upperCase">大文字を使用するかどうか </param>
+        /// <returns></returns>
+        private static string FormatExponent(int exponent, bool upperCase)
+        {
+            string e = upperCase ? "E" : "e";
+            string sign = exponent >= 0 ? "+" : "-";
+            int magnitude = int.Abs(exponent);
+
+            /*
+             * .NETのE形式では指数を少なくとも3桁で
+             * 表示するのが一般的。
+             *
+             * 例:
+             *
+             * E+005
+             * E-010
+             * E+100
+             */
+
+            string digits = magnitude.ToString("D3", CultureInfo.InvariantCulture);
+            return e + sign + digits;
+        }
+        /// <summary>
+        /// 小数点記号
+        /// F と同様に IFormatProvider に対応させます。
+        /// </summary>
+        /// <param name="provider"></param>
+        /// <returns></returns>
+        private static string GetDecimalSeparator(IFormatProvider? provider)
+        {
+            NumberFormatInfo info = NumberFormatInfo.GetInstance(provider);
+            return info.NumberDecimalSeparator;
+        }
         #endregion ToString
     }
 }
