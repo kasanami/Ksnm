@@ -24,6 +24,7 @@ freely, subject to the following restrictions:
 using System;
 using System.Globalization;
 using System.Numerics;
+using System.Text;
 
 namespace Ksnm.Numerics;
 
@@ -51,6 +52,9 @@ public readonly struct Float128 :
     IUnaryNegationOperators<Float128, Float128>,
     IEqualityOperators<Float128, Float128, bool>,
     IComparisonOperators<Float128, Float128, bool>,
+    INumberBase<Float128>,
+    IIncrementOperators<Float128>,
+    IDecrementOperators<Float128>,
     IMinMaxValue<Float128>,
     IParsable<Float128>,
     IFormattable,
@@ -89,6 +93,8 @@ public readonly struct Float128 :
 
     /// <summary>乗法の単位元です。</summary>
     public static Float128 MultiplicativeIdentity => One;
+
+    public static int Radix => 2;
 
     static Float128 IMinMaxValue<Float128>.MaxValue => MaxValue;
     static Float128 IMinMaxValue<Float128>.MinValue => MinValue;
@@ -171,7 +177,6 @@ public readonly struct Float128 :
 
     public static readonly Float128 MinNormal = FromBits(0x0001000000000000UL, 0);
     #endregion Constants
-
 
     #region Properties
     /// <summary>
@@ -935,6 +940,293 @@ public readonly struct Float128 :
     public static bool operator >=(Float128 a, Float128 b)
         => a.CompareTo(b) >= 0;
     #endregion Comparison
+
+    #region INumberBase
+    public static Float128 Abs(Float128 value)
+        => value.IsNegative ? value.Negate() : value;
+
+    public static bool IsCanonical(Float128 value) => true;
+    public static bool IsComplexNumber(Float128 value) => false;
+    public static bool IsImaginaryNumber(Float128 value) => false;
+    static bool INumberBase<Float128>.IsFinite(Float128 value) => value.IsFinite;
+    static bool INumberBase<Float128>.IsInfinity(Float128 value) => value.IsInfinity;
+    static bool INumberBase<Float128>.IsNaN(Float128 value) => value.IsNaN;
+    static bool INumberBase<Float128>.IsNegative(Float128 value) => value.IsNegative;
+    static bool INumberBase<Float128>.IsNegativeInfinity(Float128 value) => value.IsNegativeInfinity;
+    static bool INumberBase<Float128>.IsNormal(Float128 value) => value.IsNormal;
+    static bool INumberBase<Float128>.IsPositiveInfinity(Float128 value) => value.IsPositiveInfinity;
+    static bool INumberBase<Float128>.IsSubnormal(Float128 value) => value.IsSubnormal;
+    static bool INumberBase<Float128>.IsZero(Float128 value) => value.IsZero;
+    static bool INumberBase<Float128>.IsPositive(Float128 value) => !value.IsNegative && !value.IsNaN;
+    static bool INumberBase<Float128>.IsRealNumber(Float128 value) => !value.IsNaN;
+
+    public static bool IsInteger(Float128 value)
+    {
+        if (!value.IsFinite)
+            return false;
+        if (value.IsZero)
+            return true;
+
+        int exponent = value.Exponent;
+        if (exponent < 0)
+            return false;
+        if (exponent >= FractionBits)
+            return true;
+
+        int fractionalBitCount = FractionBits - exponent;
+        UInt128 mask = (UInt128.One << fractionalBitCount) - 1;
+        return (value.GetRawSignificand() & mask) == 0;
+    }
+
+    public static bool IsEvenInteger(Float128 value)
+    {
+        if (!IsInteger(value))
+            return false;
+        if (value.IsZero)
+            return true;
+        if (value.Exponent > FractionBits)
+            return true;
+        if (value.Exponent < FractionBits)
+            return false;
+        return (value.GetRawSignificand() & 1) == 0;
+    }
+
+    public static bool IsOddInteger(Float128 value)
+    {
+        if (!IsInteger(value))
+            return false;
+        if (value.Exponent != FractionBits)
+            return false;
+        return (value.GetRawSignificand() & 1) != 0;
+    }
+
+    public static Float128 MaxMagnitude(Float128 x, Float128 y)
+    {
+        if (x.IsNaN || y.IsNaN)
+            return NaN;
+        Float128 ax = Abs(x);
+        Float128 ay = Abs(y);
+        return ax >= ay ? x : y;
+    }
+
+    public static Float128 MinMagnitude(Float128 x, Float128 y)
+    {
+        if (x.IsNaN || y.IsNaN)
+            return NaN;
+        Float128 ax = Abs(x);
+        Float128 ay = Abs(y);
+        return ax <= ay ? x : y;
+    }
+
+    public static Float128 MaxMagnitudeNumber(Float128 x, Float128 y)
+    {
+        if (x.IsNaN) return y;
+        if (y.IsNaN) return x;
+        return MaxMagnitude(x, y);
+    }
+
+    public static Float128 MinMagnitudeNumber(Float128 x, Float128 y)
+    {
+        if (x.IsNaN) return y;
+        if (y.IsNaN) return x;
+        return MinMagnitude(x, y);
+    }
+
+    public static Float128 CreateChecked<TOther>(TOther value)
+        where TOther : INumberBase<TOther>
+    {
+        if (typeof(TOther) == typeof(Float128))
+            return (Float128)(object)value;
+
+        if (TOther.TryConvertToChecked(value, out Float128 result))
+            return result;
+
+        throw new NotSupportedException($"Conversion from {typeof(TOther)} to {typeof(Float128)} is not supported.");
+    }
+
+    public static Float128 CreateSaturating<TOther>(TOther value)
+        where TOther : INumberBase<TOther>
+    {
+        if (typeof(TOther) == typeof(Float128))
+            return (Float128)(object)value;
+
+        if (TOther.TryConvertToSaturating(value, out Float128 result))
+            return result;
+
+        throw new NotSupportedException($"Conversion from {typeof(TOther)} to {typeof(Float128)} is not supported.");
+    }
+
+    public static Float128 CreateTruncating<TOther>(TOther value)
+        where TOther : INumberBase<TOther>
+    {
+        if (typeof(TOther) == typeof(Float128))
+            return (Float128)(object)value;
+
+        if (TOther.TryConvertToTruncating(value, out Float128 result))
+            return result;
+
+        throw new NotSupportedException($"Conversion from {typeof(TOther)} to {typeof(Float128)} is not supported.");
+    }
+
+    public static bool TryConvertFromChecked<TOther>(TOther value, out Float128 result)
+        where TOther : INumberBase<TOther>
+    {
+        try
+        {
+            result = CreateChecked(value);
+            return true;
+        }
+        catch (NotSupportedException)
+        {
+            result = Zero;
+            return false;
+        }
+    }
+
+    public static bool TryConvertFromSaturating<TOther>(TOther value, out Float128 result)
+        where TOther : INumberBase<TOther>
+    {
+        try
+        {
+            result = CreateSaturating(value);
+            return true;
+        }
+        catch (NotSupportedException)
+        {
+            result = Zero;
+            return false;
+        }
+    }
+
+    public static bool TryConvertFromTruncating<TOther>(TOther value, out Float128 result)
+        where TOther : INumberBase<TOther>
+    {
+        try
+        {
+            result = CreateTruncating(value);
+            return true;
+        }
+        catch (NotSupportedException)
+        {
+            result = Zero;
+            return false;
+        }
+    }
+
+    public static bool TryConvertToChecked<TOther>(Float128 value, out TOther result)
+        where TOther : INumberBase<TOther>
+    {
+        try
+        {
+            result = TOther.CreateChecked(value);
+            return true;
+        }
+        catch (NotSupportedException)
+        {
+            result = default!;
+            return false;
+        }
+    }
+
+    public static bool TryConvertToSaturating<TOther>(Float128 value, out TOther result)
+        where TOther : INumberBase<TOther>
+    {
+        try
+        {
+            result = TOther.CreateSaturating(value);
+            return true;
+        }
+        catch (NotSupportedException)
+        {
+            result = default!;
+            return false;
+        }
+    }
+
+    public static bool TryConvertToTruncating<TOther>(Float128 value, out TOther result)
+        where TOther : INumberBase<TOther>
+    {
+        try
+        {
+            result = TOther.CreateTruncating(value);
+            return true;
+        }
+        catch (NotSupportedException)
+        {
+            result = default!;
+            return false;
+        }
+    }
+
+    public static Float128 operator %(Float128 a, Float128 b)
+    {
+        if (a.IsNaN || b.IsNaN || a.IsInfinity || b.IsZero)
+            return NaN;
+        if (a.IsZero || b.IsInfinity)
+            return a;
+
+        Float128 quotient = a / b;
+        Float128 truncated = Truncate(quotient);
+        return a - truncated * b;
+    }
+
+    private static Float128 Truncate(Float128 value)
+    {
+        if (!value.IsFinite || value.IsZero)
+            return value;
+
+        int exponent = value.Exponent;
+        if (exponent < 0)
+            return value.IsNegative ? NegativeZero : Zero;
+        if (exponent >= FractionBits)
+            return value;
+
+        int clearBits = FractionBits - exponent;
+        UInt128 raw = value.GetRawSignificand();
+        UInt128 mask = (UInt128.One << clearBits) - 1;
+        raw &= ~mask;
+        return Pack(value.IsNegative, exponent, raw);
+    }
+
+    public static Float128 operator ++(Float128 value) => value + One;
+    public static Float128 operator --(Float128 value) => value - One;
+
+    public static Float128 Parse(ReadOnlySpan<char> s, NumberStyles style, IFormatProvider? provider)
+        => Parse(s.ToString(), style, provider);
+
+    public static bool TryParse(ReadOnlySpan<char> s, NumberStyles style, IFormatProvider? provider, out Float128 result)
+        => TryParse(s.ToString(), style, provider, out result);
+
+    public static Float128 Parse(ReadOnlySpan<byte> utf8Text, IFormatProvider? provider)
+    {
+        if (!TryParse(utf8Text, NumberStyles.Float, provider, out Float128 result))
+            throw new FormatException("The input UTF-8 text was not in a correct format.");
+        return result;
+    }
+
+    public static bool TryParse(ReadOnlySpan<byte> utf8Text, IFormatProvider? provider, out Float128 result)
+        => TryParse(utf8Text, NumberStyles.Float, provider, out result);
+
+    public static bool TryParse(ReadOnlySpan<byte> utf8Text, NumberStyles style, IFormatProvider? provider, out Float128 result)
+    {
+        string text = Encoding.UTF8.GetString(utf8Text);
+        return TryParse(text, style, provider, out result);
+    }
+
+    public bool TryFormat(Span<byte> utf8Destination, out int bytesWritten, ReadOnlySpan<char> format, IFormatProvider? provider)
+    {
+        string text = ToString(format.ToString(), provider);
+        int required = Encoding.UTF8.GetByteCount(text);
+        if (required > utf8Destination.Length)
+        {
+            bytesWritten = 0;
+            return false;
+        }
+        bytesWritten = Encoding.UTF8.GetBytes(text, utf8Destination);
+        return true;
+    }
+
+    #endregion INumberBase
 
     #region Unary operators
     /// <summary>
