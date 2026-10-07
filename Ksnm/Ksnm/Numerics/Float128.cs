@@ -1248,6 +1248,16 @@ public readonly struct Float128 :
         bytesWritten = Encoding.UTF8.GetBytes(text, utf8Destination);
         return true;
     }
+
+    public static Float128 Parse(ReadOnlySpan<char> s, IFormatProvider? provider)
+    {
+        return Parse(s.ToString(), NumberStyles.Float, provider);
+    }
+
+    public static bool TryParse(ReadOnlySpan<char> s, IFormatProvider? provider, [MaybeNullWhen(false)] out Float128 result)
+    {
+        return TryParse(s.ToString(), NumberStyles.Float, provider, out result);
+    }
     #endregion INumberBase
 
     #region INumber
