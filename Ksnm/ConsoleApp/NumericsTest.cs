@@ -13,6 +13,18 @@ namespace ConsoleApp
         {
             Console.WriteLine(Ksnm.Debug.GetFilePathAndLineNumber());
             {
+                var bits = BitConverter.DoubleToInt64Bits(Float64.MaxValue);
+                Console.WriteLine($"{nameof(Float64.MaxValue)}:{bits:X16}");
+                bits = BitConverter.DoubleToInt64Bits(Float64.MinValue);
+                Console.WriteLine($"{nameof(Float64.MinValue)}:{bits:X16}");
+            }
+            {
+                var bits = Float128.MaxValue.Bits;
+                Console.WriteLine($"{nameof(Float128.MaxValue)}:{bits:X32}");
+                bits = Float128.MinValue.Bits;
+                Console.WriteLine($"{nameof(Float128.MinValue)}:{bits:X32}");
+            }
+            {
                 Float64 value = Float64.Parse("123.456789");
                 for (int i = 0; i < 10; i++)
                 {

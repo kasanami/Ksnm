@@ -396,5 +396,13 @@ namespace Ksnm.Numerics.Tests
             Assert.AreEqual("123.4568", value.ToString("F4", null));
             Assert.AreEqual("123.45678900", value.ToString("F8", null));
         }
+        [TestMethod()]
+        public void MinMaxValue()
+        {
+            var bits = Float128.MaxValue.Bits;
+            Assert.AreEqual("7FFEFFFFFFFFFFFFFFFFFFFFFFFFFFFF", $"{bits:X32}");
+            bits = Float128.MinValue.Bits;
+            Assert.AreEqual("FFFEFFFFFFFFFFFFFFFFFFFFFFFFFFFF", $"{bits:X32}");
+        }
     }
 }

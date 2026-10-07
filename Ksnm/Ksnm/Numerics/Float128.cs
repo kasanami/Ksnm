@@ -40,7 +40,21 @@ namespace Ksnm.Numerics;
 /// </summary>
 public readonly struct Float128 :
     IComparable<Float128>,
-    IEquatable<Float128>
+    IEquatable<Float128>,
+    IAdditionOperators<Float128, Float128, Float128>,
+    IAdditiveIdentity<Float128, Float128>,
+    ISubtractionOperators<Float128, Float128, Float128>,
+    IMultiplyOperators<Float128, Float128, Float128>,
+    IMultiplicativeIdentity<Float128, Float128>,
+    IDivisionOperators<Float128, Float128, Float128>,
+    IUnaryPlusOperators<Float128, Float128>,
+    IUnaryNegationOperators<Float128, Float128>,
+    IEqualityOperators<Float128, Float128, bool>,
+    IComparisonOperators<Float128, Float128, bool>,
+    IMinMaxValue<Float128>,
+    IParsable<Float128>,
+    IFormattable,
+    ISpanFormattable
 {
     #region 定数
     /// <summary>
@@ -69,9 +83,26 @@ public readonly struct Float128 :
     private const ulong SignMask = 0x8000000000000000UL;
     private const ulong ExponentMask = 0x7FFF000000000000UL;
     private const ulong FractionHighMask = 0x0000FFFFFFFFFFFFUL;
+
+    /// <summary>加法の単位元です。</summary>
+    public static Float128 AdditiveIdentity => Zero;
+
+    /// <summary>乗法の単位元です。</summary>
+    public static Float128 MultiplicativeIdentity => One;
+
+    static Float128 IMinMaxValue<Float128>.MaxValue => MaxValue;
+    static Float128 IMinMaxValue<Float128>.MinValue => MinValue;
     #endregion 定数
+
+    #region Fields
     private readonly ulong _hi;
     private readonly ulong _lo;
+    #endregion Fields
+
+    #region Properties
+    public UInt128 Bits => new UInt128(_hi, _lo);
+    #endregion Properties
+
     #region コンストラクタ
     public Float128(ulong hi, ulong lo)
     {
