@@ -22,6 +22,7 @@ freely, subject to the following restrictions:
 3. This notice may not be removed or altered from any source distribution.
 */
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Numerics;
 using System.Text;
@@ -40,6 +41,7 @@ namespace Ksnm.Numerics;
 /// Precision = 113 bits including hidden bit.
 /// </summary>
 public readonly struct Float128 :
+    IComparable,
     IComparable<Float128>,
     IEquatable<Float128>,
     IAdditionOperators<Float128, Float128, Float128>,
@@ -53,6 +55,7 @@ public readonly struct Float128 :
     IEqualityOperators<Float128, Float128, bool>,
     IComparisonOperators<Float128, Float128, bool>,
     INumberBase<Float128>,
+    INumber<Float128>,
     IIncrementOperators<Float128>,
     IDecrementOperators<Float128>,
     IMinMaxValue<Float128>,
@@ -240,6 +243,10 @@ public readonly struct Float128 :
         BiasedExponent == MaxBiasedExponent &&
         Fraction == 0 &&
         IsNegative;
+
+    static Float128 INumberBase<Float128>.One => One;
+
+    static Float128 INumberBase<Float128>.Zero => Zero;
     #endregion
 
     #region Bit conversion
@@ -879,6 +886,22 @@ public readonly struct Float128 :
         return IsNegative ? -result : result;
     }
     /// <summary>
+    /// Float128 を比較します。
+    /// </summary>
+    /// <param name="obj"></param>
+    /// <returns></returns>
+    /// <exception cref="ArgumentException"></exception>
+    public int CompareTo(object? obj)
+    {
+        if (obj is null)
+            return 1;
+
+        if (obj is Float128 other)
+            return CompareTo(other);
+
+        throw new ArgumentException($"Object must be of type {nameof(Float128)}.",nameof(obj));
+    }
+    /// <summary>
     /// Float128 の大きさを比較します。
     /// ・大きさは符号を無視した値の比較です。
     /// </summary>
@@ -1225,8 +1248,100 @@ public readonly struct Float128 :
         bytesWritten = Encoding.UTF8.GetBytes(text, utf8Destination);
         return true;
     }
-
     #endregion INumberBase
+
+    #region INumber
+    public static Float128 Clamp(Float128 value, Float128 min, Float128 max)
+    {
+        if (min > max)
+            throw new ArgumentException("min must be less than or equal to max.");
+
+        if (value < min)
+            return min;
+
+        if (value > max)
+            return max;
+
+        return value;
+    }
+
+    public static Float128 CopySign(Float128 value, Float128 sign)
+    {
+        bool valueNegative = value.IsNegative;
+        bool signNegative = sign.IsNegative;
+
+        return valueNegative == signNegative
+            ? value
+            : value.Negate();
+    }
+
+    public static Float128 Max(Float128 x, Float128 y)
+    {
+        if (x.IsNaN || y.IsNaN)
+            return NaN;
+
+        if (x > y)
+            return x;
+        if (y > x)
+            return y;
+
+        // IEEE 754: +0 を -0 より優先
+        if (x.IsZero && y.IsZero)
+            return x.IsNegative ? y : x;
+
+        return x;
+    }
+
+    public static Float128 MaxNumber(Float128 x, Float128 y)
+    {
+        if (x.IsNaN)
+            return y;
+        if (y.IsNaN)
+            return x;
+
+        return Max(x, y);
+    }
+
+    public static Float128 Min(Float128 x, Float128 y)
+    {
+        if (x.IsNaN || y.IsNaN)
+            return NaN;
+
+        if (x < y)
+            return x;
+        if (y < x)
+            return y;
+
+        // IEEE 754: -0 を +0 より優先
+        if (x.IsZero && y.IsZero)
+            return x.IsNegative ? x : y;
+
+        return x;
+    }
+
+    public static Float128 MinNumber(Float128 x, Float128 y)
+    {
+        if (x.IsNaN)
+            return y;
+        if (y.IsNaN)
+            return x;
+
+        return Min(x, y);
+    }
+
+    // INumberBase<T>.Sign(T) は、既存のインスタンスプロパティ Sign と
+    // 名前が衝突するため明示的インターフェース実装にする。
+    static int INumber<Float128>.Sign(Float128 value)
+    {
+        if (value.IsNaN)
+            return 0;
+
+        if (value.IsZero)
+            return 0;
+
+        return value.IsNegative ? -1 : 1;
+    }
+    #endregion INumber
 
     #region Unary operators
     /// <summary>
