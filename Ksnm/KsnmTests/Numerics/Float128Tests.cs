@@ -399,9 +399,9 @@ namespace Ksnm.Numerics.Tests
         [TestMethod()]
         public void MinMaxValue()
         {
-            var bits = Float128.MaxValue.Bits;
+            var bits = Float128.MaxValue.ToUInt128Bits();
             Assert.AreEqual("7FFEFFFFFFFFFFFFFFFFFFFFFFFFFFFF", $"{bits:X32}");
-            bits = Float128.MinValue.Bits;
+            bits = Float128.MinValue.ToUInt128Bits();
             Assert.AreEqual("FFFEFFFFFFFFFFFFFFFFFFFFFFFFFFFF", $"{bits:X32}");
         }
     }

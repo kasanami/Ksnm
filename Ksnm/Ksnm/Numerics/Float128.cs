@@ -95,19 +95,15 @@ public readonly struct Float128 :
     #endregion 定数
 
     #region Fields
-    private readonly ulong _hi;
-    private readonly ulong _lo;
+    private readonly ulong _upper;
+    private readonly ulong _lower;
     #endregion Fields
 
-    #region Properties
-    public UInt128 Bits => new UInt128(_hi, _lo);
-    #endregion Properties
-
     #region コンストラクタ
-    public Float128(ulong hi, ulong lo)
+    public Float128(ulong upper, ulong lower)
     {
-        _hi = hi;
-        _lo = lo;
+        _upper = upper;
+        _lower = lower;
     }
     /// <summary>
     /// Float128 を構築します。
@@ -123,10 +119,10 @@ public readonly struct Float128 :
         int biasedExponent = exponent + ExponentBias;
         ulong fractionHigh = (ulong)(fraction >> 64) & FractionHighMask;
         ulong fractionLow = (ulong)(fraction & 0xFFFFFFFFFFFFFFFFUL);
-        _hi = (negative ? SignMask : 0) |
+        _upper = (negative ? SignMask : 0) |
               ((ulong)(biasedExponent) << 48) |
               (fractionHigh & FractionHighMask);
-        _lo = fractionLow;
+        _lower = fractionLow;
     }
     /// <summary>
     /// Float128 を構築します。
@@ -141,10 +137,10 @@ public readonly struct Float128 :
             throw new ArgumentOutOfRangeException(nameof(exponent), $"exponent must be in range [{MinNormalExponent}, {MaxNormalExponent}]");
 
         int biasedExponent = exponent + ExponentBias;
-        _hi = (negative ? SignMask : 0) |
+        _upper = (negative ? SignMask : 0) |
               ((ulong)(biasedExponent) << 48) |
               (fractionHigh & FractionHighMask);
-        _lo = fractionLow;
+        _lower = fractionLow;
     }
     #endregion コンストラクタ
 
@@ -176,18 +172,25 @@ public readonly struct Float128 :
     public static readonly Float128 MinNormal = FromBits(0x0001000000000000UL, 0);
     #endregion Constants
 
+
     #region Properties
-    public ulong HighBits => _hi;
-    public ulong LowBits => _lo;
+    /// <summary>
+    /// Float128 の内部表現の上位64ビットを取得します。
+    /// </summary>
+    public ulong UpperBits => _upper;
+    /// <summary>
+    /// Float128 の内部表現の下位64ビットを取得します。
+    /// </summary>
+    public ulong LowerBits => _lower;
 
     public bool IsNegative =>
-        (_hi & SignMask) != 0;
+        (_upper & SignMask) != 0;
 
     public int Sign =>
         IsNegative ? -1 : 1;
 
     public int BiasedExponent =>
-        (int)((_hi >> 48) & 0x7FFF);
+        (int)((_upper >> 48) & 0x7FFF);
 
     public int Exponent =>
         BiasedExponent == 0
@@ -195,11 +198,11 @@ public readonly struct Float128 :
             : BiasedExponent - ExponentBias;
 
     public UInt128 Fraction =>
-        ((UInt128)(_hi & FractionHighMask) << 64) | _lo;
+        ((UInt128)(_upper & FractionHighMask) << 64) | _lower;
 
     public bool IsZero =>
-        (_hi & 0x7FFFFFFFFFFFFFFFUL) == 0 &&
-        _lo == 0;
+        (_upper & 0x7FFFFFFFFFFFFFFFUL) == 0 &&
+        _lower == 0;
 
     public bool IsInfinity =>
         BiasedExponent == MaxBiasedExponent &&
@@ -249,7 +252,7 @@ public readonly struct Float128 :
 
     public UInt128 ToUInt128Bits()
     {
-        return ((UInt128)_hi << 64) | _lo;
+        return ((UInt128)_upper << 64) | _lower;
     }
 
     #endregion Bit conversion
@@ -897,7 +900,7 @@ public readonly struct Float128 :
         if (IsZero && other.IsZero)
             return true;
 
-        return _hi == other._hi && _lo == other._lo;
+        return _upper == other._upper && _lower == other._lower;
     }
 
     public override bool Equals(object? obj)
@@ -911,7 +914,7 @@ public readonly struct Float128 :
         if (IsZero)
             return 0;
 
-        return HashCode.Combine(_hi, _lo);
+        return HashCode.Combine(_upper, _lower);
     }
 
     public static bool operator ==(Float128 a, Float128 b)
@@ -939,7 +942,7 @@ public readonly struct Float128 :
     /// </summary>
     public Float128 Negate()
     {
-        return new Float128(_hi ^ SignMask, _lo);
+        return new Float128(_upper ^ SignMask, _lower);
     }
     public static Float128 operator +(Float128 value)
         => value;
