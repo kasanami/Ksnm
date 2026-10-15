@@ -404,5 +404,32 @@ namespace Ksnm.Numerics.Tests
             bits = Float128.MinValue.ToUInt128Bits();
             Assert.AreEqual("FFFEFFFFFFFFFFFFFFFFFFFFFFFFFFFF", $"{bits:X32}");
         }
+        [TestMethod()]
+        public void Operators()
+        {
+            Float128 a = 1.0;
+            Float128 b = 2.0;
+            Float128 c = -1.0;
+
+            Assert.AreEqual(+3.0, a + b);
+            Assert.AreEqual(+3.0, b + a);
+            Assert.AreEqual(+0.0, a + c);
+            Assert.AreEqual(+1.0, b + c);
+
+            Assert.AreEqual(-1.0, a - b);
+            Assert.AreEqual(+1.0, b - a);
+            Assert.AreEqual(+2.0, a - c);
+            Assert.AreEqual(+3.0, b - c);
+
+            Assert.AreEqual(+2.0, a * b);
+            Assert.AreEqual(+2.0, b * a);
+            Assert.AreEqual(-1.0, a * c);
+            Assert.AreEqual(-2.0, b * c);
+
+            Assert.AreEqual(+0.5, a / b);
+            Assert.AreEqual(+2.0, b / a);
+            Assert.AreEqual(-1.0, a / c);
+            Assert.AreEqual(-2.0, b / c);
+        }
     }
 }

@@ -2,155 +2,185 @@
 using Ksnm.Science.Mathematics;
 using System.Numerics;
 using static Ksnm.Science.Mathematics.Formula;
+using static Ksnm.Science.Mathematics.Theorem;
 
 #pragma warning disable CS0162 // 到達できないコードが検出されました
-namespace ConsoleApp
+namespace ConsoleApp;
+
+internal class MathTest
 {
-    internal class MathTest
+    public static void Run()
     {
-        public static void Run()
+        if (false)
         {
-            if(false)
+            for (int n = 1; n <= 100; n++)
             {
-                Console.WriteLine("極限");
-                double sum = 0;
-                for (int i = 1; i < UInt16.MaxValue; i++)
+                bool result = false;
+                for (int x = 2; x <= 100; x++)
                 {
-                    sum += 1.0 / i;
-                    Console.WriteLine($"{i}: {sum}");
-                }
-                Console.WriteLine($"Sum: {sum}");
-            }
-            Console.WriteLine("IsPrime");
-            {
-                for (int i = 2; i < 20; i++)
-                {
-                    Console.WriteLine($"{i} is {(Math.IsPrime(i) ? "" : "not ")}prime.");
-                }
-            }
-            Console.WriteLine("ModInverse");
-            {
-                for (int n = 1; n < 10; n++)
-                {
-                    for (int m = 2; m <= 10; m++)
+                    for (int y = 2; y <= 100; y++)
                     {
-                        if (Math.GreatestCommonDivisor(n, m) != 1)
+                        for (int z = 2; z <= 100; z++)
                         {
-                            continue;
+                            result = FermatLastTheorem(n, x, y, z);
+                            if (result)
+                            {
+                                Console.WriteLine($"FermatLastTheorem({n}, {x}, {y}, {z}) = {result}");
+                                break;
+                            }
                         }
-                        var d = Math.ModInverse(n, m);
-                        var a = (d * n) % m;
-                        Console.WriteLine($"ModInverse({n}, {m}) = {d} (a={a})");
+                        if (result)
+                        {
+                            break;
+                        }
+                    }
+                    if (result)
+                    {
+                        break;
                     }
                 }
             }
-
-            Console.WriteLine("Exp");
+        }
+        if (false)
+        {
+            Console.WriteLine("極限");
+            double sum = 0;
+            for (int i = 1; i < UInt16.MaxValue; i++)
             {
-                Console.WriteLine($"double  :{Math.Exp<double>(1.0, double.Epsilon)}");
-                Console.WriteLine($"decimal :{Math.Exp<decimal>(decimal.One, Math.DecimalEpsilon)}");
-                Console.WriteLine($"Fixed16 :{Math.Exp<Fixed16>(Fixed16.One, Fixed16.Epsilon)}");
+                sum += 1.0 / i;
+                Console.WriteLine($"{i}: {sum}");
             }
-
-            FastInverseSqrtTest();
-
-            // ネイピア数を計算
-            Console.WriteLine("CalculateE");
+            Console.WriteLine($"Sum: {sum}");
+        }
+        Console.WriteLine("IsPrime");
+        {
+            for (int i = 2; i < 20; i++)
             {
-                Console.WriteLine($"BFloat16:{Math.CalculateE<BFloat16>()}");
-                Console.WriteLine($"Half    :{Math.CalculateE<Half>()}");
-                Console.WriteLine($"float   :{Math.CalculateE<float>()}");
-                Console.WriteLine($"double  :{Math.CalculateE<double>()}");
-                Console.WriteLine($"decimal :{Math.CalculateE<decimal>(Math.DecimalEpsilon)}");
-                Console.WriteLine($"Fixed64 :{Math.CalculateE<Fixed64>()}");
+                Console.WriteLine($"{i} is {(Math.IsPrime(i) ? "" : "not ")}prime.");
             }
-
-            // 円周率を計算
-            Console.WriteLine("CalculatePi");
+        }
+        Console.WriteLine("ModInverse");
+        {
+            for (int n = 1; n < 10; n++)
             {
-                Console.WriteLine($"BFloat16:{Math.CalculatePi<BFloat16>()}");
-                Console.WriteLine($"Half    :{Math.CalculatePi<Half>()}");
-                Console.WriteLine($"float   :{Math.CalculatePi<float>()}");
-                Console.WriteLine($"double  :{Math.CalculatePi<double>()}");
-                Console.WriteLine($"decimal :{Math.CalculatePi<decimal>(Math.DecimalEpsilon)}");
-                Console.WriteLine($"Fixed64 :{Math.CalculatePi<Fixed64>()}");
-            }
-
-            // Log2
-            Console.WriteLine("Log2");
-            {
-                Console.WriteLine($"double.Log2:{double.Log2(int.MaxValue)}");
-                Console.WriteLine($"int   .Log2:{int.Log2(int.MaxValue)}");
-                Console.WriteLine($"Math  .Log2:{Math.Log2<double>(int.MaxValue)}");
-            }
-
-            Console.WriteLine("ガウス＝ルジャンドルのアルゴリズム");
-            {
-                Console.WriteLine("double");
-                var pi = Algorithm.GaussLegendre<double>(3);
-                Console.WriteLine($"→{pi}");
-            }
-            {
-                Console.WriteLine("BigDecimal");
-                BigDecimal pi;
-                Console.WriteLine($"DefaultMinExponent={BigDecimal.DefaultMinExponent}");
-                for (var count = 0; count <= 8; count++)
+                for (int m = 2; m <= 10; m++)
                 {
-                    pi = Algorithm.GaussLegendre<BigDecimal>(0, count, BigDecimal.Sqrt);
-                    Console.WriteLine($"{count}:{pi}");
+                    if (Math.GreatestCommonDivisor(n, m) != 1)
+                    {
+                        continue;
+                    }
+                    var d = Math.ModInverse(n, m);
+                    var a = (d * n) % m;
+                    Console.WriteLine($"ModInverse({n}, {m}) = {d} (a={a})");
                 }
             }
-            GammaTest();
-            StirlingsFormulaTest();
-        }
-        public static void GammaTest()
-        {
-            Ksnm.Debug.WriteLineCallerInfo();
-
-            //Console.WriteLine("GammaTest");
-            //for (double i = 0; i <= 10; i += 0.25)
-            //{
-            //    var x = Gamma(i);
-            //    Console.WriteLine($"({i:0.0000})={x:0.0000}");
-            //}
-
-            Console.WriteLine();
-        }
-        public static void StirlingsFormulaTest()
-        {
-            Ksnm.Debug.WriteLineCallerInfo();
-
-            for (double i = 0; i <= 10; i += 0.25)
-            {
-                var x = StirlingsFormula(i);
-                Console.WriteLine($"({i:0.0000})={x:0.0000}");
-            }
-
-            Console.WriteLine();
         }
 
-        public static void FastInverseSqrtTest()
+        Console.WriteLine("Exp");
         {
-            Ksnm.Debug.WriteLineCallerInfo();
+            Console.WriteLine($"double  :{Math.Exp<double>(1.0, double.Epsilon)}");
+            Console.WriteLine($"decimal :{Math.Exp<decimal>(decimal.One, Math.DecimalEpsilon)}");
+            Console.WriteLine($"Fixed16 :{Math.Exp<Fixed16>(Fixed16.One, Fixed16.Epsilon)}");
+        }
 
-            Console.WriteLine("float");
-            for (float f = 1; f <= 9; f += 0.5f)
-            {
-                var a = Ksnm.Math.InverseSqrt(f);
-                var b = Ksnm.Math.FastInverseSqrt(f);
-                Console.WriteLine($"{a:0.00000000}:{b:0.00000000} ({a - b:0.00000000})");
-            }
+        FastInverseSqrtTest();
 
+        // ネイピア数を計算
+        Console.WriteLine("CalculateE");
+        {
+            Console.WriteLine($"BFloat16:{Math.CalculateE<BFloat16>()}");
+            Console.WriteLine($"Half    :{Math.CalculateE<Half>()}");
+            Console.WriteLine($"float   :{Math.CalculateE<float>()}");
+            Console.WriteLine($"double  :{Math.CalculateE<double>()}");
+            Console.WriteLine($"decimal :{Math.CalculateE<decimal>(Math.DecimalEpsilon)}");
+            Console.WriteLine($"Fixed64 :{Math.CalculateE<Fixed64>()}");
+        }
+
+        // 円周率を計算
+        Console.WriteLine("CalculatePi");
+        {
+            Console.WriteLine($"BFloat16:{Math.CalculatePi<BFloat16>()}");
+            Console.WriteLine($"Half    :{Math.CalculatePi<Half>()}");
+            Console.WriteLine($"float   :{Math.CalculatePi<float>()}");
+            Console.WriteLine($"double  :{Math.CalculatePi<double>()}");
+            Console.WriteLine($"decimal :{Math.CalculatePi<decimal>(Math.DecimalEpsilon)}");
+            Console.WriteLine($"Fixed64 :{Math.CalculatePi<Fixed64>()}");
+        }
+
+        // Log2
+        Console.WriteLine("Log2");
+        {
+            Console.WriteLine($"double.Log2:{double.Log2(int.MaxValue)}");
+            Console.WriteLine($"int   .Log2:{int.Log2(int.MaxValue)}");
+            Console.WriteLine($"Math  .Log2:{Math.Log2<double>(int.MaxValue)}");
+        }
+
+        Console.WriteLine("ガウス＝ルジャンドルのアルゴリズム");
+        {
             Console.WriteLine("double");
-            for (double f = 1; f <= 9; f += 0.5)
-            {
-                var a = Ksnm.Math.InverseSqrt(f);
-                var b = Ksnm.Math.FastInverseSqrt(f);
-                Console.WriteLine($"{a:0.00000000}:{b:0.00000000} ({a - b:0.00000000})");
-            }
-
-            Console.WriteLine();
+            var pi = Algorithm.GaussLegendre<double>(3);
+            Console.WriteLine($"→{pi}");
         }
+        {
+            Console.WriteLine("BigDecimal");
+            BigDecimal pi;
+            Console.WriteLine($"DefaultMinExponent={BigDecimal.DefaultMinExponent}");
+            for (var count = 0; count <= 8; count++)
+            {
+                pi = Algorithm.GaussLegendre<BigDecimal>(0, count, BigDecimal.Sqrt);
+                Console.WriteLine($"{count}:{pi}");
+            }
+        }
+        GammaTest();
+        StirlingsFormulaTest();
+    }
+    public static void GammaTest()
+    {
+        Ksnm.Debug.WriteLineCallerInfo();
+
+        //Console.WriteLine("GammaTest");
+        //for (double i = 0; i <= 10; i += 0.25)
+        //{
+        //    var x = Gamma(i);
+        //    Console.WriteLine($"({i:0.0000})={x:0.0000}");
+        //}
+
+        Console.WriteLine();
+    }
+    public static void StirlingsFormulaTest()
+    {
+        Ksnm.Debug.WriteLineCallerInfo();
+
+        for (double i = 0; i <= 10; i += 0.25)
+        {
+            var x = StirlingsFormula(i);
+            Console.WriteLine($"({i:0.0000})={x:0.0000}");
+        }
+
+        Console.WriteLine();
+    }
+
+    public static void FastInverseSqrtTest()
+    {
+        Ksnm.Debug.WriteLineCallerInfo();
+
+        Console.WriteLine("float");
+        for (float f = 1; f <= 9; f += 0.5f)
+        {
+            var a = Ksnm.Math.InverseSqrt(f);
+            var b = Ksnm.Math.FastInverseSqrt(f);
+            Console.WriteLine($"{a:0.00000000}:{b:0.00000000} ({a - b:0.00000000})");
+        }
+
+        Console.WriteLine("double");
+        for (double f = 1; f <= 9; f += 0.5)
+        {
+            var a = Ksnm.Math.InverseSqrt(f);
+            var b = Ksnm.Math.FastInverseSqrt(f);
+            Console.WriteLine($"{a:0.00000000}:{b:0.00000000} ({a - b:0.00000000})");
+        }
+
+        Console.WriteLine();
     }
 }
 #pragma warning restore CS0162 // 到達できないコードが検出されました

@@ -183,6 +183,10 @@ public readonly struct Float128 :
 
     #region Properties
     /// <summary>
+    /// Float128 の内部表現を UInt128 として取得します。
+    /// </summary>
+    public UInt128 Bits => ((UInt128)_upper << 64) | _lower;
+    /// <summary>
     /// Float128 の内部表現の上位64ビットを取得します。
     /// </summary>
     public ulong UpperBits => _upper;
@@ -454,6 +458,11 @@ public readonly struct Float128 :
     #endregion 他の型からの変換
 
     #region Internal representation
+    /// <summary>
+    /// Float128 の仮数をケチ表現を使わず取得します。
+    /// ・仮数 0 の場合は、0 を返します。
+    /// </summary>
+    /// <returns></returns>
     private UInt128 GetRawSignificand()
     {
         UInt128 fraction = Fraction;
@@ -690,13 +699,9 @@ public readonly struct Float128 :
             {
                 // Sticky information is incorporated below.
             }
-
             bool guard = product.GetBit(shift - 1);
-
             bool sticky = product.HasAnyLowBits(shift - 1);
-
-            if (guard &&
-                (sticky || (rounded & 1) != 0))
+            if (guard &&(sticky || (rounded & 1) != 0))
             {
                 rounded++;
             }
@@ -752,9 +757,7 @@ public readonly struct Float128 :
         }
 
         int exponent = a.Exponent - b.Exponent;
-
         UInt128 numerator = a.GetRawSignificand();
-
         UInt128 denominator = b.GetRawSignificand();
 
         // Generate 116 bits:
@@ -762,7 +765,6 @@ public readonly struct Float128 :
         //
         // numerator / denominator is in approximately [0.5, 2).
         UInt256 dividend = UInt256.FromUInt128(numerator) << 116;
-
         UInt128 quotient = UInt256.Divide(dividend, denominator, out bool remainder);
 
         if (quotient < (UInt128.One << 115))
@@ -772,15 +774,10 @@ public readonly struct Float128 :
         }
 
         bool guard = (quotient & 1) != 0;
-
         quotient >>= 1;
-
         bool round = (quotient & 1) != 0;
-
         quotient >>= 1;
-
         bool sticky = remainder;
-
         if (guard && (round || sticky || (quotient & 1) != 0))
         {
             quotient++;

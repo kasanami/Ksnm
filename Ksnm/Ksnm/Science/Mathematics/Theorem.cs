@@ -1,7 +1,7 @@
 ﻿/*
 The zlib License
 
-Copyright (c) 2021-2024 Takahiro Kasanami
+Copyright (c) 2021-2026 Takahiro Kasanami
 
 This software is provided 'as-is', without any express or implied
 warranty. In no event will the authors be held liable for any damages
@@ -51,6 +51,19 @@ namespace Ksnm.Science.Mathematics
                 return 0;
             }
             return (int)(x / System.Math.Log(x));
+        }
+        /// <summary>
+        /// フェルマーの最終定理
+        /// ・n が 2 以下の場合は false を返す。
+        /// ・n が 3 以上の場合、x^n + y^n = z^n が成り立つ場合は true を返す。
+        /// </summary>
+        public static bool FermatLastTheorem(int n, int x, int y, int z)
+        {
+            if (n <= 2)
+            {
+                return false;
+            }
+            return BigInteger.Pow(x, n) + BigInteger.Pow(y, n) == BigInteger.Pow(z, n);
         }
     }
 }
