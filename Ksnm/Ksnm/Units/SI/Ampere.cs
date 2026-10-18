@@ -61,6 +61,11 @@ namespace Ksnm.Units.SI
         {
         }
         #endregion コンストラクタ
+
+        #region 型変換
+        public static implicit operator Ampere<T>(T value) => new Ampere<T>(value);
+        #endregion 型変換
+
         #region 演算子
         public static Ampere<T> operator *(T value, Ampere<T> quantity) => new(value * quantity.Value);
         public static Ampere<T> operator *(Ampere<T> quantity, T value) => new(quantity.Value * value);

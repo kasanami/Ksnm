@@ -1,7 +1,7 @@
 ﻿/*
 The zlib License
 
-Copyright (c) 2021 Takahiro Kasanami
+Copyright (c) 2021-2026 Takahiro Kasanami
 
 This software is provided 'as-is', without any express or implied
 warranty. In no event will the authors be held liable for any damages
@@ -21,25 +21,24 @@ freely, subject to the following restrictions:
 
 3. This notice may not be removed or altered from any source distribution.
 */
-namespace Ksnm.Units
+namespace Ksnm.Units;
+
+/// <summary>
+/// 何らかの量を表す。
+/// </summary>
+/// <typeparam name="T">量を表す値の型</typeparam>
+interface IQuantity<T>
 {
     /// <summary>
-    /// 何らかの量を表す。
+    /// 名前
     /// </summary>
-    /// <typeparam name="T">量を表す値の型</typeparam>
-    interface IQuantity<T>
-    {
-        /// <summary>
-        /// 名前
-        /// </summary>
-        string Name { get; }
-        /// <summary>
-        /// 記号
-        /// </summary>
-        string Symbol { get; }
-        /// <summary>
-        /// 値
-        /// </summary>
-        T Value { get; }
-    }
+    string Name { get; }
+    /// <summary>
+    /// 記号
+    /// </summary>
+    string Symbol { get; }
+    /// <summary>
+    /// 値
+    /// </summary>
+    T Value { get; }
 }

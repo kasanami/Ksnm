@@ -87,7 +87,9 @@ namespace Ksnm.Units.SI
             return new Second<T>(quantity.Value * value);
         }
         #endregion 演算子
+
         #region 型変換
+        public static implicit operator Second<T>(T value) => new Second<T>(value);
         public static explicit operator Second<T>(Minute<T> time) => new Second<T>(time);
         public static explicit operator Second<T>(Hour<T> time) => new Second<T>(time);
         #endregion 型変換

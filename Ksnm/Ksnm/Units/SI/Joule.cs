@@ -67,13 +67,17 @@ namespace Ksnm.Units.SI
         /// </summary>
         public Joule(NonSI.Calorie<T> energy) : this(energy.Value * T.CreateChecked(4.184m)) { }
         #endregion コンストラクタ
+
         #region 演算子
         public static Watt<T> operator /(Joule<T> energy, Second<T> time) => new(energy, time);
         public static Newton<T> operator /(Joule<T> energy, Metre<T> length) => new(energy.Value / length.Value);
+        public static Volt<T> operator /(Joule<T> energy, Coulomb<T> charge) => new(energy.Value / charge.Value);
         public static Joule<T> operator *(T value, Joule<T> quantity) => new(value * quantity.Value);
         public static Joule<T> operator *(Joule<T> quantity, T value) => new(quantity.Value * value);
         #endregion 演算子
+
         #region 型変換
+        public static implicit operator Joule<T>(T value) => new Joule<T>(value);
         /// <summary>
         /// 他の型から、この型への明示的な変換を定義します。
         /// </summary>

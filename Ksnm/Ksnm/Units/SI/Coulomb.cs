@@ -46,6 +46,7 @@ namespace Ksnm.Units.SI
         /// </summary>
         public override string Symbol => "C";
         #endregion プロパティ
+
         #region コンストラクタ
         /// <summary>
         /// 0 で初期化
@@ -62,6 +63,11 @@ namespace Ksnm.Units.SI
         {
         }
         #endregion コンストラクタ
+
+        #region 型変換
+        public static implicit operator Coulomb<T>(T value) => new Coulomb<T>(value);
+        #endregion 型変換
+
         #region 演算子
         /// <summary>
         /// 乗算
@@ -76,6 +82,10 @@ namespace Ksnm.Units.SI
         public static Coulomb<T> operator *(Coulomb<T> quantity, T value)
         {
             return new Coulomb<T>(quantity.Value * value);
+        }
+        public static Ampere<T> operator /(Coulomb<T> quantity, Second<T> time)
+        {
+            return new Ampere<T>(quantity.Value / time.Value);
         }
         #endregion 演算子
     }

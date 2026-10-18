@@ -64,6 +64,11 @@ namespace Ksnm.Units.SI
         {
         }
         #endregion コンストラクタ
+
+        #region 型変換
+        public static implicit operator Volt<T>(T value) => new Volt<T>(value);
+        #endregion 型変換
+
         #region 演算子
         public static Volt<T> operator *(T value, Volt<T> quantity) => new(value * quantity.Value);
         public static Volt<T> operator *(Volt<T> quantity, T value) => new(quantity.Value * value);
