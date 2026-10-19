@@ -73,6 +73,7 @@ namespace Ksnm.Units.SI
         public static Volt<T> operator *(T value, Volt<T> quantity) => new(value * quantity.Value);
         public static Volt<T> operator *(Volt<T> quantity, T value) => new(quantity.Value * value);
         public static Watt<T> operator *(Volt<T> volt, Ampere<T> ampere) => new(volt.Value * ampere.Value);
+        public static Joule<T> operator *(Volt<T> volt, Coulomb<T> charge) => new(volt.Value * charge.Value);
         public static Ohm<T> operator /(Volt<T> volt, Ampere<T> ampere) => new(volt.Value / ampere.Value);
         public static Ampere<T> operator /(Volt<T> volt, Ohm<T> ohm) => new(volt.Value / ohm.Value);
         #endregion 演算子
