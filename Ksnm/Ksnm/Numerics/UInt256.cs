@@ -1,12 +1,23 @@
-﻿using System.Numerics;
+﻿using Ksnm.Units.SI;
+using Microsoft.VisualBasic;
+using System.Numerics;
 
 namespace Ksnm.Numerics;
 
 /// <summary>
 /// 256ビットの符号なし整数
 /// </summary>
-public readonly struct UInt256
+public readonly struct UInt256 :
+    IComparable,
+    IComparable<UInt256>,
+    IEquatable<UInt256>
 {
+    #region 定数
+    public static readonly UInt256 One = new UInt256(0, 0, 0, 1);
+    public static readonly UInt256 Zero = new UInt256(0, 0, 0, 0);
+    #endregion 定数
+
+    #region フィールド
     /// <summary>
     /// 最下位64ビット
     /// </summary>
@@ -23,6 +34,9 @@ public readonly struct UInt256
     /// 最上位64ビット
     /// </summary>
     public readonly UInt64 U3;
+    #endregion フィールド
+
+    #region コンストラクタ
     /// <summary>
     /// 256ビットの符号なし整数を生成する。
     /// </summary>
@@ -37,6 +51,16 @@ public readonly struct UInt256
         U2 = u2;
         U3 = u3;
     }
+    public UInt256(UInt64 u2, UInt64 u1, UInt64 u0) : this(0, u2, u1, u0) { }
+    public UInt256(UInt64 u1, UInt64 u0) : this(0, 0, u1, u0) { }
+    public UInt256(UInt64 u0) : this(0, 0, 0, u0) { }
+    public UInt256() : this(0, 0, 0, 0) { }
+    #endregion コンストラクタ
+
+    #region 型変換
+    public static implicit operator UInt256(UInt32 value) => new UInt256(0, 0, 0, value);
+    public static implicit operator UInt256(UInt64 value) => new UInt256(0, 0, 0, value);
+    public static implicit operator UInt256(UInt128 value) => new UInt256(0, 0, (UInt64)(value >> 64), (UInt64)value);
 
     public static UInt256 FromUInt64(UInt64 value)
     {
@@ -47,6 +71,10 @@ public readonly struct UInt256
     {
         return new UInt256(0, 0, (UInt64)(value >> 64), (UInt64)value);
     }
+
+
+    public static explicit operator UInt128(UInt256 value) => new UInt128(value.U1, value.U0);
+    #endregion 型変換
 
     override public string ToString()
     {
@@ -59,6 +87,7 @@ public readonly struct UInt256
         return $"0x{U0:X16}";
     }
 
+    #region プロパティ
     public UInt128 Low128 =>
         ((UInt128)U1 << 64) | U0;
 
@@ -85,6 +114,8 @@ public readonly struct UInt256
             return 0;
         }
     }
+    public bool IsZero => U0 == 0 && U1 == 0 && U2 == 0 && U3 == 0;
+    #endregion プロパティ
 
     public bool GetBit(int index)
     {
@@ -148,6 +179,107 @@ public readonly struct UInt256
         return (selected & mask) != 0;
     }
 
+
+    #region 比較演算子
+    public static bool operator ==(UInt256 a, UInt256 b)
+        => a.Equals(b);
+
+    public static bool operator !=(UInt256 a, UInt256 b)
+        => !a.Equals(b);
+
+    public static bool operator <(UInt256 a, UInt256 b)
+        => a.CompareTo(b) < 0;
+
+    public static bool operator >(UInt256 a, UInt256 b)
+        => a.CompareTo(b) > 0;
+
+    public static bool operator <=(UInt256 a, UInt256 b)
+        => a.CompareTo(b) <= 0;
+
+    public static bool operator >=(UInt256 a, UInt256 b)
+        => a.CompareTo(b) >= 0;
+    #endregion 比較演算子
+
+    #region 算術演算子
+    public static UInt256 operator +(UInt256 a, UInt256 b)
+    {
+        ulong u0 = a.U0 + b.U0;
+        ulong carry = u0 < a.U0 ? 1UL : 0UL;
+        ulong u1 = a.U1 + b.U1 + carry;
+        carry = (u1 < a.U1 || (carry == 1 && u1 == a.U1)) ? 1UL : 0UL;
+        ulong u2 = a.U2 + b.U2 + carry;
+        carry = (u2 < a.U2 || (carry == 1 && u2 == a.U2)) ? 1UL : 0UL;
+        ulong u3 = a.U3 + b.U3 + carry;
+        return new UInt256(u3, u2, u1, u0);
+    }
+    public static UInt256 operator -(UInt256 a, UInt256 b)
+    {
+        ulong u0 = a.U0 - b.U0;
+        ulong borrow = a.U0 < b.U0 ? 1UL : 0UL;
+        ulong u1 = a.U1 - b.U1 - borrow;
+        borrow = (a.U1 < b.U1 + borrow) ? 1UL : 0UL;
+        ulong u2 = a.U2 - b.U2 - borrow;
+        borrow = (a.U2 < b.U2 + borrow) ? 1UL : 0UL;
+        ulong u3 = a.U3 - b.U3 - borrow;
+        return new UInt256(u3, u2, u1, u0);
+    }
+    public static UInt256 operator *(UInt256 a, UInt256 b)
+    {
+        return Multiply(a.Low128, b.Low128);
+    }
+    public static UInt256 operator /(UInt256 a, UInt256 b)
+    {
+        return Divide(a, b, out _);
+    }
+    public static UInt256 operator %(UInt256 a, UInt256 b)
+    {
+        Divide(a, b, out UInt256 remainder);
+        return remainder;
+    }
+    public static UInt256 operator ++(UInt256 value)
+    {
+        return value + 1;
+    }
+    public static UInt256 operator --(UInt256 value)
+    {
+        return value - 1;
+    }
+    public static UInt256 operator ~(UInt256 value)
+    {
+        return new UInt256(
+            ~value.U3,
+            ~value.U2,
+            ~value.U1,
+            ~value.U0);
+    }
+
+    public static UInt256 operator ^(UInt256 a, UInt256 b)
+    {
+        return new UInt256(
+            a.U3 ^ b.U3,
+            a.U2 ^ b.U2,
+            a.U1 ^ b.U1,
+            a.U0 ^ b.U0);
+    }
+
+    public static UInt256 operator &(UInt256 a, UInt256 b)
+    {
+        return new UInt256(
+            a.U3 & b.U3,
+            a.U2 & b.U2,
+            a.U1 & b.U1,
+            a.U0 & b.U0);
+    }
+
+    public static UInt256 operator |(UInt256 a, UInt256 b)
+    {
+        return new UInt256(
+            a.U3 | b.U3,
+            a.U2 | b.U2,
+            a.U1 | b.U1,
+            a.U0 | b.U0);
+    }
+
     public static UInt256 operator <<(UInt256 value, int shift)
     {
         if (shift <= 0)
@@ -159,8 +291,8 @@ public readonly struct UInt256
         int wordShift = shift / 64;
         int bitShift = shift % 64;
 
+        // [0]=最下位ビット
         ulong[] src = { value.U0, value.U1, value.U2, value.U3 };
-
         ulong[] dst = { 0, 0, 0, 0 };
 
         for (int i = 0; i < 4; i++)
@@ -172,14 +304,12 @@ public readonly struct UInt256
 
             dst[d] |= src[i] << bitShift;
 
-            if (bitShift != 0 &&
-                d + 1 < 4)
+            if (bitShift != 0 && d + 1 < 4)
             {
                 dst[d + 1] |= src[i] >> (64 - bitShift);
             }
         }
-
-        return new UInt256(dst[0], dst[1], dst[2], dst[3]);
+        return new UInt256(dst[3], dst[2], dst[1], dst[0]);
     }
 
     public static UInt256 operator >>(UInt256 value, int shift)
@@ -193,8 +323,8 @@ public readonly struct UInt256
         int wordShift = shift / 64;
         int bitShift = shift % 64;
 
+        // [0]=最下位ビット
         ulong[] src = { value.U0, value.U1, value.U2, value.U3 };
-
         ulong[] dst = { 0, 0, 0, 0 };
 
         for (int i = 0; i < 4; i++)
@@ -212,9 +342,9 @@ public readonly struct UInt256
                 dst[d - 1] |= src[i] << (64 - bitShift);
             }
         }
-
-        return new UInt256(dst[0], dst[1], dst[2], dst[3]);
+        return new UInt256(dst[3], dst[2], dst[1], dst[0]);
     }
+    #endregion 算術演算子
 
     public static UInt256 Multiply(UInt128 a, UInt128 b)
     {
@@ -260,9 +390,7 @@ public readonly struct UInt256
         u1 += p10Lo;
         carry += u1 < old ? 1UL : 0UL;
 
-        ulong u2 = p01Hi +
-            p10Hi +
-            carry;
+        ulong u2 = p01Hi + p10Hi + carry;
 
         old = u2;
         u2 += p11Lo;
@@ -272,10 +400,8 @@ public readonly struct UInt256
             p11Hi++;
         }
 
-        ulong u3 = p11Hi +
-            (u2 < old ? 1UL : 0UL);
-
-        return new UInt256(u0, u1, u2, u3);
+        ulong u3 = p11Hi + (u2 < old ? 1UL : 0UL);
+        return new UInt256(u3, u2, u1, u0);
     }
 
     private static void Mul64(ulong x, ulong y, out ulong lo, out ulong hi)
@@ -305,39 +431,43 @@ public readonly struct UInt256
         lo = (w1 << 32) |
             w0;
     }
-
-    public static UInt128 Divide(UInt256 numerator, UInt128 denominator, out bool remainder)
+    /// <summary>
+    /// 除算
+    /// </summary>
+    /// <param name="numerator">除算の分子。</param>
+    /// <param name="denominator">除算の分母。</param>
+    /// <param name="remainder">除算の余りを示す。</param>
+    /// <returns>除算の商。</returns>
+    /// <exception cref="DivideByZeroException"></exception>
+    public static UInt256 Divide(UInt256 numerator, UInt256 denominator, out UInt256 remainder)
     {
-        if (denominator == 0)
+        if (denominator.IsZero)
             throw new DivideByZeroException();
 
-        UInt256 d = FromUInt128(denominator);
+        if (numerator.IsZero)
+        {
+            remainder = default;
+            return Zero;
+        }
 
-        UInt256 rem = default;
-
-        UInt128 quotient = 0;
+        UInt256 quotient = Zero;
+        remainder = Zero;
 
         for (int i = 255; i >= 0; i--)
         {
-            rem <<= 1;
+            remainder <<= 1;
 
             if (numerator.GetBit(i))
-                rem = new UInt256(rem.U0 | 1, rem.U1, rem.U2, rem.U3);
+                remainder = new UInt256(remainder.U3, remainder.U2, remainder.U1, remainder.U0 | 1);
 
-            if (Compare(rem, d) >= 0)
+            if (Compare(remainder, denominator) >= 0)
             {
-                rem = Subtract(rem, d);
+                remainder = Subtract(remainder, denominator);
 
                 if (i < 128)
-                    quotient |= UInt128.One << i;
+                    quotient |= UInt256.One << i;
             }
         }
-
-        remainder =
-            rem.U0 != 0 ||
-            rem.U1 != 0 ||
-            rem.U2 != 0 ||
-            rem.U3 != 0;
 
         return quotient;
     }
@@ -378,6 +508,48 @@ public readonly struct UInt256
 
         ulong u3 = a.U3 - b.U3 - borrow3;
 
-        return new UInt256(u0, u1, u2, u3);
+        return new UInt256(u3, u2, u1, u0);
     }
+
+    #region IComparable
+
+    public static int CompareTo(UInt256 a, UInt256 b)
+    {
+        int c = a.U3.CompareTo(b.U3);
+        if (c != 0)
+            return c;
+        c = a.U2.CompareTo(b.U2);
+        if (c != 0)
+            return c;
+        c = a.U1.CompareTo(b.U1);
+        if (c != 0)
+            return c;
+        return a.U0.CompareTo(b.U0);
+    }
+
+    public int CompareTo(object? obj)
+    {
+        if (obj is null)
+            return 1;
+
+        if (obj is UInt256 other)
+            return CompareTo(other);
+
+        throw new ArgumentException($"Object must be of type {nameof(UInt256)}.", nameof(obj));
+    }
+
+    public int CompareTo(UInt256 other)
+    {
+        return CompareTo(this, other);
+    }
+
+    public bool Equals(UInt256 other)
+    {
+        return U0 == other.U0 &&
+               U1 == other.U1 &&
+               U2 == other.U2 &&
+               U3 == other.U3;
+    }
+
+    #endregion IComparable
 }

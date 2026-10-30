@@ -38,7 +38,10 @@ namespace Ksnm.Numerics;
 ///   bits 111..0   : fraction (112 bits)
 ///
 /// Bias = 16383
-/// Precision = 113 bits including hidden bit.
+/// Precision = 113 bits including hidden bit. 仮数の有効ビット数
+/// 
+/// Fraction : Significand - 1.0 (先頭の1を加えない、ケチ表現の値)
+/// Significand : 1.0 + Fraction (先頭の1が含まれている値) 計算に使用する仮数全体
 /// </summary>
 public readonly struct Float128 :
     IComparable,
@@ -63,19 +66,50 @@ public readonly struct Float128 :
     IFormattable,
     ISpanFormattable
 {
+    // IExponentialFunctions<Float128>,
+    // IFloatingPointConstants<Float128>,
+    // IFloatingPoint<Float128>,
+    // ISignedNumber<Float128>,
+    // IFloatingPointIeee754<Float128>,
+    // IHyperbolicFunctions<Float128>,
+    // ILogarithmicFunctions<Float128>,
+    // IPowerFunctions<Float128>,
+    // IRootFunctions<Float128>,
+    // ITrigonometricFunctions<Float128>,
+    // IMinMaxValue<Float128>
     #region 定数
     /// <summary>
     /// Fraction のビット数。
     /// </summary>
-    public const int FractionBits = 112;
+    public const int FractionLength = 112;
     /// <summary>
     /// Exponent のビット数。
     /// </summary>
-    public const int ExponentBits = 15;
+    public const int ExponentLength = 15;
     /// <summary>
-    /// Precision（有効桁数）。
+    /// Significand のビット数。
     /// </summary>
-    public const int Precision = 113;
+    public const int SignificandLength = 113;
+    /// <summary>
+    /// 丸め処理のための追加情報。
+    /// guard/round/sticky.
+    /// </summary>
+    const int ExtraLength = 3;
+    /// <summary>
+    /// 116
+    /// SignificandLength + guard/round/sticky.
+    /// </summary>
+    const int SignificandWithExtraLength = SignificandLength + ExtraLength;
+    static readonly UInt128 SignificandMask = (UInt128.One << SignificandLength) - 1;
+    static readonly UInt128 SignificandWithExtraMask = (UInt128.One << SignificandWithExtraLength) - 1;
+    /// <summary>
+    /// 1.0の仮数を表す。
+    /// </summary>
+    public static readonly UInt128 SignificandOne = UInt128.One << (SignificandLength - 1);
+    /// <summary>
+    /// 2.0の仮数を表す。
+    /// </summary>
+    public static readonly UInt128 SignificandTwo = UInt128.One << (SignificandLength);
 
     public const int ExponentBias = 16383;
 
@@ -90,6 +124,10 @@ public readonly struct Float128 :
     private const ulong SignMask = 0x8000000000000000UL;
     private const ulong ExponentMask = 0x7FFF000000000000UL;
     private const ulong FractionHighMask = 0x0000FFFFFFFFFFFFUL;
+    /// <summary>
+    /// ((UInt128.One << FractionLength) - 1)と同じ
+    /// </summary>
+    public static readonly UInt128 FractionMask = new UInt128(0x0000FFFFFFFFFFFFUL, 0xFFFFFFFFFFFFFFFFUL);
 
     /// <summary>加法の単位元です。</summary>
     public static Float128 AdditiveIdentity => Zero;
@@ -119,7 +157,7 @@ public readonly struct Float128 :
     /// </summary>
     /// <param name="negative">負の数かどうか</param>
     /// <param name="exponent">指数[-16383, 16383]</param>
-    /// <param name="fraction">仮数</param>
+    /// <param name="fraction">仮数(ケチ表現された仮数)</param>
     public Float128(bool negative, int exponent, UInt128 fraction)
     {
         if (exponent < MinNormalExponent || exponent > MaxNormalExponent)
@@ -200,17 +238,42 @@ public readonly struct Float128 :
 
     public int Sign =>
         IsNegative ? -1 : 1;
-
+    /// <summary>
+    /// 指数部（生の値）を取得します。
+    /// </summary>
     public int BiasedExponent =>
         (int)((_upper >> 48) & 0x7FFF);
-
+    /// <summary>
+    /// 指数を取得します。
+    /// </summary>
     public int Exponent =>
         BiasedExponent == 0
             ? MinNormalExponent
             : BiasedExponent - ExponentBias;
-
+    /// <summary>
+    /// 仮数部（生の値）を取得します。
+    /// </summary>
     public UInt128 Fraction =>
         ((UInt128)(_upper & FractionHighMask) << 64) | _lower;
+
+    /// <summary>
+    /// 仮数をケチ表現を使わず取得します。
+    /// ・仮数 0 の場合は、0 を返します。
+    /// </summary>
+    /// <returns></returns>
+    public UInt128 Significand
+    {
+        get
+        {
+            UInt128 fraction = Fraction;
+            if (BiasedExponent == 0)
+            {
+                // Subnormal
+                return fraction;
+            }
+            return SignificandOne | fraction;
+        }
+    }
 
     public bool IsZero =>
         (_upper & 0x7FFFFFFFFFFFFFFFUL) == 0 &&
@@ -315,7 +378,7 @@ public readonly struct Float128 :
 
         int exponent = msb;
 
-        UInt128 significand = (UInt128)value << (FractionBits - msb);
+        UInt128 significand = (UInt128)value << (FractionLength - msb);
         ulong fractionHigh = (ulong)(significand >> 64) & FractionHighMask;
         ulong fractionLow = (ulong)significand;
         return new Float128(negative, exponent, fractionHigh, fractionLow);
@@ -336,13 +399,13 @@ public readonly struct Float128 :
 
         UInt128 significand;
 
-        if (msb <= FractionBits)
+        if (msb <= FractionLength)
         {
-            significand = value << (FractionBits - msb);
+            significand = value << (FractionLength - msb);
         }
         else
         {
-            int shift = msb - FractionBits;
+            int shift = msb - FractionLength;
 
             significand = value >> shift;
 
@@ -353,12 +416,11 @@ public readonly struct Float128 :
 
             bool tie = remainder == (UInt128.One << (shift - 1));
 
-            if (round ||
-                (tie && (significand & 1) != 0))
+            if (round || (tie && (significand & 1) != 0))
             {
                 significand++;
-
-                if (significand == (UInt128.One << Precision))
+                // Rounding overflow
+                if (significand == SignificandOne)
                 {
                     significand >>= 1;
                     exponent++;
@@ -430,7 +492,7 @@ public readonly struct Float128 :
 
         int exponent = Exponent;
 
-        double result = (double)value * Math.Pow(2.0, exponent - FractionBits);
+        double result = (double)value * Math.Pow(2.0, exponent - FractionLength);
 
         return IsNegative
             ? -result
@@ -459,48 +521,54 @@ public readonly struct Float128 :
 
     #region Internal representation
     /// <summary>
-    /// Float128 の仮数をケチ表現を使わず取得します。
-    /// ・仮数 0 の場合は、0 を返します。
+    /// 仮数部をケチ表現を使わずBigInteger型で取得
     /// </summary>
     /// <returns></returns>
-    private UInt128 GetRawSignificand()
-    {
-        UInt128 fraction = Fraction;
-
-        if (BiasedExponent == 0)
-            return fraction;
-
-        return (UInt128.One << FractionBits) | fraction;
-    }
-
     private BigInteger GetSignificandBigInteger()
     {
-        UInt128 value = GetRawSignificand();
+        UInt128 value = Significand;
 
         return
             ((BigInteger)(ulong)(value >> 64) << 64) |
             (ulong)value;
     }
+    /// <summary>
+    /// 0.X～1.X の範囲に正規化する
+    /// </summary>
+    /// <param name="significand"></param>
+    /// <param name="exponent"></param>
+    /// <returns></returns>
+    static UInt128 NormalizeSignificand(UInt128 significand, ref int exponent)
+    {
+        while (significand >= SignificandTwo)
+        {
+            significand >>= 1;
+            exponent++;
+        }
 
-    private static Float128 Pack(bool negative, int exponent, UInt128 significand)
+        while (significand < SignificandOne && exponent > MinNormalExponent)
+        {
+            significand <<= 1;
+            exponent--;
+        }
+        return significand;
+    }
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="negative">符号</param>
+    /// <param name="exponent">指数</param>
+    /// <param name="significand">仮数</param>
+    /// <returns></returns>
+    public static Float128 Pack(bool negative, int exponent, UInt128 significand)
     {
         if (significand == 0)
             return negative
                 ? NegativeZero
                 : Zero;
 
-        while (significand >= (UInt128.One << Precision))
-        {
-            significand >>= 1;
-            exponent++;
-        }
-
-        while (significand < (UInt128.One << FractionBits) &&
-               exponent > MinNormalExponent)
-        {
-            significand <<= 1;
-            exponent--;
-        }
+        // 0.X～1.X の範囲に正規化する
+        significand = NormalizeSignificand(significand, ref exponent);
 
         if (exponent > MaxNormalExponent)
         {
@@ -531,9 +599,9 @@ public readonly struct Float128 :
             ulong hiFraction = (ulong)(significand >> 64);
             ulong loFraction = (ulong)significand;
 
-            return new Float128((negative ? SignMask : 0) | hiFraction, loFraction);
+            return new Float128(negative, exponent, hiFraction, loFraction);
         }
-        UInt128 fraction = significand & ((UInt128.One << FractionBits) - 1);
+        UInt128 fraction = significand & FractionMask;
         return new Float128(negative, exponent, fraction);
     }
     #endregion Internal representation
@@ -597,8 +665,8 @@ public readonly struct Float128 :
         int expA = a.Exponent;
         int expB = b.Exponent;
 
-        UInt128 sigA = a.GetRawSignificand();
-        UInt128 sigB = b.GetRawSignificand();
+        UInt128 sigA = a.Significand;
+        UInt128 sigB = b.Significand;
 
         // Add 3 extra bits:
         // guard, round, sticky.
@@ -669,9 +737,9 @@ public readonly struct Float128 :
 
         int exponent = a.Exponent + b.Exponent;
 
-        UInt128 sigA = a.GetRawSignificand();
+        UInt128 sigA = a.Significand;
 
-        UInt128 sigB = b.GetRawSignificand();
+        UInt128 sigB = b.Significand;
 
         UInt256 product = UInt256.Multiply(sigA, sigB);
 
@@ -714,7 +782,7 @@ public readonly struct Float128 :
         // Remove 3 extra bits.
         rounded = RoundRightShift(rounded, 3);
 
-        if (rounded >= (UInt128.One << Precision))
+        if (rounded >= SignificandOne)
         {
             rounded >>= 1;
             exponent++;
@@ -726,15 +794,21 @@ public readonly struct Float128 :
     public static Float128 operator /(Float128 a, Float128 b)
     {
         if (a.IsNaN || b.IsNaN)
+        {
             return NaN;
+        }
 
         bool sign = a.IsNegative ^ b.IsNegative;
 
         if (a.IsInfinity && b.IsInfinity)
+        {
             return NaN;
+        }
 
         if (a.IsZero && b.IsZero)
+        {
             return NaN;
+        }
 
         if (b.IsZero)
         {
@@ -756,42 +830,20 @@ public readonly struct Float128 :
             return sign ? NegativeZero : Zero;
         }
 
-        int exponent = a.Exponent - b.Exponent;
-        UInt128 numerator = a.GetRawSignificand();
-        UInt128 denominator = b.GetRawSignificand();
-
-        // Generate 116 bits:
-        // 113 significant bits + guard/round/sticky.
-        //
-        // numerator / denominator is in approximately [0.5, 2).
-        UInt256 dividend = UInt256.FromUInt128(numerator) << 116;
-        UInt128 quotient = UInt256.Divide(dividend, denominator, out bool remainder);
-
-        if (quotient < (UInt128.One << 115))
+        int shift = a.Exponent - b.Exponent;
+        var numerator = a.Significand;
+        var denominator = b.Significand;
+        if (shift > 0)
         {
-            quotient <<= 1;
-            exponent--;
+            numerator <<= shift;
         }
-
-        bool guard = (quotient & 1) != 0;
-        quotient >>= 1;
-        bool round = (quotient & 1) != 0;
-        quotient >>= 1;
-        bool sticky = remainder;
-        if (guard && (round || sticky || (quotient & 1) != 0))
+        else if (shift < 0)
         {
-            quotient++;
-
-            if (quotient >= (UInt128.One << Precision))
-            {
-                quotient >>= 1;
-                exponent++;
-            }
+            denominator <<= -shift;
         }
-
-        return Pack(sign, exponent, quotient);
+        return FromBigIntegerRatio(sign, numerator, denominator);
     }
-    #endregion Operators
+#endregion Operators
 
     #region Normalize / round
     private static Float128 NormalizeAndRound(bool negative, int exponent, UInt128 value)
@@ -823,7 +875,7 @@ public readonly struct Float128 :
 
         UInt128 rounded = RoundRightShift(value, 3);
 
-        if (rounded >= (UInt128.One << Precision))
+        if (rounded > SignificandOne)
         {
             rounded >>= 1;
             exponent++;
@@ -910,9 +962,9 @@ public readonly struct Float128 :
         if (e1 != e2)
             return e1.CompareTo(e2);
 
-        UInt128 s1 = GetRawSignificand();
+        UInt128 s1 = Significand;
 
-        UInt128 s2 = other.GetRawSignificand();
+        UInt128 s2 = other.Significand;
 
         return s1.CompareTo(s2);
     }
@@ -990,12 +1042,12 @@ public readonly struct Float128 :
         int exponent = value.Exponent;
         if (exponent < 0)
             return false;
-        if (exponent >= FractionBits)
+        if (exponent >= FractionLength)
             return true;
 
-        int fractionalBitCount = FractionBits - exponent;
+        int fractionalBitCount = FractionLength - exponent;
         UInt128 mask = (UInt128.One << fractionalBitCount) - 1;
-        return (value.GetRawSignificand() & mask) == 0;
+        return (value.Significand & mask) == 0;
     }
 
     public static bool IsEvenInteger(Float128 value)
@@ -1004,20 +1056,20 @@ public readonly struct Float128 :
             return false;
         if (value.IsZero)
             return true;
-        if (value.Exponent > FractionBits)
+        if (value.Exponent > FractionLength)
             return true;
-        if (value.Exponent < FractionBits)
+        if (value.Exponent < FractionLength)
             return false;
-        return (value.GetRawSignificand() & 1) == 0;
+        return (value.Significand & 1) == 0;
     }
 
     public static bool IsOddInteger(Float128 value)
     {
         if (!IsInteger(value))
             return false;
-        if (value.Exponent != FractionBits)
+        if (value.Exponent != FractionLength)
             return false;
-        return (value.GetRawSignificand() & 1) != 0;
+        return (value.Significand & 1) != 0;
     }
 
     public static Float128 MaxMagnitude(Float128 x, Float128 y)
@@ -1198,11 +1250,11 @@ public readonly struct Float128 :
         int exponent = value.Exponent;
         if (exponent < 0)
             return value.IsNegative ? NegativeZero : Zero;
-        if (exponent >= FractionBits)
+        if (exponent >= FractionLength)
             return value;
 
-        int clearBits = FractionBits - exponent;
-        UInt128 raw = value.GetRawSignificand();
+        int clearBits = FractionLength - exponent;
+        UInt128 raw = value.Significand;
         UInt128 mask = (UInt128.One << clearBits) - 1;
         raw &= ~mask;
         return Pack(value.IsNegative, exponent, raw);
@@ -1739,15 +1791,15 @@ public readonly struct Float128 :
 
         BigInteger significand;
 
-        if (bitLength > Precision)
+        if (bitLength > SignificandLength)
         {
-            int shift = bitLength - Precision;
+            int shift = bitLength - SignificandLength;
             BigInteger truncated = value >> shift;
             BigInteger remainder = value - (truncated << shift);
             BigInteger half = BigInteger.One << (shift - 1);
             bool roundUp = remainder > half || (remainder == half && !truncated.IsEven);
             significand = truncated + (roundUp ? BigInteger.One : BigInteger.Zero);
-            if (significand == (BigInteger.One << Precision))
+            if (significand == (BigInteger.One << SignificandLength))
             {
                 significand >>= 1;
                 exponent++;
@@ -1755,7 +1807,7 @@ public readonly struct Float128 :
         }
         else
         {
-            significand = value << (Precision - bitLength);
+            significand = value << (SignificandLength - bitLength);
         }
 
         return PackBigInteger(negative, exponent, significand);
@@ -1817,11 +1869,7 @@ public readonly struct Float128 :
         //
         // q = floor(value × 2^N)
         // --------------------------------------------------------
-
-        const int ExtraBits = 3;
-        const int PrecisionWithExtra = Precision + ExtraBits;
-
-        int shift = PrecisionWithExtra - 1 - exponent;
+        int shift = SignificandWithExtraLength - 1 - exponent;
 
         BigInteger scaledNumerator;
         BigInteger scaledDenominator;
@@ -1850,7 +1898,7 @@ public readonly struct Float128 :
         bool round = ((quotient >> 1) & 1) != 0;
         sticky |= (quotient & 1) != 0;
         // 余分な3ビットを削除
-        quotient >>= ExtraBits;
+        quotient >>= ExtraLength;
 
         if (guard && (round || sticky || !quotient.IsEven))
         {
@@ -1860,7 +1908,7 @@ public readonly struct Float128 :
         // --------------------------------------------------------
         // Rounding overflow
         // --------------------------------------------------------
-        while (quotient > (BigInteger.One << Precision))
+        while (quotient > SignificandOne)
         {
             quotient >>= 1;
             exponent++;
@@ -1899,8 +1947,8 @@ public readonly struct Float128 :
         // Normal number
         if (exponent >= MinNormalExponent)
         {
-            BigInteger fraction = significand - (BigInteger.One << FractionBits);
-            if (fraction < 0 || fraction >= (BigInteger.One << FractionBits))
+            BigInteger fraction = significand - SignificandOne;
+            if (fraction < 0 || fraction >= SignificandOne)
             {
                 throw new ArgumentOutOfRangeException(nameof(significand), "The significand is out of range for a normal number.");
             }
@@ -1927,7 +1975,7 @@ public readonly struct Float128 :
             // point is at -16494.
             // --------------------------------------------------------
 
-            int shift = exponent - MinSubnormalExponent - FractionBits;
+            int shift = exponent - MinSubnormalExponent - FractionLength;
 
             BigInteger fraction;
 
@@ -1946,10 +1994,9 @@ public readonly struct Float128 :
             }
 
             // 丸め処理によって、最小の正規値が得られた可能性があります。
-            if (fraction >= (BigInteger.One << FractionBits))
+            if (fraction >= SignificandOne)
             {
-                ulong hi = (negative ? SignMask : 0) | 0x0001000000000000UL;
-                return new Float128(hi, 0);
+                return new Float128(negative, -ExponentBias + 1, 0);
             }
 
             ulong fractionHigh = (ulong)(fraction >> 64);
@@ -2089,8 +2136,7 @@ public readonly struct Float128 :
                 : "Infinity";
         }
 
-        BigInteger significand =
-            GetRawSignificand();
+        BigInteger significand = Significand;
 
         /*
          * ±0
@@ -2109,7 +2155,7 @@ public readonly struct Float128 :
          *
          * として表す。
          */
-        int binaryExponent = Exponent - FractionBits;
+        int binaryExponent = Exponent - FractionLength;
 
         BigInteger numerator;
         BigInteger denominator;
@@ -2263,7 +2309,7 @@ public readonly struct Float128 :
             return "-Infinity";
 
         // 符号を除いた仮数部
-        BigInteger significand = GetRawSignificand();
+        BigInteger significand = Significand;
 
         // ±0
         if (significand.IsZero)
@@ -2293,7 +2339,7 @@ public readonly struct Float128 :
          *
          * に変換する。
          */
-        int binaryExponent = Exponent - FractionBits;
+        int binaryExponent = Exponent - FractionLength;
 
         BigInteger numerator;
         BigInteger denominator;
@@ -2677,14 +2723,14 @@ public readonly struct Float128 :
                 : "Infinity";
         }
 
-        BigInteger significand = GetRawSignificand();
+        BigInteger significand = Significand;
 
         if (significand.IsZero)
         {
             return IsNegative ? "-0" : "0";
         }
 
-        int exponent = Exponent - FractionBits;
+        int exponent = Exponent - FractionLength;
 
         string result;
 
@@ -2808,9 +2854,9 @@ public readonly struct Float128 :
          *
          * として取得する。
          */
-        BigInteger significand = GetRawSignificand();
+        BigInteger significand = Significand;
 
-        int binaryExponent = Exponent - FractionBits;
+        int binaryExponent = Exponent - FractionLength;
 
         BigInteger numerator;
         BigInteger denominator;
@@ -2988,9 +3034,9 @@ public readonly struct Float128 :
          * significand × 2^(exponent - 112)
          */
 
-        BigInteger significand = GetRawSignificand();
+        BigInteger significand = Significand;
 
-        int binaryExponent = Exponent - FractionBits;
+        int binaryExponent = Exponent - FractionLength;
 
         BigInteger numerator;
         BigInteger denominator;

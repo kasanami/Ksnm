@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using Ksnm.Units;
+using Newtonsoft.Json.Linq;
 using System.Numerics;
 using Float64 = System.Double;
 
@@ -7,6 +8,26 @@ namespace Ksnm.Numerics.Tests
     [TestClass()]
     public class Float128Tests
     {
+        [TestMethod()]
+        public void Constructor()
+        {
+            // 最小の正規値
+            var float128 = new Float128(false, -Float128.ExponentBias + 1, 0);
+            Assert.AreEqual(false, float128.IsNegative);
+            Assert.AreEqual(1, float128.BiasedExponent);
+            Assert.AreEqual(UInt128.Zero, float128.Fraction);
+        }
+        [TestMethod()]
+        public void Const()
+        {
+            UInt128 fractionMask = ((UInt128.One << Float128.FractionLength) - 1);
+            Assert.AreEqual(fractionMask, Float128.FractionMask);
+
+            UInt128 SignificandOne = new UInt128(0x0001_0000_0000_0000, 0x0000_0000_0000_0000);
+            Assert.AreEqual(SignificandOne, Float128.SignificandOne);
+            UInt128 SignificandTwo = new UInt128(0x0002_0000_0000_0000, 0x0000_0000_0000_0000);
+            Assert.AreEqual(SignificandTwo, Float128.SignificandTwo);
+        }
         [TestMethod()]
         public void Zero()
         {
@@ -293,7 +314,7 @@ namespace Ksnm.Numerics.Tests
         [TestMethod()]
         public void PackBigInteger()
         {
-            var One = BigInteger.One << Float128.FractionBits;
+            var One = BigInteger.One << Float128.FractionLength;
             {
                 Float128 float128 = Float128.PackBigInteger(false, -1, One);
                 Assert.AreEqual(Float128.Half, float128);
@@ -430,6 +451,38 @@ namespace Ksnm.Numerics.Tests
             Assert.AreEqual(+2.0, b / a);
             Assert.AreEqual(-1.0, a / c);
             Assert.AreEqual(-2.0, b / c);
+        }
+        [TestMethod()]
+        public void Pack()
+        {
+            // 1
+            {
+                Float128 a = Float128.Pack(false, 0, Float128.SignificandOne);
+                Assert.AreEqual(Float128.One, a);
+            }
+            // 2
+            {
+                Float128 a = Float128.Pack(false, 0, Float128.SignificandTwo);
+                Assert.AreEqual(Float128.Two, a);
+            }
+            {
+                Float128 a = Float128.Pack(false, 1, Float128.SignificandOne);
+                Assert.AreEqual(Float128.Two, a);
+            }
+            // 3
+            {
+                Float128 a = Float128.Pack(false, 1, Float128.SignificandOne | (Float128.SignificandOne >> 1));
+                Assert.AreEqual((Float128)3, a);
+            }
+            for (double source = -8.0; source <= 8.0; source += 0.25)
+            {
+                Float128 a = source;
+                bool isNegative = a.IsNegative;
+                int exponent = a.Exponent;
+                UInt128 significand = a.Significand;
+                Float128 b = Float128.Pack(isNegative, exponent, significand);
+                Assert.AreEqual(a, b);
+            }
         }
     }
 }
