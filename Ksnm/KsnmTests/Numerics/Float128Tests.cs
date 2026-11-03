@@ -11,11 +11,29 @@ namespace Ksnm.Numerics.Tests
         [TestMethod()]
         public void Constructor()
         {
+            // 0
+            {
+                var float128 = new Float128(0);
+                Assert.AreEqual(UInt128.Zero, float128.Bits);
+                Assert.AreEqual(false, float128.IsNegative);
+                Assert.AreEqual(0, float128.BiasedExponent);
+                Assert.AreEqual(UInt128.Zero, float128.Fraction);
+            }
+            // 1
+            {
+                var float128 = new Float128(1);
+                Assert.AreEqual(UInt128.One, float128.Bits);
+                Assert.AreEqual(false, float128.IsNegative);
+                Assert.AreEqual(0, float128.BiasedExponent);
+                Assert.AreEqual(UInt128.One, float128.Fraction);
+            }
             // 最小の正規値
-            var float128 = new Float128(false, -Float128.ExponentBias + 1, 0);
-            Assert.AreEqual(false, float128.IsNegative);
-            Assert.AreEqual(1, float128.BiasedExponent);
-            Assert.AreEqual(UInt128.Zero, float128.Fraction);
+            {
+                var float128 = new Float128(false, -Float128.ExponentBias + 1, 0);
+                Assert.AreEqual(false, float128.IsNegative);
+                Assert.AreEqual(1, float128.BiasedExponent);
+                Assert.AreEqual(UInt128.Zero, float128.Fraction);
+            }
         }
         [TestMethod()]
         public void Const()
@@ -263,18 +281,6 @@ namespace Ksnm.Numerics.Tests
         public void FromBigIntegerRatio()
         {
             {
-                BigInteger numerator = BigInteger.Parse("12345");
-                BigInteger denominator = BigInteger.Parse("10000");
-                Float128 float128 = Float128.FromBigIntegerRatio(false, numerator, denominator);
-                Assert.AreEqual("1.2345", float128.ToString());
-            }
-            {
-                BigInteger numerator = BigInteger.Parse("15");
-                BigInteger denominator = BigInteger.Parse("10");
-                Float128 float128 = Float128.FromBigIntegerRatio(false, numerator, denominator);
-                Assert.AreEqual(Float128.One + Float128.Half, float128);
-            }
-            {
                 BigInteger numerator = BigInteger.Parse("1");
                 BigInteger denominator = BigInteger.Parse("1");
                 Float128 float128 = Float128.FromBigIntegerRatio(false, numerator, denominator);
@@ -299,6 +305,12 @@ namespace Ksnm.Numerics.Tests
                 Assert.AreEqual(Float128.Two, float128);
             }
             {
+                BigInteger numerator = BigInteger.Parse("15");
+                BigInteger denominator = BigInteger.Parse("10");
+                Float128 float128 = Float128.FromBigIntegerRatio(false, numerator, denominator);
+                Assert.AreEqual(Float128.One + Float128.Half, float128);
+            }
+            {
                 BigInteger numerator = BigInteger.Parse("9");
                 BigInteger denominator = BigInteger.Parse("3");
                 Float128 float128 = Float128.FromBigIntegerRatio(false, numerator, denominator);
@@ -309,6 +321,18 @@ namespace Ksnm.Numerics.Tests
                 BigInteger denominator = BigInteger.Parse("4");
                 Float128 float128 = Float128.FromBigIntegerRatio(false, numerator, denominator);
                 Assert.AreEqual(Float128.Half * Float128.Half, float128);
+            }
+            {
+                BigInteger numerator = 10000;
+                BigInteger denominator = 10000;
+                Float128 float128 = Float128.FromBigIntegerRatio(false, numerator, denominator);
+                Assert.AreEqual("1", float128.ToString());
+            }
+            {
+                BigInteger numerator = 12345;
+                BigInteger denominator = 10000;
+                Float128 float128 = Float128.FromBigIntegerRatio(false, numerator, denominator);
+                Assert.AreEqual("1.2345", float128.ToString());
             }
         }
         [TestMethod()]
